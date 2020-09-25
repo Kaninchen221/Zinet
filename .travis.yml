@@ -22,7 +22,13 @@ before_install:
     - mv cmake-3.18.3-Linux-x86_64 cmake-install
     - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
     - cd ${TRAVIS_BUILD_DIR}
+    - sudo apt-get install libfreetype-dev
+    - sudo apt-get install x11-utils
     - sudo apt-get install libx11-dev
+    - sudo apt-get install udev
+    - suod apt-get install libopengl-dev
+    - suod apt-get install oggfwd
+    #
     - sudo apt-get install xorg-dev
     - sudo apt-get install freeglut3-dev
     - sudo apt-get install libudev-dev
