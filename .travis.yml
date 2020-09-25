@@ -15,6 +15,7 @@ before_install:
     - pwd
     - ls -al
     - apt list --installed
+    - apt search cmake
     # Update cmake
     - sudo apt upgrade cmake
     - chmod 777 linux.sh
