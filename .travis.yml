@@ -14,10 +14,8 @@ before_install:
     - echo $LC_ALL
     - pwd
     - ls -al
-    - apt list --installed
-    - apt search cmake
     # Update cmake
-    - sudo apt upgrade cmake
+    - sudo apt-get install cmake3.18.3
     - chmod 777 linux.sh
     - ./linux.sh
 
