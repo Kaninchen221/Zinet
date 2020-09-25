@@ -1,5 +1,5 @@
 #!/bin/bash
 mkdir build
 cd build
-cmake ../ -G "GCC"
+cmake ../ -G "Ninja"
 cd ..
