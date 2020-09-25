@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt install libfreetype6-dev libxrandr-dev libudev-dev libogg-dev libflac-dev libvorbis-dev libopenal-dev
+sudo apt install libxrandr-dev x11-utils libx11-dev
