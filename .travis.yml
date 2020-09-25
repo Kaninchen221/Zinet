@@ -28,6 +28,8 @@ before_install:
     - sudo apt-get install libudev-dev
     - sudo apt-get install libopenal-dev
     - sudo apt-get install libvorbis-dev
+    - sudo apt-get install libvorbisfile3
+    - sudo apt-get install libvorbisenc2
     - sudo apt-get install flac
     - chmod 777 linux.sh
     - ./linux.sh
