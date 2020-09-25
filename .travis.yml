@@ -14,6 +14,8 @@ before_install:
     - echo $LC_ALL
     - pwd
     - ls -al
+    - chmod -x linux.sh
+    - ./linux.sh
 
 install:
     
