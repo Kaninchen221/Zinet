@@ -14,7 +14,7 @@ before_install:
     - echo $LC_ALL
     - pwd
     - ls -al
-    - apt-get update
+    - sudo apt-get update
     
     # Update CMake
     - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
