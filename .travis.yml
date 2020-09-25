@@ -14,6 +14,8 @@ before_install:
     - echo $LC_ALL
     - pwd
     - ls -al
+    # Update cmake
+    - apt upgrade cmake
     - chmod 777 linux.sh
     - ./linux.sh
 
