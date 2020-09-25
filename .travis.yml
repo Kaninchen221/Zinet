@@ -15,7 +15,7 @@ before_install:
     - pwd
     - ls -al
     # Update cmake
-    - sudo apt-get install cmake3.18.3
+    - sudo apt-get search cmake
     - chmod 777 linux.sh
     - ./linux.sh
 
