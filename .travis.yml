@@ -25,7 +25,7 @@ before_install:
     - sudo apt-get install x11-utils
     - sudo apt-get install libx11-dev
     - sudo apt-get install udev
-    - suod apt-get install oggfwd
+    - sudo apt-get install oggfwd
     #
     - sudo apt-get install xorg-dev
     - sudo apt-get install freeglut3-dev
