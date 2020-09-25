@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ../../
 DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
 mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.18.3/cmake-3.18.3-Linux-x86_64.tar.gz
