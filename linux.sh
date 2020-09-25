@@ -1,5 +1,5 @@
 #!/bin/bash
-chmod 777 scritps/linux/*.sh
+chmod 777 scripts/linux/*.sh
 
 scripts/linux/install_cmake.sh
 scripts/linux/dependencies.sh
