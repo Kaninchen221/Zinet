@@ -8,7 +8,6 @@ FetchContent_Declare(Json
 
 FetchContent_MakeAvailable(Json)
 
-# Create var contains PyBind11 include dir
-set(SPDLOG_INCLUDE_DIRS PRIVATE 
+set(JSON_INCLUDE_DIRS PRIVATE 
 	build/_deps/json-src/single_include
 )

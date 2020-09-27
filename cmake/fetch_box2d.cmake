@@ -8,7 +8,13 @@ FetchContent_Declare(Box2D
 
 FetchContent_MakeAvailable(Box2D)
 
-# Create var contains SPDLOG include dir
-set(SPDLOG_INCLUDE_DIRS PRIVATE 
-	build/_deps/spdlog-src/include
+set(BOX2D_INCLUDE_DIRS
+	build/_deps/box2d-src/include
+)
+
+set_target_properties( box2d
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive/"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )

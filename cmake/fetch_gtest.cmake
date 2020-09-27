@@ -1,5 +1,3 @@
-###########################
-# Google Test
 
 message(STATUS "*** Fetch Google Test ***")
 
@@ -10,12 +8,24 @@ FetchContent_Declare(googletest
 
 FetchContent_MakeAvailable(googletest)
 
-# Create var contains Google Test include dir
-set(GOOGLETEST_INCLUDE_DIRS PRIVATE 
+set(GOOGLETEST_INCLUDE_DIRS
 	build/_deps/googletest-src/googletest/include
 )
 
-# Create var contains Google Mock include dir
 set(GOOGLEMOCK_INCLUDE_DIRS PRIVATE 
 	build/_deps/googletest-src/googlemock/include
+)
+
+set_target_properties( gtest
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive/"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+)
+
+set_target_properties( gmock
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive/"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )

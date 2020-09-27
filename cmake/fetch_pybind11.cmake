@@ -8,7 +8,6 @@ FetchContent_Declare(PyBind11
 
 FetchContent_MakeAvailable(PyBind11)
 
-# Create var contains PyBind11 include dir
-set(SPDLOG_INCLUDE_DIRS PRIVATE 
+set(PYBIND11_INCLUDE_DIRS
 	build/_deps/pybind11-src/include
 )
