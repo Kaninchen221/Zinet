@@ -14,7 +14,7 @@ message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 
 include(cmake/zinet_libs_type_resolve.cmake)
 
-include(cmake/Dependencies.cmake)
+#include(cmake/Dependencies.cmake)
 
 add_executable(Sandbox main.cpp)
 
@@ -34,3 +34,5 @@ message(STATUS "*** ZtSystem include path: ${ZT_SYSTEM_INCLUDE_DIR} ***")
 target_include_directories(Sandbox PRIVATE ${ZT_CORE_INCLUDE_DIR})
 target_include_directories(Sandbox PRIVATE ${ZT_SYSTEM_INCLUDE_DIR})
 target_include_directories(ZtSystem PRIVATE ${ZT_CORE_INCLUDE_DIR})
+
+target_link_libraries(Sandbox PRIVATE ZtSystem)
