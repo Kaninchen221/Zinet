@@ -8,6 +8,6 @@
 
 #else
 	
-	#define ZINET_SYSTEM_API
+	#define ZINET_SYSTEM_API ZINET_API_IMPORT
 
 #endif

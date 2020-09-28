@@ -1,7 +1,13 @@
 message(STATUS "*** Create Zinet System Lib ***")
 
 add_library(ZtSystem ${ZINET_LIBS_TYPE}
-	include/Zinet/System/ZtSystem.h
+
+	# Headers
+	include/Zinet/System/ZtSystemConfig.h
+	include/Zinet/System/ZtSystemInterface.h
+	
+	# Source
+	src/ZtSystemInterface.cpp
 )
 
 set_target_properties(ZtSystem PROPERTIES 
@@ -12,3 +18,10 @@ set_target_properties(ZtSystem PROPERTIES
 add_library(Zinet::System ALIAS ZtSystem)
 
 target_compile_definitions(ZtSystem PUBLIC ZINET_SYSTEM_EXPORT)
+
+set_target_properties( ZtSystem
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive/"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+)

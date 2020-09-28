@@ -11,3 +11,10 @@ set_target_properties(ZtCore PROPERTIES
 )
 
 add_library(Zinet::Core ALIAS ZtCore)
+
+set_target_properties( ZtCore
+    PROPERTIES
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive/"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+)
