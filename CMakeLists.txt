@@ -12,7 +12,7 @@ include(cmake/usefull_information.cmake)
 
 include(cmake/zinet_libs_type_resolve.cmake)
 
-include(cmake/dependencies.cmake)
+include(cmake/fetch_dependencies.cmake)
 
 add_executable(Sandbox main.cpp)
 
