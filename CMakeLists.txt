@@ -12,7 +12,7 @@ print_usefull_information()
 
 zinet_libs_type_resolve()
 
-#fetch_dependencies()
+fetch_dependencies()
 
 add_executable(Sandbox main.cpp)
 
