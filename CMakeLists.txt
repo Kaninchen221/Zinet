@@ -2,17 +2,17 @@ cmake_minimum_required(VERSION 3.14)
 
 include(FetchContent)
 
-include(cmake/one_include_file.cmake)
+include(cmake/multiple_targets_compile_definitions.cmake)
 
 project(Zinet VERSION 0.1
                   DESCRIPTION "Game Engine"
                   LANGUAGES CXX)
 
-print_usefull_information()
+include(cmake/usefull_information.cmake)
 
-zinet_libs_type_resolve()
+include(cmake/zinet_libs_type_resolve.cmake)
 
-fetch_dependencies()
+include(cmake/dependencies.cmake)
 
 add_executable(Sandbox main.cpp)
 
@@ -21,10 +21,10 @@ add_subdirectory(System)
  
 set(ZINET_LIBS_NAME "Sandbox" "ZtCore" "ZtSystem")
 
-os_platform_resolve()
+include(cmake/os_platform_resolve.cmake)
 
-propagate_include_dirs()
+include(cmake/propagate_include_dirs.cmake)
 
-zinet_libs_include_directories()
+include(cmake/zinet_libs_include_directories.cmake)
 
-zinet_libs_link_libraries()
+include(cmake/zinet_libs_link_libraries.cmake)

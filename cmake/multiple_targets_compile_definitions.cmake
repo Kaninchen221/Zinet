@@ -1,6 +1,6 @@
 
 function(multiple_targets_compile_definitions TARGETS_NAME DEFINITIONS)
-	
+
 	foreach(TARGET_NAME IN LISTS TARGETS_NAME)
 	
 		#message(STATUS "Target: ${TARGET_NAME}")
