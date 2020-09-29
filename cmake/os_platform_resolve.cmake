@@ -1,16 +1,20 @@
 
-if(MSVC OR MSYS) # Windows OS
-    
-	message(STATUS "*** OS: Windows ***")
-	multiple_targets_compile_definitions("${ZINET_LIBS_NAME}" "ZINET_WINDOWS")
-	
-elseif(UNIX AND NOT APPLE) # Linux OS
-    
-	message(STATUS "*** OS: Linux ***")
-	multiple_targets_compile_definitions("${ZINET_LIBS_NAME}" "ZINET_LINUX")
-	
-else()
+function(os_platform_resolve)
 
-	message(FATAL_ERROR "*** OS: NOT SUPPORTED ***")
+	if(MSVC OR MSYS) # Windows OS
+		
+		message(STATUS "*** OS: Windows ***")
+		multiple_targets_compile_definitions("${ZINET_LIBS_NAME}" "ZINET_WINDOWS")
+		
+	elseif(UNIX AND NOT APPLE) # Linux OS
+		
+		message(STATUS "*** OS: Linux ***")
+		multiple_targets_compile_definitions("${ZINET_LIBS_NAME}" "ZINET_LINUX")
+		
+	else()
 	
-endif()
+		message(FATAL_ERROR "*** OS: NOT SUPPORTED ***")
+		
+	endif()
+
+endfunction()
