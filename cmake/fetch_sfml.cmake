@@ -15,7 +15,6 @@ set(SFML_INCLUDE_DIRS
 set_target_properties( 
 	sfml-audio 
 	sfml-graphics 
-	sfml-main 
 	sfml-network 
 	sfml-system 
 	sfml-window
