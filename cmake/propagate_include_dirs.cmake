@@ -2,5 +2,8 @@
 get_property(ZT_CORE_INCLUDE_DIR TARGET ZtCore PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
 message(STATUS "*** ZtCore include path: ${ZT_CORE_INCLUDE_DIR} ***")
 
+get_property(ZT_MAIN_INCLUDE_DIR TARGET ZtMain PROPERTY INCLUDE_DIRECTORIES)
+message(STATUS "*** ZtMain include path: ${ZT_MAIN_INCLUDE_DIR} ***")
+
 get_property(ZT_SYSTEM_INCLUDE_DIR TARGET ZtSystem PROPERTY INCLUDE_DIRECTORIES)
 message(STATUS "*** ZtSystem include path: ${ZT_SYSTEM_INCLUDE_DIR} ***")
