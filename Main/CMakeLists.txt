@@ -4,8 +4,10 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 
 	# Headers
 	include/Zinet/Main/ZtMainConfig.h
+	include/Zinet/Main/ZtLogger.h
 	
 	# Source
+	src/ZtLogger.cpp
 )
 
 set_target_properties(ZtMain PROPERTIES 
@@ -15,7 +17,7 @@ set_target_properties(ZtMain PROPERTIES
 
 add_library(Zinet::Main ALIAS ZtMain)
 
-target_compile_definitions(ZtMain PUBLIC MAIN_SYSTEM_EXPORT)
+target_compile_definitions(ZtMain PUBLIC ZINET_MAIN_EXPORT)
 
 set_target_properties( ZtMain
     PROPERTIES
