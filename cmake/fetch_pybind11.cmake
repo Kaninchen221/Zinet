@@ -9,5 +9,5 @@ FetchContent_Declare(PyBind11
 FetchContent_MakeAvailable(PyBind11)
 
 set(PYBIND11_INCLUDE_DIRS
-	build/_deps/pybind11-src/include
+	${CMAKE_BINARY_DIR}/_deps/pybind11-src/include
 )

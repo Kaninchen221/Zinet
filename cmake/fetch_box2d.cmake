@@ -9,7 +9,7 @@ FetchContent_Declare(Box2D
 FetchContent_MakeAvailable(Box2D)
 
 set(BOX2D_INCLUDE_DIRS
-	build/_deps/box2d-src/include
+	${CMAKE_BINARY_DIR}/_deps/box2d-src/include
 )
 
 set_target_properties( box2d

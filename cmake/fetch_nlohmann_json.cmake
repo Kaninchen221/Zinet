@@ -9,5 +9,5 @@ FetchContent_Declare(Json
 FetchContent_MakeAvailable(Json)
 
 set(JSON_INCLUDE_DIRS PRIVATE 
-	build/_deps/json-src/single_include
+	${CMAKE_BINARY_DIR}/_deps/json-src/single_include
 )

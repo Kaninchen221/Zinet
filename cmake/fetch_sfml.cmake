@@ -9,7 +9,7 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 set(SFML_INCLUDE_DIRS
-	build/_deps/sfml-src/include
+	${CMAKE_BINARY_DIR}/_deps/sfml-src/include
 )
 
 set_target_properties( 

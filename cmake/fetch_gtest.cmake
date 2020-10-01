@@ -9,11 +9,11 @@ FetchContent_Declare(googletest
 FetchContent_MakeAvailable(googletest)
 
 set(GOOGLETEST_INCLUDE_DIRS
-	build/_deps/googletest-src/googletest/include
+	${CMAKE_BINARY_DIR}/_deps/googletest-src/googletest/include
 )
 
 set(GOOGLEMOCK_INCLUDE_DIRS PRIVATE 
-	build/_deps/googletest-src/googlemock/include
+	${CMAKE_BINARY_DIR}/_deps/googletest-src/googlemock/include
 )
 
 set_target_properties( gtest

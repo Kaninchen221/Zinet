@@ -9,7 +9,7 @@ FetchContent_Declare(SPDLOG
 FetchContent_MakeAvailable(SPDLOG)
 
 set(SPDLOG_INCLUDE_DIRS
-	build/_deps/spdlog-src/include
+	${CMAKE_BINARY_DIR}/_deps/spdlog-src/include
 )
 
 set_target_properties( spdlog
