@@ -4,11 +4,15 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 
 	# Headers
 	include/Zinet/Main/ZtMainConfig.h
-	include/Zinet/Main/ZtLogger.h
+	include/Zinet/Main/ZtLoggerBase.h
+	include/Zinet/Main/ZtMainException.h
 	
 	# Source
-	src/ZtLogger.cpp
+	src/ZtLoggerBase.cpp
+	src/ZtMainException.cpp
 )
+
+target_compile_features(ZtMain PUBLIC cxx_std_17)
 
 set_target_properties(ZtMain PROPERTIES 
 	LINKER_LANGUAGE CXX
