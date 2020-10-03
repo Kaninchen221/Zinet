@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include "Zinet/Main/ZtLogger.h"
+#include "Zinet/Main/ZtLoggerBase.h"
 
 class LoggerTest : public ::testing::Test {
 protected:
@@ -23,7 +23,6 @@ protected:
 
 TEST_F(LoggerTest, ConstructTest) {
     
-    zt::Logger logger;
 
 
 }
