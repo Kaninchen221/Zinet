@@ -10,6 +10,8 @@ add_library(ZtSystem ${ZINET_LIBS_TYPE}
 	src/ZtSystemInterface.cpp
 )
 
+target_compile_features(ZtSystem PUBLIC cxx_std_17)
+
 set_target_properties(ZtSystem PROPERTIES 
 	LINKER_LANGUAGE CXX
 	INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
