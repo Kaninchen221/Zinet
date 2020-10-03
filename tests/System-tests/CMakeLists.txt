@@ -3,6 +3,8 @@ add_executable(ZtSystem-tests
 	main.cpp
 )
 
+target_compile_features(ZtSystem-tests PUBLIC cxx_std_17)
+
 target_link_libraries(ZtSystem-tests ZtSystem gtest gmock)
 
 set_target_properties( ZtSystem-tests
