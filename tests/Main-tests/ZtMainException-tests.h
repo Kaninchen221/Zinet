@@ -4,12 +4,12 @@
 
 #include "Zinet/Main/ZtMainException.h"
 
-class ZtMainExceptionTest : public ::testing::Test {
+class ZtMainExceptionTests : public ::testing::Test {
 protected:
 
 };
 
-TEST_F(ZtMainExceptionTest, CatchAsZtMainException) {
+TEST_F(ZtMainExceptionTests, CatchAsZtMainException) {
 
     std::string message = "Exception Message";
 
@@ -25,7 +25,7 @@ TEST_F(ZtMainExceptionTest, CatchAsZtMainException) {
 
 }
 
-TEST_F(ZtMainExceptionTest, CatchAsStdException) {
+TEST_F(ZtMainExceptionTests, CatchAsStdException) {
 
     std::string message = "Exception Message";
 
