@@ -3,7 +3,7 @@ add_executable(ZtMain-tests
 	main.cpp
 	
 	# Headers
-	ZtMainLogger-tests.h
+	ZtLogger-tests.h
 	ZtMainException-tests.h
 )
 
