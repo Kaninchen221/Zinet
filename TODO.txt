@@ -1,3 +1,1 @@
-- Configuration of project
-
-- End ZtMain config
+- Work at ZtMain
