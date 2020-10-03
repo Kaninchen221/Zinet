@@ -1,7 +1,8 @@
 
 #include "gtest/gtest.h"
 
-#include "ZtLogger-tests.h"
+#include "ZtMainLogger-tests.h"
+#include "ZtMainException-tests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
