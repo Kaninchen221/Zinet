@@ -4,6 +4,8 @@ add_library(ZtCore OBJECT
 	include/Zinet/Core/ZtCore.h
 )
 
+target_compile_features(ZtCore PUBLIC cxx_std_17)
+
 set_target_properties(ZtCore PROPERTIES 
 	LINKER_LANGUAGE CXX
 	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
