@@ -3,8 +3,11 @@ add_executable(ZtMain-tests
 	main.cpp
 	
 	# Headers
-	ZtLogger-tests.h
+	ZtMainLogger-tests.h
+	ZtMainException-tests.h
 )
+
+target_compile_features(ZtMain-tests PUBLIC cxx_std_17)
 
 target_include_directories(ZtMain-tests PRIVATE 
 	${SPDLOG_INCLUDE_DIRS}
