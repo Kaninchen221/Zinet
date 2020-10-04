@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <string_view>
+#include <string>
 
 #include "Zinet/Main/ZtMainConfig.h"
 
