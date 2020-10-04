@@ -1,4 +1,4 @@
-#include "..\include\Zinet\Main\ZtMainException.h"
+#include "Zinet/Main/ZtMainException.h"
 
 zt::MainException::MainException(const std::string& message)
     : std::exception(message.c_str())
