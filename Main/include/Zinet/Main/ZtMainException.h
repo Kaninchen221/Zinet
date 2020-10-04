@@ -24,7 +24,7 @@ namespace zt {
 
 		virtual std::string_view message() const;
 
-	protected:
+	private:
 
 		std::string exceptionMessage;
 
