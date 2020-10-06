@@ -6,6 +6,9 @@
 
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+#include <filesystem>
+#include <fstream>
+
 class LoggerTests : public ::testing::Test {
 protected:
 
@@ -23,30 +26,10 @@ protected:
 
 };
 
-TEST_F(LoggerTests, CreateAndGetLogger) {
+TEST_F(LoggerTests, LoggingTest) {
 
     std::string loggerName = "CreateAndGetLogger logger";
-    std::string pattern = "*** [%H:%M:%S %z] [thread %t] %v ***";
+    std::string testMessage = "Test Message";
 
-    zt::Logger::CreateLogger(loggerName, pattern);
-    auto savedLogger = zt::Logger::GetLogger(loggerName);
-
-    ASSERT_TRUE(savedLogger);
-    ASSERT_EQ(savedLogger->name(), loggerName);
-
-    zt::Logger::Info(loggerName, "Test Message");
-}
-
-TEST_F(LoggerTests, CreateAndGetFileLogger) {
-
-    std::string loggerName = "CreateAndGetFileLogger logger";
-    std::string pattern = "*** [%H:%M:%S %z] [thread %t] %v ***";
-
-    zt::Logger::CreateFileLogger(loggerName, pattern);
-    auto savedLogger = zt::Logger::GetLogger(loggerName);
-
-    ASSERT_TRUE(savedLogger);
-    ASSERT_EQ(savedLogger->name(), loggerName);
-
-    zt::Logger::Info(loggerName, "Test Message");
+    zt::Logger::Info(loggerName, testMessage);
 }
