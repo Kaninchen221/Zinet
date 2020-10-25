@@ -3,6 +3,10 @@
 
 #include "ZtLogger-tests.h"
 #include "ZtMainException-tests.h"
+#include "ZtEntity-tests.h"
+#include "ZtSystem-tests.h"
+#include "ZtClock-tests.h"
+#include "ZtTime-tests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

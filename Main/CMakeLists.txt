@@ -6,10 +6,26 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 	include/Zinet/Main/ZtMainConfig.h
 	include/Zinet/Main/ZtMainException.h
 	include/Zinet/Main/ZtLogger.h
+	include/Zinet/Main/ZtClock.h
+	include/Zinet/Main/ZtTime.h
+	
+	include/Zinet/Main/ECRS/ZtEntity.h
+	include/Zinet/Main/ECRS/ZtSystemBase.h
+	include/Zinet/Main/ECRS/ZtComponentBase.h
+	include/Zinet/Main/ECRS/ZtResourceBase.h
+	include/Zinet/Main/ECRS/ZtObject.h
 	
 	# Source
 	src/ZtMainException.cpp
 	src/ZtLogger.cpp
+	src/ZtClock.cpp
+	src/ZtTime.cpp
+	src/ZtEntity.cpp
+	src/ZtComponentBase.cpp
+	src/ZtResourceBase.cpp
+	src/ZtSystemBase.cpp
+	src/ZtClock.cpp
+	src/ZtTime.cpp
 )
 
 target_compile_features(ZtMain PUBLIC cxx_std_17)
