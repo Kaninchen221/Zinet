@@ -10,6 +10,8 @@ add_executable(ZtMain-tests
 	headers/ZtSystem-tests.h
 	headers/ZtClock-tests.h
 	headers/ZtTime-tests.h
+	headers/ZtUniqueIndexer-tests.h
+	headers/ZtIdentificator-tests.h
 	
 	# Mocks
 	headers/mocks/ZtComponentMock.h

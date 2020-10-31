@@ -8,6 +8,8 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 	include/Zinet/Main/ZtLogger.h
 	include/Zinet/Main/ZtClock.h
 	include/Zinet/Main/ZtTime.h
+	include/Zinet/Main/ZtUniqueIndexer.h
+	include/Zinet/Main/ZtIdentificator.h
 	
 	include/Zinet/Main/ECRS/ZtEntity.h
 	include/Zinet/Main/ECRS/ZtSystemBase.h
@@ -26,6 +28,8 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 	src/ZtSystemBase.cpp
 	src/ZtClock.cpp
 	src/ZtTime.cpp
+	src/ZtUniqueIndexer.cpp
+	src/ZtIdentificator.cpp
 )
 
 target_compile_features(ZtMain PUBLIC cxx_std_17)

@@ -7,6 +7,8 @@
 #include "ZtSystem-tests.h"
 #include "ZtClock-tests.h"
 #include "ZtTime-tests.h"
+#include "ZtuniqueIndexer-tests.h"
+#include "ZtIdentificator-tests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
