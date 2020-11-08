@@ -6,6 +6,16 @@ namespace zt {
 		: number(identificatorNumber)
 	{}
 
+	bool Identificator::operator==(const Identificator& other) const noexcept
+	{
+		return (this->number == other.number);
+	}
+
+	bool Identificator::operator!=(const Identificator& other) const noexcept
+	{
+		return (this->number != other.number);
+	}
+
 	size_t Identificator::getNumber() const noexcept
 	{
 		return number;
