@@ -22,22 +22,71 @@ TEST_F(ZtIdentificatorTests, parameterizedConstructorTest) {
 
 }
 
-TEST_F(ZtIdentificatorTests, cantBeDefaultConstructibleTest) {
+TEST_F(ZtIdentificatorTests, mustBeDefaultConstructibleTest) {
 
-	static_assert(!std::is_default_constructible<zt::Identificator>::value);
+	static_assert(std::is_default_constructible<zt::Identificator>::value);
 	
 }
 
-TEST_F(ZtIdentificatorTests, mustBeCopyableTest) {
+TEST_F(ZtIdentificatorTests, copyConstructorTest) {
 
-	static_assert(std::is_copy_constructible<zt::Identificator>::value);
-	static_assert(std::is_copy_assignable<zt::Identificator>::value);
+	auto expectedNumber = 100u;
 
+	zt::Identificator id(expectedNumber);
+	zt::Identificator copy(id);
+	auto copyNumber = copy.getNumber();
+
+	ASSERT_EQ(expectedNumber, copyNumber);
 }
 
-TEST_F(ZtIdentificatorTests, mustBeMoveable) {
+TEST_F(ZtIdentificatorTests, copyAssignOperatorTest) {
 
-	static_assert(std::is_move_constructible<zt::Identificator>::value);
-	static_assert(std::is_move_assignable<zt::Identificator>::value);
+	auto expectedNumber = 100u;
+
+	zt::Identificator id(expectedNumber);
+	zt::Identificator copy;
+	copy = id;
+	auto copyNumber = copy.getNumber();
+
+	ASSERT_EQ(expectedNumber, copyNumber);
+}
+
+TEST_F(ZtIdentificatorTests, moveConstructorTest) {
+
+	auto expectedNumber = 100u;
+
+	zt::Identificator id(expectedNumber);
+	zt::Identificator moved(std::move(id));
+	auto movedNumber = moved.getNumber();
+
+	ASSERT_EQ(expectedNumber, movedNumber);
+}
+
+TEST_F(ZtIdentificatorTests, moveAssignOperatorTest) {
+
+	auto expectedNumber = 100u;
+
+	zt::Identificator id(expectedNumber);
+	zt::Identificator moved;
+	moved = std::move(id);
+	auto movedNumber = moved.getNumber();
+
+	ASSERT_EQ(expectedNumber, movedNumber);
+}
+
+TEST_F(ZtIdentificatorTests, equalComparisonTest) {
+
+	zt::Identificator id(6u);
+	zt::Identificator equal(6u);
+
+	ASSERT_EQ(id, equal);
+}
+
+TEST_F(ZtIdentificatorTests, notEqualComparisonTest) {
+
+	zt::Identificator id(45u);
+	zt::Identificator notEqual(4532534u);
+
+	ASSERT_NE(id, notEqual);
 
 }
