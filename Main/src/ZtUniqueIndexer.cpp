@@ -62,6 +62,8 @@ namespace zt {
 			}
 			++identificatorNumber;
 		}
+
+		throw MainException("Trying reserve released identificator when all identificators are reserved");
 	}
 
 }
