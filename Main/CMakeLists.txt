@@ -12,10 +12,10 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 	include/Zinet/Main/ZtIdentificator.h
 	
 	include/Zinet/Main/ECRS/ZtEntity.h
-	include/Zinet/Main/ECRS/ZtSystemBase.h
-	include/Zinet/Main/ECRS/ZtComponentBase.h
-	include/Zinet/Main/ECRS/ZtResourceBase.h
-	include/Zinet/Main/ECRS/ZtObject.h
+	include/Zinet/Main/ECRS/ZtSystem.h
+	include/Zinet/Main/ECRS/ZtComponent.h
+	include/Zinet/Main/ECRS/ZtComponentsManager.h
+	include/Zinet/Main/ECRS/ZtSystemsManager.h
 	
 	# Source
 	src/ZtMainException.cpp
@@ -23,9 +23,7 @@ add_library(ZtMain ${ZINET_LIBS_TYPE}
 	src/ZtClock.cpp
 	src/ZtTime.cpp
 	src/ZtEntity.cpp
-	src/ZtComponentBase.cpp
-	src/ZtResourceBase.cpp
-	src/ZtSystemBase.cpp
+	src/ZtComponent.cpp
 	src/ZtClock.cpp
 	src/ZtTime.cpp
 	src/ZtUniqueIndexer.cpp

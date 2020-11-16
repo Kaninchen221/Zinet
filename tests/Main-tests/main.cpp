@@ -9,6 +9,9 @@
 #include "ZtTime-tests.h"
 #include "ZtuniqueIndexer-tests.h"
 #include "ZtIdentificator-tests.h"
+#include "ZtComponentsManager-tests.h"
+#include "ZtComponent-tests.h"
+#include "ZtSystemsManager-tests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

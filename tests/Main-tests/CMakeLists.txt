@@ -12,11 +12,11 @@ add_executable(ZtMain-tests
 	headers/ZtTime-tests.h
 	headers/ZtUniqueIndexer-tests.h
 	headers/ZtIdentificator-tests.h
+	headers/ZtComponentsManager-tests.h
+	headers/ZtComponent-tests.h
+	headers/ZtSystemsManager-tests.h
 	
 	# Mocks
-	headers/mocks/ZtComponentMock.h
-	headers/mocks/ZtResourceMock.h
-	headers/mocks/ZtSystemMock.h
 	
 )
 
