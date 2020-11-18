@@ -32,7 +32,9 @@ TEST_F(ZtMainExceptionTests, CatchAsStdException) {
     try {
         throw zt::MainException(message);
     }
-    catch (const std::exception& ex) {}
+    catch (const std::exception& ex) {
+        ASSERT_EQ(message, ex.what());
+    }
     catch (...) {
         FAIL() << "Must be catched as std::exception";
     }
