@@ -18,8 +18,9 @@ add_executable(Sandbox main.cpp)
 
 add_subdirectory(Core)
 add_subdirectory(Main)
+add_subdirectory(Frame)
  
-set(ZINET_LIBS_NAME "Sandbox" "ZtMain" "ZtCore")
+set(ZINET_LIBS_NAME "Sandbox" "ZtMain" "ZtCore" "ZtFrame")
 
 include(cmake/os_platform_resolve.cmake)
 
