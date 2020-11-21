@@ -18,9 +18,10 @@ target_include_directories(ZtFrame-tests PRIVATE
 	headers/
 	${ZT_CORE_INCLUDE_DIR}
 	${ZT_FRAME_INCLUDE_DIR}
+	${SFML_INCLUDE_DIRS}
 )
 
-target_link_libraries(ZtFrame-tests ZtFrame gtest gmock)
+target_link_libraries(ZtFrame-tests ZtFrame gtest gmock sfml-graphics sfml-window sfml-system sfml-audio)
 
 set_target_properties( ZtFrame-tests
     PROPERTIES

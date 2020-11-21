@@ -1,5 +1,5 @@
 
-#include(cmake/fetch_sfml.cmake)
+include(cmake/fetch_sfml.cmake)
 include(cmake/fetch_gtest.cmake)
 include(cmake/fetch_spdlog.cmake)
 #include(cmake/fetch_pybind11.cmake)

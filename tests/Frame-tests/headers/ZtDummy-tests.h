@@ -20,5 +20,6 @@ TEST_F(ZtDummyTests, fooTest) {
 
     zt::Dummy dummy;
     dummy.foo();
+      
 
 }
