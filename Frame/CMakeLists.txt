@@ -4,10 +4,13 @@ add_library(ZtFrame ${ZINET_LIBS_TYPE}
 
 	# Headers
 	include/Zinet/Frame/ZtFrameConfig.h
-	include/Zinet/Frame/ZtDummy.h
+	include/Zinet/Frame/ZtLoop.h
+	include/Zinet/Frame/ZtFrameException.h
 	
 	# Source
-	src/ZtDummy.cpp
+	src/ZtLoop.cpp
+	src/ZtFrameException.cpp
+	
 )
 
 target_compile_features(ZtFrame PUBLIC cxx_std_17)

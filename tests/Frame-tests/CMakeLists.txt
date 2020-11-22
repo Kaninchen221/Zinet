@@ -4,7 +4,8 @@ add_executable(ZtFrame-tests
 	
 	# Headers
 	# Tests
-	headers/ZtDummy-tests.h
+	headers/ZtLoop-tests.h
+	headers/ZtFrameException-tests.h
 	
 	# Mocks
 	
@@ -17,6 +18,7 @@ target_compile_definitions(ZtFrame-tests PUBLIC GTEST_LINKED_AS_SHARED_LIBRARY)
 target_include_directories(ZtFrame-tests PRIVATE 
 	headers/
 	${ZT_CORE_INCLUDE_DIR}
+	${ZT_MAIN_INCLUDE_DIR}
 	${ZT_FRAME_INCLUDE_DIR}
 	${SFML_INCLUDE_DIRS}
 )
