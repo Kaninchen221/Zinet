@@ -11,6 +11,7 @@ add_library(ZtFrame ${ZINET_LIBS_TYPE}
 	include/Zinet/Frame/ZtEngineSettings.h
 	include/Zinet/Frame/ZtWindow.h
 	include/Zinet/Frame/ZtWindowSettings.h
+	include/Zinet/Frame/ZtScene.h
 	
 	# Source
 	src/ZtLoop.cpp
