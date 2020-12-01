@@ -7,3 +7,6 @@ message(STATUS "*** ZtMain include path: ${ZT_MAIN_INCLUDE_DIR} ***")
 
 get_property(ZT_FRAME_INCLUDE_DIR TARGET ZtFrame PROPERTY INCLUDE_DIRECTORIES)
 message(STATUS "*** ZtFrame include path: ${ZT_FRAME_INCLUDE_DIR} ***")
+
+get_property(ZT_REFLECTION_INCLUDE_DIR TARGET ZtReflection PROPERTY INCLUDE_DIRECTORIES)
+message(STATUS "*** ZtReflection include path: ${ZT_REFLECTION_INCLUDE_DIR} ***")

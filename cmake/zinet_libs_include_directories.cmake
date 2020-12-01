@@ -11,3 +11,7 @@ target_include_directories(ZtMain PRIVATE ${SPDLOG_INCLUDE_DIRS})
 target_include_directories(ZtFrame PRIVATE ${ZT_CORE_INCLUDE_DIR})
 target_include_directories(ZtFrame PRIVATE ${ZT_MAIN_INCLUDE_DIR})
 target_include_directories(ZtFrame PRIVATE ${SFML_INCLUDE_DIRS})
+
+# ZtReflection
+target_include_directories(ZtReflection PRIVATE ${ZT_CORE_INCLUDE_DIR})
+target_include_directories(ZtReflection PRIVATE ${ZT_MAIN_INCLUDE_DIR})
