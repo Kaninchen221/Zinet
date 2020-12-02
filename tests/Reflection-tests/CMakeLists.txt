@@ -5,6 +5,7 @@ add_executable(ZtReflection-tests
 	# Headers
 	# Tests
 	headers/ZtReflectionException-tests.h
+	headers/ZtReflectionRegister-tests.h
 	
 	# Mocks
 	

@@ -5,10 +5,11 @@ add_library(ZtReflection ${ZINET_LIBS_TYPE}
 	# Headers
 	include/Zinet/Reflection/ZtReflectionConfig.h
 	include/Zinet/Reflection/ZtReflectionException.h
+	include/Zinet/Reflection/ZtReflectionRegister.h
 	
 	# Source
 	src/ZtReflectionException.cpp
-	
+	src/ZtReflectionRegister.cpp
 )
 
 target_compile_features(ZtReflection PUBLIC cxx_std_17)
