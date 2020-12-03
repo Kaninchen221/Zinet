@@ -29,6 +29,7 @@ target_include_directories(ZtMain-tests PRIVATE
 	${SPDLOG_INCLUDE_DIRS}
 	${ZT_CORE_INCLUDE_DIR}
 	${ZT_MAIN_INCLUDE_DIR}
+	${COLONY_INCLUDE_DIRS}
 )
 
 target_link_libraries(ZtMain-tests ZtMain gtest gmock spdlog)
