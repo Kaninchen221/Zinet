@@ -85,7 +85,7 @@ TEST_F(ZtComponentsManagerTests, addComponentTest) {
 
 	ASSERT_EQ(expectedComponentsCount, componentsCount);
 
-	auto resultComponent = components.front();
+	auto resultComponent = *components.begin();
 	auto id = resultComponent.getOwnerIdentificator();
 	auto tag = resultComponent.getTag();
 

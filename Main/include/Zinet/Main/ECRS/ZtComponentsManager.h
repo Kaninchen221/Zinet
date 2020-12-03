@@ -8,6 +8,8 @@
 #include <vector>
 #include <type_traits>
 
+#include "plf_colony.h"
+
 namespace zt {
 
 	template<typename ... ComponentTypes>
@@ -25,7 +27,7 @@ namespace zt {
 	public:
 
 		template<typename T>
-		using Container = std::vector<T>;
+		using Container = plf::colony<T>;
 
 		ComponentsManager() = default;
 		ComponentsManager(const ComponentsManager& other) = default;
@@ -55,9 +57,6 @@ namespace zt {
 
 	private:
 
-		template<typename ComponentsContainer>
-		Identificator getLastComponentIdentificator(const ComponentsContainer& container) const;
-
 		template<typename ComponentDerivedClass>
 		typename Container<ComponentDerivedClass>::iterator findComponentByIdentificator(Container<ComponentDerivedClass>& container, Identificator identificator);
 
@@ -77,13 +76,17 @@ namespace zt {
 
 		auto wraper = [&](auto& container) -> void {
 
-			for (size_t element = 0u; element < container.size(); element++) {
+			auto it = container.begin();
+			while (it != container.end()) {
 
-				auto iterator = container.begin() + element;
-				if (iterator->getOwnerIdentificator() == ownerIdentificator) {
-					container.erase(iterator);
-					element--;
-					removedComponentsCount++;
+				auto componentOwnerId = it->getOwnerIdentificator();
+				if (componentOwnerId == ownerIdentificator) {
+					auto newIt = container.erase(it);
+					it = newIt;
+					++removedComponentsCount;
+				}
+				else {
+					++it;
 				}
 
 			}
@@ -124,9 +127,10 @@ namespace zt {
 		auto& componentsContainer = getComponentsByType<ComponentDerivedClass>();
 		
 		ComponentDerivedClass component(ownerIdentificator);
-		componentsContainer.push_back(component);
-		
-		return getLastComponentIdentificator(componentsContainer);
+		auto itToInsertedComponent = componentsContainer.insert(component);
+		auto componentId = itToInsertedComponent->getIdentificator();
+
+		return componentId;
 	}
 
 	template<typename ...ComponentTypes>
@@ -148,19 +152,10 @@ namespace zt {
 
 		auto& componentsContainer = getComponentsByType<ComponentDerivedClass>();
 
-		componentsContainer.push_back(component);
+		auto insertedComponentIt = componentsContainer.insert(component);
+		auto insertedComponentIdentificator = insertedComponentIt->getIdentificator();
 
-		return getLastComponentIdentificator(componentsContainer);
-	}
-
-	template<typename ...ComponentTypes>
-	template<typename ComponentsContainer>
-	inline Identificator ComponentsManager<ComponentTypes ...>::getLastComponentIdentificator(const ComponentsContainer& container) const 
-	{
-		auto& createdComponent = container.back();
-		auto componentUniqueIdentificator = createdComponent.getIdentificator();
-
-		return componentUniqueIdentificator;
+		return insertedComponentIdentificator;
 	}
 
 	template<typename ...ComponentTypes>
@@ -203,12 +198,15 @@ namespace zt {
 	inline typename ComponentsManager<ComponentTypes ...>::Container<ComponentDerivedClass>::iterator ComponentsManager<ComponentTypes ...>::findComponentByIdentificator(Container<ComponentDerivedClass>& container, Identificator identificator) 
 	{
 		MustBeOneOfComponentTypes<ComponentDerivedClass>();
-
-		auto findResult = std::find_if(container.begin(),
-			container.end(),
-			[&](auto& component) -> bool { return (component.getIdentificator() == identificator); });
 	
-		return findResult;
+		for (auto elementIt = container.begin(); elementIt != container.end(); ++elementIt) {
+			auto elementOwnerId = elementIt->getIdentificator();
+			if (elementOwnerId == identificator) {
+				return elementIt;
+			}
+		}
+
+		return container.end();
 	}
 
 	template<typename ...ComponentTypes>
