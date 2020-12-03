@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Zinet/Main/ZtMainConfig.h"
+#include "Zinet/Main/ZtMainException.h"
 #include "Zinet/Main/ECRS/ZtComponent.h"
 #include "Zinet/Main/ZtIdentificator.h"
 
 #include <tuple>
-#include <vector>
 #include <type_traits>
 
 #include "plf_colony.h"
@@ -29,6 +29,9 @@ namespace zt {
 		template<typename T>
 		using Container = plf::colony<T>;
 
+		template<typename T>
+		using Iterator = typename Container<T>::iterator;
+
 		ComponentsManager() = default;
 		ComponentsManager(const ComponentsManager& other) = default;
 		ComponentsManager(ComponentsManager&& other) = default;
@@ -39,16 +42,16 @@ namespace zt {
 		~ComponentsManager() noexcept = default;
 
 		template<typename ComponentDerivedClass>
-		Identificator createComponent(Identificator ownerIdentificator);
+		Iterator<ComponentDerivedClass> createComponent(Identificator ownerIdentificator);
 
 		template<typename ComponentDerivedClass>
-		Identificator addComponent(const ComponentDerivedClass& component);
+		Iterator<ComponentDerivedClass> addComponent(const ComponentDerivedClass& component);
 
 		template<typename ComponentDerivedClass>
 		Container<ComponentDerivedClass>& getComponentsByType() noexcept;
 
 		template<typename ComponentDerivedClass>
-		ComponentDerivedClass* getComponentByIdentificator(Identificator identificator);
+		Iterator<ComponentDerivedClass> getComponentByIdentificator(Identificator identificator);
 
 		template<typename ComponentDerivedClass>
 		bool removeComponentByIdentificator(Identificator identificator);
@@ -120,7 +123,7 @@ namespace zt {
 
 	template<typename ...ComponentTypes>
 	template<typename ComponentDerivedClass>
-	inline Identificator ComponentsManager<ComponentTypes ...>::createComponent(Identificator ownerIdentificator)
+	inline ComponentsManager<ComponentTypes ...>::Iterator<ComponentDerivedClass> ComponentsManager<ComponentTypes ...>::createComponent(Identificator ownerIdentificator)
 	{
 		MustBeOneOfComponentTypes<ComponentDerivedClass>();
 
@@ -128,9 +131,8 @@ namespace zt {
 		
 		ComponentDerivedClass component(ownerIdentificator);
 		auto itToInsertedComponent = componentsContainer.insert(component);
-		auto componentId = itToInsertedComponent->getIdentificator();
-
-		return componentId;
+		
+		return itToInsertedComponent;
 	}
 
 	template<typename ...ComponentTypes>
@@ -146,21 +148,20 @@ namespace zt {
 
 	template<typename ...ComponentTypes>
 	template<typename ComponentDerivedClass>
-	Identificator ComponentsManager<ComponentTypes ...>::addComponent(const ComponentDerivedClass& component)
+	ComponentsManager<ComponentTypes ...>::Iterator<ComponentDerivedClass> ComponentsManager<ComponentTypes ...>::addComponent(const ComponentDerivedClass& component)
 	{
 		MustBeOneOfComponentTypes<ComponentDerivedClass>();
 
 		auto& componentsContainer = getComponentsByType<ComponentDerivedClass>();
 
 		auto insertedComponentIt = componentsContainer.insert(component);
-		auto insertedComponentIdentificator = insertedComponentIt->getIdentificator();
 
-		return insertedComponentIdentificator;
+		return insertedComponentIt;
 	}
 
 	template<typename ...ComponentTypes>
 	template<typename ComponentDerivedClass>
-	inline ComponentDerivedClass* ComponentsManager<ComponentTypes ...>::getComponentByIdentificator(Identificator identificator) 
+	inline ComponentsManager<ComponentTypes ...>::Iterator<ComponentDerivedClass> ComponentsManager<ComponentTypes ...>::getComponentByIdentificator(Identificator identificator)
 	{
 		MustBeOneOfComponentTypes<ComponentDerivedClass>();
 
@@ -169,10 +170,10 @@ namespace zt {
 		auto findResult = findComponentByIdentificator<ComponentDerivedClass>(componentsContainer, identificator);
 
 		if (isFoundComponentValid(componentsContainer, findResult)) {
-			return &(*findResult);
+			return findResult;
 		}
 
-		return nullptr;
+		throw MainException("Can't find component with id : " + std::to_string(identificator.getNumber()));
 	}
 
 	template<typename ...ComponentTypes>

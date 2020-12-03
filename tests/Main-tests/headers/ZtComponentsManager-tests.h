@@ -77,7 +77,7 @@ TEST_F(ZtComponentsManagerTests, addComponentTest) {
 	Dummy_1 component(expectedId);
 	component.setTag(expectedTag);
 
-	componentsManager.addComponent<Dummy_1>(component);
+	auto addedComponent = componentsManager.addComponent<Dummy_1>(component);
 
 	auto components = componentsManager.getComponentsByType<Dummy_1>();
 
@@ -97,11 +97,10 @@ TEST_F(ZtComponentsManagerTests, addComponentTest) {
 TEST_F(ZtComponentsManagerTests, getComponentByIdentificatorTest) {
 
 	zt::Identificator expectedOwnerId;
-	auto componentId = componentsManager.createComponent<Dummy_1>(expectedOwnerId);
+	auto component = componentsManager.createComponent<Dummy_1>(expectedOwnerId);
+	auto componentId = component->getIdentificator();
 
-	auto component = componentsManager.getComponentByIdentificator<Dummy_1>(componentId);
-
-	ASSERT_NE(component, nullptr);
+	component = componentsManager.getComponentByIdentificator<Dummy_1>(componentId);
 	
 	auto componentOwnerId = component->getOwnerIdentificator();
 
@@ -109,14 +108,12 @@ TEST_F(ZtComponentsManagerTests, getComponentByIdentificatorTest) {
 
 }
 
-TEST_F(ZtComponentsManagerTests, getComponentByIdentificatorNullptrTest) {
+TEST_F(ZtComponentsManagerTests, getComponentByIdentificatorThrowTest) {
 
 	auto expectedComponentAddress = nullptr;
 
 	zt::Identificator componentId(100u);
-	auto component = componentsManager.getComponentByIdentificator<Dummy_1>(componentId);
-
-	ASSERT_EQ(expectedComponentAddress, component);
+	ASSERT_THROW(componentsManager.getComponentByIdentificator<Dummy_1>(componentId), zt::MainException);
 }
 
 TEST_F(ZtComponentsManagerTests, removeComponentTest) {
@@ -124,7 +121,9 @@ TEST_F(ZtComponentsManagerTests, removeComponentTest) {
 	auto expectedComponentsCount = 0u;
 	
 	auto ownerId = zt::Identificator();
-	auto componentId = componentsManager.createComponent<Dummy_1>(ownerId);
+	auto component = componentsManager.createComponent<Dummy_1>(ownerId);
+	auto componentId = component->getIdentificator();
+
 	auto isRemoved = componentsManager.removeComponentByIdentificator<Dummy_1>(componentId);
 	
 	ASSERT_TRUE(isRemoved);
