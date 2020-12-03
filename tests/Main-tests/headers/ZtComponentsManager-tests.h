@@ -151,3 +151,18 @@ TEST_F(ZtComponentsManagerTests, removeAllComponentsByEntityOwnerIdentificatorTe
 	ASSERT_EQ(expectedRemovedComponentsCount, removedComponentsCount);
 }
 
+TEST_F(ZtComponentsManagerTests, removeComponentByIteratorTest) {
+
+	auto ownerId = zt::Identificator();
+	auto component = componentsManager.createComponent<Dummy_1>(ownerId);
+
+	componentsManager.removeComponentByIterator<Dummy_1>(component);
+}
+
+TEST_F(ZtComponentsManagerTests, removeComponentByIteratorThrowTest) {
+
+	auto ownerId = zt::Identificator();
+	auto component = componentsManager.createComponent<Dummy_1>(ownerId);
+
+	componentsManager.removeComponentByIterator<Dummy_1>(component);
+}

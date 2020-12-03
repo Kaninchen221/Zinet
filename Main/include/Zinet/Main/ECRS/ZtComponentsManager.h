@@ -58,6 +58,9 @@ namespace zt {
 
 		size_t removeAllComponentsByEntityOwnerIdentificator(Identificator ownerIdentificator);
 
+		template<typename ComponentDerivedClass>
+		void removeComponentByIterator(const Iterator<ComponentDerivedClass>& iterator);
+
 	private:
 
 		template<typename ComponentDerivedClass>
@@ -192,6 +195,17 @@ namespace zt {
 		}
 
 		return false;
+	}
+
+	template<typename ...ComponentTypes>
+	template<typename ComponentDerivedClass>
+	inline void ComponentsManager<ComponentTypes...>::removeComponentByIterator(const Iterator<ComponentDerivedClass>& iterator)
+	{
+		MustBeOneOfComponentTypes<ComponentDerivedClass>();
+
+		auto& componentsContainer = getComponentsByType<ComponentDerivedClass>();
+
+		componentsContainer.erase(iterator);
 	}
 
 	template<typename ...ComponentTypes>
