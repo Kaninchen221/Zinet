@@ -78,7 +78,7 @@ namespace zt {
 	}
 
 	template<class Loop>
-	inline Window<Loop>::VideoMode Window<Loop>::createVideoMode(const WindowSettings& windowSettings)
+	inline typename Window<Loop>::VideoMode Window<Loop>::createVideoMode(const WindowSettings& windowSettings)
 	{
 		VideoMode videoMode;
 		videoMode.height = windowSettings.height;
@@ -89,7 +89,7 @@ namespace zt {
 	}
 
 	template<class Loop>
-	inline Window<Loop>::ContextSettings Window<Loop>::createContextSettings(const WindowSettings& windowSettings)
+	inline typename Window<Loop>::ContextSettings Window<Loop>::createContextSettings(const WindowSettings& windowSettings)
 	{
 		ContextSettings contextSettings;
 		contextSettings.antialiasingLevel = windowSettings.antialiasingLevel;
