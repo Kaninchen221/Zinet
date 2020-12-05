@@ -15,6 +15,8 @@ namespace zt {
 	public:
 
 		using BaseWindow = typename Loop::BaseWindow;
+		using VideoMode = sf::VideoMode;
+		using ContextSettings = sf::ContextSettings;
 
 		static constexpr bool IsLoopDerivedFromZtLoop() noexcept;
 		static_assert(IsLoopDerivedFromZtLoop(), "Loop template param must derived from zt::Loop class");
@@ -36,8 +38,8 @@ namespace zt {
 
 		void applySettingsToBaseWindow(const WindowSettings& windowSettings);
 
-		sf::VideoMode createVideoMode(const WindowSettings& windowSettings);
-		sf::ContextSettings createContextSettings(const WindowSettings& windowSettings);
+		VideoMode createVideoMode(const WindowSettings& windowSettings);
+		ContextSettings createContextSettings(const WindowSettings& windowSettings);
 
 		Loop loop;
 		BaseWindow baseWindow;
@@ -76,9 +78,9 @@ namespace zt {
 	}
 
 	template<class Loop>
-	inline sf::VideoMode Window<Loop>::createVideoMode(const WindowSettings& windowSettings)
+	inline Window<Loop>::VideoMode Window<Loop>::createVideoMode(const WindowSettings& windowSettings)
 	{
-		sf::VideoMode videoMode;
+		VideoMode videoMode;
 		videoMode.height = windowSettings.height;
 		videoMode.width = windowSettings.width;
 		videoMode.bitsPerPixel = windowSettings.bitsPerPixel;
@@ -87,9 +89,9 @@ namespace zt {
 	}
 
 	template<class Loop>
-	inline sf::ContextSettings Window<Loop>::createContextSettings(const WindowSettings& windowSettings)
+	inline Window<Loop>::ContextSettings Window<Loop>::createContextSettings(const WindowSettings& windowSettings)
 	{
-		sf::ContextSettings contextSettings;
+		ContextSettings contextSettings;
 		contextSettings.antialiasingLevel = windowSettings.antialiasingLevel;
 		contextSettings.attributeFlags = static_cast<sf::Uint32>(windowSettings.openGLAttribute);
 		contextSettings.depthBits = windowSettings.depthBits;
