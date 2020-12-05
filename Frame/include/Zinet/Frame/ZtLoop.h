@@ -22,7 +22,7 @@ namespace zt {
 
 		~Loop() noexcept = default;
 
-		void start(const zt::LoopSettings& settings, BaseWindow& baseWindow);
+		void start(const LoopSettings& settings, BaseWindow& baseWindow);
 
 	protected:
 
@@ -38,7 +38,8 @@ namespace zt {
 		
 		void end();
 
-		zt::LoopSettings settings;
+		LoopSettings settings;
+
 	};
 
 }
