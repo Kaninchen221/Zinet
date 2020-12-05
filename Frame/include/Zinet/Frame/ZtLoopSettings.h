@@ -8,7 +8,8 @@ namespace zt {
 
 	struct ZINET_FRAME_API LoopSettings {
 
-		uint32_t maxFramesPerSecondCount;
+		uint32_t maxFramesPerSecondCount = 60u;
+
 
 	};
 
