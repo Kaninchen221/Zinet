@@ -6,13 +6,7 @@ namespace zt {
 
 	void Loop::start(const zt::LoopSettings& settings, BaseWindow& baseWindow)
 	{
-		this->settings = settings;
-
-		begin();
-
-		loop(baseWindow);
-
-		end();
+		throw FrameException("start must be covered by child class");
 	}
 
 	void Loop::begin()
