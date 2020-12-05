@@ -12,10 +12,12 @@ add_library(ZtFrame ${ZINET_LIBS_TYPE}
 	include/Zinet/Frame/ZtWindow.h
 	include/Zinet/Frame/ZtWindowSettings.h
 	include/Zinet/Frame/ZtScene.h
+	include/Zinet/Frame/ZtNormalLoop.h
 	
 	# Source
 	src/ZtLoop.cpp
 	src/ZtFrameException.cpp
+	src/ZtNormalLoop.cpp
 	
 )
 

@@ -4,6 +4,7 @@
 #include "ZtLoop-tests.h"
 #include "ZtFrameException-tests.h"
 #include "ZtWindow-tests.h"
+#include "ZtNormalLoop-tests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
