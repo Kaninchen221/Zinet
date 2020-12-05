@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ZtFrameConfig.h"
+#include "ZtLoopSettings.h"
 
 namespace zt {
 
@@ -17,7 +18,7 @@ namespace zt {
 
 		~Loop() noexcept = default;
 
-		void start();
+		void start(const zt::LoopSettings& settings);
 
 	protected:
 
@@ -32,6 +33,8 @@ namespace zt {
 		void event();
 		
 		void end();
+
+		zt::LoopSettings settings;
 	};
 
 }
