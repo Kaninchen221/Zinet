@@ -3,11 +3,15 @@
 #include "ZtFrameConfig.h"
 #include "ZtLoopSettings.h"
 
+#include "SFML/Graphics/RenderWindow.hpp"
+
 namespace zt {
 
 	class ZINET_FRAME_API Loop {
 
 	public:
+
+		using BaseWindow = sf::RenderWindow;
 
 		Loop() noexcept = default;
 		Loop(const Loop& other) noexcept = default;
@@ -18,13 +22,13 @@ namespace zt {
 
 		~Loop() noexcept = default;
 
-		void start(const zt::LoopSettings& settings);
+		void start(const zt::LoopSettings& settings, BaseWindow& baseWindow);
 
 	protected:
 
 		void begin();
 
-		void loop();
+		void loop(BaseWindow& baseWindow);
 
 		void update();
 

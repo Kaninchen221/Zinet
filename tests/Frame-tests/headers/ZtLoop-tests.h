@@ -10,18 +10,21 @@
 class ZtLoopTests : public ::testing::Test {
 protected:
 
+	using Loop = zt::Loop;
+
 };
 
 TEST_F(ZtLoopTests, constructibleTest) {
 
-	ASSERT_TRUE(std::is_constructible<zt::Loop>::value);
+	ASSERT_TRUE(std::is_constructible<Loop>::value);
 
 }
 
 TEST_F(ZtLoopTests, startMustThrowException) {
 
-	zt::Loop loop;
-	ASSERT_THROW(loop.start(), zt::FrameException);
+	Loop loop;
+	zt::LoopSettings settings;
+	ASSERT_THROW(loop.start(settings, Loop::BaseWindow()), zt::FrameException);
 
 }
 
