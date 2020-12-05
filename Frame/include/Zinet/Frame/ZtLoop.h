@@ -15,7 +15,7 @@ namespace zt {
 
 		Loop() noexcept = default;
 		Loop(const Loop& other) noexcept = default;
-		Loop(Loop&& other) noexcept = default;;
+		Loop(Loop&& other) noexcept = default;
 
 		Loop& operator = (const Loop& other) noexcept = default;
 		Loop& operator = (Loop&& other) noexcept = default;
