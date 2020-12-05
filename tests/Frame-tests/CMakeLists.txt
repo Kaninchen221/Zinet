@@ -6,6 +6,7 @@ add_executable(ZtFrame-tests
 	# Tests
 	headers/ZtLoop-tests.h
 	headers/ZtFrameException-tests.h
+	headers/ZtWindow-tests.h
 	
 	# Mocks
 	
