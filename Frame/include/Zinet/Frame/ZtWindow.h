@@ -61,9 +61,7 @@ namespace zt {
 	template<class Loop>
 	inline void Window<Loop>::startLoop(const LoopSettings& loopSettings)
 	{
-		while (baseWindow.isOpen()) {
-			loop.start(loopSettings, baseWindow);
-		}
+		loop.start(loopSettings, baseWindow);
 	}
 
 	template<class Loop>
