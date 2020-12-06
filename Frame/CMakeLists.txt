@@ -18,6 +18,7 @@ add_library(ZtFrame ${ZINET_LIBS_TYPE}
 	src/ZtLoop.cpp
 	src/ZtFrameException.cpp
 	src/ZtNormalLoop.cpp
+	src/ZtWindow.cpp
 	
 )
 
