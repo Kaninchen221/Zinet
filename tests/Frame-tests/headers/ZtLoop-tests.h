@@ -4,7 +4,8 @@
 #include "Zinet/Frame/ZtFrameException.h"
 
 #include "gtest/gtest.h"
-#include "gmock/gmock.h"
+
+#include "mocks/ZtLoopMock.h"
 
 #include <type_traits>
 
@@ -13,20 +14,9 @@ protected:
 
 	using Loop = zt::Loop;
 
-	struct LoopMock : public Loop {
-
-		MOCK_METHOD(void, begin, (), (override));
-		MOCK_METHOD(void, loop, (zt::Loop::BaseWindow& baseWindow), (override));
-		MOCK_METHOD(void, update, (), (override));
-		MOCK_METHOD(void, render, (), (override));
-		MOCK_METHOD(void, event, (), (override));
-		MOCK_METHOD(void, end, (), (override));
-
-	};
-
 };
 
-TEST_F(ZtLoopTests, pass) {
+TEST_F(ZtLoopTests, startTest) {
 
 	using ::testing::NaggyMock;
 
