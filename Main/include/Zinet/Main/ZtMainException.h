@@ -26,7 +26,7 @@ namespace zt {
 
 		virtual char const* what() const override;
 
-	private:
+	protected:
 
 		std::string exceptionMessage;
 
