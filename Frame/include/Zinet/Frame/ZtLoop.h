@@ -20,23 +20,18 @@ namespace zt {
 		Loop& operator = (const Loop& other) noexcept = default;
 		Loop& operator = (Loop&& other) noexcept = default;
 
-		~Loop() noexcept = default;
+		virtual ~Loop() noexcept = default;
 
-		void start(const LoopSettings& settings, BaseWindow& baseWindow);
+		virtual void start(const LoopSettings& settings, BaseWindow& baseWindow) final;
 
 	protected:
 
-		void begin();
-
-		void loop(BaseWindow& baseWindow);
-
-		void update();
-
-		void render();
-
-		void event();
-		
-		void end();
+		virtual void begin() = 0;
+		virtual void loop(BaseWindow& baseWindow) = 0;
+		virtual void update() = 0;
+		virtual void render() = 0;
+		virtual void event() = 0;
+		virtual void end() = 0;
 
 		LoopSettings settings;
 
