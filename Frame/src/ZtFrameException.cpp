@@ -7,14 +7,4 @@ namespace zt {
     {
     }
 
-    std::string_view zt::FrameException::message() const
-    {
-        return exceptionMessage;
-    }
-
-    char const* zt::FrameException::what() const
-    {
-        return exceptionMessage.c_str();
-    }
-
 }

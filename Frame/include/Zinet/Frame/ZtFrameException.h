@@ -20,14 +20,6 @@ namespace zt {
 
 		~FrameException() noexcept = default;
 
-		virtual std::string_view message() const;
-
-		virtual char const* what() const override;
-
-	private:
-
-		std::string exceptionMessage;
-
 	};
 
 }
