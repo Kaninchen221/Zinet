@@ -4,7 +4,7 @@ include(FetchContent)
 
 include(cmake/multiple_targets_compile_definitions.cmake)
 
-project(Zinet VERSION 0.1
+project(Zinet VERSION 0.1.1
                   DESCRIPTION "Game Engine"
                   LANGUAGES CXX)
 
@@ -17,11 +17,8 @@ include(cmake/fetch_dependencies.cmake)
 add_executable(Sandbox main.cpp)
 
 add_subdirectory(Core)
-add_subdirectory(Main)
-add_subdirectory(Frame)
-add_subdirectory(Reflection)
  
-set(ZINET_LIBS_NAME "Sandbox" "ZtMain" "ZtCore" "ZtFrame" "ZtReflection")
+set(ZINET_LIBS_NAME "Sandbox" "ZtCore")
 
 include(cmake/os_platform_resolve.cmake)
 

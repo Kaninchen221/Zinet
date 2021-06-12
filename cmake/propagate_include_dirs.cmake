@@ -1,12 +1,3 @@
 
 get_property(ZT_CORE_INCLUDE_DIR TARGET ZtCore PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
 message(STATUS "*** ZtCore include path: ${ZT_CORE_INCLUDE_DIR} ***")
-
-get_property(ZT_MAIN_INCLUDE_DIR TARGET ZtMain PROPERTY INCLUDE_DIRECTORIES)
-message(STATUS "*** ZtMain include path: ${ZT_MAIN_INCLUDE_DIR} ***")
-
-get_property(ZT_FRAME_INCLUDE_DIR TARGET ZtFrame PROPERTY INCLUDE_DIRECTORIES)
-message(STATUS "*** ZtFrame include path: ${ZT_FRAME_INCLUDE_DIR} ***")
-
-get_property(ZT_REFLECTION_INCLUDE_DIR TARGET ZtReflection PROPERTY INCLUDE_DIRECTORIES)
-message(STATUS "*** ZtReflection include path: ${ZT_REFLECTION_INCLUDE_DIR} ***")
