@@ -14,11 +14,11 @@ include(cmake/zinet_libs_type_resolve.cmake)
 
 include(cmake/fetch_dependencies.cmake)
 
-add_executable(Sandbox main.cpp)
-
 add_subdirectory(Core)
+
+add_subdirectory(EntryPoint)
  
-set(ZINET_LIBS_NAME "Sandbox" "ZtCore")
+set(ZINET_LIBS_NAME "ZtEntryPoint" "ZtCore")
 
 include(cmake/os_platform_resolve.cmake)
 
