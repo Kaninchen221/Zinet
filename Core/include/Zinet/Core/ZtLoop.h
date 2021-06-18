@@ -1,9 +1,12 @@
 #pragma once
 
+#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtClock.h"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-class ZtLoop
+class ZINET_CORE_API ZtLoop
 {
 
 public:
@@ -16,7 +19,11 @@ protected:
 
     void ProcessEvents();
 
-    void Tick(float ElapsedTime);
+    void Tick(float DeltaTime);
+
+    float SecondsForTick = ZtTime(0.016f).GetAsSeconds();
+
+    void DebugGUI();
 
     void Render();
 

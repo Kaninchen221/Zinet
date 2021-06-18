@@ -19,3 +19,6 @@
 	#define ZINET_API_IMPORT
 
 #endif
+
+// Temporary for future compability
+#define ZINET_CORE_API

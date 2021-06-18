@@ -1,4 +1,4 @@
-message(STATUS "*** Create Zinet EntryPoint program ***")
+message(STATUS "*** Create Zinet EntryPoint executable ***")
 
 add_executable(ZtEntryPoint
 	
@@ -24,6 +24,9 @@ set_target_properties(ZtEntryPoint
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
+message(STATUS "*** ZtCore include path: ${ZT_CORE_INCLUDE_DIRS} ***")
 target_include_directories(ZtEntryPoint PRIVATE ${ZT_CORE_INCLUDE_DIRS} ${SFML_INCLUDE_DIRS})
 
-target_link_libraries(ZtEntryPoint PRIVATE ZtCore sfml-graphics sfml-system sfml-window sfml-audio)
+target_link_libraries(ZtEntryPoint PRIVATE sfml-system sfml-window sfml-audio)
+target_link_libraries(ZtEntryPoint PRIVATE ImGui-SFML::ImGui-SFML)
+target_link_libraries(ZtEntryPoint PRIVATE ZtCore)

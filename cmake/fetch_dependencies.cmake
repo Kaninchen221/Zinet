@@ -1,4 +1,6 @@
 
+include(FetchContent)
+
 # SFML https://www.sfml-dev.org/
 include(cmake/fetch_sfml.cmake)
 
@@ -10,6 +12,12 @@ include(cmake/fetch_spdlog.cmake)
 
 # Colony is a cache friendly container (better than standard containers)
 include(cmake/fetch_colony.cmake)
+
+# ImGui-SFML
+include(cmake/fetch_imgui_sfml.cmake)
+
+# ImGui
+include(cmake/fetch_imgui.cmake)
 
 # Pybind11 library for bind cpp to python
 #include(cmake/fetch_pybind11.cmake)
