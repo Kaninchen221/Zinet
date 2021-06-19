@@ -44,17 +44,12 @@ void ZtLoop::Start()
 
         DebugGUI();
 
+        Window.clear();
+        ImGui::SFML::Render(Window);
         Render();
+        Window.display();
 
-        FPSCounter++;
-        ZtTime FPSElapsedTime = FPSClock.GetElapsedTime();
-        float FPSElapsedTimeSeconds = FPSElapsedTime.GetAsSeconds();
-        if (FPSElapsedTimeSeconds >= 1.f)
-        {
-            FPSClock.Restart();
-            FPSCount = FPSCounter;
-            FPSCounter = 0u;
-        }
+        CalculateFPS();
 	}
 
     EndPlay();
@@ -76,38 +71,55 @@ void ZtLoop::DebugGUI()
 {
     ImGui::Begin("Debug window");
 
-    ImGui::BeginChild("ZtLoop", {}, true);
-
-    ImGui::Text("ZtLoop");
-    ImGui::Text("SecondsForTick: %f seconds", SecondsForTick);
-    ImGui::Text("TickDeltaTimeSum: %f seconds", TickDeltaTimeSum);
-    ImGui::Text("TickLag: %f seconds", TickLag);
-    ImGui::Text("DeltaTime: %f seconds", DeltaTime.GetAsSeconds());
-    ImGui::Text("FPS: %i", FPSCount);
-
-    ImGui::EndChild();
+    LoopDebugGUI();
 
     ImGui::End();
 }
 
+void ZtLoop::LoopDebugGUI()
+{
+    ImGui::BeginChild("ZtLoop", {}, true);
+
+    ImGui::Text("ZtLoop");
+    ImGui::Text("Seconds for tick: %f seconds", SecondsForTick);
+    ImGui::Text("Tick delta time sum: %f seconds", TickDeltaTimeSum);
+    ImGui::Text("Tick delta time: %f seconds", DeltaTime.GetAsSeconds());
+    ImGui::Text("Tick lag: %f seconds", TickLag);
+    ImGui::Text("FPS: %i", FPSCount);
+
+    ImGui::EndChild();
+}
+
 void ZtLoop::Render()
 {
-    Window.clear();
-    ImGui::SFML::Render(Window);
 
 
 
-    Window.display();
 }
 
 void ZtLoop::EndPlay()
 {
+
+
 
 }
 
 void ZtLoop::CreateRenderWindow()
 {
     Window.create(sf::VideoMode(800, 600), "Zinet");
+}
+
+void ZtLoop::CalculateFPS()
+{
+    FPSCounter++;
+    ZtTime FPSElapsedTime = FPSClock.GetElapsedTime();
+    float FPSElapsedTimeSeconds = FPSElapsedTime.GetAsSeconds();
+    if (FPSElapsedTimeSeconds >= 1.f)
+    {
+        FPSClock.Restart();
+        FPSCount = FPSCounter;
+        FPSCounter = 0u;
+    }
 }
 
 void ZtLoop::ProcessEvents()

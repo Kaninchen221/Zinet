@@ -22,6 +22,7 @@ protected:
     void Tick(float DeltaTime);
 
     void DebugGUI();
+    void LoopDebugGUI();
 
     void Render();
 
@@ -32,11 +33,13 @@ protected:
     void CreateRenderWindow();
 
     ZtTime DeltaTime;
-    float SecondsForTick = ZtTime(16666666).GetAsSeconds();
+    float SecondsForTick = ZtTime::FromMilliseconds(16).GetAsSeconds();
     float TickDeltaTimeSum = 0.f;
     float TickLag = 0.f;
 
+    void CalculateFPS();
+
+    ZtClock FPSClock;
     size_t FPSCounter = 0u;
     size_t FPSCount = 0u;
-    ZtClock FPSClock;
 };
