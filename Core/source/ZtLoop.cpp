@@ -15,27 +15,46 @@ void ZtLoop::Start()
 
 	BeginPlay();
 
-    ZtClock Clock;
-    Clock.Start();
+    ZtClock LoopClock;
+    LoopClock.Start();
+
+    FPSClock.Start();
 
     while (Window.isOpen())
     {
-        ProcessEvents();
 
-        ZtTime DeltaTime = Clock.GetElapsedTime();
+        TickDeltaTimeSum = TickLag;
+        while (SecondsForTick > TickDeltaTimeSum)
+        {
+            ProcessEvents();
 
-        float TickDeltaTime = DeltaTime.GetAsSeconds();
-        sf::Time UpdateDeltaTime = sf::seconds(TickDeltaTime);
+            DeltaTime = LoopClock.GetElapsedTime();
+            float TickDeltaTime = DeltaTime.GetAsSeconds();
+            Tick(TickDeltaTime);
+            TickDeltaTimeSum += TickDeltaTime;
+
+            DeltaTime = LoopClock.Restart();
+
+            LoopClock.Restart();
+        }
+        TickLag = TickDeltaTimeSum - SecondsForTick;
+
+        sf::Time UpdateDeltaTime = sf::seconds(TickDeltaTimeSum);
         ImGui::SFML::Update(Window, UpdateDeltaTime);
-        Tick(TickDeltaTime);
-
-        /// Show ImGui demo window
-        //ImGui::ShowDemoWindow();
 
         DebugGUI();
 
         Render();
-        Clock.Restart();
+
+        FPSCounter++;
+        ZtTime FPSElapsedTime = FPSClock.GetElapsedTime();
+        float FPSElapsedTimeSeconds = FPSElapsedTime.GetAsSeconds();
+        if (FPSElapsedTimeSeconds >= 1.f)
+        {
+            FPSClock.Restart();
+            FPSCount = FPSCounter;
+            FPSCounter = 0u;
+        }
 	}
 
     EndPlay();
@@ -50,11 +69,25 @@ void ZtLoop::BeginPlay()
 
 void ZtLoop::Tick(float DeltaTime)
 {
-    //std::cout << "DeltaTime: " << DeltaTime << '\n';
+
 }
 
 void ZtLoop::DebugGUI()
 {
+    ImGui::Begin("Debug window");
+
+    ImGui::BeginChild("ZtLoop", {}, true);
+
+    ImGui::Text("ZtLoop");
+    ImGui::Text("SecondsForTick: %f seconds", SecondsForTick);
+    ImGui::Text("TickDeltaTimeSum: %f seconds", TickDeltaTimeSum);
+    ImGui::Text("TickLag: %f seconds", TickLag);
+    ImGui::Text("DeltaTime: %f seconds", DeltaTime.GetAsSeconds());
+    ImGui::Text("FPS: %i", FPSCount);
+
+    ImGui::EndChild();
+
+    ImGui::End();
 }
 
 void ZtLoop::Render()

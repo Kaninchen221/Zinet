@@ -25,12 +25,12 @@ protected:
 
 TEST_F(ZtClockTests, StartTest) {
     
-    ZtTime::Microseconds GreaterThan = 0u;
-    ZtTime::Microseconds LessThan = 1000u;
+    ZtTime::NumericType GreaterThan = 0u;
+    ZtTime::NumericType LessThan = 1000u;
 
     Clock.Start();
     ZtTime Time = Clock.GetElapsedTime();
-    ZtTime::Microseconds Microseconds = Time.GetAsMicroseconds();
+    ZtTime::NumericType Microseconds = Time.GetAsMicroseconds();
 
     ASSERT_GT(Microseconds, GreaterThan);
     ASSERT_LT(Microseconds, LessThan);
@@ -40,11 +40,11 @@ TEST_F(ZtClockTests, RestartTest) {
 
     Clock.Start();
 
-    ZtTime::Microseconds GreaterThan = 0u;
-    ZtTime::Microseconds LessThan = 1000u;
+    ZtTime::NumericType GreaterThan = 0u;
+    ZtTime::NumericType LessThan = 1000u;
 
     ZtTime Time = Clock.Restart();
-    ZtTime::Microseconds Microseconds = Time.GetAsMicroseconds();
+    ZtTime::NumericType Microseconds = Time.GetAsMicroseconds();
 
     ASSERT_GT(Microseconds, GreaterThan);
     ASSERT_LT(Microseconds, LessThan);
