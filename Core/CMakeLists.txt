@@ -7,11 +7,13 @@ add_library(ZtCore SHARED ${ZINET_LIBS_TYPE}
 	include/Zinet/Core/ZtLoop.h
 	include/Zinet/Core/ZtClock.h
 	include/Zinet/Core/ZtTime.h
+	include/Zinet/Core/ZtObject.h
 	
 	# Source files
 	source/ZtLoop.cpp
 	source/ZtClock.cpp
 	source/ZtTime.cpp
+	source/ZtObject.cpp
 )
 
 target_compile_features(ZtCore PUBLIC cxx_std_17)
