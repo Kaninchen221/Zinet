@@ -1,19 +1,12 @@
 message(STATUS "*** Create Zinet Core Lib ***")
 
+file(GLOB_RECURSE ZTCORE_FILES
+     "include/*.h"
+     "source/*.cpp"
+)
+
 add_library(ZtCore SHARED ${ZINET_LIBS_TYPE}
-	
-	# Header files
-	include/Zinet/Core/ZtCore.h
-	include/Zinet/Core/ZtLoop.h
-	include/Zinet/Core/ZtClock.h
-	include/Zinet/Core/ZtTime.h
-	include/Zinet/Core/ZtObject.h
-	
-	# Source files
-	source/ZtLoop.cpp
-	source/ZtClock.cpp
-	source/ZtTime.cpp
-	source/ZtObject.cpp
+	${ZTCORE_FILES}
 )
 
 target_compile_features(ZtCore PUBLIC cxx_std_17)
@@ -36,12 +29,14 @@ set_target_properties(ZtCore
 target_include_directories(ZtCore PRIVATE ${SFML_INCLUDE_DIRS})
 
 target_link_libraries(ZtCore PRIVATE sfml-system sfml-window sfml-audio)
+target_link_libraries(ZtCore PRIVATE spdlog)
 target_link_libraries(ZtCore PRIVATE ImGui-SFML::ImGui-SFML)
 
-# Propagate include dirs
-get_property(ZT_CORE_INCLUDE_DIRS_TEMP TARGET ZtCore PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-set(ZT_CORE_INCLUDE_DIRS ${ZT_CORE_INCLUDE_DIRS_TEMP} PARENT_SCOPE)
-message(STATUS "*** ZtCore include path: ${ZT_CORE_INCLUDE_DIRS} ***")
+# Propagate macro with current dir
+set(ZINET_CURRENT_PROJECT_ROOT_PATH ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "*** ZtCore ZINET_CURRENT_PROJECT_ROOT_PATH: ${ZINET_CURRENT_PROJECT_ROOT_PATH} ***")
+target_compile_definitions(ZtCore PRIVATE ${ZINET_CURRENT_PROJECT_ROOT_PATH})
+unset(${ZINET_CURRENT_PROJECT_ROOT_PATH})
 
 # Tests
 add_subdirectory(tests)

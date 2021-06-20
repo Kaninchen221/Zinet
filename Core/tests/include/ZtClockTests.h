@@ -8,22 +8,27 @@
 class ZtClockTests : public ::testing::Test {
 protected:
 
-    ZtClockTests() {
+    ZtClockTests() 
+    {
     }
 
-    ~ZtClockTests() override {
+    ~ZtClockTests() override 
+    {
     }
 
-    void SetUp() override {
+    void SetUp() override 
+    {
     }
 
-    void TearDown() override {
+    void TearDown() override 
+    {
     }
 
     ZtClock Clock;
 };
 
-TEST_F(ZtClockTests, StartTest) {
+TEST_F(ZtClockTests, StartTest) 
+{
     
     ZtTime::NumericType GreaterThan = 0u;
     ZtTime::NumericType LessThan = 1000u;
@@ -36,7 +41,8 @@ TEST_F(ZtClockTests, StartTest) {
     ASSERT_LT(Microseconds, LessThan);
 }
 
-TEST_F(ZtClockTests, RestartTest) {
+TEST_F(ZtClockTests, RestartTest) 
+{
 
     Clock.Start();
 

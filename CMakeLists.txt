@@ -28,8 +28,8 @@ add_subdirectory(Core)
 # Zinet EntryPoint executable program
 add_subdirectory(EntryPoint)
 
-# ZINET_LIBS_NAME should contains all libs names + EntryPoint
-set(ZINET_LIBS_NAME "ZtEntryPoint" "ZtCore")
+# Should contains all libs and executables names
+set(ZINET_TARGETS_NAMES "ZtEntryPoint" "ZtCore" "ZtCoreTests")
 
 # Resolve problems with diffrent os
 include(cmake/multiple_targets_compile_definitions.cmake)
@@ -37,10 +37,14 @@ include(cmake/multiple_targets_compile_definitions.cmake)
 if(MSVC OR MSYS) # Windows
 	
 	message(STATUS "*** OS: Windows ***")
-	multiple_targets_compile_definitions("${ZINET_LIBS_NAME}" "ZINET_WINDOWS")
+	multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" "ZINET_WINDOWS")
 	
 else()
 
 	message(FATAL_ERROR "*** OS: NOT SUPPORTED ***")
 	
 endif()
+
+# Propagate macro with engine root folder
+set(ZINET_ENGINE_ROOT_PATH ZINET_ENGINE_ROOT_PATH="${CMAKE_SOURCE_DIR}")
+multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" ${ZINET_ENGINE_ROOT_PATH})

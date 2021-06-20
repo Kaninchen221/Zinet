@@ -3,6 +3,7 @@
 
 #include "ZtClockTests.h"
 #include "ZtTimeTests.h"
+#include "ZtFileFinderTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
