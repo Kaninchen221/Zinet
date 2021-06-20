@@ -5,7 +5,8 @@
 
 #include "gtest/gtest.h"
 
-class ZtClockTests : public ::testing::Test {
+class ZtClockTests : public ::testing::Test 
+{
 protected:
 
     ZtClockTests() 

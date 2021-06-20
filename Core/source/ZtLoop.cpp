@@ -59,12 +59,12 @@ void ZtLoop::Start()
 
 void ZtLoop::BeginPlay()
 {
-
+    World.BeginPlay();
 }
 
 void ZtLoop::Tick(float DeltaTime)
 {
-
+    World.Tick(DeltaTime);
 }
 
 void ZtLoop::DebugGUI()
@@ -99,9 +99,7 @@ void ZtLoop::Render()
 
 void ZtLoop::EndPlay()
 {
-
-
-
+    World.EndPlay();
 }
 
 void ZtLoop::CreateRenderWindow()

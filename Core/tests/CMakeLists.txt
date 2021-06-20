@@ -1,6 +1,6 @@
 message(STATUS "*** Create Zinet CoreTests executable ***")
 
-file(GLOB_RECURSE ZTCORETESTS_FILES
+file(GLOB_RECURSE ZTCORETESTS_FILES CONFIGURE_DEPENDS
      "include/*.h"
 )
 

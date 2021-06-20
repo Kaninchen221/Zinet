@@ -4,6 +4,8 @@
 #include "ZtClockTests.h"
 #include "ZtTimeTests.h"
 #include "ZtFileFinderTests.h"
+#include "ZtWorldTests.h"
+#include "ZtLevelTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

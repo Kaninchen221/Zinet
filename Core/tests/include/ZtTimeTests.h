@@ -4,7 +4,8 @@
 
 #include "gtest/gtest.h"
 
-class ZtTimeTests : public ::testing::Test {
+class ZtTimeTests : public ::testing::Test 
+{
 protected:
 
     const ZtTime::NumericType BaseValue = 60000000000000.f;

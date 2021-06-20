@@ -1,6 +1,6 @@
 message(STATUS "*** Create Zinet Core Lib ***")
 
-file(GLOB_RECURSE ZTCORE_FILES
+file(GLOB_RECURSE ZTCORE_FILES CONFIGURE_DEPENDS
      "include/*.h"
      "source/*.cpp"
 )

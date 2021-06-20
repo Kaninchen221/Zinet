@@ -1,6 +1,6 @@
 message(STATUS "*** Create Zinet EntryPoint executable ***")
 
-file(GLOB_RECURSE ZTENTRYPOINT_FILES
+file(GLOB_RECURSE ZTENTRYPOINT_FILES CONFIGURE_DEPENDS
      "include/*.h"
      "source/*.cpp"
 )
@@ -29,6 +29,7 @@ target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS})
 
 target_link_libraries(ZtEntryPoint PRIVATE sfml-system sfml-window sfml-audio)
 target_link_libraries(ZtEntryPoint PRIVATE ImGui-SFML::ImGui-SFML)
+target_link_libraries(ZtEntryPoint PRIVATE spdlog)
 target_link_libraries(ZtEntryPoint PRIVATE ZtCore)
 
 # Propagate macro with current dir

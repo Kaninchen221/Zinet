@@ -2,6 +2,7 @@
 
 #include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtClock.h"
+#include "Zinet/Core/ZtWorld.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -42,4 +43,6 @@ protected:
     ZtClock FPSClock;
     size_t FPSCounter = 0u;
     size_t FPSCount = 0u;
+
+    ZtWorld World;
 };
