@@ -6,6 +6,8 @@
 
 class ZtWorld : public ZtObject
 {
+protected:
+
 	inline static ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtWorld");
 
 public:

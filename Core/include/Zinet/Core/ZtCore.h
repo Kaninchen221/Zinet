@@ -22,3 +22,8 @@
 
 // Temporary for future compability
 #define ZINET_CORE_API
+
+// Breakpoint from code
+#define ZT_BREAKPOINT __debugbreak
+
+#define ZT_ALWAYS_BREAK ZT_BREAKPOINT

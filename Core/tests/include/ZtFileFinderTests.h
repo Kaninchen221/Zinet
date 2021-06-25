@@ -39,7 +39,7 @@ TEST_F(ZtFileFinderTests, FindFilesInSpecificFolderTest)
 	ZtFileFinder::Path FolderName = "file_finder_test_folder";
 	ZtFileFinder::Path Path = FileFinder.CurrentProjectRootPath();
 	Path /= FolderName;
-	auto Files = FileFinder.FindFiles(Path);
+	ZtFileFinder::FolderInfo Files = FileFinder.FindFiles(Path);
 
 	size_t ExpectedFilesCount = 3u;
 	size_t ActualFilesCount = Files.size();
@@ -53,7 +53,7 @@ TEST_F(ZtFileFinderTests, FindFilesInSpecificFolderWithSpecificExtensionTest)
 	Path /= FolderName;
 	ZtFileFinder::Extension Extension = ".txt2";
 
-	auto Files = FileFinder.FindFiles(Path, Extension);
+	ZtFileFinder::FolderInfo Files = FileFinder.FindFiles(Path, Extension);
 	size_t ExpectedFilesCount = 2u;
 	size_t ActualFilesCount = Files.size();
 	ASSERT_EQ(ActualFilesCount, ExpectedFilesCount);

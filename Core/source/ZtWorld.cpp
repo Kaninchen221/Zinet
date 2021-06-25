@@ -2,19 +2,25 @@
 
 void ZtWorld::BeginPlay()
 {
-	Logger->info("{}", __FUNCTION__);
 	ZtObject::BeginPlay();
+	Logger->info("{}", __FUNCTION__);
+
+	Level.BeginPlay();
 }
 
 void ZtWorld::Tick(float DeltaTime)
 {
 	ZtObject::Tick(DeltaTime);
+
+	Level.Tick(DeltaTime);
 }
 
 void ZtWorld::EndPlay()
 {
-	Logger->info("{}", __FUNCTION__);
 	ZtObject::EndPlay();
+	Logger->info("{}", __FUNCTION__);
+
+	Level.EndPlay();
 }
 
 ZtLevel& ZtWorld::GetLevel()

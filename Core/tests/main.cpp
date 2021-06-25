@@ -6,6 +6,7 @@
 #include "ZtFileFinderTests.h"
 #include "ZtWorldTests.h"
 #include "ZtLevelTests.h"
+#include "ZtPointerTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
