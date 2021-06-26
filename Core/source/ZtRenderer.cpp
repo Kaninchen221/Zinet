@@ -12,4 +12,14 @@ ZtRenderTarget* ZtRenderer::GetRenderTarget()
 
 void ZtRenderer::Draw(const ZtRenderInfo& RenderInfo)
 {
+	if (RenderTarget != nullptr)
+	{
+
+		RenderTarget->draw(
+			RenderInfo.FirstVertexAddress, 
+			RenderInfo.VerticesCount,
+			RenderInfo.PrimitiveType,
+			RenderInfo.RenderStates
+		);
+	}
 }

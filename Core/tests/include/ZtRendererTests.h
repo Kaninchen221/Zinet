@@ -26,6 +26,16 @@ TEST_F(ZtRendererTests, SetGetRenderTargetTest)
 
 TEST_F(ZtRendererTests, DrawTest)
 {
-	ZtRenderInfo RenderInfo;
+	ZtRenderInfo RenderInfo
+	{
+		plf::colony<sf::Vertex>(),
+		sf::PrimitiveType::Points,
+		sf::Transform(),
+		sf::Texture(),
+		sf::IntRect(),
+		sf::BlendMode(),
+		sf::Shader()
+	};
+
 	Renderer.Draw(RenderInfo);
 }
