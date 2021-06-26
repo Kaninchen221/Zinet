@@ -7,6 +7,7 @@
 #include "ZtWorldTests.h"
 #include "ZtLevelTests.h"
 #include "ZtPointerTests.h"
+#include "ZtRendererTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

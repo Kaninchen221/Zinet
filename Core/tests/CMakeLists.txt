@@ -23,7 +23,9 @@ set_target_properties(ZtCoreTests
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtCoreTests PRIVATE include/)
+target_include_directories(ZtCoreTests PUBLIC "include/" ${COLONY_INCLUDE_DIRS})
+
+message(STATUS "*** COLONY_INCLUDE_DIRS ${COLONY_INCLUDE_DIRS}")
 
 # Propagate macro with current dir
 set(ZINET_CURRENT_PROJECT_ROOT_PATH ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
@@ -31,5 +33,7 @@ message(STATUS "*** ZtCoreTests ZINET_CURRENT_PROJECT_ROOT_PATH: ${ZINET_CURRENT
 target_compile_definitions(ZtCoreTests PRIVATE ${ZINET_CURRENT_PROJECT_ROOT_PATH})
 unset(${ZINET_CURRENT_PROJECT_ROOT_PATH})
 
-target_link_libraries(ZtCoreTests ZtCore gtest gmock)
-target_link_libraries(ZtCoreTests spdlog)
+target_link_libraries(ZtCoreTests PUBLIC gtest gmock)
+target_link_libraries(ZtCoreTests PUBLIC ZtCore)
+target_link_libraries(ZtCoreTests PUBLIC sfml-system sfml-window sfml-audio)
+target_link_libraries(ZtCoreTests PUBLIC spdlog)

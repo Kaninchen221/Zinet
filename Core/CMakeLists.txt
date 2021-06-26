@@ -26,11 +26,11 @@ set_target_properties(ZtCore
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtCore PRIVATE ${SFML_INCLUDE_DIRS})
+target_include_directories(ZtCore PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS})
 
-target_link_libraries(ZtCore PRIVATE sfml-system sfml-window sfml-audio)
-target_link_libraries(ZtCore PRIVATE spdlog)
-target_link_libraries(ZtCore PRIVATE ImGui-SFML::ImGui-SFML)
+target_link_libraries(ZtCore PUBLIC sfml-system sfml-window sfml-audio)
+target_link_libraries(ZtCore PUBLIC spdlog)
+target_link_libraries(ZtCore PUBLIC ImGui-SFML::ImGui-SFML)
 
 # Propagate macro with current dir
 set(ZINET_CURRENT_PROJECT_ROOT_PATH ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")

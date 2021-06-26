@@ -9,5 +9,5 @@ FetchContent_Declare(Colony
 FetchContent_MakeAvailable(Colony)
 
 set(COLONY_INCLUDE_DIRS
-	${CMAKE_BINARY_DIR}/_deps/colony-src
+	${CMAKE_SOURCE_DIR}/build/_deps/colony-src
 )
