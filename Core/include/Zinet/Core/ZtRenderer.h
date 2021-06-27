@@ -19,6 +19,6 @@ public:
 
 private:
 
-	ZtRenderTarget* RenderTarget;
+	ZtRenderTarget* RenderTarget = nullptr;
 
 };

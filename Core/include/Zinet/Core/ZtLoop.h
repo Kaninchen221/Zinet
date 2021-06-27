@@ -3,6 +3,7 @@
 #include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtWorld.h"
+#include "Zinet/Core/ZtRenderer.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -44,5 +45,6 @@ protected:
     size_t FPSCounter = 0u;
     size_t FPSCount = 0u;
 
+    ZtRenderer Renderer;
     ZtWorld World;
 };

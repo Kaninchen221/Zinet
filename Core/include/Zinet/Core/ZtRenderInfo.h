@@ -3,10 +3,9 @@
 #include "ZtCore.h"
 
 #include "SFML/Graphics/Vertex.hpp"
-#include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Rect.hpp"
-#include "SFML/Graphics/BlendMode.hpp"
-#include "SFML/Graphics/Shader.hpp"
+#include "SFML/Graphics/PrimitiveType.hpp"
+#include "SFML/Graphics/RenderStates.hpp"
 
 #include "plf_colony.h"
 

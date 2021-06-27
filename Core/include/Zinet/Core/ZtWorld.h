@@ -12,11 +12,11 @@ protected:
 
 public:
 
-	virtual void BeginPlay() override;
+	virtual void BeginPlay();
 
-	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime);
 
-	virtual void EndPlay() override;
+	virtual void EndPlay();
 
 	ZtLevel& GetLevel();
 

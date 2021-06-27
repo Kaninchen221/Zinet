@@ -25,7 +25,7 @@ set_target_properties(ZtEntryPoint
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS})
+target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS})
 
 target_link_libraries(ZtEntryPoint PRIVATE sfml-system sfml-window sfml-audio)
 target_link_libraries(ZtEntryPoint PRIVATE ImGui-SFML::ImGui-SFML)

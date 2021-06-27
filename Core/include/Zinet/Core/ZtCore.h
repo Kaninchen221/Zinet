@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning(disable:26812)
+
 #ifndef ZINET_STATIC
 
 	#ifdef ZINET_WINDOWS /// MSVC
@@ -20,10 +22,14 @@
 
 #endif
 
-// Temporary for future compability
+/// Temporary for future compability
 #define ZINET_CORE_API
 
-// Breakpoint from code
+/// Breakpoint from code
 #define ZT_BREAKPOINT __debugbreak
 
 #define ZT_ALWAYS_BREAK ZT_BREAKPOINT
+
+/// Macro utilities
+#define CONCAT2(A, B) A ## B
+#define CONCAT3(A, B, C) CONCAT2(A, B) ## C

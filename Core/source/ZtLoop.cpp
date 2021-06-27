@@ -8,10 +8,18 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 
+#include "SFML/Graphics.hpp"
+
 void ZtLoop::Start()
 {
+    sf::Texture Texture;
+    Texture.create(100, 100);
+    sf::Sprite Sprite;
+    Sprite.setTexture(Texture);
+
     CreateRenderWindow();
     ImGui::SFML::Init(Window);
+    Renderer.SetRenderTarget(&Window);
 
 	BeginPlay();
 
@@ -46,6 +54,7 @@ void ZtLoop::Start()
 
         Window.clear();
         ImGui::SFML::Render(Window);
+        Window.draw(Sprite);
         Render();
         Window.display();
 

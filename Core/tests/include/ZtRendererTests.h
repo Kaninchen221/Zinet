@@ -5,6 +5,8 @@
 
 #include "SFML/Graphics/RenderTexture.hpp"
 
+#include <array>
+
 #include "gtest/gtest.h"
 
 class ZtRendererTests : public ::testing::Test
@@ -26,15 +28,15 @@ TEST_F(ZtRendererTests, SetGetRenderTargetTest)
 
 TEST_F(ZtRendererTests, DrawTest)
 {
+	std::array<sf::Vertex, 0> Vertices;
+
 	ZtRenderInfo RenderInfo
 	{
-		plf::colony<sf::Vertex>(),
+		Vertices.data(),
+		0u,
 		sf::PrimitiveType::Points,
-		sf::Transform(),
-		sf::Texture(),
 		sf::IntRect(),
-		sf::BlendMode(),
-		sf::Shader()
+		sf::RenderStates::Default
 	};
 
 	Renderer.Draw(RenderInfo);
