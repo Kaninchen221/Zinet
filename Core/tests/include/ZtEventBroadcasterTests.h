@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtEventDispatcher.h"
+#include "Zinet/Core/ZtEventBroadcaster.h"
 
 #include "gtest/gtest.h"
 
@@ -25,7 +25,7 @@ protected:
 
 TEST_F(ZtEventDispatcherTests, AddTest)
 {
-	ZtEventDispatcher EventDispatcher;
+	ZtEventBroadcaster EventDispatcher;
 	ZtObjectDerived Object;
 	
 	ZtEventCallback EventCallback;

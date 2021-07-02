@@ -8,7 +8,7 @@
 
 #include "plf_colony.h"
 
-class ZtEventDispatcher
+class ZtEventBroadcaster
 {
 public:
 
@@ -22,12 +22,12 @@ protected:
 
 };
 
-inline void ZtEventDispatcher::Add(const ZtEventCallback& EventCallback)
+inline void ZtEventBroadcaster::Add(const ZtEventCallback& EventCallback)
 {
 	Callbacks.insert(EventCallback);
 }
 
-inline void ZtEventDispatcher::Broadcast()
+inline void ZtEventBroadcaster::Broadcast()
 {
 	for (ZtEventCallback Callback : Callbacks)
 	{

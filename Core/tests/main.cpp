@@ -8,7 +8,8 @@
 #include "ZtLevelTests.h"
 #include "ZtPointerTests.h"
 #include "ZtRendererTests.h"
-#include "ZtEventDispatcherTests.h"
+#include "ZtEventBroadcasterTests.h"
+#include "ECS/ZtEntityTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
