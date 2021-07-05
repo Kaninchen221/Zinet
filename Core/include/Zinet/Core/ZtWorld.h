@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Zinet/Core/ZtObject.h"
 #include "Zinet/Core/ZtLevel.h"
 #include "Zinet/Core/ZtLogger.h"
 
-class ZtWorld : public ZtObject
+class ZtWorld
 {
 protected:
 

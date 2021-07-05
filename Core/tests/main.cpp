@@ -6,10 +6,11 @@
 #include "ZtFileFinderTests.h"
 #include "ZtWorldTests.h"
 #include "ZtLevelTests.h"
-#include "ZtPointerTests.h"
 #include "ZtRendererTests.h"
 #include "ZtEventBroadcasterTests.h"
-#include "ECS/ZtEntityTests.h"
+#include "ZtEntityTests.h"
+#include "ZtComponentTests.h"
+#include "ZtSystemTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

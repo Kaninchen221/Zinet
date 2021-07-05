@@ -14,7 +14,7 @@ protected:
 
 TEST_F(ZtWorldTests, TypeTest)
 {
-	static_assert(std::is_base_of_v<ZtObject, ZtWorld>, "ZtWorld must derive from ZtObject");
+
 }
 
 TEST_F(ZtWorldTests, GetLevelTest)

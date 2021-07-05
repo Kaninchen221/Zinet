@@ -1,9 +1,8 @@
 #pragma once
 
-#include "ZtObject.h"
 #include "ZtLogger.h"
 
-class ZtLevel : public ZtObject
+class ZtLevel
 {
 protected:
 
