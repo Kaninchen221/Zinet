@@ -12,7 +12,7 @@ protected:
 	{
 		void Foo() { FooCalled = true; }
 
-		MAKE_FUNCTOR(ZtObjectDerived, Foo)
+		ZINET_MAKE_FUNCTOR(ZtObjectDerived, Foo)
 
 		std::shared_ptr<ZtObjectDerived_FUNCTOR_Foo> Functor = std::make_shared<ZtObjectDerived_FUNCTOR_Foo>(*this);
 

@@ -11,6 +11,13 @@
 #include "ZtEntityTests.h"
 #include "ZtComponentTests.h"
 #include "ZtSystemTests.h"
+#include "Reflection/ZtReflectedClassMacroTests.h"
+#include "Reflection/ZtReflectedClassTests.h"
+#include "Reflection/ZtReflectedMemberFunctionMacroTests.h"
+#include "Reflection/ZtReflectedMemberFunctionTests.h"
+#include "Reflection/ZtReflectedMemberPropertyMacroTests.h"
+#include "Reflection/ZtReflectedMemberPropertyTests.h"
+#include "Reflection/ZtReflectionRegistryTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
