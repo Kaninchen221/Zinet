@@ -3,53 +3,35 @@
 #include "Zinet/Core/ZtCore.h"
 
 #include <cstdint>
+#include <type_traits>
 
-template<typename ClassT, typename PropertyT>
+template<typename MemberPointerType>
 class ZtReflectedMemberProperty
 {
 
 public:
 
-	using ClassType = ClassT;
-	using PropertyType = PropertyT;
+	using InternalMemberPointerType = MemberPointerType;
 
-	ZtReflectedMemberProperty(const ClassT& ClassObject, const PropertyT& PropertyObject);
+	constexpr ZtReflectedMemberProperty() = default;
+	constexpr ZtReflectedMemberProperty(MemberPointerType MemberPointer);
 
-	std::int64_t GetInternalOffset() const;
-
-	PropertyType* GetAsPointer(const ClassT& ClassObject) const;
-
-	PropertyType GetAsValue(const ClassT& ClassObject) const;
+	MemberPointerType GetPointer() const;
 
 protected:
 
-	std::int64_t InternalOffset;
+	MemberPointerType MemberPointer;
 
 };
 
-template<typename ClassT, typename PropertyT>
-inline ZtReflectedMemberProperty<ClassT, PropertyT>::ZtReflectedMemberProperty(const ClassT& ClassObject, const PropertyT& PropertyObject)
+template<typename MemberPointerType>
+inline constexpr ZtReflectedMemberProperty<MemberPointerType>::ZtReflectedMemberProperty(MemberPointerType MemberPointer)
+	: MemberPointer(MemberPointer)
 {
-	InternalOffset = (std::int64_t)(&PropertyObject) - (std::int64_t)(&ClassObject);
 }
 
-template<typename ClassType, typename PropertyType>
-inline std::int64_t ZtReflectedMemberProperty<ClassType, PropertyType>::GetInternalOffset() const
+template<typename MemberPointerType>
+inline MemberPointerType ZtReflectedMemberProperty<MemberPointerType>::GetPointer() const
 {
-	return InternalOffset;
-}
-
-template<typename ClassT, typename PropertyT>
-inline typename ZtReflectedMemberProperty<ClassT, PropertyT>::PropertyType* ZtReflectedMemberProperty<ClassT, PropertyT>::GetAsPointer(const ClassT& ClassObject) const
-{
-	std::int64_t PropertyAdressAsNumber = (std::int64_t)(&ClassObject) + InternalOffset;
-	PropertyType* PropertyPointer = (PropertyType*)(PropertyAdressAsNumber);
-	return PropertyPointer;
-}
-
-template<typename ClassT, typename PropertyT>
-inline typename ZtReflectedMemberProperty<ClassT, PropertyT>::PropertyType ZtReflectedMemberProperty<ClassT, PropertyT>::GetAsValue(const ClassT& ClassObject) const
-{
-	PropertyType PropertyAsValue = *GetAsPointer(ClassObject);
-	return PropertyAsValue;
+	return MemberPointer;
 }

@@ -12,6 +12,7 @@ struct ZtReflectionTestStruct
 
 	int MethodReturnSum(const int& First, const int& Second);
 
+	void NotLiteralTypeParam(const std::string& String);
 };
 
 void ZtReflectionTestStruct::SimpleMethod()
@@ -25,4 +26,8 @@ inline int ZtReflectionTestStruct::ConstMethodReturnSum(const int& First, const 
 inline int ZtReflectionTestStruct::MethodReturnSum(const int& First, const int& Second)
 {
 	return ConstMethodReturnSum(First, Second);
+}
+
+inline void ZtReflectionTestStruct::NotLiteralTypeParam(const std::string& String)
+{
 }

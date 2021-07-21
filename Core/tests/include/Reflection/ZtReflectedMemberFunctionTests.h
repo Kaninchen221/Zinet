@@ -9,38 +9,21 @@ protected:
 
 };
 
-TEST_F(ZtReflectedMemberFunctionTests, InvokeConstMethodTest)
+TEST_F(ZtReflectedMemberFunctionTests, CreateFromSimpleMethodTest)
 {
-	using ReturnType = int;
-	using ClassType = ZtReflectionTestStruct;
-	constexpr int IsConst = true;
-
-	ZtReflectedMemberFunction<ReturnType, ClassType, IsConst, const int&, const int&> ReflectedMemberFunction;
-	ReflectedMemberFunction.Register(&ZtReflectionTestStruct::ConstMethodReturnSum);
-
-	int First = 3;
-	int Second = 7;
-	int ExpectedSum = First + Second;
-
-	const ClassType Object;
-	ReturnType ActualSum = ReflectedMemberFunction.Invoke(Object, First, Second);
-	ASSERT_EQ(ActualSum, ExpectedSum);
+	ZtReflectedMemberFunction<void (ZtReflectionTestStruct::*)()> ReflectedMemberFunction(&ZtReflectionTestStruct::SimpleMethod);
 }
 
-TEST_F(ZtReflectedMemberFunctionTests, InvokeMethodTest)
+TEST_F(ZtReflectedMemberFunctionTests, CreateFromComplexMethodTest)
 {
-	using ReturnType = int;
-	using ClassType = ZtReflectionTestStruct;
-	constexpr int IsConst = false;
+	ZtReflectedMemberFunction<int (ZtReflectionTestStruct::*)(const int&, const int&) const> ReflectedMemberFunction(&ZtReflectionTestStruct::ConstMethodReturnSum);
+}
 
-	ZtReflectedMemberFunction<ReturnType, ClassType, IsConst, const int&, const int&> ReflectedMemberFunction;
-	ReflectedMemberFunction.Register(&ZtReflectionTestStruct::MethodReturnSum);
+TEST_F(ZtReflectedMemberFunctionTests, GetPointerTest)
+{
+	using FunctionPointerType = void (ZtReflectionTestStruct::*)();
 
-	int First = 3;
-	int Second = 7;
-	int ExpectedSum = First + Second;
-	
-	ClassType Object;
-	ReturnType ActualSum = ReflectedMemberFunction.Invoke(Object, First, Second);
-	ASSERT_EQ(ActualSum, ExpectedSum);
+	ZtReflectedMemberFunction<FunctionPointerType> ReflectedMemberFunction(&ZtReflectionTestStruct::SimpleMethod);
+
+	FunctionPointerType FunctionPointer = ReflectedMemberFunction.GetPointer();
 }
