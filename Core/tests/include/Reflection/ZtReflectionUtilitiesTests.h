@@ -13,3 +13,13 @@ protected:
 	using TestZtMakeFunctionTuple = ZtMakeFunctionTuple<int ZtReflectionUtilitiesTests::*>;
 
 };
+
+TEST_F(ZtReflectionUtilitiesTests, TupleApplyTest)
+{
+    auto ActualTuple = std::make_tuple<int, double, int>( 5, 2, 8 );
+    auto Callable = [](auto& Element) { Element += 2; };
+    ZtApplyToTuple(ActualTuple, Callable);
+
+    auto ExpectedTuple = std::make_tuple( 7, 4, 10 );
+    ASSERT_EQ(ActualTuple, ExpectedTuple);
+}
