@@ -9,7 +9,7 @@ add_library(ZtCore SHARED ${ZINET_LIBS_TYPE}
 	${ZTCORE_FILES}
 )
 
-target_compile_features(ZtCore PUBLIC cxx_std_17)
+target_compile_features(ZtCore PUBLIC cxx_std_20)
 
 set_target_properties(ZtCore PROPERTIES 
 	LINKER_LANGUAGE CXX

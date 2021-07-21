@@ -9,7 +9,7 @@ add_executable(ZtCoreTests
 	${ZTCORETESTS_FILES}
 )
 
-target_compile_features(ZtCoreTests PUBLIC cxx_std_17)
+target_compile_features(ZtCoreTests PUBLIC cxx_std_20)
 
 set_target_properties(ZtCoreTests PROPERTIES LINKER_LANGUAGE CXX)
 	

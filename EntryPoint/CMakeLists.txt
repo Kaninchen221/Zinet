@@ -10,7 +10,7 @@ add_executable(ZtEntryPoint
 	${ZTENTRYPOINT_FILES}
 )
 
-target_compile_features(ZtEntryPoint PUBLIC cxx_std_17)
+target_compile_features(ZtEntryPoint PUBLIC cxx_std_20)
 
 set_target_properties(ZtEntryPoint PROPERTIES 
 	LINKER_LANGUAGE CXX
