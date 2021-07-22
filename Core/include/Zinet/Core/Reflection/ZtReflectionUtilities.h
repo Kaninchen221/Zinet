@@ -19,7 +19,7 @@ template<typename TupleType, typename CallableType>
 constexpr void ZtApplyToTuple(TupleType& Tuple, const CallableType& Callable);
 
 template<typename TupleType, typename CallableType, typename NumberType, NumberType... Numbers>
-void ZtApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
+constexpr void ZtApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
                      const std::integer_sequence<NumberType, Numbers...>& NumberSequence);
 
 
