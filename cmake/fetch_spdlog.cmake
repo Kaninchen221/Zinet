@@ -3,7 +3,7 @@ message(STATUS "*** Fetch SPDLOG ***")
 
 FetchContent_Declare(SPDLOG
   GIT_REPOSITORY https://github.com/gabime/spdlog.git
-  GIT_TAG v1.8.0
+  GIT_TAG v1.9.0
 )
 
 FetchContent_MakeAvailable(SPDLOG)
