@@ -67,3 +67,11 @@ TEST_F(ZtReflectedClassTests, GetReflectedFunctionsTest)
 
     ASSERT_EQ(ActualFunctionsCount, ExpectedFunctionsCount);
 }
+
+TEST_F(ZtReflectedClassTests, ReflectInsideStaticAssertTest)
+{
+    static_assert(ZtReflectedClass<ZtReflectionTestStruct>()
+                    .RegisterFunction(&ZtReflectionTestStruct::MethodReturnSum)
+                    .RegisterProperty(&ZtReflectionTestStruct::IntMember),
+                    "ZtReflectedClass must be convertible to bool");
+}

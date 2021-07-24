@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/Core/Reflection/ZtReflectedClass.h"
 #include "Zinet/Core/Reflection/ZtReflectedMemberProperty.h"
 #include "Zinet/Core/Reflection/ZtReflectedMemberFunction.h"
 
@@ -14,6 +15,9 @@ using ZtMakePropertyTuple = std::tuple<ZtReflectedMemberProperty<MemberPropertyP
 
 template<typename MemberFunctionPointerType>
 using ZtMakeFunctionTuple = std::tuple<ZtReflectedMemberFunction<MemberFunctionPointerType>>;
+
+template<typename ReflectedClassType>
+using ZtMakeReflectedClassTuple = std::tuple<ReflectedClassType>;
 
 template<typename TupleType, typename CallableType>
 constexpr void ZtApplyToTuple(TupleType& Tuple, const CallableType& Callable);

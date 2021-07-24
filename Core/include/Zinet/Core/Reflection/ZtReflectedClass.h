@@ -16,8 +16,8 @@ protected:
 
 public:
 
-	ZtReflectedClass() = default;
-	ZtReflectedClass(const MemberPropertiesTupleType& ReflectedMemberProperties, const MemberFunctionsTupleType& ReflectedMemberFunctions)
+	constexpr ZtReflectedClass() = default;
+	constexpr ZtReflectedClass(const MemberPropertiesTupleType& ReflectedMemberProperties, const MemberFunctionsTupleType& ReflectedMemberFunctions)
 		: ReflectedMemberProperties(ReflectedMemberProperties), ReflectedMemberFunctions(ReflectedMemberFunctions)
 	{
 	}
@@ -34,6 +34,7 @@ public:
 
 	constexpr const MemberFunctionsTupleType& GetReflectedFunctions() const;
 
+	constexpr explicit operator bool() const { return true; }
 };
 
 template<typename ClassType, typename MemberPropertiesTupleType, typename MemberFunctionTupleType>

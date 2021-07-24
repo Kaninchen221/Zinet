@@ -1,5 +1,12 @@
 #pragma once
 
+struct ZtSimpleTestStruct
+{
+    int Integer;
+
+    void Foo() {};
+};
+
 struct ZtReflectionTestStruct
 {
 	int IntMember = 123124;
