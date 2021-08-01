@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/Core/ZtCore.h"
-#include "Zinet/Core/ZtObject.h"
+#include "Zinet/Core/OCS/ZtObject.h"
 #include "Zinet/Core/ZtEventCallback.h"
 
 #include <functional>

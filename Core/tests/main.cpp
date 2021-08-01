@@ -8,9 +8,11 @@
 #include "ZtLevelTests.h"
 #include "ZtRendererTests.h"
 #include "ZtEventBroadcasterTests.h"
-#include "ZtEntityTests.h"
-#include "ZtComponentTests.h"
-#include "ZtSystemTests.h"
+#include "ZtUniqueIdentifierMakerTests.h"
+#include "ZtUniqueIdentifierTests.h"
+#include "OCS/ZtComponentTests.h"
+#include "OCS/ZtSystemTests.h"
+#include "OCS/ZtObjectTests.h"
 #include "Reflection/ZtReflectedClassMacroTests.h"
 #include "Reflection/ZtReflectedClassTests.h"
 #include "Reflection/ZtReflectedMemberFunctionMacroTests.h"
@@ -19,7 +21,6 @@
 #include "Reflection/ZtReflectedMemberPropertyTests.h"
 #include "Reflection/ZtReflectedCollectionTests.h"
 #include "Reflection/ZtReflectionUtilitiesTests.h"
-
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
