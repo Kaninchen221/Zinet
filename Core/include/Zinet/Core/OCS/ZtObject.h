@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ZtCore.h"
-#include "ZtBeginPlayReason.h"
-#include "ZtEndPlayReason.h"
+#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtBeginPlayReason.h"
+#include "Zinet/Core/ZtEndPlayReason.h"
 
 class ZINET_CORE_API ZtObject
 {
