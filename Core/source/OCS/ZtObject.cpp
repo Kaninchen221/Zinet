@@ -1,4 +1,4 @@
-#include "Zinet/Core/ZtObject.h"
+#include "Zinet/Core/OCS/ZtObject.h"
 
 void ZtObject::BeginPlay(ZtBeginPlayReason Reason)
 {
@@ -19,6 +19,7 @@ bool ZtObject::GetShouldTick() const
 {
     return bShouldTick;
 }
+
 void ZtObject::SetShouldTick(bool Value)
 {
     bShouldTick = Value;

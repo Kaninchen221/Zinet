@@ -55,7 +55,7 @@ void ZtUniqueIdentifierMaker::Release(ZtIdentifier& Identifier)
         return;
     }
 
-    IsReserved = false;
+    IsReserved = NotReserved();
 }
 
 bool ZtUniqueIdentifierMaker::IsReserved(size_t UnderlyingNumber) const
