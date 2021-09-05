@@ -17,14 +17,18 @@ public:
 
 protected:
 
+    void LoopStep();
+
     void BeginPlay();
 
     void ProcessEvents();
 
     void Tick(float DeltaTime);
 
-    void DebugGUI();
-    void LoopDebugGUI();
+#ifdef ZINET_DEBUG_UI
+    void DebugUI() const;
+    void LoopDebugUI() const;
+#endif
 
     void Render();
 
@@ -34,16 +38,15 @@ protected:
 
     void CreateRenderWindow();
 
+    ZtClock LoopClock;
     ZtTime DeltaTime;
     float SecondsForTick = ZtTime::FromMilliseconds(16).GetAsSeconds();
-    float TickDeltaTimeSum = 0.f;
-    float TickLag = 0.f;
 
     void CalculateFPS();
 
     ZtClock FPSClock;
-    size_t FPSCounter = 0u;
-    size_t FPSCount = 0u;
+    int FPSCounter = 0;
+    int FPSCount = 0;
 
     ZtRenderer Renderer;
     ZtWorld World;

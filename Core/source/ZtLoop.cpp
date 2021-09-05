@@ -1,10 +1,5 @@
 #include "Zinet/Core/ZtLoop.h"
 
-#include <iostream>
-#include <limits>
-#include <iomanip>
-#include <cmath>
-
 #include <imgui-SFML.h>
 #include <imgui.h>
 
@@ -12,58 +7,41 @@
 
 void ZtLoop::Start()
 {
-    sf::Texture Texture;
-    Texture.create(100, 100);
-    sf::Sprite Sprite;
-    Sprite.setTexture(Texture);
-
     CreateRenderWindow();
     ImGui::SFML::Init(Window);
     Renderer.SetRenderTarget(&Window);
 
 	BeginPlay();
 
-    ZtClock LoopClock;
     LoopClock.Start();
 
     FPSClock.Start();
 
     while (Window.isOpen())
     {
-
-        TickDeltaTimeSum = TickLag;
-        while (SecondsForTick > TickDeltaTimeSum)
-        {
-            ProcessEvents();
-
-            DeltaTime = LoopClock.GetElapsedTime();
-            float TickDeltaTime = DeltaTime.GetAsSeconds();
-            Tick(TickDeltaTime);
-            TickDeltaTimeSum += TickDeltaTime;
-
-            DeltaTime = LoopClock.Restart();
-
-            LoopClock.Restart();
-        }
-        TickLag = TickDeltaTimeSum - SecondsForTick;
-
-        sf::Time UpdateDeltaTime = sf::seconds(TickDeltaTimeSum);
-        ImGui::SFML::Update(Window, UpdateDeltaTime);
-
-        DebugGUI();
-
-        Window.clear();
-        ImGui::SFML::Render(Window);
-        Window.draw(Sprite);
-        Render();
-        Window.display();
-
-        CalculateFPS();
+        LoopStep();
 	}
 
     EndPlay();
 
     ImGui::SFML::Shutdown();
+}
+
+void ZtLoop::LoopStep()
+{
+    DeltaTime = LoopClock.Restart();
+
+    ProcessEvents();
+
+    float TickDeltaTime = DeltaTime.GetAsSeconds();
+    Tick(TickDeltaTime);
+
+    sf::Time UpdateDeltaTime = sf::seconds(TickDeltaTime);
+    ImGui::SFML::Update(Window, UpdateDeltaTime);
+
+    Render();
+
+    CalculateFPS();
 }
 
 void ZtLoop::BeginPlay()
@@ -76,34 +54,47 @@ void ZtLoop::Tick(float DeltaTime)
     World.Tick(DeltaTime);
 }
 
-void ZtLoop::DebugGUI()
+#ifdef ZINET_DEBUG_UI
+void ZtLoop::DebugUI() const
 {
-    ImGui::Begin("Debug window");
+    ImGui::Begin("Debug window", NULL);
 
-    LoopDebugGUI();
+    ImGui::BeginGroup();
+
+    LoopDebugUI();
+
+    World.ImGuiChildren();
+
+    ImGui::EndGroup();
 
     ImGui::End();
 }
 
-void ZtLoop::LoopDebugGUI()
+void ZtLoop::LoopDebugUI() const
 {
-    ImGui::BeginChild("ZtLoop", {}, true);
+    if (ImGui::TreeNode("Loop"))
+    {
+        ImGui::Separator();
+        ImGui::Text("Seconds for tick: %f seconds (Unused)", SecondsForTick);
+        ImGui::Text("Tick delta time: %f seconds", DeltaTime.GetAsSeconds());
+        ImGui::Text("FPS: %i", FPSCount);
+        ImGui::NewLine();
 
-    ImGui::Text("ZtLoop");
-    ImGui::Text("Seconds for tick: %f seconds", SecondsForTick);
-    ImGui::Text("Tick delta time sum: %f seconds", TickDeltaTimeSum);
-    ImGui::Text("Tick delta time: %f seconds", DeltaTime.GetAsSeconds());
-    ImGui::Text("Tick lag: %f seconds", TickLag);
-    ImGui::Text("FPS: %i", FPSCount);
-
-    ImGui::EndChild();
+        ImGui::TreePop();
+    }
 }
+#endif
 
 void ZtLoop::Render()
 {
+    DebugUI();
 
+    Window.clear();
+    ImGui::SFML::Render(Window);
 
+    /// Here render sfml sprites and etc.
 
+    Window.display();
 }
 
 void ZtLoop::EndPlay()
@@ -125,13 +116,13 @@ void ZtLoop::CalculateFPS()
     {
         FPSClock.Restart();
         FPSCount = FPSCounter;
-        FPSCounter = 0u;
+        FPSCounter = 0;
     }
 }
 
 void ZtLoop::ProcessEvents()
 {
-    sf::Event Event;
+    sf::Event Event{};
     while (Window.pollEvent(Event))
     {
         ImGui::SFML::ProcessEvent(Event);

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtLevel.h"
 #include "Zinet/Core/ZtLogger.h"
 
-class ZtWorld
+class ZINET_CORE_API ZtWorld
 {
 protected:
 
@@ -18,6 +19,10 @@ public:
 	virtual void EndPlay();
 
 	ZtLevel& GetLevel();
+
+#ifdef ZINET_DEBUG_UI
+    virtual void ImGuiChildren() const;
+#endif
 
 protected:
 
