@@ -1,0 +1,40 @@
+message(STATUS "*** Create Zinet {argument_test_pretty_name} executable ***")
+
+add_executable({argument_test_name}
+	main.cpp
+	
+	{argument_test_headers}
+	
+	{argument_test_inl}
+	
+	{argument_test_source}
+)
+
+target_compile_features({argument_test_name} PUBLIC cxx_std_20)
+
+set_target_properties({argument_test_name} PROPERTIES LINKER_LANGUAGE CXX)
+	
+target_compile_definitions({argument_test_name} PUBLIC GTEST_LINKED_AS_SHARED_LIBRARY)
+
+set_target_properties({argument_test_name}
+    PROPERTIES
+	LINKER_LANGUAGE CXX
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/archive/"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
+)
+
+target_include_directories({argument_test_name} PUBLIC "include/" ${COLONY_INCLUDE_DIRS})
+
+message(STATUS "*** COLONY_INCLUDE_DIRS ${COLONY_INCLUDE_DIRS}")
+
+# Propagate macro with current dir
+set(ZINET_CURRENT_PROJECT_ROOT_PATH ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "*** {argument_test_name} ZINET_CURRENT_PROJECT_ROOT_PATH: ${ZINET_CURRENT_PROJECT_ROOT_PATH} ***")
+target_compile_definitions({argument_test_name} PRIVATE ${ZINET_CURRENT_PROJECT_ROOT_PATH})
+unset(${ZINET_CURRENT_PROJECT_ROOT_PATH})
+
+target_link_libraries({argument_test_name} PUBLIC gtest gmock)
+target_link_libraries({argument_test_name} PUBLIC ZtCore)
+target_link_libraries({argument_test_name} PUBLIC sfml-system sfml-window sfml-audio)
+target_link_libraries({argument_test_name} PUBLIC spdlog)
