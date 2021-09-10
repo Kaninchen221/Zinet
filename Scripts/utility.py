@@ -15,6 +15,9 @@ def get_all_files(directory, extension):
 
 
 def list_string_to_cmake_path_list(pathlist):
+    if not pathlist:
+        return ""
+
     pathlist_string = "\"\n\t\""
     pathlist_string = pathlist_string.join(pathlist)
     pathlist_string = pathlist_string.replace("\\", "/")

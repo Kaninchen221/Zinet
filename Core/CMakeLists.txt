@@ -64,10 +64,6 @@ set_target_properties(ZtCore PROPERTIES
 	LINKER_LANGUAGE CXX
 	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
 	INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
-)
-
-set_target_properties(ZtCore
-    PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/archive/
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
@@ -77,11 +73,7 @@ target_include_directories(ZtCore PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_
 
 target_link_libraries(ZtCore PUBLIC sfml-system sfml-window sfml-audio spdlog ImGui-SFML::ImGui-SFML)
 
-# Propagate macro with current dir
-set(ZINET_CURRENT_PROJECT_ROOT_PATH ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
-message(STATUS "*** ZtCore ZINET_CURRENT_PROJECT_ROOT_PATH: ${ZINET_CURRENT_PROJECT_ROOT_PATH} ***")
-target_compile_definitions(ZtCore PRIVATE ${ZINET_CURRENT_PROJECT_ROOT_PATH})
-unset(${ZINET_CURRENT_PROJECT_ROOT_PATH})
+target_compile_definitions(ZtCore PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Tests
 add_subdirectory(tests)
