@@ -1,9 +1,12 @@
 import os
 from Scripts.Utility import *
 from Scripts.GeneratorCMake import *
+from pathlib import Path
 
 
 class ZtRootCMakeGenerator(ZtGeneratorCMake):
+
+    _target_recipe_file_name = "target_recipe.py"
 
     cmake_minimum_version = ""
 
@@ -30,4 +33,11 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
         ))
 
         self._generated_cmake = template
+
+
+    def run_all_targets_recipes(self):
+        pathlist = Path("./").rglob(self._target_recipe_file_name)
+        for path in pathlist:
+            exec(open(path).read(), globals())
+
 
