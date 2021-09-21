@@ -50,6 +50,6 @@ set_target_properties(ZtCoreTest
 
 target_include_directories(ZtCoreTest PUBLIC ${COLONY_INCLUDE_DIRS})
 
-target_compile_definitions(ZtCoreTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(ZtCoreTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_link_libraries(ZtCoreTest PUBLIC gtest gmock ZtCore sfml-system sfml-window sfml-audio spdlog)

@@ -13,12 +13,12 @@ message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 # TODO: Template this to python
 include(cmake/fetch_dependencies.cmake)
 
-# Add Zinet libs
-# TODO: Make this procedural
-add_subdirectory(Core)
+# Add subdirectories
+# TODO: Add to this argument EntryPoint subdirectory
+{argument_subdirectories}
 
 # Zinet EntryPoint executable program
-# TODO: Make this procedural
+# TODO: Make generator and template for executable targets
 add_subdirectory(EntryPoint)
 
 # Should contains all libs and executables names
@@ -34,7 +34,7 @@ include(cmake/multiple_targets_compile_definitions.cmake)
 if(MSVC OR MSYS) # Windows
 	
 	message(STATUS "*** OS: Windows ***")
-	multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" "ZINET_WINDOWS")
+	# multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" "ZINET_WINDOWS")
 	
 else()
 

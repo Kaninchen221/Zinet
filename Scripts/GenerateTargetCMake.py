@@ -5,6 +5,7 @@ from Scripts.GeneratorCMake import *
 
 class ZtTargetCMakeGenerator(ZtGeneratorCMake):
 
+    folder_name = ""
     pretty_name = ""
     name = ""
 
