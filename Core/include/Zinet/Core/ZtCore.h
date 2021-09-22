@@ -11,7 +11,8 @@
 
 	#else 
 
-		#error Not supported OS platform
+		/// TODO: In future we should prompt compile time error about not supporting platforms
+		// #error Not supported OS platform
 
 	#endif
 

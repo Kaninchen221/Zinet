@@ -1,24 +1,17 @@
 #pragma once
 
 #include "Zinet/Core/ZtCore.h"
-#include "Zinet/Core/ZtRenderInfo.h"
+#include "Zinet/Core/ZtSprite.h"
+#include "Zinet/Core/OCS/ZtSystem.h"
 
 #include "SFML/Graphics/RenderTarget.hpp"
 
-using ZtRenderTarget = sf::RenderTarget;
-
-class ZtRenderer
+class ZINET_CORE_API ZtRenderer : public ZtSystem
 {
 public:
 
-	void SetRenderTarget(ZtRenderTarget* RenderTarget);
-
-	ZtRenderTarget* GetRenderTarget();
-
-	void Draw(const ZtRenderInfo& RenderInfo);
+    void DrawSprite(const ZtSprite& Sprite);
 
 private:
-
-	ZtRenderTarget* RenderTarget = nullptr;
 
 };

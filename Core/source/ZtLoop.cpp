@@ -9,7 +9,6 @@ void ZtLoop::Start()
 {
     CreateRenderWindow();
     ImGui::SFML::Init(Window);
-    Renderer.SetRenderTarget(&Window);
 
 	BeginPlay();
 

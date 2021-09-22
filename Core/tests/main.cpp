@@ -18,6 +18,7 @@
 #include "ZtIdentifierTests.h"
 #include "ZtLevelTests.h"
 #include "ZtRendererTests.h"
+#include "ZtSpriteTests.h"
 #include "ZtTimeTests.h"
 #include "ZtUniqueIdentifierMakerTests.h"
 #include "ZtWorldTests.h"
