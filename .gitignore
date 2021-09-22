@@ -14,8 +14,11 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
-# 
+# Folder contains build
 [Bb]uild
 
 # Python
 __pycache__
+
+# JetBrains
+.idea

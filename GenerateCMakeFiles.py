@@ -4,13 +4,11 @@ from Scripts.GenerateRootCMake import *
 
 
 ZtRootCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsRootTemplate.txt"
-root = ZtRootCMakeGenerator()
-
 ZtLibCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsLibTemplate.txt"
-
 ZtLibTestCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsLibTestTemplate.txt"
 
 # First prepare all root properties
+root = ZtRootCMakeGenerator()
 root.cmake_minimum_version = "3.14"
 root.project_name = "Zinet"
 root.project_version = "0.1.2"
