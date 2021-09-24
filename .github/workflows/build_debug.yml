@@ -37,7 +37,7 @@ jobs:
         run: |
           python GenerateCMakeFiles.py
       - name: Build
-        shell: bash
+        shell: cmd
         run: |
           mkdir build
           build_windows.bat
