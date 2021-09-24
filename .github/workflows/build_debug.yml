@@ -32,12 +32,12 @@ jobs:
       run: |
         choco install cmake
         cmake --version
-      - name: Generate CMakeFiles
-        shell: bash
-        run: |
-          python GenerateCMakeFiles.py
-      - name: Build
-        shell: bash
-        run: |
-          mkdir build
-          build_windows.bat
+    - name: Generate CMakeFiles
+      shell: bash
+      run: |
+        python GenerateCMakeFiles.py
+    - name: Build
+      shell: bash
+      run: |
+        mkdir build
+        build_windows.bat
