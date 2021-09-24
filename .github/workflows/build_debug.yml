@@ -25,7 +25,7 @@ jobs:
         }
 
   steps:
-    - uses: actions/checkout@v
+    - uses: actions/checkout@v2
     
     - name: Install dependencies on windows
       if: startsWith(matrix.config.os, 'windows')
