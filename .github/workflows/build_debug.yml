@@ -25,19 +25,19 @@ jobs:
         }
 
   steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v
+    
     - name: Install dependencies on windows
-    if: startsWith(matrix.config.os, 'windows')
-    run: |
-      choco install cmake
-      cmake --version
-    - name: Generate CMakeFiles
-      shell: bash
+      if: startsWith(matrix.config.os, 'windows')
       run: |
-        python GenerateCMakeFiles.py
-    - name: Build
-      shell: bash
-      run: |
-        mkdir build
-        build_windows.bat
+        choco install cmake
+        cmake --version
+      - name: Generate CMakeFiles
+        shell: bash
+        run: |
+          python GenerateCMakeFiles.py
+      - name: Build
+        shell: bash
+        run: |
+          mkdir build
+          build_windows.bat
