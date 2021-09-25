@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  Build, Compile and Test:
+  Build:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
