@@ -50,4 +50,4 @@ jobs:
       - name: Core Tests
         shell: cmd
         run: |
-          build/runtime/Debug/ZtCoreTest.exe
+          start build\runtime\Debug\ZtCoreTest.exe
