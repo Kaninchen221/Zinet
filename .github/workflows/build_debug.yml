@@ -36,6 +36,7 @@ jobs:
       - name: Core Tests
         shell: bash
         run: |
+          ls
           ./build/runtime/Debug/ZtCoreTest.exe
   tests:
     name: ${{ matrix.config.name }}
