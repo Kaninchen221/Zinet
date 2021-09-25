@@ -29,10 +29,13 @@ jobs:
         run: |
           python GenerateCMakeFiles.py
       - name: Build
-        shell: cmd
+        shell: bash
         run: |
           mkdir build
           build_windows.bat
+      - name: Compile
+        shell: bash
+        run: |
           MSBuild.exe build/Zinet.sln
   tests:
     name: ${{ matrix.config.name }}
@@ -53,10 +56,10 @@ jobs:
         run: |
           ls
           echo ---
-          ls build
+          ls build/
           echo ---
-          ls build/runtime
+          ls build/runtime/
           echo ---
-          ls build/runtime/Debug
+          ls build/runtime/Debug/
           echo ---
           ./build/runtime/Debug/ZtCoreTest.exe
