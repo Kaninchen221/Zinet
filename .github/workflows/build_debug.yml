@@ -43,6 +43,7 @@ jobs:
           build_windows.bat
   tests:
     name: Run tests
+    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
     
