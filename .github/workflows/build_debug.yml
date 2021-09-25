@@ -33,14 +33,7 @@ jobs:
         run: |
           mkdir build
           build_windows.bat
-      - name: Core Tests
-        shell: bash
-        run: |
-          ls
-          ls build
-          ls build/runtime
-          ls build/runtime/Debug
-          ./build/runtime/Debug/ZtCoreTest.exe
+          MSBuild.exe build/Zinet.sln
   tests:
     name: ${{ matrix.config.name }}
     needs: build
@@ -58,4 +51,12 @@ jobs:
       - name: Core Tests
         shell: bash
         run: |
+          ls
+          echo ---
+          ls build
+          echo ---
+          ls build/runtime
+          echo ---
+          ls build/runtime/Debug
+          echo ---
           ./build/runtime/Debug/ZtCoreTest.exe
