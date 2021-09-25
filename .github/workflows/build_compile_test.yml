@@ -40,13 +40,4 @@ jobs:
       - name: Core Tests
         shell: bash
         run: |
-          pwd
-          ls
-          echo ---
-          ls build/
-          echo ---
-          ls build/runtime/
-          echo ---
-          ls build/runtime/Debug/
-          echo ---
           ./build/runtime/Debug/ZtCoreTest.exe
