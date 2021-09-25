@@ -41,3 +41,13 @@ jobs:
         run: |
           mkdir build
           build_windows.bat
+  tests:
+    name: Run tests
+    strategy:
+      fail-fast: false
+    
+    steps:
+      - name: Core Tests
+        shell: cmd
+        run: |
+          build\runtime\Debug\ZtCoreTest.exe
