@@ -1,9 +1,8 @@
-name: CMake Build Matrix
+name: Zinet Debug
 
 on: 
   push:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     name: ${{ matrix.config.name }}
@@ -35,7 +34,8 @@ jobs:
           mkdir build
           build_windows.bat
   tests:
-    name: Run tests
+    name: ${{ matrix.config.name }}
+    needs: build
     runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
@@ -50,4 +50,4 @@ jobs:
       - name: Core Tests
         shell: cmd
         run: |
-          build\runtime\Debug\ZtCoreTest.exe
+          ./build/runtime/Debug/ZtCoreTest.exe
