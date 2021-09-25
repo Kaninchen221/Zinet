@@ -32,7 +32,7 @@ jobs:
         shell: bash
         run: |
           mkdir build
-          build_windows.bat
+          ./build_windows.bat
       - name: Compile
         shell: bash
         run: |
