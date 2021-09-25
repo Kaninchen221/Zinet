@@ -48,6 +48,6 @@ jobs:
     
     steps:
       - name: Core Tests
-        shell: cmd
+        shell: bash
         run: |
-          start build\runtime\Debug\ZtCoreTest.exe
+          build\runtime\Debug\ZtCoreTest.exe
