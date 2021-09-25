@@ -54,6 +54,7 @@ jobs:
       - name: Core Tests
         shell: bash
         run: |
+          pwd
           ls
           echo ---
           ls build/
