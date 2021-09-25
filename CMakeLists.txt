@@ -41,3 +41,7 @@ endif()
 
 set(ZINET_ENGINE_ROOT_PATH ZINET_ENGINE_ROOT_PATH="${CMAKE_SOURCE_DIR}")
 multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" ${ZINET_ENGINE_ROOT_PATH}) # Propagate macro with engine root folder
+
+install(TARGETS ZtCoreTest
+        CONFIGURATIONS Debug
+        RUNTIME DESTINATION Debug/bin)

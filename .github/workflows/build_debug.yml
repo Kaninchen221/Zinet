@@ -36,7 +36,7 @@ jobs:
       - name: Compile
         shell: bash
         run: |
-          MSBuild.exe build/Zinet.sln
+          ./compile.bat
   tests:
     name: ${{ matrix.config.name }}
     needs: build
