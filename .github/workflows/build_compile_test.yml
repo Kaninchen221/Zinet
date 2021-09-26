@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: |
           ./compile.bat
-      - name: Core Tests
+      - name: Run all tests
         shell: bash
         run: |
-          ./build/runtime/Debug/ZtCoreTest.exe
+          ./build/runtime/Debug/Zt*Test.exe
