@@ -14,11 +14,7 @@ message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 include(cmake/fetch_dependencies.cmake)
 
 # Add subdirectories
-# TODO: Add to this argument EntryPoint subdirectory
 add_subdirectory(Core)
-
-# Zinet EntryPoint executable program
-# TODO: Make generator and template for executable targets
 add_subdirectory(EntryPoint)
 
 # Should contains all libs and executables names
@@ -41,7 +37,3 @@ endif()
 
 set(ZINET_ENGINE_ROOT_PATH ZINET_ENGINE_ROOT_PATH="${CMAKE_SOURCE_DIR}")
 multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" ${ZINET_ENGINE_ROOT_PATH}) # Propagate macro with engine root folder
-
-install(TARGETS ZtCoreTest
-        CONFIGURATIONS Debug
-        RUNTIME DESTINATION Debug/bin)

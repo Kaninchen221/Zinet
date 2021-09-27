@@ -10,7 +10,7 @@ class ZtEntryPointCMakeGenerator(ZtTargetCMakeGenerator):
     def generate_cmake_from_template(self):
         self._prepare_template_arguments()
 
-        template_file = open(ZtLibCMakeGenerator.template_input_file, "r")
+        template_file = open(ZtEntryPointCMakeGenerator.template_input_file, "r")
         template = template_file.read()
         template_file.close()
 

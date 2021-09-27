@@ -4,6 +4,7 @@ from Scripts.GeneratorCMake import *
 from pathlib import Path
 from Scripts.GenerateLibCMake import *
 from Scripts.GenerateLibTestCMake import *
+from Scripts.GenerateEntryPointCMake import *
 
 
 class ZtRootCMakeGenerator(ZtGeneratorCMake):
@@ -12,6 +13,7 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
 
     _targets_libs_list = []
     _targets_libs_tests_list = []
+    _targets_libs_executable_list = []
 
     _subdirectories_list = []
     _add_subdirectory_string = ")\nadd_subdirectory("
@@ -29,6 +31,10 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
 
         for target_lib in self._targets_libs_list:
             self._subdirectories_list.append(target_lib.folder_name)
+
+        for target_executable in self._targets_libs_executable_list:
+            self._subdirectories_list.append(target_executable.folder_name)
+
         self._add_subdirectory_string = self._add_subdirectory_string.join(self._subdirectories_list)
         self._add_subdirectory_string = "add_subdirectory(" + self._add_subdirectory_string + ")"
 
@@ -65,4 +71,6 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
         elif isinstance(target, ZtLibTestCMakeGenerator):
             self._targets_libs_tests_list.append(target)
             print("Added lib test target: " + target.pretty_name)
-
+        elif isinstance(target, ZtEntryPointCMakeGenerator):
+            self._targets_libs_executable_list.append(target)
+            print("Added executable target: " + target.pretty_name)
