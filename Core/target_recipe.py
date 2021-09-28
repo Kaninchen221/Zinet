@@ -13,11 +13,7 @@ core_lib.include_dirs_list = [
     "${COLONY_INCLUDE_DIRS}"
 ]
 core_lib.link_libraries_list = [
-    "sfml-system",
-    "sfml-window",
-    "sfml-audio",
-    "spdlog",
-    "ImGui-SFML::ImGui-SFML"
+    "spdlog"
 ]
 core_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

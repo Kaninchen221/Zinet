@@ -15,9 +15,6 @@ core_lib_test.link_libraries_list = [
     "gtest",
     "gmock",
     "ZtCore",
-    "sfml-system",
-    "sfml-window",
-    "sfml-audio",
     "spdlog"
 ]
 core_lib_test.macros_list = [

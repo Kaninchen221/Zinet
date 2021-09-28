@@ -7,13 +7,9 @@ add_executable(ZtCoreTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtEventBroadcasterTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtFileFinderTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtIdentifierTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtLevelTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtLoggerTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtRendererTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtSpriteTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtTimeTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtUniqueIdentifierMakerTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtWorldTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/OCS/ZtComponentTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/OCS/ZtObjectTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/OCS/ZtSystemTests.h"
@@ -52,4 +48,4 @@ target_include_directories(ZtCoreTest PUBLIC ${COLONY_INCLUDE_DIRS})
 
 target_compile_definitions(ZtCoreTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ZtCoreTest PUBLIC gtest gmock ZtCore sfml-system sfml-window sfml-audio spdlog)
+target_link_libraries(ZtCoreTest PUBLIC gtest gmock ZtCore spdlog)

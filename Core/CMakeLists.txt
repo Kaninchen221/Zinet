@@ -3,7 +3,6 @@ message(STATUS "*** Create Zinet Core Lib ***")
 add_library(ZtCore SHARED STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtBeginPlayReason.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtClock.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtColor.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtCore.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtEndPlayReason.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtEventBroadcaster.h"
@@ -11,16 +10,10 @@ add_library(ZtCore SHARED STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtFileFinder.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtFunctor.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtIdentifier.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtLevel.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtLogger.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtLoop.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtMacroUtilities.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtRenderer.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtRenderType.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtSprite.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtTime.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtUniqueIdentifierMaker.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtWorld.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtComponent.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtObject.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtSystem.h"
@@ -38,14 +31,9 @@ add_library(ZtCore SHARED STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtClock.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtFileFinder.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtIdentifier.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtLevel.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtLogger.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtLoop.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtRenderer.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtSprite.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtTime.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtUniqueIdentifierMaker.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtWorld.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/OCS/ZtComponent.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/OCS/ZtObject.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/OCS/ZtSystem.cpp"
@@ -71,7 +59,7 @@ set_target_properties(ZtCore PROPERTIES
 
 target_include_directories(ZtCore PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS})
 
-target_link_libraries(ZtCore PUBLIC sfml-system sfml-window sfml-audio spdlog ImGui-SFML::ImGui-SFML)
+target_link_libraries(ZtCore PUBLIC spdlog)
 
 target_compile_definitions(ZtCore PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

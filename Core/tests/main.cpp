@@ -16,12 +16,8 @@
 #include "ZtEventBroadcasterTests.h"
 #include "ZtFileFinderTests.h"
 #include "ZtIdentifierTests.h"
-#include "ZtLevelTests.h"
-#include "ZtRendererTests.h"
-#include "ZtSpriteTests.h"
 #include "ZtTimeTests.h"
 #include "ZtUniqueIdentifierMakerTests.h"
-#include "ZtWorldTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
