@@ -2,6 +2,8 @@ name: Zinet Debug
 
 on: 
   push:
+    branches:
+      - 'Develop.*'
 
 jobs:
   Build:
