@@ -13,11 +13,9 @@ EntryPoint.include_dirs_list = [
     "${COLONY_INCLUDE_DIRS}"
 ]
 EntryPoint.link_libraries_list = [
-    "sfml-system",
-    "sfml-window",
-    "sfml-audio",
     "spdlog",
-    "ImGui-SFML::ImGui-SFML"
+    "Glad",
+    "glfw"
 ]
 EntryPoint.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

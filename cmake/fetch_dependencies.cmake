@@ -1,9 +1,6 @@
 
 include(FetchContent)
 
-# SFML https://www.sfml-dev.org/
-include(cmake/fetch_sfml.cmake)
-
 # Google Test library
 include(cmake/fetch_gtest.cmake)
 
@@ -15,9 +12,9 @@ include(cmake/fetch_colony.cmake)
 
 # ImGui
 include(cmake/fetch_imgui.cmake)
-# ImGui-SFML
-include(cmake/fetch_imgui_sfml.cmake)
 
+# GLFW
+include(cmake/fetch_glfw.cmake)
 
 # Pybind11 library for bind cpp to python
 #include(cmake/fetch_pybind11.cmake)

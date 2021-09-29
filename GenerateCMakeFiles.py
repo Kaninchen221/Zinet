@@ -16,6 +16,7 @@ root.project_name = "Zinet"
 root.project_version = "0.1.2"
 root.project_description = "Game Engine"
 root.cmake_output_file_path = "CMakeLists.txt"
+root.build_type = ZtBuildType.Debug
 root.global_macros.extend([
     "ZINET_WINDOWS",
     "ZINET_CURRENT_PROJECT_ROOT_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}\""

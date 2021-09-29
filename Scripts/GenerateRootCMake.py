@@ -1,10 +1,17 @@
 import os
+from pathlib import Path
+from enum import Enum, unique, auto
 from Scripts.Utility import *
 from Scripts.GeneratorCMake import *
-from pathlib import Path
 from Scripts.GenerateLibCMake import *
 from Scripts.GenerateLibTestCMake import *
 from Scripts.GenerateEntryPointCMake import *
+
+
+@unique
+class ZtBuildType(Enum):
+    Debug = auto()
+    Release = auto()
 
 
 class ZtRootCMakeGenerator(ZtGeneratorCMake):
@@ -25,6 +32,8 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
     project_description = ""
 
     global_macros = []
+
+    build_type = ZtBuildType.Debug
 
     def _prepare_template_arguments(self):
         self.project_description = '"' + self.project_description + '"'

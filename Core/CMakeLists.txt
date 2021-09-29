@@ -1,6 +1,6 @@
 message(STATUS "*** Create Zinet Core Lib ***")
 
-add_library(ZtCore SHARED STATIC
+add_library(ZtCore STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtBeginPlayReason.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtClock.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtCore.h"
@@ -64,4 +64,6 @@ target_link_libraries(ZtCore PUBLIC spdlog)
 target_compile_definitions(ZtCore PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
 # Tests
-add_subdirectory(tests)
+if(TRUE)
+	add_subdirectory(tests)
+endif()
