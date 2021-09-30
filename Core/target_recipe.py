@@ -9,7 +9,6 @@ core_lib.header_path = "Core/include"
 core_lib.inl_path = "Core/include"
 core_lib.source_path = "Core/source"
 core_lib.include_dirs_list = [
-    "${SFML_INCLUDE_DIRS}",
     "${COLONY_INCLUDE_DIRS}"
 ]
 core_lib.link_libraries_list = [

@@ -57,7 +57,7 @@ set_target_properties(ZtCore PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtCore PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS})
+target_include_directories(ZtCore PRIVATE ${COLONY_INCLUDE_DIRS})
 
 target_link_libraries(ZtCore PUBLIC spdlog)
 
