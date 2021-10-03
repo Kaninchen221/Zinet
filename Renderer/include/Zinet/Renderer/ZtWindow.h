@@ -4,9 +4,6 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
 
 class ZINET_RENDERER_API ZtWindow

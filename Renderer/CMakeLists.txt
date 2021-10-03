@@ -2,11 +2,14 @@ message(STATUS "*** Create Zinet Renderer Lib ***")
 
 add_library(ZtRenderer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtRenderer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtShader.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtShaderType.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtWindow.h"
 	
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtRender.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtShader.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtWindow.cpp"
 )
 

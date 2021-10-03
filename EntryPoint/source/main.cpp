@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Zinet/Renderer/ZtWindow.h"
+#include "Zinet/Renderer/ZtShader.h"
 
 #include <GLFW/glfw3.h>
 
@@ -37,7 +38,7 @@ int main()
 
     Window.SetClearColor(0.1f, 0.1f, 0.1f, 1.f);
 
-  const char *VertexShader =
+  const char *VertexShaderSource =
   "#version 330 core \n"
   "layout(location = 0) in vec3 aPos; \n"
   "out vec4 VertexColor; \n"
@@ -48,26 +49,21 @@ int main()
   "VertexColor = vec4(0.5, 0.0, 0.0, 1.0); \n"
   "} \n\0";
 
-    unsigned int VertexShaderID;
-    VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(VertexShaderID, 1, &VertexShader, NULL);
-    glCompileShader(VertexShaderID);
+    ZtShader VertexShader;
+    VertexShader.Create(ZtShaderType::Vertex);
+    VertexShader.LoadFromCString(VertexShaderSource);
+    VertexShader.Compile();
 
-    // Log error about compiling shader if any
+    unsigned int VertexShaderID = VertexShader.GetID();
+
+    bool VertexShaderCompileStatus = VertexShader.CompileStatus();
+    if (!VertexShaderCompileStatus)
     {
-        int  Success{};
-        char InfoLog[512];
-        glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Success);
-
-        if (!Success)
-        {
-            glGetShaderInfoLog(VertexShaderID, 512, NULL, InfoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << InfoLog << std::endl;
-        }
+        std::string Message = VertexShader.CompileErrorMessage();
+        std::cout << Message << '\n';
     }
-    //
 
-    const char* FragmentShaderCode =
+    const char* FragmentShaderSource =
         "#version 330 core \n"
         "out vec4 FragColor; \n"
         "in vec4 VertexColor; \n"
@@ -80,24 +76,20 @@ int main()
         "   FragColor = ourColor; \n"
         "} \n\0";
 
-    unsigned int FragmentShaderID;
-    FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(FragmentShaderID, 1, &FragmentShaderCode, NULL);
-    glCompileShader(FragmentShaderID);
 
-    // Log error about compiling shader if any
+    ZtShader FragmentShader;
+    FragmentShader.Create(ZtShaderType::Fragment);
+    FragmentShader.LoadFromCString(FragmentShaderSource);
+    FragmentShader.Compile();
+
+    unsigned int FragmentShaderID = FragmentShader.GetID();
+
+    bool FragmentShaderCompileStatus = FragmentShader.CompileStatus();
+    if (!FragmentShaderCompileStatus)
     {
-        int  Success{};
-        char InfoLog[512];
-        glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Success);
-
-        if (!Success)
-        {
-            glGetShaderInfoLog(FragmentShaderID, 512, NULL, InfoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << InfoLog << std::endl;
-        }
+        std::string Message = FragmentShader.CompileErrorMessage();
+        std::cout << Message << '\n';
     }
-    //
 
     ShaderProgram = glCreateProgram();
     glAttachShader(ShaderProgram, VertexShaderID);

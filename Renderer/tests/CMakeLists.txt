@@ -3,6 +3,8 @@ message(STATUS "*** Create Zinet Zinet Renderer Test executable ***")
 add_executable(ZtRendererTest
 	main.cpp
 	
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTypeTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtWindowTests.h"
 	
 	
