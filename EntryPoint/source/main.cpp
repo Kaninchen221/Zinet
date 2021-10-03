@@ -1,100 +1,203 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include <iostream>
 #include <array>
+#include <string>
 
-std::string VertexShader = "\
-#version 330 core\
-layout(location = 0) in vec3 aPos;\
-\
-void main()\
-{\
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\
-}\
-";
+#include "Zinet/Renderer/ZtWindow.h"
 
-std::array<float, 9u> Vertices = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
-};
+#include <GLFW/glfw3.h>
 
-void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
+unsigned int VAO;
+unsigned int VBO;
+unsigned int EBO;
+unsigned int ShaderProgram;
 
-void ProcessInput(GLFWwindow* Window);
+void ProcessInput(ZtWindow& Window);
 
-void Rendering(GLFWwindow* Window);
+void Rendering(ZtWindow& Window);
 
 int main()
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    GLFWwindow* Window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-    if (Window == NULL)
+    ZtWindow Window;
+    Window.InitGLFW();
+    Window.CreateWindow();
+    Window.InitGLAD();
+
+    GLFWwindow* WindowPointer = Window.GetInternalWindow();
+
+    int VertexMaxAttributes;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &VertexMaxAttributes);
+    std::cout << "Maximum nr of vertex attributes supported: " << VertexMaxAttributes << std::endl;
+
+    int Width, Height;
+    glfwGetFramebufferSize(WindowPointer, &Width, &Height);
+    Window.SetViewport(0, 0, Width, Height);
+
+    Window.BindFramebufferSizeCallback();
+
+    Window.SetClearColor(0.1f, 0.1f, 0.1f, 1.f);
+
+  const char *VertexShader =
+  "#version 330 core \n"
+  "layout(location = 0) in vec3 aPos; \n"
+  "out vec4 VertexColor; \n"
+  " \n"
+  "void main() \n"
+  "{ \n"
+  "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); \n"
+  "VertexColor = vec4(0.5, 0.0, 0.0, 1.0); \n"
+  "} \n\0";
+
+    unsigned int VertexShaderID;
+    VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(VertexShaderID, 1, &VertexShader, NULL);
+    glCompileShader(VertexShaderID);
+
+    // Log error about compiling shader if any
     {
-        std::cout << "Failed to create GLFW window" << '\n';
-        glfwTerminate();
-        return -1;
+        int  Success{};
+        char InfoLog[512];
+        glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Success);
+
+        if (!Success)
+        {
+            glGetShaderInfoLog(VertexShaderID, 512, NULL, InfoLog);
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << InfoLog << std::endl;
+        }
     }
+    //
 
-    glfwMakeContextCurrent(Window);
+    const char* FragmentShaderCode =
+        "#version 330 core \n"
+        "out vec4 FragColor; \n"
+        "in vec4 VertexColor; \n"
+        "uniform vec4 ourColor; \n"
+        " \n"
+        "void main() \n"
+        "{ \n"
+        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \n"
+        "   FragColor = VertexColor; \n"
+        "   FragColor = ourColor; \n"
+        "} \n\0";
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    unsigned int FragmentShaderID;
+    FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(FragmentShaderID, 1, &FragmentShaderCode, NULL);
+    glCompileShader(FragmentShaderID);
+
+    // Log error about compiling shader if any
     {
-        std::cout << "Failed to initialize GLAD" << '\n';
-        return -1;
+        int  Success{};
+        char InfoLog[512];
+        glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Success);
+
+        if (!Success)
+        {
+            glGetShaderInfoLog(FragmentShaderID, 512, NULL, InfoLog);
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << InfoLog << std::endl;
+        }
     }
+    //
 
-    glViewport(0, 0, 800, 600);
+    ShaderProgram = glCreateProgram();
+    glAttachShader(ShaderProgram, VertexShaderID);
+    glAttachShader(ShaderProgram, FragmentShaderID);
+    glLinkProgram(ShaderProgram);
 
-    glfwSetFramebufferSizeCallback(Window, FramebufferSizeCallback);
+    // Log error about shader program if any
+    {
+        int Success{};
+        char InfoLog[512];
+        glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &Success);
+        if (!Success) {
+            glGetProgramInfoLog(ShaderProgram, 512, NULL, InfoLog);
+            std::cout << InfoLog << std::endl;
+        }
+    }
+    //
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    // VAO decl
+    glGenVertexArrays(1, &VAO);
 
-    unsigned int VBO;
+    // VBO decl
     glGenBuffers(1, &VBO);
+
+    // EBO decl
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    float Vertices[] = {
+        0.5f, 0.5f, 0.0f, // top right
+        0.5f, -0.5f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.f, // bottom left
+        -0.5f,  0.5f, 0.0f  // top left
+    };
+
+    unsigned int Indices[] = {
+        0, 1, 3,
+        1, 2, 3
+    };
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices.data()), Vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
 
-    unsigned int VertexShader;
-    VertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(VertexShader, 1, &VertexShader.c_str(), NULL);
-    glCompileShader(VertexShader);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 
-    while (!glfwWindowShouldClose(Window))
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glUseProgram(ShaderProgram);
+
+    glDeleteShader(VertexShaderID);
+    glDeleteShader(FragmentShaderID);
+
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw as line
+
+    while (!glfwWindowShouldClose(WindowPointer))
     {
         ProcessInput(Window);
 
         Rendering(Window);
     }
 
-    glfwTerminate();
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(ShaderProgram);
+
     return 0;
 }
 
-void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
+void ProcessInput(ZtWindow& Window)
 {
-    glViewport(0, 0, Width, Height);
-}
+    // Should be transformed to something like ZtEvent
+    GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
-void ProcessInput(GLFWwindow* Window)
-{
-    if (glfwGetKey(Window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(Window, true);
+    if (glfwGetKey(WindowPointer, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(WindowPointer, true);
 
     glfwPollEvents();
+    //
+
+
 }
 
-void Rendering(GLFWwindow* Window)
+void Rendering(ZtWindow& Window)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    Window.Clear();
 
+    float timeValue = glfwGetTime();
+    float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+    int vertexColorLocation = glGetUniformLocation(ShaderProgram, "ourColor");
+    glUseProgram(ShaderProgram);
+    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+    
+    //glBindVertexArray(VAO);
+    //glDrawArrays(GL_TRIANGLES, 0, 3);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    glfwSwapBuffers(Window);
+    Window.SwapBuffers();
 }

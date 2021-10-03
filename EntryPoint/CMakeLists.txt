@@ -21,6 +21,6 @@ set_target_properties(ZtEntryPoint PROPERTIES
 
 target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS})
 
-target_link_libraries(ZtEntryPoint PUBLIC spdlog Glad glfw)
+target_link_libraries(ZtEntryPoint PUBLIC spdlog Glad glfw ZtRenderer)
 
 target_compile_definitions(ZtEntryPoint PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")

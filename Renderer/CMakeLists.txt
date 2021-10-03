@@ -1,11 +1,13 @@
 message(STATUS "*** Create Zinet Renderer Lib ***")
 
 add_library(ZtRenderer STATIC
-	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/ZtRenderer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtRenderer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtWindow.h"
 	
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtRender.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtWindow.cpp"
 )
 
 target_compile_features(ZtRenderer PUBLIC cxx_std_20)
@@ -21,7 +23,7 @@ set_target_properties(ZtRenderer PROPERTIES
 
 target_include_directories(ZtRenderer PRIVATE ${COLONY_INCLUDE_DIRS})
 
-target_link_libraries(ZtRenderer PUBLIC ZtCore spdlog)
+target_link_libraries(ZtRenderer PUBLIC ZtCore spdlog Glad glfw)
 
 target_compile_definitions(ZtRenderer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

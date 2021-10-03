@@ -17,7 +17,6 @@ renderer_lib_test.link_libraries_list = [
     "gmock",
     "Glad",
     "glfw",
-    "ZtCore",
     "ZtRenderer"
 ]
 renderer_lib_test.macros_list = [

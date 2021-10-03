@@ -13,7 +13,9 @@ renderer_lib.include_dirs_list = [
 ]
 renderer_lib.link_libraries_list = [
     "ZtCore",
-    "spdlog"
+    "spdlog",
+    "Glad",
+    "glfw",
 ]
 renderer_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

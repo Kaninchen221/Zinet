@@ -3,7 +3,7 @@ message(STATUS "*** Create Zinet Zinet Renderer Test executable ***")
 add_executable(ZtRendererTest
 	main.cpp
 	
-	
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtWindowTests.h"
 	
 	
 	
@@ -30,4 +30,4 @@ target_include_directories(ZtRendererTest PUBLIC ${COLONY_INCLUDE_DIRS})
 
 target_compile_definitions(ZtRendererTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ZtRendererTest PUBLIC spdlog gtest gmock Glad glfw ZtCore ZtRenderer)
+target_link_libraries(ZtRendererTest PUBLIC spdlog gtest gmock Glad glfw ZtRenderer)
