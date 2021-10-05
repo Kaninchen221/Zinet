@@ -89,3 +89,17 @@ TEST_F(ZtShaderTests, CompileErrorMessageTest)
 	size_t MessageSize = Message.size();
 	ASSERT_GT(MessageSize, 0);
 }
+
+TEST_F(ZtShaderTests, LoadFromFileTest)
+{
+	Shader.Create(ZtShaderType::Vertex);
+	Shader.LoadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.vert");
+	Shader.Compile();
+
+	GLuint ShaderID = Shader.GetID();
+
+	int Success = false;
+	glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &Success);
+
+	ASSERT_TRUE(Success);
+}

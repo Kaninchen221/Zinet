@@ -1,5 +1,8 @@
 #include "Zinet/Renderer/ZtShader.h"
 
+#include <fstream>
+#include <sstream>
+
 ZtShader::~ZtShader() noexcept
 {
 	glDeleteShader(ID);
@@ -24,6 +27,27 @@ GLuint ZtShader::GetID() const
 void ZtShader::LoadFromCString(const char* Source)
 {
 	glShaderSource(ID, 1, &Source, NULL);
+}
+
+void ZtShader::LoadFromFile(const std::string& Path)
+{
+	std::ifstream File;
+	File.open(Path);
+	if (File.is_open())
+	{
+		std::stringstream Buffer;
+		Buffer << File.rdbuf();
+		std::string String = Buffer.str();
+
+		const GLchar* Source = String.c_str();
+		glShaderSource(ID, 1, &Source, NULL);
+
+		File.close();
+	}
+	else
+	{
+		Logger->error("Failed to open shader file with path: {}", Path);
+	}
 }
 
 void ZtShader::Compile()

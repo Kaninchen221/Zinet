@@ -18,17 +18,15 @@ void Rendering(ZtWindow& Window);
 
 int main()
 {
+    ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("Main");
 
     ZtWindow Window;
     Window.InitGLFW();
     Window.CreateWindow();
     Window.InitGLAD();
+    Window.InitOpenGL();
 
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
-
-    int VertexMaxAttributes;
-    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &VertexMaxAttributes);
-    std::cout << "Maximum nr of vertex attributes supported: " << VertexMaxAttributes << std::endl;
 
     int Width, Height;
     glfwGetFramebufferSize(WindowPointer, &Width, &Height);
@@ -145,8 +143,6 @@ int main()
     glDeleteShader(VertexShaderID);
     glDeleteShader(FragmentShaderID);
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw as line
-
     while (!glfwWindowShouldClose(WindowPointer))
     {
         ProcessInput(Window);
@@ -168,6 +164,12 @@ void ProcessInput(ZtWindow& Window)
 
     if (glfwGetKey(WindowPointer, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(WindowPointer, true);
+    else if(glfwGetKey(WindowPointer, GLFW_KEY_F1) == GLFW_PRESS)
+        Window.FillMode();
+    else if (glfwGetKey(WindowPointer, GLFW_KEY_F2) == GLFW_PRESS)
+        Window.PolygonOnlyMode();
+    else if (glfwGetKey(WindowPointer, GLFW_KEY_F3) == GLFW_PRESS)
+        Window.PointsMode();
 
     glfwPollEvents();
     //

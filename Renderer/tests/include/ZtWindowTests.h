@@ -39,6 +39,11 @@ TEST_F(ZtWindowTests, InitGLADTest)
 	ASSERT_TRUE(IsGladLoaded);
 }
 
+TEST_F(ZtWindowTests, InitOpenGL)
+{
+	Window.InitOpenGL();
+}
+
 TEST_F(ZtWindowTests, SetViewportTest)
 {
 	Window.InitGLFW();
@@ -87,7 +92,7 @@ TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
 
 	GLFWwindow* WindowPointer = Window.GetInternalWindow();
 	GLFWframebuffersizefun ActualPointer = glfwSetFramebufferSizeCallback(WindowPointer, nullptr);
-	GLFWframebuffersizefun ExpectedPointer = FramebufferSizeCallback;
+	GLFWframebuffersizefun ExpectedPointer = &ZtWindow::FramebufferSizeCallback;
 
 	ASSERT_EQ(ActualPointer, ExpectedPointer);
 }
@@ -119,4 +124,25 @@ TEST_F(ZtWindowTests, SwapBuffersTest)
 	Window.InitGLFW();
 	Window.CreateWindow();
 	Window.SwapBuffers();
+}
+
+TEST_F(ZtWindowTests, PolygonOnlyModeTest)
+{
+	Window.InitGLFW();
+	Window.CreateWindow();
+	Window.PolygonOnlyMode();
+}
+
+TEST_F(ZtWindowTests, FillModeTest)
+{
+	Window.InitGLFW();
+	Window.CreateWindow();
+	Window.FillMode();
+}
+
+TEST_F(ZtWindowTests, PointsModeTest)
+{
+	Window.InitGLFW();
+	Window.CreateWindow();
+	Window.PointsMode();
 }
