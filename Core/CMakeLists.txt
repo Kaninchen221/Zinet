@@ -7,7 +7,9 @@ add_library(ZtCore STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtEndPlayReason.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtEventBroadcaster.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtEventCallback.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtFile.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtFileFinder.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtFileOpenMode.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtFunctor.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtIdentifier.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtLogger.h"
@@ -29,6 +31,7 @@ add_library(ZtCore STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/Reflection/ZtReflectionUtilities.inl"
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtClock.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtFile.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtFileFinder.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtIdentifier.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtLogger.cpp"

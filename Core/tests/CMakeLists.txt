@@ -6,6 +6,7 @@ add_executable(ZtCoreTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtClockTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtEventBroadcasterTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtFileFinderTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtFileTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtIdentifierTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtLoggerTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtTimeTests.h"

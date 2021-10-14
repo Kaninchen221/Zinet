@@ -15,6 +15,7 @@
 #include "ZtClockTests.h"
 #include "ZtEventBroadcasterTests.h"
 #include "ZtFileFinderTests.h"
+#include "ZtFileTests.h"
 #include "ZtIdentifierTests.h"
 #include "ZtTimeTests.h"
 #include "ZtUniqueIdentifierMakerTests.h"
