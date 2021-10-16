@@ -11,6 +11,15 @@ class ZINET_CORE_API ZtFile
 
 public:
 
+	ZtFile() = default;
+	ZtFile(const ZtFile& Other) = default;
+	ZtFile(ZtFile&& Other) = default;
+
+	ZtFile& operator = (const ZtFile& Other) = default;
+	ZtFile& operator = (ZtFile&& Other) = default;
+
+	~ZtFile() noexcept;
+
 	void Open(const ZtFileFinder::Path& FilePath, ZtFileOpenMode OpenMode);
 
 	bool IsOpen() const;
@@ -20,6 +29,8 @@ public:
 	std::string ReadAll();
 
 	static std::ios_base::openmode ZtFileOpenModeToStdOpenMode(ZtFileOpenMode OpenMode);
+
+	void Close();
 
 protected:
 

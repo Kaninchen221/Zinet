@@ -1,5 +1,13 @@
 #include "Zinet/Core/ZtFile.h"
 
+ZtFile::~ZtFile() noexcept
+{
+	if (IsOpen())
+	{
+		Close();
+	}
+}
+
 void ZtFile::Open(const ZtFileFinder::Path& FilePath, ZtFileOpenMode OpenMode)
 {
 	std::ios_base::openmode StdOpenMode = ZtFileOpenModeToStdOpenMode(OpenMode);
@@ -50,4 +58,9 @@ std::ios_base::openmode ZtFile::ZtFileOpenModeToStdOpenMode(ZtFileOpenMode OpenM
 	default:
 		return std::ios_base::in;
 	}
+}
+
+void ZtFile::Close()
+{
+	FileStream.close();
 }

@@ -2,6 +2,8 @@
 #include <array>
 #include <string>
 
+#include "Zinet/Core/ZtFile.h"
+
 #include "Zinet/Renderer/ZtWindow.h"
 #include "Zinet/Renderer/ZtShader.h"
 
@@ -36,20 +38,19 @@ int main()
 
     Window.SetClearColor(0.1f, 0.1f, 0.1f, 1.f);
 
-  const char *VertexShaderSource =
-  "#version 330 core \n"
-  "layout(location = 0) in vec3 aPos; \n"
-  "out vec4 VertexColor; \n"
-  " \n"
-  "void main() \n"
-  "{ \n"
-  "gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); \n"
-  "VertexColor = vec4(0.5, 0.0, 0.0, 1.0); \n"
-  "} \n\0";
+    ZtFileFinder FileFinder;
+    ZtFileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
+
+    ZtFile VertexShaderFile;
+    ZtFileFinder::Path VertexShaderFilePath = RootPath / "Shaders" / "shader.vert";
+    VertexShaderFile.Open(VertexShaderFilePath, ZtFileOpenMode::In);
+    std::string VertexShaderFileSource = VertexShaderFile.ReadAll();
+    const char* VertexShaderSourceCStr = VertexShaderFileSource.c_str();
+    VertexShaderFile.Close();
 
     ZtShader VertexShader;
     VertexShader.Create(ZtShaderType::Vertex);
-    VertexShader.LoadFromCString(VertexShaderSource);
+    VertexShader.LoadFromCString(VertexShaderSourceCStr);
     VertexShader.Compile();
 
     unsigned int VertexShaderID = VertexShader.GetID();
@@ -61,23 +62,16 @@ int main()
         std::cout << Message << '\n';
     }
 
-    const char* FragmentShaderSource =
-        "#version 330 core \n"
-        "out vec4 FragColor; \n"
-        "in vec4 VertexColor; \n"
-        "uniform vec4 ourColor; \n"
-        " \n"
-        "void main() \n"
-        "{ \n"
-        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f); \n"
-        "   FragColor = VertexColor; \n"
-        "   FragColor = ourColor; \n"
-        "} \n\0";
-
+    ZtFile FragmentShaderFile;
+    ZtFileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
+    FragmentShaderFile.Open(FragmentShaderFilePath, ZtFileOpenMode::In);
+    std::string FragmentShaderFileSource = FragmentShaderFile.ReadAll();
+    const char* FragmentShaderSourceCStr = FragmentShaderFileSource.c_str();
+    FragmentShaderFile.Close();
 
     ZtShader FragmentShader;
     FragmentShader.Create(ZtShaderType::Fragment);
-    FragmentShader.LoadFromCString(FragmentShaderSource);
+    FragmentShader.LoadFromCString(FragmentShaderSourceCStr);
     FragmentShader.Compile();
 
     unsigned int FragmentShaderID = FragmentShader.GetID();
