@@ -16,6 +16,9 @@ include(cmake/fetch_imgui.cmake)
 # GLFW
 include(cmake/fetch_glfw.cmake)
 
+# GLM
+include(cmake/fetch_glm.cmake)
+
 # Pybind11 library for bind cpp to python
 #include(cmake/fetch_pybind11.cmake)
 

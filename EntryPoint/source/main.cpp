@@ -9,6 +9,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "vec3.hpp" // glm::vec3
+
 unsigned int VAO;
 unsigned int VBO;
 unsigned int EBO;
@@ -20,6 +22,8 @@ void Rendering(ZtWindow& Window);
 
 int main()
 {
+    glm::vec3 Position;
+
     ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("Main");
 
     ZtWindow Window;
