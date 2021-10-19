@@ -9,7 +9,8 @@ renderer_lib_test.header_path = "Renderer/tests/include"
 renderer_lib_test.inl_path = "Renderer/tests/include"
 renderer_lib_test.source_path = "Renderer/tests/source"
 renderer_lib_test.include_dirs_list = [
-    "${COLONY_INCLUDE_DIRS}"
+    "${COLONY_INCLUDE_DIRS}",
+    "${GLM_INCLUDE_DIRS}"
 ]
 renderer_lib_test.link_libraries_list = [
     "spdlog",

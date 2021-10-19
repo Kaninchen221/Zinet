@@ -6,10 +6,9 @@
 
 #include "Zinet/Renderer/ZtWindow.h"
 #include "Zinet/Renderer/ZtShader.h"
+#include "Zinet/Renderer/ZtVertex.h"
 
 #include <GLFW/glfw3.h>
-
-#include "vec3.hpp" // glm::vec3
 
 unsigned int VAO;
 unsigned int VBO;
@@ -22,8 +21,6 @@ void Rendering(ZtWindow& Window);
 
 int main()
 {
-    glm::vec3 Position;
-
     ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("Main");
 
     ZtWindow Window;
@@ -115,11 +112,11 @@ int main()
 
     glBindVertexArray(VAO);
 
-    float Vertices[] = {
-        0.5f, 0.5f, 0.0f, // top right
-        0.5f, -0.5f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.f, // bottom left
-        -0.5f,  0.5f, 0.0f  // top left
+    ZtVertex Vertices[] {
+        {{ 0.5f, 0.5f, 0.f }},   // top right
+        {{ 0.5f, -0.5f, 0.f }},  // bottom right
+        {{ -0.5f, -0.5f, 0.f }},  // bottom left
+        {{ -0.5f,  0.5f, 0.f }}  // top left
     };
 
     unsigned int Indices[] = {

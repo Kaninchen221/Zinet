@@ -3,8 +3,10 @@ message(STATUS "*** Create Zinet Zinet Renderer Test executable ***")
 add_executable(ZtRendererTest
 	main.cpp
 	
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtProgramTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTypeTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtVertexTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtWindowTests.h"
 	
 	
@@ -28,7 +30,7 @@ set_target_properties(ZtRendererTest
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtRendererTest PUBLIC ${COLONY_INCLUDE_DIRS})
+target_include_directories(ZtRendererTest PUBLIC ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
 
 target_compile_definitions(ZtRendererTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

@@ -4,6 +4,8 @@
 #include "ZtWindowTests.h"
 #include "ZtShaderTests.h"
 #include "ZtShaderTypeTests.h"
+#include "ZtVertexTests.h"
+#include "ZtProgramTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);
