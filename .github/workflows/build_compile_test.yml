@@ -42,4 +42,5 @@ jobs:
       - name: Run all tests
         shell: bash
         run: |
-          ./build/runtime/Debug/Zt*Test.exe
+          ./build/runtime/Debug/ZtCoreTest.exe
+          ./build/runtime/Debug/ZtRendererTest.exe
