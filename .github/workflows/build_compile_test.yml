@@ -43,4 +43,3 @@ jobs:
         shell: bash
         run: |
           ./build/runtime/Debug/ZtCoreTest.exe
-          ./build/runtime/Debug/ZtRendererTest.exe
