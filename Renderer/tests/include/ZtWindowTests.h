@@ -41,6 +41,9 @@ TEST_F(ZtWindowTests, InitGLADTest)
 
 TEST_F(ZtWindowTests, InitOpenGL)
 {
+	Window.InitGLFW();
+	Window.CreateWindow();
+	Window.InitGLAD();
 	Window.InitOpenGL();
 }
 

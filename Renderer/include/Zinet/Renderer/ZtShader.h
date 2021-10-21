@@ -13,6 +13,15 @@ class ZINET_RENDERER_API ZtShader
 
 public:
 
+	const static inline GLuint InvalidID = 0u;
+
+	ZtShader() = default;
+	ZtShader(const ZtShader& Other) = default;
+	ZtShader(ZtShader&& Other) = default;
+
+	ZtShader& operator = (const ZtShader& Other) = default;
+	ZtShader& operator = (ZtShader&& Other) = default;
+
 	~ZtShader() noexcept;
 
 	void Create(ZtShaderType ShaderType);
@@ -34,5 +43,5 @@ public:
 protected:
 
 	ZtShaderType Type;
-	GLuint ID;
+	GLuint ID = InvalidID;
 };

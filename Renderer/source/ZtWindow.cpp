@@ -61,6 +61,10 @@ void ZtWindow::InitOpenGL()
 
         WindowLogger->info("Succesfull init OpenGL Debug Context");
     }
+    else
+    {
+        WindowLogger->error("Can't initialize OpenGL Debug Context");
+    }
 }
 
 void ZtWindow::SetViewport(int X, int Y, int Width, int Height)

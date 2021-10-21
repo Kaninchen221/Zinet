@@ -7,13 +7,14 @@
 #include "Zinet/Renderer/ZtWindow.h"
 #include "Zinet/Renderer/ZtShader.h"
 #include "Zinet/Renderer/ZtVertex.h"
+#include "Zinet/Renderer/ZtProgram.h"
 
 #include <GLFW/glfw3.h>
 
 unsigned int VAO;
 unsigned int VBO;
 unsigned int EBO;
-unsigned int ShaderProgram;
+ZtProgram Program;
 
 void ProcessInput(ZtWindow& Window);
 
@@ -84,22 +85,16 @@ int main()
         std::cout << Message << '\n';
     }
 
-    ShaderProgram = glCreateProgram();
-    glAttachShader(ShaderProgram, VertexShaderID);
-    glAttachShader(ShaderProgram, FragmentShaderID);
-    glLinkProgram(ShaderProgram);
+    Program.Create();
+    Program.AttachShader(VertexShader);
+    Program.AttachShader(FragmentShader);
+    Program.LinkProgram();
 
-    // Log error about shader program if any
+    if (!Program.IsValid())
     {
-        int Success{};
-        char InfoLog[512];
-        glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &Success);
-        if (!Success) {
-            glGetProgramInfoLog(ShaderProgram, 512, NULL, InfoLog);
-            std::cout << InfoLog << std::endl;
-        }
+        std::string InfoLog = Program.InfoLog();
+        std::cout << InfoLog << std::endl;
     }
-    //
 
     // VAO decl
     glGenVertexArrays(1, &VAO);
@@ -133,7 +128,7 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    glUseProgram(ShaderProgram);
+    Program.UseProgram();
 
     glDeleteShader(VertexShaderID);
     glDeleteShader(FragmentShaderID);
@@ -147,7 +142,6 @@ int main()
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteProgram(ShaderProgram);
 
     return 0;
 }
@@ -178,12 +172,9 @@ void Rendering(ZtWindow& Window)
 
     float timeValue = glfwGetTime();
     float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-    int vertexColorLocation = glGetUniformLocation(ShaderProgram, "ourColor");
-    glUseProgram(ShaderProgram);
+    int vertexColorLocation = glGetUniformLocation(Program.GetID(), "ourColor");
+    //glUseProgram(Program.GetID());
     glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-    
-    //glBindVertexArray(VAO);
-    //glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

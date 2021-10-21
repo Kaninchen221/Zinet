@@ -5,7 +5,10 @@
 
 ZtShader::~ZtShader() noexcept
 {
-	glDeleteShader(ID);
+	if (ID != InvalidID)
+	{
+		glDeleteShader(ID);
+	}
 }
 
 void ZtShader::Create(ZtShaderType ShaderType)
