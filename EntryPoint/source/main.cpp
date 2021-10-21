@@ -32,6 +32,7 @@ int main()
 
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
+    // Fix problem with not valid vertices positions
     int Width, Height;
     glfwGetFramebufferSize(WindowPointer, &Width, &Height);
     Window.SetViewport(0, 0, Width, Height);
@@ -130,8 +131,8 @@ int main()
 
     Program.UseProgram();
 
-    glDeleteShader(VertexShaderID);
-    glDeleteShader(FragmentShaderID);
+    VertexShader.Delete();
+    FragmentShader.Delete();
 
     while (!glfwWindowShouldClose(WindowPointer))
     {

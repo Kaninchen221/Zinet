@@ -26,6 +26,8 @@ public:
 
 	void Create(ZtShaderType ShaderType);
 
+	void Delete();
+
 	ZtShaderType GetType() const;
 
 	GLuint GetID() const;

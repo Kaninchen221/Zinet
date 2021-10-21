@@ -103,3 +103,12 @@ TEST_F(ZtShaderTests, LoadFromFileTest)
 
 	ASSERT_TRUE(Success);
 }
+
+TEST_F(ZtShaderTests, DeleteTest)
+{
+	Shader.Create(ZtShaderType::Vertex);
+	Shader.Delete();
+
+	GLboolean IsShader = glIsShader(Shader.GetID());
+	ASSERT_FALSE(IsShader);
+}
