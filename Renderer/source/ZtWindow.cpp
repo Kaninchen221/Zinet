@@ -4,6 +4,11 @@ ZtWindow::~ZtWindow() noexcept
 {
     WindowLogger->info(__FUNCTION__);
 
+    if (WindowPointer != nullptr)
+    {
+        glfwDestroyWindow(WindowPointer);
+    }
+
     glfwTerminate();
 }
 
