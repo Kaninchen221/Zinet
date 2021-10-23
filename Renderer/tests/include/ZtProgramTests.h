@@ -90,7 +90,7 @@ TEST_F(ZtProgramTests, LinkProgramTest)
 	Program.Create();
 	MakeProgramLinkable(Program);
 
-	Program.LinkProgram();
+	Program.Link();
 
 	bool LinkStatus = Program.LinkStatus();
 	ASSERT_TRUE(LinkStatus);
@@ -127,6 +127,18 @@ TEST_F(ZtProgramTests, UseProgramTest)
 	Program.Create();
 	MakeProgramLinkable(Program);
 
-	Program.LinkProgram();
-	Program.UseProgram();
+	Program.Link();
+	Program.Use();
+}
+
+TEST_F(ZtProgramTests, DeleteTest)
+{
+	ZtProgram Program;
+	Program.Create();
+	Program.Delete();
+
+	GLuint ActualID = Program.GetID();
+	GLuint ExpectedID = ZtProgram::InvalidID;
+
+	ASSERT_EQ(ActualID, ExpectedID);
 }

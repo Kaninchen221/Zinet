@@ -4,7 +4,7 @@ ZtProgram::~ZtProgram() noexcept
 {
 	if (ID != InvalidID)
 	{
-		glDeleteProgram(ID);
+		Delete();
 	}
 }
 
@@ -23,7 +23,7 @@ void ZtProgram::AttachShader(const ZtShader& Shader) const
 	glAttachShader(ID, Shader.GetID());
 }
 
-void ZtProgram::LinkProgram() const
+void ZtProgram::Link() const
 {
 	glLinkProgram(ID);
 }
@@ -55,7 +55,13 @@ std::string ZtProgram::InfoLog() const
 	return InfoLogBuffer;
 }
 
-void ZtProgram::UseProgram() const
+void ZtProgram::Use() const
 {
 	glUseProgram(ID);
+}
+
+void ZtProgram::Delete()
+{
+	glDeleteProgram(ID);
+	ID = InvalidID;
 }

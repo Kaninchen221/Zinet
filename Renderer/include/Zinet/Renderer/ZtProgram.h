@@ -27,7 +27,7 @@ public:
 
 	void AttachShader(const ZtShader& Shader) const;
 
-	void LinkProgram() const;
+	void Link() const;
 
 	bool LinkStatus() const;
 
@@ -35,7 +35,9 @@ public:
 
 	std::string InfoLog() const;
 
-	void UseProgram() const;
+	void Use() const;
+
+	void Delete();
 
 protected:
 

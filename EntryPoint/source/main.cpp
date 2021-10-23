@@ -90,7 +90,7 @@ int main()
     Program.Create();
     Program.AttachShader(VertexShader);
     Program.AttachShader(FragmentShader);
-    Program.LinkProgram();
+    Program.Link();
 
     if (!Program.IsValid())
     {
@@ -130,7 +130,7 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    Program.UseProgram();
+    Program.Use();
 
     VertexShader.Delete();
     FragmentShader.Delete();
@@ -143,7 +143,10 @@ int main()
     }
 
     glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &EBO);
     VBO.Delete();
+
+    Program.Delete();
 
     return 0;
 }
