@@ -8,6 +8,7 @@
 #include "ZtProgramTests.h"
 #include "ZtVertexBufferTests.h"
 #include "ZtElementBufferTests.h"
+#include "ZtVertexArrayTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

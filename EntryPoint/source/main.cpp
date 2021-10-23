@@ -10,10 +10,11 @@
 #include "Zinet/Renderer/ZtProgram.h"
 #include "Zinet/Renderer/ZtVertexBuffer.h"
 #include "Zinet/Renderer/ZtElementBuffer.h"
+#include "Zinet/Renderer/ZtVertexArray.h"
 
 #include <GLFW/glfw3.h>
 
-unsigned int VAO;
+ZtVertexArray VAO;
 ZtVertexBuffer VBO;
 ZtElementBuffer EBO;
 ZtProgram Program;
@@ -99,16 +100,11 @@ int main()
         std::cout << InfoLog << std::endl;
     }
 
-    // VAO decl
-    glGenVertexArrays(1, &VAO);
-
-    // VBO decl
+    VAO.Generate();
     VBO.Generate();
-
-    // EBO decl
     EBO.Generate();
 
-    glBindVertexArray(VAO);
+    VAO.Bind();
 
     std::vector<ZtVertex> Vertices {
         {{ 0.5f, 0.5f, 0.f }},   // top right
@@ -143,7 +139,7 @@ int main()
         Rendering(Window);
     }
 
-    glDeleteVertexArrays(1, &VAO);
+    VAO.Delete();
     EBO.Delete();
     VBO.Delete();
 
@@ -176,7 +172,7 @@ void Rendering(ZtWindow& Window)
 {
     Window.Clear();
 
-    float timeValue = glfwGetTime();
+    float timeValue = static_cast<float>(glfwGetTime());
     float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(Program.GetID(), "ourColor");
     //glUseProgram(Program.GetID());

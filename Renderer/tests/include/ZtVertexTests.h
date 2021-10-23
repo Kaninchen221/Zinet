@@ -10,7 +10,7 @@ class ZtVertexTests : public ::testing::Test
 {
 protected:
 
-	ZtVertex Vertex;
+	ZtVertex Vertex{};
 
 };
 

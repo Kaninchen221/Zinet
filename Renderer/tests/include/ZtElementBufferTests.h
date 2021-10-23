@@ -17,6 +17,11 @@ protected:
 		Window.InitGLAD();
 	}
 
+	~ZtElementBufferTests()
+	{
+		VBO.Delete();
+	}
+
 	ZtElementBuffer VBO;
 
 	ZtWindow Window;
@@ -48,7 +53,7 @@ TEST_F(ZtElementBufferTests, BindTest)
 	GLuint ExpectedBindedID = VBO.GetID();
 
 	GLint ActualBindedID = 0u;
-	glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &ActualBindedID);
+	glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &ActualBindedID);
 
 	ASSERT_EQ(ActualBindedID, ExpectedBindedID);
 }

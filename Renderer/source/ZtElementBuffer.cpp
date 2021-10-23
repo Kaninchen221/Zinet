@@ -1,5 +1,13 @@
 #include "Zinet/Renderer/ZtElementBuffer.h"
 
+ZtElementBuffer::~ZtElementBuffer() noexcept
+{
+	if (ID != InvalidID)
+	{
+		Delete();
+	}
+}
+
 void ZtElementBuffer::Generate()
 {
 	glGenBuffers(1, &ID);

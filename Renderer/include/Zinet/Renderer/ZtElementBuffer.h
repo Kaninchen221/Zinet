@@ -12,6 +12,15 @@ public:
 
 	inline static const GLuint InvalidID = 0u;
 
+	ZtElementBuffer() = default;
+	ZtElementBuffer(const ZtElementBuffer & Other) = default;
+	ZtElementBuffer(ZtElementBuffer && Other) = default;
+
+	ZtElementBuffer& operator = (const ZtElementBuffer & Other) = default;
+	ZtElementBuffer& operator = (ZtElementBuffer && Other) = default;
+
+	~ZtElementBuffer() noexcept;
+
 	void Generate();
 
 	void Bind();
