@@ -8,11 +8,12 @@
 #include "Zinet/Renderer/ZtShader.h"
 #include "Zinet/Renderer/ZtVertex.h"
 #include "Zinet/Renderer/ZtProgram.h"
+#include "Zinet/Renderer/ZtVertexBuffer.h"
 
 #include <GLFW/glfw3.h>
 
 unsigned int VAO;
-unsigned int VBO;
+ZtVertexBuffer VBO;
 unsigned int EBO;
 ZtProgram Program;
 
@@ -101,14 +102,14 @@ int main()
     glGenVertexArrays(1, &VAO);
 
     // VBO decl
-    glGenBuffers(1, &VBO);
+    VBO.Generate();
 
     // EBO decl
     glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
 
-    ZtVertex Vertices[] {
+    std::vector<ZtVertex> Vertices {
         {{ 0.5f, 0.5f, 0.f }},   // top right
         {{ 0.5f, -0.5f, 0.f }},  // bottom right
         {{ -0.5f, -0.5f, 0.f }},  // bottom left
@@ -120,8 +121,8 @@ int main()
         1, 2, 3
     };
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+    VBO.Bind();
+    VBO.SetData(Vertices, ZtVertexBufferUsage::Static);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
@@ -142,7 +143,7 @@ int main()
     }
 
     glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+    VBO.Delete();
 
     return 0;
 }

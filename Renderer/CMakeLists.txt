@@ -6,14 +6,17 @@ add_library(ZtRenderer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtShader.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtShaderType.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtVertex.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtVertexBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtVertexBufferUsage.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtWindow.h"
 	
 	
 	
-	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/Program.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtProgram.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtRender.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtShader.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtVertex.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtVertexBuffer.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtWindow.cpp"
 )
 
