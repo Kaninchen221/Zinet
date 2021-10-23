@@ -2,7 +2,7 @@
 
 #include "ZtRenderer.h"
 
-enum class ZINET_RENDERER_API ZtVertexBufferUsage : GLenum
+enum class ZINET_RENDERER_API ZtBufferUsage : GLenum
 {
 	Static = GL_STATIC_DRAW,
 	Dynamic = GL_DYNAMIC_DRAW

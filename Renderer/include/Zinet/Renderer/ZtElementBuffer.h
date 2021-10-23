@@ -5,7 +5,7 @@
 
 #include <array>
 
-class ZINET_RENDERER_API ZtVertexBuffer
+class ZINET_RENDERER_API ZtElementBuffer
 {
 
 public:
@@ -32,7 +32,7 @@ protected:
 };
 
 template<typename ContainerType>
-inline void ZtVertexBuffer::SetData(const ContainerType& Container, ZtBufferUsage Usage)
+inline void ZtElementBuffer::SetData(const ContainerType& Container, ZtBufferUsage Usage)
 {
-	glBufferData(GL_ARRAY_BUFFER, Container.size() * sizeof(ContainerType::value_type), Container.data(), static_cast<GLenum>(Usage));
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, Container.size() * sizeof(ContainerType::value_type), Container.data(), static_cast<GLenum>(Usage));
 }

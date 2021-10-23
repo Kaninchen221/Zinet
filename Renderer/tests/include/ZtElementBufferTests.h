@@ -1,29 +1,29 @@
 #pragma once
 
-#include "Zinet/Renderer/ZtVertexBuffer.h"
+#include "Zinet/Renderer/ZtElementBuffer.h"
 #include "Zinet/Renderer/ZtVertex.h"
 #include "Zinet/Renderer/ZtWindow.h"
 
 #include "gtest/gtest.h"
 
-class ZtVertexBufferTests : public ::testing::Test
+class ZtElementBufferTests : public ::testing::Test
 {
 protected:
 
-	ZtVertexBufferTests()
+	ZtElementBufferTests()
 	{
 		Window.InitGLFW();
 		Window.CreateWindow();
 		Window.InitGLAD();
 	}
 
-	ZtVertexBuffer VBO;
+	ZtElementBuffer VBO;
 
 	ZtWindow Window;
 
 };
 
-TEST_F(ZtVertexBufferTests, GenerateTest)
+TEST_F(ZtElementBufferTests, GenerateTest)
 {
 	VBO.Generate();
 	GLuint ActualID = VBO.GetID();
@@ -32,16 +32,16 @@ TEST_F(ZtVertexBufferTests, GenerateTest)
 	ASSERT_TRUE(ActualID);
 }
 
-TEST_F(ZtVertexBufferTests, GetIDTest)
+TEST_F(ZtElementBufferTests, GetIDTest)
 {
 	VBO.Generate();
 	GLuint ActualID = VBO.GetID();
-	GLuint NotExpectedID = ZtVertexBuffer::InvalidID;
+	GLuint NotExpectedID = ZtElementBuffer::InvalidID;
 
 	ASSERT_NE(ActualID, NotExpectedID);
 }
 
-TEST_F(ZtVertexBufferTests, BindTest)
+TEST_F(ZtElementBufferTests, BindTest)
 {
 	VBO.Generate();
 	VBO.Bind();
@@ -53,7 +53,7 @@ TEST_F(ZtVertexBufferTests, BindTest)
 	ASSERT_EQ(ActualBindedID, ExpectedBindedID);
 }
 
-TEST_F(ZtVertexBufferTests, UnbindTest)
+TEST_F(ZtElementBufferTests, UnbindTest)
 {
 	VBO.Generate();
 	VBO.Bind();
@@ -66,28 +66,28 @@ TEST_F(ZtVertexBufferTests, UnbindTest)
 	ASSERT_NE(ActualBindedID, NotExpectedBindedID);
 }
 
-TEST_F(ZtVertexBufferTests, SetDataTest)
+TEST_F(ZtElementBufferTests, SetDataTest)
 {
 	VBO.Generate();
 	std::array<ZtVertex, 1> Vertices;
 	VBO.SetData<std::array<ZtVertex, 1>>(Vertices, ZtBufferUsage::Static);
 }
 
-TEST_F(ZtVertexBufferTests, InvalidIDTest)
+TEST_F(ZtElementBufferTests, InvalidIDTest)
 {
-	GLuint ActualInvalidID = ZtVertexBuffer::InvalidID;
+	GLuint ActualInvalidID = ZtElementBuffer::InvalidID;
 	GLuint ExpectedInvalidID = 0u;
 
 	ASSERT_EQ(ActualInvalidID, ExpectedInvalidID);
 }
 
-TEST_F(ZtVertexBufferTests, DeleteTest)
+TEST_F(ZtElementBufferTests, DeleteTest)
 {
 	VBO.Generate();
 	VBO.Delete();
 
 	GLuint ActualID = VBO.GetID();
-	GLuint ExpectedID = ZtVertexBuffer::InvalidID;
+	GLuint ExpectedID = ZtElementBuffer::InvalidID;
 
 	ASSERT_EQ(ActualID, ExpectedID);
 }

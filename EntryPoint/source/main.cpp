@@ -9,12 +9,13 @@
 #include "Zinet/Renderer/ZtVertex.h"
 #include "Zinet/Renderer/ZtProgram.h"
 #include "Zinet/Renderer/ZtVertexBuffer.h"
+#include "Zinet/Renderer/ZtElementBuffer.h"
 
 #include <GLFW/glfw3.h>
 
 unsigned int VAO;
 ZtVertexBuffer VBO;
-unsigned int EBO;
+ZtElementBuffer EBO;
 ZtProgram Program;
 
 void ProcessInput(ZtWindow& Window);
@@ -105,7 +106,7 @@ int main()
     VBO.Generate();
 
     // EBO decl
-    glGenBuffers(1, &EBO);
+    EBO.Generate();
 
     glBindVertexArray(VAO);
 
@@ -116,16 +117,16 @@ int main()
         {{ -0.5f,  0.5f, 0.f }}  // top left
     };
 
-    unsigned int Indices[] = {
+    std::array<unsigned int, 6> Indices {
         0, 1, 3,
         1, 2, 3
     };
 
     VBO.Bind();
-    VBO.SetData(Vertices, ZtVertexBufferUsage::Static);
+    VBO.SetData(Vertices, ZtBufferUsage::Static);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
+    EBO.Bind();
+    EBO.SetData(Indices, ZtBufferUsage::Static);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -143,7 +144,7 @@ int main()
     }
 
     glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &EBO);
+    EBO.Delete();
     VBO.Delete();
 
     Program.Delete();
@@ -181,7 +182,7 @@ void Rendering(ZtWindow& Window)
     //glUseProgram(Program.GetID());
     glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    EBO.Bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     Window.SwapBuffers();
