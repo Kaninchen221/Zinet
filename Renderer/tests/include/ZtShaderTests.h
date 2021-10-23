@@ -108,7 +108,11 @@ TEST_F(ZtShaderTests, DeleteTest)
 {
 	Shader.Create(ZtShaderType::Vertex);
 	Shader.Delete();
+	GLuint ActualID = Shader.GetID();
 
-	GLboolean IsShader = glIsShader(Shader.GetID());
+	GLboolean IsShader = glIsShader(ActualID);
 	ASSERT_FALSE(IsShader);
+
+	GLuint ExpectedID = ZtShader::InvalidID;
+	ASSERT_EQ(ActualID, ExpectedID);
 }

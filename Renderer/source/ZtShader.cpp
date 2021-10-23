@@ -20,6 +20,7 @@ void ZtShader::Create(ZtShaderType ShaderType)
 void ZtShader::Delete()
 {
 	glDeleteShader(ID);
+	ID = InvalidID;
 }
 
 ZtShaderType ZtShader::GetType() const
