@@ -7,6 +7,7 @@ add_executable(ZtRendererTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtProgramTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTypeTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtTextureTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtVertexArrayTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtVertexBufferTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtVertexTests.h"

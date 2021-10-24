@@ -11,6 +11,7 @@
 #include "Zinet/Renderer/ZtVertexBuffer.h"
 #include "Zinet/Renderer/ZtElementBuffer.h"
 #include "Zinet/Renderer/ZtVertexArray.h"
+#include "Zinet/Renderer/ZtTexture.h"
 
 #include <GLFW/glfw3.h>
 
@@ -42,6 +43,7 @@ int main()
     int Width, Height;
     glfwGetFramebufferSize(WindowPointer, &Width, &Height);
     Window.SetViewport(0, 0, Width, Height);
+    // End Fix
 
     Window.BindFramebufferSizeCallback();
 
@@ -125,10 +127,8 @@ int main()
     };
 
     // Start Texture
-    GLuint Texture;
-    glGenTextures(1, &Texture);
-
-    glBindTexture(GL_TEXTURE_2D, Texture);
+    ZtTexture Texture;
+    Texture.Generate();
 
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
     //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -151,14 +151,16 @@ int main()
     int TextureWidth, TextureHeight, ChannelsNumber;
     unsigned char* TextureData = stbi_load(TexturePathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TextureWidth, TextureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureData);
-    
-    glGenerateMipmap(GL_TEXTURE_2D);
+    Texture.Bind();
+    Texture.LoadFromData(TextureData, TextureWidth, TextureHeight);
 
     stbi_image_free(TextureData);
 
+    Texture.GenerateMipmap();
+
+    // Return to lesson about textures and learn about ActiveTexture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
+    //Texture.Bind();
 
     // End Texture
 
@@ -195,6 +197,7 @@ int main()
     VAO.Delete();
     EBO.Delete();
     VBO.Delete();
+    Texture.Delete();
 
     Program.Delete();
 
