@@ -19,6 +19,9 @@ include(cmake/fetch_glfw.cmake)
 # GLM
 include(cmake/fetch_glm.cmake)
 
+# STB
+include(cmake/fetch_stb.cmake)
+
 # Pybind11 library for bind cpp to python
 #include(cmake/fetch_pybind11.cmake)
 

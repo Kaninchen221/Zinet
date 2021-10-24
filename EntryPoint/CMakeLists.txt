@@ -19,7 +19,7 @@ set_target_properties(ZtEntryPoint PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
+target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS})
 
 target_link_libraries(ZtEntryPoint PUBLIC spdlog Glad glfw ZtRenderer)
 

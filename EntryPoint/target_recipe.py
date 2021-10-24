@@ -11,7 +11,8 @@ EntryPoint.source_path = "EntryPoint/source"
 EntryPoint.include_dirs_list = [
     "${SFML_INCLUDE_DIRS}",
     "${COLONY_INCLUDE_DIRS}",
-    "${GLM_INCLUDE_DIRS}"
+    "${GLM_INCLUDE_DIRS}",
+    "${STB_INCLUDE_DIRS}"
 ]
 EntryPoint.link_libraries_list = [
     "spdlog",

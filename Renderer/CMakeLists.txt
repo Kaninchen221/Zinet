@@ -35,7 +35,7 @@ set_target_properties(ZtRenderer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtRenderer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS})
+target_include_directories(ZtRenderer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS})
 
 target_link_libraries(ZtRenderer PUBLIC ZtCore spdlog Glad glfw)
 

@@ -14,6 +14,9 @@
 
 #include <GLFW/glfw3.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 ZtVertexArray VAO;
 ZtVertexBuffer VBO;
 ZtElementBuffer EBO;
@@ -64,6 +67,7 @@ int main()
     bool VertexShaderCompileStatus = VertexShader.CompileStatus();
     if (!VertexShaderCompileStatus)
     {
+        std::cout << "Invalid Vertex Shader" << std::endl;
         std::string Message = VertexShader.CompileErrorMessage();
         std::cout << Message << '\n';
     }
@@ -85,6 +89,7 @@ int main()
     bool FragmentShaderCompileStatus = FragmentShader.CompileStatus();
     if (!FragmentShaderCompileStatus)
     {
+        std::cout << "Invalid Fragment Shader" << std::endl;
         std::string Message = FragmentShader.CompileErrorMessage();
         std::cout << Message << '\n';
     }
@@ -97,6 +102,7 @@ int main()
     if (!Program.IsValid())
     {
         std::string InfoLog = Program.InfoLog();
+        std::cout << "Invalid program" << std::endl;
         std::cout << InfoLog << std::endl;
     }
 
@@ -107,10 +113,10 @@ int main()
     VAO.Bind();
 
     std::vector<ZtVertex> Vertices {
-        {{ 0.5f, 0.5f, 0.f }},   // top right
-        {{ 0.5f, -0.5f, 0.f }},  // bottom right
-        {{ -0.5f, -0.5f, 0.f }},  // bottom left
-        {{ -0.5f,  0.5f, 0.f }}  // top left
+        {{ 0.5f,   0.5f, 0.f }, { 1.f, 0.f, 0.f, 1.f }, { 1.0f, 1.0f}}, // top right
+        {{ 0.5f,  -0.5f, 0.f }, { 0.f, 1.f, 0.f, 1.f }, { 1.0f, 0.0f}}, // bottom right
+        {{ -0.5f, -0.5f, 0.f }, { 0.f, 0.f, 1.f, 1.f }, { 0.0f, 0.0f}}, // bottom left
+        {{ -0.5f,  0.5f, 0.f }, { 0.f, 1.f, 0.f, 1.f }, { 0.0f, 1.0f}}  // top left
     };
 
     std::array<unsigned int, 6> Indices {
@@ -118,14 +124,66 @@ int main()
         1, 2, 3
     };
 
+    // Start Texture
+    float TextureCoords[] = {
+        0.0f, 0.0f,  // lower-left corner  
+        1.0f, 0.0f,  // lower-right corner
+        0.5f, 1.0f   // top-center corner
+    };
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+
+    float BorderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, BorderColor);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    ZtFileFinder::Path TexturePath = RootPath / "Textures" / "wall.jpg";
+    std::string TexturePathString = TexturePath.string();
+    const char* TexturePathCString = TexturePathString.c_str();
+
+    stbi_set_flip_vertically_on_load(true);
+
+    int TextureWidth, TextureHeight, ChannelsNumber;
+    unsigned char* TextureData = stbi_load(TexturePathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
+
+    GLuint Texture;
+    glGenTextures(1, &Texture);
+
+    glBindTexture(GL_TEXTURE_2D, Texture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TextureWidth, TextureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureData);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    stbi_image_free(TextureData);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, Texture);
+
+    // End Texture
+
     VBO.Bind();
     VBO.SetData(Vertices, ZtBufferUsage::Static);
 
     EBO.Bind();
     EBO.SetData(Indices, ZtBufferUsage::Static);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // Vertices Positions
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3 * sizeof(float)) + (4 * sizeof(float)) + (2 * sizeof(float)), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // Vertices Colors
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, (3 * sizeof(float)) + (4 * sizeof(float)) + (2 * sizeof(float)), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // Vertices Texture Coordinates
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, (3 * sizeof(float)) + (4 * sizeof(float)) + (2 * sizeof(float)), (void*)((3 * sizeof(float)) + (4 * sizeof(float))));
+    glEnableVertexAttribArray(2);
 
     Program.Use();
 
@@ -174,8 +232,7 @@ void Rendering(ZtWindow& Window)
 
     float timeValue = static_cast<float>(glfwGetTime());
     float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-    int vertexColorLocation = glGetUniformLocation(Program.GetID(), "ourColor");
-    //glUseProgram(Program.GetID());
+    int vertexColorLocation = glGetUniformLocation(Program.GetID(), "OurColor");
     glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
     EBO.Bind();
