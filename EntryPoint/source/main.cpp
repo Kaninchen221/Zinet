@@ -113,10 +113,10 @@ int main()
     VAO.Bind();
 
     std::vector<ZtVertex> Vertices {
-        {{ 0.5f,   0.5f, 0.f }, { 1.f, 0.f, 0.f, 1.f }, { 1.0f, 1.0f}}, // top right
-        {{ 0.5f,  -0.5f, 0.f }, { 0.f, 1.f, 0.f, 1.f }, { 1.0f, 0.0f}}, // bottom right
-        {{ -0.5f, -0.5f, 0.f }, { 0.f, 0.f, 1.f, 1.f }, { 0.0f, 0.0f}}, // bottom left
-        {{ -0.5f,  0.5f, 0.f }, { 0.f, 1.f, 0.f, 1.f }, { 0.0f, 1.0f}}  // top left
+        {{ 0.5f,   0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.0f, 1.0f}}, // top right
+        {{ 0.5f,  -0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.0f, 0.0f}}, // bottom right
+        {{ -0.5f, -0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.0f, 0.0f}}, // bottom left
+        {{ -0.5f,  0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.0f, 1.0f}}  // top left
     };
 
     std::array<unsigned int, 6> Indices {
@@ -125,23 +125,22 @@ int main()
     };
 
     // Start Texture
-    float TextureCoords[] = {
-        0.0f, 0.0f,  // lower-left corner  
-        1.0f, 0.0f,  // lower-right corner
-        0.5f, 1.0f   // top-center corner
-    };
+    GLuint Texture;
+    glGenTextures(1, &Texture);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glBindTexture(GL_TEXTURE_2D, Texture);
 
-    float BorderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, BorderColor);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    //
+    //float BorderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, BorderColor);
+    //
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     ZtFileFinder::Path TexturePath = RootPath / "Textures" / "wall.jpg";
     std::string TexturePathString = TexturePath.string();
@@ -152,12 +151,8 @@ int main()
     int TextureWidth, TextureHeight, ChannelsNumber;
     unsigned char* TextureData = stbi_load(TexturePathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
 
-    GLuint Texture;
-    glGenTextures(1, &Texture);
-
-    glBindTexture(GL_TEXTURE_2D, Texture);
-
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TextureWidth, TextureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureData);
+    
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(TextureData);
