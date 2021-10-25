@@ -55,16 +55,10 @@ int main()
     ZtFileFinder FileFinder;
     ZtFileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
 
-    ZtFile VertexShaderFile;
-    ZtFileFinder::Path VertexShaderFilePath = RootPath / "Shaders" / "shader.vert";
-    VertexShaderFile.Open(VertexShaderFilePath, ZtFileOpenMode::In);
-    std::string VertexShaderFileSource = VertexShaderFile.ReadAll();
-    const char* VertexShaderSourceCStr = VertexShaderFileSource.c_str();
-    VertexShaderFile.Close();
-
     ZtShader VertexShader;
     VertexShader.Create(ZtShaderType::Vertex);
-    VertexShader.LoadFromCString(VertexShaderSourceCStr);
+    ZtFileFinder::Path VertexShaderFilePath = RootPath / "Shaders" / "shader.vert";
+    VertexShader.LoadFromFile(VertexShaderFilePath.string());
     VertexShader.Compile();
 
     unsigned int VertexShaderID = VertexShader.GetID();
@@ -77,16 +71,10 @@ int main()
         std::cout << Message << '\n';
     }
 
-    ZtFile FragmentShaderFile;
-    ZtFileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
-    FragmentShaderFile.Open(FragmentShaderFilePath, ZtFileOpenMode::In);
-    std::string FragmentShaderFileSource = FragmentShaderFile.ReadAll();
-    const char* FragmentShaderSourceCStr = FragmentShaderFileSource.c_str();
-    FragmentShaderFile.Close();
-
     ZtShader FragmentShader;
     FragmentShader.Create(ZtShaderType::Fragment);
-    FragmentShader.LoadFromCString(FragmentShaderSourceCStr);
+    ZtFileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
+    FragmentShader.LoadFromFile(FragmentShaderFilePath.string());
     FragmentShader.Compile();
 
     unsigned int FragmentShaderID = FragmentShader.GetID();
