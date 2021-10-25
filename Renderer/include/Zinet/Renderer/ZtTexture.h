@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/Renderer/ZtRenderer.h"
+#include "Zinet/Core/ZtFileFinder.h"
 
 class ZINET_RENDERER_API ZtTexture
 {
@@ -29,6 +30,8 @@ public:
 	void Delete();
 
 	void LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height);
+
+	void LoadFromFile(const ZtFileFinder::Path& Path);
 
 	void GenerateMipmap() const;
 

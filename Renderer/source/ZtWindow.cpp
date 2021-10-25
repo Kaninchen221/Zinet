@@ -1,5 +1,8 @@
 #include "Zinet/Renderer/ZtWindow.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 ZtWindow::~ZtWindow() noexcept
 {
     WindowLogger->info(__FUNCTION__);
@@ -72,6 +75,11 @@ void ZtWindow::InitOpenGL()
     }
 }
 
+void ZtWindow::InitStb()
+{
+    stbi_set_flip_vertically_on_load(true);
+}
+
 void ZtWindow::SetViewport(int X, int Y, int Width, int Height)
 {
     glViewport(X, Y, Width, Height);
@@ -119,7 +127,9 @@ void ZtWindow::PointsMode()
 
 void ZtWindow::FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
 {
-    
+    // TODO: Temporary fix
+    glfwGetFramebufferSize(Window, &Width, &Height);
+    glViewport(0, 0, Width, Height);
 }
 
 void ZtWindow::OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum Severity,

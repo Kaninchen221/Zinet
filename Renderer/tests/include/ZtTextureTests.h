@@ -92,6 +92,17 @@ TEST_F(ZtTextureTests, LoadFromDataTest)
 	Texture.LoadFromData(Data, Width, Height);
 }
 
+TEST_F(ZtTextureTests, LoadFromFileTest)
+{
+	Texture.Generate();
+	Texture.Bind();
+
+	ZtFileFinder FileFinder;
+	ZtFileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
+	ZtFileFinder::Path FilePath = RootPath / "Textures" / "wall.jpg";
+	Texture.LoadFromFile(FilePath);
+}
+
 TEST_F(ZtTextureTests, GenerateMipmapTest)
 {
 	Texture.GenerateMipmap();

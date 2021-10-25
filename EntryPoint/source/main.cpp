@@ -15,13 +15,15 @@
 
 #include <GLFW/glfw3.h>
 
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 ZtVertexArray VAO;
 ZtVertexBuffer VBO;
 ZtElementBuffer EBO;
 ZtProgram Program;
+ZtTexture Texture0;
+ZtTexture Texture1;
 
 void ProcessInput(ZtWindow& Window);
 
@@ -36,6 +38,7 @@ int main()
     Window.CreateWindow();
     Window.InitGLAD();
     Window.InitOpenGL();
+    Window.InitStb();
 
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
@@ -126,43 +129,11 @@ int main()
         1, 2, 3
     };
 
-    // Start Texture
-    ZtTexture Texture;
-    Texture.Generate();
-
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-    //
-    //float BorderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
-    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, BorderColor);
-    //
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+    Texture0.Generate();
+    Texture0.Bind();
     ZtFileFinder::Path TexturePath = RootPath / "Textures" / "wall.jpg";
-    std::string TexturePathString = TexturePath.string();
-    const char* TexturePathCString = TexturePathString.c_str();
-
-    stbi_set_flip_vertically_on_load(true);
-
-    int TextureWidth, TextureHeight, ChannelsNumber;
-    unsigned char* TextureData = stbi_load(TexturePathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
-
-    Texture.Bind();
-    Texture.LoadFromData(TextureData, TextureWidth, TextureHeight);
-
-    stbi_image_free(TextureData);
-
-    Texture.GenerateMipmap();
-
-    // Return to lesson about textures and learn about ActiveTexture
-    glActiveTexture(GL_TEXTURE0);
-    //Texture.Bind();
-
-    // End Texture
+    Texture0.LoadFromFile(TexturePath);
+    Texture0.GenerateMipmap();
 
     VBO.Bind();
     VBO.SetData(Vertices, ZtBufferUsage::Static);
@@ -197,7 +168,7 @@ int main()
     VAO.Delete();
     EBO.Delete();
     VBO.Delete();
-    Texture.Delete();
+    Texture0.Delete();
 
     Program.Delete();
 

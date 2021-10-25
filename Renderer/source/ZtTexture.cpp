@@ -1,5 +1,7 @@
 #include "Zinet/Renderer/ZtTexture.h"
 
+#include "stb_image.h"
+
 ZtTexture::~ZtTexture() noexcept
 {
 	if (ID != InvalidID)
@@ -41,6 +43,20 @@ void ZtTexture::LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height)
 	GLint Border = 0;
 	GLenum PixelDataFormat = GL_RGBA;
 	glTexImage2D(GL_TEXTURE_2D, MipmapLevel, GL_RGBA, Width, Height, Border, GL_RGB, GL_UNSIGNED_BYTE, Data);
+}
+
+void ZtTexture::LoadFromFile(const ZtFileFinder::Path& Path)
+{
+	std::string PathString = Path.string();
+	const char* PathCString = PathString.c_str();
+
+	int TextureWidth;
+	int TextureHeight;
+	int ChannelsNumber;
+	unsigned char* TextureData = stbi_load(PathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
+
+	LoadFromData(TextureData, TextureWidth, TextureHeight);
+	stbi_image_free(TextureData);
 }
 
 void ZtTexture::GenerateMipmap() const

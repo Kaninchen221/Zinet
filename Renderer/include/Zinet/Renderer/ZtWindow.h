@@ -30,6 +30,8 @@ public:
 
 	void InitOpenGL();
 
+	void InitStb();
+
 	void SetViewport(int X, int Y, int Width, int Height);
 
 	void SetClearColor(float Red, float Green, float Blue, float Alpha);
