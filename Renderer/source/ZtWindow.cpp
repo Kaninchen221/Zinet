@@ -100,6 +100,11 @@ bool ZtWindow::IsOpen()
     return !glfwWindowShouldClose(WindowPointer);
 }
 
+GLboolean ZtWindow::ShouldBeClosed() const
+{
+    return glfwWindowShouldClose(WindowPointer);
+}
+
 void ZtWindow::Clear()
 {
     glClear(GL_COLOR_BUFFER_BIT);

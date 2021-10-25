@@ -40,6 +40,8 @@ public:
 	
 	bool IsOpen();
 
+	GLboolean ShouldBeClosed() const;
+
 	void Clear();
 
 	void SwapBuffers();

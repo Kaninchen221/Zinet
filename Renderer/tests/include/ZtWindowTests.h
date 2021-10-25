@@ -149,3 +149,12 @@ TEST_F(ZtWindowTests, PointsModeTest)
 	Window.CreateWindow();
 	Window.PointsMode();
 }
+
+TEST_F(ZtWindowTests, ShouldBeClosedTest)
+{
+	Window.InitGLFW();
+	Window.CreateWindow();
+	GLboolean ShouldBeClosed = Window.ShouldBeClosed();
+
+	ASSERT_FALSE(ShouldBeClosed);
+}
