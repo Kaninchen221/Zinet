@@ -2,18 +2,17 @@
 
 #include "Zinet/Renderer/ZtRenderer.h"
 #include "Zinet/Renderer/ZtShaderType.h"
+#include "Zinet/Renderer/ZtObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 #include <string>
 
-class ZINET_RENDERER_API ZtShader
+class ZINET_RENDERER_API ZtShader : public ZtObject
 {
 	static inline ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtShader");
 
 public:
-
-	const static inline GLuint InvalidID = 0u;
 
 	ZtShader() = default;
 	ZtShader(const ZtShader& Other) = default;
@@ -30,8 +29,6 @@ public:
 
 	ZtShaderType GetType() const;
 
-	GLuint GetID() const;
-
 	void LoadFromCString(const char* Source);
 
 	void LoadFromFile(const std::string& Path);
@@ -45,5 +42,4 @@ public:
 protected:
 
 	ZtShaderType Type{};
-	GLuint ID = InvalidID;
 };

@@ -2,15 +2,14 @@
 
 #include "Zinet/Renderer/ZtRenderer.h"
 #include "Zinet/Renderer/ZtShader.h"
+#include "Zinet/Renderer/ZtObject.h"
 
 #include "glad/glad.h"
 
-class ZINET_RENDERER_API ZtProgram
+class ZINET_RENDERER_API ZtProgram : public ZtObject
 {
 
 public:
-
-	const static inline GLuint InvalidID = 0u;
 
 	ZtProgram() = default;
 	ZtProgram(const ZtProgram& Other) = default;
@@ -22,8 +21,6 @@ public:
 	~ZtProgram() noexcept;
 
 	void Create();
-
-	GLuint GetID() const;
 
 	void AttachShader(const ZtShader& Shader) const;
 
@@ -38,9 +35,5 @@ public:
 	void Use() const;
 
 	void Delete();
-
-protected:
-
-	GLuint ID = InvalidID;
 
 };

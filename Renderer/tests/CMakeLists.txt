@@ -4,6 +4,7 @@ add_executable(ZtRendererTest
 	main.cpp
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtElementBufferTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtObjectTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtProgramTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/tests/include/ZtShaderTypeTests.h"

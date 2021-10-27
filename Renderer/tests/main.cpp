@@ -10,6 +10,7 @@
 #include "ZtElementBufferTests.h"
 #include "ZtVertexArrayTests.h"
 #include "ZtTextureTests.h"
+#include "ZtObjectTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

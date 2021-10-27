@@ -2,15 +2,14 @@
 
 #include "Zinet/Renderer/ZtRenderer.h"
 #include "Zinet/Renderer/ZtBufferUsage.h"
+#include "Zinet/Renderer/ZtObject.h"
 
 #include <array>
 
-class ZINET_RENDERER_API ZtElementBuffer
+class ZINET_RENDERER_API ZtElementBuffer : public ZtObject
 {
 
 public:
-
-	inline static const GLuint InvalidID = 0u;
 
 	ZtElementBuffer() = default;
 	ZtElementBuffer(const ZtElementBuffer & Other) = default;
@@ -27,16 +26,10 @@ public:
 
 	void Unbind();
 
-	GLuint GetID() const;
-
 	template<typename ContainerType>
 	void SetData(const ContainerType& Container, ZtBufferUsage Usage);
 
 	void Delete();
-
-protected:
-
-	GLuint ID;
 
 };
 

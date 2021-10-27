@@ -3,6 +3,7 @@ message(STATUS "*** Create Zinet Renderer Lib ***")
 add_library(ZtRenderer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtBufferUsage.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtElementBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtObject.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtProgram.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtRenderer.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/include/Zinet/Renderer/ZtShader.h"
@@ -16,6 +17,7 @@ add_library(ZtRenderer STATIC
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtElementBuffer.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtObject.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtProgram.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtRender.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Renderer/source/ZtShader.cpp"

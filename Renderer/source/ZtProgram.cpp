@@ -13,11 +13,6 @@ void ZtProgram::Create()
 	ID = glCreateProgram();
 }
 
-GLuint ZtProgram::GetID() const
-{
-	return ID;
-}
-
 void ZtProgram::AttachShader(const ZtShader& Shader) const
 {
 	glAttachShader(ID, Shader.GetID());

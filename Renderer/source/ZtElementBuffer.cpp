@@ -23,11 +23,6 @@ void ZtElementBuffer::Unbind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0u);
 }
 
-GLuint ZtElementBuffer::GetID() const
-{
-	return ID;
-}
-
 void ZtElementBuffer::Delete()
 {
 	glDeleteBuffers(1, &ID);

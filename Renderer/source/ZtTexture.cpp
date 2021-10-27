@@ -15,11 +15,6 @@ void ZtTexture::Generate()
 	glGenTextures(1, &ID);
 }
 
-GLuint ZtTexture::GetID() const
-{
-	return ID;
-}
-
 void ZtTexture::Bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, ID);

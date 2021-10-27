@@ -1,13 +1,12 @@
 #pragma once
 
 #include "Zinet/Renderer/ZtRenderer.h"
+#include "Zinet/Renderer/ZtObject.h"
 
-class ZINET_RENDERER_API ZtVertexArray
+class ZINET_RENDERER_API ZtVertexArray : public ZtObject
 {
 
 public:
-
-	const inline static GLuint InvalidID = 0u;
 
 	ZtVertexArray() = default;
 	ZtVertexArray(const ZtVertexArray& Other) = default;
@@ -20,16 +19,10 @@ public:
 
 	void Generate();
 
-	GLuint GetID() const;
-
 	void Bind();
 
 	void Unbind();
 
 	void Delete();
-
-protected:
-
-	GLuint ID = InvalidID;
 
 };

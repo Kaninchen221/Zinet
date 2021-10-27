@@ -13,11 +13,6 @@ void ZtVertexArray::Generate()
 	glGenVertexArrays(1, &ID);
 }
 
-GLuint ZtVertexArray::GetID() const
-{
-	return ID;
-}
-
 void ZtVertexArray::Bind()
 {
 	glBindVertexArray(ID);

@@ -101,6 +101,12 @@ TEST_F(ZtShaderTests, LoadFromFileTest)
 	int Success = false;
 	glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &Success);
 
+	if(!Success)
+	{ 
+		std::string CompileErrorMessage = Shader.CompileErrorMessage();
+		std::cout << CompileErrorMessage << '\n';
+	}
+
 	ASSERT_TRUE(Success);
 }
 

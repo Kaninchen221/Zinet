@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Zinet/Renderer/ZtRenderer.h"
+#include "Zinet/Renderer/ZtObject.h"
+
 #include "Zinet/Core/ZtFileFinder.h"
 
-class ZINET_RENDERER_API ZtTexture
+class ZINET_RENDERER_API ZtTexture : public ZtObject
 {
 
 public:
-
-	const inline static GLuint InvalidID = 0u;
 
 	ZtTexture() = default;
 	ZtTexture(const ZtTexture & Other) = default;
@@ -21,8 +21,6 @@ public:
 
 	void Generate();
 
-	GLuint GetID() const;
-
 	void Bind() const;
 
 	void Unbind() const;
@@ -34,9 +32,5 @@ public:
 	void LoadFromFile(const ZtFileFinder::Path& Path);
 
 	void GenerateMipmap() const;
-
-protected:
-
-	GLuint ID = 0u;
 
 };

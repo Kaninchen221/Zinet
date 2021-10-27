@@ -28,11 +28,6 @@ ZtShaderType ZtShader::GetType() const
 	return Type;
 }
 
-GLuint ZtShader::GetID() const
-{
-	return ID;
-}
-
 void ZtShader::LoadFromCString(const char* Source)
 {
 	glShaderSource(ID, 1, &Source, NULL);
