@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Renderer/ZtVertexBuffer.h"
-#include "Zinet/Renderer/ZtVertex.h"
-#include "Zinet/Renderer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtVertex.h"
+#include "Zinet/GraphicLayer/ZtWindow.h"
 
 #include "gtest/gtest.h"
 

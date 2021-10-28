@@ -4,14 +4,14 @@
 
 #include "Zinet/Core/ZtFile.h"
 
-#include "Zinet/Renderer/ZtWindow.h"
-#include "Zinet/Renderer/ZtShader.h"
-#include "Zinet/Renderer/ZtVertex.h"
-#include "Zinet/Renderer/ZtProgram.h"
-#include "Zinet/Renderer/ZtVertexBuffer.h"
-#include "Zinet/Renderer/ZtElementBuffer.h"
-#include "Zinet/Renderer/ZtVertexArray.h"
-#include "Zinet/Renderer/ZtTexture.h"
+#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtShader.h"
+#include "Zinet/GraphicLayer/ZtVertex.h"
+#include "Zinet/GraphicLayer/ZtProgram.h"
+#include "Zinet/GraphicLayer/ZtVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtElementBuffer.h"
+#include "Zinet/GraphicLayer/ZtVertexArray.h"
+#include "Zinet/GraphicLayer/ZtTexture.h"
 
 #include <GLFW/glfw3.h>
 

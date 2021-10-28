@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Renderer/ZtShaderType.h"
+#include "Zinet/GraphicLayer/ZtShaderType.h"
 
 #include "gtest/gtest.h"
 

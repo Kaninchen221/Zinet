@@ -1,4 +1,4 @@
-#include "Zinet/Renderer/ZtVertexArray.h"
+#include "Zinet/GraphicLayer/ZtVertexArray.h"
 
 ZtVertexArray::~ZtVertexArray() noexcept
 {

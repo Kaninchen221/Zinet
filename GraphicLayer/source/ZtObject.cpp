@@ -1,4 +1,4 @@
-#include "..\include\Zinet\Renderer\ZtObject.h"
+#include "Zinet/GraphicLayer/ZtObject.h"
 
 GLuint ZtObject::GetID() const
 {

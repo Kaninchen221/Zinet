@@ -1,25 +1,25 @@
 message(STATUS "*** Create Zinet Graphic Layer Lib ***")
 
 add_library(ZtGraphicLayer STATIC
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtBufferUsage.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtElementBuffer.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtObject.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtProgram.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtRenderer.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtShader.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtShaderType.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtTexture.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtVertex.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtVertexArray.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtVertexBuffer.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtWindow.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtBufferUsage.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtElementBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGraphicLayer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtObject.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtProgram.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtShader.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtShaderType.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtTexture.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertex.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertexArray.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertexBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtWindow.h"
 	
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtElementBuffer.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGraphicLayer.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtObject.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtProgram.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtRender.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtShader.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtTexture.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertex.cpp"

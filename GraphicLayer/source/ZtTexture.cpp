@@ -1,4 +1,4 @@
-#include "Zinet/Renderer/ZtTexture.h"
+#include "Zinet/GraphicLayer/ZtTexture.h"
 
 #include "stb_image.h"
 

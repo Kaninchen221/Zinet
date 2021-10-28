@@ -1,4 +1,4 @@
-#include "Zinet/Renderer/ZtVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtVertexBuffer.h"
 
 void ZtVertexBuffer::Generate()
 {

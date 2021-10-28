@@ -1,4 +1,4 @@
-#include "Zinet/Renderer/ZtVertex.h"
+#include "Zinet/GraphicLayer/ZtVertex.h"
 
 ZtVertex::ZtVertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates)
 	: Position(NewPosition),

@@ -1,4 +1,4 @@
-#include "Zinet/Renderer/ZtElementBuffer.h"
+#include "Zinet/GraphicLayer/ZtElementBuffer.h"
 
 ZtElementBuffer::~ZtElementBuffer() noexcept
 {
