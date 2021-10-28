@@ -1,0 +1,51 @@
+message(STATUS "*** Create Zinet Graphic Layer Lib ***")
+
+add_library(ZtGraphicLayer STATIC
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtBufferUsage.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtElementBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtObject.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtProgram.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtRenderer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtShader.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtShaderType.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtTexture.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtVertex.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtVertexArray.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtVertexBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/Renderer/ZtWindow.h"
+	
+	
+	
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtElementBuffer.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtObject.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtProgram.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtRender.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtShader.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtTexture.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertex.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertexArray.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertexBuffer.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtWindow.cpp"
+)
+
+target_compile_features(ZtGraphicLayer PUBLIC cxx_std_20)
+
+set_target_properties(ZtGraphicLayer PROPERTIES 
+	LINKER_LANGUAGE CXX
+	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
+	INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/archive/
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
+)
+
+target_include_directories(ZtGraphicLayer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS})
+
+target_link_libraries(ZtGraphicLayer PUBLIC ZtCore spdlog Glad glfw)
+
+target_compile_definitions(ZtGraphicLayer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Tests
+if(TRUE)
+	add_subdirectory(tests)
+endif()

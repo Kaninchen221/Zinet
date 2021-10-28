@@ -16,7 +16,7 @@ include(cmake/fetch_dependencies.cmake)
 # Add subdirectories
 add_subdirectory(Core)
 add_subdirectory(Glad)
-add_subdirectory(Renderer)
+add_subdirectory(GraphicLayer)
 add_subdirectory(EntryPoint)
 
 # Should contains all libs and executables names

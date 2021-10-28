@@ -18,7 +18,7 @@ EntryPoint.link_libraries_list = [
     "spdlog",
     "Glad",
     "glfw",
-    "ZtRenderer"
+    "ZtGraphicLayer"
 ]
 EntryPoint.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
