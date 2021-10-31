@@ -3,6 +3,7 @@ message(STATUS "*** Create Zinet Graphic Layer Lib ***")
 add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtBufferUsage.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtElementBuffer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGLContext.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGraphicLayer.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtObject.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtProgram.h"
@@ -17,6 +18,7 @@ add_library(ZtGraphicLayer STATIC
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtElementBuffer.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLContext.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGraphicLayer.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtObject.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtProgram.cpp"

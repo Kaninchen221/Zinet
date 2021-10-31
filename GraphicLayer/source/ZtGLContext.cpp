@@ -1,93 +1,87 @@
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtGLContext.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
-ZtWindow::~ZtWindow() noexcept
+ZtGLContext::~ZtGLContext() noexcept
 {
-    WindowLogger->info(__FUNCTION__);
+}
 
-    if (WindowPointer != nullptr)
+bool ZtGLContext::InitGLFW()
+{
+    if(glfwInit())
     {
-        glfwDestroyWindow(WindowPointer);
+        Logger->info("Succesfull initialize GLFW");
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+
+        return true;
+    }
+    else
+    {
+        Logger->error("Failed initialize glfw");
+        return false;
     }
 
-    GLContext.DeinitGLFW();
+    return false;
 }
 
-void ZtWindow::CreateWindow()
+void ZtGLContext::DeinitGLFW()
 {
-    GLContext.InitGLFW();
+    glfwTerminate();
+}
 
-    WindowLogger->info(__FUNCTION__);
-
-    WindowPointer = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
-    if (WindowPointer == nullptr)
+bool ZtGLContext::InitGLAD()
+{
+    if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        WindowLogger->error("Can't create window");
-        glfwTerminate();
+        Logger->info("Succesfull initialize glad");
+        return true;
     }
-
-    glfwMakeContextCurrent(WindowPointer);
-
-    GLContext.InitGLAD();
-    GLContext.InitOpenGL();
+    else
+    {
+        Logger->error("Failed initialize glad");
+        return false;
+    }
 }
 
-GLFWwindow* ZtWindow::GetInternalWindow()
+bool ZtGLContext::InitOpenGL()
 {
-	return WindowPointer;
+    GLint Flags;
+    glGetIntegerv(GL_CONTEXT_FLAGS, &Flags);
+
+    if (Flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+    {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(&ZtGLContext::OpenGLDebugOutput, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+
+        Logger->info("Succesfull init OpenGL Debug Context");
+    }
+    else
+    {
+        Logger->error("Can't initialize OpenGL Debug Context");
+        return false;
+    }
 }
 
-void ZtWindow::InitStb()
+void ZtGLContext::FillMode()
 {
-    stbi_set_flip_vertically_on_load(true);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void ZtWindow::SetViewport(int X, int Y, int Width, int Height)
+void ZtGLContext::PolygonOnlyMode()
 {
-    glViewport(X, Y, Width, Height);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void ZtWindow::SetClearColor(float Red, float Green, float Blue, float Alpha)
+void ZtGLContext::PointsMode()
 {
-    glClearColor(Red, Green, Blue, Alpha);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 }
 
-void ZtWindow::BindFramebufferSizeCallback()
-{
-    glfwSetFramebufferSizeCallback(WindowPointer, &ZtWindow::FramebufferSizeCallback);
-}
-
-bool ZtWindow::IsOpen()
-{
-    return !glfwWindowShouldClose(WindowPointer);
-}
-
-GLboolean ZtWindow::ShouldBeClosed() const
-{
-    return glfwWindowShouldClose(WindowPointer);
-}
-
-void ZtWindow::Clear()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void ZtWindow::SwapBuffers()
-{
-    glfwSwapBuffers(WindowPointer);
-}
-
-void ZtWindow::FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
-{
-    // TODO: Temporary fix
-    glfwGetFramebufferSize(Window, &Width, &Height);
-    glViewport(0, 0, Width, Height);
-}
-
-void ZtWindow::OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum Severity,
-    GLsizei Length, const GLchar* Message, const void* UserParam)
+void ZtGLContext::OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum Severity, GLsizei Length, const GLchar* Message, const void* UserParam)
 {
     std::string SourceAsString = GetSourceAsString(Source);
     std::string TypeAsString = GetTypeAsString(Type);
@@ -95,15 +89,15 @@ void ZtWindow::OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum S
 
     if (Severity == GL_DEBUG_SEVERITY_NOTIFICATION)
     {
-        OpenGLLogger->info("{} : {} : {} : {} : {}", SourceAsString, TypeAsString, Id, SeverityAsString, Message);
+        Logger->info("{} : {} : {} : {} : {}", SourceAsString, TypeAsString, Id, SeverityAsString, Message);
     }
     else
     {
-        OpenGLLogger->error("{} : {} : {} : {} : {}", SourceAsString, TypeAsString, Id, SeverityAsString, Message);
+        Logger->error("{} : {} : {} : {} : {}", SourceAsString, TypeAsString, Id, SeverityAsString, Message);
     }
 }
 
-std::string ZtWindow::GetSourceAsString(GLenum Source)
+std::string ZtGLContext::GetSourceAsString(GLenum Source)
 {
     switch (Source)
     {
@@ -136,7 +130,7 @@ std::string ZtWindow::GetSourceAsString(GLenum Source)
     }
 }
 
-std::string ZtWindow::GetTypeAsString(GLenum Type)
+std::string ZtGLContext::GetTypeAsString(GLenum Type)
 {
     switch (Type)
     {
@@ -181,7 +175,7 @@ std::string ZtWindow::GetTypeAsString(GLenum Type)
     }
 }
 
-std::string ZtWindow::GetSeverityAsString(GLenum Severity)
+std::string ZtGLContext::GetSeverityAsString(GLenum Severity)
 {
     switch (Severity)
     {

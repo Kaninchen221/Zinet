@@ -12,9 +12,7 @@ protected:
 
 	ZtElementBufferTests()
 	{
-		Window.InitGLFW();
 		Window.CreateWindow();
-		Window.InitGLAD();
 	}
 
 	~ZtElementBufferTests()
@@ -74,6 +72,7 @@ TEST_F(ZtElementBufferTests, UnbindTest)
 TEST_F(ZtElementBufferTests, SetDataTest)
 {
 	VBO.Generate();
+	VBO.Bind();
 	std::array<ZtVertex, 1> Vertices;
 	VBO.SetData<std::array<ZtVertex, 1>>(Vertices, ZtBufferUsage::Static);
 }

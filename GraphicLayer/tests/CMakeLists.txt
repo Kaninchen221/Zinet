@@ -4,6 +4,7 @@ add_executable(ZtGraphicLayerTest
 	main.cpp
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtElementBufferTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLContextTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtObjectTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtProgramTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtShaderTests.h"

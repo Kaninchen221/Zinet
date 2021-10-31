@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ZtGraphicLayer.h"
+#include "ZtGLContext.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -20,15 +21,9 @@ public:
 
 	~ZtWindow() noexcept;
 
-	void InitGLFW();
-
 	void CreateWindow();
 
 	GLFWwindow* GetInternalWindow();
-
-	void InitGLAD();
-
-	void InitOpenGL();
 
 	void InitStb();
 
@@ -46,12 +41,6 @@ public:
 
 	void SwapBuffers();
 
-	void PolygonOnlyMode();
-
-	void FillMode();
-
-	void PointsMode();
-
 	static void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
 
 	static void OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum Severity,
@@ -65,6 +54,7 @@ public:
 
 protected:
 
+	ZtGLContext GLContext;
 	GLFWwindow* WindowPointer = nullptr;
 
 };

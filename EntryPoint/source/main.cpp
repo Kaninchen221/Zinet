@@ -34,10 +34,7 @@ int main()
     ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("Main");
 
     ZtWindow Window;
-    Window.InitGLFW();
     Window.CreateWindow();
-    Window.InitGLAD();
-    Window.InitOpenGL();
     Window.InitStb();
 
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
@@ -171,11 +168,11 @@ void ProcessInput(ZtWindow& Window)
     if (glfwGetKey(WindowPointer, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(WindowPointer, true);
     else if(glfwGetKey(WindowPointer, GLFW_KEY_F1) == GLFW_PRESS)
-        Window.FillMode();
+        ZtGLContext::FillMode();
     else if (glfwGetKey(WindowPointer, GLFW_KEY_F2) == GLFW_PRESS)
-        Window.PolygonOnlyMode();
+        ZtGLContext::PolygonOnlyMode();
     else if (glfwGetKey(WindowPointer, GLFW_KEY_F3) == GLFW_PRESS)
-        Window.PointsMode();
+        ZtGLContext::PointsMode();
 
     glfwPollEvents();
     //

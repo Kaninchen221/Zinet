@@ -11,10 +11,7 @@ protected:
 
 	ZtProgramTests()
 	{
-		Window.InitGLFW();
 		Window.CreateWindow();
-		Window.InitGLAD();
-		Window.InitOpenGL();
 	}
 
 	void MakeProgramLinkable(const ZtProgram& Program)

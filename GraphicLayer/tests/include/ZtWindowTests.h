@@ -12,44 +12,16 @@ protected:
 
 };
 
-TEST_F(ZtWindowTests, InitGLFWTest)
-{
-	Window.InitGLFW();
-}
-
 TEST_F(ZtWindowTests, CreateWindowTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 
 	GLFWwindow* RawPointer = Window.GetInternalWindow();
 	ASSERT_TRUE(RawPointer);
 }
 
-TEST_F(ZtWindowTests, InitGLADTest)
-{
-	bool IsGladLoaded = gladLoadGL();
-	ASSERT_FALSE(IsGladLoaded);
-
-	Window.InitGLFW();
-	Window.CreateWindow();
-	Window.InitGLAD();
-
-	IsGladLoaded = gladLoadGL();
-	ASSERT_TRUE(IsGladLoaded);
-}
-
-TEST_F(ZtWindowTests, InitOpenGL)
-{
-	Window.InitGLFW();
-	Window.CreateWindow();
-	Window.InitGLAD();
-	Window.InitOpenGL();
-}
-
 TEST_F(ZtWindowTests, SetViewportTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 
 	int X = 0;
@@ -74,7 +46,6 @@ TEST_F(ZtWindowTests, SetClearColorTest)
 		0.2f, 0.3f, 0.3f, 1.0f
 	};
 
-	Window.InitGLFW();
 	Window.CreateWindow();
 	Window.SetClearColor(ExpectedColor[0], ExpectedColor[1], ExpectedColor[2], ExpectedColor[3]);
 
@@ -89,7 +60,6 @@ TEST_F(ZtWindowTests, SetClearColorTest)
 
 TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 	Window.BindFramebufferSizeCallback();
 
@@ -102,7 +72,6 @@ TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
 
 TEST_F(ZtWindowTests, IsOpenTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 
 	bool IsOpen = Window.IsOpen();
@@ -117,42 +86,18 @@ TEST_F(ZtWindowTests, IsOpenTest)
 
 TEST_F(ZtWindowTests, ClearTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 	Window.Clear();
 }
 
 TEST_F(ZtWindowTests, SwapBuffersTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 	Window.SwapBuffers();
 }
 
-TEST_F(ZtWindowTests, PolygonOnlyModeTest)
-{
-	Window.InitGLFW();
-	Window.CreateWindow();
-	Window.PolygonOnlyMode();
-}
-
-TEST_F(ZtWindowTests, FillModeTest)
-{
-	Window.InitGLFW();
-	Window.CreateWindow();
-	Window.FillMode();
-}
-
-TEST_F(ZtWindowTests, PointsModeTest)
-{
-	Window.InitGLFW();
-	Window.CreateWindow();
-	Window.PointsMode();
-}
-
 TEST_F(ZtWindowTests, ShouldBeClosedTest)
 {
-	Window.InitGLFW();
 	Window.CreateWindow();
 	GLboolean ShouldBeClosed = Window.ShouldBeClosed();
 

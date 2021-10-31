@@ -11,6 +11,7 @@
 #include "ZtVertexArrayTests.h"
 #include "ZtTextureTests.h"
 #include "ZtObjectTests.h"
+#include "ZtGLContextTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

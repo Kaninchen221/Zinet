@@ -11,9 +11,7 @@ protected:
 
 	ZtVertexArrayTests()
 	{
-		Window.InitGLFW();
 		Window.CreateWindow();
-		Window.InitGLAD();
 	}
 
 	~ZtVertexArrayTests()

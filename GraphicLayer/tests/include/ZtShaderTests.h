@@ -11,9 +11,7 @@ protected:
 
 	ZtShaderTests()
 	{
-		Window.InitGLFW();
 		Window.CreateWindow();
-		Window.InitGLAD();
 	}
 
 	ZtWindow Window; // We need to initialize OpenGL context before creating any shader

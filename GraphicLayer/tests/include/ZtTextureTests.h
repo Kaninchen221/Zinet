@@ -11,10 +11,7 @@ protected:
 
 	ZtTextureTests()
 	{
-		Window.InitGLFW();
 		Window.CreateWindow();
-		Window.InitGLAD();
-		Window.InitOpenGL();
 	}
 
 	~ZtTextureTests()
