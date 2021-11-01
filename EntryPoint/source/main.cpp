@@ -58,8 +58,6 @@ int main()
     VertexShader.LoadFromFile(VertexShaderFilePath.string());
     VertexShader.Compile();
 
-    unsigned int VertexShaderID = VertexShader.GetID();
-
     bool VertexShaderCompileStatus = VertexShader.CompileStatus();
     if (!VertexShaderCompileStatus)
     {
@@ -73,8 +71,6 @@ int main()
     ZtFileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
     FragmentShader.LoadFromFile(FragmentShaderFilePath.string());
     FragmentShader.Compile();
-
-    unsigned int FragmentShaderID = FragmentShader.GetID();
 
     bool FragmentShaderCompileStatus = FragmentShader.CompileStatus();
     if (!FragmentShaderCompileStatus)
@@ -185,9 +181,9 @@ void Rendering(ZtWindow& Window)
     Window.Clear();
 
     float timeValue = static_cast<float>(glfwGetTime());
-    float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-    int vertexColorLocation = glGetUniformLocation(Program.GetID(), "OurColor");
-    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+    float greenValue = (sin(timeValue) / 2.0f) + 0.5f; 
+    int Uniform = Program.GetUniform("OurColor");
+    Program.SetUniform4f(Uniform, { 0.0f, greenValue, 0.0f, 1.0f });
 
     EBO.Bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

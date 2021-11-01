@@ -28,10 +28,16 @@ protected:
 	}
 
 	ZtWindow Window;
+	ZtProgram Program;
 
 	const char* VertexShaderSource =
 		"#version 330 core \n"
 		"layout(location = 0) in vec3 aPos; \n"
+		" \n"
+		"uniform float Uniform1; \n"
+		"uniform vec2 Uniform2; \n"
+		"uniform vec3 Uniform3; \n"
+		"uniform vec4 Uniform4; \n"
 		" \n"
 		"void main() \n"
 		"{ \n"
@@ -51,13 +57,11 @@ protected:
 
 TEST_F(ZtProgramTests, CreateTest)
 {
-	ZtProgram Program;
 	Program.Create();
 }
 
 TEST_F(ZtProgramTests, GetIDTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	GLuint ActualID = Program.GetID();
 	GLuint ExpectedID = 1u;
@@ -68,7 +72,7 @@ TEST_F(ZtProgramTests, AttachShaderTest)
 {
 	ZtShader Shader;
 	Shader.Create(ZtShaderType::Vertex);
-	ZtProgram Program;
+
 	Program.Create();
 	Program.AttachShader(Shader);
 	
@@ -83,7 +87,6 @@ TEST_F(ZtProgramTests, AttachShaderTest)
 
 TEST_F(ZtProgramTests, LinkProgramTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	MakeProgramLinkable(Program);
 
@@ -95,7 +98,6 @@ TEST_F(ZtProgramTests, LinkProgramTest)
 
 TEST_F(ZtProgramTests, LinkStatusTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	bool LinkStatus = Program.LinkStatus();
 	ASSERT_FALSE(LinkStatus);
@@ -103,7 +105,6 @@ TEST_F(ZtProgramTests, LinkStatusTest)
 
 TEST_F(ZtProgramTests, IsValidTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	bool IsValid = Program.IsValid();
 	ASSERT_FALSE(IsValid);
@@ -111,7 +112,6 @@ TEST_F(ZtProgramTests, IsValidTest)
 
 TEST_F(ZtProgramTests, InfoLogTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	std::string InfoLog = Program.InfoLog();
 
@@ -120,7 +120,6 @@ TEST_F(ZtProgramTests, InfoLogTest)
 
 TEST_F(ZtProgramTests, UseProgramTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	MakeProgramLinkable(Program);
 
@@ -130,7 +129,6 @@ TEST_F(ZtProgramTests, UseProgramTest)
 
 TEST_F(ZtProgramTests, DeleteTest)
 {
-	ZtProgram Program;
 	Program.Create();
 	Program.Delete();
 
@@ -138,4 +136,71 @@ TEST_F(ZtProgramTests, DeleteTest)
 	GLuint ExpectedID = ZtProgram::InvalidID;
 
 	ASSERT_EQ(ActualID, ExpectedID);
+}
+
+TEST_F(ZtProgramTests, GetUniformTest)
+{
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.Link();
+
+	std::string Name = "Uniform1f";
+	GLint Uniform = Program.GetUniform(Name);
+
+	ASSERT_NE(Uniform, 0);
+}
+
+TEST_F(ZtProgramTests, SetUniform1fTest)
+{
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.Link();
+
+	std::string Name = "Uniform1";
+	GLint Uniform = Program.GetUniform(Name);
+
+	Program.Use();
+	Program.SetUniform1f(Uniform, 0.f);
+}
+
+TEST_F(ZtProgramTests, SetUniform2fTest)
+{
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.Link();
+
+	std::string Name = "Uniform2";
+	GLint Uniform = Program.GetUniform(Name);
+
+	Program.Use();
+	glm::vec2 Value;
+	Program.SetUniform2f(Uniform, Value);
+}
+
+TEST_F(ZtProgramTests, SetUniform3fTest)
+{
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.Link();
+
+	std::string Name = "Uniform3";
+	GLint Uniform = Program.GetUniform(Name);
+
+	Program.Use();
+	glm::vec3 Value;
+	Program.SetUniform3f(Uniform, Value);
+}
+
+TEST_F(ZtProgramTests, SetUniform4fTest)
+{
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.Link();
+
+	std::string Name = "Uniform4";
+	GLint Uniform = Program.GetUniform(Name);
+
+	Program.Use();
+	glm::vec4 Value;
+	Program.SetUniform4f(Uniform, Value);
 }

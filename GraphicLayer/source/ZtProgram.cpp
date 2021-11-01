@@ -1,5 +1,7 @@
 #include "Zinet/GraphicLayer/ZtProgram.h"
 
+#include <gtc/type_ptr.hpp>
+
 ZtProgram::~ZtProgram() noexcept
 {
 	if (ID != InvalidID)
@@ -59,4 +61,31 @@ void ZtProgram::Delete()
 {
 	glDeleteProgram(ID);
 	ID = InvalidID;
+}
+
+GLint ZtProgram::GetUniform(const std::string& Name)
+{
+	const GLchar* CStringName = Name.c_str();
+	GLint Uniform = glGetUniformLocation(ID, CStringName);
+	return Uniform;
+}
+
+void ZtProgram::SetUniform1f(GLint Uniform, float Value)
+{
+	glUniform1f(Uniform, Value);
+}
+
+void ZtProgram::SetUniform2f(GLint Uniform, const glm::vec2& Value)
+{
+	glUniform2fv(Uniform, 2, glm::value_ptr(Value));
+}
+
+void ZtProgram::SetUniform3f(GLint Uniform, const glm::vec3& Value)
+{
+	glUniform3fv(Uniform, 3, glm::value_ptr(Value));
+}
+
+void ZtProgram::SetUniform4f(GLint Uniform, const glm::vec4& Value)
+{
+	glUniform4fv(Uniform, 4, glm::value_ptr(Value));
 }
