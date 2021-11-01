@@ -28,3 +28,5 @@
 
 /// Turn On/Off Debug UI
 #define ZINET_DEBUG_UI
+
+#include "ZtTypes.h"

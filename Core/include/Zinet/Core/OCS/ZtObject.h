@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtTypes.h"
 #include "Zinet/Core/ZtBeginPlayReason.h"
 #include "Zinet/Core/ZtEndPlayReason.h"
 
@@ -22,14 +23,14 @@ public:
 
     virtual void EndPlay(ZtEndPlayReason Reason);
 
-    virtual void Tick(float DeltaTime);
+    virtual void Tick(ZtFloat DeltaTime);
 
-    bool GetShouldTick() const;
+    ZtBool GetShouldTick() const;
 
-    void SetShouldTick(bool Value);
+    void SetShouldTick(ZtBool Value);
 
 protected:
 
-    bool bShouldTick = false;
+    ZtBool bShouldTick = false;
 
 };

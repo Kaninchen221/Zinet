@@ -15,14 +15,14 @@ protected:
 TEST_F(ZtUniqueIdentifierMakerTests, ReserveTest)
 {
     ZtIdentifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    size_t ExpectedFirstUnderlyingNumber = 0;
-    size_t ActualFirstUnderlyingNumber = FirstUniqueIdentifier.GetUnderlyingNumber();
+    ZtSize ExpectedFirstUnderlyingNumber = 0;
+    ZtSize ActualFirstUnderlyingNumber = FirstUniqueIdentifier.GetUnderlyingNumber();
 
     ASSERT_EQ(ActualFirstUnderlyingNumber, ExpectedFirstUnderlyingNumber);
 
     ZtIdentifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    size_t ExpectedSecondUnderlyingNumber = 1;
-    size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
+    ZtSize ExpectedSecondUnderlyingNumber = 1;
+    ZtSize ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
 
     ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
 }
@@ -33,8 +33,8 @@ TEST_F(ZtUniqueIdentifierMakerTests, ReleaseTest)
     UniqueIdentifierMaker.Release(FirstUniqueIdentifier);
 
     ZtIdentifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    size_t ExpectedSecondUnderlyingNumber = 0;
-    size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
+    ZtSize ExpectedSecondUnderlyingNumber = 0;
+    ZtSize ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
 
     ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
 }
@@ -42,12 +42,12 @@ TEST_F(ZtUniqueIdentifierMakerTests, ReleaseTest)
 TEST_F(ZtUniqueIdentifierMakerTests, IsReservedTrueTest)
 {
     ZtIdentifier UID = UniqueIdentifierMaker.Reserve();
-    bool IsReserved = UniqueIdentifierMaker.IsReserved(UID.GetUnderlyingNumber());
+    ZtBool IsReserved = UniqueIdentifierMaker.IsReserved(UID.GetUnderlyingNumber());
     ASSERT_TRUE(IsReserved);
 }
 
 TEST_F(ZtUniqueIdentifierMakerTests, IsReservedFalseTest)
 {
-    bool IsReserved = UniqueIdentifierMaker.IsReserved(0);
+    ZtBool IsReserved = UniqueIdentifierMaker.IsReserved(0);
     ASSERT_FALSE(IsReserved);
 }

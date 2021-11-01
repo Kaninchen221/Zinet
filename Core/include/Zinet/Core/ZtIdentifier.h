@@ -7,23 +7,23 @@
 class ZINET_CORE_API ZtIdentifier {
 public:
 
-    const static inline size_t Invalid = -1;
+    const static inline ZtSize Invalid = -1;
 
     ZtIdentifier() = delete;
-    explicit ZtIdentifier(size_t Identifier);
-    ZtIdentifier(ZtIdentifier & Other);
-    ZtIdentifier(ZtIdentifier && Other);
+    explicit ZtIdentifier(ZtSize Identifier);
+    ZtIdentifier(ZtIdentifier& Other);
+    ZtIdentifier(ZtIdentifier&& Other);
 
-    ZtIdentifier & operator = (ZtIdentifier & Other);
-    ZtIdentifier & operator = (ZtIdentifier && Other);
+    ZtIdentifier& operator = (ZtIdentifier& Other);
+    ZtIdentifier& operator = (ZtIdentifier&& Other);
 
     ~ZtIdentifier() = default;
 
-    size_t GetUnderlyingNumber() const noexcept;
+    ZtSize GetUnderlyingNumber() const noexcept;
 
 private:
 
-    size_t UnderlyingNumber = Invalid;
+    ZtSize UnderlyingNumber = Invalid;
 
 };
 

@@ -15,6 +15,7 @@ add_library(ZtCore STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtLogger.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtMacroUtilities.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtTime.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtTypes.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtUniqueIdentifierMaker.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtComponent.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtObject.h"
@@ -62,7 +63,7 @@ set_target_properties(ZtCore PROPERTIES
 
 target_include_directories(ZtCore PRIVATE ${COLONY_INCLUDE_DIRS})
 
-target_link_libraries(ZtCore PUBLIC spdlog)
+target_link_libraries(ZtCore PUBLIC spdlog glfw Glad)
 
 target_compile_definitions(ZtCore PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

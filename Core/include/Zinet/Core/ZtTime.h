@@ -6,7 +6,7 @@ class ZINET_CORE_API ZtTime {
 
 public:
 
-	using NumericType = float;
+	using NumericType = ZtFloat;
 
 	inline static const NumericType NanosecondsInMicrosecond = 1000.f;
 	inline static const NumericType MicrosecondsInMillisecond = 1000.f;

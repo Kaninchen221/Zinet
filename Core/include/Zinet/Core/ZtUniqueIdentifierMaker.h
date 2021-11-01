@@ -13,14 +13,11 @@ class ZINET_CORE_API ZtUniqueIdentifierMaker
 
 public:
 
-    using Reserved = std::true_type;
-    using NotReserved = std::false_type;
-
     ZtIdentifier Reserve();
 
-    void Release(ZtIdentifier & UniqueIdentifier);
+    void Release(ZtIdentifier& UniqueIdentifier);
 
-    bool IsReserved(size_t UnderlyingNumber) const;
+    ZtBool IsReserved(ZtSize UnderlyingNumber) const;
 
 protected:
 
@@ -28,6 +25,6 @@ protected:
 
     ZtIdentifier ReserveNewIdentifier();
 
-    std::vector<bool> Numbers;
+    std::vector<ZtBool> Numbers;
 
 };

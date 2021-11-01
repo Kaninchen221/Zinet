@@ -14,7 +14,7 @@ ZtFileFinder::Path ZtFileFinder::CurrentPath() const
 ZtFileFinder::Path ZtFileFinder::EngineRootPath() const
 {
 	using MacroType = std::decay_t<decltype(ZINET_ENGINE_ROOT_PATH)>;
-	using ValidType = const char*;
+	using ValidType = const ZtChar*;
 	static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
 	return ZINET_ENGINE_ROOT_PATH;
 }

@@ -10,17 +10,17 @@ void ZtObject::EndPlay(ZtEndPlayReason Reason)
 
 }
 
-void ZtObject::Tick(float DeltaTime)
+void ZtObject::Tick(ZtFloat DeltaTime)
 {
 
 }
 
-bool ZtObject::GetShouldTick() const
+ZtBool ZtObject::GetShouldTick() const
 {
     return bShouldTick;
 }
 
-void ZtObject::SetShouldTick(bool Value)
+void ZtObject::SetShouldTick(ZtBool Value)
 {
     bShouldTick = Value;
 }
