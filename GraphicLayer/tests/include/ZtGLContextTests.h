@@ -49,15 +49,27 @@ TEST_F(GLContextTests, InitOpenGLTest)
 
 TEST_F(GLContextTests, FillModeTest)
 {
+	GLContext.InitGLFW();
+	ZtWindow Window;
+	Window.CreateWindow();
+	GLContext.InitGLAD();
 	ZtGLContext::FillMode();
 }
 
 TEST_F(GLContextTests, PolygonOnlyModeTest)
 {
+	GLContext.InitGLFW();
+	ZtWindow Window;
+	Window.CreateWindow();
+	GLContext.InitGLAD();
 	ZtGLContext::PolygonOnlyMode();
 }
 
 TEST_F(GLContextTests, PointsModeTest)
 {
+	GLContext.InitGLFW();
+	ZtWindow Window;
+	Window.CreateWindow();
+	GLContext.InitGLAD();
 	ZtGLContext::PointsMode();
 }
