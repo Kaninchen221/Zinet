@@ -12,6 +12,7 @@
 #include "Zinet/GraphicLayer/ZtElementBuffer.h"
 #include "Zinet/GraphicLayer/ZtVertexArray.h"
 #include "Zinet/GraphicLayer/ZtTexture.h"
+#include "Zinet/GraphicLayer/ZtEvent.h"
 
 #include <GLFW/glfw3.h>
 
@@ -158,22 +159,29 @@ int main()
 
 void ProcessInput(ZtWindow& Window)
 {
-    // Should be transformed to something like ZtEvent
+    ZtEvent* Event = Window.GetEvent();
+    ZtKeyboard* Keyboard = Event->GetKeyboard();
+    
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
-    if (glfwGetKey(WindowPointer, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (Keyboard->IsPressed(ZtKeyboardKey::ESCAPE))
+    {
         glfwSetWindowShouldClose(WindowPointer, true);
-    else if(glfwGetKey(WindowPointer, GLFW_KEY_F1) == GLFW_PRESS)
+    }
+    else if(Keyboard->IsPressed(ZtKeyboardKey::F1))
+    {
         ZtGLContext::FillMode();
-    else if (glfwGetKey(WindowPointer, GLFW_KEY_F2) == GLFW_PRESS)
+    }
+    else if (Keyboard->IsPressed(ZtKeyboardKey::F2))
+    {
         ZtGLContext::PolygonOnlyMode();
-    else if (glfwGetKey(WindowPointer, GLFW_KEY_F3) == GLFW_PRESS)
+    }
+    else if (Keyboard->IsPressed(ZtKeyboardKey::F3))
+    {
         ZtGLContext::PointsMode();
+    }
 
-    glfwPollEvents();
-    //
-
-
+    Event->PollEvents();
 }
 
 void Rendering(ZtWindow& Window)

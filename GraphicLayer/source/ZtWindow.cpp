@@ -26,12 +26,17 @@ void ZtWindow::CreateWindow()
     {
         WindowLogger->error("Can't create window");
         glfwTerminate();
+        return;
     }
 
     glfwMakeContextCurrent(WindowPointer);
 
+    glfwSetWindowUserPointer(WindowPointer, this);
+
     GLContext.InitGLAD();
     GLContext.InitOpenGL();
+
+    Event.SetWindow(this);
 }
 
 GLFWwindow* ZtWindow::GetInternalWindow()
@@ -204,4 +209,9 @@ std::string ZtWindow::GetSeverityAsString(GLenum Severity)
     default:
         return "UNKNOWN_GL_DEBUG_SEVERITY";
     }
+}
+
+ZtEvent* ZtWindow::GetEvent()
+{
+    return &Event;
 }

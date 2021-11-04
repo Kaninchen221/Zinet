@@ -103,3 +103,8 @@ TEST_F(ZtWindowTests, ShouldBeClosedTest)
 
 	ASSERT_FALSE(ShouldBeClosed);
 }
+
+TEST_F(ZtWindowTests, GetEvent)
+{
+	ZtEvent* Event = Window.GetEvent();
+}

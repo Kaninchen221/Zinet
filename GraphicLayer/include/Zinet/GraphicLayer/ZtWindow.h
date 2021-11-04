@@ -2,6 +2,7 @@
 
 #include "ZtGraphicLayer.h"
 #include "ZtGLContext.h"
+#include "ZtEvent.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -52,9 +53,12 @@ public:
 
 	static std::string GetSeverityAsString(GLenum Severity);
 
+	ZtEvent* GetEvent();
+
 protected:
 
 	ZtGLContext GLContext;
 	GLFWwindow* WindowPointer = nullptr;
+	ZtEvent Event;
 
 };
