@@ -27,6 +27,7 @@ add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLContext.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGraphicLayer.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtKeyboard.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtKeyboardEvent.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtObject.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtProgram.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtShader.cpp"
