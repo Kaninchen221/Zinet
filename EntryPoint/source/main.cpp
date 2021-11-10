@@ -191,7 +191,19 @@ void Rendering(ZtWindow& Window)
     float timeValue = static_cast<float>(glfwGetTime());
     float greenValue = (sin(timeValue) / 2.0f) + 0.5f; 
     int Uniform = Program.GetUniform("OurColor");
-    Program.SetUniform4f(Uniform, { 0.0f, greenValue, 0.0f, 1.0f });
+
+    ZtEvent* Event = Window.GetEvent();
+    ZtMouse* Mouse = Event->GetMouse();
+    const std::vector<ZtMouseButtonEvent>& MouseEvents = Mouse->GetButtonsEvents();
+
+    if (MouseEvents[0].Button == ZtMouseButton::LEFT)
+    {
+        Program.SetUniform4f(Uniform, { greenValue, 0.0f, 0.0f, 1.0f });
+    }
+    else
+    {
+        Program.SetUniform4f(Uniform, { 0.0f, greenValue, 0.0f, 1.0f });
+    }
 
     EBO.Bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

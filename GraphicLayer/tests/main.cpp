@@ -1,7 +1,7 @@
 
 #include "gtest/gtest.h"
 
-#include "ZtWindowTests.h"
+//#include "ZtWindowTests.h"
 //#include "ZtShaderTests.h"
 //#include "ZtShaderTypeTests.h"
 //#include "ZtVertexTests.h"
@@ -18,6 +18,10 @@
 #include "ZtKeyboardKeyTests.h"
 #include "ZtKeyboardEventTests.h"
 #include "ZtKeyboardEventTypeTests.h"
+#include "ZtMouseTests.h"
+#include "ZtMouseButtonEventTests.h"
+#include "ZtMouseButtonTests.h"
+#include "ZtMouseButtonEventTypeTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

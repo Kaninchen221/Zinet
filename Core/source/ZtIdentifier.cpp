@@ -1,11 +1,11 @@
 #include "Zinet/Core/ZtIdentifier.h"
 
-ZtIdentifier::ZtIdentifier(ZtSize Identifier)
+ZtIdentifier::ZtIdentifier(size_t Identifier)
 {
     UnderlyingNumber = Identifier;
 }
 
-ZtSize ZtIdentifier::GetUnderlyingNumber() const noexcept
+size_t ZtIdentifier::GetUnderlyingNumber() const noexcept
 {
     return UnderlyingNumber;
 }

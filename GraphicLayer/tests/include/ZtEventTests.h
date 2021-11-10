@@ -38,4 +38,13 @@ TEST_F(ZtEventTests, PollEventsTest)
 TEST_F(ZtEventTests, GetKeyboardTest)
 {
 	ZtKeyboard* Keyboard = Event.GetKeyboard();
+
+	ASSERT_NE(Keyboard, nullptr);
+}
+
+TEST_F(ZtEventTests, GetMouseTest)
+{
+	ZtMouse* Mouse = Event.GetMouse();
+
+	ASSERT_NE(Mouse, nullptr);
 }

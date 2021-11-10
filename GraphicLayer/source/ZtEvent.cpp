@@ -4,6 +4,7 @@ void ZtEvent::SetWindow(ZtWindow* Window)
 {
 	this->Window = Window;
 	Keyboard.SetWindow(Window);
+	Mouse.SetWindow(Window);
 }
 
 const ZtWindow* ZtEvent::GetWindow() const
@@ -19,4 +20,15 @@ void ZtEvent::PollEvents()
 ZtKeyboard* ZtEvent::GetKeyboard()
 {
 	return &Keyboard;
+}
+
+ZtMouse* ZtEvent::GetMouse()
+{
+	return &Mouse;
+}
+
+void ZtEvent::BindCallbacks()
+{
+	Keyboard.BindCallbacks();
+	Mouse.BindCallbacks();
 }

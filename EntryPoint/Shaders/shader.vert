@@ -12,7 +12,7 @@ out vec2 TextureCoords;
 void main()
 {
 	gl_Position = vec4(aPosition, 1.0);
-	//VertexColor = aColor * OurColor;
-	VertexColor = aColor;
+	VertexColor = aColor * OurColor;
+	//VertexColor = aColor;
 	TextureCoords = aTextureCoords;
 }

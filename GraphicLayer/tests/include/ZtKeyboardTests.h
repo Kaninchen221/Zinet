@@ -30,43 +30,6 @@ TEST_F(ZtKeyboardTests, GetWindowTest)
 	ASSERT_EQ(Window, nullptr);
 }
 
-TEST_F(ZtKeyboardTests, GetLastEventTest)
-{
-	const ZtKeyboardEvent& Event = Keyboard.GetLastEvent();
-}
-
-TEST_F(ZtKeyboardTests, SetLastEventTest)
-{
-	ZtKeyboardEvent ExpectedEvent;
-	Keyboard.SetLastEvent(ExpectedEvent);
-	const ZtKeyboardEvent& ActualEvent = Keyboard.GetLastEvent();
-
-	ASSERT_TRUE(ExpectedEvent == ActualEvent);
-}
-
-TEST_F(ZtKeyboardTests, GetPreviousEventTest)
-{
-	const ZtKeyboardEvent& Event = Keyboard.GetPreviousEvent();
-}
-
-TEST_F(ZtKeyboardTests, SetPreviousEventTest)
-{
-	ZtKeyboardEvent ExpectedEvent;
-	Keyboard.SetPreviousEvent(ExpectedEvent);
-	const ZtKeyboardEvent& ActualEvent = Keyboard.GetPreviousEvent();
-
-	ASSERT_TRUE(ExpectedEvent == ActualEvent);
-}
-
-TEST_F(ZtKeyboardTests, GetEventsTest)
-{
-	const std::vector<ZtKeyboardEvent>& Events = Keyboard.GetEvents();
-	size_t ActualCount = Events.size();
-	size_t ExpectedGreaterThanCount = 1u;
-
-	ASSERT_GT(ActualCount, ExpectedGreaterThanCount);
-}
-
 TEST_F(ZtKeyboardTests, IsPressedTest)
 {
 	ZtWindow Window;
@@ -94,7 +57,7 @@ TEST_F(ZtKeyboardTests, SetMaximumRememberedEventsTest)
 	ZtKeyboard Keyboard;
 	ZtSize ExpectedMaximumRememberedEvents = 9u;
 	Keyboard.SetMaximumRememberedEvents(ExpectedMaximumRememberedEvents);
-	ZtSize ActualMaximumRememberedEvents = Keyboard.GetMaximumRememberedEvents();
+	size_t ActualMaximumRememberedEvents = Keyboard.GetMaximumRememberedEvents();
 
 	ASSERT_EQ(ExpectedMaximumRememberedEvents, ActualMaximumRememberedEvents);
 

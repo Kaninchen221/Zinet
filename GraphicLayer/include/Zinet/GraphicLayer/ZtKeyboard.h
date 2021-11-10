@@ -11,8 +11,6 @@ class ZtWindow;
 
 class ZINET_GRAPHIC_LAYER_API ZtKeyboard
 {
-	friend void ZtKeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods);
-
 	static inline ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtKeyboard");
 
 public:
@@ -30,33 +28,23 @@ public:
 
 	const ZtWindow* GetWindow() const;
 
-	const ZtKeyboardEvent& GetLastEvent() const;
-
-	void SetLastEvent(const ZtKeyboardEvent& Event);
-
-	const ZtKeyboardEvent& GetPreviousEvent() const;
-
-	void SetPreviousEvent(const ZtKeyboardEvent& Event);
-
 	const std::vector<ZtKeyboardEvent>& GetEvents() const;
 
 	ZtBool IsPressed(ZtKeyboardKey Key) const;
 
 	ZtBool IsReleased(ZtKeyboardKey Key) const;
 
-	static void KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods);
-
 	void SetMaximumRememberedEvents(ZtSize Value);
 
-	ZtSize GetMaximumRememberedEvents() const;
+	size_t GetMaximumRememberedEvents() const;
 
-protected:
+	static void KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods);
 
 	void BindCallbacks();
 
-	ZtWindow* Window = nullptr;
+protected:
 
+	ZtWindow* Window = nullptr;
 	std::vector<ZtKeyboardEvent> Events;
-	size_t MaximumRememberedEvents = 6;
 
 };

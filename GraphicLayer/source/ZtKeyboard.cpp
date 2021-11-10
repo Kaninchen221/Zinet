@@ -3,39 +3,17 @@
 
 ZtKeyboard::ZtKeyboard()
 {
-	Events = std::vector<ZtKeyboardEvent>(MaximumRememberedEvents);
+	Events = std::vector<ZtKeyboardEvent>(1, ZtKeyboardEvent());
 }
 
 void ZtKeyboard::SetWindow(ZtWindow* Window)
 {
 	this->Window = Window;
-
-	BindCallbacks();
 }
 
 const ZtWindow* ZtKeyboard::GetWindow() const
 {
 	return Window;
-}
-
-const ZtKeyboardEvent& ZtKeyboard::GetLastEvent() const
-{
-	return Events[0];
-}
-
-void ZtKeyboard::SetLastEvent(const ZtKeyboardEvent& Event)
-{
-	Events[0] = Event;
-}
-
-const ZtKeyboardEvent& ZtKeyboard::GetPreviousEvent() const
-{
-	return Events[1];
-}
-
-void ZtKeyboard::SetPreviousEvent(const ZtKeyboardEvent& Event)
-{
-	Events[1] = Event;
 }
 
 const std::vector<ZtKeyboardEvent>& ZtKeyboard::GetEvents() const
@@ -81,11 +59,10 @@ void ZtKeyboard::KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, 
 
 void ZtKeyboard::SetMaximumRememberedEvents(ZtSize Value)
 {
-	MaximumRememberedEvents = Value;
-	Events.resize(MaximumRememberedEvents);
+	Events.resize(Value);
 }
 
-ZtSize ZtKeyboard::GetMaximumRememberedEvents() const
+size_t ZtKeyboard::GetMaximumRememberedEvents() const
 {
-	return MaximumRememberedEvents;
+	return Events.size();
 }

@@ -2,6 +2,7 @@
 
 #include "ZtGraphicLayer.h"
 #include "ZtKeyboard.h"
+#include "ZtMouse.h"
 
 class ZtWindow;
 
@@ -18,9 +19,14 @@ public:
 
 	ZtKeyboard* GetKeyboard();
 
+	ZtMouse* GetMouse();
+
+	void BindCallbacks();
+
 protected:
 
 	ZtWindow* Window = nullptr;
 	ZtKeyboard Keyboard;
+	ZtMouse Mouse;
 
 };

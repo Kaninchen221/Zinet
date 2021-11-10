@@ -32,15 +32,15 @@ std::optional<ZtIdentifier> ZtUniqueIdentifierMaker::TryReserveReleasedIdentifie
 ZtIdentifier ZtUniqueIdentifierMaker::ReserveNewIdentifier()
 {
     Numbers.emplace_back(ZtTrue);
-    ZtSize NumbersSize = Numbers.size();
-    ZtSize NumbersLastIndex = NumbersSize - 1;
+    size_t NumbersSize = Numbers.size();
+    size_t NumbersLastIndex = NumbersSize - 1;
     return ZtIdentifier(NumbersLastIndex);
 }
 
 void ZtUniqueIdentifierMaker::Release(ZtIdentifier& Identifier)
 {
-    ZtSize UnderlyingNumber = Identifier.GetUnderlyingNumber();
-    ZtSize NumbersSize = Numbers.size();
+    size_t UnderlyingNumber = Identifier.GetUnderlyingNumber();
+    size_t NumbersSize = Numbers.size();
 
     if(NumbersSize <= UnderlyingNumber)
     {

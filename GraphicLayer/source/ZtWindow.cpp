@@ -37,6 +37,7 @@ void ZtWindow::CreateWindow()
     GLContext.InitOpenGL();
 
     Event.SetWindow(this);
+    Event.BindCallbacks();
 }
 
 GLFWwindow* ZtWindow::GetInternalWindow()

@@ -10,7 +10,7 @@ public:
     const static inline ZtSize Invalid = -1;
 
     ZtIdentifier() = delete;
-    explicit ZtIdentifier(ZtSize Identifier);
+    explicit ZtIdentifier(size_t Identifier);
     ZtIdentifier(ZtIdentifier& Other);
     ZtIdentifier(ZtIdentifier&& Other);
 
@@ -19,11 +19,11 @@ public:
 
     ~ZtIdentifier() = default;
 
-    ZtSize GetUnderlyingNumber() const noexcept;
+    size_t GetUnderlyingNumber() const noexcept;
 
 private:
 
-    ZtSize UnderlyingNumber = Invalid;
+    size_t UnderlyingNumber = Invalid;
 
 };
 

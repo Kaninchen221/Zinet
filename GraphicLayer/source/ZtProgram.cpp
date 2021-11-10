@@ -77,15 +77,15 @@ void ZtProgram::SetUniform1f(GLint Uniform, float Value)
 
 void ZtProgram::SetUniform2f(GLint Uniform, const glm::vec2& Value)
 {
-	glUniform2fv(Uniform, 2, glm::value_ptr(Value));
+	glUniform2f(Uniform, Value.x, Value.y);
 }
 
 void ZtProgram::SetUniform3f(GLint Uniform, const glm::vec3& Value)
 {
-	glUniform3fv(Uniform, 3, glm::value_ptr(Value));
+	glUniform3f(Uniform, Value.x, Value.y, Value.z);
 }
 
 void ZtProgram::SetUniform4f(GLint Uniform, const glm::vec4& Value)
 {
-	glUniform4fv(Uniform, 4, glm::value_ptr(Value));
+	glUniform4f(Uniform, Value.x, Value.y, Value.z, Value.w);
 }
