@@ -22,6 +22,7 @@
 #include "ZtMouseButtonEventTests.h"
 #include "ZtMouseButtonTests.h"
 #include "ZtMouseButtonEventTypeTests.h"
+#include "ZtMousePositionEventTests.h"
 
 int main(int argc, char** argv) {
 	::testing::InitGoogleTest(&argc, argv);

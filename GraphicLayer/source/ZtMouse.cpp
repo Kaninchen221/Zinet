@@ -4,6 +4,7 @@
 ZtMouse::ZtMouse()
 {
 	ButtonsEvents = std::vector<ZtMouseButtonEvent>(1, ZtMouseButtonEvent());
+	PositionEvents = std::vector<ZtMousePositionEvent>(1, ZtMousePositionEvent());
 }
 
 void ZtMouse::SetWindow(ZtWindow* Window)
@@ -21,12 +22,12 @@ const std::vector<ZtMouseButtonEvent>& ZtMouse::GetButtonsEvents() const
 	return ButtonsEvents;
 }
 
-void ZtMouse::SetMaximumRememberedButtonsEvents(size_t Size)
+void ZtMouse::SetMaxRememberedButtonsEvents(size_t Size)
 {
 	ButtonsEvents.resize(Size);
 }
 
-size_t ZtMouse::GetMaximumRememberedButtonsEvents() const
+size_t ZtMouse::GetMaxRememberedButtonsEvents() const
 {
 	return ButtonsEvents.size();
 }
@@ -49,4 +50,34 @@ void ZtMouse::ButtonCallback(GLFWwindow* Window, ZtInt Button, ZtInt Action, ZtI
 void ZtMouse::BindCallbacks()
 {
 	glfwSetMouseButtonCallback(InternalWindow->GetInternalWindow(), &ZtMouse::ButtonCallback);
+	glfwSetCursorPosCallback(InternalWindow->GetInternalWindow(), &ZtMouse::PositionCallback);
+}
+
+void ZtMouse::PositionCallback(GLFWwindow* Window, ZtDouble PositionX, ZtDouble PositionY)
+{
+	void* WindowUserPointer = glfwGetWindowUserPointer(Window);
+	ZtWindow* GLWindow = static_cast<ZtWindow*>(WindowUserPointer);
+	ZtEvent* Event = GLWindow->GetEvent();
+	ZtMouse* Mouse = Event->GetMouse();
+
+	Mouse->PositionEvents.pop_back();
+
+	ZtMousePositionEvent PositionEvent;
+	PositionEvent.Position = glm::dvec2(PositionX, PositionY);
+	Mouse->PositionEvents.insert(Mouse->PositionEvents.begin(), PositionEvent);
+}
+
+const std::vector<ZtMousePositionEvent>& ZtMouse::GetPositionEvents() const
+{
+	return PositionEvents;
+}
+
+void ZtMouse::SetMaxRememberedPositionEvents(size_t Size)
+{
+	PositionEvents.resize(Size);
+}
+
+size_t ZtMouse::GetMaxRememberedPositionEvents() const
+{
+	return PositionEvents.size();
 }

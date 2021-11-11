@@ -30,10 +30,10 @@ void ProcessInput(ZtWindow& Window);
 
 void Rendering(ZtWindow& Window);
 
+ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("Main");
+
 int main()
 {
-    ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("Main");
-
     ZtWindow Window;
     Window.CreateWindow();
     Window.InitStb();
@@ -161,7 +161,9 @@ void ProcessInput(ZtWindow& Window)
 {
     ZtEvent* Event = Window.GetEvent();
     ZtKeyboard* Keyboard = Event->GetKeyboard();
-    
+    ZtMouse* Mouse = Event->GetMouse();
+    Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
+
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
     if (Keyboard->IsPressed(ZtKeyboardKey::ESCAPE))
@@ -196,14 +198,19 @@ void Rendering(ZtWindow& Window)
     ZtMouse* Mouse = Event->GetMouse();
     const std::vector<ZtMouseButtonEvent>& MouseEvents = Mouse->GetButtonsEvents();
 
-    if (MouseEvents[0].Button == ZtMouseButton::LEFT)
-    {
-        Program.SetUniform4f(Uniform, { greenValue, 0.0f, 0.0f, 1.0f });
-    }
-    else
-    {
-        Program.SetUniform4f(Uniform, { 0.0f, greenValue, 0.0f, 1.0f });
-    }
+    //Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
+    //double X = Mouse->GetPositionEvents()[0].Position.x / 100.0;
+    //double Y = Mouse->GetPositionEvents()[0].Position.y / 100.0;
+    //Program.SetUniform4f(Uniform, { X, Y, X * Y, 1.0f });
+
+    //if (MouseEvents[0].Button == ZtMouseButton::LEFT)
+    //{
+    //    Program.SetUniform4f(Uniform, { greenValue, 0.0f, 0.0f, 1.0f });
+    //}
+    //else
+    //{
+    //    Program.SetUniform4f(Uniform, { 0.0f, greenValue, 0.0f, 1.0f });
+    //}
 
     EBO.Bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
