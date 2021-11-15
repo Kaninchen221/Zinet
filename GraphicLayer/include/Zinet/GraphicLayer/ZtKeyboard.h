@@ -30,11 +30,11 @@ public:
 
 	const std::vector<ZtKeyboardEvent>& GetEvents() const;
 
-	ZtBool IsPressed(ZtKeyboardKey Key) const;
+	bool IsPressed(ZtKeyboardKey Key) const;
 
-	ZtBool IsReleased(ZtKeyboardKey Key) const;
+	bool IsReleased(ZtKeyboardKey Key) const;
 
-	void SetMaximumRememberedEvents(ZtSize Value);
+	void SetMaximumRememberedEvents(size_t Value);
 
 	size_t GetMaximumRememberedEvents() const;
 

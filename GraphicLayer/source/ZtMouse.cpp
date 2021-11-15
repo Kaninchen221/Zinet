@@ -32,7 +32,7 @@ size_t ZtMouse::GetMaxRememberedButtonsEvents() const
 	return ButtonsEvents.size();
 }
 
-void ZtMouse::ButtonCallback(GLFWwindow* Window, ZtInt Button, ZtInt Action, ZtInt Mods)
+void ZtMouse::ButtonCallback(GLFWwindow* Window, int Button, int Action, int Mods)
 {
 	void* WindowUserPointer = glfwGetWindowUserPointer(Window);
 	ZtWindow* GLWindow = static_cast<ZtWindow*>(WindowUserPointer);
@@ -53,7 +53,7 @@ void ZtMouse::BindCallbacks()
 	glfwSetCursorPosCallback(InternalWindow->GetInternalWindow(), &ZtMouse::PositionCallback);
 }
 
-void ZtMouse::PositionCallback(GLFWwindow* Window, ZtDouble PositionX, ZtDouble PositionY)
+void ZtMouse::PositionCallback(GLFWwindow* Window, double PositionX, double PositionY)
 {
 	void* WindowUserPointer = glfwGetWindowUserPointer(Window);
 	ZtWindow* GLWindow = static_cast<ZtWindow*>(WindowUserPointer);

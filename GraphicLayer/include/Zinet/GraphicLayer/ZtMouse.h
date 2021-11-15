@@ -32,11 +32,11 @@ public:
 
 	size_t GetMaxRememberedButtonsEvents() const;
 
-	static void ButtonCallback(GLFWwindow* Window, ZtInt Button, ZtInt Action, ZtInt Mods);
+	static void ButtonCallback(GLFWwindow* Window, int Button, int Action, int Mods);
 
 	void BindCallbacks();
 
-	static void PositionCallback(GLFWwindow* Window, ZtDouble PositionX, ZtDouble PositionY);
+	static void PositionCallback(GLFWwindow* Window, double PositionX, double PositionY);
 
 	const std::vector<ZtMousePositionEvent>& GetPositionEvents() const;
 

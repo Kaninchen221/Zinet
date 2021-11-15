@@ -14,8 +14,8 @@ ZtIdentifier ZtUniqueIdentifierMaker::Reserve()
 
 std::optional<ZtIdentifier> ZtUniqueIdentifierMaker::TryReserveReleasedIdentifier()
 {
-    std::vector<ZtBool>::iterator Iterator = Numbers.begin();
-    for(ZtSize Index = 0; Index < Numbers.size(); ++Index)
+    std::vector<bool>::iterator Iterator = Numbers.begin();
+    for(size_t Index = 0; Index < Numbers.size(); ++Index)
     {
         bool IsReserved = *Iterator;
         if(!IsReserved)
@@ -31,7 +31,7 @@ std::optional<ZtIdentifier> ZtUniqueIdentifierMaker::TryReserveReleasedIdentifie
 
 ZtIdentifier ZtUniqueIdentifierMaker::ReserveNewIdentifier()
 {
-    Numbers.emplace_back(ZtTrue);
+    Numbers.emplace_back(true);
     size_t NumbersSize = Numbers.size();
     size_t NumbersLastIndex = NumbersSize - 1;
     return ZtIdentifier(NumbersLastIndex);
@@ -55,16 +55,16 @@ void ZtUniqueIdentifierMaker::Release(ZtIdentifier& Identifier)
         return;
     }
 
-    IsReserved = ZtFalse;
+    IsReserved = false;
 }
 
-ZtBool ZtUniqueIdentifierMaker::IsReserved(ZtSize UnderlyingNumber) const
+bool ZtUniqueIdentifierMaker::IsReserved(size_t UnderlyingNumber) const
 {
     if(UnderlyingNumber >= Numbers.size())
     {
-        return ZtFalse;
+        return false;
     }
 
-    ZtBool IsReserved = Numbers[UnderlyingNumber];
+    bool IsReserved = Numbers[UnderlyingNumber];
     return IsReserved;
 }

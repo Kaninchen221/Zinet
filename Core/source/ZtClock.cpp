@@ -24,7 +24,7 @@ ZtTime ZtClock::GetElapsedTime() const
 
 	ActualTimePoint = UnderlyingClock::now();
 	Difference = ActualTimePoint - SavedTimePoint;
-	Nanoseconds = static_cast<ZtFloat>(std::chrono::duration_cast<std::chrono::nanoseconds>(Difference).count());
+	Nanoseconds = static_cast<float>(std::chrono::duration_cast<std::chrono::nanoseconds>(Difference).count());
 	Time = Nanoseconds;
 	return Time;
 }

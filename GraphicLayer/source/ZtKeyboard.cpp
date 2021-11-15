@@ -21,14 +21,14 @@ const std::vector<ZtKeyboardEvent>& ZtKeyboard::GetEvents() const
 	return Events;
 }
 
-ZtBool ZtKeyboard::IsPressed(ZtKeyboardKey Key) const
+bool ZtKeyboard::IsPressed(ZtKeyboardKey Key) const
 {
-	return glfwGetKey(Window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<ZtInt>(ZtKeyboardEventType::Pressed);
+	return glfwGetKey(Window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(ZtKeyboardEventType::Pressed);
 }
 
-ZtBool ZtKeyboard::IsReleased(ZtKeyboardKey Key) const
+bool ZtKeyboard::IsReleased(ZtKeyboardKey Key) const
 {
-	return glfwGetKey(Window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<ZtInt>(ZtKeyboardEventType::Released);
+	return glfwGetKey(Window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(ZtKeyboardEventType::Released);
 }
 
 void ZtKeyboard::BindCallbacks()
@@ -57,7 +57,7 @@ void ZtKeyboard::KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, 
 	Keyboard->Events.insert(Keyboard->Events.begin(), KeyboardEvent);
 }
 
-void ZtKeyboard::SetMaximumRememberedEvents(ZtSize Value)
+void ZtKeyboard::SetMaximumRememberedEvents(size_t Value)
 {
 	Events.resize(Value);
 }

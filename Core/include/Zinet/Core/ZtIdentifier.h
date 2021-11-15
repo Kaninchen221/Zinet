@@ -7,7 +7,7 @@
 class ZINET_CORE_API ZtIdentifier {
 public:
 
-    const static inline ZtSize Invalid = -1;
+    const static inline size_t Invalid = -1;
 
     ZtIdentifier() = delete;
     explicit ZtIdentifier(size_t Identifier);

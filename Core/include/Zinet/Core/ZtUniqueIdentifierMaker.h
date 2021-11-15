@@ -17,7 +17,7 @@ public:
 
     void Release(ZtIdentifier& UniqueIdentifier);
 
-    ZtBool IsReserved(ZtSize UnderlyingNumber) const;
+    bool IsReserved(size_t UnderlyingNumber) const;
 
 protected:
 
@@ -25,6 +25,6 @@ protected:
 
     ZtIdentifier ReserveNewIdentifier();
 
-    std::vector<ZtBool> Numbers;
+    std::vector<bool> Numbers;
 
 };

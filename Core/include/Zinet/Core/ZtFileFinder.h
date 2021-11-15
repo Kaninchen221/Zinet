@@ -39,7 +39,7 @@ public:
 inline ZtFileFinder::Path ZtFileFinder::CurrentProjectRootPath() const
 {
 	using MacroType = std::decay_t<decltype(ZINET_CURRENT_PROJECT_ROOT_PATH)>;
-	using ValidType = const ZtChar*;
+	using ValidType = const char*;
 	static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
 	return ZINET_CURRENT_PROJECT_ROOT_PATH;
 }

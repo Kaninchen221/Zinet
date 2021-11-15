@@ -55,7 +55,7 @@ TEST_F(ZtKeyboardTests, IsReleasedTest)
 TEST_F(ZtKeyboardTests, SetMaximumRememberedEventsTest)
 {
 	ZtKeyboard Keyboard;
-	ZtSize ExpectedMaximumRememberedEvents = 9u;
+	size_t ExpectedMaximumRememberedEvents = 9u;
 	Keyboard.SetMaximumRememberedEvents(ExpectedMaximumRememberedEvents);
 	size_t ActualMaximumRememberedEvents = Keyboard.GetMaximumRememberedEvents();
 

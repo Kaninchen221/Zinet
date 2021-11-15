@@ -15,7 +15,6 @@ add_library(ZtCore STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtLogger.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtMacroUtilities.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtTime.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtTypes.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/ZtUniqueIdentifierMaker.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtComponent.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/OCS/ZtObject.h"

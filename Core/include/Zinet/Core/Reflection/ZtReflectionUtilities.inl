@@ -7,7 +7,7 @@ template<typename TupleType, typename CallableType>
 constexpr void ZtApplyToTuple(TupleType& Tuple, const CallableType& Callable)
 {
     constexpr size_t TupleSize = std::tuple_size_v<TupleType>;
-    auto IntegerSequence = std::make_integer_sequence<ZtSize, TupleSize>{};
+    auto IntegerSequence = std::make_integer_sequence<size_t, TupleSize>{};
 
     ZtApplyToTupleInternal(Tuple, Callable, IntegerSequence);
 }
