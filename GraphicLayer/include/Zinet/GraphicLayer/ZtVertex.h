@@ -25,13 +25,19 @@ public:
 
 	void SetPosition(const glm::vec3& NewPosition);
 
+	static std::size_t GetOffsetToPosition();
+
 	glm::vec4 GetColor() const;
 
 	void SetColor(const glm::vec4& NewColor);
 
+	static std::size_t GetOffsetToColor();
+
 	glm::vec2 GetTextureCoordinates() const;
 
 	void SetTextureCoordinates(const glm::vec2& NewTextureCoordinates);
+
+	static std::size_t GetOffsetToTextureCoordinates();
 
 protected:
 

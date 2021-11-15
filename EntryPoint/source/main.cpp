@@ -19,12 +19,20 @@
 //#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+
 ZtVertexArray VAO;
 ZtVertexBuffer VBO;
 ZtElementBuffer EBO;
 ZtProgram Program;
 ZtTexture Texture0;
 ZtTexture Texture1;
+
+glm::mat4 Model = glm::mat4(1.0f);
+glm::mat4 View = glm::mat4(1.0f);
+glm::mat4 Projection;
 
 void ProcessInput(ZtWindow& Window);
 
@@ -100,20 +108,40 @@ int main()
     VAO.Bind();
 
     std::vector<ZtVertex> Vertices {
-        {{ 0.5f,   0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.0f, 1.0f}}, // top right
-        {{ 0.5f,  -0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.0f, 0.0f}}, // bottom right
-        {{ -0.5f, -0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.0f, 0.0f}}, // bottom left
-        {{ -0.5f,  0.5f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.0f, 1.0f}}  // top left
+        {{ -0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f}}, // 0
+        {{ -0.5f, -0.5f, 0.5f },  { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f}}, // 1
+        {{ 0.5f, -0.5f, 0.5f },   { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f}}, // 2
+        {{ 0.5f, -0.5f, -0.5f },  { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f}}, // 3
+
+        {{ -0.5f, 0.5f, -0.5f },  { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f}}, // 4
+        {{ -0.5f, 0.5f, 0.5f },   { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f}}, // 5
+        {{ 0.5f, 0.5f, 0.5f },    { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f}}, // 6
+        {{ 0.5f, 0.5f, -0.5f },   { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f}}, // 7
     };
 
-    std::array<unsigned int, 6> Indices {
-        0, 1, 3,
-        1, 2, 3
+    std::array<unsigned int, 36> Indices {
+        0, 1, 2,  //0, 0, 0,
+        2, 3, 0,  //0, 0, 0,
+
+        4, 5, 6,  //0, 0, 0,
+        6, 7, 4,  //0, 0, 0,
+
+        5, 1, 0,  //0, 0, 0,
+        0, 4, 5,  //0, 0, 0,
+        
+        6, 2, 3,  //0, 0, 0,
+        3, 7, 6,  //0, 0, 0,
+        
+        5, 1, 2,  //0, 0, 0,
+        2, 6, 5,  //0, 0, 0,
+        
+        4, 0, 3,  //0, 0, 0,
+        3, 7, 4,  //0, 0, 0,
     };
 
     Texture0.Generate();
     Texture0.Bind();
-    ZtFileFinder::Path TexturePath = RootPath / "Textures" / "wall.jpg";
+    ZtFileFinder::Path TexturePath = RootPath / "Textures" / "checker.png";
     Texture0.LoadFromFile(TexturePath);
     Texture0.GenerateMipmap();
 
@@ -124,21 +152,51 @@ int main()
     EBO.SetData(Indices, ZtBufferUsage::Static);
 
     // Vertices Positions
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (3 * sizeof(float)) + (4 * sizeof(float)) + (2 * sizeof(float)), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToPosition());
     glEnableVertexAttribArray(0);
 
     // Vertices Colors
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, (3 * sizeof(float)) + (4 * sizeof(float)) + (2 * sizeof(float)), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToColor());
     glEnableVertexAttribArray(1);
 
     // Vertices Texture Coordinates
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, (3 * sizeof(float)) + (4 * sizeof(float)) + (2 * sizeof(float)), (void*)((3 * sizeof(float)) + (4 * sizeof(float))));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToTextureCoordinates());
     glEnableVertexAttribArray(2);
 
     Program.Use();
 
     VertexShader.Delete();
     FragmentShader.Delete();
+
+    // Lesson about matrices
+    glm::mat4 Translate = glm::mat4(1.0f); // Identity Matrix
+    Translate = glm::translate(Translate, glm::vec3(0.5f, 0.5f, 0.0f));
+    Translate = glm::scale(Translate, glm::vec3(0.8f, 0.8f, 1.0f));
+    Translate = glm::rotate(Translate, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    //unsigned int TransformLocation = glGetUniformLocation(Program.GetID(), "Transform");
+    //glUniformMatrix4fv(TransformLocation, 1, GL_FALSE, glm::value_ptr(Translate));
+
+    // MVP
+
+    //glm::mat4 Orthographic = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+
+    Model = glm::rotate(Model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    View = glm::translate(View, glm::vec3(0.0f, 0.0f, -3.0f)); // note that we're translating the scene in the reverse direction of where we want to move
+
+    Projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    
+    int ModelLocation = glGetUniformLocation(Program.GetID(), "Model");
+    glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
+
+    int ViewLocation = glGetUniformLocation(Program.GetID(), "View");
+    glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, glm::value_ptr(View));
+
+    int ProjectionLocation = glGetUniformLocation(Program.GetID(), "Projection");
+    glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, glm::value_ptr(Projection));
+
+    // MVP end
 
     while (!glfwWindowShouldClose(WindowPointer))
     {
@@ -162,7 +220,7 @@ void ProcessInput(ZtWindow& Window)
     ZtEvent* Event = Window.GetEvent();
     ZtKeyboard* Keyboard = Event->GetKeyboard();
     ZtMouse* Mouse = Event->GetMouse();
-    Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
+    //Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
 
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
@@ -186,34 +244,44 @@ void ProcessInput(ZtWindow& Window)
     Event->PollEvents();
 }
 
+glm::vec3 CubePositions[] = {
+    glm::vec3(0.0f,  0.0f,  0.0f),
+    glm::vec3(2.0f,  5.0f, -15.0f),
+    glm::vec3(-1.5f, -2.2f, -2.5f),
+    glm::vec3(-3.8f, -2.0f, -12.3f),
+    glm::vec3(2.4f, -0.4f, -3.5f),
+    glm::vec3(-1.7f,  3.0f, -7.5f),
+    glm::vec3(1.3f, -2.0f, -2.5f),
+    glm::vec3(1.5f,  2.0f, -2.5f),
+    glm::vec3(1.5f,  0.2f, -1.5f),
+    glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
 void Rendering(ZtWindow& Window)
 {
     Window.Clear();
-
-    float timeValue = static_cast<float>(glfwGetTime());
-    float greenValue = (sin(timeValue) / 2.0f) + 0.5f; 
-    int Uniform = Program.GetUniform("OurColor");
 
     ZtEvent* Event = Window.GetEvent();
     ZtMouse* Mouse = Event->GetMouse();
     const std::vector<ZtMouseButtonEvent>& MouseEvents = Mouse->GetButtonsEvents();
 
-    //Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
-    //double X = Mouse->GetPositionEvents()[0].Position.x / 100.0;
-    //double Y = Mouse->GetPositionEvents()[0].Position.y / 100.0;
-    //Program.SetUniform4f(Uniform, { X, Y, X * Y, 1.0f });
-
-    //if (MouseEvents[0].Button == ZtMouseButton::LEFT)
-    //{
-    //    Program.SetUniform4f(Uniform, { greenValue, 0.0f, 0.0f, 1.0f });
-    //}
-    //else
-    //{
-    //    Program.SetUniform4f(Uniform, { 0.0f, greenValue, 0.0f, 1.0f });
-    //}
+    thread_local float PreviousTime = 0.f;
+    float Time = (float)glfwGetTime();// -PreviousTime;
+    PreviousTime = (float)glfwGetTime();
 
     EBO.Bind();
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    for (unsigned int I = 0; I < 10; I++)
+    {
+        Model = glm::mat4(1.0f);
+        Model = glm::translate(Model, CubePositions[I]);
+        float Angle = 20.0f * I;
+        //Model = glm::rotate(Model, glm::radians(Angle), glm::vec3(1.0f, 0.3f, 0.5f));
+        Model = glm::rotate(Model, Time * glm::radians(50.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+        int ModelLocation = Program.GetUniform("Model");
+        glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
+
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    }
 
     Window.SwapBuffers();
 }

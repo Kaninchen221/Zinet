@@ -78,3 +78,27 @@ TEST_F(ZtVertexTests, ParamConstructorTest)
 	glm::bvec2 AreTextureCoordinatesEqual = glm::equal(ExpectedTextureCoordinates, ActualTextureCoordinates);
 	ASSERT_TRUE(glm::all(AreTextureCoordinatesEqual));
 }
+
+TEST_F(ZtVertexTests, GetOffsetToPositionTest)
+{
+	std::size_t ActualOffset = ZtVertex::GetOffsetToPosition();
+	std::size_t ExpectedOffset = 0;
+
+	ASSERT_EQ(ActualOffset, ExpectedOffset);
+}
+
+TEST_F(ZtVertexTests, GetOffsetToColorTest)
+{
+	std::size_t ActualOffset = ZtVertex::GetOffsetToColor();
+	std::size_t ExpectedOffset = sizeof(decltype(Vertex.GetPosition()));
+
+	ASSERT_EQ(ActualOffset, ExpectedOffset);
+}
+
+TEST_F(ZtVertexTests, GetOffsetToTextureCoordinatesTest)
+{
+	std::size_t ActualOffset = ZtVertex::GetOffsetToTextureCoordinates();
+	std::size_t ExpectedOffset = sizeof(decltype(Vertex.GetPosition())) + sizeof(decltype(Vertex.GetColor()));
+	
+	ASSERT_EQ(ActualOffset, ExpectedOffset);
+}

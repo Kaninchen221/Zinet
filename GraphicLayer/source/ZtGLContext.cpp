@@ -50,6 +50,8 @@ bool ZtGLContext::InitOpenGL()
     GLint Flags;
     glGetIntegerv(GL_CONTEXT_FLAGS, &Flags);
 
+    glEnable(GL_DEPTH_TEST);
+
     if (Flags & GL_CONTEXT_FLAG_DEBUG_BIT)
     {
         glEnable(GL_DEBUG_OUTPUT);
