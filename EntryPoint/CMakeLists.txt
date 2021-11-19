@@ -1,11 +1,12 @@
 message(STATUS "*** Create Entry Point executable ***")
 
 add_executable(ZtEntryPoint
-	
+	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/include/ZtEntryPoint.h"
 	
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/source/main.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/source/ZtEntryPoint.cpp"
 )
 
 target_compile_features(ZtEntryPoint PUBLIC cxx_std_20)
