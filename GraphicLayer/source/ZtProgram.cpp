@@ -70,22 +70,32 @@ GLint ZtProgram::GetUniform(const std::string& Name)
 	return Uniform;
 }
 
-void ZtProgram::SetUniform1f(GLint Uniform, float Value)
+void ZtProgram::SetUniform1f(const std::string& Name, float Value)
 {
+	GLint Uniform = GetUniform(Name);
 	glUniform1f(Uniform, Value);
 }
 
-void ZtProgram::SetUniform2f(GLint Uniform, const glm::vec2& Value)
+void ZtProgram::SetUniform2f(const std::string& Name, const glm::vec2& Value)
 {
+	GLint Uniform = GetUniform(Name);
 	glUniform2f(Uniform, Value.x, Value.y);
 }
 
-void ZtProgram::SetUniform3f(GLint Uniform, const glm::vec3& Value)
+void ZtProgram::SetUniform3f(const std::string& Name, const glm::vec3& Value)
 {
+	GLint Uniform = GetUniform(Name);
 	glUniform3f(Uniform, Value.x, Value.y, Value.z);
 }
 
-void ZtProgram::SetUniform4f(GLint Uniform, const glm::vec4& Value)
+void ZtProgram::SetUniform4f(const std::string& Name, const glm::vec4& Value)
 {
+	GLint Uniform = GetUniform(Name);
 	glUniform4f(Uniform, Value.x, Value.y, Value.z, Value.w);
+}
+
+void ZtProgram::SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value)
+{
+	GLint Uniform = GetUniform(Name);
+	glUniformMatrix4fv(Uniform, 1, GL_FALSE, glm::value_ptr(Value));
 }

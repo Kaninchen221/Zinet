@@ -122,19 +122,13 @@ void ZtEntryPoint::Init()
     //glm::mat4 Orthographic = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
     Model = glm::rotate(Model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    Program.SetUniformMatrix4f("Model", Model);
 
     View = glm::translate(View, glm::vec3(0.0f, 0.0f, -3.0f)); // note that we're translating the scene in the reverse direction of where we want to move
+    Program.SetUniformMatrix4f("View", View);
 
     Projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-
-    int ModelLocation = glGetUniformLocation(Program.GetID(), "Model");
-    glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model)); // Move this to ZtProgram
-
-    int ViewLocation = glGetUniformLocation(Program.GetID(), "View");
-    glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, glm::value_ptr(View));
-
-    int ProjectionLocation = glGetUniformLocation(Program.GetID(), "Projection");
-    glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, glm::value_ptr(Projection));
+    Program.SetUniformMatrix4f("Projection", Projection);
 
     // MVP end
 }

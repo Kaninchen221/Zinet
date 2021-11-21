@@ -7,6 +7,7 @@
 #include "vec2.hpp"
 #include "vec3.hpp"
 #include "vec4.hpp"
+#include "mat4x4.hpp"
 
 #include "glad/glad.h"
 
@@ -42,11 +43,14 @@ public:
 
 	GLint GetUniform(const std::string& Name);
 
-	void SetUniform1f(GLint Uniform, float Value);
+	void SetUniform1f(const std::string& Name, float Value);
 
-	void SetUniform2f(GLint Uniform, const glm::vec2& Value);
+	void SetUniform2f(const std::string& Name, const glm::vec2& Value);
 
-	void SetUniform3f(GLint Uniform, const glm::vec3& Value);
+	void SetUniform3f(const std::string& Name, const glm::vec3& Value);
 
-	void SetUniform4f(GLint Uniform, const glm::vec4& Value);
+	void SetUniform4f(const std::string& Name, const glm::vec4& Value);
+
+	void SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value);
+
 };

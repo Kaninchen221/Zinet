@@ -38,6 +38,7 @@ protected:
 		"uniform vec2 Uniform2; \n"
 		"uniform vec3 Uniform3; \n"
 		"uniform vec4 Uniform4; \n"
+		"uniform mat4 Uniform5; \n"
 		" \n"
 		"void main() \n"
 		"{ \n"
@@ -155,12 +156,10 @@ TEST_F(ZtProgramTests, SetUniform1fTest)
 	Program.Create();
 	MakeProgramLinkable(Program);
 	Program.Link();
-
-	std::string Name = "Uniform1";
-	GLint Uniform = Program.GetUniform(Name);
-
 	Program.Use();
-	Program.SetUniform1f(Uniform, 0.f);
+
+	std::string UiformName = "Uniform1";
+	Program.SetUniform1f(UiformName, 0.f);
 }
 
 TEST_F(ZtProgramTests, SetUniform2fTest)
@@ -168,13 +167,11 @@ TEST_F(ZtProgramTests, SetUniform2fTest)
 	Program.Create();
 	MakeProgramLinkable(Program);
 	Program.Link();
+	Program.Use();
 
 	std::string Name = "Uniform2";
-	GLint Uniform = Program.GetUniform(Name);
-
-	Program.Use();
 	glm::vec2 Value;
-	Program.SetUniform2f(Uniform, Value);
+	Program.SetUniform2f(Name, Value);
 }
 
 TEST_F(ZtProgramTests, SetUniform3fTest)
@@ -182,13 +179,11 @@ TEST_F(ZtProgramTests, SetUniform3fTest)
 	Program.Create();
 	MakeProgramLinkable(Program);
 	Program.Link();
+	Program.Use();
 
 	std::string Name = "Uniform3";
-	GLint Uniform = Program.GetUniform(Name);
-
-	Program.Use();
 	glm::vec3 Value;
-	Program.SetUniform3f(Uniform, Value);
+	Program.SetUniform3f(Name, Value);
 }
 
 TEST_F(ZtProgramTests, SetUniform4fTest)
@@ -196,11 +191,21 @@ TEST_F(ZtProgramTests, SetUniform4fTest)
 	Program.Create();
 	MakeProgramLinkable(Program);
 	Program.Link();
+	Program.Use();
 
 	std::string Name = "Uniform4";
-	GLint Uniform = Program.GetUniform(Name);
-
-	Program.Use();
 	glm::vec4 Value;
-	Program.SetUniform4f(Uniform, Value);
+	Program.SetUniform4f(Name, Value);
+}
+
+TEST_F(ZtProgramTests, SetUniformMatrix4fTest)
+{
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.Link();
+	Program.Use();
+
+	std::string Name = "Uniform5";
+	glm::mat4 Value;
+	Program.SetUniformMatrix4f(Name, Value);
 }
