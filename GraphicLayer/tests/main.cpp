@@ -1,11 +1,11 @@
 
 #include "gtest/gtest.h"
 
-//#include "ZtWindowTests.h"
+#include "ZtWindowTests.h"
 //#include "ZtShaderTests.h"
 //#include "ZtShaderTypeTests.h"
 //#include "ZtVertexTests.h"
-#include "ZtProgramTests.h"
+//#include "ZtProgramTests.h"
 //#include "ZtVertexBufferTests.h"
 //#include "ZtElementBufferTests.h"
 //#include "ZtVertexArrayTests.h"

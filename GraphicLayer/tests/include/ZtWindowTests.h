@@ -104,7 +104,13 @@ TEST_F(ZtWindowTests, ShouldBeClosedTest)
 	ASSERT_FALSE(ShouldBeClosed);
 }
 
-TEST_F(ZtWindowTests, GetEvent)
+TEST_F(ZtWindowTests, GetEventTest)
 {
 	ZtEvent* Event = Window.GetEvent();
+}
+
+TEST_F(ZtWindowTests, BindCallbacksTest)
+{
+	Window.CreateWindow();
+	Window.BindCallbacks();
 }

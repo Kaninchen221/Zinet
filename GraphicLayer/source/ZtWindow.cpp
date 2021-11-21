@@ -33,6 +33,8 @@ void ZtWindow::CreateWindow()
 
     glfwSetWindowUserPointer(WindowPointer, this);
 
+    BindCallbacks();
+
     GLContext.InitGLAD();
     GLContext.InitOpenGL();
 
@@ -58,6 +60,11 @@ void ZtWindow::SetViewport(int X, int Y, int Width, int Height)
 void ZtWindow::SetClearColor(float Red, float Green, float Blue, float Alpha)
 {
     glClearColor(Red, Green, Blue, Alpha);
+}
+
+void ZtWindow::BindCallbacks()
+{
+    BindFramebufferSizeCallback();
 }
 
 void ZtWindow::BindFramebufferSizeCallback()

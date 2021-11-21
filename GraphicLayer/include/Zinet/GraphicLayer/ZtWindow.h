@@ -32,6 +32,8 @@ public:
 
 	void SetClearColor(float Red, float Green, float Blue, float Alpha);
 
+	void BindCallbacks();
+
 	void BindFramebufferSizeCallback();
 	
 	bool IsOpen();

@@ -32,8 +32,6 @@ void ZtEntryPoint::Init()
     Window.SetViewport(0, 0, Width, Height);
     // End Fix
 
-    Window.BindFramebufferSizeCallback();
-
     Window.SetClearColor(0.1f, 0.1f, 0.1f, 1.f);
 
     PrepareShader();
