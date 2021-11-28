@@ -2,6 +2,8 @@
 
 #include <gtc/type_ptr.hpp>
 
+#include "Zinet/GraphicLayer/ZtVertex.h"
+
 ZtProgram::~ZtProgram() noexcept
 {
 	if (ID != InvalidID)
@@ -98,4 +100,19 @@ void ZtProgram::SetUniformMatrix4f(const std::string& Name, const glm::mat4& Val
 {
 	GLint Uniform = GetUniform(Name);
 	glUniformMatrix4fv(Uniform, 1, GL_FALSE, glm::value_ptr(Value));
+}
+
+void ZtProgram::PrepareAttributes() const
+{
+	// Positions
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToPosition());
+	glEnableVertexAttribArray(0);
+
+	// Colors
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToColor());
+	glEnableVertexAttribArray(1);
+
+	// Texture Coordinates
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToTextureCoordinates());
+	glEnableVertexAttribArray(2);
 }

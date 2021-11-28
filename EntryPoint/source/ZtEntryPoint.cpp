@@ -89,17 +89,7 @@ void ZtEntryPoint::Init()
     EBO.Bind();
     EBO.SetData(Indices, ZtBufferUsage::Static);
 
-    // Vertices Positions
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToPosition()); // Move this to something like ZtRenderInfo
-    glEnableVertexAttribArray(0);
-
-    // Vertices Colors
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToColor());
-    glEnableVertexAttribArray(1);
-
-    // Vertices Texture Coordinates
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(ZtVertex), (void*)ZtVertex::GetOffsetToTextureCoordinates());
-    glEnableVertexAttribArray(2);
+    Program.PrepareAttributes();
 
     Program.Use();
 

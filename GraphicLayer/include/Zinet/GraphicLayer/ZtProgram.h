@@ -53,4 +53,6 @@ public:
 
 	void SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value);
 
+	virtual void PrepareAttributes() const;
+
 };

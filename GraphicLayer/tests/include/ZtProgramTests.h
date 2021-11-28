@@ -2,6 +2,9 @@
 
 #include "Zinet/GraphicLayer/ZtProgram.h"
 #include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtVertex.h"
+#include "Zinet/GraphicLayer/ZtVertexArray.h"
+#include "Zinet/GraphicLayer/ZtVertexBuffer.h"
 
 #include "gtest/gtest.h"
 
@@ -208,4 +211,24 @@ TEST_F(ZtProgramTests, SetUniformMatrix4fTest)
 	std::string Name = "Uniform5";
 	glm::mat4 Value;
 	Program.SetUniformMatrix4f(Name, Value);
+}
+
+TEST_F(ZtProgramTests, PrepareAttributesTest)
+{
+	std::vector<ZtVertex> Vertices{
+	   {{ 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f}}
+	};
+
+	ZtVertexArray VAO;
+	VAO.Generate();
+	VAO.Bind();
+
+	ZtVertexBuffer VBO;
+	VBO.Generate();
+	VBO.Bind();
+	VBO.SetData(Vertices, ZtBufferUsage::Static);
+
+	Program.Create();
+	MakeProgramLinkable(Program);
+	Program.PrepareAttributes();
 }
