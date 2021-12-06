@@ -3,19 +3,19 @@
 void ZtEntryPoint::Start()
 {
     Init();
-
+    
     while (!Window.ShouldBeClosed())
     {
         ProcessInput();
-
+    
         Rendering();
     }
-
+    
     VAO.Delete();
     EBO.Delete();
     VBO.Delete();
     Texture0.Delete();
-
+    
     Program.Delete();
 }
 

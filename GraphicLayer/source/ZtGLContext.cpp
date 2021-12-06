@@ -66,6 +66,8 @@ bool ZtGLContext::InitOpenGL()
         Logger->error("Can't initialize OpenGL Debug Context");
         return false;
     }
+
+    return true;
 }
 
 void ZtGLContext::FillMode()

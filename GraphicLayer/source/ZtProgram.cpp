@@ -1,6 +1,6 @@
 #include "Zinet/GraphicLayer/ZtProgram.h"
 
-#include <gtc/type_ptr.hpp>
+#include "glm/gtc/type_ptr.hpp"
 
 #include "Zinet/GraphicLayer/ZtVertex.h"
 

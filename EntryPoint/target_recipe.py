@@ -12,13 +12,15 @@ EntryPoint.include_dirs_list = [
     "${SFML_INCLUDE_DIRS}",
     "${COLONY_INCLUDE_DIRS}",
     "${GLM_INCLUDE_DIRS}",
-    "${STB_INCLUDE_DIRS}"
+    "${STB_INCLUDE_DIRS}",
+    "${VULKAN_HPP_INCLUDE_DIRS}"
 ]
 EntryPoint.link_libraries_list = [
     "spdlog",
     "Glad",
     "glfw",
-    "ZtGraphicLayer"
+    "ZtGraphicLayer",
+    "${Vulkan_LIBRARIES}"
 ]
 EntryPoint.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

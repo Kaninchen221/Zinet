@@ -1,9 +1,22 @@
-#include "ZtEntryPoint.h"
+//#include "ZtEntryPoint.h"
+#include "ZtVulkanHelloTriangle.h"
 
 int main()
 {
-    ZtEntryPoint EntryPoint;
-    EntryPoint.Start();
+    //ZtEntryPoint EntryPoint;
+    //EntryPoint.Start();
 
-    return 0;
+    ZtVulkanHelloTriangle App;
+
+    try 
+    {
+        App.Run();
+    }
+    catch (const std::exception& Ex) 
+    {
+        std::cerr << Ex.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
 }

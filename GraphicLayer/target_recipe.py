@@ -11,7 +11,8 @@ renderer_lib.source_path = "GraphicLayer/source"
 renderer_lib.include_dirs_list = [
     "${COLONY_INCLUDE_DIRS}",
     "${GLM_INCLUDE_DIRS}",
-    "${STB_INCLUDE_DIRS}"
+    "${STB_INCLUDE_DIRS}",
+    "${VULKAN_HPP_INCLUDE_DIRS}"
 ]
 renderer_lib.link_libraries_list = [
     "ZtCore",

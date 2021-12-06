@@ -2,11 +2,13 @@ message(STATUS "*** Create Entry Point executable ***")
 
 add_executable(ZtEntryPoint
 	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/include/ZtEntryPoint.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/include/ZtVulkanHelloTriangle.h"
 	
 	
 	
 	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/source/main.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/source/ZtEntryPoint.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/EntryPoint/source/ZtVulkanHelloTriangle.cpp"
 )
 
 target_compile_features(ZtEntryPoint PUBLIC cxx_std_20)
@@ -20,8 +22,8 @@ set_target_properties(ZtEntryPoint PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS})
+target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS})
 
-target_link_libraries(ZtEntryPoint PUBLIC spdlog Glad glfw ZtGraphicLayer)
+target_link_libraries(ZtEntryPoint PUBLIC spdlog Glad glfw ZtGraphicLayer ${Vulkan_LIBRARIES})
 
 target_compile_definitions(ZtEntryPoint PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")

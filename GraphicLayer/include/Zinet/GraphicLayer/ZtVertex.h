@@ -2,9 +2,9 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-#include "vec2.hpp"
-#include "vec3.hpp"
-#include "vec4.hpp"
+#include "glm/vec2.hpp"
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
 
 class ZINET_GRAPHIC_LAYER_API ZtVertex
 {

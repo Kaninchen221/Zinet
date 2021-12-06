@@ -47,7 +47,7 @@ set_target_properties(ZtGraphicLayerTest
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtGraphicLayerTest PUBLIC ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS})
+target_include_directories(ZtGraphicLayerTest PUBLIC ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS})
 
 target_compile_definitions(ZtGraphicLayerTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

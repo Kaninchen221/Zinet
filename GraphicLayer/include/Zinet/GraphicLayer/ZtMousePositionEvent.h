@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
 
-#include "vec2.hpp"
+#include "glm/vec2.hpp"
 
 struct ZINET_GRAPHIC_LAYER_API ZtMousePositionEvent
 {

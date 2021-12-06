@@ -59,7 +59,7 @@ set_target_properties(ZtGraphicLayer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtGraphicLayer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS})
+target_include_directories(ZtGraphicLayer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS})
 
 target_link_libraries(ZtGraphicLayer PUBLIC ZtCore spdlog Glad glfw)
 
