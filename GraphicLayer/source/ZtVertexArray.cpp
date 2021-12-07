@@ -10,21 +10,20 @@ ZtVertexArray::~ZtVertexArray() noexcept
 
 void ZtVertexArray::Generate()
 {
-	glGenVertexArrays(1, &ID);
+
 }
 
 void ZtVertexArray::Bind()
 {
-	glBindVertexArray(ID);
+
 }
 
 void ZtVertexArray::Unbind()
 {
-	glBindVertexArray(InvalidID);
+
 }
 
 void ZtVertexArray::Delete()
 {
-	glDeleteVertexArrays(1, &ID);
 	ID = InvalidID;
 }

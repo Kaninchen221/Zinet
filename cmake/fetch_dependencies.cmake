@@ -19,9 +19,6 @@ include(cmake/fetch_vulkan_hpp.cmake)
 # GLFW
 include(cmake/fetch_glfw.cmake)
 
-# GLM
-#include(cmake/fetch_glm.cmake)
-
 # STB
 include(cmake/fetch_stb.cmake)
 

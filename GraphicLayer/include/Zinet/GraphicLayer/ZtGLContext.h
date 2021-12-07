@@ -34,9 +34,6 @@ public:
 
 	static void PointsMode();
 
-	static void OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum Severity,
-		GLsizei Length, const GLchar* Message, const void* UserParam);
-
 	static std::string GetSourceAsString(GLenum Source);
 
 	static std::string GetTypeAsString(GLenum Type);

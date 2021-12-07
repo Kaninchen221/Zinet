@@ -12,32 +12,27 @@ ZtTexture::~ZtTexture() noexcept
 
 void ZtTexture::Generate()
 {
-	glGenTextures(1, &ID);
+
 }
 
 void ZtTexture::Bind() const
 {
-	glBindTexture(GL_TEXTURE_2D, ID);
+
 }
 
 void ZtTexture::Unbind() const
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 void ZtTexture::Delete()
 {
-	glDeleteTextures(1, &ID);
 	ID = InvalidID;
 }
 
 void ZtTexture::LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height)
 {
-	GLint MipmapLevel = 0;
-	GLint InternalFormat = GL_RGBA;
-	GLint Border = 0;
-	GLenum PixelDataFormat = GL_RGBA;
-	glTexImage2D(GL_TEXTURE_2D, MipmapLevel, GL_RGBA, Width, Height, Border, GL_RGB, GL_UNSIGNED_BYTE, Data);
+
 }
 
 void ZtTexture::LoadFromFile(const ZtFileFinder::Path& Path)
@@ -56,5 +51,5 @@ void ZtTexture::LoadFromFile(const ZtFileFinder::Path& Path)
 
 void ZtTexture::GenerateMipmap() const
 {
-	glGenerateMipmap(GL_TEXTURE_2D);
+
 }

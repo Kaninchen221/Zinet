@@ -27,34 +27,25 @@ public:
 	GLFWwindow* GetInternalWindow();
 
 	void InitStb();
-
+	
 	void SetViewport(int X, int Y, int Width, int Height);
-
+	
 	void SetClearColor(float Red, float Green, float Blue, float Alpha);
-
+	
 	void BindCallbacks();
-
+	
 	void BindFramebufferSizeCallback();
 	
 	bool IsOpen();
-
-	GLboolean ShouldBeClosed() const;
+	
+	bool ShouldBeClosed() const;
 
 	void Clear();
-
+	
 	void SwapBuffers();
-
+	
 	static void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
-
-	static void OpenGLDebugOutput(GLenum Source, GLenum Type, GLuint Id, GLenum Severity,
-		GLsizei Length, const GLchar* Message, const void* UserParam);
-
-	static std::string GetSourceAsString(GLenum Source);
-
-	static std::string GetTypeAsString(GLenum Type);
-
-	static std::string GetSeverityAsString(GLenum Severity);
-
+	
 	ZtEvent* GetEvent();
 
 protected:

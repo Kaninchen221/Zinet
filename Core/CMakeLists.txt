@@ -62,7 +62,7 @@ set_target_properties(ZtCore PROPERTIES
 
 target_include_directories(ZtCore PRIVATE ${COLONY_INCLUDE_DIRS})
 
-target_link_libraries(ZtCore PUBLIC spdlog glfw Glad)
+target_link_libraries(ZtCore PUBLIC spdlog glfw)
 
 target_compile_definitions(ZtCore PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

@@ -51,4 +51,4 @@ target_include_directories(ZtGraphicLayerTest PUBLIC ${COLONY_INCLUDE_DIRS} ${GL
 
 target_compile_definitions(ZtGraphicLayerTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ZtGraphicLayerTest PUBLIC spdlog gtest gmock Glad glfw ZtGraphicLayer)
+target_link_libraries(ZtGraphicLayerTest PUBLIC spdlog gtest gmock glfw ZtGraphicLayer)

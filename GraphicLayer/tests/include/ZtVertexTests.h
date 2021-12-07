@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 
-#include "vector_relational.hpp"
+#include "glm/vector_relational.hpp"
 
 class ZtVertexTests : public ::testing::Test
 {

@@ -36,5 +36,5 @@ public:
 template<typename ContainerType>
 inline void ZtElementBuffer::SetData(const ContainerType& Container, ZtBufferUsage Usage)
 {
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, Container.size() * sizeof(ContainerType::value_type), Container.data(), static_cast<GLenum>(Usage));
+
 }

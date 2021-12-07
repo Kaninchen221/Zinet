@@ -27,5 +27,5 @@ public:
 template<typename ContainerType>
 inline void ZtVertexBuffer::SetData(const ContainerType& Container, ZtBufferUsage Usage)
 {
-	glBufferData(GL_ARRAY_BUFFER, Container.size() * sizeof(ContainerType::value_type), Container.data(), static_cast<GLenum>(Usage));
+
 }

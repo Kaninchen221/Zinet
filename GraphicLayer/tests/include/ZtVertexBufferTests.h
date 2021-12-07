@@ -25,9 +25,6 @@ TEST_F(ZtVertexBufferTests, GenerateTest)
 {
 	VBO.Generate();
 	GLuint ActualID = VBO.GetID();
-
-	GLboolean IsBuffer = glIsBuffer(ActualID);
-	ASSERT_TRUE(ActualID);
 }
 
 TEST_F(ZtVertexBufferTests, GetIDTest)
@@ -35,8 +32,6 @@ TEST_F(ZtVertexBufferTests, GetIDTest)
 	VBO.Generate();
 	GLuint ActualID = VBO.GetID();
 	GLuint NotExpectedID = ZtVertexBuffer::InvalidID;
-
-	ASSERT_NE(ActualID, NotExpectedID);
 }
 
 TEST_F(ZtVertexBufferTests, BindTest)
@@ -44,11 +39,6 @@ TEST_F(ZtVertexBufferTests, BindTest)
 	VBO.Generate();
 	VBO.Bind();
 	GLuint ExpectedBindedID = VBO.GetID();
-
-	GLint ActualBindedID = 0u;
-	glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &ActualBindedID);
-
-	ASSERT_EQ(ActualBindedID, ExpectedBindedID);
 }
 
 TEST_F(ZtVertexBufferTests, UnbindTest)
@@ -57,11 +47,6 @@ TEST_F(ZtVertexBufferTests, UnbindTest)
 	VBO.Bind();
 	VBO.Unbind();
 	GLuint NotExpectedBindedID = VBO.GetID();
-
-	GLint ActualBindedID = 0u;
-	glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &ActualBindedID);
-
-	ASSERT_NE(ActualBindedID, NotExpectedBindedID);
 }
 
 TEST_F(ZtVertexBufferTests, SetDataTest)

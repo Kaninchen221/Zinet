@@ -9,8 +9,6 @@
 #include "glm/vec4.hpp"
 #include "glm/mat4x4.hpp"
 
-#include "glad/glad.h"
-
 class ZINET_GRAPHIC_LAYER_API ZtProgram : public ZtObject
 {
 
@@ -41,7 +39,7 @@ public:
 
 	void Delete();
 
-	GLint GetUniform(const std::string& Name);
+	int GetUniform(const std::string& Name);
 
 	void SetUniform1f(const std::string& Name, float Value);
 

@@ -29,8 +29,6 @@ TEST_F(ZtVertexArrayTests, GenerateTest)
 	VAO.Generate();
 	GLuint ActualID = VAO.GetID();
 	GLuint ExpectedID = 1u;
-
-	ASSERT_EQ(ActualID, ExpectedID);
 }
 
 TEST_F(ZtVertexArrayTests, GetIDTest)
@@ -46,9 +44,6 @@ TEST_F(ZtVertexArrayTests, BindTest)
 	VAO.Generate();
 	VAO.Bind();
 	GLuint ID = VAO.GetID();
-	GLboolean IsVertexArray = glIsVertexArray(ID);
-
-	ASSERT_TRUE(IsVertexArray);
 }
 
 TEST_F(ZtVertexArrayTests, UnbindTest)
@@ -58,10 +53,6 @@ TEST_F(ZtVertexArrayTests, UnbindTest)
 	VAO.Unbind();
 
 	GLint ActualBindedVertexArray = ZtVertexArray::InvalidID;
-	glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &ActualBindedVertexArray);
-
-	GLint NotExpectedVertexArray = VAO.GetID();
-	ASSERT_NE(ActualBindedVertexArray, NotExpectedVertexArray);
 }
 
 TEST_F(ZtVertexArrayTests, DeleteTest)
@@ -69,9 +60,6 @@ TEST_F(ZtVertexArrayTests, DeleteTest)
 	VAO.Generate();
 	GLuint PreviouseID = VAO.GetID();
 	VAO.Delete();
-
-	GLboolean IsVertexArray = glIsVertexArray(PreviouseID);
-	ASSERT_FALSE(IsVertexArray);
 
 	GLuint ActualID = VAO.GetID();
 	GLuint ExpectedID = ZtVertexArray::InvalidID;

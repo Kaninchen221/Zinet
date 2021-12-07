@@ -26,33 +26,11 @@ TEST_F(GLContextTests, DeinitGLFWTest)
 	GLContext.DeinitGLFW();
 }
 
-TEST_F(GLContextTests, InitGLADTest)
-{
-	GLContext.InitGLFW();
-	ZtWindow Window;
-	Window.CreateWindow();
-	bool Result = GLContext.InitGLAD();
-
-	ASSERT_TRUE(Result);
-}
-
-TEST_F(GLContextTests, InitOpenGLTest)
-{
-	GLContext.InitGLFW();
-	ZtWindow Window;
-	Window.CreateWindow();
-	GLContext.InitGLAD();
-	bool Result = GLContext.InitOpenGL();
-
-	ASSERT_TRUE(Result);
-}
-
 TEST_F(GLContextTests, FillModeTest)
 {
 	GLContext.InitGLFW();
 	ZtWindow Window;
 	Window.CreateWindow();
-	GLContext.InitGLAD();
 	ZtGLContext::FillMode();
 }
 
@@ -61,7 +39,6 @@ TEST_F(GLContextTests, PolygonOnlyModeTest)
 	GLContext.InitGLFW();
 	ZtWindow Window;
 	Window.CreateWindow();
-	GLContext.InitGLAD();
 	ZtGLContext::PolygonOnlyMode();
 }
 
@@ -70,6 +47,5 @@ TEST_F(GLContextTests, PointsModeTest)
 	GLContext.InitGLFW();
 	ZtWindow Window;
 	Window.CreateWindow();
-	GLContext.InitGLAD();
 	ZtGLContext::PointsMode();
 }

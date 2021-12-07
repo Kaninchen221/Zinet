@@ -17,7 +17,6 @@ renderer_lib.include_dirs_list = [
 renderer_lib.link_libraries_list = [
     "ZtCore",
     "spdlog",
-    "Glad",
     "glfw",
 ]
 renderer_lib.macros_list = [

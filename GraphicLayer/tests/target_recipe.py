@@ -18,7 +18,6 @@ renderer_lib_test.link_libraries_list = [
     "spdlog",
     "gtest",
     "gmock",
-    "Glad",
     "glfw",
     "ZtGraphicLayer"
 ]

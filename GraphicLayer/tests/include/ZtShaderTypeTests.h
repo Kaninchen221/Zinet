@@ -12,10 +12,6 @@ protected:
 
 };
 
-TEST_F(ZtShaderTypeTests, EqualToOpenGLTypeTest)
+TEST_F(ZtShaderTypeTests, PassTest)
 {
-	ShaderType = ZtShaderType::Vertex;
-	GLuint ShaderTypeAsGLuint = static_cast<GLuint>(ShaderType);
-
-	ASSERT_EQ(ShaderTypeAsGLuint, GL_VERTEX_SHADER);
 }

@@ -14,7 +14,6 @@ core_lib.include_dirs_list = [
 core_lib.link_libraries_list = [
     "spdlog",
     "glfw",
-    "Glad"
 ]
 core_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
