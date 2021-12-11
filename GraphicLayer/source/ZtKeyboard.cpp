@@ -1,68 +1,73 @@
 #include "Zinet/GraphicLayer/ZtKeyboard.h"
 #include "Zinet/GraphicLayer/ZtWindow.h"
 
-ZtKeyboard::ZtKeyboard()
+namespace zt::gl
 {
-	Events = std::vector<ZtKeyboardEvent>(1, ZtKeyboardEvent());
-}
 
-void ZtKeyboard::SetWindow(ZtWindow* Window)
-{
-	this->Window = Window;
-}
-
-const ZtWindow* ZtKeyboard::GetWindow() const
-{
-	return Window;
-}
-
-const std::vector<ZtKeyboardEvent>& ZtKeyboard::GetEvents() const
-{
-	return Events;
-}
-
-bool ZtKeyboard::IsPressed(ZtKeyboardKey Key) const
-{
-	return glfwGetKey(Window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(ZtKeyboardEventType::Pressed);
-}
-
-bool ZtKeyboard::IsReleased(ZtKeyboardKey Key) const
-{
-	return glfwGetKey(Window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(ZtKeyboardEventType::Released);
-}
-
-void ZtKeyboard::BindCallbacks()
-{
-	if (Window == nullptr)
+	Keyboard::Keyboard()
 	{
-		Logger->error("Can't bind callbacks when window is nullptr");
-		return;
+		Events = std::vector<KeyboardEvent>(1, KeyboardEvent());
 	}
 
-	glfwSetKeyCallback(Window->GetInternalWindow(), ZtKeyboard::KeyCallback);
-}
+	void Keyboard::SetWindow(Window* newWindow)
+	{
+		window = newWindow;
+	}
 
-void ZtKeyboard::KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods)
-{
-	void* WindowUserPointer = glfwGetWindowUserPointer(InternalWindow);
-	ZtWindow* GLWindow = static_cast<ZtWindow*>(WindowUserPointer);
-	ZtEvent* Event = GLWindow->GetEvent();
-	ZtKeyboard* Keyboard = Event->GetKeyboard();
-	
-	Keyboard->Events.pop_back();
-	
-	ZtKeyboardEvent KeyboardEvent;
-	KeyboardEvent.Type = static_cast<ZtKeyboardEventType>(Action);
-	KeyboardEvent.Key = static_cast<ZtKeyboardKey>(Key);
-	Keyboard->Events.insert(Keyboard->Events.begin(), KeyboardEvent);
-}
+	const Window* Keyboard::GetWindow() const
+	{
+		return window;
+	}
 
-void ZtKeyboard::SetMaximumRememberedEvents(size_t Value)
-{
-	Events.resize(Value);
-}
+	const std::vector<KeyboardEvent>& Keyboard::GetEvents() const
+	{
+		return Events;
+	}
 
-size_t ZtKeyboard::GetMaximumRememberedEvents() const
-{
-	return Events.size();
+	bool Keyboard::IsPressed(KeyboardKey Key) const
+	{
+		return glfwGetKey(window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(KeyboardEventType::Pressed);
+	}
+
+	bool Keyboard::IsReleased(KeyboardKey Key) const
+	{
+		return glfwGetKey(window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(KeyboardEventType::Released);
+	}
+
+	void Keyboard::BindCallbacks()
+	{
+		if (window == nullptr)
+		{
+			Logger->error("Can't bind callbacks when window is nullptr");
+			return;
+		}
+
+		glfwSetKeyCallback(window->GetInternalWindow(), Keyboard::KeyCallback);
+	}
+
+	void Keyboard::KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods)
+	{
+		void* WindowUserPointer = glfwGetWindowUserPointer(InternalWindow);
+		Window* GLWindow = static_cast<Window*>(WindowUserPointer);
+		Event* Event = GLWindow->GetEvent();
+		Keyboard* Keyboard = Event->GetKeyboard();
+
+		Keyboard->Events.pop_back();
+
+		KeyboardEvent KeyboardEvent;
+		KeyboardEvent.Type = static_cast<KeyboardEventType>(Action);
+		KeyboardEvent.Key = static_cast<KeyboardKey>(Key);
+		Keyboard->Events.insert(Keyboard->Events.begin(), KeyboardEvent);
+	}
+
+	void Keyboard::SetMaximumRememberedEvents(size_t Value)
+	{
+		Events.resize(Value);
+	}
+
+	size_t Keyboard::GetMaximumRememberedEvents() const
+	{
+		return Events.size();
+	}
+
 }

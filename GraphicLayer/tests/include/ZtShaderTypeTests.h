@@ -4,14 +4,19 @@
 
 #include "gtest/gtest.h"
 
-class ZtShaderTypeTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtShaderType ShaderType{};
+	class ZtShaderTypeTests : public ::testing::Test
+	{
+	protected:
 
-};
+		ShaderType shaderType{};
 
-TEST_F(ZtShaderTypeTests, PassTest)
-{
+	};
+
+	TEST_F(ZtShaderTypeTests, PassTest)
+	{
+	}
+
 }

@@ -9,30 +9,30 @@ class ZtMouseTests : public ::testing::Test
 {
 protected:
 
-	ZtMouse Mouse;
+	Mouse Mouse;
 
 };
 
 TEST_F(ZtMouseTests, SetWindowTest)
 {
-	ZtWindow ExpectedWindow;
+	Window ExpectedWindow;
 	ExpectedWindow.CreateWindow();
 	Mouse.SetWindow(&ExpectedWindow);
-	const ZtWindow* ActualWindow = Mouse.GetWindow();
+	const Window* ActualWindow = Mouse.GetWindow();
 
 	ASSERT_EQ(&ExpectedWindow, ActualWindow);
 }
 
 TEST_F(ZtMouseTests, GetWindowTest)
 {
-	const ZtWindow* ActualWindow = Mouse.GetWindow();
+	const Window* ActualWindow = Mouse.GetWindow();
 
 	ASSERT_EQ(ActualWindow, nullptr);
 }
 
 TEST_F(ZtMouseTests, GetButtonsEventsTest)
 {
-	const std::vector<ZtMouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();
+	const std::vector<MouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();
 }
 
 TEST_F(ZtMouseTests, SetMaximumRememberedButtonsEventsTest)
@@ -50,24 +50,24 @@ TEST_F(ZtMouseTests, SetMaximumRememberedButtonsEventsTest)
 
 TEST_F(ZtMouseTests, ButtonCallbackTest)
 {
-	ZtWindow Window;
+	Window Window;
 	Window.CreateWindow();
-	ZtMouseButtonEvent ExpectedButtonEvent{};
-	ZtMouse::ButtonCallback(Window.GetInternalWindow(), static_cast<int>(ExpectedButtonEvent.Button), static_cast<int>(ExpectedButtonEvent.Type), 0);
-	const std::vector<ZtMouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();
+	MouseButtonEvent ExpectedButtonEvent{};
+	Mouse::ButtonCallback(Window.GetInternalWindow(), static_cast<int>(ExpectedButtonEvent.Button), static_cast<int>(ExpectedButtonEvent.Type), 0);
+	const std::vector<MouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();
 	size_t ActualButtonsEventsCount = ButtonsEvents.size();
 	size_t ExpectedButtonsEventsCount = 1u;
 
 	ASSERT_EQ(ActualButtonsEventsCount, ExpectedButtonsEventsCount);
 
-	ZtMouseButtonEvent ActualButtonEvent = ButtonsEvents[0];
+	MouseButtonEvent ActualButtonEvent = ButtonsEvents[0];
 	ASSERT_EQ(ExpectedButtonEvent, ActualButtonEvent);
 }
 
 TEST_F(ZtMouseTests, PositionCallbackTest)
 {
-	ZtMouse::PositionCallback((GLFWwindow*)nullptr, (double)0, (double)0);
-	const std::vector<ZtMousePositionEvent>& Positions = Mouse.GetPositionEvents();
+	Mouse::PositionCallback((GLFWwindow*)nullptr, (double)0, (double)0);
+	const std::vector<MousePositionEvent>& Positions = Mouse.GetPositionEvents();
 	size_t ActualPositionsCount = Positions.size();
 	size_t ExpectedPositionsCount = 1u;
 
@@ -76,5 +76,5 @@ TEST_F(ZtMouseTests, PositionCallbackTest)
 
 TEST_F(ZtMouseTests, GetPositionEventsTest)
 {
-	const std::vector<ZtMousePositionEvent>& Positions = Mouse.GetPositionEvents();
+	const std::vector<MousePositionEvent>& Positions = Mouse.GetPositionEvents();
 }

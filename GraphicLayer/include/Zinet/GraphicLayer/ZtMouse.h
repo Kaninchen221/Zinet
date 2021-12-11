@@ -6,48 +6,53 @@
 
 #include <vector>
 
-class ZtWindow;
-
-class ZINET_GRAPHIC_LAYER_API ZtMouse
+namespace zt::gl
 {
 
-public:
+	class Window;
 
-	ZtMouse();
-	ZtMouse(const ZtMouse& Other) = default;
-	ZtMouse(ZtMouse&& Other) = default;
+	class ZINET_GRAPHIC_LAYER_API Mouse
+	{
 
-	ZtMouse& operator = (const ZtMouse& Other) = default;
-	ZtMouse& operator = (ZtMouse&& Other) = default;
+	public:
 
-	~ZtMouse() noexcept = default;
+		Mouse();
+		Mouse(const Mouse& Other) = default;
+		Mouse(Mouse&& Other) = default;
 
-	void SetWindow(ZtWindow* Window);
+		Mouse& operator = (const Mouse& Other) = default;
+		Mouse& operator = (Mouse&& Other) = default;
 
-	const ZtWindow* GetWindow() const;
+		~Mouse() noexcept = default;
 
-	const std::vector<ZtMouseButtonEvent>& GetButtonsEvents() const;
+		void SetWindow(Window* window);
 
-	void SetMaxRememberedButtonsEvents(size_t Size);
+		const Window* GetWindow() const;
 
-	size_t GetMaxRememberedButtonsEvents() const;
+		const std::vector<MouseButtonEvent>& GetButtonsEvents() const;
 
-	static void ButtonCallback(GLFWwindow* Window, int Button, int Action, int Mods);
+		void SetMaxRememberedButtonsEvents(size_t Size);
 
-	void BindCallbacks();
+		size_t GetMaxRememberedButtonsEvents() const;
 
-	static void PositionCallback(GLFWwindow* Window, double PositionX, double PositionY);
+		static void ButtonCallback(GLFWwindow* Window, int Button, int Action, int Mods);
 
-	const std::vector<ZtMousePositionEvent>& GetPositionEvents() const;
+		void BindCallbacks();
 
-	void SetMaxRememberedPositionEvents(size_t Size);
+		static void PositionCallback(GLFWwindow* glfwWindow, double PositionX, double PositionY);
 
-	size_t GetMaxRememberedPositionEvents() const;
+		const std::vector<MousePositionEvent>& GetPositionEvents() const;
 
-protected:
+		void SetMaxRememberedPositionEvents(size_t Size);
 
-	ZtWindow* InternalWindow = nullptr;
-	std::vector<ZtMouseButtonEvent> ButtonsEvents;
-	std::vector<ZtMousePositionEvent> PositionEvents;
+		size_t GetMaxRememberedPositionEvents() const;
 
-};
+	protected:
+
+		Window* InternalWindow = nullptr;
+		std::vector<MouseButtonEvent> ButtonsEvents;
+		std::vector<MousePositionEvent> PositionEvents;
+
+	};
+
+}

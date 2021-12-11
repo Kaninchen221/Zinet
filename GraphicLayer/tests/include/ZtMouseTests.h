@@ -10,98 +10,103 @@
 #include "glm/vec2.hpp"
 #include "glm/vector_relational.hpp"
 
-class ZtMouseTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtMouse Mouse;
+	class ZtMouseTests : public ::testing::Test
+	{
+	protected:
 
-};
+		Mouse mouse;
 
-TEST_F(ZtMouseTests, SetWindowTest)
-{
-	ZtWindow ExpectedWindow;
-	ExpectedWindow.CreateWindow();
-	Mouse.SetWindow(&ExpectedWindow);
-	const ZtWindow* ActualWindow = Mouse.GetWindow();
+	};
 
-	ASSERT_EQ(&ExpectedWindow, ActualWindow);
-}
+	TEST_F(ZtMouseTests, SetWindowTest)
+	{
+		Window ExpectedWindow;
+		ExpectedWindow.CreateWindow();
+		mouse.SetWindow(&ExpectedWindow);
+		const Window* ActualWindow = mouse.GetWindow();
 
-TEST_F(ZtMouseTests, GetWindowTest)
-{
-	const ZtWindow* ActualWindow = Mouse.GetWindow();
+		ASSERT_EQ(&ExpectedWindow, ActualWindow);
+	}
 
-	ASSERT_EQ(ActualWindow, nullptr);
-}
+	TEST_F(ZtMouseTests, GetWindowTest)
+	{
+		const Window* ActualWindow = mouse.GetWindow();
 
-TEST_F(ZtMouseTests, GetButtonsEventsTest)
-{
-	const std::vector<ZtMouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();
-}
+		ASSERT_EQ(ActualWindow, nullptr);
+	}
 
-TEST_F(ZtMouseTests, SetMaxRememberedButtonsEventsTest)
-{
-	size_t ExpectedMaxRememberedButtonsEvents = 4u;
-	Mouse.SetMaxRememberedButtonsEvents(ExpectedMaxRememberedButtonsEvents);
-	size_t ActualMaxRememberedButtonsEvents = Mouse.GetMaxRememberedButtonsEvents();
+	TEST_F(ZtMouseTests, GetButtonsEventsTest)
+	{
+		const std::vector<MouseButtonEvent>& ButtonsEvents = mouse.GetButtonsEvents();
+	}
 
-	ASSERT_EQ(ExpectedMaxRememberedButtonsEvents, ActualMaxRememberedButtonsEvents);
+	TEST_F(ZtMouseTests, SetMaxRememberedButtonsEventsTest)
+	{
+		size_t ExpectedMaxRememberedButtonsEvents = 4u;
+		mouse.SetMaxRememberedButtonsEvents(ExpectedMaxRememberedButtonsEvents);
+		size_t ActualMaxRememberedButtonsEvents = mouse.GetMaxRememberedButtonsEvents();
 
-	ActualMaxRememberedButtonsEvents = Mouse.GetButtonsEvents().size();
+		ASSERT_EQ(ExpectedMaxRememberedButtonsEvents, ActualMaxRememberedButtonsEvents);
 
-	ASSERT_EQ(ExpectedMaxRememberedButtonsEvents, ActualMaxRememberedButtonsEvents);
-}
+		ActualMaxRememberedButtonsEvents = mouse.GetButtonsEvents().size();
 
-TEST_F(ZtMouseTests, ButtonCallbackTest)
-{
-	ZtWindow Window;
-	Window.CreateWindow();
-	ZtMouseButtonEvent ExpectedButtonEvent{};
-	ZtMouse::ButtonCallback(Window.GetInternalWindow(), static_cast<int>(ExpectedButtonEvent.Button), static_cast<int>(ExpectedButtonEvent.Type), 0);
-	const std::vector<ZtMouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();
-	size_t ActualButtonsEventsCount = ButtonsEvents.size();
-	size_t ExpectedButtonsEventsCount = 1u;
+		ASSERT_EQ(ExpectedMaxRememberedButtonsEvents, ActualMaxRememberedButtonsEvents);
+	}
 
-	ASSERT_EQ(ActualButtonsEventsCount, ExpectedButtonsEventsCount);
+	TEST_F(ZtMouseTests, ButtonCallbackTest)
+	{
+		Window Window;
+		Window.CreateWindow();
+		MouseButtonEvent ExpectedButtonEvent{};
+		Mouse::ButtonCallback(Window.GetInternalWindow(), static_cast<int>(ExpectedButtonEvent.Button), static_cast<int>(ExpectedButtonEvent.Type), 0);
+		const std::vector<MouseButtonEvent>& ButtonsEvents = mouse.GetButtonsEvents();
+		size_t ActualButtonsEventsCount = ButtonsEvents.size();
+		size_t ExpectedButtonsEventsCount = 1u;
 
-	ZtMouseButtonEvent ActualButtonEvent = ButtonsEvents[0];
-	ASSERT_EQ(ExpectedButtonEvent, ActualButtonEvent);
-}
+		ASSERT_EQ(ActualButtonsEventsCount, ExpectedButtonsEventsCount);
 
-TEST_F(ZtMouseTests, PositionCallbackTest)
-{
-	ZtWindow Window;
-	Window.CreateWindow();
-	glm::dvec2 ExpectedPosition{ 34.0, 2.4324 };
-	ZtMouse::PositionCallback(Window.GetInternalWindow(), ExpectedPosition.x, ExpectedPosition.y);
-	
-	ZtEvent* Event = Window.GetEvent();
-	ZtMouse* Mouse = Event->GetMouse();
-	const std::vector<ZtMousePositionEvent>& Positions = Mouse->GetPositionEvents();
-	ZtMousePositionEvent PositionEvent = Positions[0];
-	glm::dvec2 ActualPosition = PositionEvent.Position;
-	glm::bvec2 AreEqual = glm::equal(ExpectedPosition, ActualPosition);
-	ASSERT_TRUE(glm::all(AreEqual));
+		MouseButtonEvent ActualButtonEvent = ButtonsEvents[0];
+		ASSERT_EQ(ExpectedButtonEvent, ActualButtonEvent);
+	}
 
-	Mouse->SetMaxRememberedPositionEvents(2u);
-	glm::dvec2 ExpectedSecondPosition{ 0.3432, 21.0 };
-	ZtMouse::PositionCallback(Window.GetInternalWindow(), ExpectedSecondPosition.x, ExpectedSecondPosition.y);
-	glm::dvec2 ActualSecondPosition = Positions[0].Position;
-	AreEqual = glm::equal(ExpectedSecondPosition, ActualSecondPosition);
-	ASSERT_TRUE(glm::all(AreEqual));
-}
+	TEST_F(ZtMouseTests, PositionCallbackTest)
+	{
+		Window Window;
+		Window.CreateWindow();
+		glm::dvec2 ExpectedPosition{ 34.0, 2.4324 };
+		Mouse::PositionCallback(Window.GetInternalWindow(), ExpectedPosition.x, ExpectedPosition.y);
 
-TEST_F(ZtMouseTests, GetPositionEventsTest)
-{
-	const std::vector<ZtMousePositionEvent>& Positions = Mouse.GetPositionEvents();
-}
+		Event* Event = Window.GetEvent();
+		Mouse* Mouse = Event->GetMouse();
+		const std::vector<MousePositionEvent>& Positions = Mouse->GetPositionEvents();
+		MousePositionEvent PositionEvent = Positions[0];
+		glm::dvec2 ActualPosition = PositionEvent.Position;
+		glm::bvec2 AreEqual = glm::equal(ExpectedPosition, ActualPosition);
+		ASSERT_TRUE(glm::all(AreEqual));
 
-TEST_F(ZtMouseTests, SetMaxRememberedPositionEventsTest)
-{
-	size_t ExpectedMaxRememberedPositionEvents = 3u;
-	Mouse.SetMaxRememberedPositionEvents(ExpectedMaxRememberedPositionEvents);
-	size_t ActualMaxRememberedPositionEvents = Mouse.GetMaxRememberedPositionEvents();
+		Mouse->SetMaxRememberedPositionEvents(2u);
+		glm::dvec2 ExpectedSecondPosition{ 0.3432, 21.0 };
+		Mouse::PositionCallback(Window.GetInternalWindow(), ExpectedSecondPosition.x, ExpectedSecondPosition.y);
+		glm::dvec2 ActualSecondPosition = Positions[0].Position;
+		AreEqual = glm::equal(ExpectedSecondPosition, ActualSecondPosition);
+		ASSERT_TRUE(glm::all(AreEqual));
+	}
 
-	ASSERT_EQ(ActualMaxRememberedPositionEvents, ExpectedMaxRememberedPositionEvents);
+	TEST_F(ZtMouseTests, GetPositionEventsTest)
+	{
+		const std::vector<MousePositionEvent>& Positions = mouse.GetPositionEvents();
+	}
+
+	TEST_F(ZtMouseTests, SetMaxRememberedPositionEventsTest)
+	{
+		size_t ExpectedMaxRememberedPositionEvents = 3u;
+		mouse.SetMaxRememberedPositionEvents(ExpectedMaxRememberedPositionEvents);
+		size_t ActualMaxRememberedPositionEvents = mouse.GetMaxRememberedPositionEvents();
+
+		ASSERT_EQ(ActualMaxRememberedPositionEvents, ExpectedMaxRememberedPositionEvents);
+	}
+
 }

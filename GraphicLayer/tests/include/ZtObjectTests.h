@@ -4,44 +4,49 @@
 
 #include "gtest/gtest.h"
 
-class ZtObjectTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	struct ZtDerived : public ZtObject
+	class ZtObjectTests : public ::testing::Test
 	{
-		ZtDerived() { ID = 5u; }
+	protected:
 
-		void SetID(GLuint NewID) { ID = NewID; }
+		struct ZtDerived : public Object
+		{
+			ZtDerived() { ID = 5u; }
+
+			void SetID(GLuint NewID) { ID = NewID; }
+		};
+
+		Object Object;
+
 	};
 
-	ZtObject Object;
+	TEST_F(ZtObjectTests, GetIDTest)
+	{
+		GLuint ActualID = Object.GetID();
+		GLuint ExpectedID = Object::InvalidID;
 
-};
+		ASSERT_EQ(ActualID, ExpectedID);
+	}
 
-TEST_F(ZtObjectTests, GetIDTest)
-{
-	GLuint ActualID = Object.GetID();
-	GLuint ExpectedID = ZtObject::InvalidID;
+	TEST_F(ZtObjectTests, IDTest)
+	{
+		ZtDerived Derived;
 
-	ASSERT_EQ(ActualID, ExpectedID);
-}
+		GLuint ExpectedID = 4u;
+		Derived.SetID(ExpectedID);
+		GLuint ActualID = Derived.GetID();
 
-TEST_F(ZtObjectTests, IDTest)
-{
-	ZtDerived Derived;
+		ASSERT_EQ(ExpectedID, ActualID);
+	}
 
-	GLuint ExpectedID = 4u;
-	Derived.SetID(ExpectedID);
-	GLuint ActualID = Derived.GetID();
+	TEST_F(ZtObjectTests, InvalidIDTest)
+	{
+		GLuint Actual = Object::InvalidID;
+		GLuint Expected = 0u;
 
-	ASSERT_EQ(ExpectedID, ActualID);
-}
+		ASSERT_EQ(Actual, Expected);
+	}
 
-TEST_F(ZtObjectTests, InvalidIDTest)
-{
-	GLuint Actual = ZtObject::InvalidID;
-	GLuint Expected = 0u;
-
-	ASSERT_EQ(Actual, Expected);
 }

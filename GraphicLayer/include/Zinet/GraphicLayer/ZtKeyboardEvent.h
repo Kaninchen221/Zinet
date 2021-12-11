@@ -4,18 +4,23 @@
 #include "Zinet/GraphicLayer/ZtKeyboardEventType.h"
 #include "Zinet/GraphicLayer/ZtKeyboardKey.h"
 
-struct ZINET_GRAPHIC_LAYER_API ZtKeyboardEvent
+namespace zt::gl
 {
-	ZtKeyboardEventType Type;
-	ZtKeyboardKey Key;
 
-	bool operator == (const ZtKeyboardEvent& Other) const;
-};
+	struct ZINET_GRAPHIC_LAYER_API KeyboardEvent
+	{
+		KeyboardEventType Type;
+		KeyboardKey Key;
 
-inline bool ZtKeyboardEvent::operator==(const ZtKeyboardEvent& Other) const
-{
-	if (Type == Other.Type && Key == Other.Key)
-		return true;
-	else
-		return false;
+		bool operator == (const KeyboardEvent& Other) const;
+	};
+
+	inline bool KeyboardEvent::operator==(const KeyboardEvent& Other) const
+	{
+		if (Type == Other.Type && Key == Other.Key)
+			return true;
+		else
+			return false;
+	}
+
 }

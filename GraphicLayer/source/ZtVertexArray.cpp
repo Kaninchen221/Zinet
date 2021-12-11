@@ -1,29 +1,34 @@
 #include "Zinet/GraphicLayer/ZtVertexArray.h"
 
-ZtVertexArray::~ZtVertexArray() noexcept
+namespace zt::gl
 {
-	if (ID != InvalidID)
+
+	VertexArray::~VertexArray() noexcept
 	{
-		Delete();
+		if (ID != InvalidID)
+		{
+			Delete();
+		}
 	}
-}
 
-void ZtVertexArray::Generate()
-{
+	void VertexArray::Generate()
+	{
 
-}
+	}
 
-void ZtVertexArray::Bind()
-{
+	void VertexArray::Bind()
+	{
 
-}
+	}
 
-void ZtVertexArray::Unbind()
-{
+	void VertexArray::Unbind()
+	{
 
-}
+	}
 
-void ZtVertexArray::Delete()
-{
-	ID = InvalidID;
+	void VertexArray::Delete()
+	{
+		ID = InvalidID;
+	}
+
 }

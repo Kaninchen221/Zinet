@@ -1,6 +1,11 @@
 #include "Zinet/GraphicLayer/ZtObject.h"
 
-GLuint ZtObject::GetID() const
+namespace zt::gl
 {
-	return ID;
+
+	GLuint Object::GetID() const
+	{
+		return ID;
+	}
+
 }

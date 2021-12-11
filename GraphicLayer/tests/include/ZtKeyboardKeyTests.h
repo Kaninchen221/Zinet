@@ -4,13 +4,18 @@
 
 #include "gtest/gtest.h"
 
-class ZtKeyboardKeyTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtKeyboardKey KeyboardKey{};
+	class ZtKeyboardKeyTests : public ::testing::Test
+	{
+	protected:
 
-};
+		KeyboardKey keyboardKey{};
 
-TEST_F(ZtKeyboardKeyTests, ConstructTest)
-{}
+	};
+
+	TEST_F(ZtKeyboardKeyTests, ConstructTest)
+	{}
+
+}

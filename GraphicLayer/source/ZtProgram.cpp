@@ -4,89 +4,94 @@
 
 #include "Zinet/GraphicLayer/ZtVertex.h"
 
-ZtProgram::~ZtProgram() noexcept
+namespace zt::gl
 {
-	if (ID != InvalidID)
+
+	Program::~Program() noexcept
 	{
-		Delete();
+		if (ID != InvalidID)
+		{
+			Delete();
+		}
 	}
-}
 
-void ZtProgram::Create()
-{
+	void Program::Create()
+	{
 
-}
+	}
 
-void ZtProgram::AttachShader(const ZtShader& Shader) const
-{
+	void Program::AttachShader(const Shader& Shader) const
+	{
 
-}
+	}
 
-void ZtProgram::Link() const
-{
+	void Program::Link() const
+	{
 
-}
+	}
 
-bool ZtProgram::LinkStatus() const
-{
-	int Success{};
+	bool Program::LinkStatus() const
+	{
+		int Success{};
 
-	return static_cast<bool>(Success);
-}
+		return static_cast<bool>(Success);
+	}
 
-bool ZtProgram::IsValid() const
-{
-	GLint IsValid{};
+	bool Program::IsValid() const
+	{
+		GLint IsValid{};
 
-	return IsValid;
-}
+		return IsValid;
+	}
 
-std::string ZtProgram::InfoLog() const
-{
-	return {};
-}
+	std::string Program::InfoLog() const
+	{
+		return {};
+	}
 
-void ZtProgram::Use() const
-{
+	void Program::Use() const
+	{
 
-}
+	}
 
-void ZtProgram::Delete()
-{
-	ID = InvalidID;
-}
+	void Program::Delete()
+	{
+		ID = InvalidID;
+	}
 
-int ZtProgram::GetUniform(const std::string& Name)
-{
-	return 0;
-}
+	int Program::GetUniform(const std::string& Name)
+	{
+		return 0;
+	}
 
-void ZtProgram::SetUniform1f(const std::string& Name, float Value)
-{
+	void Program::SetUniform1f(const std::string& Name, float Value)
+	{
 
-}
+	}
 
-void ZtProgram::SetUniform2f(const std::string& Name, const glm::vec2& Value)
-{
+	void Program::SetUniform2f(const std::string& Name, const glm::vec2& Value)
+	{
 
-}
+	}
 
-void ZtProgram::SetUniform3f(const std::string& Name, const glm::vec3& Value)
-{
+	void Program::SetUniform3f(const std::string& Name, const glm::vec3& Value)
+	{
 
-}
+	}
 
-void ZtProgram::SetUniform4f(const std::string& Name, const glm::vec4& Value)
-{
+	void Program::SetUniform4f(const std::string& Name, const glm::vec4& Value)
+	{
 
-}
+	}
 
-void ZtProgram::SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value)
-{
+	void Program::SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value)
+	{
 
-}
+	}
 
-void ZtProgram::PrepareAttributes() const
-{
+	void Program::PrepareAttributes() const
+	{
+
+	}
 
 }

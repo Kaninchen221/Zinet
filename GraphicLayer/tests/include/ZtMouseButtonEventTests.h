@@ -4,33 +4,38 @@
 
 #include "gtest/gtest.h"
 
-class ZtMouseButtonEventTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtMouseButtonEvent MouseButtonEvent;
+	class ZtMouseButtonEventTests : public ::testing::Test
+	{
+	protected:
 
-};
+		MouseButtonEvent mouseButtonEvent;
 
-TEST_F(ZtMouseButtonEventTests, ButtonTest)
-{
-	MouseButtonEvent.Button = ZtMouseButton();
-}
+	};
 
-TEST_F(ZtMouseButtonEventTests, TypeTest)
-{
-	MouseButtonEvent.Type = ZtMouseButtonEventType();
-}
+	TEST_F(ZtMouseButtonEventTests, ButtonTest)
+	{
+		mouseButtonEvent.Button = MouseButton();
+	}
 
-TEST_F(ZtMouseButtonEventTests, CompareTest)
-{
-	MouseButtonEvent.Button = ZtMouseButton::MIDDLE;
-	MouseButtonEvent.Type = ZtMouseButtonEventType::Released;
+	TEST_F(ZtMouseButtonEventTests, TypeTest)
+	{
+		mouseButtonEvent.Type = MouseButtonEventType();
+	}
 
-	ZtMouseButtonEvent Other;
-	Other.Button = ZtMouseButton::MIDDLE;
-	Other.Type = ZtMouseButtonEventType::Released;
+	TEST_F(ZtMouseButtonEventTests, CompareTest)
+	{
+		mouseButtonEvent.Button = MouseButton::MIDDLE;
+		mouseButtonEvent.Type = MouseButtonEventType::Released;
 
-	bool AreEqual = MouseButtonEvent == Other;
-	ASSERT_TRUE(AreEqual);
+		MouseButtonEvent Other;
+		Other.Button = MouseButton::MIDDLE;
+		Other.Type = MouseButtonEventType::Released;
+
+		bool AreEqual = mouseButtonEvent == Other;
+		ASSERT_TRUE(AreEqual);
+	}
+
 }

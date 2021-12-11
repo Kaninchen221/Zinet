@@ -1,29 +1,34 @@
 #include "Zinet/GraphicLayer/ZtElementBuffer.h"
 
-ZtElementBuffer::~ZtElementBuffer() noexcept
+namespace zt::gl
 {
-	if (ID != InvalidID)
+
+	ElementBuffer::~ElementBuffer() noexcept
 	{
-		Delete();
+		if (ID != InvalidID)
+		{
+			Delete();
+		}
 	}
-}
 
-void ZtElementBuffer::Generate()
-{
+	void ElementBuffer::Generate()
+	{
 
-}
+	}
 
-void ZtElementBuffer::Bind()
-{
+	void ElementBuffer::Bind()
+	{
 
-}
+	}
 
-void ZtElementBuffer::Unbind()
-{
+	void ElementBuffer::Unbind()
+	{
 
-}
+	}
 
-void ZtElementBuffer::Delete()
-{
+	void ElementBuffer::Delete()
+	{
+
+	}
 
 }

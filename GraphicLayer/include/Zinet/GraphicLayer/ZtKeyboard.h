@@ -7,44 +7,49 @@
 
 #include <vector>
 
-class ZtWindow;
-
-class ZINET_GRAPHIC_LAYER_API ZtKeyboard
+namespace zt::gl
 {
-	static inline ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtKeyboard");
 
-public:
+	class Window;
 
-	ZtKeyboard();
-	ZtKeyboard(const ZtKeyboard& Other) = default;
-	ZtKeyboard(ZtKeyboard&& Other) = default;
+	class ZINET_GRAPHIC_LAYER_API Keyboard
+	{
+		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Keyboard");
 
-	ZtKeyboard& operator = (const ZtKeyboard& Other) = default;
-	ZtKeyboard& operator = (ZtKeyboard&& Other) = default;
+	public:
 
-	~ZtKeyboard() noexcept = default;
+		Keyboard();
+		Keyboard(const Keyboard& Other) = default;
+		Keyboard(Keyboard&& Other) = default;
 
-	void SetWindow(ZtWindow* Window);
+		Keyboard& operator = (const Keyboard& Other) = default;
+		Keyboard& operator = (Keyboard&& Other) = default;
 
-	const ZtWindow* GetWindow() const;
+		~Keyboard() noexcept = default;
 
-	const std::vector<ZtKeyboardEvent>& GetEvents() const;
+		void SetWindow(Window* newWindow);
 
-	bool IsPressed(ZtKeyboardKey Key) const;
+		const Window* GetWindow() const;
 
-	bool IsReleased(ZtKeyboardKey Key) const;
+		const std::vector<KeyboardEvent>& GetEvents() const;
 
-	void SetMaximumRememberedEvents(size_t Value);
+		bool IsPressed(KeyboardKey Key) const;
 
-	size_t GetMaximumRememberedEvents() const;
+		bool IsReleased(KeyboardKey Key) const;
 
-	static void KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods);
+		void SetMaximumRememberedEvents(size_t Value);
 
-	void BindCallbacks();
+		size_t GetMaximumRememberedEvents() const;
 
-protected:
+		static void KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods);
 
-	ZtWindow* Window = nullptr;
-	std::vector<ZtKeyboardEvent> Events;
+		void BindCallbacks();
 
-};
+	protected:
+
+		Window* window = nullptr;
+		std::vector<KeyboardEvent> Events;
+
+	};
+
+}

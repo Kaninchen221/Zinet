@@ -3,26 +3,31 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtObject.h"
 
-class ZINET_GRAPHIC_LAYER_API ZtVertexArray : public ZtObject
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API VertexArray : public Object
+	{
 
-	ZtVertexArray() = default;
-	ZtVertexArray(const ZtVertexArray& Other) = default;
-	ZtVertexArray(ZtVertexArray&& Other) = default;
+	public:
 
-	ZtVertexArray& operator = (const ZtVertexArray& Other) = default;
-	ZtVertexArray& operator = (ZtVertexArray&& Other) = default;
+		VertexArray() = default;
+		VertexArray(const VertexArray& Other) = default;
+		VertexArray(VertexArray&& Other) = default;
 
-	~ZtVertexArray() noexcept;
+		VertexArray& operator = (const VertexArray& Other) = default;
+		VertexArray& operator = (VertexArray&& Other) = default;
 
-	void Generate();
+		~VertexArray() noexcept;
 
-	void Bind();
+		void Generate();
 
-	void Unbind();
+		void Bind();
 
-	void Delete();
+		void Unbind();
 
-};
+		void Delete();
+
+	};
+
+}

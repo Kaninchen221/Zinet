@@ -2,8 +2,13 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-enum class ZINET_GRAPHIC_LAYER_API ZtShaderType
+namespace zt::gl
 {
-	Vertex,
-	Fragment
-};
+
+	enum class ZINET_GRAPHIC_LAYER_API ShaderType
+	{
+		Vertex,
+		Fragment
+	};
+
+}

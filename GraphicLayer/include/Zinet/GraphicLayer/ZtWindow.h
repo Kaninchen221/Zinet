@@ -6,52 +6,56 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-class ZINET_GRAPHIC_LAYER_API ZtWindow
+namespace zt::gl
 {
-	static inline ZtLogger::SimpleConsoleLogger WindowLogger = ZtLogger::CreateSimpleConsoleLogger("ZtWindow");
-	static inline ZtLogger::SimpleConsoleLogger OpenGLLogger = ZtLogger::CreateSimpleConsoleLogger("ZtOpenGLContext");
 
-public:
+	class ZINET_GRAPHIC_LAYER_API Window
+	{
+		static inline zt::Logger::SimpleConsoleLogger WindowLogger = zt::Logger::CreateSimpleConsoleLogger("Window");
 
-	ZtWindow() = default;
-	ZtWindow(const ZtWindow& Other) = default;
-	ZtWindow(ZtWindow&& Other) = default;
+	public:
 
-	ZtWindow& operator = (const ZtWindow& Other) = default;
-	ZtWindow& operator = (ZtWindow&& Other) = default;
+		Window() = default;
+		Window(const Window& Other) = default;
+		Window(Window&& Other) = default;
 
-	~ZtWindow() noexcept;
+		Window& operator = (const Window& Other) = default;
+		Window& operator = (Window&& Other) = default;
 
-	void CreateWindow();
+		~Window() noexcept;
 
-	GLFWwindow* GetInternalWindow();
+		void CreateWindow();
 
-	void InitStb();
-	
-	void SetViewport(int X, int Y, int Width, int Height);
-	
-	void SetClearColor(float Red, float Green, float Blue, float Alpha);
-	
-	void BindCallbacks();
-	
-	void BindFramebufferSizeCallback();
-	
-	bool IsOpen();
-	
-	bool ShouldBeClosed() const;
+		GLFWwindow* GetInternalWindow();
 
-	void Clear();
-	
-	void SwapBuffers();
-	
-	static void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
-	
-	ZtEvent* GetEvent();
+		void InitStb();
 
-protected:
+		void SetViewport(int X, int Y, int Width, int Height);
 
-	ZtGLContext GLContext;
-	GLFWwindow* WindowPointer = nullptr;
-	ZtEvent Event;
+		void SetClearColor(float Red, float Green, float Blue, float Alpha);
 
-};
+		void BindCallbacks();
+
+		void BindFramebufferSizeCallback();
+
+		bool IsOpen();
+
+		bool ShouldBeClosed() const;
+
+		void Clear();
+
+		void SwapBuffers();
+
+		static void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
+
+		Event* GetEvent();
+
+	protected:
+
+		Context GLContext;
+		GLFWwindow* WindowPointer = nullptr;
+		Event Event;
+
+	};
+
+}

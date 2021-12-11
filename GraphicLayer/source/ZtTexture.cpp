@@ -2,54 +2,59 @@
 
 #include "stb_image.h"
 
-ZtTexture::~ZtTexture() noexcept
+namespace zt::gl
 {
-	if (ID != InvalidID)
+
+	Texture::~Texture() noexcept
 	{
-		Delete();
+		if (ID != InvalidID)
+		{
+			Delete();
+		}
 	}
-}
 
-void ZtTexture::Generate()
-{
+	void Texture::Generate()
+	{
 
-}
+	}
 
-void ZtTexture::Bind() const
-{
+	void Texture::Bind() const
+	{
 
-}
+	}
 
-void ZtTexture::Unbind() const
-{
+	void Texture::Unbind() const
+	{
 
-}
+	}
 
-void ZtTexture::Delete()
-{
-	ID = InvalidID;
-}
+	void Texture::Delete()
+	{
+		ID = InvalidID;
+	}
 
-void ZtTexture::LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height)
-{
+	void Texture::LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height)
+	{
 
-}
+	}
 
-void ZtTexture::LoadFromFile(const ZtFileFinder::Path& Path)
-{
-	std::string PathString = Path.string();
-	const char* PathCString = PathString.c_str();
+	void Texture::LoadFromFile(const FileFinder::Path& Path)
+	{
+		std::string PathString = Path.string();
+		const char* PathCString = PathString.c_str();
 
-	int TextureWidth;
-	int TextureHeight;
-	int ChannelsNumber;
-	unsigned char* TextureData = stbi_load(PathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
+		int TextureWidth;
+		int TextureHeight;
+		int ChannelsNumber;
+		unsigned char* TextureData = stbi_load(PathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
 
-	LoadFromData(TextureData, TextureWidth, TextureHeight);
-	stbi_image_free(TextureData);
-}
+		LoadFromData(TextureData, TextureWidth, TextureHeight);
+		stbi_image_free(TextureData);
+	}
 
-void ZtTexture::GenerateMipmap() const
-{
+	void Texture::GenerateMipmap() const
+	{
+
+	}
 
 }

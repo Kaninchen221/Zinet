@@ -8,38 +8,43 @@
 
 #include <string>
 
-class ZINET_GRAPHIC_LAYER_API ZtShader : public ZtObject
+namespace zt::gl
 {
-	static inline ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtShader");
 
-public:
+	class ZINET_GRAPHIC_LAYER_API Shader : public Object
+	{
+		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Shader");
 
-	ZtShader() = default;
-	ZtShader(const ZtShader& Other) = default;
-	ZtShader(ZtShader&& Other) = default;
+	public:
 
-	ZtShader& operator = (const ZtShader& Other) = default;
-	ZtShader& operator = (ZtShader&& Other) = default;
+		Shader() = default;
+		Shader(const Shader& Other) = default;
+		Shader(Shader&& Other) = default;
 
-	~ZtShader() noexcept;
+		Shader& operator = (const Shader& Other) = default;
+		Shader& operator = (Shader&& Other) = default;
 
-	void Create(ZtShaderType ShaderType);
+		~Shader() noexcept;
 
-	void Delete();
+		void Create(ShaderType ShaderType);
 
-	ZtShaderType GetType() const;
+		void Delete();
 
-	void LoadFromCString(const char* Source);
+		ShaderType GetType() const;
 
-	void LoadFromFile(const std::string& Path);
+		void LoadFromCString(const char* Source);
 
-	void Compile();
+		void LoadFromFile(const std::string& Path);
 
-	bool CompileStatus() const;
+		void Compile();
 
-	std::string CompileErrorMessage() const;
+		bool CompileStatus() const;
 
-protected:
+		std::string CompileErrorMessage() const;
 
-	ZtShaderType Type{};
-};
+	protected:
+
+		ShaderType Type{};
+	};
+
+}

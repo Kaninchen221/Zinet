@@ -36,7 +36,7 @@ void ZtEntryPoint::Init()
 
     PrepareShader();
 
-    std::vector<ZtVertex> Vertices {
+    std::vector<Vertex> Vertices {
         {{ -0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f}}, // 0
         {{ -0.5f, -0.5f, 0.5f },  { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f}}, // 1
         {{ 0.5f, -0.5f, 0.5f },   { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f}}, // 2
@@ -84,10 +84,10 @@ void ZtEntryPoint::Init()
     VAO.Bind();
 
     VBO.Bind();
-    VBO.SetData(Vertices, ZtBufferUsage::Static);
+    VBO.SetData(Vertices, BufferUsage::Static);
 
     EBO.Bind();
-    EBO.SetData(Indices, ZtBufferUsage::Static);
+    EBO.SetData(Indices, BufferUsage::Static);
 
     Program.PrepareAttributes();
 
@@ -123,28 +123,28 @@ void ZtEntryPoint::Init()
 
 void ZtEntryPoint::ProcessInput()
 {
-    ZtEvent* Event = Window.GetEvent();
-    ZtKeyboard* Keyboard = Event->GetKeyboard();
-    ZtMouse* Mouse = Event->GetMouse();
+    Event* Event = Window.GetEvent();
+    Keyboard* Keyboard = Event->GetKeyboard();
+    Mouse* Mouse = Event->GetMouse();
     //Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
 
     GLFWwindow* WindowPointer = Window.GetInternalWindow();
 
-    if (Keyboard->IsPressed(ZtKeyboardKey::ESCAPE))
+    if (Keyboard->IsPressed(KeyboardKey::ESCAPE))
     {
         glfwSetWindowShouldClose(WindowPointer, true);
     }
-    else if (Keyboard->IsPressed(ZtKeyboardKey::F1))
+    else if (Keyboard->IsPressed(KeyboardKey::F1))
     {
-        ZtGLContext::FillMode();
+        Context::FillMode();
     }
-    else if (Keyboard->IsPressed(ZtKeyboardKey::F2))
+    else if (Keyboard->IsPressed(KeyboardKey::F2))
     {
-        ZtGLContext::PolygonOnlyMode();
+        Context::PolygonOnlyMode();
     }
-    else if (Keyboard->IsPressed(ZtKeyboardKey::F3))
+    else if (Keyboard->IsPressed(KeyboardKey::F3))
     {
-        ZtGLContext::PointsMode();
+        Context::PointsMode();
     }
 
     Event->PollEvents();
@@ -154,9 +154,9 @@ void ZtEntryPoint::Rendering()
 {
     Window.Clear();
 
-    ZtEvent* Event = Window.GetEvent();
-    ZtMouse* Mouse = Event->GetMouse();
-    const std::vector<ZtMouseButtonEvent>& MouseEvents = Mouse->GetButtonsEvents();
+    Event* Event = Window.GetEvent();
+    Mouse* Mouse = Event->GetMouse();
+    const std::vector<MouseButtonEvent>& MouseEvents = Mouse->GetButtonsEvents();
 
     thread_local float PreviousTime = 0.f;
     float Time = (float)glfwGetTime();// -PreviousTime;
@@ -183,7 +183,7 @@ void ZtEntryPoint::PrepareShader()
     ZtFileFinder FileFinder;
     ZtFileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
 
-    VertexShader.Create(ZtShaderType::Vertex);
+    VertexShader.Create(ShaderType::Vertex);
     ZtFileFinder::Path VertexShaderFilePath = RootPath / "Shaders" / "shader.vert";
     VertexShader.LoadFromFile(VertexShaderFilePath.string());
     VertexShader.Compile();
@@ -196,7 +196,7 @@ void ZtEntryPoint::PrepareShader()
         return;
     }
 
-    FragmentShader.Create(ZtShaderType::Fragment);
+    FragmentShader.Create(ShaderType::Fragment);
     ZtFileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
     FragmentShader.LoadFromFile(FragmentShaderFilePath.string());
     FragmentShader.Compile();

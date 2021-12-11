@@ -4,15 +4,20 @@
 
 #include "gtest/gtest.h"
 
-class ZtMouseButtonTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtMouseButton Button;
+	class ZtMouseButtonTests : public ::testing::Test
+	{
+	protected:
 
-};
+		MouseButton button;
 
-TEST_F(ZtMouseButtonTests, AssignTest)
-{
-	Button = ZtMouseButton::RIGHT;
+	};
+
+	TEST_F(ZtMouseButtonTests, AssignTest)
+	{
+		button = MouseButton::RIGHT;
+	}
+
 }

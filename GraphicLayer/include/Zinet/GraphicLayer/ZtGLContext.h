@@ -4,39 +4,44 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-class ZINET_GRAPHIC_LAYER_API ZtGLContext
+namespace zt::gl
 {
 
-	static inline ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtGLContext");
+	class ZINET_GRAPHIC_LAYER_API Context
+	{
 
-public:
+		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Context");
 
-	ZtGLContext() = default;
-	ZtGLContext(const ZtGLContext& Other) = default;
-	ZtGLContext(ZtGLContext&& Other) = default;
+	public:
 
-	ZtGLContext& operator = (const ZtGLContext& Other) = default;
-	ZtGLContext& operator = (ZtGLContext&& Other) = default;
+		Context() = default;
+		Context(const Context& Other) = default;
+		Context(Context&& Other) = default;
 
-	~ZtGLContext() noexcept;
+		Context& operator = (const Context& Other) = default;
+		Context& operator = (Context&& Other) = default;
 
-	bool InitGLFW();
+		~Context() noexcept;
 
-	void DeinitGLFW();
+		bool InitGLFW();
 
-	bool InitGLAD();
+		void DeinitGLFW();
 
-	bool InitOpenGL();
+		bool InitGLAD();
 
-	static void FillMode();
+		bool InitOpenGL();
 
-	static void PolygonOnlyMode();
+		static void FillMode();
 
-	static void PointsMode();
+		static void PolygonOnlyMode();
 
-	static std::string GetSourceAsString(GLenum Source);
+		static void PointsMode();
 
-	static std::string GetTypeAsString(GLenum Type);
+		static std::string GetSourceAsString(GLenum Source);
 
-	static std::string GetSeverityAsString(GLenum Severity);
-};
+		static std::string GetTypeAsString(GLenum Type);
+
+		static std::string GetSeverityAsString(GLenum Severity);
+	};
+
+}

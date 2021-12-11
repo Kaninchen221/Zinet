@@ -1,21 +1,26 @@
 #include "Zinet/GraphicLayer/ZtVertexBuffer.h"
 
-void ZtVertexBuffer::Generate()
+namespace zt::gl
 {
 
-}
+	void VertexBuffer::Generate()
+	{
 
-void ZtVertexBuffer::Bind()
-{
+	}
 
-}
+	void VertexBuffer::Bind()
+	{
 
-void ZtVertexBuffer::Unbind()
-{
+	}
 
-}
+	void VertexBuffer::Unbind()
+	{
 
-void ZtVertexBuffer::Delete()
-{
-	ID = InvalidID;
+	}
+
+	void VertexBuffer::Delete()
+	{
+		ID = InvalidID;
+	}
+
 }

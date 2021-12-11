@@ -4,13 +4,18 @@
 #include "Zinet/GraphicLayer/ZtMouseButton.h"
 #include "Zinet/GraphicLayer/ZtMouseButtonEventType.h"
 
-struct ZINET_GRAPHIC_LAYER_API ZtMouseButtonEvent
+namespace zt::gl
 {
-	ZtMouseButtonEventType Type;
-	ZtMouseButton Button;
 
-	bool operator == (const ZtMouseButtonEvent& Other) const
+	struct ZINET_GRAPHIC_LAYER_API MouseButtonEvent
 	{
-		return Type == Other.Type && Button == Other.Button;
-	}
-};
+		MouseButtonEventType Type;
+		MouseButton Button;
+
+		bool operator == (const MouseButtonEvent& Other) const
+		{
+			return Type == Other.Type && Button == Other.Button;
+		}
+	};
+
+}

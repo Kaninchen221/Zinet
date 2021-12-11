@@ -5,15 +5,20 @@
 
 #include "gtest/gtest.h"
 
-class ZtMousePositionEventTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtMousePositionEvent PositionEvent;
+	class ZtMousePositionEventTests : public ::testing::Test
+	{
+	protected:
 
-};
+		MousePositionEvent positionEvent;
 
-TEST_F(ZtMousePositionEventTests, PositionTest)
-{
-	PositionEvent.Position = glm::dvec2();
+	};
+
+	TEST_F(ZtMousePositionEventTests, PositionTest)
+	{
+		positionEvent.Position = glm::dvec2();
+	}
+
 }

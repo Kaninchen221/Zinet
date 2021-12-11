@@ -2,17 +2,22 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-class ZINET_GRAPHIC_LAYER_API ZtObject
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API Object
+	{
 
-	GLuint const inline static InvalidID = 0u;
+	public:
 
-	GLuint GetID() const;
+		GLuint const inline static InvalidID = 0u;
 
-protected:
+		GLuint GetID() const;
 
-	GLuint ID = InvalidID;
+	protected:
 
-};
+		GLuint ID = InvalidID;
+
+	};
+
+}

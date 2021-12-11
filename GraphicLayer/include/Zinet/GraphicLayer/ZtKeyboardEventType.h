@@ -2,9 +2,14 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-enum class ZINET_GRAPHIC_LAYER_API ZtKeyboardEventType
+namespace zt::gl
 {
-	Pressed = GLFW_PRESS, 
-	Repeated = GLFW_REPEAT,
-	Released = GLFW_RELEASE
-};
+
+	enum class ZINET_GRAPHIC_LAYER_API KeyboardEventType
+	{
+		Pressed = GLFW_PRESS,
+		Repeated = GLFW_REPEAT,
+		Released = GLFW_RELEASE
+	};
+
+}

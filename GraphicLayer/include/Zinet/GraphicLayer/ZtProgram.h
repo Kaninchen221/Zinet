@@ -9,48 +9,53 @@
 #include "glm/vec4.hpp"
 #include "glm/mat4x4.hpp"
 
-class ZINET_GRAPHIC_LAYER_API ZtProgram : public ZtObject
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API Program : public Object
+	{
 
-	ZtProgram() = default;
-	ZtProgram(const ZtProgram& Other) = default;
-	ZtProgram(ZtProgram&& Other) = default;
+	public:
 
-	ZtProgram& operator = (const ZtProgram& Other) = default;
-	ZtProgram& operator = (ZtProgram&& Other) = default;
+		Program() = default;
+		Program(const Program& Other) = default;
+		Program(Program&& Other) = default;
 
-	~ZtProgram() noexcept;
+		Program& operator = (const Program& Other) = default;
+		Program& operator = (Program&& Other) = default;
 
-	void Create();
+		~Program() noexcept;
 
-	void AttachShader(const ZtShader& Shader) const;
+		void Create();
 
-	void Link() const;
+		void AttachShader(const Shader& Shader) const;
 
-	bool LinkStatus() const;
+		void Link() const;
 
-	bool IsValid() const;
+		bool LinkStatus() const;
 
-	std::string InfoLog() const;
+		bool IsValid() const;
 
-	void Use() const;
+		std::string InfoLog() const;
 
-	void Delete();
+		void Use() const;
 
-	int GetUniform(const std::string& Name);
+		void Delete();
 
-	void SetUniform1f(const std::string& Name, float Value);
+		int GetUniform(const std::string& Name);
 
-	void SetUniform2f(const std::string& Name, const glm::vec2& Value);
+		void SetUniform1f(const std::string& Name, float Value);
 
-	void SetUniform3f(const std::string& Name, const glm::vec3& Value);
+		void SetUniform2f(const std::string& Name, const glm::vec2& Value);
 
-	void SetUniform4f(const std::string& Name, const glm::vec4& Value);
+		void SetUniform3f(const std::string& Name, const glm::vec3& Value);
 
-	void SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value);
+		void SetUniform4f(const std::string& Name, const glm::vec4& Value);
 
-	virtual void PrepareAttributes() const;
+		void SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value);
 
-};
+		virtual void PrepareAttributes() const;
+
+	};
+
+}

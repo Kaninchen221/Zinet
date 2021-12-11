@@ -4,20 +4,25 @@
 
 #include "gtest/gtest.h"
 
-class ZtKeyboardEventTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtKeyboardEvent KeyboardEvent{};
+	class ZtKeyboardEventTests : public ::testing::Test
+	{
+	protected:
 
-};
+		KeyboardEvent keyboardEvent{};
 
-TEST_F(ZtKeyboardEventTests, TypeTest)
-{
-	ZtKeyboardEventType Type = KeyboardEvent.Type;
-}
+	};
 
-TEST_F(ZtKeyboardEventTests, KeyTest)
-{
-	ZtKeyboardKey Key = KeyboardEvent.Key;
+	TEST_F(ZtKeyboardEventTests, TypeTest)
+	{
+		KeyboardEventType Type = keyboardEvent.Type;
+	}
+
+	TEST_F(ZtKeyboardEventTests, KeyTest)
+	{
+		KeyboardKey Key = keyboardEvent.Key;
+	}
+
 }

@@ -1,52 +1,57 @@
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 
-ZtGLContext::~ZtGLContext() noexcept
+namespace zt::gl
 {
-}
 
-bool ZtGLContext::InitGLFW()
-{
-    if(glfwInit())
+    Context::~Context() noexcept
     {
-        Logger->info("Succesfull initialize GLFW");
-
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
-
-        return true;
     }
-    else
+
+    bool Context::InitGLFW()
     {
-        Logger->error("Failed initialize glfw");
+        if (glfwInit())
+        {
+            Logger->info("Succesfull initialize GLFW");
+
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+
+            return true;
+        }
+        else
+        {
+            Logger->error("Failed initialize glfw");
+            return false;
+        }
+
         return false;
     }
 
-    return false;
-}
+    void Context::DeinitGLFW()
+    {
+        glfwTerminate();
+    }
 
-void ZtGLContext::DeinitGLFW()
-{
-    glfwTerminate();
-}
+    bool Context::InitOpenGL()
+    {
+        return true;
+    }
 
-bool ZtGLContext::InitOpenGL()
-{
-    return true;
-}
+    void Context::FillMode()
+    {
 
-void ZtGLContext::FillMode()
-{
+    }
 
-}
+    void Context::PolygonOnlyMode()
+    {
 
-void ZtGLContext::PolygonOnlyMode()
-{
+    }
 
-}
+    void Context::PointsMode()
+    {
 
-void ZtGLContext::PointsMode()
-{
+    }
 
 }

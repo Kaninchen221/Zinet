@@ -41,16 +41,16 @@ protected:
 
 	void PrepareShader();
 
-	ZtWindow Window;
+	Window Window;
 
-	ZtVertexArray VAO;
-	ZtVertexBuffer VBO;
-	ZtElementBuffer EBO;
-	ZtShader VertexShader;
-	ZtShader FragmentShader;
-	ZtProgram Program;
-	ZtTexture Texture0;
-	ZtTexture Texture1;
+	VertexArray VAO;
+	VertexBuffer VBO;
+	ElementBuffer EBO;
+	Shader VertexShader;
+	Shader FragmentShader;
+	Program Program;
+	Texture Texture0;
+	Texture Texture1;
 
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 View = glm::mat4(1.0f);

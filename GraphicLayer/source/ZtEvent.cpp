@@ -1,34 +1,40 @@
-#include "..\include\Zinet\GraphicLayer\ZtEvent.h"
+#include "Zinet/GraphicLayer/ZtEvent.h"
+#include "Zinet/GraphicLayer/ZtWindow.h"
 
-void ZtEvent::SetWindow(ZtWindow* Window)
+namespace zt::gl
 {
-	this->Window = Window;
-	Keyboard.SetWindow(Window);
-	Mouse.SetWindow(Window);
-}
 
-const ZtWindow* ZtEvent::GetWindow() const
-{
-	return Window;
-}
+	void Event::SetWindow(Window* NewWindow)
+	{
+		WindowPointer = NewWindow;
+		Keyboard.SetWindow(NewWindow);
+		Mouse.SetWindow(NewWindow);
+	}
 
-void ZtEvent::PollEvents()
-{
-	glfwPollEvents();
-}
+	const Window* Event::GetWindow() const
+	{
+		return WindowPointer;
+	}
 
-ZtKeyboard* ZtEvent::GetKeyboard()
-{
-	return &Keyboard;
-}
+	void Event::PollEvents()
+	{
+		glfwPollEvents();
+	}
 
-ZtMouse* ZtEvent::GetMouse()
-{
-	return &Mouse;
-}
+	Keyboard* Event::GetKeyboard()
+	{
+		return &Keyboard;
+	}
 
-void ZtEvent::BindCallbacks()
-{
-	Keyboard.BindCallbacks();
-	Mouse.BindCallbacks();
+	Mouse* Event::GetMouse()
+	{
+		return &Mouse;
+	}
+
+	void Event::BindCallbacks()
+	{
+		Keyboard.BindCallbacks();
+		Mouse.BindCallbacks();
+	}
+
 }

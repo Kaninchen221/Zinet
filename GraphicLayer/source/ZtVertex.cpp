@@ -1,52 +1,57 @@
 #include "Zinet/GraphicLayer/ZtVertex.h"
 
-ZtVertex::ZtVertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates)
-	: Position(NewPosition),
-	Color(NewColor),
-	TextureCoordinates(NewTextureCoordinates)
-{}
-
-glm::vec3 ZtVertex::GetPosition() const
+namespace zt::gl
 {
-	return Position;
-}
 
-void ZtVertex::SetPosition(const glm::vec3& NewPosition)
-{
-	Position = NewPosition;
-}
+	Vertex::Vertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates)
+		: Position(NewPosition),
+		Color(NewColor),
+		TextureCoordinates(NewTextureCoordinates)
+	{}
 
-std::size_t ZtVertex::GetOffsetToPosition()
-{
-	return 0;
-}
+	glm::vec3 Vertex::GetPosition() const
+	{
+		return Position;
+	}
 
-glm::vec4 ZtVertex::GetColor() const
-{
-	return Color;
-}
+	void Vertex::SetPosition(const glm::vec3& NewPosition)
+	{
+		Position = NewPosition;
+	}
 
-void ZtVertex::SetColor(const glm::vec4& NewColor)
-{
-	Color = NewColor;
-}
+	std::size_t Vertex::GetOffsetToPosition()
+	{
+		return 0;
+	}
 
-std::size_t ZtVertex::GetOffsetToColor()
-{
-	return sizeof(decltype(Position));
-}
+	glm::vec4 Vertex::GetColor() const
+	{
+		return Color;
+	}
 
-glm::vec2 ZtVertex::GetTextureCoordinates() const
-{
-	return TextureCoordinates;
-}
+	void Vertex::SetColor(const glm::vec4& NewColor)
+	{
+		Color = NewColor;
+	}
 
-void ZtVertex::SetTextureCoordinates(const glm::vec2& NewTextureCoordinates)
-{
-	TextureCoordinates = NewTextureCoordinates;
-}
+	std::size_t Vertex::GetOffsetToColor()
+	{
+		return sizeof(decltype(Position));
+	}
 
-std::size_t ZtVertex::GetOffsetToTextureCoordinates()
-{
-	return sizeof(decltype(Position)) + sizeof(decltype(Color));
+	glm::vec2 Vertex::GetTextureCoordinates() const
+	{
+		return TextureCoordinates;
+	}
+
+	void Vertex::SetTextureCoordinates(const glm::vec2& NewTextureCoordinates)
+	{
+		TextureCoordinates = NewTextureCoordinates;
+	}
+
+	std::size_t Vertex::GetOffsetToTextureCoordinates()
+	{
+		return sizeof(decltype(Position)) + sizeof(decltype(Color));
+	}
+
 }

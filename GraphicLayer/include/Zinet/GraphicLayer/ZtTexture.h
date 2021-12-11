@@ -5,32 +5,37 @@
 
 #include "Zinet/Core/ZtFileFinder.h"
 
-class ZINET_GRAPHIC_LAYER_API ZtTexture : public ZtObject
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API Texture : public Object
+	{
 
-	ZtTexture() = default;
-	ZtTexture(const ZtTexture & Other) = default;
-	ZtTexture(ZtTexture && Other) = default;
+	public:
 
-	ZtTexture& operator = (const ZtTexture & Other) = default;
-	ZtTexture& operator = (ZtTexture && Other) = default;
+		Texture() = default;
+		Texture(const Texture& Other) = default;
+		Texture(Texture&& Other) = default;
 
-	~ZtTexture() noexcept;
+		Texture& operator = (const Texture& Other) = default;
+		Texture& operator = (Texture&& Other) = default;
 
-	void Generate();
+		~Texture() noexcept;
 
-	void Bind() const;
+		void Generate();
 
-	void Unbind() const;
+		void Bind() const;
 
-	void Delete();
+		void Unbind() const;
 
-	void LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height);
+		void Delete();
 
-	void LoadFromFile(const ZtFileFinder::Path& Path);
+		void LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height);
 
-	void GenerateMipmap() const;
+		void LoadFromFile(const FileFinder::Path& Path);
 
-};
+		void GenerateMipmap() const;
+
+	};
+
+}

@@ -6,43 +6,48 @@
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
 
-class ZINET_GRAPHIC_LAYER_API ZtVertex
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API Vertex
+	{
 
-	ZtVertex() = default;
-	ZtVertex(const ZtVertex& Other) = default;
-	ZtVertex(ZtVertex&& Other) = default;
-	ZtVertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates);
+	public:
 
-	ZtVertex& operator = (const ZtVertex& Other) = default;
-	ZtVertex& operator = (ZtVertex&& Other) = default;
+		Vertex() = default;
+		Vertex(const Vertex& Other) = default;
+		Vertex(Vertex&& Other) = default;
+		Vertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates);
 
-	~ZtVertex() noexcept = default;
+		Vertex& operator = (const Vertex& Other) = default;
+		Vertex& operator = (Vertex&& Other) = default;
 
-	glm::vec3 GetPosition() const;
+		~Vertex() noexcept = default;
 
-	void SetPosition(const glm::vec3& NewPosition);
+		glm::vec3 GetPosition() const;
 
-	static std::size_t GetOffsetToPosition();
+		void SetPosition(const glm::vec3& NewPosition);
 
-	glm::vec4 GetColor() const;
+		static std::size_t GetOffsetToPosition();
 
-	void SetColor(const glm::vec4& NewColor);
+		glm::vec4 GetColor() const;
 
-	static std::size_t GetOffsetToColor();
+		void SetColor(const glm::vec4& NewColor);
 
-	glm::vec2 GetTextureCoordinates() const;
+		static std::size_t GetOffsetToColor();
 
-	void SetTextureCoordinates(const glm::vec2& NewTextureCoordinates);
+		glm::vec2 GetTextureCoordinates() const;
 
-	static std::size_t GetOffsetToTextureCoordinates();
+		void SetTextureCoordinates(const glm::vec2& NewTextureCoordinates);
 
-protected:
+		static std::size_t GetOffsetToTextureCoordinates();
 
-	glm::vec3 Position;
-	glm::vec4 Color;
-	glm::vec2 TextureCoordinates;
+	protected:
 
-};
+		glm::vec3 Position;
+		glm::vec4 Color;
+		glm::vec2 TextureCoordinates;
+
+	};
+
+}

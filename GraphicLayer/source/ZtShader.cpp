@@ -3,71 +3,76 @@
 #include <fstream>
 #include <sstream>
 
-ZtShader::~ZtShader() noexcept
+namespace zt::gl
 {
-	if (ID != InvalidID)
+
+	Shader::~Shader() noexcept
 	{
-		Delete();
+		if (ID != InvalidID)
+		{
+			Delete();
+		}
 	}
-}
 
-void ZtShader::Create(ZtShaderType ShaderType)
-{
-	Type = ShaderType;
-}
-
-void ZtShader::Delete()
-{
-	ID = InvalidID;
-}
-
-ZtShaderType ZtShader::GetType() const
-{
-	return Type;
-}
-
-void ZtShader::LoadFromCString(const char* Source)
-{
-
-}
-
-void ZtShader::LoadFromFile(const std::string& Path)
-{
-	std::ifstream File;
-	File.open(Path);
-	if (File.is_open())
+	void Shader::Create(ShaderType ShaderType)
 	{
-		std::stringstream Buffer;
-		Buffer << File.rdbuf();
-		std::string String = Buffer.str();
-
-
-
-		File.close();
+		Type = ShaderType;
 	}
-	else
+
+	void Shader::Delete()
 	{
-		Logger->error("Failed to open shader file with path: {}", Path);
+		ID = InvalidID;
 	}
-}
 
-void ZtShader::Compile()
-{
+	ShaderType Shader::GetType() const
+	{
+		return Type;
+	}
 
-}
+	void Shader::LoadFromCString(const char* Source)
+	{
 
-bool ZtShader::CompileStatus() const
-{
-	return {};
-}
+	}
 
-std::string  ZtShader::CompileErrorMessage() const
-{
-	constexpr size_t BufferSize = 512u;
-	char Buffer[BufferSize];
+	void Shader::LoadFromFile(const std::string& Path)
+	{
+		std::ifstream File;
+		File.open(Path);
+		if (File.is_open())
+		{
+			std::stringstream Buffer;
+			Buffer << File.rdbuf();
+			std::string String = Buffer.str();
 
 
 
-	std::string Message = Buffer;
-	return Buffer;
+			File.close();
+		}
+		else
+		{
+			Logger->error("Failed to open shader file with path: {}", Path);
+		}
+	}
+
+	void Shader::Compile()
+	{
+
+	}
+
+	bool Shader::CompileStatus() const
+	{
+		return {};
+	}
+
+	std::string  Shader::CompileErrorMessage() const
+	{
+		constexpr size_t BufferSize = 512u;
+		char Buffer[BufferSize];
+
+
+
+		std::string Message = Buffer;
+		return Buffer;
+	}
+
 }

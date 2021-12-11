@@ -4,29 +4,34 @@
 #include "ZtKeyboard.h"
 #include "ZtMouse.h"
 
-class ZtWindow;
-
-class ZINET_GRAPHIC_LAYER_API ZtEvent
+namespace zt::gl
 {
 
-public:
+	class Window;
 
-	void SetWindow(ZtWindow* Window);
+	class ZINET_GRAPHIC_LAYER_API Event
+	{
 
-	const ZtWindow* GetWindow() const;
+	public:
 
-	void PollEvents();
+		void SetWindow(Window* NewWindow);
 
-	ZtKeyboard* GetKeyboard();
+		const Window* GetWindow() const;
 
-	ZtMouse* GetMouse();
+		void PollEvents();
 
-	void BindCallbacks();
+		Keyboard* GetKeyboard();
 
-protected:
+		Mouse* GetMouse();
 
-	ZtWindow* Window = nullptr;
-	ZtKeyboard Keyboard;
-	ZtMouse Mouse;
+		void BindCallbacks();
 
-};
+	protected:
+
+		Window* WindowPointer = nullptr;
+		Keyboard Keyboard;
+		Mouse Mouse;
+
+	};
+
+}

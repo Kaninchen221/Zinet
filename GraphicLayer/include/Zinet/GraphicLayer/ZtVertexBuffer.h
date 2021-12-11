@@ -6,26 +6,31 @@
 
 #include <array>
 
-class ZINET_GRAPHIC_LAYER_API ZtVertexBuffer : public ZtObject
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public Object
+	{
 
-	void Generate();
+	public:
 
-	void Bind();
+		void Generate();
 
-	void Unbind();
+		void Bind();
+
+		void Unbind();
+
+		template<typename ContainerType>
+		void SetData(const ContainerType& Container, BufferUsage Usage);
+
+		void Delete();
+
+	};
 
 	template<typename ContainerType>
-	void SetData(const ContainerType& Container, ZtBufferUsage Usage);
+	inline void VertexBuffer::SetData(const ContainerType& Container, BufferUsage Usage)
+	{
 
-	void Delete();
-
-};
-
-template<typename ContainerType>
-inline void ZtVertexBuffer::SetData(const ContainerType& Container, ZtBufferUsage Usage)
-{
+	}
 
 }

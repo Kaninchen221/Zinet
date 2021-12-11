@@ -4,15 +4,20 @@
 
 #include "gtest/gtest.h"
 
-class ZtMouseButtonEventTypeTests : public ::testing::Test
+namespace zt::gl::tests
 {
-protected:
 
-	ZtMouseButtonEventType MouseButtonEventType;
+	class ZtMouseButtonEventTypeTests : public ::testing::Test
+	{
+	protected:
 
-};
+		MouseButtonEventType mouseButtonEventType;
 
-TEST_F(ZtMouseButtonEventTypeTests, AssignTest)
-{
-	MouseButtonEventType = ZtMouseButtonEventType::Pressed;
+	};
+
+	TEST_F(ZtMouseButtonEventTypeTests, AssignTest)
+	{
+		mouseButtonEventType = MouseButtonEventType::Pressed;
+	}
+
 }

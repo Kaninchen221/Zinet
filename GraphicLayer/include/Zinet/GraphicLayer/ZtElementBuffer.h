@@ -6,35 +6,40 @@
 
 #include <array>
 
-class ZINET_GRAPHIC_LAYER_API ZtElementBuffer : public ZtObject
+namespace zt::gl
 {
 
-public:
+	class ZINET_GRAPHIC_LAYER_API ElementBuffer : public Object
+	{
 
-	ZtElementBuffer() = default;
-	ZtElementBuffer(const ZtElementBuffer & Other) = default;
-	ZtElementBuffer(ZtElementBuffer && Other) = default;
+	public:
 
-	ZtElementBuffer& operator = (const ZtElementBuffer & Other) = default;
-	ZtElementBuffer& operator = (ZtElementBuffer && Other) = default;
+		ElementBuffer() = default;
+		ElementBuffer(const ElementBuffer& Other) = default;
+		ElementBuffer(ElementBuffer&& Other) = default;
 
-	~ZtElementBuffer() noexcept;
+		ElementBuffer& operator = (const ElementBuffer& Other) = default;
+		ElementBuffer& operator = (ElementBuffer&& Other) = default;
 
-	void Generate();
+		~ElementBuffer() noexcept;
 
-	void Bind();
+		void Generate();
 
-	void Unbind();
+		void Bind();
+
+		void Unbind();
+
+		template<typename ContainerType>
+		void SetData(const ContainerType& Container, BufferUsage Usage);
+
+		void Delete();
+
+	};
 
 	template<typename ContainerType>
-	void SetData(const ContainerType& Container, ZtBufferUsage Usage);
+	inline void ElementBuffer::SetData(const ContainerType& Container, BufferUsage Usage)
+	{
 
-	void Delete();
-
-};
-
-template<typename ContainerType>
-inline void ZtElementBuffer::SetData(const ContainerType& Container, ZtBufferUsage Usage)
-{
+	}
 
 }

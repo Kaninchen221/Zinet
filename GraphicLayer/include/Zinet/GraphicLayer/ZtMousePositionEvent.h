@@ -1,10 +1,16 @@
 #pragma once
 
+#include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
 
 #include "glm/vec2.hpp"
 
-struct ZINET_GRAPHIC_LAYER_API ZtMousePositionEvent
+namespace zt::gl
 {
-	glm::dvec2 Position;
-};
+
+	struct ZINET_GRAPHIC_LAYER_API MousePositionEvent
+	{
+		glm::dvec2 Position;
+	};
+
+}
