@@ -4,14 +4,19 @@
 
 #include "gtest/gtest.h"
 
-class ZtComponentTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-    ZtComponent Component;
+    class ComponentTests : public ::testing::Test
+    {
+    protected:
 
-};
+        zt::Component Component;
 
-TEST_F(ZtComponentTests, PassTest)
-{
+    };
+
+    TEST_F(ComponentTests, PassTest)
+    {
+    }
+
 }

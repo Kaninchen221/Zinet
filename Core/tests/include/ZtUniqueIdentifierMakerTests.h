@@ -4,50 +4,55 @@
 
 #include "gtest/gtest.h"
 
-class ZtUniqueIdentifierMakerTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-    ZtUniqueIdentifierMaker UniqueIdentifierMaker;
+    class UniqueIdentifierMakerTests : public ::testing::Test
+    {
+    protected:
 
-};
+        UniqueIdentifierMaker UniqueIdentifierMaker;
 
-TEST_F(ZtUniqueIdentifierMakerTests, ReserveTest)
-{
-    ZtIdentifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    size_t ExpectedFirstUnderlyingNumber = 0;
-    size_t ActualFirstUnderlyingNumber = FirstUniqueIdentifier.GetUnderlyingNumber();
+    };
 
-    ASSERT_EQ(ActualFirstUnderlyingNumber, ExpectedFirstUnderlyingNumber);
+    TEST_F(UniqueIdentifierMakerTests, ReserveTest)
+    {
+        Identifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
+        size_t ExpectedFirstUnderlyingNumber = 0;
+        size_t ActualFirstUnderlyingNumber = FirstUniqueIdentifier.GetUnderlyingNumber();
 
-    ZtIdentifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    size_t ExpectedSecondUnderlyingNumber = 1;
-    size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
+        ASSERT_EQ(ActualFirstUnderlyingNumber, ExpectedFirstUnderlyingNumber);
 
-    ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
-}
+        Identifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
+        size_t ExpectedSecondUnderlyingNumber = 1;
+        size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
 
-TEST_F(ZtUniqueIdentifierMakerTests, ReleaseTest)
-{
-    ZtIdentifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    UniqueIdentifierMaker.Release(FirstUniqueIdentifier);
+        ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
+    }
 
-    ZtIdentifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-    size_t ExpectedSecondUnderlyingNumber = 0;
-    size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
+    TEST_F(UniqueIdentifierMakerTests, ReleaseTest)
+    {
+        Identifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
+        UniqueIdentifierMaker.Release(FirstUniqueIdentifier);
 
-    ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
-}
+        Identifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
+        size_t ExpectedSecondUnderlyingNumber = 0;
+        size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
 
-TEST_F(ZtUniqueIdentifierMakerTests, IsReservedTrueTest)
-{
-    ZtIdentifier UID = UniqueIdentifierMaker.Reserve();
-    bool IsReserved = UniqueIdentifierMaker.IsReserved(UID.GetUnderlyingNumber());
-    ASSERT_TRUE(IsReserved);
-}
+        ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
+    }
 
-TEST_F(ZtUniqueIdentifierMakerTests, IsReservedFalseTest)
-{
-    bool IsReserved = UniqueIdentifierMaker.IsReserved(0);
-    ASSERT_FALSE(IsReserved);
+    TEST_F(UniqueIdentifierMakerTests, IsReservedTrueTest)
+    {
+        Identifier UID = UniqueIdentifierMaker.Reserve();
+        bool IsReserved = UniqueIdentifierMaker.IsReserved(UID.GetUnderlyingNumber());
+        ASSERT_TRUE(IsReserved);
+    }
+
+    TEST_F(UniqueIdentifierMakerTests, IsReservedFalseTest)
+    {
+        bool IsReserved = UniqueIdentifierMaker.IsReserved(0);
+        ASSERT_FALSE(IsReserved);
+    }
+
 }

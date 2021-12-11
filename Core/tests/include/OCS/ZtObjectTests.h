@@ -4,37 +4,42 @@
 
 #include "gtest/gtest.h"
 
-class ZtObjectTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-    ZtObject Object;
+    class ObjectTests : public ::testing::Test
+    {
+    protected:
 
-};
+        zt::Object Object;
 
-TEST_F(ZtObjectTests, BeginPlayTest)
-{
-    ZtBeginPlayReason BeginPlayReason = ZtBeginPlayReason::Loaded;
-    Object.BeginPlay(BeginPlayReason);
-}
+    };
 
-TEST_F(ZtObjectTests, EndPlayTest)
-{
-    ZtEndPlayReason EndPlayReason = ZtEndPlayReason::Destroyed;
-    Object.EndPlay(EndPlayReason);
-}
+    TEST_F(ObjectTests, BeginPlayTest)
+    {
+        BeginPlayReason BeginPlayReason = BeginPlayReason::Loaded;
+        Object.BeginPlay(BeginPlayReason);
+    }
 
-TEST_F(ZtObjectTests, TickTest)
-{
-    float DeltaTime{};
-    Object.Tick(DeltaTime);
-}
+    TEST_F(ObjectTests, EndPlayTest)
+    {
+        EndPlayReason EndPlayReason = EndPlayReason::Destroyed;
+        Object.EndPlay(EndPlayReason);
+    }
 
-TEST_F(ZtObjectTests, ShouldTickTest)
-{
-    bool bExpectedShouldTick = true;
-    Object.SetShouldTick(bExpectedShouldTick);
-    bool bActualShouldTick = Object.GetShouldTick();
+    TEST_F(ObjectTests, TickTest)
+    {
+        float DeltaTime{};
+        Object.Tick(DeltaTime);
+    }
 
-    ASSERT_EQ(bActualShouldTick, bExpectedShouldTick);
+    TEST_F(ObjectTests, ShouldTickTest)
+    {
+        bool bExpectedShouldTick = true;
+        Object.SetShouldTick(bExpectedShouldTick);
+        bool bActualShouldTick = Object.GetShouldTick();
+
+        ASSERT_EQ(bActualShouldTick, bExpectedShouldTick);
+    }
+
 }

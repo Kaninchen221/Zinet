@@ -3,19 +3,24 @@
 #include "Zinet/Core/Reflection/ZtReflectedMemberProperty.h"
 #include "ZtReflectionTestStruct.h"
 
-class ZtReflectedMemberPropertyTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-	ZtReflectedMemberPropertyTests()
-		: FloatReflectedMemberProperty(&ZtReflectionTestStruct::FloatMember)
-	{}
+	class ReflectedMemberPropertyTests : public ::testing::Test
+	{
+	protected:
 
-	ZtReflectionTestStruct ClassObject;
-	ZtReflectedMemberProperty<float ZtReflectionTestStruct::*> FloatReflectedMemberProperty;
-};
+		ReflectedMemberPropertyTests()
+			: FloatReflectedMemberProperty(&ReflectionTestStruct::FloatMember)
+		{}
 
-TEST_F(ZtReflectedMemberPropertyTests, GetPointerTest)
-{
-	float ZtReflectionTestStruct::* Pointer = FloatReflectedMemberProperty.GetPointer();
+		ReflectionTestStruct ClassObject;
+		ReflectedMemberProperty<float ReflectionTestStruct::*> FloatReflectedMemberProperty;
+	};
+
+	TEST_F(ReflectedMemberPropertyTests, GetPointerTest)
+	{
+		float ReflectionTestStruct::* Pointer = FloatReflectedMemberProperty.GetPointer();
+	}
+
 }

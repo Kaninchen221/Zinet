@@ -6,44 +6,49 @@
 
 #include <type_traits>
 
-class ZtIdentifierTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-};
+    class IdentifierTests : public ::testing::Test
+    {
+    protected:
 
-TEST_F(ZtIdentifierTests, CopyTest)
-{
-    size_t ExpectedSecondIDUnderlyingNumber = 23;
-    ZtIdentifier FirstID(ExpectedSecondIDUnderlyingNumber);
-    ZtIdentifier SecondID(FirstID);
+    };
 
-    size_t ActualSecondIDUnderlyingNumber = SecondID.GetUnderlyingNumber();
-    ASSERT_EQ(ActualSecondIDUnderlyingNumber, ExpectedSecondIDUnderlyingNumber);
+    TEST_F(IdentifierTests, CopyTest)
+    {
+        size_t ExpectedSecondIDUnderlyingNumber = 23;
+        Identifier FirstID(ExpectedSecondIDUnderlyingNumber);
+        Identifier SecondID(FirstID);
 
-    size_t ActualFirstIDUnderlyingNumber = FirstID.GetUnderlyingNumber();
-    ASSERT_EQ(ActualFirstIDUnderlyingNumber, ZtIdentifier::Invalid);
-}
+        size_t ActualSecondIDUnderlyingNumber = SecondID.GetUnderlyingNumber();
+        ASSERT_EQ(ActualSecondIDUnderlyingNumber, ExpectedSecondIDUnderlyingNumber);
 
-TEST_F(ZtIdentifierTests, MoveTest)
-{
-    size_t ExpectedSecondIDUnderlyingNumber = 23;
-    ZtIdentifier FirstID(ExpectedSecondIDUnderlyingNumber);
-    ZtIdentifier SecondID(std::move(FirstID));
+        size_t ActualFirstIDUnderlyingNumber = FirstID.GetUnderlyingNumber();
+        ASSERT_EQ(ActualFirstIDUnderlyingNumber, Identifier::Invalid);
+    }
 
-    size_t ActualSecondIDUnderlyingNumber = SecondID.GetUnderlyingNumber();
-    ASSERT_EQ(ActualSecondIDUnderlyingNumber, ExpectedSecondIDUnderlyingNumber);
+    TEST_F(IdentifierTests, MoveTest)
+    {
+        size_t ExpectedSecondIDUnderlyingNumber = 23;
+        Identifier FirstID(ExpectedSecondIDUnderlyingNumber);
+        Identifier SecondID(std::move(FirstID));
 
-    size_t ActualFirstIDUnderlyingNumber = FirstID.GetUnderlyingNumber();
-    ASSERT_EQ(ActualFirstIDUnderlyingNumber, ZtIdentifier::Invalid);
-}
+        size_t ActualSecondIDUnderlyingNumber = SecondID.GetUnderlyingNumber();
+        ASSERT_EQ(ActualSecondIDUnderlyingNumber, ExpectedSecondIDUnderlyingNumber);
 
-TEST_F(ZtIdentifierTests, GetUnderlyingNumberTest)
-{
-    size_t ExpectedUnderlyingNumber = 45;
-    ZtIdentifier UniqueIdentifier(ExpectedUnderlyingNumber);
+        size_t ActualFirstIDUnderlyingNumber = FirstID.GetUnderlyingNumber();
+        ASSERT_EQ(ActualFirstIDUnderlyingNumber, Identifier::Invalid);
+    }
 
-    size_t ActualUnderlyingNumber = UniqueIdentifier.GetUnderlyingNumber();
+    TEST_F(IdentifierTests, GetUnderlyingNumberTest)
+    {
+        size_t ExpectedUnderlyingNumber = 45;
+        Identifier UniqueIdentifier(ExpectedUnderlyingNumber);
 
-    ASSERT_EQ(ActualUnderlyingNumber, ExpectedUnderlyingNumber);
+        size_t ActualUnderlyingNumber = UniqueIdentifier.GetUnderlyingNumber();
+
+        ASSERT_EQ(ActualUnderlyingNumber, ExpectedUnderlyingNumber);
+    }
+
 }

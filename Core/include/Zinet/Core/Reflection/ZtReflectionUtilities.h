@@ -3,31 +3,34 @@
 #include <tuple>
 #include <utility>
 
-template<typename MemberPointerType>
-class ReflectedMemberProperty;
+namespace zt
+{
 
-template<typename FunctionPointerType>
-class ReflectedMemberFunction;
+    template<typename MemberPointerType>
+    class ReflectedMemberProperty;
 
-template<typename First, typename Second>
-using ConcatTwoTupleTypes = decltype(std::tuple_cat<First, Second>(First(), Second()));
+    template<typename FunctionPointerType>
+    class ReflectedMemberFunction;
 
-template<typename MemberPropertyPointerType>
-using MakePropertyTuple = std::tuple<ReflectedMemberProperty<MemberPropertyPointerType>>;
+    template<typename First, typename Second>
+    using ConcatTwoTupleTypes = decltype(std::tuple_cat<First, Second>(First(), Second()));
 
-template<typename MemberFunctionPointerType>
-using MakeFunctionTuple = std::tuple<ReflectedMemberFunction<MemberFunctionPointerType>>;
+    template<typename MemberPropertyPointerType>
+    using MakePropertyTuple = std::tuple<ReflectedMemberProperty<MemberPropertyPointerType>>;
 
-template<typename ReflectedClassType>
-using MakeReflectedClassTuple = std::tuple<ReflectedClassType>;
+    template<typename MemberFunctionPointerType>
+    using MakeFunctionTuple = std::tuple<ReflectedMemberFunction<MemberFunctionPointerType>>;
 
-template<typename TupleType, typename CallableType>
-constexpr void ApplyToTuple(TupleType& Tuple, const CallableType& Callable);
+    template<typename ReflectedClassType>
+    using MakeReflectedClassTuple = std::tuple<ReflectedClassType>;
 
-template<typename TupleType, typename CallableType, typename NumberType, NumberType... Numbers>
-constexpr void ApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
-                     const std::integer_sequence<NumberType, Numbers...>& NumberSequence);
+    template<typename TupleType, typename CallableType>
+    constexpr void ApplyToTuple(TupleType& Tuple, const CallableType& Callable);
 
+    template<typename TupleType, typename CallableType, typename NumberType, NumberType... Numbers>
+    constexpr void ApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
+        const std::integer_sequence<NumberType, Numbers...>& NumberSequence);
 
+}
 
 #include "ZtReflectionUtilities.inl"

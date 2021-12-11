@@ -2,37 +2,42 @@
 
 #include "Zinet/Core/Reflection/ZtReflectedCollection.h"
 
-class ZtReflectedCollectionTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
+
+	class ReflectedCollectionTests : public ::testing::Test
+	{
+	protected:
 
 
 
-};
+	};
 
-TEST_F(ZtReflectedCollectionTests, SimpleRegisterTest)
-{
-    [[maybe_unused]] ZtReflectedCollection<std::tuple<ZtReflectedClass<ZtReflectionTestStruct>>>
-                ReflectedCollection = ZtReflectedCollection<>()
-                    .RegisterClass(ZtReflectedClass<ZtReflectionTestStruct>());
-}
+	TEST_F(ReflectedCollectionTests, SimpleRegisterTest)
+	{
+	    [[maybe_unused]] ReflectedCollection<std::tuple<ReflectedClass<ReflectionTestStruct>>>
+	                Collection = ReflectedCollection<>()
+	                    .RegisterClass(ReflectedClass<ReflectionTestStruct>());
+	}
+	
+	TEST_F(ReflectedCollectionTests, GetReflectedClassesTest)
+	{
+	    ReflectedCollection<std::tuple<ReflectedClass<ReflectionTestStruct>>>
+	            Collection = ReflectedCollection<>()
+	            .RegisterClass(ReflectedClass<ReflectionTestStruct>());
+	
+	    auto& Classes = Collection.GetReflectedClasses();
+	}
+	
+	TEST_F(ReflectedCollectionTests, ComplexRegisterTest)
+	{
+	    [[maybe_unused]] auto Collection = ReflectedCollection()
+	            .RegisterClass(ReflectedClass<ReflectionTestStruct>()
+	                    .RegisterFunction(&ReflectionTestStruct::SimpleMethod)
+	                    .RegisterFunction(&ReflectionTestStruct::MethodReturnSum))
+	            .RegisterClass(ReflectedClass<SimpleTestStruct>()
+	                    .RegisterFunction(&SimpleTestStruct::Foo)
+	                    .RegisterProperty(&SimpleTestStruct::Integer));
+	}
 
-TEST_F(ZtReflectedCollectionTests, GetReflectedClassesTest)
-{
-    ZtReflectedCollection<std::tuple<ZtReflectedClass<ZtReflectionTestStruct>>>
-            ReflectedCollection = ZtReflectedCollection<>()
-            .RegisterClass(ZtReflectedClass<ZtReflectionTestStruct>());
-
-    auto& ReflectedClasses = ReflectedCollection.GetReflectedClasses();
-}
-
-TEST_F(ZtReflectedCollectionTests, ComplexRegisterTest)
-{
-    [[maybe_unused]] auto ReflectedCollection = ZtReflectedCollection()
-            .RegisterClass(ZtReflectedClass<ZtReflectionTestStruct>()
-                    .RegisterFunction(&ZtReflectionTestStruct::SimpleMethod)
-                    .RegisterFunction(&ZtReflectionTestStruct::MethodReturnSum))
-            .RegisterClass(ZtReflectedClass<ZtSimpleTestStruct>()
-                    .RegisterFunction(&ZtSimpleTestStruct::Foo)
-                    .RegisterProperty(&ZtSimpleTestStruct::Integer));
 }

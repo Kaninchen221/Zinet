@@ -4,36 +4,41 @@
 
 #include "gtest/gtest.h"
 
-class ZtEventDispatcherTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-	struct ZtObjectDerived : ZtObject
+	class EventDispatcherTests : public ::testing::Test
 	{
-		void Foo() { FooCalled = true; }
-
-		ZINET_MAKE_FUNCTOR(ZtObjectDerived, Foo)
-
-		std::shared_ptr<ZtObjectDerived_FUNCTOR_Foo> Functor = std::make_shared<ZtObjectDerived_FUNCTOR_Foo>(*this);
-
-		bool Called() { return FooCalled; }
-
 	protected:
-		bool FooCalled = false;
+
+		struct ObjectDerived : Object
+		{
+			void Foo() { FooCalled = true; }
+
+			ZINET_MAKE_FUNCTOR(ObjectDerived, Foo)
+
+				std::shared_ptr<ObjectDerived_FUNCTOR_Foo> Functor = std::make_shared<ObjectDerived_FUNCTOR_Foo>(*this);
+
+			bool Called() { return FooCalled; }
+
+		protected:
+			bool FooCalled = false;
+		};
 	};
-};
 
-TEST_F(ZtEventDispatcherTests, AddTest)
-{
-	ZtEventBroadcaster EventDispatcher;
-	ZtObjectDerived Object;
-	
-	ZtEventCallback EventCallback;
-	EventCallback.Functor = Object.Functor;
-	EventDispatcher.Add(EventCallback);
+	TEST_F(EventDispatcherTests, AddTest)
+	{
+		EventBroadcaster EventDispatcher;
+		ObjectDerived Object;
 
-	EventDispatcher.Broadcast();
+		EventCallback EventCallback;
+		EventCallback.Functor = Object.Functor;
+		EventDispatcher.Add(EventCallback);
 
-	bool Called = Object.Called();
-	ASSERT_TRUE(Called);
+		EventDispatcher.Broadcast();
+
+		bool Called = Object.Called();
+		ASSERT_TRUE(Called);
+	}
+
 }

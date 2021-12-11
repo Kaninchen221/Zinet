@@ -1,40 +1,45 @@
 #pragma once
 
-struct ZtSimpleTestStruct
+namespace zt::tests
 {
-    int Integer;
 
-    void Foo() {};
-};
+	struct SimpleTestStruct
+	{
+		int Integer;
 
-struct ZtReflectionTestStruct
-{
-	int IntMember = 123124;
-	float FloatMember = 234.f;
-	unsigned int UnsignedIntMember = 213451u;
+		void Foo() {};
+	};
 
-	void SimpleMethod();
+	struct ReflectionTestStruct
+	{
+		int IntMember = 123124;
+		float FloatMember = 234.f;
+		unsigned int UnsignedIntMember = 213451u;
 
-	int ConstMethodReturnSum(const int& First, const int& Second) const;
+		void SimpleMethod();
 
-	int MethodReturnSum(const int& First, const int& Second);
+		int ConstMethodReturnSum(const int& First, const int& Second) const;
 
-	void NotLiteralTypeParam(const std::string& String);
-};
+		int MethodReturnSum(const int& First, const int& Second);
 
-void ZtReflectionTestStruct::SimpleMethod()
-{}
+		void NotLiteralTypeParam(const std::string& String);
+	};
 
-inline int ZtReflectionTestStruct::ConstMethodReturnSum(const int& First, const int& Second) const
-{
-	return First + Second;
-}
+	void ReflectionTestStruct::SimpleMethod()
+	{}
 
-inline int ZtReflectionTestStruct::MethodReturnSum(const int& First, const int& Second)
-{
-	return ConstMethodReturnSum(First, Second);
-}
+	inline int ReflectionTestStruct::ConstMethodReturnSum(const int& First, const int& Second) const
+	{
+		return First + Second;
+	}
 
-inline void ZtReflectionTestStruct::NotLiteralTypeParam(const std::string& String)
-{
+	inline int ReflectionTestStruct::MethodReturnSum(const int& First, const int& Second)
+	{
+		return ConstMethodReturnSum(First, Second);
+	}
+
+	inline void ReflectionTestStruct::NotLiteralTypeParam(const std::string& String)
+	{
+	}
+
 }

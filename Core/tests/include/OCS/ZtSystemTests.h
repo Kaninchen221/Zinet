@@ -4,15 +4,20 @@
 
 #include "gtest/gtest.h"
 
-class ZtSystemTests : public ::testing::Test
+namespace zt::tests
 {
-protected:
 
-    ZtSystem System;
+    class SystemTests : public ::testing::Test
+    {
+    protected:
 
-};
+        System System;
 
-TEST_F(ZtSystemTests, PassTest)
-{
+    };
+
+    TEST_F(SystemTests, PassTest)
+    {
+
+    }
 
 }

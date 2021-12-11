@@ -3,18 +3,23 @@
 #include "gtest/gtest.h"
 #include "Zinet/Core/ZtLogger.h"
 
-class ZtLoggerTests : public ::testing::Test 
+namespace zt::tests
 {
-protected:
 
-	ZtLogger Logger;
+	class LoggerTests : public ::testing::Test
+	{
+	protected:
 
-};
+		ZtLogger Logger;
 
-TEST_F(ZtLoggerTests, CreateSimpleLoggerTest)
-{
-	std::string Name = "ZtLoggerTests";
-	ZtLogger::SimpleConsoleLogger SimpleConsoleLogger = ZtLogger::CreateSimpleConsoleLogger(Name);
+	};
 
-	ASSERT_TRUE(SimpleConsoleLogger);
+	TEST_F(LoggerTests, CreateSimpleLoggerTest)
+	{
+		std::string Name = "ZtLoggerTests";
+		Logger::SimpleConsoleLogger SimpleConsoleLogger = Logger::CreateSimpleConsoleLogger(Name);
+
+		ASSERT_TRUE(SimpleConsoleLogger);
+	}
+
 }

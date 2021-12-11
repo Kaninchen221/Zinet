@@ -5,54 +5,59 @@
 
 #include "gtest/gtest.h"
 
-class ZtClockTests : public ::testing::Test 
-{
-protected:
-
-    ZtClockTests() 
-    {
-    }
-
-    ~ZtClockTests() override 
-    {
-    }
-
-    void SetUp() override 
-    {
-    }
-
-    void TearDown() override 
-    {
-    }
-
-    ZtClock Clock;
-};
-
-TEST_F(ZtClockTests, StartTest) 
-{
-    
-    ZtTime::NumericType GreaterThan = 0u;
-    ZtTime::NumericType LessThan = 1000u;
-
-    Clock.Start();
-    ZtTime Time = Clock.GetElapsedTime();
-    ZtTime::NumericType Microseconds = Time.GetAsMicroseconds();
-
-    ASSERT_GT(Microseconds, GreaterThan);
-    ASSERT_LT(Microseconds, LessThan);
-}
-
-TEST_F(ZtClockTests, RestartTest) 
+namespace zt::tests
 {
 
-    Clock.Start();
+    class ClockTests : public ::testing::Test
+    {
+    protected:
 
-    ZtTime::NumericType GreaterThan = 0u;
-    ZtTime::NumericType LessThan = 1000u;
+        ClockTests()
+        {
+        }
 
-    ZtTime Time = Clock.Restart();
-    ZtTime::NumericType Microseconds = Time.GetAsMicroseconds();
+        ~ClockTests() override
+        {
+        }
 
-    ASSERT_GT(Microseconds, GreaterThan);
-    ASSERT_LT(Microseconds, LessThan);
+        void SetUp() override
+        {
+        }
+
+        void TearDown() override
+        {
+        }
+
+        Clock Clock;
+    };
+
+    TEST_F(ClockTests, StartTest)
+    {
+
+        Time::NumericType GreaterThan = 0u;
+        Time::NumericType LessThan = 1000u;
+
+        Clock.Start();
+        Time Time = Clock.GetElapsedTime();
+        Time::NumericType Microseconds = Time.GetAsMicroseconds();
+
+        ASSERT_GT(Microseconds, GreaterThan);
+        ASSERT_LT(Microseconds, LessThan);
+    }
+
+    TEST_F(ClockTests, RestartTest)
+    {
+
+        Clock.Start();
+
+        Time::NumericType GreaterThan = 0u;
+        Time::NumericType LessThan = 1000u;
+
+        Time Time = Clock.Restart();
+        Time::NumericType Microseconds = Time.GetAsMicroseconds();
+
+        ASSERT_GT(Microseconds, GreaterThan);
+        ASSERT_LT(Microseconds, LessThan);
+    }
+
 }
