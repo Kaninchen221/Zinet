@@ -1,33 +1,38 @@
 #include "Zinet/Core/ZtIdentifier.h"
 
-ZtIdentifier::ZtIdentifier(size_t Identifier)
+namespace zt
 {
-    UnderlyingNumber = Identifier;
-}
 
-size_t ZtIdentifier::GetUnderlyingNumber() const noexcept
-{
-    return UnderlyingNumber;
-}
+    Identifier::Identifier(size_t Identifier)
+    {
+        UnderlyingNumber = Identifier;
+    }
 
-ZtIdentifier::ZtIdentifier(ZtIdentifier& Other)
-{
-    *this = Other;
-}
+    size_t Identifier::GetUnderlyingNumber() const noexcept
+    {
+        return UnderlyingNumber;
+    }
 
-ZtIdentifier &ZtIdentifier::operator=(ZtIdentifier& Other)
-{
-    UnderlyingNumber = Other.UnderlyingNumber;
-    Other.UnderlyingNumber = Invalid;
-    return *this;
-}
+    Identifier::Identifier(Identifier& Other)
+    {
+        *this = Other;
+    }
 
-ZtIdentifier::ZtIdentifier(ZtIdentifier&& Other)
-{
-    *this = Other;
-}
+    Identifier& Identifier::operator=(Identifier& Other)
+    {
+        UnderlyingNumber = Other.UnderlyingNumber;
+        Other.UnderlyingNumber = Invalid;
+        return *this;
+    }
 
-ZtIdentifier& ZtIdentifier::operator=(ZtIdentifier&& Other)
-{
-    return *this;
+    Identifier::Identifier(Identifier&& Other)
+    {
+        *this = Other;
+    }
+
+    Identifier& Identifier::operator=(Identifier&& Other)
+    {
+        return *this;
+    }
+
 }

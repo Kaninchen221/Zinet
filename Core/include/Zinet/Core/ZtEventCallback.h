@@ -4,7 +4,12 @@
 
 #include <memory>
 
-struct ZtEventCallback
+namespace zt
 {
-	std::weak_ptr<ZtFunctor> Functor;
-};
+
+	struct EventCallback
+	{
+		std::weak_ptr<Functor> Functor;
+	};
+
+}

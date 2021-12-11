@@ -1,79 +1,84 @@
 #include "Zinet/Core/ZtTime.h"
 
-ZtTime::ZtTime()
-	: TimeAsNanoseconds(0.f)
+namespace zt
 {
 
-}
+	Time::Time()
+		: TimeAsNanoseconds(0.f)
+	{
 
-ZtTime::ZtTime(NumericType Nanoseconds)
-	: TimeAsNanoseconds(Nanoseconds)
-{
+	}
 
-}
+	Time::Time(NumericType Nanoseconds)
+		: TimeAsNanoseconds(Nanoseconds)
+	{
 
-ZtTime& ZtTime::operator=(NumericType Nanoseconds)
-{
-	this->TimeAsNanoseconds = Nanoseconds;
-	return *this;
-}
+	}
 
-ZtTime::NumericType ZtTime::GetAsNanoseconds() const
-{
-	return TimeAsNanoseconds;
-}
+	Time& Time::operator=(NumericType Nanoseconds)
+	{
+		this->TimeAsNanoseconds = Nanoseconds;
+		return *this;
+	}
 
-ZtTime::NumericType ZtTime::GetAsMicroseconds() const
-{
-	return TimeAsNanoseconds / NanosecondsInMicrosecond;
-}
+	Time::NumericType Time::GetAsNanoseconds() const
+	{
+		return TimeAsNanoseconds;
+	}
 
-ZtTime::NumericType ZtTime::GetAsMilliseconds() const
-{
-	return GetAsMicroseconds() / MicrosecondsInMillisecond;
-}
+	Time::NumericType Time::GetAsMicroseconds() const
+	{
+		return TimeAsNanoseconds / NanosecondsInMicrosecond;
+	}
 
-ZtTime::NumericType ZtTime::GetAsSeconds() const
-{
-	return GetAsMilliseconds() / MillisecondsInSecond;
-}
+	Time::NumericType Time::GetAsMilliseconds() const
+	{
+		return GetAsMicroseconds() / MicrosecondsInMillisecond;
+	}
 
-ZtTime::NumericType ZtTime::GetAsMinutes() const
-{
-	return GetAsSeconds() / SecondsInMinute;
-}
+	Time::NumericType Time::GetAsSeconds() const
+	{
+		return GetAsMilliseconds() / MillisecondsInSecond;
+	}
 
-ZtTime::NumericType ZtTime::GetAsHours() const
-{
-	return GetAsMinutes() / MinutesInHour;
-}
+	Time::NumericType Time::GetAsMinutes() const
+	{
+		return GetAsSeconds() / SecondsInMinute;
+	}
 
-ZtTime ZtTime::FromNanoseconds(NumericType Nanoseconds)
-{
-	return ZtTime(Nanoseconds);
-}
+	Time::NumericType Time::GetAsHours() const
+	{
+		return GetAsMinutes() / MinutesInHour;
+	}
 
-ZtTime ZtTime::FromMicroseconds(NumericType Microseconds)
-{
-	return FromNanoseconds(Microseconds * NanosecondsInMicrosecond);
-}
+	Time Time::FromNanoseconds(NumericType Nanoseconds)
+	{
+		return Time(Nanoseconds);
+	}
 
-ZtTime ZtTime::FromMilliseconds(NumericType Milliseconds)
-{
-	return FromMicroseconds(Milliseconds * MicrosecondsInMillisecond);
-}
+	Time Time::FromMicroseconds(NumericType Microseconds)
+	{
+		return FromNanoseconds(Microseconds * NanosecondsInMicrosecond);
+	}
 
-ZtTime ZtTime::FromSeconds(NumericType Seconds)
-{
-	return FromMilliseconds(Seconds * MillisecondsInSecond);
-}
+	Time Time::FromMilliseconds(NumericType Milliseconds)
+	{
+		return FromMicroseconds(Milliseconds * MicrosecondsInMillisecond);
+	}
 
-ZtTime ZtTime::FromMinutes(NumericType Minutes)
-{
-	return FromSeconds(Minutes * SecondsInMinute);
-}
+	Time Time::FromSeconds(NumericType Seconds)
+	{
+		return FromMilliseconds(Seconds * MillisecondsInSecond);
+	}
 
-ZtTime ZtTime::FromHours(NumericType Hours)
-{
-	return FromMinutes(Hours * SecondsInMinute);
+	Time Time::FromMinutes(NumericType Minutes)
+	{
+		return FromSeconds(Minutes * SecondsInMinute);
+	}
+
+	Time Time::FromHours(NumericType Hours)
+	{
+		return FromMinutes(Hours * SecondsInMinute);
+	}
+
 }

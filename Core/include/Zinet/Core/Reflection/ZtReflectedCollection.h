@@ -2,40 +2,45 @@
 
 #include "Zinet/Core/Reflection/ZtReflectionUtilities.h"
 
-template<typename ReflectedClassesTupleType = std::tuple<>>
-class ZtReflectedCollection
+namespace zt
 {
 
-protected:
+    template<typename ReflectedClassesTupleType = std::tuple<>>
+    class ReflectedCollection
+    {
 
-    ReflectedClassesTupleType ReflectedClasses;
+    protected:
 
-public:
+        ReflectedClassesTupleType ReflectedClasses;
 
-    constexpr ZtReflectedCollection() = default;
-    constexpr ZtReflectedCollection(ReflectedClassesTupleType ReflectedClasses)
-        : ReflectedClasses(ReflectedClasses)
-    {}
+    public:
 
-    template<typename ReflectedClassType>
-    ZtReflectedCollection<ZtConcatTwoTupleTypes<ReflectedClassesTupleType, ZtMakeReflectedClassTuple<ReflectedClassType>>>
+        constexpr ReflectedCollection() = default;
+        constexpr ReflectedCollection(ReflectedClassesTupleType ReflectedClasses)
+            : ReflectedClasses(ReflectedClasses)
+        {}
+
+        template<typename ReflectedClassType>
+        ReflectedCollection<ConcatTwoTupleTypes<ReflectedClassesTupleType, MakeReflectedClassTuple<ReflectedClassType>>>
             RegisterClass(ReflectedClassType ReflectedClass);
 
-    const ReflectedClassesTupleType& GetReflectedClasses() const;
+        const ReflectedClassesTupleType& GetReflectedClasses() const;
 
-};
+    };
 
-template<typename ReflectedClassesTupleType>
-template<typename ReflectedClassType>
-ZtReflectedCollection<ZtConcatTwoTupleTypes<ReflectedClassesTupleType, ZtMakeReflectedClassTuple<ReflectedClassType>>>
-ZtReflectedCollection<ReflectedClassesTupleType>::RegisterClass(ReflectedClassType ReflectedClass)
-{
-    return { std::tuple_cat(ReflectedClasses, ZtMakeReflectedClassTuple<ReflectedClassType>(ReflectedClass)) };
-}
+    template<typename ReflectedClassesTupleType>
+    template<typename ReflectedClassType>
+    ReflectedCollection<ConcatTwoTupleTypes<ReflectedClassesTupleType, MakeReflectedClassTuple<ReflectedClassType>>>
+        ReflectedCollection<ReflectedClassesTupleType>::RegisterClass(ReflectedClassType ReflectedClass)
+    {
+        return { std::tuple_cat(ReflectedClasses, MakeReflectedClassTuple<ReflectedClassType>(ReflectedClass)) };
+    }
 
-template<typename ReflectedClassesTupleType>
-const ReflectedClassesTupleType&
-ZtReflectedCollection<ReflectedClassesTupleType>::GetReflectedClasses() const
-{
-    return ReflectedClasses;
+    template<typename ReflectedClassesTupleType>
+    const ReflectedClassesTupleType&
+        ReflectedCollection<ReflectedClassesTupleType>::GetReflectedClasses() const
+    {
+        return ReflectedClasses;
+    }
+
 }

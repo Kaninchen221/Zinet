@@ -1,30 +1,35 @@
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtTime.h"
 
-void ZtClock::Start()
+namespace zt
 {
-	SavedTimePoint = UnderlyingClock::now();
-}
 
-ZtTime ZtClock::Restart()
-{
-	ZtTime ElapsedTime = GetElapsedTime();
-	SavedTimePoint = UnderlyingClock::now();
-	return ElapsedTime;
-}
+	void Clock::Start()
+	{
+		SavedTimePoint = UnderlyingClock::now();
+	}
 
-ZtTime ZtClock::GetElapsedTime() const
-{
-	using Duration = std::chrono::duration<UnderlyingClock::rep, UnderlyingClock::period>;
+	Time Clock::Restart()
+	{
+		Time ElapsedTime = GetElapsedTime();
+		SavedTimePoint = UnderlyingClock::now();
+		return ElapsedTime;
+	}
 
-	thread_local UnderlyingClock::time_point ActualTimePoint;
-	thread_local Duration Difference;
-	thread_local ZtTime::NumericType Nanoseconds;
-	thread_local ZtTime Time;
+	Time Clock::GetElapsedTime() const
+	{
+		using Duration = std::chrono::duration<UnderlyingClock::rep, UnderlyingClock::period>;
 
-	ActualTimePoint = UnderlyingClock::now();
-	Difference = ActualTimePoint - SavedTimePoint;
-	Nanoseconds = static_cast<float>(std::chrono::duration_cast<std::chrono::nanoseconds>(Difference).count());
-	Time = Nanoseconds;
-	return Time;
+		thread_local UnderlyingClock::time_point ActualTimePoint;
+		thread_local Duration Difference;
+		thread_local Time::NumericType Nanoseconds;
+		thread_local Time Time;
+
+		ActualTimePoint = UnderlyingClock::now();
+		Difference = ActualTimePoint - SavedTimePoint;
+		Nanoseconds = static_cast<float>(std::chrono::duration_cast<std::chrono::nanoseconds>(Difference).count());
+		Time = Nanoseconds;
+		return Time;
+	}
+
 }

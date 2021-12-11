@@ -3,31 +3,36 @@
 #include "Zinet/Core/ZtCore.h"
 #include <type_traits>
 
-template<typename FunctionPointerType>
-class ZtReflectedMemberFunction
+namespace zt
 {
 
-public:
+	template<typename FunctionPointerType>
+	class ReflectedMemberFunction
+	{
 
-	constexpr ZtReflectedMemberFunction() = default;
-	constexpr ZtReflectedMemberFunction(const FunctionPointerType& FunctionPointer);
+	public:
 
-	FunctionPointerType GetPointer() const;
+		constexpr ReflectedMemberFunction() = default;
+		constexpr ReflectedMemberFunction(const FunctionPointerType& FunctionPointer);
 
-protected:
+		FunctionPointerType GetPointer() const;
 
-	FunctionPointerType FunctionPointer;
+	protected:
 
-};
+		FunctionPointerType FunctionPointer;
 
-template<typename FunctionPointerType>
-inline constexpr ZtReflectedMemberFunction<FunctionPointerType>::ZtReflectedMemberFunction(const FunctionPointerType& FunctionPointer)
-	: FunctionPointer(FunctionPointer)
-{
-}
+	};
 
-template<typename FunctionPointerType>
-inline FunctionPointerType ZtReflectedMemberFunction<FunctionPointerType>::GetPointer() const
-{
-	return FunctionPointer;
+	template<typename FunctionPointerType>
+	inline constexpr ReflectedMemberFunction<FunctionPointerType>::ReflectedMemberFunction(const FunctionPointerType& FunctionPointer)
+		: FunctionPointer(FunctionPointer)
+	{
+	}
+
+	template<typename FunctionPointerType>
+	inline FunctionPointerType ReflectedMemberFunction<FunctionPointerType>::GetPointer() const
+	{
+		return FunctionPointer;
+	}
+
 }

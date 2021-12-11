@@ -8,33 +8,38 @@
 
 #include "plf_colony.h"
 
-class ZtEventBroadcaster
+namespace zt
 {
-public:
 
-	void Add(const ZtEventCallback& EventCallback);
-
-	void Broadcast();
-
-protected:
-
-	plf::colony<ZtEventCallback> Callbacks;
-
-};
-
-inline void ZtEventBroadcaster::Add(const ZtEventCallback& EventCallback)
-{
-	Callbacks.insert(EventCallback);
-}
-
-inline void ZtEventBroadcaster::Broadcast()
-{
-	for (ZtEventCallback Callback : Callbacks)
+	class EventBroadcaster
 	{
-		std::shared_ptr<ZtFunctor> FunctorPointer = Callback.Functor.lock();
-		if (FunctorPointer)
+	public:
+
+		void Add(const EventCallback& EventCallback);
+
+		void Broadcast();
+
+	protected:
+
+		plf::colony<EventCallback> Callbacks;
+
+	};
+
+	inline void EventBroadcaster::Add(const EventCallback& EventCallback)
+	{
+		Callbacks.insert(EventCallback);
+	}
+
+	inline void EventBroadcaster::Broadcast()
+	{
+		for (EventCallback Callback : Callbacks)
 		{
-			FunctorPointer->operator()();
+			std::shared_ptr<Functor> FunctorPointer = Callback.Functor.lock();
+			if (FunctorPointer)
+			{
+				FunctorPointer->operator()();
+			}
 		}
 	}
+
 }

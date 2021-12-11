@@ -2,7 +2,12 @@
 
 #include "Zinet/Core/ZtCore.h"
 
-class ZINET_CORE_API ZtComponent
+namespace zt
 {
 
-};
+	class ZINET_CORE_API Component
+	{
+
+	};
+
+}

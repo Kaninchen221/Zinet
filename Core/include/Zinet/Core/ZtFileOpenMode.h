@@ -2,13 +2,17 @@
 
 #include "Zinet/Core/ZtCore.h"
 
-enum class ZINET_CORE_API ZtFileOpenMode
+namespace zt
 {
-	App,
-	Binary,
-	In,
-	Out,
-	Truncate,
-	Ate
-};
 
+	enum class ZINET_CORE_API FileOpenMode
+	{
+		App,
+		Binary,
+		In,
+		Out,
+		Truncate,
+		Ate
+	};
+
+}

@@ -4,32 +4,37 @@
 #include "Zinet/Core/ZtBeginPlayReason.h"
 #include "Zinet/Core/ZtEndPlayReason.h"
 
-class ZINET_CORE_API ZtObject
+namespace zt
 {
 
-public:
+    class ZINET_CORE_API Object
+    {
 
-    ZtObject() = default;
-    ZtObject(const ZtObject& Other) = default;
-    ZtObject(ZtObject&& Other) = default;
+    public:
 
-    ZtObject& operator = (const ZtObject& Other) = default;
-    ZtObject& operator = (ZtObject&& Other) = default;
+        Object() = default;
+        Object(const Object& Other) = default;
+        Object(Object&& Other) = default;
 
-    virtual ~ZtObject() noexcept = default;
+        Object& operator = (const Object& Other) = default;
+        Object& operator = (Object&& Other) = default;
 
-    virtual void BeginPlay(ZtBeginPlayReason Reason);
+        virtual ~Object() noexcept = default;
 
-    virtual void EndPlay(ZtEndPlayReason Reason);
+        virtual void BeginPlay(BeginPlayReason Reason);
 
-    virtual void Tick(float DeltaTime);
+        virtual void EndPlay(EndPlayReason Reason);
 
-    bool GetShouldTick() const;
+        virtual void Tick(float DeltaTime);
 
-    void SetShouldTick(bool Value);
+        bool GetShouldTick() const;
 
-protected:
+        void SetShouldTick(bool Value);
 
-    bool bShouldTick = false;
+    protected:
 
-};
+        bool bShouldTick = false;
+
+    };
+
+}

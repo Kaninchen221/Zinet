@@ -6,34 +6,39 @@
 
 #include <fstream>
 
-class ZINET_CORE_API ZtFile
+namespace zt
 {
 
-public:
+	class ZINET_CORE_API File
+	{
 
-	ZtFile() = default;
-	ZtFile(const ZtFile& Other) = default;
-	ZtFile(ZtFile&& Other) = default;
+	public:
 
-	ZtFile& operator = (const ZtFile& Other) = default;
-	ZtFile& operator = (ZtFile&& Other) = default;
+		File() = default;
+		File(const File& Other) = default;
+		File(File&& Other) = default;
 
-	~ZtFile() noexcept;
+		File& operator = (const File& Other) = default;
+		File& operator = (File&& Other) = default;
 
-	void Open(const ZtFileFinder::Path& FilePath, ZtFileOpenMode OpenMode);
+		~File() noexcept;
 
-	bool IsOpen() const;
+		void Open(const FileFinder::Path& FilePath, FileOpenMode OpenMode);
 
-	std::string ReadLine();
+		bool IsOpen() const;
 
-	std::string ReadAll();
+		std::string ReadLine();
 
-	static std::ios_base::openmode ZtFileOpenModeToStdOpenMode(ZtFileOpenMode OpenMode);
+		std::string ReadAll();
 
-	void Close();
+		static std::ios_base::openmode ToStdOpenMode(FileOpenMode OpenMode);
 
-protected:
+		void Close();
 
-	std::fstream FileStream;
+	protected:
 
-};
+		std::fstream FileStream;
+
+	};
+
+}

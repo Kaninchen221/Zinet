@@ -4,26 +4,30 @@
 
 #include <cstdint>
 
-class ZINET_CORE_API ZtIdentifier {
-public:
+namespace zt
+{
 
-    const static inline size_t Invalid = -1;
+    class ZINET_CORE_API Identifier {
+    public:
 
-    ZtIdentifier() = delete;
-    explicit ZtIdentifier(size_t Identifier);
-    ZtIdentifier(ZtIdentifier& Other);
-    ZtIdentifier(ZtIdentifier&& Other);
+        const static inline size_t Invalid = -1;
 
-    ZtIdentifier& operator = (ZtIdentifier& Other);
-    ZtIdentifier& operator = (ZtIdentifier&& Other);
+        Identifier() = delete;
+        explicit Identifier(size_t Identifier);
+        Identifier(Identifier& Other);
+        Identifier(Identifier&& Other);
 
-    ~ZtIdentifier() = default;
+        Identifier& operator = (Identifier& Other);
+        Identifier& operator = (Identifier&& Other);
 
-    size_t GetUnderlyingNumber() const noexcept;
+        ~Identifier() = default;
 
-private:
+        size_t GetUnderlyingNumber() const noexcept;
 
-    size_t UnderlyingNumber = Invalid;
+    private:
 
-};
+        size_t UnderlyingNumber = Invalid;
 
+    };
+
+}

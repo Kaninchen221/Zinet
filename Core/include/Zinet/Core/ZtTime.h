@@ -2,45 +2,50 @@
 
 #include "ZtCore.h"
 
-class ZINET_CORE_API ZtTime {
+namespace zt
+{
 
-public:
+	class ZINET_CORE_API Time {
 
-	using NumericType = float;
+	public:
 
-	inline static const NumericType NanosecondsInMicrosecond = 1000.f;
-	inline static const NumericType MicrosecondsInMillisecond = 1000.f;
-	inline static const NumericType MillisecondsInSecond = 1000.f;
-	inline static const NumericType MicrosecondsInSecond = MicrosecondsInMillisecond * MillisecondsInSecond;
-	inline static const NumericType SecondsInMinute = 60.f;
-	inline static const NumericType MinutesInHour = 60.f;
+		using NumericType = float;
 
-	ZtTime();
-	ZtTime(const ZtTime& other) = default;
-	ZtTime(ZtTime&& other) = default;
-	ZtTime(NumericType Nanoseconds);
+		inline static const NumericType NanosecondsInMicrosecond = 1000.f;
+		inline static const NumericType MicrosecondsInMillisecond = 1000.f;
+		inline static const NumericType MillisecondsInSecond = 1000.f;
+		inline static const NumericType MicrosecondsInSecond = MicrosecondsInMillisecond * MillisecondsInSecond;
+		inline static const NumericType SecondsInMinute = 60.f;
+		inline static const NumericType MinutesInHour = 60.f;
 
-	ZtTime& operator = (const ZtTime& Other) = default;
-	ZtTime& operator = (ZtTime&& Other) = default;
-	ZtTime& operator = (NumericType Nanoseconds);
+		Time();
+		Time(const Time& other) = default;
+		Time(Time&& other) = default;
+		Time(NumericType Nanoseconds);
 
-	~ZtTime() noexcept = default;
+		Time& operator = (const Time& Other) = default;
+		Time& operator = (Time&& Other) = default;
+		Time& operator = (NumericType Nanoseconds);
 
-	NumericType GetAsNanoseconds() const;
-	NumericType GetAsMicroseconds() const;
-	NumericType GetAsMilliseconds() const;
-	NumericType GetAsSeconds() const;
-	NumericType GetAsMinutes() const;
-	NumericType GetAsHours() const;
+		~Time() noexcept = default;
 
-	static ZtTime FromNanoseconds(NumericType Nanoseconds);
-	static ZtTime FromMicroseconds(NumericType Microseconds);
-	static ZtTime FromMilliseconds(NumericType Milliseconds);
-	static ZtTime FromSeconds(NumericType Seconds);
-	static ZtTime FromMinutes(NumericType Minutes);
-	static ZtTime FromHours(NumericType Hours);
+		NumericType GetAsNanoseconds() const;
+		NumericType GetAsMicroseconds() const;
+		NumericType GetAsMilliseconds() const;
+		NumericType GetAsSeconds() const;
+		NumericType GetAsMinutes() const;
+		NumericType GetAsHours() const;
 
-private:
+		static Time FromNanoseconds(NumericType Nanoseconds);
+		static Time FromMicroseconds(NumericType Microseconds);
+		static Time FromMilliseconds(NumericType Milliseconds);
+		static Time FromSeconds(NumericType Seconds);
+		static Time FromMinutes(NumericType Minutes);
+		static Time FromHours(NumericType Hours);
 
-	NumericType TimeAsNanoseconds = 0.f;
-};
+	private:
+
+		NumericType TimeAsNanoseconds = 0.f;
+	};
+
+}

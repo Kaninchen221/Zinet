@@ -1,70 +1,75 @@
 #include "Zinet/Core/ZtUniqueIdentifierMaker.h"
 
-ZtIdentifier ZtUniqueIdentifierMaker::Reserve()
+namespace zt
 {
-    std::optional<ZtIdentifier> OptionalUniqueIdentifier = TryReserveReleasedIdentifier();
-    if(OptionalUniqueIdentifier)
-    {
-        return OptionalUniqueIdentifier.value();
-    }
 
-    ZtIdentifier Identifier = ReserveNewIdentifier();
-    return std::move(Identifier);
-}
-
-std::optional<ZtIdentifier> ZtUniqueIdentifierMaker::TryReserveReleasedIdentifier()
-{
-    std::vector<bool>::iterator Iterator = Numbers.begin();
-    for(size_t Index = 0; Index < Numbers.size(); ++Index)
+    Identifier UniqueIdentifierMaker::Reserve()
     {
-        bool IsReserved = *Iterator;
-        if(!IsReserved)
+        std::optional<Identifier> OptionalUniqueIdentifier = TryReserveReleasedIdentifier();
+        if (OptionalUniqueIdentifier)
         {
-            return ZtIdentifier(Index);
+            return OptionalUniqueIdentifier.value();
         }
 
-        ++Iterator;
+        Identifier Identifier = ReserveNewIdentifier();
+        return std::move(Identifier);
     }
 
-    return {};
-}
-
-ZtIdentifier ZtUniqueIdentifierMaker::ReserveNewIdentifier()
-{
-    Numbers.emplace_back(true);
-    size_t NumbersSize = Numbers.size();
-    size_t NumbersLastIndex = NumbersSize - 1;
-    return ZtIdentifier(NumbersLastIndex);
-}
-
-void ZtUniqueIdentifierMaker::Release(ZtIdentifier& Identifier)
-{
-    size_t UnderlyingNumber = Identifier.GetUnderlyingNumber();
-    size_t NumbersSize = Numbers.size();
-
-    if(NumbersSize <= UnderlyingNumber)
+    std::optional<Identifier> UniqueIdentifierMaker::TryReserveReleasedIdentifier()
     {
-        Logger->warn("Can't release identifier with underlying number: {0} - number is out of reserved numbers", UnderlyingNumber);
-        return;
+        std::vector<bool>::iterator Iterator = Numbers.begin();
+        for (size_t Index = 0; Index < Numbers.size(); ++Index)
+        {
+            bool IsReserved = *Iterator;
+            if (!IsReserved)
+            {
+                return Identifier(Index);
+            }
+
+            ++Iterator;
+        }
+
+        return {};
     }
 
-    auto IsReserved = Numbers[UnderlyingNumber];
-    if(!IsReserved)
+    Identifier UniqueIdentifierMaker::ReserveNewIdentifier()
     {
-        Logger->warn("Can't release identifier with underlying number: {0} - number is already released", UnderlyingNumber);
-        return;
+        Numbers.emplace_back(true);
+        size_t NumbersSize = Numbers.size();
+        size_t NumbersLastIndex = NumbersSize - 1;
+        return Identifier(NumbersLastIndex);
     }
 
-    IsReserved = false;
-}
-
-bool ZtUniqueIdentifierMaker::IsReserved(size_t UnderlyingNumber) const
-{
-    if(UnderlyingNumber >= Numbers.size())
+    void UniqueIdentifierMaker::Release(Identifier& Identifier)
     {
-        return false;
+        size_t UnderlyingNumber = Identifier.GetUnderlyingNumber();
+        size_t NumbersSize = Numbers.size();
+
+        if (NumbersSize <= UnderlyingNumber)
+        {
+            Logger->warn("Can't release identifier with underlying number: {0} - number is out of reserved numbers", UnderlyingNumber);
+            return;
+        }
+
+        auto IsReserved = Numbers[UnderlyingNumber];
+        if (!IsReserved)
+        {
+            Logger->warn("Can't release identifier with underlying number: {0} - number is already released", UnderlyingNumber);
+            return;
+        }
+
+        IsReserved = false;
     }
 
-    bool IsReserved = Numbers[UnderlyingNumber];
-    return IsReserved;
+    bool UniqueIdentifierMaker::IsReserved(size_t UnderlyingNumber) const
+    {
+        if (UnderlyingNumber >= Numbers.size())
+        {
+            return false;
+        }
+
+        bool IsReserved = Numbers[UnderlyingNumber];
+        return IsReserved;
+    }
+
 }

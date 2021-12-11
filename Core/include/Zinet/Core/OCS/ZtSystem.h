@@ -2,20 +2,25 @@
 
 #include "Zinet/Core/ZtCore.h"
 
-class ZINET_CORE_API ZtSystem
+namespace zt
 {
 
-public:
+    class ZINET_CORE_API System
+    {
 
-    ZtSystem() = default;
-    ZtSystem(const ZtSystem& Other) = default;
-    ZtSystem(ZtSystem&& Other) = default;
+    public:
 
-    ZtSystem& operator = (const ZtSystem& Other) = default;
-    ZtSystem& operator = (ZtSystem&& Other) = default;
+        System() = default;
+        System(const System& Other) = default;
+        System(System&& Other) = default;
 
-    virtual ~ZtSystem() noexcept = default;
+        System& operator = (const System& Other) = default;
+        System& operator = (System&& Other) = default;
+
+        virtual ~System() noexcept = default;
 
 
 
-};
+    };
+
+}

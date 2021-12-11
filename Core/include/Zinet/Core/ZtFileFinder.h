@@ -9,37 +9,42 @@
 #include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtLogger.h"
 
-class ZtFileFinder
+namespace zt
 {
-protected:
 
-	inline static ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtFileFinder");
+	class FileFinder
+	{
+	protected:
 
-public:
+		inline static Logger::SimpleConsoleLogger Logger = Logger::CreateSimpleConsoleLogger("Fil Finder");
 
-	using Path = std::filesystem::path;
-	using FileInfo = std::filesystem::directory_entry;
-	using FolderInfo = std::vector<FileInfo>;
-	using Extension = std::filesystem::path;
+	public:
 
-	void PrintDebugInfo() const;
-	
-	Path CurrentPath() const;
+		using Path = std::filesystem::path;
+		using FileInfo = std::filesystem::directory_entry;
+		using FolderInfo = std::vector<FileInfo>;
+		using Extension = std::filesystem::path;
 
-	Path EngineRootPath() const;
+		void PrintDebugInfo() const;
 
-	inline Path CurrentProjectRootPath() const;
+		Path CurrentPath() const;
 
-	FolderInfo FindFiles(Path PathToFolder) const;
+		Path EngineRootPath() const;
 
-	FolderInfo FindFiles(Path PathToFolder, Extension NeededExtension) const;
+		inline Path CurrentProjectRootPath() const;
 
-};
+		FolderInfo FindFiles(Path PathToFolder) const;
 
-inline ZtFileFinder::Path ZtFileFinder::CurrentProjectRootPath() const
-{
-	using MacroType = std::decay_t<decltype(ZINET_CURRENT_PROJECT_ROOT_PATH)>;
-	using ValidType = const char*;
-	static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
-	return ZINET_CURRENT_PROJECT_ROOT_PATH;
+		FolderInfo FindFiles(Path PathToFolder, Extension NeededExtension) const;
+
+	};
+
+	inline FileFinder::Path FileFinder::CurrentProjectRootPath() const
+	{
+		using MacroType = std::decay_t<decltype(ZINET_CURRENT_PROJECT_ROOT_PATH)>;
+		using ValidType = const char*;
+		static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
+		return ZINET_CURRENT_PROJECT_ROOT_PATH;
+	}
+
 }

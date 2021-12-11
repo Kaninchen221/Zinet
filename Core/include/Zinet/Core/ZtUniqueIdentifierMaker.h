@@ -7,24 +7,29 @@
 #include <type_traits>
 #include <vector>
 
-class ZINET_CORE_API ZtUniqueIdentifierMaker
+namespace zt
 {
-    static inline ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtUniqueIdentifierMaker");
 
-public:
+    class ZINET_CORE_API UniqueIdentifierMaker
+    {
+        static inline Logger::SimpleConsoleLogger Logger = Logger::CreateSimpleConsoleLogger("UniqueIdentifierMaker");
 
-    ZtIdentifier Reserve();
+    public:
 
-    void Release(ZtIdentifier& UniqueIdentifier);
+        Identifier Reserve();
 
-    bool IsReserved(size_t UnderlyingNumber) const;
+        void Release(Identifier& UniqueIdentifier);
 
-protected:
+        bool IsReserved(size_t UnderlyingNumber) const;
 
-    std::optional<ZtIdentifier> TryReserveReleasedIdentifier();
+    protected:
 
-    ZtIdentifier ReserveNewIdentifier();
+        std::optional<Identifier> TryReserveReleasedIdentifier();
 
-    std::vector<bool> Numbers;
+        Identifier ReserveNewIdentifier();
 
-};
+        std::vector<bool> Numbers;
+
+    };
+
+}

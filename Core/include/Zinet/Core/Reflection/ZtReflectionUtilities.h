@@ -1,29 +1,31 @@
 #pragma once
 
-#include "Zinet/Core/Reflection/ZtReflectedClass.h"
-#include "Zinet/Core/Reflection/ZtReflectedMemberProperty.h"
-#include "Zinet/Core/Reflection/ZtReflectedMemberFunction.h"
-
 #include <tuple>
 #include <utility>
 
+template<typename MemberPointerType>
+class ReflectedMemberProperty;
+
+template<typename FunctionPointerType>
+class ReflectedMemberFunction;
+
 template<typename First, typename Second>
-using ZtConcatTwoTupleTypes = decltype(std::tuple_cat<First, Second>(First(), Second()));
+using ConcatTwoTupleTypes = decltype(std::tuple_cat<First, Second>(First(), Second()));
 
 template<typename MemberPropertyPointerType>
-using ZtMakePropertyTuple = std::tuple<ZtReflectedMemberProperty<MemberPropertyPointerType>>;
+using MakePropertyTuple = std::tuple<ReflectedMemberProperty<MemberPropertyPointerType>>;
 
 template<typename MemberFunctionPointerType>
-using ZtMakeFunctionTuple = std::tuple<ZtReflectedMemberFunction<MemberFunctionPointerType>>;
+using MakeFunctionTuple = std::tuple<ReflectedMemberFunction<MemberFunctionPointerType>>;
 
 template<typename ReflectedClassType>
-using ZtMakeReflectedClassTuple = std::tuple<ReflectedClassType>;
+using MakeReflectedClassTuple = std::tuple<ReflectedClassType>;
 
 template<typename TupleType, typename CallableType>
-constexpr void ZtApplyToTuple(TupleType& Tuple, const CallableType& Callable);
+constexpr void ApplyToTuple(TupleType& Tuple, const CallableType& Callable);
 
 template<typename TupleType, typename CallableType, typename NumberType, NumberType... Numbers>
-constexpr void ZtApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
+constexpr void ApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
                      const std::integer_sequence<NumberType, Numbers...>& NumberSequence);
 
 

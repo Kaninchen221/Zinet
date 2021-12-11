@@ -1,7 +1,12 @@
 #pragma once
 
-enum class ZtBeginPlayReason
+namespace zt
 {
-    Spawned,
-    Loaded
-};
+
+    enum class ZINET_CORE_API BeginPlayReason
+    {
+        Spawned,
+        Loaded
+    };
+
+}

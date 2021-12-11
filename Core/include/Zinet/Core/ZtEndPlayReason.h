@@ -1,6 +1,11 @@
 #pragma once
 
-enum class ZtEndPlayReason
+namespace zt
 {
-    Destroyed
-};
+
+    enum class EndPlayReason
+    {
+        Destroyed
+    };
+
+}

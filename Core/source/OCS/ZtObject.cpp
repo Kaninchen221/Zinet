@@ -1,26 +1,31 @@
 #include "Zinet/Core/OCS/ZtObject.h"
 
-void ZtObject::BeginPlay(ZtBeginPlayReason Reason)
+namespace zt
 {
 
-}
+    void Object::BeginPlay(BeginPlayReason Reason)
+    {
 
-void ZtObject::EndPlay(ZtEndPlayReason Reason)
-{
+    }
 
-}
+    void Object::EndPlay(EndPlayReason Reason)
+    {
 
-void ZtObject::Tick(float DeltaTime)
-{
+    }
 
-}
+    void Object::Tick(float DeltaTime)
+    {
 
-bool ZtObject::GetShouldTick() const
-{
-    return bShouldTick;
-}
+    }
 
-void ZtObject::SetShouldTick(bool Value)
-{
-    bShouldTick = Value;
+    bool Object::GetShouldTick() const
+    {
+        return bShouldTick;
+    }
+
+    void Object::SetShouldTick(bool Value)
+    {
+        bShouldTick = Value;
+    }
+
 }

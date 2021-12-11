@@ -5,26 +5,31 @@
 #include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtTime.h"
 
-class ZINET_CORE_API ZtClock {
+namespace zt
+{
 
-public:
+	class ZINET_CORE_API Clock {
 
-	using UnderlyingClock = std::chrono::system_clock;
+	public:
 
-	ZtClock() = default;
-	ZtClock(const ZtClock& other) = default;
-	ZtClock(ZtClock&& other) = default;
+		using UnderlyingClock = std::chrono::system_clock;
 
-	ZtClock& operator = (const ZtClock& other) = default;
-	ZtClock& operator = (ZtClock&& other) = default;
+		Clock() = default;
+		Clock(const Clock& other) = default;
+		Clock(Clock&& other) = default;
 
-	~ZtClock() = default;
+		Clock& operator = (const Clock& other) = default;
+		Clock& operator = (Clock&& other) = default;
 
-	void Start();
-	ZtTime Restart();
-	ZtTime GetElapsedTime() const;
+		~Clock() = default;
 
-private:
+		void Start();
+		Time Restart();
+		Time GetElapsedTime() const;
 
-	UnderlyingClock::time_point SavedTimePoint;
-};
+	private:
+
+		UnderlyingClock::time_point SavedTimePoint;
+	};
+
+}
