@@ -15,29 +15,29 @@ namespace zt::gl
 	public:
 
 		ElementBuffer() = default;
-		ElementBuffer(const ElementBuffer& Other) = default;
-		ElementBuffer(ElementBuffer&& Other) = default;
+		ElementBuffer(const ElementBuffer& other) = default;
+		ElementBuffer(ElementBuffer&& other) = default;
 
-		ElementBuffer& operator = (const ElementBuffer& Other) = default;
-		ElementBuffer& operator = (ElementBuffer&& Other) = default;
+		ElementBuffer& operator = (const ElementBuffer& other) = default;
+		ElementBuffer& operator = (ElementBuffer&& other) = default;
 
 		~ElementBuffer() noexcept;
 
-		void Generate();
+		void generate();
 
-		void Bind();
+		void bind();
 
-		void Unbind();
+		void unbind();
 
 		template<typename ContainerType>
-		void SetData(const ContainerType& Container, BufferUsage Usage);
+		void setData(const ContainerType& container, BufferUsage usage);
 
-		void Delete();
+		void deleteResource();
 
 	};
 
 	template<typename ContainerType>
-	inline void ElementBuffer::SetData(const ContainerType& Container, BufferUsage Usage)
+	inline void ElementBuffer::setData(const ContainerType& container, BufferUsage usage)
 	{
 
 	}

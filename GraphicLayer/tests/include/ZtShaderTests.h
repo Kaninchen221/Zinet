@@ -14,14 +14,14 @@ namespace zt::gl::tests
 
 		ZtShaderTests()
 		{
-			window.CreateWindow();
+			window.createWindow();
 		}
 
 		Window window; // We need to initialize OpenGL context before creating any shader
 
-		Shader Shader{};
+		Shader shader{};
 
-		const char* CStringVertexShaderSource =
+		const char* cStringVertexShaderSource =
 			"#version 330 core \n"
 			"layout(location = 0) in vec3 aPos; \n"
 			" \n"
@@ -30,7 +30,7 @@ namespace zt::gl::tests
 			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); \n"
 			"} \n\0";
 
-		const char* InvalidCStringVertexShaderSource =
+		const char* invalidCStringVertexShaderSource =
 			"#version 330 core \n"
 			"layout(location = 0) in vec3 aPos; \n"
 			" \n"
@@ -42,66 +42,66 @@ namespace zt::gl::tests
 
 	TEST_F(ZtShaderTests, CreateTest)
 	{
-		ShaderType ExpectedShaderType = ShaderType::Fragment;
-		Shader.Create(ExpectedShaderType);
+		ShaderType expectedShaderType = ShaderType::Fragment;
+		shader.create(expectedShaderType);
 
-		ShaderType ActualShaderType = Shader.GetType();
-		ASSERT_EQ(ActualShaderType, ExpectedShaderType);
+		ShaderType actualShaderType = shader.getType();
+		ASSERT_EQ(actualShaderType, expectedShaderType);
 	}
 
 	TEST_F(ZtShaderTests, GetIDTest)
 	{
-		GLuint ShaderID = Shader.GetID();
+		GLuint shaderID = shader.getID();
 	}
 
 	TEST_F(ZtShaderTests, CompileTest)
 	{
-		Shader.Create(ShaderType::Vertex);
-		Shader.LoadFromCString(CStringVertexShaderSource);
-		Shader.Compile();
+		shader.create(ShaderType::Vertex);
+		shader.loadFromCString(cStringVertexShaderSource);
+		shader.compile();
 
-		unsigned int ShaderID = Shader.GetID();
+		unsigned int shaderID = shader.getID();
 	}
 
 	TEST_F(ZtShaderTests, CompileStatusTest)
 	{
-		Shader.Create(ShaderType::Vertex);
-		Shader.LoadFromCString(CStringVertexShaderSource);
-		Shader.Compile();
+		shader.create(ShaderType::Vertex);
+		shader.loadFromCString(cStringVertexShaderSource);
+		shader.compile();
 
-		bool Status = Shader.CompileStatus();
+		bool status = shader.compileStatus();
 	}
 
 	TEST_F(ZtShaderTests, CompileErrorMessageTest)
 	{
-		Shader.Create(ShaderType::Vertex);
-		Shader.LoadFromCString(InvalidCStringVertexShaderSource);
-		Shader.Compile();
-		bool Status = Shader.CompileStatus();
-		ASSERT_FALSE(Status);
+		shader.create(ShaderType::Vertex);
+		shader.loadFromCString(invalidCStringVertexShaderSource);
+		shader.compile();
+		bool status = shader.compileStatus();
+		ASSERT_FALSE(status);
 
-		std::string Message = Shader.CompileErrorMessage();
-		size_t MessageSize = Message.size();
-		ASSERT_GT(MessageSize, 0);
+		std::string message = shader.compileErrorMessage();
+		size_t messageSize = message.size();
+		ASSERT_GT(messageSize, 0);
 	}
 
 	TEST_F(ZtShaderTests, LoadFromFileTest)
 	{
-		Shader.Create(ShaderType::Vertex);
-		Shader.LoadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.vert");
-		Shader.Compile();
+		shader.create(ShaderType::Vertex);
+		shader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.vert");
+		shader.compile();
 
-		GLuint ShaderID = Shader.GetID();
+		GLuint shaderID = shader.getID();
 	}
 
 	TEST_F(ZtShaderTests, DeleteTest)
 	{
-		Shader.Create(ShaderType::Vertex);
-		Shader.Delete();
-		GLuint ActualID = Shader.GetID();
+		shader.create(ShaderType::Vertex);
+		shader.deleteResource();
+		GLuint actualID = shader.getID();
 
-		GLuint ExpectedID = Shader::InvalidID;
-		ASSERT_EQ(ActualID, ExpectedID);
+		GLuint expectedID = Shader::InvalidID;
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 }

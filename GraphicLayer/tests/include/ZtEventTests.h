@@ -12,44 +12,44 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Event Event{};
+		Event event{};
 
 	};
 
 	TEST_F(ZtEventTests, SetWindowTest)
 	{
-		Window ExpectedWindow;
-		ExpectedWindow.CreateWindow();
-		Event.SetWindow(&ExpectedWindow);
-		const Window* ActualWindow = Event.GetWindow();
+		Window expectedWindow;
+		expectedWindow.createWindow();
+		event.setWindow(&expectedWindow);
+		const Window* actualWindow = event.getWindow();
 
-		ASSERT_EQ(&ExpectedWindow, ActualWindow);
+		ASSERT_EQ(&expectedWindow, actualWindow);
 	}
 
 	TEST_F(ZtEventTests, GetWindowTest)
 	{
-		const Window* Window = Event.GetWindow();
+		const Window* window = event.getWindow();
 
-		ASSERT_EQ(Window, nullptr);
+		ASSERT_EQ(window, nullptr);
 	}
 
 	TEST_F(ZtEventTests, PollEventsTest)
 	{
-		Event.PollEvents();
+		event.pollEvents();
 	}
 
 	TEST_F(ZtEventTests, GetKeyboardTest)
 	{
-		Keyboard* Keyboard = Event.GetKeyboard();
+		Keyboard* keyboard = event.getKeyboard();
 
-		ASSERT_NE(Keyboard, nullptr);
+		ASSERT_NE(keyboard, nullptr);
 	}
 
 	TEST_F(ZtEventTests, GetMouseTest)
 	{
-		Mouse* Mouse = Event.GetMouse();
+		Mouse* mouse = event.getMouse();
 
-		ASSERT_NE(Mouse, nullptr);
+		ASSERT_NE(mouse, nullptr);
 	}
 
 }

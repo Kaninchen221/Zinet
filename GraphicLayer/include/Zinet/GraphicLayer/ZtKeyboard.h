@@ -19,36 +19,36 @@ namespace zt::gl
 	public:
 
 		Keyboard();
-		Keyboard(const Keyboard& Other) = default;
-		Keyboard(Keyboard&& Other) = default;
+		Keyboard(const Keyboard& other) = default;
+		Keyboard(Keyboard&& other) = default;
 
-		Keyboard& operator = (const Keyboard& Other) = default;
-		Keyboard& operator = (Keyboard&& Other) = default;
+		Keyboard& operator = (const Keyboard& other) = default;
+		Keyboard& operator = (Keyboard&& other) = default;
 
 		~Keyboard() noexcept = default;
 
-		void SetWindow(Window* newWindow);
+		void setWindow(Window* window);
 
-		const Window* GetWindow() const;
+		const Window* getWindow() const;
 
-		const std::vector<KeyboardEvent>& GetEvents() const;
+		const std::vector<KeyboardEvent>& getEvents() const;
 
-		bool IsPressed(KeyboardKey Key) const;
+		bool isPressed(KeyboardKey key) const;
 
-		bool IsReleased(KeyboardKey Key) const;
+		bool isReleased(KeyboardKey key) const;
 
-		void SetMaximumRememberedEvents(size_t Value);
+		void setMaximumRememberedEvents(size_t value);
 
-		size_t GetMaximumRememberedEvents() const;
+		size_t getMaximumRememberedEvents() const;
 
-		static void KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods);
+		static void KeyCallback(GLFWwindow* internalWindow, int key, int scanCode, int action, int mods);
 
-		void BindCallbacks();
+		void bindCallbacks();
 
 	protected:
 
 		Window* window = nullptr;
-		std::vector<KeyboardEvent> Events;
+		std::vector<KeyboardEvent> events;
 
 	};
 

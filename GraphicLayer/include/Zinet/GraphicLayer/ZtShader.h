@@ -18,33 +18,33 @@ namespace zt::gl
 	public:
 
 		Shader() = default;
-		Shader(const Shader& Other) = default;
-		Shader(Shader&& Other) = default;
+		Shader(const Shader& other) = default;
+		Shader(Shader&& other) = default;
 
-		Shader& operator = (const Shader& Other) = default;
-		Shader& operator = (Shader&& Other) = default;
+		Shader& operator = (const Shader& other) = default;
+		Shader& operator = (Shader&& other) = default;
 
 		~Shader() noexcept;
 
-		void Create(ShaderType ShaderType);
+		void create(ShaderType shaderType);
 
-		void Delete();
+		void deleteResource();
 
-		ShaderType GetType() const;
+		ShaderType getType() const;
 
-		void LoadFromCString(const char* Source);
+		void loadFromCString(const char* source);
 
-		void LoadFromFile(const std::string& Path);
+		void loadFromFile(const std::string& path);
 
-		void Compile();
+		void compile();
 
-		bool CompileStatus() const;
+		bool compileStatus() const;
 
-		std::string CompileErrorMessage() const;
+		std::string compileErrorMessage() const;
 
 	protected:
 
-		ShaderType Type{};
+		ShaderType type{};
 	};
 
 }

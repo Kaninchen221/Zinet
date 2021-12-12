@@ -17,25 +17,25 @@ namespace zt::gl::tests
 
 	TEST_F(ZtMouseButtonEventTests, ButtonTest)
 	{
-		mouseButtonEvent.Button = MouseButton();
+		mouseButtonEvent.button = MouseButton();
 	}
 
 	TEST_F(ZtMouseButtonEventTests, TypeTest)
 	{
-		mouseButtonEvent.Type = MouseButtonEventType();
+		mouseButtonEvent.type = MouseButtonEventType();
 	}
 
 	TEST_F(ZtMouseButtonEventTests, CompareTest)
 	{
-		mouseButtonEvent.Button = MouseButton::MIDDLE;
-		mouseButtonEvent.Type = MouseButtonEventType::Released;
+		mouseButtonEvent.button = MouseButton::MIDDLE;
+		mouseButtonEvent.type = MouseButtonEventType::Released;
 
-		MouseButtonEvent Other;
-		Other.Button = MouseButton::MIDDLE;
-		Other.Type = MouseButtonEventType::Released;
+		MouseButtonEvent other;
+		other.button = MouseButton::MIDDLE;
+		other.type = MouseButtonEventType::Released;
 
-		bool AreEqual = mouseButtonEvent == Other;
-		ASSERT_TRUE(AreEqual);
+		bool areEqual = mouseButtonEvent == other;
+		ASSERT_TRUE(areEqual);
 	}
 
 }

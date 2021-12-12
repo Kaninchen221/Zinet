@@ -18,56 +18,56 @@ namespace zt::gl::tests
 
 	TEST_F(ZtKeyboardTests, SetWindowTest)
 	{
-		Window ExpectedWindow{};
-		ExpectedWindow.CreateWindow();
-		keyboard.SetWindow(&ExpectedWindow);
-		const Window* ActualWindow = keyboard.GetWindow();
+		Window expectedWindow{};
+		expectedWindow.createWindow();
+		keyboard.setWindow(&expectedWindow);
+		const Window* actualWindow = keyboard.getWindow();
 
-		ASSERT_EQ(ActualWindow, &ExpectedWindow);
+		ASSERT_EQ(actualWindow, &expectedWindow);
 	}
 
 	TEST_F(ZtKeyboardTests, GetWindowTest)
 	{
-		const Window* Window = keyboard.GetWindow();
+		const Window* window = keyboard.getWindow();
 
-		ASSERT_EQ(Window, nullptr);
+		ASSERT_EQ(window, nullptr);
 	}
 
 	TEST_F(ZtKeyboardTests, IsPressedTest)
 	{
-		Window Window;
-		Window.CreateWindow();
-		Event* Event = Window.GetEvent();
-		Keyboard* keyboard = Event->GetKeyboard();
-		bool IsPressed = keyboard->IsPressed(KeyboardKey::F4);
+		Window window;
+		window.createWindow();
+		Event* event = window.getEvent();
+		Keyboard* keyboard = event->getKeyboard();
+		bool isPressed = keyboard->isPressed(KeyboardKey::F4);
 
-		ASSERT_FALSE(IsPressed);
+		ASSERT_FALSE(isPressed);
 	}
 
 	TEST_F(ZtKeyboardTests, IsReleasedTest)
 	{
-		Window Window;
-		Window.CreateWindow();
-		Event* Event = Window.GetEvent();
-		Keyboard* keyboard = Event->GetKeyboard();
-		bool IsReleased = keyboard->IsReleased(KeyboardKey::F2);
+		Window window;
+		window.createWindow();
+		Event* event = window.getEvent();
+		Keyboard* keyboard = event->getKeyboard();
+		bool isReleased = keyboard->isReleased(KeyboardKey::F2);
 
-		ASSERT_TRUE(IsReleased);
+		ASSERT_TRUE(isReleased);
 	}
 
 	TEST_F(ZtKeyboardTests, SetMaximumRememberedEventsTest)
 	{
-		size_t ExpectedMaximumRememberedEvents = 9u;
-		keyboard.SetMaximumRememberedEvents(ExpectedMaximumRememberedEvents);
-		size_t ActualMaximumRememberedEvents = keyboard.GetMaximumRememberedEvents();
+		size_t expectedMaximumRememberedEvents = 9u;
+		keyboard.setMaximumRememberedEvents(expectedMaximumRememberedEvents);
+		size_t actualMaximumRememberedEvents = keyboard.getMaximumRememberedEvents();
 
-		ASSERT_EQ(ExpectedMaximumRememberedEvents, ActualMaximumRememberedEvents);
+		ASSERT_EQ(expectedMaximumRememberedEvents, actualMaximumRememberedEvents);
 
-		const std::vector<KeyboardEvent>& events = keyboard.GetEvents();
-		size_t ActualEventsCount = events.size();
-		size_t ExpectedEventsCount = ExpectedMaximumRememberedEvents;
+		const std::vector<KeyboardEvent>& events = keyboard.getEvents();
+		size_t actualEventsCount = events.size();
+		size_t expectedEventsCount = expectedMaximumRememberedEvents;
 
-		ASSERT_EQ(ActualEventsCount, ExpectedEventsCount);
+		ASSERT_EQ(actualEventsCount, expectedEventsCount);
 	}
 
 }

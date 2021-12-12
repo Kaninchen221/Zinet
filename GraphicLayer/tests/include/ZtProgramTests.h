@@ -17,26 +17,26 @@ namespace zt::gl::tests
 
 		ZtProgramTests()
 		{
-			Window.CreateWindow();
+			window.createWindow();
 		}
 
-		void MakeProgramLinkable(const Program& Program)
+		void makeProgramLinkable(const Program& program)
 		{
-			Shader VertexShader;
-			VertexShader.Create(ShaderType::Vertex);
-			VertexShader.LoadFromCString(VertexShaderSource);
-			Program.AttachShader(VertexShader);
+			Shader vertexShader;
+			vertexShader.create(ShaderType::Vertex);
+			vertexShader.loadFromCString(vertexShaderSource);
+			program.attachShader(vertexShader);
 
-			Shader FragmentShader;
-			FragmentShader.Create(ShaderType::Fragment);
-			FragmentShader.LoadFromCString(FragmentShaderSource);
-			Program.AttachShader(FragmentShader);
+			Shader fragmentShader;
+			fragmentShader.create(ShaderType::Fragment);
+			fragmentShader.loadFromCString(fragmentShaderSource);
+			program.attachShader(fragmentShader);
 		}
 
-		Window Window;
-		Program Program;
+		Window window;
+		Program program;
 
-		const char* VertexShaderSource =
+		const char* vertexShaderSource =
 			"#version 330 core \n"
 			"layout(location = 0) in vec3 aPos; \n"
 			" \n"
@@ -51,7 +51,7 @@ namespace zt::gl::tests
 			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); \n"
 			"} \n\0";
 
-		const char* FragmentShaderSource =
+		const char* fragmentShaderSource =
 			"#version 330 core \n"
 			"out vec4 FragColor; \n"
 			" \n"
@@ -64,164 +64,164 @@ namespace zt::gl::tests
 
 	TEST_F(ZtProgramTests, CreateTest)
 	{
-		Program.Create();
+		program.create();
 	}
 
 	TEST_F(ZtProgramTests, GetIDTest)
 	{
-		Program.Create();
-		GLuint ActualID = Program.GetID();
-		GLuint ExpectedID = 1u;
+		program.create();
+		GLuint actualID = program.getID();
+		GLuint expectedID = 1u;
 	}
 
 	TEST_F(ZtProgramTests, AttachShaderTest)
 	{
-		Shader Shader;
-		Shader.Create(ShaderType::Vertex);
+		Shader shader;
+		shader.create(ShaderType::Vertex);
 
-		Program.Create();
-		Program.AttachShader(Shader);
+		program.create();
+		program.attachShader(shader);
 	}
 
 	TEST_F(ZtProgramTests, LinkProgramTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
+		program.create();
+		makeProgramLinkable(program);
 
-		Program.Link();
+		program.link();
 
-		bool LinkStatus = Program.LinkStatus();
+		bool linkStatus = program.linkStatus();
 	}
 
 	TEST_F(ZtProgramTests, LinkStatusTest)
 	{
-		Program.Create();
-		bool LinkStatus = Program.LinkStatus();
-		ASSERT_FALSE(LinkStatus);
+		program.create();
+		bool linkStatus = program.linkStatus();
+		ASSERT_FALSE(linkStatus);
 	}
 
 	TEST_F(ZtProgramTests, IsValidTest)
 	{
-		Program.Create();
-		bool IsValid = Program.IsValid();
-		ASSERT_FALSE(IsValid);
+		program.create();
+		bool isValid = program.isValid();
+		ASSERT_FALSE(isValid);
 	}
 
 	TEST_F(ZtProgramTests, InfoLogTest)
 	{
-		Program.Create();
-		std::string InfoLog = Program.InfoLog();
+		program.create();
+		std::string infoLog = program.infoLog();
 
-		ASSERT_EQ(InfoLog.size(), 0);
+		ASSERT_EQ(infoLog.size(), 0);
 	}
 
 	TEST_F(ZtProgramTests, UseProgramTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
+		program.create();
+		makeProgramLinkable(program);
 
-		Program.Link();
-		Program.Use();
+		program.link();
+		program.use();
 	}
 
 	TEST_F(ZtProgramTests, DeleteTest)
 	{
-		Program.Create();
-		Program.Delete();
+		program.create();
+		program.deleteResource();
 
-		GLuint ActualID = Program.GetID();
-		GLuint ExpectedID = Program::InvalidID;
+		GLuint actualID = program.getID();
+		GLuint expectedID = Program::InvalidID;
 
-		ASSERT_EQ(ActualID, ExpectedID);
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 	TEST_F(ZtProgramTests, GetUniformTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.Link();
+		program.create();
+		makeProgramLinkable(program);
+		program.link();
 
-		std::string Name = "Uniform1f";
-		GLint Uniform = Program.GetUniform(Name);
+		std::string name = "Uniform1f";
+		GLint uniform = program.getUniform(name);
 	}
 
 	TEST_F(ZtProgramTests, SetUniform1fTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.Link();
-		Program.Use();
+		program.create();
+		makeProgramLinkable(program);
+		program.link();
+		program.use();
 
-		std::string UiformName = "Uniform1";
-		Program.SetUniform1f(UiformName, 0.f);
+		std::string uniformName = "Uniform1";
+		program.setUniform1f(uniformName, 0.f);
 	}
 
 	TEST_F(ZtProgramTests, SetUniform2fTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.Link();
-		Program.Use();
+		program.create();
+		makeProgramLinkable(program);
+		program.link();
+		program.use();
 
-		std::string Name = "Uniform2";
-		glm::vec2 Value;
-		Program.SetUniform2f(Name, Value);
+		std::string name = "Uniform2";
+		glm::vec2 value;
+		program.setUniform2f(name, value);
 	}
 
 	TEST_F(ZtProgramTests, SetUniform3fTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.Link();
-		Program.Use();
+		program.create();
+		makeProgramLinkable(program);
+		program.link();
+		program.use();
 
-		std::string Name = "Uniform3";
-		glm::vec3 Value;
-		Program.SetUniform3f(Name, Value);
+		std::string name = "Uniform3";
+		glm::vec3 value;
+		program.setUniform3f(name, value);
 	}
 
 	TEST_F(ZtProgramTests, SetUniform4fTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.Link();
-		Program.Use();
+		program.create();
+		makeProgramLinkable(program);
+		program.link();
+		program.use();
 
-		std::string Name = "Uniform4";
-		glm::vec4 Value;
-		Program.SetUniform4f(Name, Value);
+		std::string name = "Uniform4";
+		glm::vec4 value;
+		program.setUniform4f(name, value);
 	}
 
 	TEST_F(ZtProgramTests, SetUniformMatrix4fTest)
 	{
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.Link();
-		Program.Use();
+		program.create();
+		makeProgramLinkable(program);
+		program.link();
+		program.use();
 
-		std::string Name = "Uniform5";
-		glm::mat4 Value;
-		Program.SetUniformMatrix4f(Name, Value);
+		std::string name = "Uniform5";
+		glm::mat4 value;
+		program.setUniformMatrix4f(name, value);
 	}
 
 	TEST_F(ZtProgramTests, PrepareAttributesTest)
 	{
-		std::vector<Vertex> Vertices{
+		std::vector<Vertex> vertices{
 		   {{ 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f}}
 		};
 
-		VertexArray VAO;
-		VAO.Generate();
-		VAO.Bind();
+		VertexArray vao;
+		vao.generate();
+		vao.bind();
 
-		VertexBuffer VBO;
-		VBO.Generate();
-		VBO.Bind();
-		VBO.SetData(Vertices, BufferUsage::Static);
+		VertexBuffer vbo;
+		vbo.generate();
+		vbo.bind();
+		vbo.setData(vertices, BufferUsage::Static);
 
-		Program.Create();
-		MakeProgramLinkable(Program);
-		Program.PrepareAttributes();
+		program.create();
+		makeProgramLinkable(program);
+		program.prepareAttributes();
 	}
 
 }

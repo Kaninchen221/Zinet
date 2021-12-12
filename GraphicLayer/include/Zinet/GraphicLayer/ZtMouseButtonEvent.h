@@ -9,12 +9,12 @@ namespace zt::gl
 
 	struct ZINET_GRAPHIC_LAYER_API MouseButtonEvent
 	{
-		MouseButtonEventType Type;
-		MouseButton Button;
+		MouseButtonEventType type;
+		MouseButton button;
 
-		bool operator == (const MouseButtonEvent& Other) const
+		bool operator == (const MouseButtonEvent& other) const
 		{
-			return Type == Other.Type && Button == Other.Button;
+			return type == other.type && button == other.button;
 		}
 	};
 

@@ -14,85 +14,85 @@ namespace zt::gl::tests
 
 		ZtTextureTests()
 		{
-			Window.CreateWindow();
+			window.createWindow();
 		}
 
 		~ZtTextureTests()
 		{
-			Texture.Delete();
+			texture.deleteResource();
 		}
 
-		Texture Texture;
-		Window Window;
+		Texture texture;
+		Window window;
 
 	};
 
 	TEST_F(ZtTextureTests, GenerateTest)
 	{
-		Texture.Generate();
-		GLuint ActualID = Texture.GetID();
-		GLuint NotExpectedID = Texture::InvalidID;
+		texture.generate();
+		GLuint actualID = texture.getID();
+		GLuint notExpectedID = Texture::InvalidID;
 	}
 
 	TEST_F(ZtTextureTests, GetIDTest)
 	{
-		GLuint ID = Texture.GetID();
+		GLuint ID = texture.getID();
 	}
 
 	TEST_F(ZtTextureTests, BindTest)
 	{
-		Texture.Generate();
-		Texture.Bind();
-		GLint ActualBindedTexture2D = 0;
+		texture.generate();
+		texture.bind();
+		GLint actualBindedTexture2D = 0;
 	}
 
 	TEST_F(ZtTextureTests, UnbindTest)
 	{
-		Texture.Generate();
-		Texture.Bind();
-		Texture.Unbind();
+		texture.generate();
+		texture.bind();
+		texture.unbind();
 
-		GLint ActualBindedTexture2D = 0;
+		GLint actualBindedTexture2D = 0;
 	}
 
 	TEST_F(ZtTextureTests, DeleteTest)
 	{
-		Texture.Generate();
-		Texture.Bind();
-		GLuint PreviousID = Texture.GetID();
-		Texture.Delete();
+		texture.generate();
+		texture.bind();
+		GLuint previousID = texture.getID();
+		texture.deleteResource();
 
-		GLuint ActualID = Texture.GetID();
-		GLuint ExpectedID = Texture::InvalidID;
+		GLuint actualID = texture.getID();
+		GLuint expectedID = Texture::InvalidID;
 
-		ASSERT_EQ(ActualID, ExpectedID);
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 	TEST_F(ZtTextureTests, LoadFromDataTest)
 	{
-		Texture.Generate();
-		Texture.Bind();
+		texture.generate();
+		texture.bind();
 
-		unsigned char* Data = nullptr;
-		GLsizei Width{};
-		GLsizei Height{};
-		Texture.LoadFromData(Data, Width, Height);
+		unsigned char* data = nullptr;
+		GLsizei width{};
+		GLsizei height{};
+		texture.loadFromData(data, width, height);
 	}
 
 	TEST_F(ZtTextureTests, LoadFromFileTest)
 	{
-		Texture.Generate();
-		Texture.Bind();
+		texture.generate();
+		texture.bind();
 
-		zt::FileFinder FileFinder;
-		zt::FileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
-		zt::FileFinder::Path FilePath = RootPath / "Textures" / "wall.jpg";
-		Texture.LoadFromFile(FilePath);
+		zt::FileFinder fileFinder;
+		zt::FileFinder::Path rootPath = fileFinder.currentProjectRootPath();
+		zt::FileFinder::Path filePath = rootPath / "Textures" / "wall.jpg";
+		texture.loadFromFile(filePath);
 	}
 
 	TEST_F(ZtTextureTests, GenerateMipmapTest)
 	{
-		Texture.GenerateMipmap();
+		texture.generateMipmap();
 	}
 
 }

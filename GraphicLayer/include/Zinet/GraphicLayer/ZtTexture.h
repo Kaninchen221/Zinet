@@ -14,27 +14,27 @@ namespace zt::gl
 	public:
 
 		Texture() = default;
-		Texture(const Texture& Other) = default;
-		Texture(Texture&& Other) = default;
+		Texture(const Texture& other) = default;
+		Texture(Texture&& other) = default;
 
-		Texture& operator = (const Texture& Other) = default;
-		Texture& operator = (Texture&& Other) = default;
+		Texture& operator = (const Texture& other) = default;
+		Texture& operator = (Texture&& other) = default;
 
 		~Texture() noexcept;
 
-		void Generate();
+		void generate();
 
-		void Bind() const;
+		void bind() const;
 
-		void Unbind() const;
+		void unbind() const;
 
-		void Delete();
+		void deleteResource();
 
-		void LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height);
+		void loadFromData(unsigned char* data, GLsizei width, GLsizei height);
 
-		void LoadFromFile(const FileFinder::Path& Path);
+		void loadFromFile(const FileFinder::Path& path);
 
-		void GenerateMipmap() const;
+		void generateMipmap() const;
 
 	};
 

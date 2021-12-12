@@ -4,37 +4,37 @@
 namespace zt::gl
 {
 
-	void Event::SetWindow(Window* NewWindow)
+	void Event::setWindow(Window* window)
 	{
-		WindowPointer = NewWindow;
-		Keyboard.SetWindow(NewWindow);
-		Mouse.SetWindow(NewWindow);
+		this->window = window;
+		keyboard.setWindow(window);
+		mouse.setWindow(window);
 	}
 
-	const Window* Event::GetWindow() const
+	const Window* Event::getWindow() const
 	{
-		return WindowPointer;
+		return window;
 	}
 
-	void Event::PollEvents()
+	void Event::pollEvents()
 	{
 		glfwPollEvents();
 	}
 
-	Keyboard* Event::GetKeyboard()
+	Keyboard* Event::getKeyboard()
 	{
-		return &Keyboard;
+		return &keyboard;
 	}
 
-	Mouse* Event::GetMouse()
+	Mouse* Event::getMouse()
 	{
-		return &Mouse;
+		return &mouse;
 	}
 
-	void Event::BindCallbacks()
+	void Event::bindCallbacks()
 	{
-		Keyboard.BindCallbacks();
-		Mouse.BindCallbacks();
+		keyboard.bindCallbacks();
+		mouse.bindCallbacks();
 	}
 
 }

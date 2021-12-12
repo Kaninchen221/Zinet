@@ -17,12 +17,12 @@ namespace zt::gl::tests
 
 	TEST_F(ZtKeyboardEventTests, TypeTest)
 	{
-		KeyboardEventType Type = keyboardEvent.Type;
+		KeyboardEventType type = keyboardEvent.type;
 	}
 
 	TEST_F(ZtKeyboardEventTests, KeyTest)
 	{
-		KeyboardKey Key = keyboardEvent.Key;
+		KeyboardKey key = keyboardEvent.key;
 	}
 
 }

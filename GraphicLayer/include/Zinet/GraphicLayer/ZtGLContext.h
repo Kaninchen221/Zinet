@@ -15,21 +15,21 @@ namespace zt::gl
 	public:
 
 		Context() = default;
-		Context(const Context& Other) = default;
-		Context(Context&& Other) = default;
+		Context(const Context& other) = default;
+		Context(Context&& other) = default;
 
-		Context& operator = (const Context& Other) = default;
-		Context& operator = (Context&& Other) = default;
+		Context& operator = (const Context& other) = default;
+		Context& operator = (Context&& other) = default;
 
 		~Context() noexcept;
 
-		bool InitGLFW();
+		bool initGLFW();
 
-		void DeinitGLFW();
+		void deinitGLFW();
 
-		bool InitGLAD();
+		bool initGLAD();
 
-		bool InitOpenGL();
+		bool initOpenGL();
 
 		static void FillMode();
 
@@ -37,11 +37,11 @@ namespace zt::gl
 
 		static void PointsMode();
 
-		static std::string GetSourceAsString(GLenum Source);
+		static std::string GetSourceAsString(GLenum source);
 
-		static std::string GetTypeAsString(GLenum Type);
+		static std::string GetTypeAsString(GLenum type);
 
-		static std::string GetSeverityAsString(GLenum Severity);
+		static std::string GetSeverityAsString(GLenum severity);
 	};
 
 }

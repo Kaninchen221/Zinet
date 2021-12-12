@@ -5,28 +5,28 @@ namespace zt::gl
 
 	ElementBuffer::~ElementBuffer() noexcept
 	{
-		if (ID != InvalidID)
+		if (iD != InvalidID)
 		{
-			Delete();
+			deleteResource();
 		}
 	}
 
-	void ElementBuffer::Generate()
+	void ElementBuffer::generate()
 	{
 
 	}
 
-	void ElementBuffer::Bind()
+	void ElementBuffer::bind()
 	{
 
 	}
 
-	void ElementBuffer::Unbind()
+	void ElementBuffer::unbind()
 	{
 
 	}
 
-	void ElementBuffer::Delete()
+	void ElementBuffer::deleteResource()
 	{
 
 	}

@@ -17,90 +17,90 @@ namespace zt::gl::tests
 
 	TEST_F(ZtWindowTests, CreateWindowTest)
 	{
-		window.CreateWindow();
+		window.createWindow();
 
-		GLFWwindow* InternalWindow = window.GetInternalWindow();
-		ASSERT_TRUE(InternalWindow);
+		GLFWwindow* internalWindow = window.getInternalWindow();
+		ASSERT_TRUE(internalWindow);
 	}
 
 	TEST_F(ZtWindowTests, SetViewportTest)
 	{
-		window.CreateWindow();
+		window.createWindow();
 
-		int X = 0;
-		int Y = 0;
-		int Width = 800;
-		int Height = 800;
+		int x = 0;
+		int y = 0;
+		int width = 800;
+		int height = 800;
 
-		window.SetViewport(X, Y, Width, Height);
+		window.setViewport(x, y, width, height);
 	}
 
 	TEST_F(ZtWindowTests, SetClearColorTest)
 	{
-		float Red{};
-		float Green{};
-		float Blue{};
-		float Alpha{};
+		float red{};
+		float green{};
+		float blue{};
+		float alpha{};
 
-		window.CreateWindow();
-		window.SetClearColor(Red, Green, Blue, Alpha);
+		window.createWindow();
+		window.setClearColor(red, green, blue, alpha);
 	}
 
 	TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
 	{
-		window.CreateWindow();
-		window.BindFramebufferSizeCallback();
+		window.createWindow();
+		window.bindFramebufferSizeCallback();
 
-		GLFWwindow* WindowPointer = window.GetInternalWindow();
-		GLFWframebuffersizefun ActualPointer = glfwSetFramebufferSizeCallback(WindowPointer, nullptr);
-		GLFWframebuffersizefun ExpectedPointer = &Window::FramebufferSizeCallback;
+		GLFWwindow* glfwWindow = window.getInternalWindow();
+		GLFWframebuffersizefun actualPointer = glfwSetFramebufferSizeCallback(glfwWindow, nullptr);
+		GLFWframebuffersizefun expectedPointer = &Window::FramebufferSizeCallback;
 
-		ASSERT_EQ(ActualPointer, ExpectedPointer);
+		ASSERT_EQ(actualPointer, expectedPointer);
 	}
 
-	//TEST_F(ZtWindowTests, IsOpenTest)
-	//{
-	//	Window.CreateWindow();
-	//
-	//	bool IsOpen = Window.IsOpen();
-	//	ASSERT_TRUE(IsOpen);
-	//
-	//	GLFWwindow* WindowPointer = Window.GetInternalWindow();
-	//	glfwSetWindowShouldClose(WindowPointer, true);
-	//
-	//	IsOpen = Window.IsOpen();
-	//	ASSERT_FALSE(IsOpen);
-	//}
-	//
-	//TEST_F(ZtWindowTests, ClearTest)
-	//{
-	//	Window.CreateWindow();
-	//	Window.Clear();
-	//}
-	//
-	//TEST_F(ZtWindowTests, SwapBuffersTest)
-	//{
-	//	Window.CreateWindow();
-	//	Window.SwapBuffers();
-	//}
-	//
-	//TEST_F(ZtWindowTests, ShouldBeClosedTest)
-	//{
-	//	Window.CreateWindow();
-	//	GLboolean ShouldBeClosed = Window.ShouldBeClosed();
-	//
-	//	ASSERT_FALSE(ShouldBeClosed);
-	//}
-	//
+	TEST_F(ZtWindowTests, IsOpenTest)
+	{
+		window.createWindow();
+	
+		bool isOpen = window.isOpen();
+		ASSERT_TRUE(isOpen);
+	
+		GLFWwindow* glfwWindow = window.getInternalWindow();
+		glfwSetWindowShouldClose(glfwWindow, true);
+	
+		isOpen = window.isOpen();
+		ASSERT_FALSE(isOpen);
+	}
+	
+	TEST_F(ZtWindowTests, ClearTest)
+	{
+		window.createWindow();
+		window.clear();
+	}
+	
+	TEST_F(ZtWindowTests, SwapBuffersTest)
+	{
+		window.createWindow();
+		window.swapBuffers();
+	}
+	
+	TEST_F(ZtWindowTests, ShouldBeClosedTest)
+	{
+		window.createWindow();
+		GLboolean shouldBeClosed = window.shouldBeClosed();
+	
+		ASSERT_FALSE(shouldBeClosed);
+	}
+	
 	TEST_F(ZtWindowTests, GetEventTest)
 	{
-		Event* Event = window.GetEvent();
+		Event* event = window.getEvent();
 	}
-	//
-	//TEST_F(ZtWindowTests, BindCallbacksTest)
-	//{
-	//	Window.CreateWindow();
-	//	Window.BindCallbacks();
-	//}
+	
+	TEST_F(ZtWindowTests, BindCallbacksTest)
+	{
+		window.createWindow();
+		window.bindCallbacks();
+	}
 
 }

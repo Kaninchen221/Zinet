@@ -3,9 +3,9 @@
 namespace zt::gl
 {
 
-	GLuint Object::GetID() const
+	GLuint Object::getID() const
 	{
-		return ID;
+		return iD;
 	}
 
 }

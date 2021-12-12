@@ -18,43 +18,43 @@ namespace zt::gl
 	public:
 
 		Program() = default;
-		Program(const Program& Other) = default;
-		Program(Program&& Other) = default;
+		Program(const Program& other) = default;
+		Program(Program&& other) = default;
 
-		Program& operator = (const Program& Other) = default;
-		Program& operator = (Program&& Other) = default;
+		Program& operator = (const Program& other) = default;
+		Program& operator = (Program&& other) = default;
 
 		~Program() noexcept;
 
-		void Create();
+		void create();
 
-		void AttachShader(const Shader& Shader) const;
+		void attachShader(const Shader& shader) const;
 
-		void Link() const;
+		void link() const;
 
-		bool LinkStatus() const;
+		bool linkStatus() const;
 
-		bool IsValid() const;
+		bool isValid() const;
 
-		std::string InfoLog() const;
+		std::string infoLog() const;
 
-		void Use() const;
+		void use() const;
 
-		void Delete();
+		void deleteResource();
 
-		int GetUniform(const std::string& Name);
+		int getUniform(const std::string& name);
 
-		void SetUniform1f(const std::string& Name, float Value);
+		void setUniform1f(const std::string& name, float value);
 
-		void SetUniform2f(const std::string& Name, const glm::vec2& Value);
+		void setUniform2f(const std::string& name, const glm::vec2& value);
 
-		void SetUniform3f(const std::string& Name, const glm::vec3& Value);
+		void setUniform3f(const std::string& name, const glm::vec3& value);
 
-		void SetUniform4f(const std::string& Name, const glm::vec4& Value);
+		void setUniform4f(const std::string& name, const glm::vec4& value);
 
-		void SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value);
+		void setUniformMatrix4f(const std::string& name, const glm::mat4& value);
 
-		virtual void PrepareAttributes() const;
+		virtual void prepareAttributes() const;
 
 	};
 

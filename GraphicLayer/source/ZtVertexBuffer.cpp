@@ -3,24 +3,24 @@
 namespace zt::gl
 {
 
-	void VertexBuffer::Generate()
+	void VertexBuffer::generate()
 	{
 
 	}
 
-	void VertexBuffer::Bind()
+	void VertexBuffer::bind()
 	{
 
 	}
 
-	void VertexBuffer::Unbind()
+	void VertexBuffer::unbind()
 	{
 
 	}
 
-	void VertexBuffer::Delete()
+	void VertexBuffer::deleteResource()
 	{
-		ID = InvalidID;
+		iD = InvalidID;
 	}
 
 }

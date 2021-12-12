@@ -15,68 +15,68 @@ namespace zt::gl::tests
 
 		ZtVertexBufferTests()
 		{
-			Window.CreateWindow();
+			window.createWindow();
 		}
 
-		VertexBuffer VBO;
+		VertexBuffer vbo;
 
-		Window Window;
+		Window window;
 
 	};
 
 	TEST_F(ZtVertexBufferTests, GenerateTest)
 	{
-		VBO.Generate();
-		GLuint ActualID = VBO.GetID();
+		vbo.generate();
+		GLuint actualID = vbo.getID();
 	}
 
 	TEST_F(ZtVertexBufferTests, GetIDTest)
 	{
-		VBO.Generate();
-		GLuint ActualID = VBO.GetID();
-		GLuint NotExpectedID = VertexBuffer::InvalidID;
+		vbo.generate();
+		GLuint actualID = vbo.getID();
+		GLuint notExpectedID = VertexBuffer::InvalidID;
 	}
 
 	TEST_F(ZtVertexBufferTests, BindTest)
 	{
-		VBO.Generate();
-		VBO.Bind();
-		GLuint ExpectedBindedID = VBO.GetID();
+		vbo.generate();
+		vbo.bind();
+		GLuint expectedBindedID = vbo.getID();
 	}
 
 	TEST_F(ZtVertexBufferTests, UnbindTest)
 	{
-		VBO.Generate();
-		VBO.Bind();
-		VBO.Unbind();
-		GLuint NotExpectedBindedID = VBO.GetID();
+		vbo.generate();
+		vbo.bind();
+		vbo.unbind();
+		GLuint notExpectedBindedID = vbo.getID();
 	}
 
 	TEST_F(ZtVertexBufferTests, SetDataTest)
 	{
-		VBO.Generate();
-		VBO.Bind();
-		std::array<Vertex, 1> Vertices;
-		VBO.SetData<std::array<Vertex, 1>>(Vertices, BufferUsage::Static);
+		vbo.generate();
+		vbo.bind();
+		std::array<Vertex, 1> vertices;
+		vbo.setData<std::array<Vertex, 1>>(vertices, BufferUsage::Static);
 	}
 
 	TEST_F(ZtVertexBufferTests, InvalidIDTest)
 	{
-		GLuint ActualInvalidID = VertexBuffer::InvalidID;
-		GLuint ExpectedInvalidID = 0u;
+		GLuint actualInvalidID = VertexBuffer::InvalidID;
+		GLuint expectedInvalidID = 0u;
 
-		ASSERT_EQ(ActualInvalidID, ExpectedInvalidID);
+		ASSERT_EQ(actualInvalidID, expectedInvalidID);
 	}
 
 	TEST_F(ZtVertexBufferTests, DeleteTest)
 	{
-		VBO.Generate();
-		VBO.Delete();
+		vbo.generate();
+		vbo.deleteResource();
 
-		GLuint ActualID = VBO.GetID();
-		GLuint ExpectedID = VertexBuffer::InvalidID;
+		GLuint actualID = vbo.getID();
+		GLuint expectedID = VertexBuffer::InvalidID;
 
-		ASSERT_EQ(ActualID, ExpectedID);
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 }

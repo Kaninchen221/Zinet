@@ -15,38 +15,38 @@ namespace zt::gl
 	public:
 
 		Vertex() = default;
-		Vertex(const Vertex& Other) = default;
-		Vertex(Vertex&& Other) = default;
-		Vertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates);
+		Vertex(const Vertex& other) = default;
+		Vertex(Vertex&& other) = default;
+		Vertex(const glm::vec3& newPosition, const glm::vec4& newColor, const glm::vec2& newTextureCoordinates);
 
-		Vertex& operator = (const Vertex& Other) = default;
-		Vertex& operator = (Vertex&& Other) = default;
+		Vertex& operator = (const Vertex& other) = default;
+		Vertex& operator = (Vertex&& other) = default;
 
 		~Vertex() noexcept = default;
 
-		glm::vec3 GetPosition() const;
+		glm::vec3 getPosition() const;
 
-		void SetPosition(const glm::vec3& NewPosition);
+		void setPosition(const glm::vec3& newPosition);
 
 		static std::size_t GetOffsetToPosition();
 
-		glm::vec4 GetColor() const;
+		glm::vec4 getColor() const;
 
-		void SetColor(const glm::vec4& NewColor);
+		void setColor(const glm::vec4& newColor);
 
 		static std::size_t GetOffsetToColor();
 
-		glm::vec2 GetTextureCoordinates() const;
+		glm::vec2 getTextureCoordinates() const;
 
-		void SetTextureCoordinates(const glm::vec2& NewTextureCoordinates);
+		void setTextureCoordinates(const glm::vec2& newTextureCoordinates);
 
 		static std::size_t GetOffsetToTextureCoordinates();
 
 	protected:
 
-		glm::vec3 Position;
-		glm::vec4 Color;
-		glm::vec2 TextureCoordinates;
+		glm::vec3 position;
+		glm::vec4 color;
+		glm::vec2 textureCoordinates;
 
 	};
 

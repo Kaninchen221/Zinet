@@ -9,87 +9,87 @@ namespace zt::gl
 
 	Program::~Program() noexcept
 	{
-		if (ID != InvalidID)
+		if (iD != InvalidID)
 		{
-			Delete();
+			deleteResource();
 		}
 	}
 
-	void Program::Create()
+	void Program::create()
 	{
 
 	}
 
-	void Program::AttachShader(const Shader& Shader) const
+	void Program::attachShader(const Shader& shader) const
 	{
 
 	}
 
-	void Program::Link() const
+	void Program::link() const
 	{
 
 	}
 
-	bool Program::LinkStatus() const
+	bool Program::linkStatus() const
 	{
-		int Success{};
+		int success{};
 
-		return static_cast<bool>(Success);
+		return static_cast<bool>(success);
 	}
 
-	bool Program::IsValid() const
+	bool Program::isValid() const
 	{
-		GLint IsValid{};
+		GLint isValid{};
 
-		return IsValid;
+		return isValid;
 	}
 
-	std::string Program::InfoLog() const
+	std::string Program::infoLog() const
 	{
 		return {};
 	}
 
-	void Program::Use() const
+	void Program::use() const
 	{
 
 	}
 
-	void Program::Delete()
+	void Program::deleteResource()
 	{
-		ID = InvalidID;
+		iD = InvalidID;
 	}
 
-	int Program::GetUniform(const std::string& Name)
+	int Program::getUniform(const std::string& name)
 	{
 		return 0;
 	}
 
-	void Program::SetUniform1f(const std::string& Name, float Value)
+	void Program::setUniform1f(const std::string& name, float value)
 	{
 
 	}
 
-	void Program::SetUniform2f(const std::string& Name, const glm::vec2& Value)
+	void Program::setUniform2f(const std::string& name, const glm::vec2& value)
 	{
 
 	}
 
-	void Program::SetUniform3f(const std::string& Name, const glm::vec3& Value)
+	void Program::setUniform3f(const std::string& name, const glm::vec3& value)
 	{
 
 	}
 
-	void Program::SetUniform4f(const std::string& Name, const glm::vec4& Value)
+	void Program::setUniform4f(const std::string& name, const glm::vec4& value)
 	{
 
 	}
 
-	void Program::SetUniformMatrix4f(const std::string& Name, const glm::mat4& Value)
+	void Program::setUniformMatrix4f(const std::string& name, const glm::mat4& value)
 	{
 
 	}
 
-	void Program::PrepareAttributes() const
+	void Program::prepareAttributes() const
 	{
 
 	}

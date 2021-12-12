@@ -3,20 +3,20 @@
 namespace zt::gl
 {
 
-	Vertex::Vertex(const glm::vec3& NewPosition, const glm::vec4& NewColor, const glm::vec2& NewTextureCoordinates)
-		: Position(NewPosition),
-		Color(NewColor),
-		TextureCoordinates(NewTextureCoordinates)
+	Vertex::Vertex(const glm::vec3& newPosition, const glm::vec4& newColor, const glm::vec2& newTextureCoordinates)
+		: position(newPosition),
+		color(newColor),
+		textureCoordinates(newTextureCoordinates)
 	{}
 
-	glm::vec3 Vertex::GetPosition() const
+	glm::vec3 Vertex::getPosition() const
 	{
-		return Position;
+		return position;
 	}
 
-	void Vertex::SetPosition(const glm::vec3& NewPosition)
+	void Vertex::setPosition(const glm::vec3& newPosition)
 	{
-		Position = NewPosition;
+		position = newPosition;
 	}
 
 	std::size_t Vertex::GetOffsetToPosition()
@@ -24,34 +24,34 @@ namespace zt::gl
 		return 0;
 	}
 
-	glm::vec4 Vertex::GetColor() const
+	glm::vec4 Vertex::getColor() const
 	{
-		return Color;
+		return color;
 	}
 
-	void Vertex::SetColor(const glm::vec4& NewColor)
+	void Vertex::setColor(const glm::vec4& newColor)
 	{
-		Color = NewColor;
+		color = newColor;
 	}
 
 	std::size_t Vertex::GetOffsetToColor()
 	{
-		return sizeof(decltype(Position));
+		return sizeof(decltype(position));
 	}
 
-	glm::vec2 Vertex::GetTextureCoordinates() const
+	glm::vec2 Vertex::getTextureCoordinates() const
 	{
-		return TextureCoordinates;
+		return textureCoordinates;
 	}
 
-	void Vertex::SetTextureCoordinates(const glm::vec2& NewTextureCoordinates)
+	void Vertex::setTextureCoordinates(const glm::vec2& newTextureCoordinates)
 	{
-		TextureCoordinates = NewTextureCoordinates;
+		textureCoordinates = newTextureCoordinates;
 	}
 
 	std::size_t Vertex::GetOffsetToTextureCoordinates()
 	{
-		return sizeof(decltype(Position)) + sizeof(decltype(Color));
+		return sizeof(decltype(position)) + sizeof(decltype(color));
 	}
 
 }

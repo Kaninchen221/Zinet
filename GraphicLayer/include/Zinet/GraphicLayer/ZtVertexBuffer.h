@@ -14,21 +14,21 @@ namespace zt::gl
 
 	public:
 
-		void Generate();
+		void generate();
 
-		void Bind();
+		void bind();
 
-		void Unbind();
+		void unbind();
 
 		template<typename ContainerType>
-		void SetData(const ContainerType& Container, BufferUsage Usage);
+		void setData(const ContainerType& Container, BufferUsage Usage);
 
-		void Delete();
+		void deleteResource();
 
 	};
 
 	template<typename ContainerType>
-	inline void VertexBuffer::SetData(const ContainerType& Container, BufferUsage Usage)
+	inline void VertexBuffer::setData(const ContainerType& Container, BufferUsage Usage)
 	{
 
 	}

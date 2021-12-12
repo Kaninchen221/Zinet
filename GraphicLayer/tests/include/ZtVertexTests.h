@@ -19,91 +19,91 @@ namespace zt::gl::tests
 
 	TEST_F(ZtVertexTests, GetPositionTest)
 	{
-		glm::vec3 Position = vertex.GetPosition();
+		glm::vec3 position = vertex.getPosition();
 	}
 
 	TEST_F(ZtVertexTests, SetPositionTest)
 	{
-		glm::vec3 ExpectedPosition = { 1.f, 0.34f, 0.f };
-		vertex.SetPosition(ExpectedPosition);
+		glm::vec3 expectedPosition = { 1.f, 0.34f, 0.f };
+		vertex.setPosition(expectedPosition);
 
-		glm::vec3 ActualPosition = vertex.GetPosition();
-		glm::bvec3 AreEqual = glm::equal(ExpectedPosition, ActualPosition);
-		ASSERT_TRUE(glm::all(AreEqual));
+		glm::vec3 actualPosition = vertex.getPosition();
+		glm::bvec3 areEqual = glm::equal(expectedPosition, actualPosition);
+		ASSERT_TRUE(glm::all(areEqual));
 	}
 
 	TEST_F(ZtVertexTests, GetColorTest)
 	{
-		glm::vec4 Color = vertex.GetColor();
+		glm::vec4 color = vertex.getColor();
 	}
 
 	TEST_F(ZtVertexTests, SetColorTest)
 	{
-		glm::vec4 ExpectedColor = { 1.34f, 0.21f, 0.f, 1.f };
-		vertex.SetColor(ExpectedColor);
+		glm::vec4 expectedColor = { 1.34f, 0.21f, 0.f, 1.f };
+		vertex.setColor(expectedColor);
 
-		glm::vec4 ActualColor = vertex.GetColor();
-		glm::bvec4 AreEqual = glm::equal(ExpectedColor, ActualColor);
-		ASSERT_TRUE(glm::all(AreEqual));
+		glm::vec4 actualColor = vertex.getColor();
+		glm::bvec4 areEqual = glm::equal(expectedColor, actualColor);
+		ASSERT_TRUE(glm::all(areEqual));
 	}
 
 	TEST_F(ZtVertexTests, GetTextureCoordinatesTest)
 	{
-		glm::vec2 TextureCoordinates = vertex.GetTextureCoordinates();
+		glm::vec2 textureCoordinates = vertex.getTextureCoordinates();
 	}
 
 	TEST_F(ZtVertexTests, SetTextureCoordinatesTest)
 	{
-		glm::vec2 ExpectedTextureCoordinates = { 1.0f, 0.0f };
-		vertex.SetTextureCoordinates(ExpectedTextureCoordinates);
+		glm::vec2 expectedTextureCoordinates = { 1.0f, 0.0f };
+		vertex.setTextureCoordinates(expectedTextureCoordinates);
 
-		glm::vec2 ActualTextureCoordinates = vertex.GetTextureCoordinates();
-		glm::bvec2 AreEqual = glm::equal(ExpectedTextureCoordinates, ActualTextureCoordinates);
-		ASSERT_TRUE(glm::all(AreEqual));
+		glm::vec2 actualTextureCoordinates = vertex.getTextureCoordinates();
+		glm::bvec2 areEqual = glm::equal(expectedTextureCoordinates, actualTextureCoordinates);
+		ASSERT_TRUE(glm::all(areEqual));
 	}
 
 	TEST_F(ZtVertexTests, ParamConstructorTest)
 	{
-		glm::vec3 ExpectedPosition = { 34.f, 0.f, 2.323f };
-		glm::vec4 ExpectedColor = { 4.f, 0.23f, 211.35f, 1.f };
-		glm::vec2 ExpectedTextureCoordinates = { 1.f, 0.f };
-		Vertex vertex(ExpectedPosition, ExpectedColor, ExpectedTextureCoordinates);
+		glm::vec3 expectedPosition = { 34.f, 0.f, 2.323f };
+		glm::vec4 expectedColor = { 4.f, 0.23f, 211.35f, 1.f };
+		glm::vec2 expectedTextureCoordinates = { 1.f, 0.f };
+		Vertex vertex(expectedPosition, expectedColor, expectedTextureCoordinates);
 
-		glm::vec3 ActualPosition = vertex.GetPosition();
-		glm::bvec3 ArePositionsEqual = glm::equal(ExpectedPosition, ActualPosition);
-		ASSERT_TRUE(glm::all(ArePositionsEqual));
+		glm::vec3 actualPosition = vertex.getPosition();
+		glm::bvec3 arePositionsEqual = glm::equal(expectedPosition, actualPosition);
+		ASSERT_TRUE(glm::all(arePositionsEqual));
 
-		glm::vec4 ActualColor = vertex.GetColor();
-		glm::bvec4 AreColorsEqual = glm::equal(ExpectedColor, ActualColor);
-		ASSERT_TRUE(glm::all(AreColorsEqual));
+		glm::vec4 actualColor = vertex.getColor();
+		glm::bvec4 areColorsEqual = glm::equal(expectedColor, actualColor);
+		ASSERT_TRUE(glm::all(areColorsEqual));
 
-		glm::vec2 ActualTextureCoordinates = vertex.GetTextureCoordinates();
-		glm::bvec2 AreTextureCoordinatesEqual = glm::equal(ExpectedTextureCoordinates, ActualTextureCoordinates);
-		ASSERT_TRUE(glm::all(AreTextureCoordinatesEqual));
+		glm::vec2 actualTextureCoordinates = vertex.getTextureCoordinates();
+		glm::bvec2 areTextureCoordinatesEqual = glm::equal(expectedTextureCoordinates, actualTextureCoordinates);
+		ASSERT_TRUE(glm::all(areTextureCoordinatesEqual));
 	}
 
 	TEST_F(ZtVertexTests, GetOffsetToPositionTest)
 	{
-		std::size_t ActualOffset = Vertex::GetOffsetToPosition();
-		std::size_t ExpectedOffset = 0;
+		std::size_t actualOffset = Vertex::GetOffsetToPosition();
+		std::size_t expectedOffset = 0;
 
-		ASSERT_EQ(ActualOffset, ExpectedOffset);
+		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
 	TEST_F(ZtVertexTests, GetOffsetToColorTest)
 	{
-		std::size_t ActualOffset = Vertex::GetOffsetToColor();
-		std::size_t ExpectedOffset = sizeof(decltype(vertex.GetPosition()));
+		std::size_t actualOffset = Vertex::GetOffsetToColor();
+		std::size_t expectedOffset = sizeof(decltype(vertex.getPosition()));
 
-		ASSERT_EQ(ActualOffset, ExpectedOffset);
+		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
 	TEST_F(ZtVertexTests, GetOffsetToTextureCoordinatesTest)
 	{
-		std::size_t ActualOffset = Vertex::GetOffsetToTextureCoordinates();
-		std::size_t ExpectedOffset = sizeof(decltype(vertex.GetPosition())) + sizeof(decltype(vertex.GetColor()));
+		std::size_t actualOffset = Vertex::GetOffsetToTextureCoordinates();
+		std::size_t expectedOffset = sizeof(decltype(vertex.getPosition())) + sizeof(decltype(vertex.getColor()));
 
-		ASSERT_EQ(ActualOffset, ExpectedOffset);
+		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
 }

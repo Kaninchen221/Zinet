@@ -12,11 +12,11 @@ namespace zt::gl
 
 		GLuint const inline static InvalidID = 0u;
 
-		GLuint GetID() const;
+		GLuint getID() const;
 
 	protected:
 
-		GLuint ID = InvalidID;
+		GLuint iD = InvalidID;
 
 	};
 

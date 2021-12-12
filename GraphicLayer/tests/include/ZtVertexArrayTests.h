@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtVertexArray.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/Ztwindow.h"
 
 #include "gtest/gtest.h"
 
@@ -14,59 +14,59 @@ namespace zt::gl::tests
 
 		ZtVertexArrayTests()
 		{
-			Window.CreateWindow();
+			window.createWindow();
 		}
 
 		~ZtVertexArrayTests()
 		{
-			VAO.Delete();
+			vao.deleteResource();
 		}
 
-		VertexArray VAO;
-		Window Window;
+		VertexArray vao;
+		Window window;
 
 	};
 
-	TEST_F(ZtVertexArrayTests, GenerateTest)
+	TEST_F(ZtVertexArrayTests, generateTest)
 	{
-		VAO.Generate();
-		GLuint ActualID = VAO.GetID();
-		GLuint ExpectedID = 1u;
+		vao.generate();
+		GLuint actualID = vao.getID();
+		GLuint expectedID = 1u;
 	}
 
-	TEST_F(ZtVertexArrayTests, GetIDTest)
+	TEST_F(ZtVertexArrayTests, getIDTest)
 	{
-		GLuint ActualID = VAO.GetID();
-		GLuint ExpectedID = VertexArray::InvalidID;
+		GLuint actualID = vao.getID();
+		GLuint expectedID = VertexArray::InvalidID;
 
-		ASSERT_EQ(ActualID, ExpectedID);
+		ASSERT_EQ(actualID, expectedID);
 	}
 
-	TEST_F(ZtVertexArrayTests, BindTest)
+	TEST_F(ZtVertexArrayTests, bindTest)
 	{
-		VAO.Generate();
-		VAO.Bind();
-		GLuint ID = VAO.GetID();
+		vao.generate();
+		vao.bind();
+		GLuint iD = vao.getID();
 	}
 
 	TEST_F(ZtVertexArrayTests, UnbindTest)
 	{
-		VAO.Generate();
-		VAO.Bind();
-		VAO.Unbind();
+		vao.generate();
+		vao.bind();
+		vao.unbind();
 
-		GLint ActualBindedVertexArray = VertexArray::InvalidID;
+		GLint actualBindedVertexArray = VertexArray::InvalidID;
 	}
 
 	TEST_F(ZtVertexArrayTests, DeleteTest)
 	{
-		VAO.Generate();
-		GLuint PreviouseID = VAO.GetID();
-		VAO.Delete();
+		vao.generate();
+		GLuint previouseiD = vao.getID();
+		vao.deleteResource();
 
-		GLuint ActualID = VAO.GetID();
-		GLuint ExpectedID = VertexArray::InvalidID;
-		ASSERT_EQ(ActualID, ExpectedID);
+		GLuint actualID = vao.getID();
+		GLuint expectedID = VertexArray::InvalidID;
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 }

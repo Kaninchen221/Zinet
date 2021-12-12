@@ -7,7 +7,7 @@ namespace zt::gl
     {
     }
 
-    bool Context::InitGLFW()
+    bool Context::initGLFW()
     {
         if (glfwInit())
         {
@@ -29,12 +29,12 @@ namespace zt::gl
         return false;
     }
 
-    void Context::DeinitGLFW()
+    void Context::deinitGLFW()
     {
         glfwTerminate();
     }
 
-    bool Context::InitOpenGL()
+    bool Context::initOpenGL()
     {
         return true;
     }

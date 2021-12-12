@@ -13,40 +13,40 @@ namespace zt::gl::tests
 
 		struct ZtDerived : public Object
 		{
-			ZtDerived() { ID = 5u; }
+			ZtDerived() { iD = 5u; }
 
-			void SetID(GLuint NewID) { ID = NewID; }
+			void setID(GLuint newID) { iD = newID; }
 		};
 
-		Object Object;
+		Object object;
 
 	};
 
 	TEST_F(ZtObjectTests, GetIDTest)
 	{
-		GLuint ActualID = Object.GetID();
-		GLuint ExpectedID = Object::InvalidID;
+		GLuint actualID = object.getID();
+		GLuint expectedID = Object::InvalidID;
 
-		ASSERT_EQ(ActualID, ExpectedID);
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 	TEST_F(ZtObjectTests, IDTest)
 	{
-		ZtDerived Derived;
+		ZtDerived derived;
 
-		GLuint ExpectedID = 4u;
-		Derived.SetID(ExpectedID);
-		GLuint ActualID = Derived.GetID();
+		GLuint expectedID = 4u;
+		derived.setID(expectedID);
+		GLuint actualID = derived.getID();
 
-		ASSERT_EQ(ExpectedID, ActualID);
+		ASSERT_EQ(expectedID, actualID);
 	}
 
 	TEST_F(ZtObjectTests, InvalidIDTest)
 	{
-		GLuint Actual = Object::InvalidID;
-		GLuint Expected = 0u;
+		GLuint actual = Object::InvalidID;
+		GLuint expected = 0u;
 
-		ASSERT_EQ(Actual, Expected);
+		ASSERT_EQ(actual, expected);
 	}
 
 }

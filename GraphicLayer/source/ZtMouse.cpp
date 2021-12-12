@@ -6,82 +6,82 @@ namespace zt::gl
 
 	Mouse::Mouse()
 	{
-		ButtonsEvents = std::vector<MouseButtonEvent>(1, MouseButtonEvent());
-		PositionEvents = std::vector<MousePositionEvent>(1, MousePositionEvent());
+		buttonsEvents = std::vector<MouseButtonEvent>(1, MouseButtonEvent());
+		positionEvents = std::vector<MousePositionEvent>(1, MousePositionEvent());
 	}
 
-	void Mouse::SetWindow(Window* window)
+	void Mouse::setWindow(Window* window)
 	{
-		InternalWindow = window;
+		this->window = window;
 	}
 
-	const Window* Mouse::GetWindow() const
+	const Window* Mouse::getWindow() const
 	{
-		return InternalWindow;
+		return window;
 	}
 
-	const std::vector<MouseButtonEvent>& Mouse::GetButtonsEvents() const
+	const std::vector<MouseButtonEvent>& Mouse::getButtonsEvents() const
 	{
-		return ButtonsEvents;
+		return buttonsEvents;
 	}
 
-	void Mouse::SetMaxRememberedButtonsEvents(size_t Size)
+	void Mouse::setMaxRememberedButtonsEvents(size_t size)
 	{
-		ButtonsEvents.resize(Size);
+		buttonsEvents.resize(size);
 	}
 
-	size_t Mouse::GetMaxRememberedButtonsEvents() const
+	size_t Mouse::getMaxRememberedButtonsEvents() const
 	{
-		return ButtonsEvents.size();
+		return buttonsEvents.size();
 	}
 
-	void Mouse::ButtonCallback(GLFWwindow* glfwWindow, int Button, int Action, int Mods)
+	void Mouse::ButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods)
 	{
-		void* WindowUserPointer = glfwGetWindowUserPointer(glfwWindow);
-		Window* GLWindow = static_cast<Window*>(WindowUserPointer);
-		Event* Event = GLWindow->GetEvent();
-		Mouse* Mouse = Event->GetMouse();
+		void* windowUserPointer = glfwGetWindowUserPointer(glfwWindow);
+		Window* window = static_cast<Window*>(windowUserPointer);
+		Event* event = window->getEvent();
+		Mouse* mouse = event->getMouse();
 
-		Mouse->ButtonsEvents.pop_back();
+		mouse->buttonsEvents.pop_back();
 
-		MouseButtonEvent ButtonEvent;
-		ButtonEvent.Type = static_cast<MouseButtonEventType>(Action);
-		ButtonEvent.Button = static_cast<MouseButton>(Button);
-		Mouse->ButtonsEvents.insert(Mouse->ButtonsEvents.begin(), ButtonEvent);
+		MouseButtonEvent buttonEvent;
+		buttonEvent.type = static_cast<MouseButtonEventType>(action);
+		buttonEvent.button = static_cast<MouseButton>(button);
+		mouse->buttonsEvents.insert(mouse->buttonsEvents.begin(), buttonEvent);
 	}
 
-	void Mouse::BindCallbacks()
+	void Mouse::bindCallbacks()
 	{
-		glfwSetMouseButtonCallback(InternalWindow->GetInternalWindow(), &Mouse::ButtonCallback);
-		glfwSetCursorPosCallback(InternalWindow->GetInternalWindow(), &Mouse::PositionCallback);
+		glfwSetMouseButtonCallback(window->getInternalWindow(), &Mouse::ButtonCallback);
+		glfwSetCursorPosCallback(window->getInternalWindow(), &Mouse::PositionCallback);
 	}
 
-	void Mouse::PositionCallback(GLFWwindow* glfwWindow, double PositionX, double PositionY)
+	void Mouse::PositionCallback(GLFWwindow* glfwWindow, double positionX, double positionY)
 	{
 		Window* windowUserPointer = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
-		Event* Event = windowUserPointer->GetEvent();
-		Mouse* Mouse = Event->GetMouse();
+		Event* event = windowUserPointer->getEvent();
+		Mouse* mouse = event->getMouse();
 
-		Mouse->PositionEvents.pop_back();
+		mouse->positionEvents.pop_back();
 
-		MousePositionEvent PositionEvent;
-		PositionEvent.Position = glm::dvec2(PositionX, PositionY);
-		Mouse->PositionEvents.insert(Mouse->PositionEvents.begin(), PositionEvent);
+		MousePositionEvent positionEvent;
+		positionEvent.position = glm::dvec2(positionX, positionY);
+		mouse->positionEvents.insert(mouse->positionEvents.begin(), positionEvent);
 	}
 
-	const std::vector<MousePositionEvent>& Mouse::GetPositionEvents() const
+	const std::vector<MousePositionEvent>& Mouse::getPositionEvents() const
 	{
-		return PositionEvents;
+		return positionEvents;
 	}
 
-	void Mouse::SetMaxRememberedPositionEvents(size_t Size)
+	void Mouse::setMaxRememberedPositionEvents(size_t size)
 	{
-		PositionEvents.resize(Size);
+		positionEvents.resize(size);
 	}
 
-	size_t Mouse::GetMaxRememberedPositionEvents() const
+	size_t Mouse::getMaxRememberedPositionEvents() const
 	{
-		return PositionEvents.size();
+		return positionEvents.size();
 	}
 
 }

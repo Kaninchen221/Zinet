@@ -10,84 +10,93 @@ namespace zt::gl
     {
         WindowLogger->info(__FUNCTION__);
 
-        if (WindowPointer != nullptr)
+        if (internalWindow != nullptr)
         {
-            glfwDestroyWindow(WindowPointer);
+            glfwDestroyWindow(internalWindow);
         }
 
-        GLContext.DeinitGLFW();
+        context.deinitGLFW();
     }
 
-    void Window::CreateWindow()
+    void Window::createWindow()
     {
-        GLContext.InitGLFW();
+        context.initGLFW();
 
         WindowLogger->info(__FUNCTION__);
 
-        WindowPointer = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
-        if (WindowPointer == nullptr)
+        internalWindow = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
+        if (internalWindow == nullptr)
         {
             WindowLogger->error("Can't create window");
             glfwTerminate();
             return;
         }
 
-        glfwMakeContextCurrent(WindowPointer);
+        glfwMakeContextCurrent(internalWindow);
 
-        glfwSetWindowUserPointer(WindowPointer, this);
+        glfwSetWindowUserPointer(internalWindow, this);
 
-        Event.SetWindow(this);
-        Event.BindCallbacks();
+        event.setWindow(this);
+        event.bindCallbacks();
     }
 
-    GLFWwindow* Window::GetInternalWindow()
+    GLFWwindow* Window::getInternalWindow()
     {
-        return WindowPointer;
+        return internalWindow;
     }
 
-    void Window::SetViewport(int X, int Y, int Width, int Height)
+    void Window::initStb()
     {
-
     }
 
-    void Window::SetClearColor(float Red, float Green, float Blue, float Alpha)
-    {
-
-    }
-
-    void Window::BindFramebufferSizeCallback()
-    {
-        glfwSetFramebufferSizeCallback(WindowPointer, &Window::FramebufferSizeCallback);
-    }
-
-    bool Window::IsOpen()
-    {
-        return !glfwWindowShouldClose(WindowPointer);
-    }
-
-    bool Window::ShouldBeClosed() const
-    {
-        return glfwWindowShouldClose(WindowPointer);
-    }
-
-    void Window::Clear()
+    void Window::setViewport(int x, int y, int width, int height)
     {
 
     }
 
-    void Window::SwapBuffers()
-    {
-        glfwSwapBuffers(WindowPointer);
-    }
-
-    void Window::FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
+    void Window::setClearColor(float red, float green, float blue, float alpha)
     {
 
     }
 
-    Event* Window::GetEvent()
+    void Window::bindCallbacks()
     {
-        return &Event;
+        event.bindCallbacks();
+    }
+
+    void Window::bindFramebufferSizeCallback()
+    {
+        glfwSetFramebufferSizeCallback(internalWindow, &Window::FramebufferSizeCallback);
+    }
+
+    bool Window::isOpen()
+    {
+        return !glfwWindowShouldClose(internalWindow);
+    }
+
+    bool Window::shouldBeClosed() const
+    {
+        return glfwWindowShouldClose(internalWindow);
+    }
+
+    void Window::clear()
+    {
+
+    }
+
+    void Window::swapBuffers()
+    {
+        glfwSwapBuffers(internalWindow);
+    }
+
+    void Window::FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height)
+    {
+
+    }
+
+    Event* Window::getEvent()
+    {
+        return &event;
     }
 
 }

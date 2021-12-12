@@ -6,35 +6,35 @@ namespace zt::gl
 
 	Keyboard::Keyboard()
 	{
-		Events = std::vector<KeyboardEvent>(1, KeyboardEvent());
+		events = std::vector<KeyboardEvent>(1, KeyboardEvent());
 	}
 
-	void Keyboard::SetWindow(Window* newWindow)
+	void Keyboard::setWindow(Window* window)
 	{
-		window = newWindow;
+		this->window = window;
 	}
 
-	const Window* Keyboard::GetWindow() const
+	const Window* Keyboard::getWindow() const
 	{
 		return window;
 	}
 
-	const std::vector<KeyboardEvent>& Keyboard::GetEvents() const
+	const std::vector<KeyboardEvent>& Keyboard::getEvents() const
 	{
-		return Events;
+		return events;
 	}
 
-	bool Keyboard::IsPressed(KeyboardKey Key) const
+	bool Keyboard::isPressed(KeyboardKey key) const
 	{
-		return glfwGetKey(window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(KeyboardEventType::Pressed);
+		return glfwGetKey(window->getInternalWindow(), static_cast<int>(key)) == static_cast<int>(KeyboardEventType::Pressed);
 	}
 
-	bool Keyboard::IsReleased(KeyboardKey Key) const
+	bool Keyboard::isReleased(KeyboardKey key) const
 	{
-		return glfwGetKey(window->GetInternalWindow(), static_cast<int>(Key)) == static_cast<int>(KeyboardEventType::Released);
+		return glfwGetKey(window->getInternalWindow(), static_cast<int>(key)) == static_cast<int>(KeyboardEventType::Released);
 	}
 
-	void Keyboard::BindCallbacks()
+	void Keyboard::bindCallbacks()
 	{
 		if (window == nullptr)
 		{
@@ -42,32 +42,32 @@ namespace zt::gl
 			return;
 		}
 
-		glfwSetKeyCallback(window->GetInternalWindow(), Keyboard::KeyCallback);
+		glfwSetKeyCallback(window->getInternalWindow(), Keyboard::KeyCallback);
 	}
 
-	void Keyboard::KeyCallback(GLFWwindow* InternalWindow, int Key, int ScanCode, int Action, int Mods)
+	void Keyboard::KeyCallback(GLFWwindow* internalWindow, int key, int scanCode, int action, int mods)
 	{
-		void* WindowUserPointer = glfwGetWindowUserPointer(InternalWindow);
-		Window* GLWindow = static_cast<Window*>(WindowUserPointer);
-		Event* Event = GLWindow->GetEvent();
-		Keyboard* Keyboard = Event->GetKeyboard();
+		void* windowUserPointer = glfwGetWindowUserPointer(internalWindow);
+		Window* window = static_cast<Window*>(windowUserPointer);
+		Event* event = window->getEvent();
+		Keyboard* keyboard = event->getKeyboard();
 
-		Keyboard->Events.pop_back();
+		keyboard->events.pop_back();
 
-		KeyboardEvent KeyboardEvent;
-		KeyboardEvent.Type = static_cast<KeyboardEventType>(Action);
-		KeyboardEvent.Key = static_cast<KeyboardKey>(Key);
-		Keyboard->Events.insert(Keyboard->Events.begin(), KeyboardEvent);
+		KeyboardEvent keyboardEvent;
+		keyboardEvent.type = static_cast<KeyboardEventType>(action);
+		keyboardEvent.key = static_cast<KeyboardKey>(key);
+		keyboard->events.insert(keyboard->events.begin(), keyboardEvent);
 	}
 
-	void Keyboard::SetMaximumRememberedEvents(size_t Value)
+	void Keyboard::setMaximumRememberedEvents(size_t value)
 	{
-		Events.resize(Value);
+		events.resize(value);
 	}
 
-	size_t Keyboard::GetMaximumRememberedEvents() const
+	size_t Keyboard::getMaximumRememberedEvents() const
 	{
-		return Events.size();
+		return events.size();
 	}
 
 }

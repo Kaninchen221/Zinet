@@ -7,52 +7,52 @@ namespace zt::gl
 
 	Texture::~Texture() noexcept
 	{
-		if (ID != InvalidID)
+		if (iD != InvalidID)
 		{
-			Delete();
+			deleteResource();
 		}
 	}
 
-	void Texture::Generate()
+	void Texture::generate()
 	{
 
 	}
 
-	void Texture::Bind() const
+	void Texture::bind() const
 	{
 
 	}
 
-	void Texture::Unbind() const
+	void Texture::unbind() const
 	{
 
 	}
 
-	void Texture::Delete()
+	void Texture::deleteResource()
 	{
-		ID = InvalidID;
+		iD = InvalidID;
 	}
 
-	void Texture::LoadFromData(unsigned char* Data, GLsizei Width, GLsizei Height)
+	void Texture::loadFromData(unsigned char* data, GLsizei width, GLsizei height)
 	{
 
 	}
 
-	void Texture::LoadFromFile(const FileFinder::Path& Path)
+	void Texture::loadFromFile(const FileFinder::Path& path)
 	{
-		std::string PathString = Path.string();
-		const char* PathCString = PathString.c_str();
+		std::string pathString = path.string();
+		const char* pathCString = pathString.c_str();
 
-		int TextureWidth;
-		int TextureHeight;
-		int ChannelsNumber;
-		unsigned char* TextureData = stbi_load(PathCString, &TextureWidth, &TextureHeight, &ChannelsNumber, 0);
+		int textureWidth;
+		int textureHeight;
+		int channelsNumber;
+		unsigned char* textureData = stbi_load(pathCString, &textureWidth, &textureHeight, &channelsNumber, 0);
 
-		LoadFromData(TextureData, TextureWidth, TextureHeight);
-		stbi_image_free(TextureData);
+		loadFromData(textureData, textureWidth, textureHeight);
+		stbi_image_free(textureData);
 	}
 
-	void Texture::GenerateMipmap() const
+	void Texture::generateMipmap() const
 	{
 
 	}

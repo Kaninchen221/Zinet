@@ -5,30 +5,30 @@ namespace zt::gl
 
 	VertexArray::~VertexArray() noexcept
 	{
-		if (ID != InvalidID)
+		if (iD != InvalidID)
 		{
-			Delete();
+			deleteResource();
 		}
 	}
 
-	void VertexArray::Generate()
+	void VertexArray::generate()
 	{
 
 	}
 
-	void VertexArray::Bind()
+	void VertexArray::bind()
 	{
 
 	}
 
-	void VertexArray::Unbind()
+	void VertexArray::unbind()
 	{
 
 	}
 
-	void VertexArray::Delete()
+	void VertexArray::deleteResource()
 	{
-		ID = InvalidID;
+		iD = InvalidID;
 	}
 
 }

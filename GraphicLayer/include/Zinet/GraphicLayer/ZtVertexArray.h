@@ -12,21 +12,21 @@ namespace zt::gl
 	public:
 
 		VertexArray() = default;
-		VertexArray(const VertexArray& Other) = default;
-		VertexArray(VertexArray&& Other) = default;
+		VertexArray(const VertexArray& other) = default;
+		VertexArray(VertexArray&& other) = default;
 
-		VertexArray& operator = (const VertexArray& Other) = default;
-		VertexArray& operator = (VertexArray&& Other) = default;
+		VertexArray& operator = (const VertexArray& other) = default;
+		VertexArray& operator = (VertexArray&& other) = default;
 
 		~VertexArray() noexcept;
 
-		void Generate();
+		void generate();
 
-		void Bind();
+		void bind();
 
-		void Unbind();
+		void unbind();
 
-		void Delete();
+		void deleteResource();
 
 	};
 

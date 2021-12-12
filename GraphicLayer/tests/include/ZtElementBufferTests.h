@@ -15,73 +15,73 @@ namespace zt::gl::tests
 
 		ZtElementBufferTests()
 		{
-			Window.CreateWindow();
+			window.createWindow();
 		}
 
 		~ZtElementBufferTests()
 		{
-			VBO.Delete();
+			vbo.deleteResource();
 		}
 
-		ElementBuffer VBO;
+		ElementBuffer vbo;
 
-		Window Window;
+		Window window;
 
 	};
 
 	TEST_F(ZtElementBufferTests, GenerateTest)
 	{
-		VBO.Generate();
-		GLuint ActualID = VBO.GetID();
+		vbo.generate();
+		GLuint actualID = vbo.getID();
 	}
 
 	TEST_F(ZtElementBufferTests, GetIDTest)
 	{
-		VBO.Generate();
-		GLuint ActualID = VBO.GetID();
-		GLuint NotExpectedID = ElementBuffer::InvalidID;
+		vbo.generate();
+		GLuint actualID = vbo.getID();
+		GLuint notExpectedID = ElementBuffer::InvalidID;
 	}
 
 	TEST_F(ZtElementBufferTests, BindTest)
 	{
-		VBO.Generate();
-		VBO.Bind();
-		GLuint ExpectedBindedID = VBO.GetID();
+		vbo.generate();
+		vbo.bind();
+		GLuint expectedBindedID = vbo.getID();
 	}
 
 	TEST_F(ZtElementBufferTests, UnbindTest)
 	{
-		VBO.Generate();
-		VBO.Bind();
-		VBO.Unbind();
-		GLuint NotExpectedBindedID = VBO.GetID();
+		vbo.generate();
+		vbo.bind();
+		vbo.unbind();
+		GLuint notExpectedBindedID = vbo.getID();
 	}
 
 	TEST_F(ZtElementBufferTests, SetDataTest)
 	{
-		VBO.Generate();
-		VBO.Bind();
-		std::array<Vertex, 1> Vertices;
-		VBO.SetData<std::array<Vertex, 1>>(Vertices, BufferUsage::Static);
+		vbo.generate();
+		vbo.bind();
+		std::array<Vertex, 1> vertices;
+		vbo.setData<std::array<Vertex, 1>>(vertices, BufferUsage::Static);
 	}
 
 	TEST_F(ZtElementBufferTests, InvalidIDTest)
 	{
-		GLuint ActualInvalidID = ElementBuffer::InvalidID;
-		GLuint ExpectedInvalidID = 0u;
+		GLuint actualInvalidID = ElementBuffer::InvalidID;
+		GLuint expectedInvalidID = 0u;
 
-		ASSERT_EQ(ActualInvalidID, ExpectedInvalidID);
+		ASSERT_EQ(actualInvalidID, expectedInvalidID);
 	}
 
 	TEST_F(ZtElementBufferTests, DeleteTest)
 	{
-		VBO.Generate();
-		VBO.Delete();
+		vbo.generate();
+		vbo.deleteResource();
 
-		GLuint ActualID = VBO.GetID();
-		GLuint ExpectedID = ElementBuffer::InvalidID;
+		GLuint actualID = vbo.getID();
+		GLuint expectedID = ElementBuffer::InvalidID;
 
-		ASSERT_EQ(ActualID, ExpectedID);
+		ASSERT_EQ(actualID, expectedID);
 	}
 
 }

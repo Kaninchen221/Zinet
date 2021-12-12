@@ -12,44 +12,44 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Context GLContext;
+		Context context;
 
 	};
 
 	TEST_F(GLContextTests, InitGLFWTest)
 	{
-		bool Result = GLContext.InitGLFW();
+		bool result = context.initGLFW();
 
-		ASSERT_TRUE(Result);
+		ASSERT_TRUE(result);
 	}
 
 	TEST_F(GLContextTests, DeinitGLFWTest)
 	{
-		GLContext.InitGLFW();
-		GLContext.DeinitGLFW();
+		context.initGLFW();
+		context.deinitGLFW();
 	}
 
 	TEST_F(GLContextTests, FillModeTest)
 	{
-		GLContext.InitGLFW();
-		Window Window;
-		Window.CreateWindow();
+		context.initGLFW();
+		Window window;
+		window.createWindow();
 		Context::FillMode();
 	}
 
 	TEST_F(GLContextTests, PolygonOnlyModeTest)
 	{
-		GLContext.InitGLFW();
-		Window Window;
-		Window.CreateWindow();
+		context.initGLFW();
+		Window window;
+		window.createWindow();
 		Context::PolygonOnlyMode();
 	}
 
 	TEST_F(GLContextTests, PointsModeTest)
 	{
-		GLContext.InitGLFW();
-		Window Window;
-		Window.CreateWindow();
+		context.initGLFW();
+		Window window;
+		window.createWindow();
 		Context::PointsMode();
 	}
 

@@ -14,23 +14,23 @@ namespace zt::gl
 
 	public:
 
-		void SetWindow(Window* NewWindow);
+		void setWindow(Window* window);
 
-		const Window* GetWindow() const;
+		const Window* getWindow() const;
 
-		void PollEvents();
+		void pollEvents();
 
-		Keyboard* GetKeyboard();
+		Keyboard* getKeyboard();
 
-		Mouse* GetMouse();
+		Mouse* getMouse();
 
-		void BindCallbacks();
+		void bindCallbacks();
 
 	protected:
 
-		Window* WindowPointer = nullptr;
-		Keyboard Keyboard;
-		Mouse Mouse;
+		Window* window = nullptr;
+		Keyboard keyboard;
+		Mouse mouse;
 
 	};
 

@@ -18,7 +18,7 @@ namespace zt::gl::tests
 
 	TEST_F(ZtMousePositionEventTests, PositionTest)
 	{
-		positionEvent.Position = glm::dvec2();
+		positionEvent.position = glm::dvec2();
 	}
 
 }

@@ -16,45 +16,45 @@ namespace zt::gl
 	public:
 
 		Window() = default;
-		Window(const Window& Other) = default;
-		Window(Window&& Other) = default;
+		Window(const Window& other) = default;
+		Window(Window&& other) = default;
 
-		Window& operator = (const Window& Other) = default;
-		Window& operator = (Window&& Other) = default;
+		Window& operator = (const Window& other) = default;
+		Window& operator = (Window&& other) = default;
 
 		~Window() noexcept;
 
-		void CreateWindow();
+		void createWindow();
 
-		GLFWwindow* GetInternalWindow();
+		GLFWwindow* getInternalWindow();
 
-		void InitStb();
+		void initStb();
 
-		void SetViewport(int X, int Y, int Width, int Height);
+		void setViewport(int x, int y, int width, int height);
 
-		void SetClearColor(float Red, float Green, float Blue, float Alpha);
+		void setClearColor(float red, float green, float blue, float alpha);
 
-		void BindCallbacks();
+		void bindCallbacks();
 
-		void BindFramebufferSizeCallback();
+		void bindFramebufferSizeCallback();
 
-		bool IsOpen();
+		bool isOpen();
 
-		bool ShouldBeClosed() const;
+		bool shouldBeClosed() const;
 
-		void Clear();
+		void clear();
 
-		void SwapBuffers();
+		void swapBuffers();
 
-		static void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height);
+		static void FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height);
 
-		Event* GetEvent();
+		Event* getEvent();
 
 	protected:
 
-		Context GLContext;
-		GLFWwindow* WindowPointer = nullptr;
-		Event Event;
+		Context context;
+		GLFWwindow* internalWindow = nullptr;
+		Event event;
 
 	};
 

@@ -10,7 +10,7 @@ namespace zt::gl
 
 	struct ZINET_GRAPHIC_LAYER_API MousePositionEvent
 	{
-		glm::dvec2 Position;
+		glm::dvec2 position;
 	};
 
 }

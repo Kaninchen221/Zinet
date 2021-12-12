@@ -17,41 +17,41 @@ namespace zt::gl
 	public:
 
 		Mouse();
-		Mouse(const Mouse& Other) = default;
-		Mouse(Mouse&& Other) = default;
+		Mouse(const Mouse& other) = default;
+		Mouse(Mouse&& other) = default;
 
-		Mouse& operator = (const Mouse& Other) = default;
-		Mouse& operator = (Mouse&& Other) = default;
+		Mouse& operator = (const Mouse& other) = default;
+		Mouse& operator = (Mouse&& other) = default;
 
 		~Mouse() noexcept = default;
 
-		void SetWindow(Window* window);
+		void setWindow(Window* window);
 
-		const Window* GetWindow() const;
+		const Window* getWindow() const;
 
-		const std::vector<MouseButtonEvent>& GetButtonsEvents() const;
+		const std::vector<MouseButtonEvent>& getButtonsEvents() const;
 
-		void SetMaxRememberedButtonsEvents(size_t Size);
+		void setMaxRememberedButtonsEvents(size_t size);
 
-		size_t GetMaxRememberedButtonsEvents() const;
+		size_t getMaxRememberedButtonsEvents() const;
 
-		static void ButtonCallback(GLFWwindow* Window, int Button, int Action, int Mods);
+		static void ButtonCallback(GLFWwindow* internalWindow, int button, int action, int mods);
 
-		void BindCallbacks();
+		void bindCallbacks();
 
-		static void PositionCallback(GLFWwindow* glfwWindow, double PositionX, double PositionY);
+		static void PositionCallback(GLFWwindow* internalWindow, double positionX, double positionY);
 
-		const std::vector<MousePositionEvent>& GetPositionEvents() const;
+		const std::vector<MousePositionEvent>& getPositionEvents() const;
 
-		void SetMaxRememberedPositionEvents(size_t Size);
+		void setMaxRememberedPositionEvents(size_t size);
 
-		size_t GetMaxRememberedPositionEvents() const;
+		size_t getMaxRememberedPositionEvents() const;
 
 	protected:
 
-		Window* InternalWindow = nullptr;
-		std::vector<MouseButtonEvent> ButtonsEvents;
-		std::vector<MousePositionEvent> PositionEvents;
+		Window* window = nullptr;
+		std::vector<MouseButtonEvent> buttonsEvents;
+		std::vector<MousePositionEvent> positionEvents;
 
 	};
 

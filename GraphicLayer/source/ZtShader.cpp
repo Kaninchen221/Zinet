@@ -8,71 +8,71 @@ namespace zt::gl
 
 	Shader::~Shader() noexcept
 	{
-		if (ID != InvalidID)
+		if (iD != InvalidID)
 		{
-			Delete();
+			deleteResource();
 		}
 	}
 
-	void Shader::Create(ShaderType ShaderType)
+	void Shader::create(ShaderType shaderType)
 	{
-		Type = ShaderType;
+		type = shaderType;
 	}
 
-	void Shader::Delete()
+	void Shader::deleteResource()
 	{
-		ID = InvalidID;
+		iD = InvalidID;
 	}
 
-	ShaderType Shader::GetType() const
+	ShaderType Shader::getType() const
 	{
-		return Type;
+		return type;
 	}
 
-	void Shader::LoadFromCString(const char* Source)
+	void Shader::loadFromCString(const char* source)
 	{
 
 	}
 
-	void Shader::LoadFromFile(const std::string& Path)
+	void Shader::loadFromFile(const std::string& path)
 	{
-		std::ifstream File;
-		File.open(Path);
-		if (File.is_open())
+		std::ifstream file;
+		file.open(path);
+		if (file.is_open())
 		{
-			std::stringstream Buffer;
-			Buffer << File.rdbuf();
-			std::string String = Buffer.str();
+			std::stringstream buffer;
+			buffer << file.rdbuf();
+			std::string string = buffer.str();
 
 
 
-			File.close();
+			file.close();
 		}
 		else
 		{
-			Logger->error("Failed to open shader file with path: {}", Path);
+			Logger->error("Failed to open shader file with path: {}", path);
 		}
 	}
 
-	void Shader::Compile()
+	void Shader::compile()
 	{
 
 	}
 
-	bool Shader::CompileStatus() const
+	bool Shader::compileStatus() const
 	{
 		return {};
 	}
 
-	std::string  Shader::CompileErrorMessage() const
+	std::string Shader::compileErrorMessage() const
 	{
-		constexpr size_t BufferSize = 512u;
-		char Buffer[BufferSize];
+		constexpr size_t bufferSize = 512u;
+		char buffer[bufferSize];
 
 
 
-		std::string Message = Buffer;
-		return Buffer;
+		std::string message = buffer;
+		return buffer;
 	}
 
 }

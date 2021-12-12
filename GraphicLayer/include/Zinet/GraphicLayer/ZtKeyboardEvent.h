@@ -9,15 +9,15 @@ namespace zt::gl
 
 	struct ZINET_GRAPHIC_LAYER_API KeyboardEvent
 	{
-		KeyboardEventType Type;
-		KeyboardKey Key;
+		KeyboardEventType type;
+		KeyboardKey key;
 
-		bool operator == (const KeyboardEvent& Other) const;
+		bool operator == (const KeyboardEvent& other) const;
 	};
 
-	inline bool KeyboardEvent::operator==(const KeyboardEvent& Other) const
+	inline bool KeyboardEvent::operator==(const KeyboardEvent& other) const
 	{
-		if (Type == Other.Type && Key == Other.Key)
+		if (type == other.type && key == other.key)
 			return true;
 		else
 			return false;
