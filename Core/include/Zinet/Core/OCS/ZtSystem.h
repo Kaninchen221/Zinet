@@ -11,15 +11,13 @@ namespace zt
     public:
 
         System() = default;
-        System(const System& Other) = default;
-        System(System&& Other) = default;
+        System(const System& other) = default;
+        System(System&& other) = default;
 
-        System& operator = (const System& Other) = default;
-        System& operator = (System&& Other) = default;
+        System& operator = (const System& other) = default;
+        System& operator = (System&& other) = default;
 
         virtual ~System() noexcept = default;
-
-
 
     };
 

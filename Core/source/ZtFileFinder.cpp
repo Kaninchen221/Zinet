@@ -3,18 +3,18 @@
 namespace zt
 {
 
-	void FileFinder::PrintDebugInfo() const
+	void FileFinder::printDebugInfo() const
 	{
-		Logger->info("Absolute current path: {}", CurrentPath().string());
-		Logger->info("Absolute engine root path: {}", EngineRootPath().string());
+		Logger->info("Absolute current path: {}", currentPath().string());
+		Logger->info("Absolute engine root path: {}", engineRootPath().string());
 	}
 
-	FileFinder::Path FileFinder::CurrentPath() const
+	FileFinder::Path FileFinder::currentPath() const
 	{
 		return std::filesystem::current_path();
 	}
 
-	FileFinder::Path FileFinder::EngineRootPath() const
+	FileFinder::Path FileFinder::engineRootPath() const
 	{
 		using MacroType = std::decay_t<decltype(ZINET_ENGINE_ROOT_PATH)>;
 		using ValidType = const char*;
@@ -22,56 +22,56 @@ namespace zt
 		return ZINET_ENGINE_ROOT_PATH;
 	}
 
-	std::vector<FileFinder::FileInfo> FileFinder::FindFiles(Path PathToFolder) const
+	std::vector<FileFinder::FileInfo> FileFinder::findFiles(Path pathToFolder) const
 	{
-		std::vector<FileInfo> Files;
+		std::vector<FileInfo> files;
 
 		try
 		{
-			std::filesystem::directory_iterator DirectoryIterator = std::filesystem::directory_iterator(PathToFolder);
-			for (std::filesystem::directory_entry DirectoryEntry : DirectoryIterator)
+			std::filesystem::directory_iterator directoryIterator = std::filesystem::directory_iterator(pathToFolder);
+			for (std::filesystem::directory_entry directoryEntry : directoryIterator)
 			{
-				if (DirectoryEntry.is_regular_file())
+				if (directoryEntry.is_regular_file())
 				{
-					Files.push_back(DirectoryEntry);
+					files.push_back(directoryEntry);
 				}
 			}
 		}
-		catch (const std::exception& Exception)
+		catch (const std::exception& exception)
 		{
-			Logger->error("{} throw exception: {}", __FUNCTION__, Exception.what());
+			Logger->error("{} throw exception: {}", __FUNCTION__, exception.what());
 		}
 
-		return Files;
+		return files;
 	}
 
-	std::vector<FileFinder::FileInfo> FileFinder::FindFiles(Path PathToFolder, Extension NeededExtension) const
+	std::vector<FileFinder::FileInfo> FileFinder::findFiles(Path pathToFolder, Extension neededExtension) const
 	{
-		std::vector<FileInfo> Files;
+		std::vector<FileInfo> files;
 
 		try
 		{
-			std::filesystem::directory_iterator DirectoryIterator = std::filesystem::directory_iterator(PathToFolder);
-			for (std::filesystem::directory_entry DirectoryEntry : DirectoryIterator)
+			std::filesystem::directory_iterator directoryIterator = std::filesystem::directory_iterator(pathToFolder);
+			for (std::filesystem::directory_entry directoryEntry : directoryIterator)
 			{
-				if (DirectoryEntry.is_regular_file())
+				if (directoryEntry.is_regular_file())
 				{
-					Path FilePath = DirectoryEntry.path();
-					Extension FileExtension = FilePath.extension();
+					Path filePath = directoryEntry.path();
+					Extension fileExtension = filePath.extension();
 
-					if (NeededExtension == FileExtension)
+					if (neededExtension == fileExtension)
 					{
-						Files.push_back(DirectoryEntry);
+						files.push_back(directoryEntry);
 					}
 				}
 			}
 		}
-		catch (const std::exception& Exception)
+		catch (const std::exception& exception)
 		{
-			Logger->error("{} throw exception: {}", __FUNCTION__, Exception.what());
+			Logger->error("{} throw exception: {}", __FUNCTION__, exception.what());
 		}
 
-		return Files;
+		return files;
 	}
 
 }

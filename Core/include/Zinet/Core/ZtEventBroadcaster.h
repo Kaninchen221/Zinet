@@ -11,33 +11,33 @@
 namespace zt
 {
 
-	class EventBroadcaster
+	class ZINET_CORE_API EventBroadcaster
 	{
 	public:
 
-		void Add(const EventCallback& EventCallback);
+		void add(const EventCallback& eventCallback);
 
-		void Broadcast();
+		void broadcast();
 
 	protected:
 
-		plf::colony<EventCallback> Callbacks;
+		plf::colony<EventCallback> callbacks;
 
 	};
 
-	inline void EventBroadcaster::Add(const EventCallback& EventCallback)
+	inline void EventBroadcaster::add(const EventCallback& eventCallback)
 	{
-		Callbacks.insert(EventCallback);
+		callbacks.insert(eventCallback);
 	}
 
-	inline void EventBroadcaster::Broadcast()
+	inline void EventBroadcaster::broadcast()
 	{
-		for (EventCallback Callback : Callbacks)
+		for (EventCallback callback : callbacks)
 		{
-			std::shared_ptr<Functor> FunctorPointer = Callback.Functor.lock();
-			if (FunctorPointer)
+			std::shared_ptr<Functor> functorPointer = callback.functor.lock();
+			if (functorPointer)
 			{
-				FunctorPointer->operator()();
+				functorPointer->operator()();
 			}
 		}
 	}

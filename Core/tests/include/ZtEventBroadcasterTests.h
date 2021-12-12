@@ -13,32 +13,32 @@ namespace zt::tests
 
 		struct ObjectDerived : Object
 		{
-			void Foo() { FooCalled = true; }
+			void foo() { fooCalled = true; }
 
-			ZINET_MAKE_FUNCTOR(ObjectDerived, Foo)
+			ZINET_MAKE_FUNCTOR(ObjectDerived, foo)
 
-				std::shared_ptr<ObjectDerived_FUNCTOR_Foo> Functor = std::make_shared<ObjectDerived_FUNCTOR_Foo>(*this);
+				std::shared_ptr<ObjectDerived_FUNCTOR_foo> functor = std::make_shared<ObjectDerived_FUNCTOR_foo>(*this);
 
-			bool Called() { return FooCalled; }
+			bool called() { return fooCalled; }
 
 		protected:
-			bool FooCalled = false;
+			bool fooCalled = false;
 		};
 	};
 
 	TEST_F(EventDispatcherTests, AddTest)
 	{
-		EventBroadcaster EventDispatcher;
-		ObjectDerived Object;
+		EventBroadcaster eventDispatcher;
+		ObjectDerived object;
 
-		EventCallback EventCallback;
-		EventCallback.Functor = Object.Functor;
-		EventDispatcher.Add(EventCallback);
+		EventCallback eventCallback;
+		eventCallback.functor = object.functor;
+		eventDispatcher.add(eventCallback);
 
-		EventDispatcher.Broadcast();
+		eventDispatcher.broadcast();
 
-		bool Called = Object.Called();
-		ASSERT_TRUE(Called);
+		bool called = object.called();
+		ASSERT_TRUE(called);
 	}
 
 }

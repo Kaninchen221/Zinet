@@ -11,48 +11,48 @@ namespace zt::tests
 	{
 	protected:
 
-		File File;
+		File file;
 
-		FileFinder::Path TestFolderPath = FileFinder().CurrentProjectRootPath() / "file_test_folder";
-		FileFinder::Path PathToReadOnlyFile = TestFolderPath / "read_only_file.txt";
+		FileFinder::Path testFolderPath = FileFinder().currentProjectRootPath() / "file_test_folder";
+		FileFinder::Path pathToReadOnlyFile = testFolderPath / "read_only_file.txt";
 	};
 
 	TEST_F(FileTests, OpenTest)
 	{
-		bool IsOpen = File.IsOpen();
-		ASSERT_FALSE(IsOpen);
+		bool isOpen = file.isOpen();
+		ASSERT_FALSE(isOpen);
 
-		File.Open(PathToReadOnlyFile, FileOpenMode::In);
-		IsOpen = File.IsOpen();
-		ASSERT_TRUE(IsOpen);
+		file.open(pathToReadOnlyFile, FileOpenMode::In);
+		isOpen = file.isOpen();
+		ASSERT_TRUE(isOpen);
 	}
 
 	TEST_F(FileTests, ReadLineTest)
 	{
-		File.Open(PathToReadOnlyFile, FileOpenMode::In);
+		file.open(pathToReadOnlyFile, FileOpenMode::In);
 
-		std::string ActualFirstLine = File.ReadLine();
-		std::string ExpectedFirstLine = "test text";
-		ASSERT_EQ(ActualFirstLine, ExpectedFirstLine);
+		std::string actualFirstLine = file.readLine();
+		std::string expectedFirstLine = "test text";
+		ASSERT_EQ(actualFirstLine, expectedFirstLine);
 
-		std::string ActualSecondLine = File.ReadLine();
-		std::string ExpectedSecondLine = "should be never modified";
-		ASSERT_EQ(ActualSecondLine, ExpectedSecondLine);
+		std::string actualSecondLine = file.readLine();
+		std::string expectedSecondLine = "should be never modified";
+		ASSERT_EQ(actualSecondLine, expectedSecondLine);
 	}
 
 	TEST_F(FileTests, ZtFileOpenModeToStdOpenMode)
 	{
-		std::ios_base::openmode ActualOpenMode = File::ToStdOpenMode(FileOpenMode::Truncate);
-		std::ios_base::openmode ExpectedOpenMode = std::ios_base::trunc;
-		ASSERT_EQ(ActualOpenMode, ExpectedOpenMode);
+		std::ios_base::openmode actualOpenMode = File::ToStdOpenMode(FileOpenMode::Truncate);
+		std::ios_base::openmode expectedOpenMode = std::ios_base::trunc;
+		ASSERT_EQ(actualOpenMode, expectedOpenMode);
 	}
 
 	TEST_F(FileTests, ReadAllTest)
 	{
-		File.Open(PathToReadOnlyFile, FileOpenMode::In);
-		std::string ActualText = File.ReadAll();
-		std::string ExpectedText = "test text\nshould be never modified\n";
-		ASSERT_EQ(ActualText, ExpectedText);
+		file.open(pathToReadOnlyFile, FileOpenMode::In);
+		std::string actualText = file.readAll();
+		std::string expectedText = "test text\nshould be never modified\n";
+		ASSERT_EQ(actualText, expectedText);
 	}
 
 }

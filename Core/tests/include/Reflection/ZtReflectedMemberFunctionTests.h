@@ -14,21 +14,21 @@ namespace zt::tests
 
 	TEST_F(ReflectedMemberFunctionTests, CreateFromSimpleMethodTest)
 	{
-		ReflectedMemberFunction<void (ReflectionTestStruct::*)()> ReflectedMemberFunction(&ReflectionTestStruct::SimpleMethod);
+		ReflectedMemberFunction<void (ReflectionTestStruct::*)()> reflectedMemberFunction(&ReflectionTestStruct::simpleMethod);
 	}
 
 	TEST_F(ReflectedMemberFunctionTests, CreateFromComplexMethodTest)
 	{
-		ReflectedMemberFunction<int (ReflectionTestStruct::*)(const int&, const int&) const> ReflectedMemberFunction(&ReflectionTestStruct::ConstMethodReturnSum);
+		ReflectedMemberFunction<int (ReflectionTestStruct::*)(const int&, const int&) const> reflectedMemberFunction(&ReflectionTestStruct::constMethodReturnSum);
 	}
 
 	TEST_F(ReflectedMemberFunctionTests, GetPointerTest)
 	{
 		using FunctionPointerType = void (ReflectionTestStruct::*)();
 
-		ReflectedMemberFunction<FunctionPointerType> ReflectedMemberFunction(&ReflectionTestStruct::SimpleMethod);
+		ReflectedMemberFunction<FunctionPointerType> reflectedMemberFunction(&ReflectionTestStruct::simpleMethod);
 
-		FunctionPointerType FunctionPointer = ReflectedMemberFunction.GetPointer();
+		FunctionPointerType functionPointer = reflectedMemberFunction.getPointer();
 	}
 
 }

@@ -10,56 +10,56 @@ namespace zt::tests
 	{
 	protected:
 
-		FileFinder FileFinder;
+		FileFinder fileFinder;
 
 	};
 
 	TEST_F(FileFinderTests, PrintDebugInfoTest)
 	{
-		FileFinder.PrintDebugInfo();
+		fileFinder.printDebugInfo();
 	}
 
 	TEST_F(FileFinderTests, CurrentPathTest)
 	{
-		FileFinder::Path Path = FileFinder.CurrentPath();
-		ASSERT_FALSE(Path.empty());
+		FileFinder::Path path = fileFinder.currentPath();
+		ASSERT_FALSE(path.empty());
 	}
 
 	TEST_F(FileFinderTests, EngineRootPathTest)
 	{
-		FileFinder::Path Path = FileFinder.EngineRootPath();
-		ASSERT_FALSE(Path.empty());
+		FileFinder::Path path = fileFinder.engineRootPath();
+		ASSERT_FALSE(path.empty());
 	}
 
 	TEST_F(FileFinderTests, CurrentProjectRootPathTest)
 	{
-		FileFinder::Path Path = FileFinder.CurrentProjectRootPath();
-		ASSERT_FALSE(Path.empty());
+		FileFinder::Path path = fileFinder.currentProjectRootPath();
+		ASSERT_FALSE(path.empty());
 	}
 
 	TEST_F(FileFinderTests, FindFilesInSpecificFolderTest)
 	{
-		FileFinder::Path FolderName = "file_finder_test_folder";
-		FileFinder::Path Path = FileFinder.CurrentProjectRootPath();
-		Path /= FolderName;
-		FileFinder::FolderInfo Files = FileFinder.FindFiles(Path);
+		FileFinder::Path folderName = "file_finder_test_folder";
+		FileFinder::Path path = fileFinder.currentProjectRootPath();
+		path /= folderName;
+		FileFinder::FolderInfo files = fileFinder.findFiles(path);
 
-		size_t ExpectedFilesCount = 3u;
-		size_t ActualFilesCount = Files.size();
-		ASSERT_EQ(ActualFilesCount, ExpectedFilesCount);
+		size_t expectedFilesCount = 3u;
+		size_t actualFilesCount = files.size();
+		ASSERT_EQ(actualFilesCount, expectedFilesCount);
 	}
 
 	TEST_F(FileFinderTests, FindFilesInSpecificFolderWithSpecificExtensionTest)
 	{
-		FileFinder::Path FolderName = "file_finder_test_folder";
-		FileFinder::Path Path = FileFinder.CurrentProjectRootPath();
-		Path /= FolderName;
-		FileFinder::Extension Extension = ".txt2";
+		FileFinder::Path folderName = "file_finder_test_folder";
+		FileFinder::Path path = fileFinder.currentProjectRootPath();
+		path /= folderName;
+		FileFinder::Extension extension = ".txt2";
 
-		FileFinder::FolderInfo Files = FileFinder.FindFiles(Path, Extension);
-		size_t ExpectedFilesCount = 2u;
-		size_t ActualFilesCount = Files.size();
-		ASSERT_EQ(ActualFilesCount, ExpectedFilesCount);
+		FileFinder::FolderInfo files = fileFinder.findFiles(path, extension);
+		size_t expectedFilesCount = 2u;
+		size_t actualFilesCount = files.size();
+		ASSERT_EQ(actualFilesCount, expectedFilesCount);
 	}
 
 }

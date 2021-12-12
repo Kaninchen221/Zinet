@@ -11,48 +11,48 @@ namespace zt::tests
     {
     protected:
 
-        UniqueIdentifierMaker UniqueIdentifierMaker;
+        UniqueIdentifierMaker uniqueIdentifierMaker;
 
     };
 
     TEST_F(UniqueIdentifierMakerTests, ReserveTest)
     {
-        Identifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-        size_t ExpectedFirstUnderlyingNumber = 0;
-        size_t ActualFirstUnderlyingNumber = FirstUniqueIdentifier.GetUnderlyingNumber();
+        Identifier firstUniqueIdentifier = uniqueIdentifierMaker.reserve();
+        size_t expectedFirstUnderlyingNumber = 0;
+        size_t actualFirstUnderlyingNumber = firstUniqueIdentifier.getUnderlyingNumber();
 
-        ASSERT_EQ(ActualFirstUnderlyingNumber, ExpectedFirstUnderlyingNumber);
+        ASSERT_EQ(actualFirstUnderlyingNumber, expectedFirstUnderlyingNumber);
 
-        Identifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-        size_t ExpectedSecondUnderlyingNumber = 1;
-        size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
+        Identifier secondUniqueIdentifier = uniqueIdentifierMaker.reserve();
+        size_t expectedSecondUnderlyingNumber = 1;
+        size_t actualSecondUnderlyingNumber = secondUniqueIdentifier.getUnderlyingNumber();
 
-        ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
+        ASSERT_EQ(actualSecondUnderlyingNumber, expectedSecondUnderlyingNumber);
     }
 
     TEST_F(UniqueIdentifierMakerTests, ReleaseTest)
     {
-        Identifier FirstUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-        UniqueIdentifierMaker.Release(FirstUniqueIdentifier);
+        Identifier firstUniqueIdentifier = uniqueIdentifierMaker.reserve();
+        uniqueIdentifierMaker.release(firstUniqueIdentifier);
 
-        Identifier SecondUniqueIdentifier = UniqueIdentifierMaker.Reserve();
-        size_t ExpectedSecondUnderlyingNumber = 0;
-        size_t ActualSecondUnderlyingNumber = SecondUniqueIdentifier.GetUnderlyingNumber();
+        Identifier secondUniqueIdentifier = uniqueIdentifierMaker.reserve();
+        size_t expectedSecondUnderlyingNumber = 0;
+        size_t actualSecondUnderlyingNumber = secondUniqueIdentifier.getUnderlyingNumber();
 
-        ASSERT_EQ(ActualSecondUnderlyingNumber, ExpectedSecondUnderlyingNumber);
+        ASSERT_EQ(actualSecondUnderlyingNumber, expectedSecondUnderlyingNumber);
     }
 
     TEST_F(UniqueIdentifierMakerTests, IsReservedTrueTest)
     {
-        Identifier UID = UniqueIdentifierMaker.Reserve();
-        bool IsReserved = UniqueIdentifierMaker.IsReserved(UID.GetUnderlyingNumber());
-        ASSERT_TRUE(IsReserved);
+        Identifier uid = uniqueIdentifierMaker.reserve();
+        bool isReserved = uniqueIdentifierMaker.isReserved(uid.getUnderlyingNumber());
+        ASSERT_TRUE(isReserved);
     }
 
     TEST_F(UniqueIdentifierMakerTests, IsReservedFalseTest)
     {
-        bool IsReserved = UniqueIdentifierMaker.IsReserved(0);
-        ASSERT_FALSE(IsReserved);
+        bool isReserved = uniqueIdentifierMaker.isReserved(0);
+        ASSERT_FALSE(isReserved);
     }
 
 }

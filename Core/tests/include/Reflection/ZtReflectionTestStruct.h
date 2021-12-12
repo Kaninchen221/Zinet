@@ -5,40 +5,40 @@ namespace zt::tests
 
 	struct SimpleTestStruct
 	{
-		int Integer;
+		int integer;
 
-		void Foo() {};
+		void foo() {};
 	};
 
 	struct ReflectionTestStruct
 	{
-		int IntMember = 123124;
-		float FloatMember = 234.f;
-		unsigned int UnsignedIntMember = 213451u;
+		int intMember = 123124;
+		float floatMember = 234.f;
+		unsigned int unsignedIntMember = 213451u;
 
-		void SimpleMethod();
+		void simpleMethod();
 
-		int ConstMethodReturnSum(const int& First, const int& Second) const;
+		int constMethodReturnSum(const int& first, const int& second) const;
 
-		int MethodReturnSum(const int& First, const int& Second);
+		int methodReturnSum(const int& first, const int& second);
 
-		void NotLiteralTypeParam(const std::string& String);
+		void notLiteralTypeParam(const std::string& string);
 	};
 
-	void ReflectionTestStruct::SimpleMethod()
+	void ReflectionTestStruct::simpleMethod()
 	{}
 
-	inline int ReflectionTestStruct::ConstMethodReturnSum(const int& First, const int& Second) const
+	inline int ReflectionTestStruct::constMethodReturnSum(const int& first, const int& second) const
 	{
-		return First + Second;
+		return first + second;
 	}
 
-	inline int ReflectionTestStruct::MethodReturnSum(const int& First, const int& Second)
+	inline int ReflectionTestStruct::methodReturnSum(const int& first, const int& second)
 	{
-		return ConstMethodReturnSum(First, Second);
+		return constMethodReturnSum(first, second);
 	}
 
-	inline void ReflectionTestStruct::NotLiteralTypeParam(const std::string& String)
+	inline void ReflectionTestStruct::notLiteralTypeParam(const std::string& string)
 	{
 	}
 

@@ -15,29 +15,29 @@ namespace zt
 	public:
 
 		File() = default;
-		File(const File& Other) = default;
-		File(File&& Other) = default;
+		File(const File& other) = default;
+		File(File&& other) = default;
 
-		File& operator = (const File& Other) = default;
-		File& operator = (File&& Other) = default;
+		File& operator = (const File& other) = default;
+		File& operator = (File&& other) = default;
 
 		~File() noexcept;
 
-		void Open(const FileFinder::Path& FilePath, FileOpenMode OpenMode);
+		void open(const FileFinder::Path& filePath, FileOpenMode openMode);
 
-		bool IsOpen() const;
+		bool isOpen() const;
 
-		std::string ReadLine();
+		std::string readLine();
 
-		std::string ReadAll();
+		std::string readAll();
 
-		static std::ios_base::openmode ToStdOpenMode(FileOpenMode OpenMode);
+		static std::ios_base::openmode ToStdOpenMode(FileOpenMode openMode);
 
-		void Close();
+		void close();
 
 	protected:
 
-		std::fstream FileStream;
+		std::fstream fileStream;
 
 	};
 

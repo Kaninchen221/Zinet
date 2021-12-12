@@ -11,35 +11,35 @@ namespace zt::tests
     {
     protected:
 
-        zt::Object Object;
+        zt::Object object;
 
     };
 
     TEST_F(ObjectTests, BeginPlayTest)
     {
-        BeginPlayReason BeginPlayReason = BeginPlayReason::Loaded;
-        Object.BeginPlay(BeginPlayReason);
+        BeginPlayReason beginPlayReason = BeginPlayReason::Loaded;
+        object.beginPlay(beginPlayReason);
     }
 
     TEST_F(ObjectTests, EndPlayTest)
     {
-        EndPlayReason EndPlayReason = EndPlayReason::Destroyed;
-        Object.EndPlay(EndPlayReason);
+        EndPlayReason endPlayReason = EndPlayReason::Destroyed;
+        object.endPlay(endPlayReason);
     }
 
     TEST_F(ObjectTests, TickTest)
     {
-        float DeltaTime{};
-        Object.Tick(DeltaTime);
+        float deltaTime{};
+        object.tick(deltaTime);
     }
 
     TEST_F(ObjectTests, ShouldTickTest)
     {
-        bool bExpectedShouldTick = true;
-        Object.SetShouldTick(bExpectedShouldTick);
-        bool bActualShouldTick = Object.GetShouldTick();
+        bool expectedShouldTick = true;
+        object.setShouldTick(expectedShouldTick);
+        bool actualShouldTick = object.getShouldTick();
 
-        ASSERT_EQ(bActualShouldTick, bExpectedShouldTick);
+        ASSERT_EQ(actualShouldTick, expectedShouldTick);
     }
 
 }

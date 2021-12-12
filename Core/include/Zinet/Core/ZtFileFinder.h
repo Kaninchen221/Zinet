@@ -12,7 +12,7 @@
 namespace zt
 {
 
-	class FileFinder
+	class ZINET_CORE_API FileFinder
 	{
 	protected:
 
@@ -25,21 +25,21 @@ namespace zt
 		using FolderInfo = std::vector<FileInfo>;
 		using Extension = std::filesystem::path;
 
-		void PrintDebugInfo() const;
+		void printDebugInfo() const;
 
-		Path CurrentPath() const;
+		Path currentPath() const;
 
-		Path EngineRootPath() const;
+		Path engineRootPath() const;
 
-		inline Path CurrentProjectRootPath() const;
+		inline Path currentProjectRootPath() const;
 
-		FolderInfo FindFiles(Path PathToFolder) const;
+		FolderInfo findFiles(Path pathToFolder) const;
 
-		FolderInfo FindFiles(Path PathToFolder, Extension NeededExtension) const;
+		FolderInfo findFiles(Path pathToFolder, Extension neededExtension) const;
 
 	};
 
-	inline FileFinder::Path FileFinder::CurrentProjectRootPath() const
+	inline FileFinder::Path FileFinder::currentProjectRootPath() const
 	{
 		using MacroType = std::decay_t<decltype(ZINET_CURRENT_PROJECT_ROOT_PATH)>;
 		using ValidType = const char*;

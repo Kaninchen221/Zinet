@@ -25,11 +25,11 @@ namespace zt
     using MakeReflectedClassTuple = std::tuple<ReflectedClassType>;
 
     template<typename TupleType, typename CallableType>
-    constexpr void ApplyToTuple(TupleType& Tuple, const CallableType& Callable);
+    constexpr void ApplyToTuple(TupleType& tuple, const CallableType& callable);
 
     template<typename TupleType, typename CallableType, typename NumberType, NumberType... Numbers>
-    constexpr void ApplyToTupleInternal(TupleType& Tuple, const CallableType& Callable,
-        const std::integer_sequence<NumberType, Numbers...>& NumberSequence);
+    constexpr void ApplyToTupleInternal(TupleType& tuple, const CallableType& callable,
+        const std::integer_sequence<NumberType, Numbers...>& numberSequence);
 
 }
 

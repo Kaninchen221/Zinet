@@ -13,14 +13,14 @@ namespace zt
 
 		using SimpleConsoleLogger = std::shared_ptr<spdlog::logger>;
 
-		inline static SimpleConsoleLogger CreateSimpleConsoleLogger(std::string Name);
+		inline static SimpleConsoleLogger CreateSimpleConsoleLogger(std::string name);
 
 	};
 
-	Logger::SimpleConsoleLogger Logger::CreateSimpleConsoleLogger(std::string Name)
+	Logger::SimpleConsoleLogger Logger::CreateSimpleConsoleLogger(std::string name)
 	{
-		SimpleConsoleLogger Logger = spdlog::stdout_color_mt(Name);
-		return Logger;
+		SimpleConsoleLogger logger = spdlog::stdout_color_mt(name);
+		return logger;
 	}
 
 }

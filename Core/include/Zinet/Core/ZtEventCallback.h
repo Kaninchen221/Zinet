@@ -7,9 +7,9 @@
 namespace zt
 {
 
-	struct EventCallback
+	struct ZINET_CORE_API EventCallback
 	{
-		std::weak_ptr<Functor> Functor;
+		std::weak_ptr<Functor> functor;
 	};
 
 }

@@ -16,28 +16,28 @@ namespace zt::tests
 	TEST_F(ReflectedCollectionTests, SimpleRegisterTest)
 	{
 	    [[maybe_unused]] ReflectedCollection<std::tuple<ReflectedClass<ReflectionTestStruct>>>
-	                Collection = ReflectedCollection<>()
-	                    .RegisterClass(ReflectedClass<ReflectionTestStruct>());
+	                collection = ReflectedCollection<>()
+	                    .registerClass(ReflectedClass<ReflectionTestStruct>());
 	}
 	
 	TEST_F(ReflectedCollectionTests, GetReflectedClassesTest)
 	{
 	    ReflectedCollection<std::tuple<ReflectedClass<ReflectionTestStruct>>>
-	            Collection = ReflectedCollection<>()
-	            .RegisterClass(ReflectedClass<ReflectionTestStruct>());
+	            collection = ReflectedCollection<>()
+	            .registerClass(ReflectedClass<ReflectionTestStruct>());
 	
-	    auto& Classes = Collection.GetReflectedClasses();
+	    auto& classes = collection.getReflectedClasses();
 	}
 	
 	TEST_F(ReflectedCollectionTests, ComplexRegisterTest)
 	{
-	    [[maybe_unused]] auto Collection = ReflectedCollection()
-	            .RegisterClass(ReflectedClass<ReflectionTestStruct>()
-	                    .RegisterFunction(&ReflectionTestStruct::SimpleMethod)
-	                    .RegisterFunction(&ReflectionTestStruct::MethodReturnSum))
-	            .RegisterClass(ReflectedClass<SimpleTestStruct>()
-	                    .RegisterFunction(&SimpleTestStruct::Foo)
-	                    .RegisterProperty(&SimpleTestStruct::Integer));
+	    [[maybe_unused]] auto collection = ReflectedCollection()
+	            .registerClass(ReflectedClass<ReflectionTestStruct>()
+	                    .registerFunction(&ReflectionTestStruct::simpleMethod)
+	                    .registerFunction(&ReflectionTestStruct::methodReturnSum))
+	            .registerClass(ReflectedClass<SimpleTestStruct>()
+	                    .registerFunction(&SimpleTestStruct::foo)
+	                    .registerProperty(&SimpleTestStruct::integer));
 	}
 
 }

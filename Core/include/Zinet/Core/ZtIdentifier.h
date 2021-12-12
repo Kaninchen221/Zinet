@@ -13,20 +13,20 @@ namespace zt
         const static inline size_t Invalid = -1;
 
         Identifier() = delete;
-        explicit Identifier(size_t Identifier);
-        Identifier(Identifier& Other);
-        Identifier(Identifier&& Other);
+        explicit Identifier(size_t identifier);
+        Identifier(Identifier& other);
+        Identifier(Identifier&& other);
 
-        Identifier& operator = (Identifier& Other);
-        Identifier& operator = (Identifier&& Other);
+        Identifier& operator = (Identifier& other);
+        Identifier& operator = (Identifier&& other);
 
         ~Identifier() = default;
 
-        size_t GetUnderlyingNumber() const noexcept;
+        size_t getUnderlyingNumber() const noexcept;
 
     private:
 
-        size_t UnderlyingNumber = Invalid;
+        size_t underlyingNumber = Invalid;
 
     };
 

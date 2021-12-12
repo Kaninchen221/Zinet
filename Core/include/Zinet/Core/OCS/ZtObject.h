@@ -13,27 +13,27 @@ namespace zt
     public:
 
         Object() = default;
-        Object(const Object& Other) = default;
-        Object(Object&& Other) = default;
+        Object(const Object& other) = default;
+        Object(Object&& other) = default;
 
-        Object& operator = (const Object& Other) = default;
-        Object& operator = (Object&& Other) = default;
+        Object& operator = (const Object& other) = default;
+        Object& operator = (Object&& other) = default;
 
         virtual ~Object() noexcept = default;
 
-        virtual void BeginPlay(BeginPlayReason Reason);
+        virtual void beginPlay(BeginPlayReason reason);
 
-        virtual void EndPlay(EndPlayReason Reason);
+        virtual void endPlay(EndPlayReason reason);
 
-        virtual void Tick(float DeltaTime);
+        virtual void tick(float deltaTime);
 
-        bool GetShouldTick() const;
+        bool getShouldTick() const;
 
-        void SetShouldTick(bool Value);
+        void setShouldTick(bool value);
 
     protected:
 
-        bool bShouldTick = false;
+        bool shouldTick = false;
 
     };
 

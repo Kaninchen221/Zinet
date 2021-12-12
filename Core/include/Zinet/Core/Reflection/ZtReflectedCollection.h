@@ -11,36 +11,36 @@ namespace zt
 
     protected:
 
-        ReflectedClassesTupleType ReflectedClasses;
+        ReflectedClassesTupleType reflectedClasses;
 
     public:
 
         constexpr ReflectedCollection() = default;
-        constexpr ReflectedCollection(ReflectedClassesTupleType ReflectedClasses)
-            : ReflectedClasses(ReflectedClasses)
+        constexpr ReflectedCollection(ReflectedClassesTupleType reflectedClasses)
+            : reflectedClasses(reflectedClasses)
         {}
 
         template<typename ReflectedClassType>
         ReflectedCollection<ConcatTwoTupleTypes<ReflectedClassesTupleType, MakeReflectedClassTuple<ReflectedClassType>>>
-            RegisterClass(ReflectedClassType ReflectedClass);
+            registerClass(ReflectedClassType reflectedClass);
 
-        const ReflectedClassesTupleType& GetReflectedClasses() const;
+        const ReflectedClassesTupleType& getReflectedClasses() const;
 
     };
 
     template<typename ReflectedClassesTupleType>
     template<typename ReflectedClassType>
     ReflectedCollection<ConcatTwoTupleTypes<ReflectedClassesTupleType, MakeReflectedClassTuple<ReflectedClassType>>>
-        ReflectedCollection<ReflectedClassesTupleType>::RegisterClass(ReflectedClassType ReflectedClass)
+        ReflectedCollection<ReflectedClassesTupleType>::registerClass(ReflectedClassType reflectedClass)
     {
-        return { std::tuple_cat(ReflectedClasses, MakeReflectedClassTuple<ReflectedClassType>(ReflectedClass)) };
+        return { std::tuple_cat(reflectedClasses, MakeReflectedClassTuple<ReflectedClassType>(reflectedClass)) };
     }
 
     template<typename ReflectedClassesTupleType>
     const ReflectedClassesTupleType&
-        ReflectedCollection<ReflectedClassesTupleType>::GetReflectedClasses() const
+        ReflectedCollection<ReflectedClassesTupleType>::getReflectedClasses() const
     {
-        return ReflectedClasses;
+        return reflectedClasses;
     }
 
 }

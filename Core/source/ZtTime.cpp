@@ -4,81 +4,81 @@ namespace zt
 {
 
 	Time::Time()
-		: TimeAsNanoseconds(0.f)
+		: timeAsNanoseconds(0.f)
 	{
 
 	}
 
-	Time::Time(NumericType Nanoseconds)
-		: TimeAsNanoseconds(Nanoseconds)
+	Time::Time(NumericType nanoseconds)
+		: timeAsNanoseconds(nanoseconds)
 	{
 
 	}
 
-	Time& Time::operator=(NumericType Nanoseconds)
+	Time& Time::operator=(NumericType nanoseconds)
 	{
-		this->TimeAsNanoseconds = Nanoseconds;
+		timeAsNanoseconds = nanoseconds;
 		return *this;
 	}
 
-	Time::NumericType Time::GetAsNanoseconds() const
+	Time::NumericType Time::getAsNanoseconds() const
 	{
-		return TimeAsNanoseconds;
+		return timeAsNanoseconds;
 	}
 
-	Time::NumericType Time::GetAsMicroseconds() const
+	Time::NumericType Time::getAsMicroseconds() const
 	{
-		return TimeAsNanoseconds / NanosecondsInMicrosecond;
+		return timeAsNanoseconds / NanosecondsInMicrosecond;
 	}
 
-	Time::NumericType Time::GetAsMilliseconds() const
+	Time::NumericType Time::getAsMilliseconds() const
 	{
-		return GetAsMicroseconds() / MicrosecondsInMillisecond;
+		return getAsMicroseconds() / MicrosecondsInMillisecond;
 	}
 
-	Time::NumericType Time::GetAsSeconds() const
+	Time::NumericType Time::getAsSeconds() const
 	{
-		return GetAsMilliseconds() / MillisecondsInSecond;
+		return getAsMilliseconds() / MillisecondsInSecond;
 	}
 
-	Time::NumericType Time::GetAsMinutes() const
+	Time::NumericType Time::getAsMinutes() const
 	{
-		return GetAsSeconds() / SecondsInMinute;
+		return getAsSeconds() / SecondsInMinute;
 	}
 
-	Time::NumericType Time::GetAsHours() const
+	Time::NumericType Time::getAsHours() const
 	{
-		return GetAsMinutes() / MinutesInHour;
+		return getAsMinutes() / MinutesInHour;
 	}
 
-	Time Time::FromNanoseconds(NumericType Nanoseconds)
+	Time Time::FromNanoseconds(NumericType nanoseconds)
 	{
-		return Time(Nanoseconds);
+		return Time(nanoseconds);
 	}
 
-	Time Time::FromMicroseconds(NumericType Microseconds)
+	Time Time::FromMicroseconds(NumericType microseconds)
 	{
-		return FromNanoseconds(Microseconds * NanosecondsInMicrosecond);
+		return FromNanoseconds(microseconds * NanosecondsInMicrosecond);
 	}
 
-	Time Time::FromMilliseconds(NumericType Milliseconds)
+	Time Time::FromMilliseconds(NumericType milliseconds)
 	{
-		return FromMicroseconds(Milliseconds * MicrosecondsInMillisecond);
+		return FromMicroseconds(milliseconds * MicrosecondsInMillisecond);
 	}
 
-	Time Time::FromSeconds(NumericType Seconds)
+	Time Time::FromSeconds(NumericType seconds)
 	{
-		return FromMilliseconds(Seconds * MillisecondsInSecond);
+		return FromMilliseconds(seconds * MillisecondsInSecond);
 	}
 
-	Time Time::FromMinutes(NumericType Minutes)
+	Time Time::FromMinutes(NumericType minutes)
 	{
-		return FromSeconds(Minutes * SecondsInMinute);
+		return FromSeconds(minutes * SecondsInMinute);
 	}
 
-	Time Time::FromHours(NumericType Hours)
+	Time Time::FromHours(NumericType hours)
 	{
-		return FromMinutes(Hours * SecondsInMinute);
+		return FromMinutes(hours * SecondsInMinute);
 	}
 
 }

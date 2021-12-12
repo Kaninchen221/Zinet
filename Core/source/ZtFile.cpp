@@ -5,40 +5,40 @@ namespace zt
 
 	File::~File() noexcept
 	{
-		if (IsOpen())
+		if (isOpen())
 		{
-			Close();
+			close();
 		}
 	}
 
-	void File::Open(const FileFinder::Path& FilePath, FileOpenMode OpenMode)
+	void File::open(const FileFinder::Path& filePath, FileOpenMode openMode)
 	{
-		std::ios_base::openmode StdOpenMode = ToStdOpenMode(OpenMode);
-		FileStream.open(FilePath, StdOpenMode);
+		std::ios_base::openmode stdOpenMode = ToStdOpenMode(openMode);
+		fileStream.open(filePath, stdOpenMode);
 	}
 
-	bool File::IsOpen() const
+	bool File::isOpen() const
 	{
-		return FileStream.is_open();
+		return fileStream.is_open();
 	}
 
-	std::string File::ReadLine()
+	std::string File::readLine()
 	{
-		std::string Line;
-		std::getline(FileStream, Line);
-		return Line;
+		std::string line;
+		std::getline(fileStream, line);
+		return line;
 	}
 
-	std::string File::ReadAll()
+	std::string File::readAll()
 	{
-		std::string Line;
-		std::getline(FileStream, Line, '\0');
-		return Line;
+		std::string line;
+		std::getline(fileStream, line, '\0');
+		return line;
 	}
 
-	std::ios_base::openmode File::ToStdOpenMode(FileOpenMode OpenMode)
+	std::ios_base::openmode File::ToStdOpenMode(FileOpenMode openMode)
 	{
-		switch (OpenMode)
+		switch (openMode)
 		{
 		case FileOpenMode::App:
 			return std::ios_base::app;
@@ -63,9 +63,9 @@ namespace zt
 		}
 	}
 
-	void File::Close()
+	void File::close()
 	{
-		FileStream.close();
+		fileStream.close();
 	}
 
 }

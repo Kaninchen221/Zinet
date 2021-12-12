@@ -4,32 +4,32 @@
 namespace zt
 {
 
-	void Clock::Start()
+	void Clock::start()
 	{
-		SavedTimePoint = UnderlyingClock::now();
+		savedTimePoint = UnderlyingClock::now();
 	}
 
-	Time Clock::Restart()
+	Time Clock::restart()
 	{
-		Time ElapsedTime = GetElapsedTime();
-		SavedTimePoint = UnderlyingClock::now();
-		return ElapsedTime;
+		Time elapsedTime = getElapsedTime();
+		savedTimePoint = UnderlyingClock::now();
+		return elapsedTime;
 	}
 
-	Time Clock::GetElapsedTime() const
+	Time Clock::getElapsedTime() const
 	{
 		using Duration = std::chrono::duration<UnderlyingClock::rep, UnderlyingClock::period>;
 
-		thread_local UnderlyingClock::time_point ActualTimePoint;
-		thread_local Duration Difference;
-		thread_local Time::NumericType Nanoseconds;
-		thread_local Time Time;
+		thread_local UnderlyingClock::time_point actualTimePoint;
+		thread_local Duration difference;
+		thread_local Time::NumericType nanoseconds;
+		thread_local Time time;
 
-		ActualTimePoint = UnderlyingClock::now();
-		Difference = ActualTimePoint - SavedTimePoint;
-		Nanoseconds = static_cast<float>(std::chrono::duration_cast<std::chrono::nanoseconds>(Difference).count());
-		Time = Nanoseconds;
-		return Time;
+		actualTimePoint = UnderlyingClock::now();
+		difference = actualTimePoint - savedTimePoint;
+		nanoseconds = static_cast<float>(std::chrono::duration_cast<std::chrono::nanoseconds>(difference).count());
+		time = nanoseconds;
+		return time;
 	}
 
 }

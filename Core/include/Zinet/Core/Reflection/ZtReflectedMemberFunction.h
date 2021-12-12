@@ -13,26 +13,26 @@ namespace zt
 	public:
 
 		constexpr ReflectedMemberFunction() = default;
-		constexpr ReflectedMemberFunction(const FunctionPointerType& FunctionPointer);
+		constexpr ReflectedMemberFunction(const FunctionPointerType& functionPointer);
 
-		FunctionPointerType GetPointer() const;
+		FunctionPointerType getPointer() const;
 
 	protected:
 
-		FunctionPointerType FunctionPointer;
+		FunctionPointerType functionPointer;
 
 	};
 
 	template<typename FunctionPointerType>
-	inline constexpr ReflectedMemberFunction<FunctionPointerType>::ReflectedMemberFunction(const FunctionPointerType& FunctionPointer)
-		: FunctionPointer(FunctionPointer)
+	inline constexpr ReflectedMemberFunction<FunctionPointerType>::ReflectedMemberFunction(const FunctionPointerType& functionPointer)
+		: functionPointer(functionPointer)
 	{
 	}
 
 	template<typename FunctionPointerType>
-	inline FunctionPointerType ReflectedMemberFunction<FunctionPointerType>::GetPointer() const
+	inline FunctionPointerType ReflectedMemberFunction<FunctionPointerType>::getPointer() const
 	{
-		return FunctionPointer;
+		return functionPointer;
 	}
 
 }

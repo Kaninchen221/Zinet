@@ -3,73 +3,73 @@
 namespace zt
 {
 
-    Identifier UniqueIdentifierMaker::Reserve()
+    Identifier UniqueIdentifierMaker::reserve()
     {
-        std::optional<Identifier> OptionalUniqueIdentifier = TryReserveReleasedIdentifier();
-        if (OptionalUniqueIdentifier)
+        std::optional<Identifier> optionalUniqueIdentifier = tryReserveReleasedIdentifier();
+        if (optionalUniqueIdentifier)
         {
-            return OptionalUniqueIdentifier.value();
+            return optionalUniqueIdentifier.value();
         }
 
-        Identifier Identifier = ReserveNewIdentifier();
-        return std::move(Identifier);
+        Identifier identifier = reserveNewIdentifier();
+        return std::move(identifier);
     }
 
-    std::optional<Identifier> UniqueIdentifierMaker::TryReserveReleasedIdentifier()
+    std::optional<Identifier> UniqueIdentifierMaker::tryReserveReleasedIdentifier()
     {
-        std::vector<bool>::iterator Iterator = Numbers.begin();
-        for (size_t Index = 0; Index < Numbers.size(); ++Index)
+        std::vector<bool>::iterator iterator = numbers.begin();
+        for (size_t index = 0; index < numbers.size(); ++index)
         {
-            bool IsReserved = *Iterator;
-            if (!IsReserved)
+            bool isReserved = *iterator;
+            if (!isReserved)
             {
-                return Identifier(Index);
+                return Identifier(index);
             }
 
-            ++Iterator;
+            ++iterator;
         }
 
         return {};
     }
 
-    Identifier UniqueIdentifierMaker::ReserveNewIdentifier()
+    Identifier UniqueIdentifierMaker::reserveNewIdentifier()
     {
-        Numbers.emplace_back(true);
-        size_t NumbersSize = Numbers.size();
-        size_t NumbersLastIndex = NumbersSize - 1;
-        return Identifier(NumbersLastIndex);
+        numbers.emplace_back(true);
+        size_t numbersSize = numbers.size();
+        size_t numbersLastIndex = numbersSize - 1;
+        return Identifier(numbersLastIndex);
     }
 
-    void UniqueIdentifierMaker::Release(Identifier& Identifier)
+    void UniqueIdentifierMaker::release(Identifier& identifier)
     {
-        size_t UnderlyingNumber = Identifier.GetUnderlyingNumber();
-        size_t NumbersSize = Numbers.size();
+        size_t underlyingNumber = identifier.getUnderlyingNumber();
+        size_t numbersSize = numbers.size();
 
-        if (NumbersSize <= UnderlyingNumber)
+        if (numbersSize <= underlyingNumber)
         {
-            Logger->warn("Can't release identifier with underlying number: {0} - number is out of reserved numbers", UnderlyingNumber);
+            Logger->warn("Can't release identifier with underlying number: {0} - number is out of reserved numbers", underlyingNumber);
             return;
         }
 
-        auto IsReserved = Numbers[UnderlyingNumber];
-        if (!IsReserved)
+        auto isReserved = numbers[underlyingNumber];
+        if (!isReserved)
         {
-            Logger->warn("Can't release identifier with underlying number: {0} - number is already released", UnderlyingNumber);
+            Logger->warn("Can't release identifier with underlying number: {0} - number is already released", underlyingNumber);
             return;
         }
 
-        IsReserved = false;
+        isReserved = false;
     }
 
-    bool UniqueIdentifierMaker::IsReserved(size_t UnderlyingNumber) const
+    bool UniqueIdentifierMaker::isReserved(size_t underlyingNumber) const
     {
-        if (UnderlyingNumber >= Numbers.size())
+        if (underlyingNumber >= numbers.size())
         {
             return false;
         }
 
-        bool IsReserved = Numbers[UnderlyingNumber];
-        return IsReserved;
+        bool isReserved = numbers[underlyingNumber];
+        return isReserved;
     }
 
 }

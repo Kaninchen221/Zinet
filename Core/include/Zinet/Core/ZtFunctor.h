@@ -5,7 +5,7 @@
 namespace zt
 {
 
-	struct Functor
+	struct ZINET_CORE_API Functor
 	{
 		virtual void operator() () {}
 	};
@@ -15,18 +15,18 @@ namespace zt
 	#define ZINET_MAKE_FUNCTOR(CLASS_NAME, FUNCTION_NAME) ZINET_MAKE_FUNCTOR_PRIVATE(CLASS_NAME, FUNCTION_NAME, ZINET_FUNCTOR_AFFIX)
 	
 	#define ZINET_MAKE_FUNCTOR_PRIVATE(CLASS_NAME, FUNCTION_NAME, FUNCTOR_AFFIX) \
-	struct ZINET_CONCAT3(CLASS_NAME, ZINET_FUNCTOR_AFFIX, FUNCTION_NAME) : public Functor \
+	struct ZINET_CORE_API ZINET_CONCAT3(CLASS_NAME, ZINET_FUNCTOR_AFFIX, FUNCTION_NAME) : public Functor \
 	{ \
 		\
-		ZINET_CONCAT3(CLASS_NAME, ZINET_FUNCTOR_AFFIX, FUNCTION_NAME)(CLASS_NAME& Object) : Object(Object) {} \
+		ZINET_CONCAT3(CLASS_NAME, ZINET_FUNCTOR_AFFIX, FUNCTION_NAME)(CLASS_NAME& object) : object(object) {} \
 		\
 		void operator() () override \
 		{ \
-			Object.FUNCTION_NAME(); \
+			object.FUNCTION_NAME(); \
 		} \
 		\
 	private: \
-		CLASS_NAME& Object; \
+		CLASS_NAME& object; \
 	}; \
 
 }

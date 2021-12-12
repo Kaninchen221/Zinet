@@ -17,26 +17,26 @@ namespace zt
 		using InternalMemberPointerType = MemberPointerType;
 	
 		constexpr ReflectedMemberProperty() = default;
-		constexpr ReflectedMemberProperty(MemberPointerType MemberPointer);
+		constexpr ReflectedMemberProperty(MemberPointerType memberPointer);
 	
-		MemberPointerType GetPointer() const;
+		MemberPointerType getPointer() const;
 	
 	protected:
 	
-		MemberPointerType MemberPointer;
+		MemberPointerType memberPointer;
 	
 	};
 	
 	template<typename MemberPointerType>
-	inline constexpr ReflectedMemberProperty<MemberPointerType>::ReflectedMemberProperty(MemberPointerType MemberPointer)
-		: MemberPointer(MemberPointer)
+	inline constexpr ReflectedMemberProperty<MemberPointerType>::ReflectedMemberProperty(MemberPointerType memberPointer)
+		: memberPointer(memberPointer)
 	{
 	}
 	
 	template<typename MemberPointerType>
-	inline MemberPointerType ReflectedMemberProperty<MemberPointerType>::GetPointer() const
+	inline MemberPointerType ReflectedMemberProperty<MemberPointerType>::getPointer() const
 	{
-		return MemberPointer;
+		return memberPointer;
 	}
 
 }

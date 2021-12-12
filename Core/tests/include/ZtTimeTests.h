@@ -11,11 +11,11 @@ namespace zt::tests
     {
     protected:
 
-        const Time::NumericType BaseValue = 60000000000000.f;
-        Time Time;
+        const Time::NumericType baseValue = 60000000000000.f;
+        Time time;
 
         TimeTests()
-            : Time(BaseValue)
+            : time(baseValue)
         {
         }
 
@@ -32,110 +32,110 @@ namespace zt::tests
 
     TEST_F(TimeTests, AssignTest)
     {
-        Time::NumericType ExpectedValue = 69404.f;
-        Time = ExpectedValue;
+        Time::NumericType expectedValue = 69404.f;
+        time = expectedValue;
     
-        Time::NumericType Nanoseconds = Time.GetAsNanoseconds();
+        Time::NumericType nanoseconds = time.getAsNanoseconds();
     
-        ASSERT_FLOAT_EQ(ExpectedValue, Nanoseconds);
+        ASSERT_FLOAT_EQ(expectedValue, nanoseconds);
     }
     
     TEST_F(TimeTests, NanosecondsTest)
     {
-        Time::NumericType Nanoseconds = Time.GetAsNanoseconds();
-        ASSERT_FLOAT_EQ(BaseValue, Nanoseconds);
+        Time::NumericType nanoseconds = time.getAsNanoseconds();
+        ASSERT_FLOAT_EQ(baseValue, nanoseconds);
     }
     
     TEST_F(TimeTests, MicrosecondsTest)
     {
-        Time::NumericType ExpectedValue = BaseValue / 1000.f;
-        Time::NumericType Microseconds = Time.GetAsMicroseconds();
-        ASSERT_FLOAT_EQ(ExpectedValue, Microseconds);
+        Time::NumericType expectedValue = baseValue / 1000.f;
+        Time::NumericType microseconds = time.getAsMicroseconds();
+        ASSERT_FLOAT_EQ(expectedValue, microseconds);
     }
     
     TEST_F(TimeTests, MillisecondsTest)
     {
-        Time::NumericType ExpectedValue = BaseValue / 1000.f / 1000.f;
-        Time::NumericType Milliseconds = Time.GetAsMilliseconds();
+        Time::NumericType expectedValue = baseValue / 1000.f / 1000.f;
+        Time::NumericType milliseconds = time.getAsMilliseconds();
     
-        ASSERT_FLOAT_EQ(ExpectedValue, Milliseconds);
+        ASSERT_FLOAT_EQ(expectedValue, milliseconds);
     }
     
     TEST_F(TimeTests, SecondsTest)
     {
-        Time::NumericType ExpectedValue = BaseValue / 1000.f / 1000.f / 1000.f;
-        Time::NumericType Seconds = Time.GetAsSeconds();
+        Time::NumericType expectedValue = baseValue / 1000.f / 1000.f / 1000.f;
+        Time::NumericType seconds = time.getAsSeconds();
     
-        ASSERT_FLOAT_EQ(ExpectedValue, Seconds);
+        ASSERT_FLOAT_EQ(expectedValue, seconds);
     }
     
     TEST_F(TimeTests, MinutesTest)
     {
-        Time::NumericType ExpectedValue = BaseValue / 1000.f / 1000.f / 1000.f / 60.f;
-        Time::NumericType Minutes = Time.GetAsMinutes();
+        Time::NumericType expectedValue = baseValue / 1000.f / 1000.f / 1000.f / 60.f;
+        Time::NumericType minutes = time.getAsMinutes();
     
-        ASSERT_FLOAT_EQ(ExpectedValue, Minutes);
+        ASSERT_FLOAT_EQ(expectedValue, minutes);
     }
     
     TEST_F(TimeTests, HoursTest)
     {
-        Time::NumericType ExpectedValue = BaseValue / 1000.f / 1000.f / 1000.f / 60.f / 60.f;
-        Time::NumericType Hours = Time.GetAsHours();
+        Time::NumericType expectedValue = baseValue / 1000.f / 1000.f / 1000.f / 60.f / 60.f;
+        Time::NumericType hours = time.getAsHours();
     
-        ASSERT_FLOAT_EQ(ExpectedValue, Hours);
+        ASSERT_FLOAT_EQ(expectedValue, hours);
     }
     
     TEST_F(TimeTests, FromNanoseconds)
     {
-        Time::NumericType ExpectedNanoseconds = 100.f;
-        zt::Time ActualTime = Time::FromNanoseconds(ExpectedNanoseconds);
-        Time::NumericType ActualNanoseconds = ActualTime.GetAsNanoseconds();
+        Time::NumericType expectedNanoseconds = 100.f;
+        zt::Time actualTime = Time::FromNanoseconds(expectedNanoseconds);
+        Time::NumericType actualNanoseconds = actualTime.getAsNanoseconds();
     
-        ASSERT_FLOAT_EQ(ExpectedNanoseconds, ActualNanoseconds);
+        ASSERT_FLOAT_EQ(expectedNanoseconds, actualNanoseconds);
     }
     
     TEST_F(TimeTests, FromMicroseconds)
     {
-        Time::NumericType ExpectedMicroseconds = 100.f;
-        zt::Time ActualTime = Time::FromMicroseconds(ExpectedMicroseconds);
-        Time::NumericType ActualMicroseconds = ActualTime.GetAsMicroseconds();
+        Time::NumericType expectedMicroseconds = 100.f;
+        zt::Time actualTime = Time::FromMicroseconds(expectedMicroseconds);
+        Time::NumericType actualMicroseconds = actualTime.getAsMicroseconds();
     
-        ASSERT_FLOAT_EQ(ExpectedMicroseconds, ActualMicroseconds);
+        ASSERT_FLOAT_EQ(expectedMicroseconds, actualMicroseconds);
     }
     
     TEST_F(TimeTests, FromMilliseconds)
     {
-        Time::NumericType ExpectedMilliseconds = 100.f;
-        zt::Time ActualTime = Time::FromMilliseconds(ExpectedMilliseconds);
-        Time::NumericType ActualMilliseconds = ActualTime.GetAsMilliseconds();
+        Time::NumericType expectedMilliseconds = 100.f;
+        zt::Time actualTime = Time::FromMilliseconds(expectedMilliseconds);
+        Time::NumericType actualMilliseconds = actualTime.getAsMilliseconds();
     
-        ASSERT_FLOAT_EQ(ExpectedMilliseconds, ActualMilliseconds);
+        ASSERT_FLOAT_EQ(expectedMilliseconds, actualMilliseconds);
     }
     
     TEST_F(TimeTests, FromSeconds)
     {
-        Time::NumericType ExpectedSeconds = 100.f;
-        zt::Time ActualTime = Time::FromSeconds(ExpectedSeconds);
-        Time::NumericType ActualSeconds = ActualTime.GetAsSeconds();
+        Time::NumericType expectedSeconds = 100.f;
+        zt::Time actualTime = Time::FromSeconds(expectedSeconds);
+        Time::NumericType actualSeconds = actualTime.getAsSeconds();
     
-        ASSERT_FLOAT_EQ(ExpectedSeconds, ActualSeconds);
+        ASSERT_FLOAT_EQ(expectedSeconds, actualSeconds);
     }
     
     TEST_F(TimeTests, FromMinutes)
     {
-        Time::NumericType ExpectedMinutes = 100.f;
-        zt::Time ActualTime = Time::FromMinutes(ExpectedMinutes);
-        Time::NumericType ActualMinutes = ActualTime.GetAsMinutes();
+        Time::NumericType expectedMinutes = 100.f;
+        zt::Time actualTime = Time::FromMinutes(expectedMinutes);
+        Time::NumericType actualMinutes = actualTime.getAsMinutes();
     
-        ASSERT_FLOAT_EQ(ExpectedMinutes, ActualMinutes);
+        ASSERT_FLOAT_EQ(expectedMinutes, actualMinutes);
     }
     
     TEST_F(TimeTests, FromHours)
     {
-        Time::NumericType ExpectedHours = 100.f;
-        zt::Time ActualTime = Time::FromHours(ExpectedHours);
-        Time::NumericType ActualHours = ActualTime.GetAsHours();
+        Time::NumericType expectedHours = 100.f;
+        zt::Time actualTime = Time::FromHours(expectedHours);
+        Time::NumericType actualHours = actualTime.getAsHours();
     
-        ASSERT_FLOAT_EQ(ExpectedHours, ActualHours);
+        ASSERT_FLOAT_EQ(expectedHours, actualHours);
     }
 }

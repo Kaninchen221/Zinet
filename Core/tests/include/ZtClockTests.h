@@ -28,36 +28,36 @@ namespace zt::tests
         {
         }
 
-        Clock Clock;
+        Clock clock;
     };
 
     TEST_F(ClockTests, StartTest)
     {
 
-        Time::NumericType GreaterThan = 0u;
-        Time::NumericType LessThan = 1000u;
+        Time::NumericType greaterThan = 0u;
+        Time::NumericType lessThan = 1000u;
 
-        Clock.Start();
-        Time Time = Clock.GetElapsedTime();
-        Time::NumericType Microseconds = Time.GetAsMicroseconds();
+        clock.start();
+        Time time = clock.getElapsedTime();
+        Time::NumericType microseconds = time.getAsMicroseconds();
 
-        ASSERT_GT(Microseconds, GreaterThan);
-        ASSERT_LT(Microseconds, LessThan);
+        ASSERT_GT(microseconds, greaterThan);
+        ASSERT_LT(microseconds, lessThan);
     }
 
     TEST_F(ClockTests, RestartTest)
     {
 
-        Clock.Start();
+        clock.start();
 
-        Time::NumericType GreaterThan = 0u;
-        Time::NumericType LessThan = 1000u;
+        Time::NumericType greaterThan = 0u;
+        Time::NumericType lessThan = 1000u;
 
-        Time Time = Clock.Restart();
-        Time::NumericType Microseconds = Time.GetAsMicroseconds();
+        Time time = clock.restart();
+        Time::NumericType microseconds = time.getAsMicroseconds();
 
-        ASSERT_GT(Microseconds, GreaterThan);
-        ASSERT_LT(Microseconds, LessThan);
+        ASSERT_GT(microseconds, greaterThan);
+        ASSERT_LT(microseconds, lessThan);
     }
 
 }

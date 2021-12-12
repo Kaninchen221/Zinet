@@ -16,19 +16,19 @@ namespace zt
 
     public:
 
-        Identifier Reserve();
+        Identifier reserve();
 
-        void Release(Identifier& UniqueIdentifier);
+        void release(Identifier& uniqueIdentifier);
 
-        bool IsReserved(size_t UnderlyingNumber) const;
+        bool isReserved(size_t underlyingNumber) const;
 
     protected:
 
-        std::optional<Identifier> TryReserveReleasedIdentifier();
+        std::optional<Identifier> tryReserveReleasedIdentifier();
 
-        Identifier ReserveNewIdentifier();
+        Identifier reserveNewIdentifier();
 
-        std::vector<bool> Numbers;
+        std::vector<bool> numbers;
 
     };
 

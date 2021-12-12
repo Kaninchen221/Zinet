@@ -23,13 +23,13 @@ namespace zt
 
 		~Clock() = default;
 
-		void Start();
-		Time Restart();
-		Time GetElapsedTime() const;
+		void start();
+		Time restart();
+		Time getElapsedTime() const;
 
 	private:
 
-		UnderlyingClock::time_point SavedTimePoint;
+		UnderlyingClock::time_point savedTimePoint;
 	};
 
 }

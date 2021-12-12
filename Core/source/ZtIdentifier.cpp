@@ -3,34 +3,34 @@
 namespace zt
 {
 
-    Identifier::Identifier(size_t Identifier)
+    Identifier::Identifier(size_t identifier)
     {
-        UnderlyingNumber = Identifier;
+        underlyingNumber = identifier;
     }
 
-    size_t Identifier::GetUnderlyingNumber() const noexcept
+    size_t Identifier::getUnderlyingNumber() const noexcept
     {
-        return UnderlyingNumber;
+        return underlyingNumber;
     }
 
-    Identifier::Identifier(Identifier& Other)
+    Identifier::Identifier(Identifier& other)
     {
-        *this = Other;
+        *this = other;
     }
 
-    Identifier& Identifier::operator=(Identifier& Other)
+    Identifier& Identifier::operator=(Identifier& other)
     {
-        UnderlyingNumber = Other.UnderlyingNumber;
-        Other.UnderlyingNumber = Invalid;
+        underlyingNumber = other.underlyingNumber;
+        other.underlyingNumber = Invalid;
         return *this;
     }
 
-    Identifier::Identifier(Identifier&& Other)
+    Identifier::Identifier(Identifier&& other)
     {
-        *this = Other;
+        *this = other;
     }
 
-    Identifier& Identifier::operator=(Identifier&& Other)
+    Identifier& Identifier::operator=(Identifier&& other)
     {
         return *this;
     }

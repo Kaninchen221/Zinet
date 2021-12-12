@@ -3,7 +3,7 @@
 namespace zt
 {
 
-    enum class EndPlayReason
+    enum class ZINET_CORE_API EndPlayReason
     {
         Destroyed
     };

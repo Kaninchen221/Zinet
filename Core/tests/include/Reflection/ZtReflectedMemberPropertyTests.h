@@ -11,16 +11,16 @@ namespace zt::tests
 	protected:
 
 		ReflectedMemberPropertyTests()
-			: FloatReflectedMemberProperty(&ReflectionTestStruct::FloatMember)
+			: floatReflectedMemberProperty(&ReflectionTestStruct::floatMember)
 		{}
 
-		ReflectionTestStruct ClassObject;
-		ReflectedMemberProperty<float ReflectionTestStruct::*> FloatReflectedMemberProperty;
+		ReflectionTestStruct classObject;
+		ReflectedMemberProperty<float ReflectionTestStruct::*> floatReflectedMemberProperty;
 	};
 
 	TEST_F(ReflectedMemberPropertyTests, GetPointerTest)
 	{
-		float ReflectionTestStruct::* Pointer = FloatReflectedMemberProperty.GetPointer();
+		float ReflectionTestStruct::* pointer = floatReflectedMemberProperty.getPointer();
 	}
 
 }

@@ -3,29 +3,29 @@
 namespace zt
 {
 
-    void Object::BeginPlay(BeginPlayReason Reason)
+    void Object::beginPlay(BeginPlayReason reason)
     {
 
     }
 
-    void Object::EndPlay(EndPlayReason Reason)
+    void Object::endPlay(EndPlayReason reason)
     {
 
     }
 
-    void Object::Tick(float DeltaTime)
+    void Object::tick(float deltaTime)
     {
 
     }
 
-    bool Object::GetShouldTick() const
+    bool Object::getShouldTick() const
     {
-        return bShouldTick;
+        return shouldTick;
     }
 
-    void Object::SetShouldTick(bool Value)
+    void Object::setShouldTick(bool value)
     {
-        bShouldTick = Value;
+        shouldTick = value;
     }
 
 }
