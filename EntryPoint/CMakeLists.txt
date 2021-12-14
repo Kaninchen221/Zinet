@@ -24,6 +24,6 @@ set_target_properties(ZtEntryPoint PROPERTIES
 
 target_include_directories(ZtEntryPoint PRIVATE ${SFML_INCLUDE_DIRS} ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS})
 
-target_link_libraries(ZtEntryPoint PUBLIC spdlog Glad glfw ZtGraphicLayer ${Vulkan_LIBRARIES})
+target_link_libraries(ZtEntryPoint PUBLIC spdlog glfw ZtGraphicLayer ${Vulkan_LIBRARIES})
 
 target_compile_definitions(ZtEntryPoint PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")

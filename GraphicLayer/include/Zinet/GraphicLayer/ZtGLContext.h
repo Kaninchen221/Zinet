@@ -27,21 +27,12 @@ namespace zt::gl
 
 		void deinitGLFW();
 
-		bool initGLAD();
-
-		bool initOpenGL();
-
 		static void FillMode();
 
 		static void PolygonOnlyMode();
 
 		static void PointsMode();
 
-		static std::string GetSourceAsString(GLenum source);
-
-		static std::string GetTypeAsString(GLenum type);
-
-		static std::string GetSeverityAsString(GLenum severity);
 	};
 
 }

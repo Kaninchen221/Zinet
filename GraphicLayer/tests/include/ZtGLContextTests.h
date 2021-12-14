@@ -53,4 +53,9 @@ namespace zt::gl::tests
 		Context::PointsMode();
 	}
 
+	TEST_F(GLContextTests, CreateInstanceTest)
+	{
+		context.initGLFW();
+		
+	}
 }

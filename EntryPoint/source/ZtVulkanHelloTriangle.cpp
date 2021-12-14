@@ -10,11 +10,6 @@ void ZtVulkanHelloTriangle::Run()
 
 void ZtVulkanHelloTriangle::InitWindow()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // Not create OpenGL context
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-	Window = glfwCreateWindow(Width, Height, "Vulkan", nullptr, nullptr);
 }
 
 void ZtVulkanHelloTriangle::InitVulkan()
@@ -117,10 +112,7 @@ std::vector<const char*> ZtVulkanHelloTriangle::GetRequiredExtensions()
 
 void ZtVulkanHelloTriangle::MainLoop()
 {
-	while (!glfwWindowShouldClose(Window)) 
-	{
-		glfwPollEvents();
-	}
+	
 }
 
 void ZtVulkanHelloTriangle::Cleanup()
@@ -128,10 +120,6 @@ void ZtVulkanHelloTriangle::Cleanup()
 	if (EnableValidationLayers) {
 		DestroyDebugUtilsMessengerEXT(Instance, DebugMessenger, nullptr);
 	}
-
-	glfwDestroyWindow(Window);
-
-	glfwTerminate();
 }
 
 void ZtVulkanHelloTriangle::SetupDebugMessenger()

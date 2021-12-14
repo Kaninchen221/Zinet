@@ -1,22 +1,32 @@
-//#include "ZtEntryPoint.h"
 #include "ZtVulkanHelloTriangle.h"
+
+#include "Zinet/GraphicLayer/ZtWindow.h"
 
 int main()
 {
-    //ZtEntryPoint EntryPoint;
-    //EntryPoint.Start();
 
-    ZtVulkanHelloTriangle App;
+	zt::gl::Window window;
+	window.createWindow();
 
-    try 
-    {
-        App.Run();
-    }
-    catch (const std::exception& Ex) 
-    {
-        std::cerr << Ex.what() << std::endl;
-        return EXIT_FAILURE;
-    }
+	while (!window.shouldBeClosed())
+	{
+		window.clear();
 
-    return EXIT_SUCCESS;
+        zt::gl::Event* Event = window.getEvent();
+        Event->pollEvents();
+
+        zt::gl::Keyboard* Keyboard = Event->getKeyboard();
+        zt::gl::Mouse* Mouse = Event->getMouse();
+
+        if (Keyboard->isPressed(zt::gl::KeyboardKey::ESCAPE))
+        {
+            GLFWwindow* WindowPointer = window.getInternalWindow();
+            glfwSetWindowShouldClose(WindowPointer, true);
+        }
+
+
+		window.swapBuffers();
+	}
+
+    return 0;
 }

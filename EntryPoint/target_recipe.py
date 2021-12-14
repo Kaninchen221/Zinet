@@ -17,7 +17,6 @@ EntryPoint.include_dirs_list = [
 ]
 EntryPoint.link_libraries_list = [
     "spdlog",
-    "Glad",
     "glfw",
     "ZtGraphicLayer",
     "${Vulkan_LIBRARIES}"

@@ -25,7 +25,7 @@
 
 class ZtEntryPoint
 {
-	ZtLogger::SimpleConsoleLogger Logger = ZtLogger::CreateSimpleConsoleLogger("ZtEntryPoint");
+	zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("ZtEntryPoint");
 
 public:
 
@@ -41,16 +41,16 @@ protected:
 
 	void PrepareShader();
 
-	Window Window;
+	zt::gl::Window window;
 
-	VertexArray VAO;
-	VertexBuffer VBO;
-	ElementBuffer EBO;
-	Shader VertexShader;
-	Shader FragmentShader;
-	Program Program;
-	Texture Texture0;
-	Texture Texture1;
+	zt::gl::VertexArray VAO;
+	zt::gl::VertexBuffer VBO;
+	zt::gl::ElementBuffer EBO;
+	zt::gl::Shader VertexShader;
+	zt::gl::Shader FragmentShader;
+	zt::gl::Program Program;
+	zt::gl::Texture Texture0;
+	zt::gl::Texture Texture1;
 
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 View = glm::mat4(1.0f);

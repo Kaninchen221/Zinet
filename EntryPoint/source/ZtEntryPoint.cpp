@@ -4,39 +4,39 @@ void ZtEntryPoint::Start()
 {
     Init();
     
-    while (!Window.ShouldBeClosed())
+    while (!window.shouldBeClosed())
     {
         ProcessInput();
     
         Rendering();
     }
     
-    VAO.Delete();
-    EBO.Delete();
-    VBO.Delete();
-    Texture0.Delete();
+    VAO.deleteResource();
+    EBO.deleteResource();
+    VBO.deleteResource();
+    Texture0.deleteResource();
     
-    Program.Delete();
+    Program.deleteResource();
 }
 
 void ZtEntryPoint::Init()
 {
-    Window.CreateWindow();
-    Window.InitStb();
+    window.createWindow();
+    window.initStb();
 
-    GLFWwindow* WindowPointer = Window.GetInternalWindow();
+    GLFWwindow* windowPointer = window.getInternalWindow();
 
     // Fix problem with not valid vertices positions
     int Width, Height;
-    glfwGetFramebufferSize(WindowPointer, &Width, &Height);
-    Window.SetViewport(0, 0, Width, Height);
+    glfwGetFramebufferSize(windowPointer, &Width, &Height);
+    window.setViewport(0, 0, Width, Height);
     // End Fix
 
-    Window.SetClearColor(0.1f, 0.1f, 0.1f, 1.f);
+    window.setClearColor(0.1f, 0.1f, 0.1f, 1.f);
 
     PrepareShader();
 
-    std::vector<Vertex> Vertices {
+    std::vector<zt::gl::Vertex> Vertices {
         {{ -0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f}}, // 0
         {{ -0.5f, -0.5f, 0.5f },  { 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f}}, // 1
         {{ 0.5f, -0.5f, 0.5f },   { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f}}, // 2
@@ -68,33 +68,33 @@ void ZtEntryPoint::Init()
         3, 7, 4,  //0, 0, 0,
     };
 
-    ZtFileFinder FileFinder;
-    ZtFileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
+    zt::FileFinder FileFinder;
+    zt::FileFinder::Path RootPath = FileFinder.currentProjectRootPath();
 
-    Texture0.Generate();
-    Texture0.Bind();
-    ZtFileFinder::Path TexturePath = RootPath / "Textures" / "checker.png";
-    Texture0.LoadFromFile(TexturePath);
-    Texture0.GenerateMipmap();
+    Texture0.generate();
+    Texture0.bind();
+    zt::FileFinder::Path TexturePath = RootPath / "Textures" / "checker.png";
+    Texture0.loadFromFile(TexturePath);
+    Texture0.generateMipmap();
 
-    VAO.Generate();
-    VBO.Generate();
-    EBO.Generate();
+    VAO.generate();
+    VBO.generate();
+    EBO.generate();
 
-    VAO.Bind();
+    VAO.bind();
 
-    VBO.Bind();
-    VBO.SetData(Vertices, BufferUsage::Static);
+    VBO.bind();
+    VBO.setData(Vertices, zt::gl::BufferUsage::Static);
 
-    EBO.Bind();
-    EBO.SetData(Indices, BufferUsage::Static);
+    EBO.bind();
+    EBO.setData(Indices, zt::gl::BufferUsage::Static);
 
-    Program.PrepareAttributes();
+    Program.prepareAttributes();
 
-    Program.Use();
+    Program.use();
 
-    VertexShader.Delete();
-    FragmentShader.Delete();
+    VertexShader.deleteResource();
+    FragmentShader.deleteResource();
 
     // Lesson about matrices
     glm::mat4 Translate = glm::mat4(1.0f); // Identity Matrix
@@ -110,53 +110,53 @@ void ZtEntryPoint::Init()
     //glm::mat4 Orthographic = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 
     Model = glm::rotate(Model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    Program.SetUniformMatrix4f("Model", Model);
+    Program.setUniformMatrix4f("Model", Model);
 
     View = glm::translate(View, glm::vec3(0.0f, 0.0f, -3.0f)); // note that we're translating the scene in the reverse direction of where we want to move
-    Program.SetUniformMatrix4f("View", View);
+    Program.setUniformMatrix4f("View", View);
 
     Projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    Program.SetUniformMatrix4f("Projection", Projection);
+    Program.setUniformMatrix4f("Projection", Projection);
 
     // MVP end
 }
 
 void ZtEntryPoint::ProcessInput()
 {
-    Event* Event = Window.GetEvent();
-    Keyboard* Keyboard = Event->GetKeyboard();
-    Mouse* Mouse = Event->GetMouse();
+    zt::gl::Event* Event = window.getEvent();
+    zt::gl::Keyboard* Keyboard = Event->getKeyboard();
+    zt::gl::Mouse* Mouse = Event->getMouse();
     //Logger->info("{0} : {1}", Mouse->GetPositionEvents()[0].Position.x, Mouse->GetPositionEvents()[0].Position.y);
 
-    GLFWwindow* WindowPointer = Window.GetInternalWindow();
+    GLFWwindow* WindowPointer = window.getInternalWindow();
 
-    if (Keyboard->IsPressed(KeyboardKey::ESCAPE))
+    if (Keyboard->isPressed(zt::gl::KeyboardKey::ESCAPE))
     {
         glfwSetWindowShouldClose(WindowPointer, true);
     }
-    else if (Keyboard->IsPressed(KeyboardKey::F1))
+    else if (Keyboard->isPressed(zt::gl::KeyboardKey::F1))
     {
-        Context::FillMode();
+        zt::gl::Context::FillMode();
     }
-    else if (Keyboard->IsPressed(KeyboardKey::F2))
+    else if (Keyboard->isPressed(zt::gl::KeyboardKey::F2))
     {
-        Context::PolygonOnlyMode();
+        zt::gl::Context::PolygonOnlyMode();
     }
-    else if (Keyboard->IsPressed(KeyboardKey::F3))
+    else if (Keyboard->isPressed(zt::gl::KeyboardKey::F3))
     {
-        Context::PointsMode();
+        zt::gl::Context::PointsMode();
     }
 
-    Event->PollEvents();
+    Event->pollEvents();
 }
 
 void ZtEntryPoint::Rendering()
 {
-    Window.Clear();
+    window.clear();
 
-    Event* Event = Window.GetEvent();
-    Mouse* Mouse = Event->GetMouse();
-    const std::vector<MouseButtonEvent>& MouseEvents = Mouse->GetButtonsEvents();
+    zt::gl::Event* Event = window.getEvent();
+    zt::gl::Mouse* Mouse = Event->getMouse();
+    const std::vector<zt::gl::MouseButtonEvent>& MouseEvents = Mouse->getButtonsEvents();
 
     thread_local float PreviousTime = 0.f;
     float Time = (float)glfwGetTime();// -PreviousTime;
@@ -169,54 +169,54 @@ void ZtEntryPoint::Rendering()
         Model = glm::translate(Model, CubePositions[I]);
         float Angle = 20.0f * I;
         Model = glm::rotate(Model, Time * glm::radians(50.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-        int ModelLocation = Program.GetUniform("Model");
-        glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
+        int ModelLocation = Program.getUniform("Model");
+        //glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
 
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        //glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     }
 
-    Window.SwapBuffers();
+    window.swapBuffers();
 }
 
 void ZtEntryPoint::PrepareShader()
 {
-    ZtFileFinder FileFinder;
-    ZtFileFinder::Path RootPath = FileFinder.CurrentProjectRootPath();
+    zt::FileFinder FileFinder;
+    zt::FileFinder::Path RootPath = FileFinder.currentProjectRootPath();
 
-    VertexShader.Create(ShaderType::Vertex);
-    ZtFileFinder::Path VertexShaderFilePath = RootPath / "Shaders" / "shader.vert";
-    VertexShader.LoadFromFile(VertexShaderFilePath.string());
-    VertexShader.Compile();
+    VertexShader.create(zt::gl::ShaderType::Vertex);
+    zt::FileFinder::Path VertexShaderFilePath = RootPath / "Shaders" / "shader.vert";
+    VertexShader.loadFromFile(VertexShaderFilePath.string());
+    VertexShader.compile();
 
-    bool VertexShaderCompileStatus = VertexShader.CompileStatus();
+    bool VertexShaderCompileStatus = VertexShader.compileStatus();
     if (!VertexShaderCompileStatus)
     {
-        std::string Message = VertexShader.CompileErrorMessage();
+        std::string Message = VertexShader.compileErrorMessage();
         Logger->error("Invalid Vertex Shader {0}", Message);
         return;
     }
 
-    FragmentShader.Create(ShaderType::Fragment);
-    ZtFileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
-    FragmentShader.LoadFromFile(FragmentShaderFilePath.string());
-    FragmentShader.Compile();
+    FragmentShader.create(zt::gl::ShaderType::Fragment);
+    zt::FileFinder::Path FragmentShaderFilePath = RootPath / "Shaders" / "shader.frag";
+    FragmentShader.loadFromFile(FragmentShaderFilePath.string());
+    FragmentShader.compile();
 
-    bool FragmentShaderCompileStatus = FragmentShader.CompileStatus();
+    bool FragmentShaderCompileStatus = FragmentShader.compileStatus();
     if (!FragmentShaderCompileStatus)
     {
-        std::string Message = FragmentShader.CompileErrorMessage();
+        std::string Message = FragmentShader.compileErrorMessage();
         Logger->error("Invalid Fragment Shader {0}", Message);
         return;
     }
 
-    Program.Create();
-    Program.AttachShader(VertexShader);
-    Program.AttachShader(FragmentShader);
-    Program.Link();
+    Program.create();
+    Program.attachShader(VertexShader);
+    Program.attachShader(FragmentShader);
+    Program.link();
 
-    if (!Program.IsValid())
+    if (!Program.isValid())
     {
-        std::string InfoLog = Program.InfoLog();
+        std::string InfoLog = Program.infoLog();
         Logger->error("Problem with Program {0}", InfoLog);
         return;
     }
