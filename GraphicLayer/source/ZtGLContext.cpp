@@ -5,6 +5,8 @@ namespace zt::gl
 
     Context::~Context() noexcept
     {
+        instance.destroy();
+        deinitGLFW();
     }
 
     bool Context::initGLFW()
@@ -32,19 +34,40 @@ namespace zt::gl
         glfwTerminate();
     }
 
-    void Context::FillMode()
+    void Context::createApplicationInfo()
     {
-
+        applicationInfo.sType = vk::StructureType::eApplicationInfo;
+        applicationInfo.pApplicationName = "Zinet";
+        applicationInfo.applicationVersion = 1;
+        applicationInfo.pEngineName = "Zinet Renderer";
+        applicationInfo.engineVersion = 1;
+        applicationInfo.apiVersion = VK_API_VERSION_1_2;
     }
 
-    void Context::PolygonOnlyMode()
+    const vk::ApplicationInfo& Context::getApplicationInfo() const
     {
-
+        return applicationInfo;
     }
 
-    void Context::PointsMode()
+    void Context::createInstanceCreateInfo()
     {
+        instanceCreateInfo.flags = {};
+        instanceCreateInfo.pApplicationInfo = &applicationInfo;
+    }
 
+    const vk::InstanceCreateInfo& Context::getInstanceCreateInfo() const
+    {
+        return instanceCreateInfo;
+    }
+
+    void Context::createInstance()
+    {
+        instance = vk::createInstance(instanceCreateInfo);
+    }
+
+    const vk::Instance& Context::getInstance() const
+    {
+        return instance;
     }
 
 }

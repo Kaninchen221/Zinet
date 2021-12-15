@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLContext.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
 
 #include "gtest/gtest.h"
 
@@ -29,33 +28,30 @@ namespace zt::gl::tests
 		context.deinitGLFW();
 	}
 
-	TEST_F(GLContextTests, FillModeTest)
+	TEST_F(GLContextTests, ApplicationInfoTest)
 	{
 		context.initGLFW();
-		Window window;
-		window.createWindow();
-		Context::FillMode();
+		context.createApplicationInfo();
+		const vk::ApplicationInfo& applicationInfo = context.getApplicationInfo();
+
+		ASSERT_NE(applicationInfo, vk::ApplicationInfo());
 	}
 
-	TEST_F(GLContextTests, PolygonOnlyModeTest)
+	TEST_F(GLContextTests, InstanceCreateInfoTest)
 	{
 		context.initGLFW();
-		Window window;
-		window.createWindow();
-		Context::PolygonOnlyMode();
-	}
+		context.createInstanceCreateInfo();
+		const vk::InstanceCreateInfo& instanceCreateInfo = context.getInstanceCreateInfo();
 
-	TEST_F(GLContextTests, PointsModeTest)
-	{
-		context.initGLFW();
-		Window window;
-		window.createWindow();
-		Context::PointsMode();
+		ASSERT_NE(instanceCreateInfo, vk::InstanceCreateInfo());
 	}
 
 	TEST_F(GLContextTests, CreateInstanceTest)
 	{
 		context.initGLFW();
-		
+		context.createInstance();
+		const vk::Instance& instance = context.getInstance();
+
+		ASSERT_NE(instance, vk::Instance());
 	}
 }

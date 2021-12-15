@@ -61,7 +61,7 @@ set_target_properties(ZtGraphicLayer PROPERTIES
 
 target_include_directories(ZtGraphicLayer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS})
 
-target_link_libraries(ZtGraphicLayer PUBLIC ZtCore spdlog glfw)
+target_link_libraries(ZtGraphicLayer PUBLIC ZtCore spdlog glfw ${Vulkan_LIBRARIES})
 
 target_compile_definitions(ZtGraphicLayer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

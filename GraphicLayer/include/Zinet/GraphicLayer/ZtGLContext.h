@@ -27,12 +27,20 @@ namespace zt::gl
 
 		void deinitGLFW();
 
-		static void FillMode();
+		void createApplicationInfo();
+		const vk::ApplicationInfo& getApplicationInfo() const;
 
-		static void PolygonOnlyMode();
+		void createInstanceCreateInfo();
+		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
-		static void PointsMode();
+		void createInstance();
+		const vk::Instance& getInstance() const;
+		
+	protected:
 
+		vk::InstanceCreateInfo instanceCreateInfo;
+		vk::ApplicationInfo applicationInfo;
+		vk::Instance instance;
 	};
 
 }
