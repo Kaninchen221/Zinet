@@ -10,6 +10,8 @@ namespace zt::gl
 	class ZINET_GRAPHIC_LAYER_API Context
 	{
 
+	protected:
+
 		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Context");
 
 	public:
@@ -36,11 +38,56 @@ namespace zt::gl
 		void createInstance();
 		const vk::Instance& getInstance() const;
 		
+		void createPhysicalDevices();
+		const std::vector<vk::PhysicalDevice>& getPhysicalDevices() const;
+
+		const std::vector<const char*>& getValidationLayers() const;
+
+		bool checkValidationLayerSupport() const;
+
+		std::vector<const char*> getRequiredExtensions();
+
+		static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
+			VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+			VkDebugUtilsMessageTypeFlagsEXT messageType,
+			const VkDebugUtilsMessengerCallbackDataEXT* callbackData,
+			void* userData);
+
+		const VkDebugUtilsMessengerEXT& getDebugMessenger() const;
+
+		void createDebugUtilsMessengerCreateInfo();
+		const VkDebugUtilsMessengerCreateInfoEXT& getDebugUtilsMessengerCreateInfo() const;
+
+		VkResult createDebugUtilsMessenger();
+
+		void destroyDebugUtilsMessengerCreateInfo();
+
+		VkResult initVulkan();
+
 	protected:
 
-		vk::InstanceCreateInfo instanceCreateInfo;
-		vk::ApplicationInfo applicationInfo;
+		vk::ApplicationInfo applicationInfo{};
+
+		vk::InstanceCreateInfo instanceCreateInfo{};
 		vk::Instance instance;
+
+		std::vector<const char*> extensions;
+
+		VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo{};
+		VkDebugUtilsMessengerEXT debugMessenger;
+
+	#ifdef ZINET_DEBUG
+		const bool enableValidationLayers = true;
+	#else
+		const bool enableValidationLayers = false;
+	#endif
+
+		const std::vector<const char*> validationLayers =
+		{
+			"VK_LAYER_KHRONOS_validation"
+		};
+
+		std::vector<vk::PhysicalDevice> physicalDevices;
 	};
 
 }

@@ -28,3 +28,7 @@
 
 /// Turn On/Off Debug UI
 #define ZINET_DEBUG_UI
+
+#ifdef _DEBUG
+	#define ZINET_DEBUG
+#endif
