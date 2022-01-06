@@ -50,9 +50,9 @@ namespace zt::gl::tests
 	{
 		context.initGLFW();
 		context.createInstance();
-		const vk::Instance& instance = context.getInstance();
+		const vk::raii::Instance& instance = context.getInstance();
 
-		ASSERT_NE(instance, vk::Instance());
+		ASSERT_NE(*instance, vk::Instance());
 	}
 
 	TEST_F(GLContextTests, GetValidationLayersTest)
@@ -92,13 +92,16 @@ namespace zt::gl::tests
 
 	TEST_F(GLContextTests, GetDebugDebugMessengerTest)
 	{
-		const VkDebugUtilsMessengerEXT& debugMessenger = context.getDebugMessenger();
+		const vk::raii::DebugUtilsMessengerEXT& debugMessenger = context.getDebugMessenger();
 	}
 
-	TEST_F(GLContextTests, CreateDebugUtilsMessengerCreateInfo)
+	TEST_F(GLContextTests, CreateDebugUtilsMessenger)
 	{
-		context.createDebugUtilsMessengerCreateInfo();
-		const VkDebugUtilsMessengerCreateInfoEXT& debugUtilsMessengerCreateInfo = context.getDebugUtilsMessengerCreateInfo();
+		context.initGLFW();
+		context.createApplicationInfo();
+		context.createInstanceCreateInfo();
+		context.createInstance();
+		context.createDebugUtilsMessenger();
 	}
 
 	TEST_F(GLContextTests, InitVulkan)
@@ -111,9 +114,6 @@ namespace zt::gl::tests
 	{
 		context.initGLFW();
 		context.createInstance();
-		context.createPhysicalDevices();
-		const std::vector<vk::PhysicalDevice>& physicalDevices = context.getPhysicalDevices();
 
-		ASSERT_FALSE(physicalDevices.empty());
 	}
 }

@@ -16,7 +16,7 @@ namespace zt::gl
 
 	public:
 
-		Context() = default;
+		Context();
 		Context(const Context& other) = default;
 		Context(Context&& other) = default;
 
@@ -36,10 +36,7 @@ namespace zt::gl
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
 		void createInstance();
-		const vk::Instance& getInstance() const;
-		
-		void createPhysicalDevices();
-		const std::vector<vk::PhysicalDevice>& getPhysicalDevices() const;
+		const vk::raii::Instance& getInstance() const;
 
 		const std::vector<const char*>& getValidationLayers() const;
 
@@ -53,28 +50,24 @@ namespace zt::gl
 			const VkDebugUtilsMessengerCallbackDataEXT* callbackData,
 			void* userData);
 
-		const VkDebugUtilsMessengerEXT& getDebugMessenger() const;
+		const vk::raii::DebugUtilsMessengerEXT& getDebugMessenger() const;
 
-		void createDebugUtilsMessengerCreateInfo();
-		const VkDebugUtilsMessengerCreateInfoEXT& getDebugUtilsMessengerCreateInfo() const;
-
-		VkResult createDebugUtilsMessenger();
-
-		void destroyDebugUtilsMessengerCreateInfo();
+		void createDebugUtilsMessenger();
 
 		VkResult initVulkan();
 
 	protected:
 
+		vk::raii::Context context;
+
 		vk::ApplicationInfo applicationInfo{};
 
 		vk::InstanceCreateInfo instanceCreateInfo{};
-		vk::Instance instance;
+		vk::raii::Instance instance;
 
 		std::vector<const char*> extensions;
 
-		VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo{};
-		VkDebugUtilsMessengerEXT debugMessenger;
+		vk::raii::DebugUtilsMessengerEXT debugMessenger;
 
 	#ifdef ZINET_DEBUG
 		const bool enableValidationLayers = true;
@@ -87,7 +80,6 @@ namespace zt::gl
 			"VK_LAYER_KHRONOS_validation"
 		};
 
-		std::vector<vk::PhysicalDevice> physicalDevices;
 	};
 
 }

@@ -2,11 +2,15 @@
 
 namespace zt::gl
 {
+    Context::Context()
+        : instance(std::nullptr_t()),
+        debugMessenger(std::nullptr_t())
+    {
+
+    }
 
     Context::~Context() noexcept
     {
-        destroyDebugUtilsMessengerCreateInfo();
-        instance.destroy();
         deinitGLFW();
     }
 
@@ -63,7 +67,6 @@ namespace zt::gl
         {
             instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
-            instanceCreateInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugUtilsMessengerCreateInfo;
         }
         else 
         {
@@ -85,22 +88,12 @@ namespace zt::gl
             return;
         }
 
-        instance = vk::createInstance(instanceCreateInfo);
+        instance = vk::raii::Instance(context, instanceCreateInfo);
     }
 
-    const vk::Instance& Context::getInstance() const
+    const vk::raii::Instance& Context::getInstance() const
     {
         return instance;
-    }
-
-    void Context::createPhysicalDevices()
-    {
-        physicalDevices = instance.enumeratePhysicalDevices();
-    }
-
-    const std::vector<vk::PhysicalDevice>& Context::getPhysicalDevices() const
-    {
-        return physicalDevices;
     }
 
     const std::vector<const char*>& Context::getValidationLayers() const
@@ -220,56 +213,27 @@ namespace zt::gl
         return true;
     }
 
-    const VkDebugUtilsMessengerEXT& Context::getDebugMessenger() const
+    const vk::raii::DebugUtilsMessengerEXT& Context::getDebugMessenger() const
     {
         return debugMessenger;
     }
 
-    void Context::createDebugUtilsMessengerCreateInfo()
+    void Context::createDebugUtilsMessenger()
     {
-        debugUtilsMessengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+        vk::DebugUtilsMessageSeverityFlagsEXT severityFlags(
+            vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose |
+            vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo |
+            vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning |
+            vk::DebugUtilsMessageSeverityFlagBitsEXT::eError);
 
-        debugUtilsMessengerCreateInfo.messageSeverity = 
-            VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | 
-            VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
-            VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
-            VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        vk::DebugUtilsMessageTypeFlagsEXT messageTypeFlags(
+            vk::DebugUtilsMessageTypeFlagBitsEXT::eGeneral |
+            vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance |
+            vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation);
 
-        debugUtilsMessengerCreateInfo.messageType = 
-            VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | 
-            VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | 
-            VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
-
-        debugUtilsMessengerCreateInfo.pfnUserCallback = DebugCallback;
-        debugUtilsMessengerCreateInfo.pUserData = nullptr;
-    }
-
-    const VkDebugUtilsMessengerCreateInfoEXT& Context::getDebugUtilsMessengerCreateInfo() const
-    {
-        return debugUtilsMessengerCreateInfo;
-    }
-
-    VkResult Context::createDebugUtilsMessenger()
-    {
-        auto function = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-        if (function != nullptr) 
-        {
-            const VkAllocationCallbacks* allocator = nullptr;
-            return function(instance, &debugUtilsMessengerCreateInfo, nullptr, &debugMessenger);
-        }
-        else {
-            return VK_ERROR_EXTENSION_NOT_PRESENT;
-        }
-    }
-
-    void Context::destroyDebugUtilsMessengerCreateInfo()
-    {
-        auto function = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-        if (function != nullptr) 
-        {
-            const VkAllocationCallbacks* allocator = nullptr;
-            function(instance, debugMessenger, allocator);
-        }
+        vk::DebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo({}, severityFlags, messageTypeFlags, &DebugCallback);
+        
+        debugMessenger = vk::raii::DebugUtilsMessengerEXT(instance, debugUtilsMessengerCreateInfo);
     }
 
     VkResult Context::initVulkan()
@@ -280,15 +244,8 @@ namespace zt::gl
 
         createApplicationInfo();
         createInstanceCreateInfo();
-        createDebugUtilsMessengerCreateInfo();
         createInstance();
-        createDebugUtilsMessengerCreateInfo();
-
-        VkResult createDebugUtilsMessengerResult = createDebugUtilsMessenger();
-        if (createDebugUtilsMessengerResult != VkResult::VK_SUCCESS)
-            return createDebugUtilsMessengerResult;
-
-
+        createDebugUtilsMessenger();
 
         return VkResult::VK_SUCCESS;
     }
