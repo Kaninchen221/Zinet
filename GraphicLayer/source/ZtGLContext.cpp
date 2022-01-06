@@ -274,16 +274,19 @@ namespace zt::gl
 
     VkResult Context::initVulkan()
     {
-        initGLFW();
+        bool initGLFWResult = initGLFW();
+        if (!initGLFWResult)
+            return VkResult::VK_ERROR_INITIALIZATION_FAILED;
+
         createApplicationInfo();
         createInstanceCreateInfo();
         createDebugUtilsMessengerCreateInfo();
         createInstance();
         createDebugUtilsMessengerCreateInfo();
-        VkResult result = createDebugUtilsMessenger();
 
-        if (result != VkResult::VK_SUCCESS)
-            return result;
+        VkResult createDebugUtilsMessengerResult = createDebugUtilsMessenger();
+        if (createDebugUtilsMessengerResult != VkResult::VK_SUCCESS)
+            return createDebugUtilsMessengerResult;
 
 
 

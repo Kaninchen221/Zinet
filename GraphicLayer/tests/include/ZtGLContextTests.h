@@ -55,16 +55,6 @@ namespace zt::gl::tests
 		ASSERT_NE(instance, vk::Instance());
 	}
 
-	TEST_F(GLContextTests, CreatePhysicalDevicesTest)
-	{
-		context.initGLFW();
-		context.createInstance();
-		context.createPhysicalDevices();
-		const std::vector<vk::PhysicalDevice>& physicalDevices = context.getPhysicalDevices();
-		
-		ASSERT_FALSE(physicalDevices.empty());
-	}
-
 	TEST_F(GLContextTests, GetValidationLayersTest)
 	{
 		const std::vector<const char*>& validationLayers = context.getValidationLayers();
@@ -115,5 +105,15 @@ namespace zt::gl::tests
 	{
 		VkResult result = context.initVulkan();
 		ASSERT_EQ(result, VkResult::VK_SUCCESS);
+	}
+
+	TEST_F(GLContextTests, CreatePhysicalDevicesTest)
+	{
+		context.initGLFW();
+		context.createInstance();
+		context.createPhysicalDevices();
+		const std::vector<vk::PhysicalDevice>& physicalDevices = context.getPhysicalDevices();
+
+		ASSERT_FALSE(physicalDevices.empty());
 	}
 }
