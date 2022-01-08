@@ -104,16 +104,75 @@ namespace zt::gl::tests
 		context.createDebugUtilsMessenger();
 	}
 
-	TEST_F(GLContextTests, InitVulkan)
-	{
-		VkResult result = context.initVulkan();
-		ASSERT_EQ(result, VkResult::VK_SUCCESS);
-	}
-
-	TEST_F(GLContextTests, CreatePhysicalDevicesTest)
+	TEST_F(GLContextTests, EnumeratePhysicalDevices)
 	{
 		context.initGLFW();
 		context.createInstance();
+		vk::raii::PhysicalDevices physicalDevices = context.enumeratePhysicalDevices();
+	}
 
+	TEST_F(GLContextTests, PickPhysicalDevice)
+	{
+		context.initGLFW();
+		context.createInstance();
+		vk::raii::PhysicalDevice physicalDevice = context.pickPhysicalDevice();
+
+		ASSERT_NE(*physicalDevice, *vk::raii::PhysicalDevice(std::nullptr_t()));
+
+		// TODO: pickPhysicalDevice should pick gpu with needed extensions etc.
+	}
+
+	TEST_F(GLContextTests, PickQueueFamilyIndex)
+	{
+		context.initGLFW();
+		context.createInstance();
+		vk::raii::PhysicalDevice physicalDevice = context.pickPhysicalDevice();
+		uint32_t queueFamilyIndex = context.pickQueueFamilyIndex(physicalDevice);
+		uint32_t notExpectedIndex = std::numeric_limits<uint32_t>::max();
+
+		ASSERT_NE(queueFamilyIndex, notExpectedIndex);
+	}
+
+	TEST_F(GLContextTests, CreateQueueCreateInfo)
+	{
+		context.initGLFW();
+		context.createInstance();
+		vk::raii::PhysicalDevice physicalDevice = context.pickPhysicalDevice();
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = context.createDeviceQueueCreateInfo(physicalDevice);
+
+		ASSERT_NE(deviceQueueCreateInfo, vk::DeviceQueueCreateInfo());
+	}
+
+	TEST_F(GLContextTests, CreatePhysicalDeviceFeatures)
+	{
+		vk::PhysicalDeviceFeatures physicalDeviceFeatures = context.createPhysicalDeviceFeatures();
+	}
+
+	TEST_F(GLContextTests, CreateDeviceCreateInfo)
+	{
+		vk::DeviceCreateInfo deviceCreateInfo = context.createDeviceCreateInfo();
+
+		ASSERT_NE(deviceCreateInfo, vk::DeviceCreateInfo());
+	}
+
+	TEST_F(GLContextTests, CreateDevice)
+	{
+		context.createInstance();
+		vk::raii::PhysicalDevice physicalDevice = context.pickPhysicalDevice();
+		vk::raii::Device device = context.createDevice(physicalDevice);
+
+		ASSERT_NE(*device, *vk::raii::Device(std::nullptr_t()));
+	}
+	
+	TEST_F(GLContextTests, CreateQueue)
+	{
+		context.createInstance();
+		vk::raii::PhysicalDevice physicalDevice = context.pickPhysicalDevice();
+		context.createDeviceQueueCreateInfo(physicalDevice);
+		uint32_t queueFamilyIndex = context.pickQueueFamilyIndex(physicalDevice);
+		vk::raii::Device device = context.createDevice(physicalDevice);
+		vk::raii::Queue queue = context.createQueue(device, queueFamilyIndex);
+
+		ASSERT_NE(*queue, *vk::raii::Queue(std::nullptr_t()));
 	}
 }

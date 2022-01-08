@@ -236,17 +236,92 @@ namespace zt::gl
         debugMessenger = vk::raii::DebugUtilsMessengerEXT(instance, debugUtilsMessengerCreateInfo);
     }
 
-    VkResult Context::initVulkan()
+    vk::raii::PhysicalDevices Context::enumeratePhysicalDevices() const
     {
-        bool initGLFWResult = initGLFW();
-        if (!initGLFWResult)
-            return VkResult::VK_ERROR_INITIALIZATION_FAILED;
-
-        createApplicationInfo();
-        createInstanceCreateInfo();
-        createInstance();
-        createDebugUtilsMessenger();
-
-        return VkResult::VK_SUCCESS;
+        return vk::raii::PhysicalDevices(instance);
     }
+
+    vk::raii::PhysicalDevice Context::pickPhysicalDevice() const
+    {
+        vk::raii::PhysicalDevices physicalDevices = enumeratePhysicalDevices();
+        if (physicalDevices.size() == 0u)
+        {
+            Logger->error("Can't find physical device supporting vulkan");
+            return vk::raii::PhysicalDevice(std::nullptr_t());
+        }
+
+        return std::move(physicalDevices.front());
+    }
+
+    uint32_t Context::pickQueueFamilyIndex(const vk::raii::PhysicalDevice& physicalDevice) const
+    {
+        std::vector<vk::QueueFamilyProperties> queueFamiliesProperties = physicalDevice.getQueueFamilyProperties();
+        
+        uint32_t index = 0u;
+        for (const vk::QueueFamilyProperties& queueFamilyProperties : queueFamiliesProperties)
+        {
+            const vk::QueueFlags& queueFlags = queueFamilyProperties.queueFlags;
+            if (queueFlags & vk::QueueFlagBits::eGraphics)
+            {
+                return index;
+            }
+        
+            index++;
+        }
+        
+        return std::numeric_limits<uint32_t>::max();
+    }
+
+    vk::DeviceQueueCreateInfo Context::createDeviceQueueCreateInfo(const vk::raii::PhysicalDevice& physicalDevice)
+    {
+        deviceQueueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
+        deviceQueueCreateInfo.queueFamilyIndex = pickQueueFamilyIndex(physicalDevice);
+        deviceQueueCreateInfo.queueCount = 1; 
+        deviceQueueCreateInfo.pQueuePriorities = &queuePriority; // Reference to local variable
+
+        return deviceQueueCreateInfo;
+    }
+
+    vk::PhysicalDeviceFeatures Context::createPhysicalDeviceFeatures() const
+    {
+        return physicalDeviceFeatures;
+    }
+
+    vk::DeviceCreateInfo Context::createDeviceCreateInfo() const
+    {
+        vk::DeviceCreateInfo deviceCreateInfo;
+        deviceCreateInfo.sType = vk::StructureType::eDeviceCreateInfo;
+        deviceCreateInfo.queueCreateInfoCount = 1;
+        deviceCreateInfo.pQueueCreateInfos = &deviceQueueCreateInfo;
+        deviceCreateInfo.pEnabledFeatures = &physicalDeviceFeatures;
+
+        deviceCreateInfo.enabledExtensionCount = 0;
+        if (enableValidationLayers) 
+        {
+            deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+            deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+        }
+        else 
+        {
+            deviceCreateInfo.enabledLayerCount = 0;
+        }
+
+        return deviceCreateInfo;
+    }
+
+    vk::raii::Device Context::createDevice(const vk::raii::PhysicalDevice& physicalDevice)
+    {
+        vk::DeviceCreateInfo deviceCreateInfo = createDeviceCreateInfo();
+        vk::raii::Device device(physicalDevice, deviceCreateInfo);
+        return std::move(device);
+    }
+
+    vk::raii::Queue Context::createQueue(const vk::raii::Device& device, uint32_t queueFamilyIndex) const
+    {
+        // We creating only one queue
+        uint32_t queueIndex = 0u;
+        vk::raii::Queue queue(device, queueFamilyIndex, queueIndex);
+        return std::move(queue);
+    }
+
 }

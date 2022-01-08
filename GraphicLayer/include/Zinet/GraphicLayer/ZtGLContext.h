@@ -54,7 +54,21 @@ namespace zt::gl
 
 		void createDebugUtilsMessenger();
 
-		VkResult initVulkan();
+		vk::raii::PhysicalDevices enumeratePhysicalDevices() const;
+
+		vk::raii::PhysicalDevice pickPhysicalDevice() const;
+
+		uint32_t pickQueueFamilyIndex(const vk::raii::PhysicalDevice& physicalDevice) const;
+
+		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(const vk::raii::PhysicalDevice& physicalDevice);
+
+		vk::PhysicalDeviceFeatures createPhysicalDeviceFeatures() const;
+
+		vk::DeviceCreateInfo createDeviceCreateInfo() const;
+
+		vk::raii::Device createDevice(const vk::raii::PhysicalDevice& physicalDevice);
+
+		vk::raii::Queue createQueue(const vk::raii::Device& device, uint32_t queueFamilyIndex) const;
 
 	protected:
 
@@ -80,6 +94,10 @@ namespace zt::gl
 			"VK_LAYER_KHRONOS_validation"
 		};
 
+		vk::PhysicalDeviceFeatures physicalDeviceFeatures;
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
+		// Needed to deviceQueueCreateInfo
+		float queuePriority = 1.0f;
 	};
 
 }
