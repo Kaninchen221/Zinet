@@ -14,14 +14,10 @@ namespace zt::gl
         {
             glfwDestroyWindow(internalWindow);
         }
-
-        context.deinitGLFW();
     }
 
     void Window::createWindow()
     {
-        context.initGLFW();
-
         WindowLogger->info(__FUNCTION__);
 
         internalWindow = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
