@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLContext.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -31,7 +32,7 @@ namespace zt::gl
 		void createInstanceCreateInfo();
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
-		void createInstance(const vk::raii::Context& context);
+		void createInstance(const Context& context);
 		const vk::raii::Instance& getInstance() const;
 
 		const std::vector<const char*>& getValidationLayers() const;

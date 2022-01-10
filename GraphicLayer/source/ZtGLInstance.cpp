@@ -49,7 +49,7 @@ namespace zt::gl
         return instanceCreateInfo;
     }
 
-    void Instance::createInstance(const vk::raii::Context& context)
+    void Instance::createInstance(const Context& context)
     {
         if (enableValidationLayers && !checkValidationLayerSupport())
         {
@@ -57,7 +57,7 @@ namespace zt::gl
             return;
         }
 
-        instance = vk::raii::Instance(context, instanceCreateInfo);
+        instance = vk::raii::Instance(context.context, instanceCreateInfo);
     }
 
     const vk::raii::Instance& Instance::getInstance() const

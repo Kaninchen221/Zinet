@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 
 #include "gtest/gtest.h"
@@ -33,11 +34,11 @@ namespace zt::gl::tests
 
 	TEST_F(InstanceTests, CreateInstanceTest)
 	{
-		vk::raii::Context context;
+		Context context;
 		instance.createInstance(context);
-		const vk::raii::Instance& vkInstance = instance.getInstance();
+		const vk::raii::Instance& internalInstance = instance.getInstance();
 
-		ASSERT_NE(*vkInstance, vk::Instance());
+		ASSERT_NE(*internalInstance, vk::Instance());
 	}
 
 	TEST_F(InstanceTests, GetValidationLayersTest)
@@ -63,14 +64,14 @@ namespace zt::gl::tests
 
 	TEST_F(InstanceTests, EnumeratePhysicalDevices)
 	{
-		vk::raii::Context context;
+		Context context;
 		instance.createInstance(context);
 		vk::raii::PhysicalDevices physicalDevices = instance.enumeratePhysicalDevices();
 	}
 
 	TEST_F(InstanceTests, PickPhysicalDevice)
 	{
-		vk::raii::Context context;
+		Context context;
 		instance.createInstance(context);
 		vk::raii::PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
 

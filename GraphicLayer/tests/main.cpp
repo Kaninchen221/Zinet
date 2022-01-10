@@ -11,11 +11,13 @@
 //#include "ZtVertexArrayTests.h"
 //#include "ZtTextureTests.h"
 //#include "ZtObjectTests.h"
-#include "ZtGLContextTests.h"
-#include "ZtGLDebugUtilsMessengerTests.h"
-#include "ZtGLInstanceTests.h"
 #include "ZtGLGLFWTests.h"
+#include "ZtGLContextTests.h"
+#include "ZtGLInstanceTests.h"
+#include "ZtGLDebugUtilsMessengerTests.h"
 #include "ZtGLPhysicalDeviceTests.h"
+
+#include "ZtGLRendererTests.h"
 
 //#include "ZtEventTests.h"
 //#include "ZtKeyboardTests.h"

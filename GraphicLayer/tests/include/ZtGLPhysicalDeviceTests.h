@@ -19,7 +19,7 @@ namespace zt::gl::tests
 	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndex)
 	{
 		Instance instance;
-		vk::raii::Context context;
+		Context context;
 		instance.createInstance(context);
 		vk::raii::PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
 		uint32_t queueFamilyIndex = physicalDeviceHelper.pickQueueFamilyIndex(physicalDevice);
