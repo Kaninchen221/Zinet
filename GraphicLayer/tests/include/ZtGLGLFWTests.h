@@ -17,15 +17,15 @@ namespace zt::gl::tests
 
 	TEST_F(GLFWTests, InitGLFWTest)
 	{
-		bool result = glfw.initGLFW();
+		bool result = GLFW::InitGLFW();
 
 		ASSERT_TRUE(result);
 	}
 
 	TEST_F(GLFWTests, DeinitGLFWTest)
 	{
-		glfw.initGLFW();
-		glfw.deinitGLFW();
+		GLFW::InitGLFW();
+		GLFW::DeinitGLFW();
 	}
 
 }

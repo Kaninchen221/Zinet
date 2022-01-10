@@ -42,8 +42,6 @@ namespace zt::gl
 
 		Instance instanceHelper;
 
-		GLFW glfwHelper;
-
 		PhysicalDevice physicalDeviceHelper;
 
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;

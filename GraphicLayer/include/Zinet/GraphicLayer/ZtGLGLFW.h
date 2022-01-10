@@ -25,9 +25,9 @@ namespace zt::gl
 
 		~GLFW() noexcept = default;
 
-		bool initGLFW();
+		static bool InitGLFW();
 
-		void deinitGLFW();
+		static void DeinitGLFW();
 
 	};
 

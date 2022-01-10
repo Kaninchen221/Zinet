@@ -4,7 +4,7 @@ namespace zt::gl
 {
     Context::Context()
     {
-        glfwHelper.initGLFW();
+        GLFW::InitGLFW();
         instanceHelper.createApplicationInfo();
         instanceHelper.createInstanceCreateInfo();
         instanceHelper.createInstance(context);
@@ -12,7 +12,7 @@ namespace zt::gl
 
     Context::~Context() noexcept
     {
-        glfwHelper.deinitGLFW();
+        GLFW::DeinitGLFW();
     }
 
     vk::DeviceQueueCreateInfo Context::createDeviceQueueCreateInfo(const vk::raii::PhysicalDevice& physicalDevice)
