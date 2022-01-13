@@ -11,6 +11,9 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		// Declare instance here then it will be destroyed after debugUtilsMessenger
+		Instance instance;
+
 		DebugUtilsMessenger debugUtilsMessenger;
 
 	};
@@ -36,10 +39,10 @@ namespace zt::gl::tests
 
 	TEST_F(DebugUtilsMessengerTests, CreateDebugUtilsMessenger)
 	{
-		//TODO: 
-		//vk::raii::Context context;
-		//vk::raii::Instance instance(context, {});
-		//debugUtilsMessenger.createDebugUtilsMessenger(instance);
+		Context context;
+		instance.createInstanceCreateInfo();
+		instance.createInstance(context);
+		debugUtilsMessenger.createDebugUtilsMessenger(instance);
 	}
 
 }

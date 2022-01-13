@@ -3,7 +3,7 @@
 namespace zt::gl
 {
     DebugUtilsMessenger::DebugUtilsMessenger()
-        : debugMessenger(std::nullptr_t())
+        : debugUtilsMessenger(std::nullptr_t())
     {
 
     }
@@ -78,10 +78,10 @@ namespace zt::gl
 
     const vk::raii::DebugUtilsMessengerEXT& DebugUtilsMessenger::getDebugMessenger() const
     {
-        return debugMessenger;
+        return debugUtilsMessenger;
     }
 
-    void DebugUtilsMessenger::createDebugUtilsMessenger(vk::raii::Instance& instance)
+    void DebugUtilsMessenger::createDebugUtilsMessenger(const Instance& instance)
     {
         vk::DebugUtilsMessageSeverityFlagsEXT severityFlags(
             vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose |
@@ -96,7 +96,7 @@ namespace zt::gl
 
         vk::DebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo({}, severityFlags, messageTypeFlags, &DebugCallback);
 
-        debugMessenger = vk::raii::DebugUtilsMessengerEXT(instance, debugUtilsMessengerCreateInfo);
+        debugUtilsMessenger = vk::raii::DebugUtilsMessengerEXT(instance.getInternal(), debugUtilsMessengerCreateInfo);
     }
 
 }

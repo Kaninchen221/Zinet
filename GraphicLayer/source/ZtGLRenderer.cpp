@@ -8,6 +8,8 @@ namespace zt::gl
         instanceHelper.createApplicationInfo();
         instanceHelper.createInstanceCreateInfo();
         instanceHelper.createInstance(context);
+
+        physicalDevice = instanceHelper.pickPhysicalDevice();
     }
 
     Renderer::~Renderer() noexcept
@@ -15,10 +17,10 @@ namespace zt::gl
         GLFW::DeinitGLFW();
     }
 
-    vk::DeviceQueueCreateInfo Renderer::createDeviceQueueCreateInfo(const vk::raii::PhysicalDevice& physicalDevice)
+    vk::DeviceQueueCreateInfo Renderer::createDeviceQueueCreateInfo()
     {
         deviceQueueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
-        deviceQueueCreateInfo.queueFamilyIndex = physicalDeviceHelper.pickQueueFamilyIndex(physicalDevice);
+        deviceQueueCreateInfo.queueFamilyIndex = physicalDevice.pickQueueFamilyIndex();
         deviceQueueCreateInfo.queueCount = 1; 
         deviceQueueCreateInfo.pQueuePriorities = &queuePriority;
 
@@ -31,13 +33,13 @@ namespace zt::gl
         deviceCreateInfo.sType = vk::StructureType::eDeviceCreateInfo;
         deviceCreateInfo.queueCreateInfoCount = 1;
         deviceCreateInfo.pQueueCreateInfos = &deviceQueueCreateInfo;
-        deviceCreateInfo.pEnabledFeatures = &physicalDeviceHelper.physicalDeviceFeatures;
+        deviceCreateInfo.pEnabledFeatures = &physicalDevice.getFeatures();
 
         deviceCreateInfo.enabledExtensionCount = 0;
-        if (instanceHelper.enableValidationLayers)
+        if (Instance::GetEnabledValidationLayers())
         {
-            deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(instanceHelper.validationLayers.size());
-            deviceCreateInfo.ppEnabledLayerNames = instanceHelper.validationLayers.data();
+            deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(Instance::ValidationLayers.size());
+            deviceCreateInfo.ppEnabledLayerNames = Instance::ValidationLayers.data();
         }
         else 
         {
@@ -47,10 +49,10 @@ namespace zt::gl
         return deviceCreateInfo;
     }
 
-    vk::raii::Device Renderer::createDevice(const vk::raii::PhysicalDevice& physicalDevice)
+    vk::raii::Device Renderer::createDevice()
     {
         vk::DeviceCreateInfo deviceCreateInfo = createDeviceCreateInfo();
-        vk::raii::Device device(physicalDevice, deviceCreateInfo);
+        vk::raii::Device device(physicalDevice.getInternal(), deviceCreateInfo);
         return device;
     }
 

@@ -16,22 +16,28 @@ namespace zt::gl
 
 	public:
 
-		PhysicalDevice() = default;
+		PhysicalDevice();
 		PhysicalDevice(const PhysicalDevice& other) = default;
 		PhysicalDevice(PhysicalDevice&& other) = default;
+		PhysicalDevice(vk::raii::PhysicalDevice&& physicalDevice);
 
 		PhysicalDevice& operator = (const PhysicalDevice& other) = default;
-		PhysicalDevice& operator = (PhysicalDevice&& other) = default;
+		PhysicalDevice& operator = (PhysicalDevice&& PhysicalDevice) = default;
 
 		~PhysicalDevice() noexcept = default;
 
-		uint32_t pickQueueFamilyIndex(const vk::raii::PhysicalDevice& physicalDevice) const;
+		uint32_t pickQueueFamilyIndex() const;
 
-		vk::PhysicalDeviceFeatures createPhysicalDeviceFeatures() const;
+		vk::PhysicalDeviceFeatures createFeatures() const;
 
-	public:
+		const vk::PhysicalDeviceFeatures& getFeatures() const;
 
-		vk::PhysicalDeviceFeatures physicalDeviceFeatures;
+		const vk::raii::PhysicalDevice& getInternal() const;
+
+	protected:
+
+		vk::raii::PhysicalDevice internal;
+		vk::PhysicalDeviceFeatures features;
 
 	};
 

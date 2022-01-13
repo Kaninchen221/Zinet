@@ -17,4 +17,9 @@ namespace zt::gl::tests
 
 	};
 
+	TEST_F(ContextTests, GetInternalTest)
+	{
+		const vk::raii::Context& internal = context.getInternal();
+	}
+
 }

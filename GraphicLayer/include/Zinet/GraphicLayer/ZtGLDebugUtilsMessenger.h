@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -33,11 +34,11 @@ namespace zt::gl
 
 		const vk::raii::DebugUtilsMessengerEXT& getDebugMessenger() const;
 
-		void createDebugUtilsMessenger(vk::raii::Instance& instance);
+		void createDebugUtilsMessenger(const Instance& instance);
 
 	protected:
 
-		vk::raii::DebugUtilsMessengerEXT debugMessenger;
+		vk::raii::DebugUtilsMessengerEXT debugUtilsMessenger;
 
 	};
 

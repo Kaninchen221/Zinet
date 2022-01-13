@@ -16,6 +16,11 @@ namespace zt::gl::tests
 
 	};
 
+	TEST_F(InstanceTests, InternalTest)
+	{
+		const vk::raii::Instance& internal = instance.getInternal();
+	}
+
 	TEST_F(InstanceTests, ApplicationInfoTest)
 	{
 		instance.createApplicationInfo();
@@ -36,21 +41,21 @@ namespace zt::gl::tests
 	{
 		Context context;
 		instance.createInstance(context);
-		const vk::raii::Instance& internalInstance = instance.getInstance();
+		const vk::raii::Instance& internalInstance = instance.getInternal();
 
 		ASSERT_NE(*internalInstance, vk::Instance());
 	}
 
 	TEST_F(InstanceTests, GetValidationLayersTest)
 	{
-		const std::vector<const char*>& validationLayers = instance.getValidationLayers();
+		const std::vector<const char*>& ValidationLayers = Instance::GetValidationLayers();
 
-		ASSERT_FALSE(validationLayers.empty());
+		ASSERT_FALSE(ValidationLayers.empty());
 	}
 
 	TEST_F(InstanceTests, CheckValidationLayersSupportTest)
 	{
-		bool result = instance.checkValidationLayerSupport();
+		bool result = Instance::CheckValidationLayerSupport();
 
 		ASSERT_TRUE(result);
 	}
@@ -60,6 +65,11 @@ namespace zt::gl::tests
 		std::vector<const char*> requiredExtensions = instance.getRequiredExtensions();
 
 		ASSERT_FALSE(requiredExtensions.empty());
+	}
+
+	TEST_F(InstanceTests, GetEnableValidationLayersTest)
+	{
+		bool EnabledValidationLayers = Instance::GetEnabledValidationLayers();
 	}
 
 	TEST_F(InstanceTests, EnumeratePhysicalDevices)
@@ -73,8 +83,8 @@ namespace zt::gl::tests
 	{
 		Context context;
 		instance.createInstance(context);
-		vk::raii::PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
+		PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
 
-		ASSERT_NE(*physicalDevice, *vk::raii::PhysicalDevice(std::nullptr_t()));
+		ASSERT_NE(*physicalDevice.getInternal(), *PhysicalDevice().getInternal());
 	}
 }

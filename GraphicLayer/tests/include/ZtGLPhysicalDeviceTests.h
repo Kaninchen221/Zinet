@@ -12,24 +12,35 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		PhysicalDevice physicalDeviceHelper;
+		PhysicalDevice physicalDevice;
 
 	};
 
-	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndex)
+	TEST_F(PhysicalDeviceTests, GetInternalTest)
+	{
+		const vk::raii::PhysicalDevice& internal = physicalDevice.getInternal();
+	}
+
+	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)
 	{
 		Instance instance;
 		Context context;
 		instance.createInstance(context);
-		vk::raii::PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
-		uint32_t queueFamilyIndex = physicalDeviceHelper.pickQueueFamilyIndex(physicalDevice);
+		PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
+		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex();
 		constexpr uint32_t notExpectedIndex = std::numeric_limits<uint32_t>::max();
 
 		ASSERT_NE(queueFamilyIndex, notExpectedIndex);
 	}
 
-	TEST_F(PhysicalDeviceTests, CreatePhysicalDeviceFeatures)
+	TEST_F(PhysicalDeviceTests, CreateFeaturesTest)
 	{
-		vk::PhysicalDeviceFeatures physicalDeviceFeatures = physicalDeviceHelper.createPhysicalDeviceFeatures();
+		physicalDevice.createFeatures();
+	}
+
+	TEST_F(PhysicalDeviceTests, GetFeaturesTest)
+	{
+		physicalDevice.createFeatures();
+		const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
 	}
 }

@@ -3,7 +3,7 @@
 namespace zt::gl
 {
     Instance::Instance()
-        : instance(std::nullptr_t())
+        : internal(std::nullptr_t())
     {
 
     }
@@ -32,10 +32,10 @@ namespace zt::gl
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
-        if (enableValidationLayers)
+        if (GetEnabledValidationLayers())
         {
-            instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-            instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
+            instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
+            instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
         }
         else
         {
@@ -51,26 +51,26 @@ namespace zt::gl
 
     void Instance::createInstance(const Context& context)
     {
-        if (enableValidationLayers && !checkValidationLayerSupport())
+        if (GetEnabledValidationLayers() && !CheckValidationLayerSupport())
         {
             Logger->error("Validation layers requested, but not available!");
             return;
         }
 
-        instance = vk::raii::Instance(context.context, instanceCreateInfo);
+        internal = vk::raii::Instance(context.getInternal(), instanceCreateInfo);
     }
 
-    const vk::raii::Instance& Instance::getInstance() const
+    const vk::raii::Instance& Instance::getInternal() const
     {
-        return instance;
+        return internal;
     }
 
-    const std::vector<const char*>& Instance::getValidationLayers() const
+    const std::vector<const char*>& Instance::GetValidationLayers()
     {
-        return validationLayers;
+        return ValidationLayers;
     }
 
-    bool Instance::checkValidationLayerSupport() const
+    bool Instance::CheckValidationLayerSupport()
     {
         uint32_t layerCount;
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -78,7 +78,7 @@ namespace zt::gl
         std::vector<VkLayerProperties> availableLayers(layerCount);
         vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-        for (const char* validationLayer : validationLayers)
+        for (const char* validationLayer : ValidationLayers)
         {
             bool layerFound = false;
 
@@ -107,19 +107,28 @@ namespace zt::gl
 
         std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-        if (enableValidationLayers) {
+        if (GetEnabledValidationLayers()) {
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
 
         return extensions;
     }
 
-    vk::raii::PhysicalDevices Instance::enumeratePhysicalDevices() const
+    bool Instance::GetEnabledValidationLayers()
     {
-        return vk::raii::PhysicalDevices(instance);
+        #ifdef ZINET_DEBUG
+            return true;
+        #else
+            return false;
+        #endif
     }
 
-    vk::raii::PhysicalDevice Instance::pickPhysicalDevice() const
+    vk::raii::PhysicalDevices Instance::enumeratePhysicalDevices() const
+    {
+        return vk::raii::PhysicalDevices(internal);
+    }
+
+    PhysicalDevice Instance::pickPhysicalDevice() const
     {
         vk::raii::PhysicalDevices physicalDevices = enumeratePhysicalDevices();
         if (physicalDevices.size() == 0u)
@@ -128,6 +137,8 @@ namespace zt::gl
             return vk::raii::PhysicalDevice(std::nullptr_t());
         }
 
-        return std::move(physicalDevices.front());
+        PhysicalDevice physicalDevice(std::move(physicalDevices.front()));
+
+        return physicalDevice;
     }
 }

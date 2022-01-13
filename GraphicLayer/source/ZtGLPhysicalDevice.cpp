@@ -2,9 +2,22 @@
 
 namespace zt::gl
 {
-    uint32_t PhysicalDevice::pickQueueFamilyIndex(const vk::raii::PhysicalDevice& physicalDevice) const
+
+    PhysicalDevice::PhysicalDevice()
+        : internal(std::nullptr_t())
     {
-        std::vector<vk::QueueFamilyProperties> queueFamiliesProperties = physicalDevice.getQueueFamilyProperties();
+
+    }
+
+    PhysicalDevice::PhysicalDevice(vk::raii::PhysicalDevice&& physicalDevice)
+        : internal(std::move(physicalDevice))
+    {
+
+    }
+
+    uint32_t PhysicalDevice::pickQueueFamilyIndex() const
+    {
+        std::vector<vk::QueueFamilyProperties> queueFamiliesProperties = internal.getQueueFamilyProperties();
 
         uint32_t index = 0u;
         for (const vk::QueueFamilyProperties& queueFamilyProperties : queueFamiliesProperties)
@@ -21,8 +34,18 @@ namespace zt::gl
         return std::numeric_limits<uint32_t>::max();
     }
 
-    vk::PhysicalDeviceFeatures PhysicalDevice::createPhysicalDeviceFeatures() const
+    vk::PhysicalDeviceFeatures PhysicalDevice::createFeatures() const
     {
-        return physicalDeviceFeatures;
+        return features;
+    }
+
+    const vk::PhysicalDeviceFeatures& PhysicalDevice::getFeatures() const
+    {
+        return features;
+    }
+
+    const vk::raii::PhysicalDevice& PhysicalDevice::getInternal() const
+    {
+        return internal;
     }
 }

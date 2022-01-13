@@ -28,11 +28,11 @@ namespace zt::gl
 
 		~Renderer() noexcept;
 
-		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(const vk::raii::PhysicalDevice& physicalDevice);
+		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo();
 
 		vk::DeviceCreateInfo createDeviceCreateInfo() const;
 
-		vk::raii::Device createDevice(const vk::raii::PhysicalDevice& physicalDevice);
+		vk::raii::Device createDevice();
 
 		vk::raii::Queue createQueue(const vk::raii::Device& device, uint32_t queueFamilyIndex) const;
 
@@ -42,7 +42,7 @@ namespace zt::gl
 
 		Instance instanceHelper;
 
-		PhysicalDevice physicalDeviceHelper;
+		PhysicalDevice physicalDevice;
 
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
 		// Needed to deviceQueueCreateInfo

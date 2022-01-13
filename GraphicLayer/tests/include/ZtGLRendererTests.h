@@ -20,8 +20,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, CreateQueueCreateInfo)
 	{
-		vk::raii::PhysicalDevice physicalDevice = renderer.instanceHelper.pickPhysicalDevice();
-		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = renderer.createDeviceQueueCreateInfo(physicalDevice);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = renderer.createDeviceQueueCreateInfo();
 
 		ASSERT_NE(deviceQueueCreateInfo, vk::DeviceQueueCreateInfo());
 	}
@@ -35,22 +34,21 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, CreateDevice)
 	{
-		vk::raii::PhysicalDevice physicalDevice = renderer.instanceHelper.pickPhysicalDevice();
-		renderer.createDeviceQueueCreateInfo(physicalDevice);
+		//PhysicalDevice physicalDevice = renderer.instanceHelper.pickPhysicalDevice();
+		renderer.createDeviceQueueCreateInfo();
 		renderer.createDeviceCreateInfo();
-		vk::raii::Device device = renderer.createDevice(physicalDevice);
+		vk::raii::Device device = renderer.createDevice();
 
 		ASSERT_NE(*device, *vk::raii::Device(std::nullptr_t()));
 	}
 	
 	TEST_F(RendererTests, CreateQueue)
 	{
-		vk::raii::PhysicalDevice physicalDevice = renderer.instanceHelper.pickPhysicalDevice();
-		renderer.createDeviceQueueCreateInfo(physicalDevice);
+		PhysicalDevice physicalDevice = renderer.instanceHelper.pickPhysicalDevice();
+		renderer.createDeviceQueueCreateInfo();
 
-		PhysicalDevice physicalDeviceHelper;
-		uint32_t queueFamilyIndex = physicalDeviceHelper.pickQueueFamilyIndex(physicalDevice);
-		vk::raii::Device device = renderer.createDevice(physicalDevice);
+		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex();
+		vk::raii::Device device = renderer.createDevice();
 		vk::raii::Queue queue = renderer.createQueue(device, queueFamilyIndex);
 
 		ASSERT_NE(*queue, *vk::raii::Queue(std::nullptr_t()));

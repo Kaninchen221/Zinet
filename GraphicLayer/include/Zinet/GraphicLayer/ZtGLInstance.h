@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -33,34 +34,30 @@ namespace zt::gl
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
 		void createInstance(const Context& context);
-		const vk::raii::Instance& getInstance() const;
+		const vk::raii::Instance& getInternal() const;
 
-		const std::vector<const char*>& getValidationLayers() const;
+		static const std::vector<const char*>& GetValidationLayers();
 
-		bool checkValidationLayerSupport() const;
+		static bool CheckValidationLayerSupport();
 
 		std::vector<const char*> getRequiredExtensions();
 
+		static bool GetEnabledValidationLayers();
+
 		vk::raii::PhysicalDevices enumeratePhysicalDevices() const;
 
-		vk::raii::PhysicalDevice pickPhysicalDevice() const;
+		PhysicalDevice pickPhysicalDevice() const;
 
 	public:
 
 		vk::ApplicationInfo applicationInfo{};
 
 		vk::InstanceCreateInfo instanceCreateInfo{};
-		vk::raii::Instance instance;
+		vk::raii::Instance internal;
 
 		std::vector<const char*> extensions;
 
-#ifdef ZINET_DEBUG
-		const bool enableValidationLayers = true;
-#else
-		const bool enableValidationLayers = false;
-#endif
-
-		const std::vector<const char*> validationLayers =
+		inline static const std::vector<const char*> ValidationLayers =
 		{
 			"VK_LAYER_KHRONOS_validation"
 		};

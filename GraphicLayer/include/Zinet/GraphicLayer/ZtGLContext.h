@@ -26,9 +26,11 @@ namespace zt::gl
 
 		~Context() noexcept = default;
 
-	public:
+		const vk::raii::Context& getInternal() const;
 
-		vk::raii::Context context;
+	protected:
+
+		vk::raii::Context internal;
 
 	};
 
