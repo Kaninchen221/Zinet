@@ -16,6 +16,8 @@
 #include "ZtGLInstanceTests.h"
 #include "ZtGLDebugUtilsMessengerTests.h"
 #include "ZtGLPhysicalDeviceTests.h"
+#include "ZtGLDeviceTests.h"
+#include "ZtGLQueueTests.h"
 
 #include "ZtGLRendererTests.h"
 

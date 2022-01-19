@@ -28,14 +28,6 @@ namespace zt::gl
 
 		~Renderer() noexcept;
 
-		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo();
-
-		vk::DeviceCreateInfo createDeviceCreateInfo() const;
-
-		vk::raii::Device createDevice();
-
-		vk::raii::Queue createQueue(const vk::raii::Device& device, uint32_t queueFamilyIndex) const;
-
 	public:
 
 		Context context;
@@ -44,9 +36,6 @@ namespace zt::gl
 
 		PhysicalDevice physicalDevice;
 
-		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
-		// Needed to deviceQueueCreateInfo
-		float queuePriority = 1.0f;
 	};
 
 }
