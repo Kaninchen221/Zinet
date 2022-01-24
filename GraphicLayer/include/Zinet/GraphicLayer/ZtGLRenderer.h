@@ -4,6 +4,8 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -28,13 +30,19 @@ namespace zt::gl
 
 		~Renderer() noexcept;
 
-	public:
+	protected:
 
 		Context context;
 
-		Instance instanceHelper;
+		Instance instance;
+
+		DebugUtilsMessenger debugUtilsMessenger;
 
 		PhysicalDevice physicalDevice;
+
+		Window window;
+
+		VkSurfaceKHR surface;
 
 	};
 

@@ -13,6 +13,8 @@ add_executable(ZtGraphicLayerTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLPhysicalDeviceTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLQueueTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLRendererTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSurfaceTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLWindowTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtKeyboardEventTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtKeyboardEventTypeTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtKeyboardKeyTests.h"
@@ -31,7 +33,6 @@ add_executable(ZtGraphicLayerTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexArrayTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexBufferTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtWindowTests.h"
 	
 	
 	

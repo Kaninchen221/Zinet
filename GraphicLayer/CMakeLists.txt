@@ -12,6 +12,8 @@ add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGLQueue.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGLRenderer.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGLSurface.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGLWindow.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtGraphicLayer.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtKeyboard.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtKeyboardEvent.h"
@@ -31,7 +33,6 @@ add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertex.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertexArray.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertexBuffer.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtWindow.h"
 	
 	
 	
@@ -45,6 +46,8 @@ add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLPhysicalDevice.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLQueue.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLRenderer.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLSurface.cpp"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLWindow.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGraphicLayer.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtKeyboard.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtKeyboardEvent.cpp"
@@ -59,7 +62,6 @@ add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertex.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertexArray.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtVertexBuffer.cpp"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtWindow.cpp"
 )
 
 target_compile_features(ZtGraphicLayer PUBLIC cxx_std_20)

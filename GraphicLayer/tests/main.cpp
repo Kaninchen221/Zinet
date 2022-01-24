@@ -18,6 +18,7 @@
 #include "ZtGLPhysicalDeviceTests.h"
 #include "ZtGLDeviceTests.h"
 #include "ZtGLQueueTests.h"
+#include "ZtGLSurfaceTests.h"
 
 #include "ZtGLRendererTests.h"
 
