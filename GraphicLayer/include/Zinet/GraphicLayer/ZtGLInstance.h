@@ -2,7 +2,6 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -33,7 +32,7 @@ namespace zt::gl
 		void createInstanceCreateInfo();
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
-		void createInstance(const Context& context);
+		void create(const Context& context);
 		const vk::raii::Instance& getInternal() const;
 
 		static const std::vector<const char*>& GetValidationLayers();
@@ -43,10 +42,6 @@ namespace zt::gl
 		std::vector<const char*> getRequiredExtensions();
 
 		static bool GetEnabledValidationLayers();
-
-		vk::raii::PhysicalDevices enumeratePhysicalDevices() const;
-
-		PhysicalDevice pickPhysicalDevice() const;
 
 	public:
 
@@ -61,6 +56,7 @@ namespace zt::gl
 		{
 			"VK_LAYER_KHRONOS_validation"
 		};
+
 	};
 
 }

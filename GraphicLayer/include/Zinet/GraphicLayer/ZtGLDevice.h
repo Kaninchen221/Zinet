@@ -28,7 +28,7 @@ namespace zt::gl
 
 		~Device() noexcept = default;
 
-		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice);
+		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface);
 
 		vk::DeviceCreateInfo createDeviceCreateInfo(const PhysicalDevice& physicalDevice) const;
 

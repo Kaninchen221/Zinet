@@ -7,10 +7,10 @@ namespace zt::gl
     {
     }
 
-    vk::DeviceQueueCreateInfo Device::createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice)
+    vk::DeviceQueueCreateInfo Device::createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface)
     {
         deviceQueueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
-        deviceQueueCreateInfo.queueFamilyIndex = physicalDevice.pickQueueFamilyIndex();
+        deviceQueueCreateInfo.queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
         deviceQueueCreateInfo.queueCount = 1;
         deviceQueueCreateInfo.pQueuePriorities = &queuePriority;
 

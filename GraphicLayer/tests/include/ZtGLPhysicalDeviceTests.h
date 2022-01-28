@@ -23,14 +23,28 @@ namespace zt::gl::tests
 
 	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)
 	{
-		Instance instance;
+		GLFW::InitGLFW();
+
+		Window window;
+		window.createWindow();
+
 		Context context;
-		instance.createInstance(context);
-		PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
-		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex();
+
+		Instance instance;
+		instance.createApplicationInfo();
+		instance.createInstanceCreateInfo();
+		instance.create(context);
+
+		Surface surface;
+		surface.create(instance, window);
+
+		physicalDevice.create(instance);
+		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 		constexpr uint32_t notExpectedIndex = std::numeric_limits<uint32_t>::max();
 
 		ASSERT_NE(queueFamilyIndex, notExpectedIndex);
+
+		surface.destroy(instance);
 	}
 
 	TEST_F(PhysicalDeviceTests, CreateFeaturesTest)
@@ -43,4 +57,30 @@ namespace zt::gl::tests
 		physicalDevice.createFeatures();
 		const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
 	}
+
+	TEST_F(PhysicalDeviceTests, EnumeratePhysicalDevices)
+	{
+		Context context;
+		Instance instance;
+		instance.create(context);
+		vk::raii::PhysicalDevices physicalDevices = std::move(physicalDevice.enumeratePhysicalDevices(instance));
+	}
+
+	TEST_F(PhysicalDeviceTests, PhysicalDeviceExtensionsTest)
+	{
+		const std::vector<std::array<char, VK_MAX_EXTENSION_NAME_SIZE>>& physicalDeviceExtensions = physicalDevice.GetPhysicalDeviceExtensions();
+
+		ASSERT_FALSE(physicalDeviceExtensions.empty());
+	}
+
+	TEST_F(PhysicalDeviceTests, CreateTest)
+	{
+		Context context;
+		Instance instance;
+		instance.create(context);
+		bool result = physicalDevice.create(instance);
+
+		ASSERT_TRUE(result);
+	}
+
 }

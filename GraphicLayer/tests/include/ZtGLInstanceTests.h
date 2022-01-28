@@ -40,7 +40,7 @@ namespace zt::gl::tests
 	TEST_F(InstanceTests, CreateInstanceTest)
 	{
 		Context context;
-		instance.createInstance(context);
+		instance.create(context);
 		const vk::raii::Instance& internalInstance = instance.getInternal();
 
 		ASSERT_NE(*internalInstance, vk::Instance());
@@ -72,19 +72,4 @@ namespace zt::gl::tests
 		bool EnabledValidationLayers = Instance::GetEnabledValidationLayers();
 	}
 
-	TEST_F(InstanceTests, EnumeratePhysicalDevices)
-	{
-		Context context;
-		instance.createInstance(context);
-		vk::raii::PhysicalDevices physicalDevices = instance.enumeratePhysicalDevices();
-	}
-
-	TEST_F(InstanceTests, PickPhysicalDevice)
-	{
-		Context context;
-		instance.createInstance(context);
-		PhysicalDevice physicalDevice = instance.pickPhysicalDevice();
-
-		ASSERT_NE(*physicalDevice.getInternal(), *PhysicalDevice().getInternal());
-	}
 }

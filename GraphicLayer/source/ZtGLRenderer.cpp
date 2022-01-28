@@ -8,25 +8,30 @@ namespace zt::gl
 
         instance.createApplicationInfo();
         instance.createInstanceCreateInfo();
-        instance.createInstance(context);
+        instance.create(context);
 
         debugUtilsMessenger.createDebugUtilsMessenger(instance);
 
         window.createWindow();
 
-        const VkAllocationCallbacks* allocationCallbacks = nullptr;
-        if (glfwCreateWindowSurface(*instance.getInternal(), window.getInternalWindow(), allocationCallbacks, &surface) != VK_SUCCESS)
+        bool surfaceResult = surface.create(instance, window);
+        if (!surfaceResult)
         {
-            Logger->error("Can't create window surface");
+            Logger->error("Can't create surface");
+            return;
         }
 
-
-        physicalDevice = instance.pickPhysicalDevice();
+        bool physicalDeviceResult = physicalDevice.create(instance);
+        if(!physicalDeviceResult)
+        {
+            Logger->error("Can't create physical device");
+            return;
+        }
     }
 
     Renderer::~Renderer() noexcept
     {
-        vkDestroySurfaceKHR(*instance.getInternal(), surface, nullptr);
+        surface.destroy(instance);
         GLFW::DeinitGLFW();
     }
 

@@ -41,7 +41,7 @@ namespace zt::gl::tests
 	{
 		Context context;
 		instance.createInstanceCreateInfo();
-		instance.createInstance(context);
+		instance.create(context);
 		debugUtilsMessenger.createDebugUtilsMessenger(instance);
 	}
 

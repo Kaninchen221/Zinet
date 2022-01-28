@@ -22,7 +22,7 @@ namespace zt::gl::tests
 		Context context;
 		Instance instance;
 		instance.createInstanceCreateInfo();
-		instance.createInstance(context);
+		instance.create(context);
 
 		Window window;
 		window.createWindow();
@@ -35,7 +35,7 @@ namespace zt::gl::tests
 
 		ASSERT_NE(internalSurface, VkSurfaceKHR());
 
-		surface.destroySurface(instance);
+		surface.destroy(instance);
 
 		GLFW::DeinitGLFW();
 	}

@@ -49,7 +49,7 @@ namespace zt::gl
         return instanceCreateInfo;
     }
 
-    void Instance::createInstance(const Context& context)
+    void Instance::create(const Context& context)
     {
         if (GetEnabledValidationLayers() && !CheckValidationLayerSupport())
         {
@@ -123,22 +123,4 @@ namespace zt::gl
         #endif
     }
 
-    vk::raii::PhysicalDevices Instance::enumeratePhysicalDevices() const
-    {
-        return vk::raii::PhysicalDevices(internal);
-    }
-
-    PhysicalDevice Instance::pickPhysicalDevice() const
-    {
-        vk::raii::PhysicalDevices physicalDevices = enumeratePhysicalDevices();
-        if (physicalDevices.size() == 0u)
-        {
-            Logger->error("Can't find physical device supporting vulkan");
-            return vk::raii::PhysicalDevice(std::nullptr_t());
-        }
-
-        PhysicalDevice physicalDevice(std::move(physicalDevices.front()));
-
-        return physicalDevice;
-    }
 }

@@ -6,6 +6,7 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -42,7 +43,7 @@ namespace zt::gl
 
 		Window window;
 
-		VkSurfaceKHR surface;
+		Surface surface;
 
 	};
 

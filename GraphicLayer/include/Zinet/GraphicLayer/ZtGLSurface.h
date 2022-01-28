@@ -2,12 +2,12 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl
 {
+	class Instance;
 
 	class ZINET_GRAPHIC_LAYER_API Surface
 	{
@@ -31,7 +31,7 @@ namespace zt::gl
 
 		VkSurfaceKHR getInternal() const;
 
-		void destroySurface(const Instance& instance);
+		void destroy(const Instance& instance);
 
 	protected:
 

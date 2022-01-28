@@ -1,4 +1,5 @@
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
 
 namespace zt::gl
 {
@@ -29,7 +30,7 @@ namespace zt::gl
 		}
 	}
 
-	void Surface::destroySurface(const Instance& instance)
+	void Surface::destroy(const Instance& instance)
 	{
 		vkDestroySurfaceKHR(*instance.getInternal(), internal, nullptr);
 		internal = VkSurfaceKHR();
