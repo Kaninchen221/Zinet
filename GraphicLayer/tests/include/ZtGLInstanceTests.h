@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
+//#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 
 #include "gtest/gtest.h"
 
@@ -12,7 +12,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Instance instance;
+		Instance instance{};
 
 	};
 
@@ -24,9 +24,10 @@ namespace zt::gl::tests
 	TEST_F(InstanceTests, ApplicationInfoTest)
 	{
 		instance.createApplicationInfo();
-		const vk::ApplicationInfo& applicationInfo = instance.getApplicationInfo();
+		vk::ApplicationInfo applicationInfo = instance.getApplicationInfo();
+		vk::ApplicationInfo notExpected{};
 
-		ASSERT_NE(applicationInfo, vk::ApplicationInfo());
+		ASSERT_NE(applicationInfo, notExpected);
 	}
 
 	TEST_F(InstanceTests, InstanceCreateInfoTest)

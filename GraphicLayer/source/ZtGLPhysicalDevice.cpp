@@ -59,7 +59,7 @@ namespace zt::gl
         return vk::raii::PhysicalDevices(instance.getInternal());
     }
 
-    const std::vector<std::array<char, VK_MAX_EXTENSION_NAME_SIZE>>& PhysicalDevice::GetPhysicalDeviceExtensions()
+    const std::vector<const char*>& PhysicalDevice::GetPhysicalDeviceExtensions()
     {
         return PhysicalDeviceExtensions;
     }
@@ -67,11 +67,12 @@ namespace zt::gl
     bool PhysicalDevice::isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const
     {
         std::vector<vk::ExtensionProperties> availableExtensionProperties = physicalDevice.enumerateDeviceExtensionProperties();
-        for (const std::array<char, VK_MAX_EXTENSION_NAME_SIZE>& neededExtension : PhysicalDeviceExtensions)
+        for (const char* neededExtension : PhysicalDeviceExtensions)
         {
             auto predicate = [neededExtension](const vk::ExtensionProperties& extension) -> bool
             {
-                return static_cast<std::array<char, VK_MAX_EXTENSION_NAME_SIZE>>(extension.extensionName) == neededExtension;
+                std::string_view extensionAsStringView(extension.extensionName.data());
+                return extensionAsStringView == neededExtension;
             };
 
             std::vector<vk::ExtensionProperties>::iterator result = std::find_if(
@@ -86,6 +87,16 @@ namespace zt::gl
         }
 
         return true;
+    }
+
+    SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(const Surface& surface)
+    {
+        SwapChainSupportDetails swapChainSupportDetails;
+        swapChainSupportDetails.capabilities = internal.getSurfaceCapabilitiesKHR(surface.getInternal());
+        swapChainSupportDetails.formats = internal.getSurfaceFormatsKHR(surface.getInternal());
+        swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(surface.getInternal());
+
+        return swapChainSupportDetails;
     }
 
     bool PhysicalDevice::create(const Instance& instance)

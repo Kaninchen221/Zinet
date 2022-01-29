@@ -18,6 +18,8 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceTests, CreateQueueCreateInfo)
 	{
+		GLFW::InitGLFW();
+
 		Window window;
 		window.createWindow();
 
@@ -33,6 +35,8 @@ namespace zt::gl::tests
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
 
 		ASSERT_NE(deviceQueueCreateInfo, vk::DeviceQueueCreateInfo());
+
+		GLFW::DeinitGLFW();
 	}
 
 	TEST_F(DeviceTests, CreateDeviceCreateInfo)
@@ -49,7 +53,7 @@ namespace zt::gl::tests
 		instance.create(context);
 		PhysicalDevice physicalDevice;
 		physicalDevice.create(instance);
-		device.createDevice(physicalDevice);
+		device.create(physicalDevice);
 		const vk::raii::Device& internal = device.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::Device(std::nullptr_t()));
@@ -57,6 +61,8 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceTests, CreateQueue)
 	{
+		GLFW::InitGLFW();
+
 		Window window;
 		window.createWindow();
 
@@ -74,12 +80,13 @@ namespace zt::gl::tests
 		device.createDeviceQueueCreateInfo(physicalDevice, surface);
 
 		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		device.createDevice(physicalDevice);
+		device.create(physicalDevice);
 		Queue queue = device.createQueue(queueFamilyIndex);
 
 		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 
 		surface.destroy(instance);
+		GLFW::DeinitGLFW();
 	}
 
 }

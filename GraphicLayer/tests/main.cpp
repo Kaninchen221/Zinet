@@ -11,6 +11,7 @@
 //#include "ZtVertexArrayTests.h"
 //#include "ZtTextureTests.h"
 //#include "ZtObjectTests.h"
+
 #include "ZtGLGLFWTests.h"
 #include "ZtGLContextTests.h"
 #include "ZtGLInstanceTests.h"
@@ -19,6 +20,7 @@
 #include "ZtGLDeviceTests.h"
 #include "ZtGLQueueTests.h"
 #include "ZtGLSurfaceTests.h"
+#include "ZtGLSwapChainSupportDetailsTests.h"
 
 #include "ZtGLRendererTests.h"
 

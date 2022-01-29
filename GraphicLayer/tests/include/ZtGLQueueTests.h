@@ -15,18 +15,7 @@ namespace zt::gl::tests
 
 		Queue queue;
 
-		QueueTests()
-			: queue(std::move(vk::raii::Queue(std::nullptr_t())))
-		{
-
-		}
-
 	};
-
-	TEST_F(QueueTests, NoDefaultConstructorTest)
-	{
-		ASSERT_FALSE(std::is_default_constructible<Queue>::value);
-	}
 
 	TEST_F(QueueTests, GetInternalTest)
 	{

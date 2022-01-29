@@ -16,7 +16,7 @@ namespace zt::gl
 
 	public:
 
-		Queue() = delete;
+		Queue();
 		Queue(const Queue& other) = default;
 		Queue(Queue&& other) = default;
 		Queue(vk::raii::Queue&& queue);

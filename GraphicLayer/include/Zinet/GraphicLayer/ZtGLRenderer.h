@@ -7,6 +7,7 @@
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -33,17 +34,23 @@ namespace zt::gl
 
 	protected:
 
-		Context context;
-
 		Instance instance;
 
-		DebugUtilsMessenger debugUtilsMessenger;
+		Queue queue;
 
-		PhysicalDevice physicalDevice;
+		uint32_t queueFamilyIndex{};
+
+		Surface surface;
 
 		Window window;
 
-		Surface surface;
+		Device device;
+
+		PhysicalDevice physicalDevice;
+
+		DebugUtilsMessenger debugUtilsMessenger;
+
+		Context context;
 
 	};
 

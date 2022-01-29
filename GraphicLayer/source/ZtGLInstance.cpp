@@ -11,9 +11,10 @@ namespace zt::gl
     void Instance::createApplicationInfo()
     {
         applicationInfo.sType = vk::StructureType::eApplicationInfo;
-        applicationInfo.pApplicationName = "Zinet";
+        applicationInfo.pNext = nullptr;
+        //applicationInfo.pApplicationName = "Zinet"; // Cause SEH exception with code 0xc0000005
         applicationInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-        applicationInfo.pEngineName = "Zinet Renderer";
+        applicationInfo.pEngineName = "Zinet Renderer\0";
         applicationInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
         applicationInfo.apiVersion = VK_API_VERSION_1_0;
     }

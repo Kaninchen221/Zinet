@@ -1,5 +1,5 @@
 #include "Zinet/GraphicLayer/ZtEvent.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 namespace zt::gl
 {

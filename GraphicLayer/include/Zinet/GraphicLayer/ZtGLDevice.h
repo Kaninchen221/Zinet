@@ -32,7 +32,7 @@ namespace zt::gl
 
 		vk::DeviceCreateInfo createDeviceCreateInfo(const PhysicalDevice& physicalDevice) const;
 
-		void createDevice(const PhysicalDevice& physicalDevice);
+		void create(const PhysicalDevice& physicalDevice);
 
 		const vk::raii::Device& getInternal() const;
 

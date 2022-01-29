@@ -4,6 +4,11 @@
 
 namespace zt::gl
 {
+    Queue::Queue()
+        : internal(std::nullptr_t())
+    {
+
+    }
 
     Queue::Queue(vk::raii::Queue&& queue)
         : internal(std::move(queue))

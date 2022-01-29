@@ -27,11 +27,18 @@ namespace zt::gl
             Logger->error("Can't create physical device");
             return;
         }
+
+        device.createDeviceQueueCreateInfo(physicalDevice, surface);
+        device.create(physicalDevice);
+
+        queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
+
+        queue = device.createQueue(queueFamilyIndex);
     }
 
     Renderer::~Renderer() noexcept
     {
-        surface.destroy(instance);
+        surface.destroy(instance); // Must be called
         GLFW::DeinitGLFW();
     }
 

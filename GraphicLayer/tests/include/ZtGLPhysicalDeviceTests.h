@@ -68,7 +68,7 @@ namespace zt::gl::tests
 
 	TEST_F(PhysicalDeviceTests, PhysicalDeviceExtensionsTest)
 	{
-		const std::vector<std::array<char, VK_MAX_EXTENSION_NAME_SIZE>>& physicalDeviceExtensions = physicalDevice.GetPhysicalDeviceExtensions();
+		const std::vector<const char*>& physicalDeviceExtensions = physicalDevice.GetPhysicalDeviceExtensions();
 
 		ASSERT_FALSE(physicalDeviceExtensions.empty());
 	}
@@ -81,6 +81,33 @@ namespace zt::gl::tests
 		bool result = physicalDevice.create(instance);
 
 		ASSERT_TRUE(result);
+	}
+
+	TEST_F(PhysicalDeviceTests, GetSwaptChainSupportDetailsTest)
+	{
+		GLFW::InitGLFW();
+
+		Window window;
+		window.createWindow();
+
+		Context context;
+		Instance instance;
+		instance.createInstanceCreateInfo();
+		instance.create(context);
+
+		Surface surface;
+		surface.create(instance, window);
+
+		physicalDevice.create(instance);
+
+		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+
+		ASSERT_NE(swapChainSupportDetails.capabilities, vk::SurfaceCapabilitiesKHR());
+		ASSERT_FALSE(swapChainSupportDetails.formats.empty());
+		ASSERT_FALSE(swapChainSupportDetails.presentModes.empty());
+
+		surface.destroy(instance);
+		GLFW::DeinitGLFW();
 	}
 
 }

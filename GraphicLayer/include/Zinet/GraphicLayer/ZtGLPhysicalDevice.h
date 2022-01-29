@@ -3,6 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -40,18 +42,20 @@ namespace zt::gl
 
 		bool create(const Instance& instance);
 
-		static const std::vector<std::array<char, VK_MAX_EXTENSION_NAME_SIZE>>& GetPhysicalDeviceExtensions();
+		static const std::vector<const char*>& GetPhysicalDeviceExtensions();
 
 		bool isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
+
+		SwapChainSupportDetails getSwapChainSupportDetails(const Surface& surface);
 
 	protected:
 
 		vk::raii::PhysicalDevice internal;
 		vk::PhysicalDeviceFeatures features;
 
-		inline static const std::vector<std::array<char, VK_MAX_EXTENSION_NAME_SIZE>> PhysicalDeviceExtensions =
+		inline static const std::vector<const char*> PhysicalDeviceExtensions =
 		{
-			{ VK_KHR_SWAPCHAIN_EXTENSION_NAME }
+			VK_KHR_SWAPCHAIN_EXTENSION_NAME
 		};
 	};
 
