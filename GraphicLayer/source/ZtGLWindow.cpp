@@ -36,7 +36,7 @@ namespace zt::gl
         event.bindCallbacks();
     }
 
-    GLFWwindow* Window::getInternalWindow()
+    GLFWwindow* Window::getInternal()
     {
         return internalWindow;
     }

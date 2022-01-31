@@ -6,7 +6,7 @@ namespace zt::gl
 	bool Surface::create(const Instance& instance, Window& window)
 	{
 		const VkAllocationCallbacks* allocationCallbacks = nullptr;
-		VkResult result = glfwCreateWindowSurface(*instance.getInternal(), window.getInternalWindow(), allocationCallbacks, &internal);
+		VkResult result = glfwCreateWindowSurface(*instance.getInternal(), window.getInternal(), allocationCallbacks, &internal);
 		if (result == VK_SUCCESS)
 		{
 			return true;

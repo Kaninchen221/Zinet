@@ -102,8 +102,8 @@ namespace zt::gl::tests
 
 		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 
-		ASSERT_NE(swapChainSupportDetails.capabilities, vk::SurfaceCapabilitiesKHR());
-		ASSERT_FALSE(swapChainSupportDetails.formats.empty());
+		ASSERT_NE(swapChainSupportDetails.surfaceCapabilities, vk::SurfaceCapabilitiesKHR());
+		ASSERT_FALSE(swapChainSupportDetails.surfaceFormats.empty());
 		ASSERT_FALSE(swapChainSupportDetails.presentModes.empty());
 
 		surface.destroy(instance);

@@ -17,9 +17,91 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainSupportDetailsTests, PropertiesTest)
 	{
-		const vk::SurfaceCapabilitiesKHR& capabilities = swapChainSupportDetails.capabilities;
-		const std::vector<vk::SurfaceFormatKHR>& formats = swapChainSupportDetails.formats;
+		const vk::SurfaceCapabilitiesKHR& surfaceCapabilities = swapChainSupportDetails.surfaceCapabilities;
+		const std::vector<vk::SurfaceFormatKHR>& surfaceFormats = swapChainSupportDetails.surfaceFormats;
 		const std::vector<vk::PresentModeKHR>& presentModes = swapChainSupportDetails.presentModes;
 	}
 
+	TEST_F(SwapChainSupportDetailsTests, PickFormatTest)
+	{
+		GLFW::InitGLFW();
+
+		Window window;
+		window.createWindow();
+
+		Context context;
+		Instance instance;
+		instance.createInstanceCreateInfo();
+		instance.create(context);
+
+		Surface surface;
+		surface.create(instance, window);
+
+		PhysicalDevice physicalDevice;
+		physicalDevice.create(instance);
+
+		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+
+		vk::SurfaceFormatKHR format = swapChainSupportDetails.pickFormat();
+
+		ASSERT_NE(format, vk::SurfaceFormatKHR());
+
+		surface.destroy(instance);
+		GLFW::DeinitGLFW();
+	}
+
+	TEST_F(SwapChainSupportDetailsTests, PickPresentModeTest)
+	{
+		GLFW::InitGLFW();
+
+		Window window;
+		window.createWindow();
+
+		Context context;
+		Instance instance;
+		instance.createInstanceCreateInfo();
+		instance.create(context);
+
+		Surface surface;
+		surface.create(instance, window);
+
+		PhysicalDevice physicalDevice;
+		physicalDevice.create(instance);
+
+		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+
+		vk::PresentModeKHR presentMode = swapChainSupportDetails.pickPresentMode();
+
+		ASSERT_NE(presentMode, vk::PresentModeKHR());
+
+		surface.destroy(instance);
+		GLFW::DeinitGLFW();
+	}
+
+	TEST_F(SwapChainSupportDetailsTests, PickSwapExtentTest)
+	{
+		GLFW::InitGLFW();
+
+		Window window;
+		window.createWindow();
+
+		Context context;
+		Instance instance;
+		instance.createInstanceCreateInfo();
+		instance.create(context);
+
+		Surface surface;
+		surface.create(instance, window);
+
+		PhysicalDevice physicalDevice;
+		physicalDevice.create(instance);
+
+		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+
+		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
+		ASSERT_NE(swapExtent, vk::Extent2D());
+
+		surface.destroy(instance);
+		GLFW::DeinitGLFW();
+	}
 }

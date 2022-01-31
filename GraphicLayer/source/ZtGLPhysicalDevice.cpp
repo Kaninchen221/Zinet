@@ -92,8 +92,8 @@ namespace zt::gl
     SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(const Surface& surface)
     {
         SwapChainSupportDetails swapChainSupportDetails;
-        swapChainSupportDetails.capabilities = internal.getSurfaceCapabilitiesKHR(surface.getInternal());
-        swapChainSupportDetails.formats = internal.getSurfaceFormatsKHR(surface.getInternal());
+        swapChainSupportDetails.surfaceCapabilities = internal.getSurfaceCapabilitiesKHR(surface.getInternal());
+        swapChainSupportDetails.surfaceFormats = internal.getSurfaceFormatsKHR(surface.getInternal());
         swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(surface.getInternal());
 
         return swapChainSupportDetails;

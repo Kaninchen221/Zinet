@@ -28,8 +28,7 @@ namespace zt::gl
             return;
         }
 
-        device.createDeviceQueueCreateInfo(physicalDevice, surface);
-        device.create(physicalDevice);
+        device.create(physicalDevice, surface);
 
         queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 

@@ -30,9 +30,9 @@ namespace zt::gl
 
 		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface);
 
-		vk::DeviceCreateInfo createDeviceCreateInfo(const PhysicalDevice& physicalDevice) const;
+		vk::DeviceCreateInfo createDeviceCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface);
 
-		void create(const PhysicalDevice& physicalDevice);
+		void create(const PhysicalDevice& physicalDevice, const Surface& surface);
 
 		const vk::raii::Device& getInternal() const;
 

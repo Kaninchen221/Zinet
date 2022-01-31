@@ -15,6 +15,7 @@ add_executable(ZtGraphicLayerTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLRendererTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSurfaceTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSwapChainSupportDetailsTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSwapChainTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLWindowTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtKeyboardEventTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtKeyboardEventTypeTests.h"

@@ -52,8 +52,8 @@ namespace zt::gl
 
 	void Mouse::bindCallbacks()
 	{
-		glfwSetMouseButtonCallback(window->getInternalWindow(), &Mouse::ButtonCallback);
-		glfwSetCursorPosCallback(window->getInternalWindow(), &Mouse::PositionCallback);
+		glfwSetMouseButtonCallback(window->getInternal(), &Mouse::ButtonCallback);
+		glfwSetCursorPosCallback(window->getInternal(), &Mouse::PositionCallback);
 	}
 
 	void Mouse::PositionCallback(GLFWwindow* glfwWindow, double positionX, double positionY)

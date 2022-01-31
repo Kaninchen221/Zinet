@@ -26,12 +26,12 @@ namespace zt::gl
 
 	bool Keyboard::isPressed(KeyboardKey key) const
 	{
-		return glfwGetKey(window->getInternalWindow(), static_cast<int>(key)) == static_cast<int>(KeyboardEventType::Pressed);
+		return glfwGetKey(window->getInternal(), static_cast<int>(key)) == static_cast<int>(KeyboardEventType::Pressed);
 	}
 
 	bool Keyboard::isReleased(KeyboardKey key) const
 	{
-		return glfwGetKey(window->getInternalWindow(), static_cast<int>(key)) == static_cast<int>(KeyboardEventType::Released);
+		return glfwGetKey(window->getInternal(), static_cast<int>(key)) == static_cast<int>(KeyboardEventType::Released);
 	}
 
 	void Keyboard::bindCallbacks()
@@ -42,7 +42,7 @@ namespace zt::gl
 			return;
 		}
 
-		glfwSetKeyCallback(window->getInternalWindow(), Keyboard::KeyCallback);
+		glfwSetKeyCallback(window->getInternal(), Keyboard::KeyCallback);
 	}
 
 	void Keyboard::KeyCallback(GLFWwindow* internalWindow, int key, int scanCode, int action, int mods)

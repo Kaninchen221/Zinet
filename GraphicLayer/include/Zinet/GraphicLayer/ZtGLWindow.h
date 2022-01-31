@@ -26,7 +26,7 @@ namespace zt::gl
 
 		void createWindow();
 
-		GLFWwindow* getInternalWindow();
+		GLFWwindow* getInternal();
 
 		void initStb();
 
