@@ -21,9 +21,9 @@
 //#include "ZtGLQueueTests.h"
 //#include "ZtGLSurfaceTests.h"
 //#include "ZtGLSwapChainSupportDetailsTests.h"
-#include "ZtGLSwapChainTests.h"
+//#include "ZtGLSwapChainTests.h"
 
-//#include "ZtGLRendererTests.h"
+#include "ZtGLRendererTests.h"
 
 //#include "ZtEventTests.h"
 //#include "ZtKeyboardTests.h"

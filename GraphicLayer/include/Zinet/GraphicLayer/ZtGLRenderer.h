@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -35,6 +36,10 @@ namespace zt::gl
 	protected:
 
 		Instance instance;
+
+		std::unique_ptr<SwapChain> swapChain;
+
+		std::vector<VkImage> swapChainImages;
 
 		Queue queue;
 

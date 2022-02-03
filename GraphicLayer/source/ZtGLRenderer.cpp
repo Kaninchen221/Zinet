@@ -33,10 +33,18 @@ namespace zt::gl
         queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 
         queue = device.createQueue(queueFamilyIndex);
+
+        SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+        swapChain = std::make_unique<SwapChain>();
+        swapChain->create(device, swapChainSupportDetails, surface, window);
+
+        swapChainImages = swapChain->getInternal().getImages();
     }
 
     Renderer::~Renderer() noexcept
     {
+        swapChain.reset();
+
         surface.destroy(instance); // Must be called
         GLFW::DeinitGLFW();
     }
