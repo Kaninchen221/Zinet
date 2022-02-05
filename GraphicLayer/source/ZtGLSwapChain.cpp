@@ -18,7 +18,7 @@ namespace zt::gl
 	}
 
 	void SwapChain::create(
-		const Device& device,
+		Device& device,
 		const SwapChainSupportDetails& swapChainSupportDetails,
 		const Surface& surface,
 		Window& window
@@ -65,6 +65,20 @@ namespace zt::gl
 		swapChainCreateInfo.oldSwapchain = vk::SwapchainKHR(std::nullptr_t());
 
 		return swapChainCreateInfo;
+	}
+
+	std::vector<vk::Image> SwapChain::getImages()
+	{
+		std::vector<VkImage> rawImages = internal.getImages();
+		std::vector<vk::Image> result;
+		result.reserve(rawImages.size());
+
+		for (VkImage& rawImage : rawImages)
+		{
+			result.push_back({ rawImage });
+		}
+
+		return result;
 	}
 
 }

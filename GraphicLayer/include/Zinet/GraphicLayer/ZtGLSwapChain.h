@@ -32,7 +32,7 @@ namespace zt::gl
 		const vk::raii::SwapchainKHR& getInternal() const;
 
 		void create(
-			const Device& device,
+			Device& device,
 			const SwapChainSupportDetails& swapChainSupportDetails,
 			const Surface& surface,
 			Window& window
@@ -43,6 +43,8 @@ namespace zt::gl
 			const Surface& surface,
 			Window& window
 		) const;
+
+		std::vector<vk::Image> getImages();
 
 	protected:
 

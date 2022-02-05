@@ -72,5 +72,44 @@ namespace zt::gl::tests
 
 		ASSERT_NE(creatInfo, vk::SwapchainCreateInfoKHR());
 	}
-	
+
+	TEST_F(SwapChainTests, GetImagesTest)
+	{
+		GLFW::InitGLFW();
+
+		Window window;
+		window.createWindow();
+
+		Context context;
+		Instance instance;
+		instance.createInstanceCreateInfo();
+		instance.create(context);
+
+		Surface surface;
+		surface.create(instance, window);
+
+		PhysicalDevice physicalDevice;
+		physicalDevice.create(instance);
+
+		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+
+		Device device;
+		device.create(physicalDevice, surface);
+
+		swapChain->create(device, swapChainSupportDetails, surface, window);
+		std::vector<vk::Image> images = swapChain->getImages();
+		std::vector<VkImage> rawImages = swapChain->getInternal().getImages();
+
+		ASSERT_EQ(images.size(), rawImages.size());
+		for (const vk::Image& image : images)
+		{
+			ASSERT_TRUE(image);
+		}
+
+		images.clear();
+		swapChain.reset();
+		surface.destroy(instance);
+
+		GLFW::DeinitGLFW();
+	}
 }

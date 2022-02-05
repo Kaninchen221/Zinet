@@ -34,7 +34,7 @@ namespace zt::gl
 
 		void create(const PhysicalDevice& physicalDevice, const Surface& surface);
 
-		const vk::raii::Device& getInternal() const;
+		vk::raii::Device& getInternal();
 
 		vk::raii::Queue createQueue(uint32_t queueFamilyIndex) const;
 

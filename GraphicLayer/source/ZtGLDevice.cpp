@@ -48,7 +48,7 @@ namespace zt::gl
         internal = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
     }
 
-    const vk::raii::Device& Device::getInternal() const
+    vk::raii::Device& Device::getInternal()
     {
         return internal;
     }

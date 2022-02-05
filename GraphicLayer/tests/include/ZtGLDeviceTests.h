@@ -54,7 +54,7 @@ namespace zt::gl::tests
 		PhysicalDevice physicalDevice;
 		physicalDevice.create(instance);
 		device.create(physicalDevice);
-		const vk::raii::Device& internal = device.getInternal();
+		vk::raii::Device& internal = device.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::Device(std::nullptr_t()));
 	}

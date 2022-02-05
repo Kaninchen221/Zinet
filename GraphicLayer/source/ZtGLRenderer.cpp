@@ -38,14 +38,22 @@ namespace zt::gl
         swapChain = std::make_unique<SwapChain>();
         swapChain->create(device, swapChainSupportDetails, surface, window);
 
-        swapChainImages = swapChain->getInternal().getImages();
+        swapChainImages = swapChain->getImages();
+        imageViews.reserve(swapChainImages.size());
+        for (vk::Image swapChainImage : swapChainImages)
+        {
+            ImageView imageView;
+            imageView.create(device, swapChainImage, swapChainSupportDetails.pickFormat().format);
+            imageViews.push_back(std::move(imageView));
+        }
     }
 
     Renderer::~Renderer() noexcept
     {
+        imageViews.clear();
         swapChain.reset();
+        surface.destroy(instance);
 
-        surface.destroy(instance); // Must be called
         GLFW::DeinitGLFW();
     }
 
