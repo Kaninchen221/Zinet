@@ -1,5 +1,7 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
+#include "glslang/Public/ShaderLang.h"
+
 namespace zt::gl
 {
     Renderer::Renderer()
@@ -46,6 +48,11 @@ namespace zt::gl
             imageView.create(device, swapChainImage, swapChainSupportDetails.pickFormat().format);
             imageViews.push_back(std::move(imageView));
         }
+
+
+        glslang::InitializeProcess();
+
+        glslang::FinalizeProcess();
     }
 
     Renderer::~Renderer() noexcept

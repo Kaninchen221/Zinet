@@ -12,7 +12,9 @@ renderer_lib_test.include_dirs_list = [
     "${COLONY_INCLUDE_DIRS}",
     "${GLM_INCLUDE_DIRS}",
     "${STB_INCLUDE_DIRS}",
-    "${VULKAN_HPP_INCLUDE_DIRS}"
+    "${VULKAN_HPP_INCLUDE_DIRS}",
+    "${Vulkan_INCLUDE_DIR}",
+    "${GLSLANG_INCLUDE_DIRS}"
 ]
 renderer_lib_test.link_libraries_list = [
     "spdlog",

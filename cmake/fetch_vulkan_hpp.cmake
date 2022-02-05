@@ -13,6 +13,16 @@ set(VULKAN_HPP_INCLUDE_DIRS
 	${CMAKE_BINARY_DIR}/_deps/vulkan_hpp-src/Vulkan-Headers/include
 )
 
+set(GLSLANG_INCLUDE_DIRS
+	${CMAKE_BINARY_DIR}/_deps/vulkan_hpp-src/glslang/glslang/include
+)
+
+set_target_properties(glslang PROPERTIES 
+    ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/archive/
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
+)
+
 set(GLM_INCLUDE_DIRS
 	${CMAKE_BINARY_DIR}/_deps/vulkan_hpp-src/glm
 )
