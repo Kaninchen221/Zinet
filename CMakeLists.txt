@@ -23,18 +23,7 @@ add_subdirectory(EntryPoint)
 # TODO: Make this propagation inside python
 set(ZINET_TARGETS_NAMES "ZtEntryPoint" "ZtCore" "ZtCoreTest")
 
-include(cmake/multiple_targets_compile_definitions.cmake) # Resolve problems with diffrent os
-
-if(MSVC OR MSYS) # Windows
-	
-	message(STATUS "*** OS: Windows ***")
-	# multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" "ZINET_WINDOWS")
-	
-else()
-
-	message(FATAL_ERROR "*** OS: NOT SUPPORTED ***")
-	
-endif()
+include(cmake/multiple_targets_compile_definitions.cmake)
 
 set(ZINET_ENGINE_ROOT_PATH ZINET_ENGINE_ROOT_PATH="${CMAKE_SOURCE_DIR}")
 multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" ${ZINET_ENGINE_ROOT_PATH}) # Propagate macro with engine root folder

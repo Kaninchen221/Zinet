@@ -21,7 +21,8 @@ renderer_lib_test.link_libraries_list = [
     "gtest",
     "gmock",
     "glfw",
-    "ZtGraphicLayer"
+    "ZtGraphicLayer",
+    "glslang"
 ]
 renderer_lib_test.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

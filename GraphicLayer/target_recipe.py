@@ -20,7 +20,8 @@ renderer_lib.link_libraries_list = [
     "ZtCore",
     "spdlog",
     "glfw",
-    "${Vulkan_LIBRARIES}"
+    "${Vulkan_LIBRARIES}",
+    "glslang"
 ]
 renderer_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
