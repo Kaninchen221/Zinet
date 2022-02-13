@@ -11,7 +11,7 @@ ZtEntryPointCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsEn
 
 # First prepare all root properties
 root = ZtRootCMakeGenerator()
-root.cmake_minimum_version = "3.14"
+root.cmake_minimum_version = "3.20"
 root.project_name = "Zinet"
 root.project_version = "0.1.2"
 root.project_description = "Game Engine"
