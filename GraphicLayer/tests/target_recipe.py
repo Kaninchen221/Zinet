@@ -13,8 +13,7 @@ renderer_lib_test.include_dirs_list = [
     "${GLM_INCLUDE_DIRS}",
     "${STB_INCLUDE_DIRS}",
     "${VULKAN_HPP_INCLUDE_DIRS}",
-    "${Vulkan_INCLUDE_DIR}",
-    "${GLSLANG_INCLUDE_DIRS}"
+    "${Vulkan_INCLUDE_DIR}"
 ]
 renderer_lib_test.link_libraries_list = [
     "spdlog",
@@ -22,7 +21,7 @@ renderer_lib_test.link_libraries_list = [
     "gmock",
     "glfw",
     "ZtGraphicLayer",
-    "glslang"
+    "SPIRV"
 ]
 renderer_lib_test.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
