@@ -13,15 +13,13 @@ renderer_lib.include_dirs_list = [
     "${GLM_INCLUDE_DIRS}",
     "${STB_INCLUDE_DIRS}",
     "${VULKAN_HPP_INCLUDE_DIRS}",
-    "${Vulkan_INCLUDE_DIR}",
-    "${GLSLANG_INCLUDE_DIRS}"
+    "${Vulkan_INCLUDE_DIR}"
 ]
 renderer_lib.link_libraries_list = [
     "ZtCore",
     "spdlog",
     "glfw",
-    "${Vulkan_LIBRARIES}",
-    "glslang"
+    "${Vulkan_LIBRARIES}"
 ]
 renderer_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
