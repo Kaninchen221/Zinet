@@ -1,50 +1,48 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtShaderType.h"
-#include "Zinet/GraphicLayer/ZtObject.h"
+#include "Zinet/GraphicLayer/ZtGLShaderType.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 #include <string>
 
+namespace glslang
+{
+	class TShader;
+}
+
 namespace zt::gl
 {
 
-	class ZINET_GRAPHIC_LAYER_API Shader : public Object
+	class ZINET_GRAPHIC_LAYER_API Shader
 	{
 		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Shader");
 
 	public:
 
-		Shader() = default;
-		Shader(const Shader& other) = default;
+		Shader();
+		Shader(const Shader& other) = delete;
 		Shader(Shader&& other) = default;
 
 		Shader& operator = (const Shader& other) = default;
 		Shader& operator = (Shader&& other) = default;
 
-		~Shader() noexcept;
+		~Shader() noexcept = default;
 
-		void create(ShaderType shaderType);
-
-		void deleteResource();
-
-		ShaderType getType() const;
+		std::string_view getSource() const;
 
 		void loadFromCString(const char* source);
 
 		void loadFromFile(const std::string& path);
 
-		void compile();
-
-		bool compileStatus() const;
-
-		std::string compileErrorMessage() const;
+		bool parse();
+		
 
 	protected:
 
-		ShaderType type{};
+		std::string source;
+
 	};
 
 }

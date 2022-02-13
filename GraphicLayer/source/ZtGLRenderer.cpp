@@ -1,6 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
-#include "glslang/Public/ShaderLang.h"
+#include "Zinet/GraphicLayer/ZtGLShader.h"
 
 namespace zt::gl
 {
@@ -49,10 +49,6 @@ namespace zt::gl
             imageViews.push_back(std::move(imageView));
         }
 
-
-        glslang::InitializeProcess();
-
-        glslang::FinalizeProcess();
     }
 
     Renderer::~Renderer() noexcept
