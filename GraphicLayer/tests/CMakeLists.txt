@@ -12,8 +12,11 @@ add_executable(ZtGraphicLayerTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLImageViewTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLInstanceTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLPhysicalDeviceTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLProgramTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLQueueTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLRendererTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLShaderTests.h"
+	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLShaderTypeTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSurfaceTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSwapChainSupportDetailsTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLSwapChainTests.h"
@@ -29,9 +32,6 @@ add_executable(ZtGraphicLayerTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtMouseScrollEventTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtMouseTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtObjectTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtProgramTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtShaderTests.h"
-	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtShaderTypeTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtTextureTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexArrayTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexBufferTests.h"
@@ -58,8 +58,8 @@ set_target_properties(ZtGraphicLayerTest
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtGraphicLayerTest PUBLIC ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS} ${Vulkan_INCLUDE_DIR} ${GLSLANG_INCLUDE_DIRS})
+target_include_directories(ZtGraphicLayerTest PUBLIC ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS} ${Vulkan_INCLUDE_DIR})
 
 target_compile_definitions(ZtGraphicLayerTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ZtGraphicLayerTest PUBLIC spdlog gtest gmock glfw ZtGraphicLayer glslang)
+target_link_libraries(ZtGraphicLayerTest PUBLIC spdlog gtest gmock glfw ZtGraphicLayer)
