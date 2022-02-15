@@ -45,8 +45,8 @@ set_target_properties(ZtCoreTest
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtCoreTest PUBLIC ${COLONY_INCLUDE_DIRS})
+target_include_directories(ZtCoreTest PUBLIC ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_GTEST} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT})
 
 target_compile_definitions(ZtCoreTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ZtCoreTest PUBLIC gtest gmock ZtCore spdlog)
+target_link_libraries(ZtCoreTest PUBLIC ZtCore ${CONAN_LIBS_SPDLOG} ${CONAN_LIBS_GTEST} ${CONAN_LIBS_FMT})

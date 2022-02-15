@@ -60,9 +60,9 @@ set_target_properties(ZtCore PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtCore PRIVATE ${COLONY_INCLUDE_DIRS})
+target_include_directories(ZtCore PRIVATE ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT})
 
-target_link_libraries(ZtCore PUBLIC spdlog glfw)
+target_link_libraries(ZtCore PUBLIC )
 
 target_compile_definitions(ZtCore PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 

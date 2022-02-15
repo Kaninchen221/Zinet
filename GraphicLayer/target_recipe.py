@@ -9,17 +9,16 @@ renderer_lib.header_path = "GraphicLayer/include"
 renderer_lib.inl_path = "GraphicLayer/include"
 renderer_lib.source_path = "GraphicLayer/source"
 renderer_lib.include_dirs_list = [
-    "${COLONY_INCLUDE_DIRS}",
-    "${GLM_INCLUDE_DIRS}",
-    "${STB_INCLUDE_DIRS}",
-    "${VULKAN_HPP_INCLUDE_DIRS}",
-    "${Vulkan_INCLUDE_DIR}"
+    "${CONAN_INCLUDE_DIRS_SPDLOG}",
+    "${CONAN_INCLUDE_DIRS_PLF_COLONY}",
+    "${CONAN_INCLUDE_DIRS_FMT}",
+    "${CONAN_INCLUDE_DIRS_GLFW}",
+    "${CONAN_INCLUDE_DIRS_GLM}",
+    "${CONAN_INCLUDE_DIRS_STB}",
+    "${Vulkan_INCLUDE_DIRS}"
 ]
 renderer_lib.link_libraries_list = [
-    "ZtCore",
-    "spdlog",
-    "glfw",
-    "${Vulkan_LIBRARIES}"
+    "ZtCore"
 ]
 renderer_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

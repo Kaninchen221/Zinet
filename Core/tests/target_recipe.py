@@ -9,13 +9,16 @@ core_lib_test.header_path = "Core/tests/include"
 core_lib_test.inl_path = "Core/tests/include"
 core_lib_test.source_path = "Core/tests/source"
 core_lib_test.include_dirs_list = [
-    "${COLONY_INCLUDE_DIRS}"
+    "${CONAN_INCLUDE_DIRS_SPDLOG}",
+    "${CONAN_INCLUDE_DIRS_GTEST}",
+    "${CONAN_INCLUDE_DIRS_PLF_COLONY}",
+    "${CONAN_INCLUDE_DIRS_FMT}"
 ]
 core_lib_test.link_libraries_list = [
-    "gtest",
-    "gmock",
     "ZtCore",
-    "spdlog"
+    "${CONAN_LIBS_SPDLOG}",
+    "${CONAN_LIBS_GTEST}",
+    "${CONAN_LIBS_FMT}"
 ]
 core_lib_test.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

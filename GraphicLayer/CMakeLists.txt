@@ -81,9 +81,9 @@ set_target_properties(ZtGraphicLayer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtGraphicLayer PRIVATE ${COLONY_INCLUDE_DIRS} ${GLM_INCLUDE_DIRS} ${STB_INCLUDE_DIRS} ${VULKAN_HPP_INCLUDE_DIRS} ${Vulkan_INCLUDE_DIR})
+target_include_directories(ZtGraphicLayer PRIVATE ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT} ${CONAN_INCLUDE_DIRS_GLFW} ${CONAN_INCLUDE_DIRS_GLM} ${CONAN_INCLUDE_DIRS_STB} ${Vulkan_INCLUDE_DIRS})
 
-target_link_libraries(ZtGraphicLayer PUBLIC ZtCore spdlog glfw ${Vulkan_LIBRARIES})
+target_link_libraries(ZtGraphicLayer PUBLIC ZtCore)
 
 target_compile_definitions(ZtGraphicLayer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
