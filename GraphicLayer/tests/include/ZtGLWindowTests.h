@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include "gtest/gtest.h"
 
@@ -13,13 +14,22 @@ namespace zt::gl::tests
 
 		Window window{};
 
+		void SetUp() override
+		{
+			GLFW::InitGLFW();
+		}
+
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
+		}
 	};
 
 	TEST_F(ZtWindowTests, CreateWindowTest)
 	{
 		window.createWindow();
 
-		GLFWwindow* internalWindow = window.getInternalWindow();
+		GLFWwindow* internalWindow = window.getInternal();
 		ASSERT_TRUE(internalWindow);
 	}
 
@@ -51,7 +61,7 @@ namespace zt::gl::tests
 		window.createWindow();
 		window.bindFramebufferSizeCallback();
 
-		GLFWwindow* glfwWindow = window.getInternalWindow();
+		GLFWwindow* glfwWindow = window.getInternal();
 		GLFWframebuffersizefun actualPointer = glfwSetFramebufferSizeCallback(glfwWindow, nullptr);
 		GLFWframebuffersizefun expectedPointer = &Window::FramebufferSizeCallback;
 
@@ -65,7 +75,7 @@ namespace zt::gl::tests
 		bool isOpen = window.isOpen();
 		ASSERT_TRUE(isOpen);
 	
-		GLFWwindow* glfwWindow = window.getInternalWindow();
+		GLFWwindow* glfwWindow = window.getInternal();
 		glfwSetWindowShouldClose(glfwWindow, true);
 	
 		isOpen = window.isOpen();

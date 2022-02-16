@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtMouse.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include "gtest/gtest.h"
 

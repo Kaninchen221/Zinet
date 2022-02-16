@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLProgram.h"
+#include "Zinet/GraphicLayer/ZtGLShader.h"
 
 #include "gtest/gtest.h"
 
@@ -62,6 +63,6 @@ namespace zt::gl::tests
 		//std::vector<unsigned int> spv = program.getSPV();
 
 		//ASSERT_FALSE(spv.empty());
-	}static_cast(false, "Use shaderc instead of this fucking useless shit glaslang kurwa");
+	}
 
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtMouse.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtMouseButtonEvent.h"
 #include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
 
@@ -19,6 +19,15 @@ namespace zt::gl::tests
 
 		Mouse mouse;
 
+		void SetUp() override
+		{
+			GLFW::InitGLFW();
+		}
+
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
+		}
 	};
 
 	TEST_F(ZtMouseTests, SetWindowTest)
@@ -61,7 +70,7 @@ namespace zt::gl::tests
 		Window window;
 		window.createWindow();
 		MouseButtonEvent expectedButtonEvent{};
-		Mouse::ButtonCallback(window.getInternalWindow(), static_cast<int>(expectedButtonEvent.button), static_cast<int>(expectedButtonEvent.type), 0);
+		Mouse::ButtonCallback(window.getInternal(), static_cast<int>(expectedButtonEvent.button), static_cast<int>(expectedButtonEvent.type), 0);
 		const std::vector<MouseButtonEvent>& buttonsEvents = mouse.getButtonsEvents();
 		size_t actualButtonsEventsCount = buttonsEvents.size();
 		size_t expectedButtonsEventsCount = 1u;
@@ -77,7 +86,7 @@ namespace zt::gl::tests
 		Window window;
 		window.createWindow();
 		glm::dvec2 expectedPosition{ 34.0, 2.4324 };
-		Mouse::PositionCallback(window.getInternalWindow(), expectedPosition.x, expectedPosition.y);
+		Mouse::PositionCallback(window.getInternal(), expectedPosition.x, expectedPosition.y);
 
 		Event* event = window.getEvent();
 		Mouse* mouse = event->getMouse();
@@ -89,7 +98,7 @@ namespace zt::gl::tests
 
 		mouse->setMaxRememberedPositionEvents(2u);
 		glm::dvec2 expectedSecondPosition{ 0.3432, 21.0 };
-		Mouse::PositionCallback(window.getInternalWindow(), expectedSecondPosition.x, expectedSecondPosition.y);
+		Mouse::PositionCallback(window.getInternal(), expectedSecondPosition.x, expectedSecondPosition.y);
 		glm::dvec2 actualSecondPosition = positions[0].position;
 		areEqual = glm::equal(expectedSecondPosition, actualSecondPosition);
 		ASSERT_TRUE(glm::all(areEqual));

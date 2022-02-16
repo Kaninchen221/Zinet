@@ -2,18 +2,18 @@ message(STATUS "*** Create Zinet {argument_pretty_name} executable ***")
 
 add_executable({argument_name}
 	main.cpp
-	
+
 	{argument_headers}
-	
+
 	{argument_inl}
-	
+
 	{argument_source}
 )
 
 target_compile_features({argument_name} PUBLIC {argument_cpp_standard})
 
 set_target_properties({argument_name} PROPERTIES LINKER_LANGUAGE CXX)
-	
+
 target_compile_definitions({argument_name} PUBLIC GTEST_LINKED_AS_SHARED_LIBRARY)
 
 set_target_properties({argument_name}
@@ -31,3 +31,5 @@ target_include_directories({argument_name} PUBLIC {argument_include_dirs})
 target_compile_definitions({argument_name} PRIVATE {argument_macros})
 
 target_link_libraries({argument_name} PUBLIC {argument_link_libraries_string})
+
+add_test(NAME {argument_name} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin COMMAND {argument_name})

@@ -36,9 +36,9 @@ add_library(ZtGraphicLayer STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertex.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertexArray.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/include/Zinet/GraphicLayer/ZtVertexBuffer.h"
+
 	
-	
-	
+
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtElementBuffer.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtEvent.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/source/ZtGLContext.cpp"
@@ -72,7 +72,7 @@ add_library(ZtGraphicLayer STATIC
 
 target_compile_features(ZtGraphicLayer PUBLIC cxx_std_20)
 
-set_target_properties(ZtGraphicLayer PROPERTIES 
+set_target_properties(ZtGraphicLayer PROPERTIES
 	LINKER_LANGUAGE CXX
 	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
 	INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
@@ -81,7 +81,7 @@ set_target_properties(ZtGraphicLayer PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtGraphicLayer PRIVATE ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT} ${CONAN_INCLUDE_DIRS_GLFW} ${CONAN_INCLUDE_DIRS_GLM} ${CONAN_INCLUDE_DIRS_STB} ${Vulkan_INCLUDE_DIRS})
+target_include_directories(ZtGraphicLayer PUBLIC ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT} ${CONAN_INCLUDE_DIRS_GLFW} ${CONAN_INCLUDE_DIRS_GLM} ${CONAN_INCLUDE_DIRS_STB} ${Vulkan_INCLUDE_DIRS})
 
 target_link_libraries(ZtGraphicLayer PUBLIC ZtCore)
 

@@ -16,10 +16,8 @@ EntryPoint.include_dirs_list = [
     "${VULKAN_HPP_INCLUDE_DIRS}"
 ]
 EntryPoint.link_libraries_list = [
-    "spdlog",
-    "glfw",
-    "ZtGraphicLayer",
-    "${Vulkan_LIBRARIES}"
+    "ZtCore",
+    "ZtGraphicLayer"
 ]
 EntryPoint.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

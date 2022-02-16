@@ -27,9 +27,9 @@ add_library(ZtCore STATIC
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/Reflection/ZtReflectedMemberProperty.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/Reflection/ZtReflectedMemberPropertyMacro.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/Reflection/ZtReflectionUtilities.h"
-	
+
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/include/Zinet/Core/Reflection/ZtReflectionUtilities.inl"
-	
+
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtClock.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtFile.cpp"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/source/ZtFileFinder.cpp"
@@ -51,7 +51,7 @@ add_library(ZtCore STATIC
 
 target_compile_features(ZtCore PUBLIC cxx_std_20)
 
-set_target_properties(ZtCore PROPERTIES 
+set_target_properties(ZtCore PROPERTIES
 	LINKER_LANGUAGE CXX
 	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
 	INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include/
@@ -60,7 +60,7 @@ set_target_properties(ZtCore PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/runtime
 )
 
-target_include_directories(ZtCore PRIVATE ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT})
+target_include_directories(ZtCore PUBLIC ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT})
 
 target_link_libraries(ZtCore PUBLIC )
 

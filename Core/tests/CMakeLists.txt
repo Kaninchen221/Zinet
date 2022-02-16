@@ -2,7 +2,7 @@ message(STATUS "*** Create Zinet Zinet Core Test executable ***")
 
 add_executable(ZtCoreTest
 	main.cpp
-	
+
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtClockTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtEventBroadcasterTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/ZtFileFinderTests.h"
@@ -23,16 +23,16 @@ add_executable(ZtCoreTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/Reflection/ZtReflectedMemberPropertyTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/Reflection/ZtReflectionTestStruct.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/Core/tests/include/Reflection/ZtReflectionUtilitiesTests.h"
+
 	
-	
-	
+
 	
 )
 
 target_compile_features(ZtCoreTest PUBLIC cxx_std_20)
 
 set_target_properties(ZtCoreTest PROPERTIES LINKER_LANGUAGE CXX)
-	
+
 target_compile_definitions(ZtCoreTest PUBLIC GTEST_LINKED_AS_SHARED_LIBRARY)
 
 set_target_properties(ZtCoreTest
@@ -50,3 +50,5 @@ target_include_directories(ZtCoreTest PUBLIC ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONA
 target_compile_definitions(ZtCoreTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
 target_link_libraries(ZtCoreTest PUBLIC ZtCore ${CONAN_LIBS_SPDLOG} ${CONAN_LIBS_GTEST} ${CONAN_LIBS_FMT})
+
+add_test(NAME ZtCoreTest WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin COMMAND ZtCoreTest)

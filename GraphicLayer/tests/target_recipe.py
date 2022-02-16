@@ -16,6 +16,7 @@ renderer_lib_test.include_dirs_list = [
     "${CONAN_INCLUDE_DIRS_GLFW}",
     "${CONAN_INCLUDE_DIRS_STB}",
     "${CONAN_INCLUDE_DIRS_GTEST}",
+    "${CONAN_INCLUDE_DIRS_SHADERC}",
     "${Vulkan_INCLUDE_DIRS}"
 ]
 renderer_lib_test.link_libraries_list = [
@@ -25,6 +26,7 @@ renderer_lib_test.link_libraries_list = [
     "${CONAN_LIBS_SPDLOG}",
     "${CONAN_LIBS_FMT}",
     "${CONAN_LIBS_GLFW}",
+    "${CONAN_LIBS_SHADERC}",
     "${Vulkan_LIBRARIES}"
 ]
 renderer_lib_test.macros_list = [

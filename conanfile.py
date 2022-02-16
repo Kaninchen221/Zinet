@@ -12,10 +12,13 @@ class ZinetConan(ConanFile):
         "pybind11/2.9.1@",
         "nlohmann_json/3.10.5@",
         "box2d/2.4.1@",
-        "glm/0.9.9.5@"
+        "glm/0.9.9.5@",
+        "shaderc/2021.1@"
         ]
    generators = "cmake"
    default_options = {"gtest:shared": True}
 
    def imports(self):
-      self.copy("*.pdb", dst="*", src="lib")
+       self.copy(pattern="*.dll", dst="bin", keep_path=False)
+       self.copy(pattern="*.dylib", dst="lib", keep_path=False)
+       self.copy(pattern="*.pdb", dst="bin", keep_path=False)

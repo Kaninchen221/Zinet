@@ -2,7 +2,7 @@ message(STATUS "*** Create Zinet Zinet Graphic Layer Test executable ***")
 
 add_executable(ZtGraphicLayerTest
 	main.cpp
-	
+
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtElementBufferTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtEventTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtGLContextTests.h"
@@ -36,16 +36,16 @@ add_executable(ZtGraphicLayerTest
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexArrayTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexBufferTests.h"
 	"C:/Users/Kaninchen/Desktop/Zinet2/GraphicLayer/tests/include/ZtVertexTests.h"
+
 	
-	
-	
+
 	
 )
 
 target_compile_features(ZtGraphicLayerTest PUBLIC cxx_std_20)
 
 set_target_properties(ZtGraphicLayerTest PROPERTIES LINKER_LANGUAGE CXX)
-	
+
 target_compile_definitions(ZtGraphicLayerTest PUBLIC GTEST_LINKED_AS_SHARED_LIBRARY)
 
 set_target_properties(ZtGraphicLayerTest
@@ -58,8 +58,10 @@ set_target_properties(ZtGraphicLayerTest
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/runtime"
 )
 
-target_include_directories(ZtGraphicLayerTest PUBLIC ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT} ${CONAN_INCLUDE_DIRS_GLM} ${CONAN_INCLUDE_DIRS_GLFW} ${CONAN_INCLUDE_DIRS_STB} ${CONAN_INCLUDE_DIRS_GTEST} ${Vulkan_INCLUDE_DIRS})
+target_include_directories(ZtGraphicLayerTest PUBLIC ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_PLF_COLONY} ${CONAN_INCLUDE_DIRS_FMT} ${CONAN_INCLUDE_DIRS_GLM} ${CONAN_INCLUDE_DIRS_GLFW} ${CONAN_INCLUDE_DIRS_STB} ${CONAN_INCLUDE_DIRS_GTEST} ${CONAN_INCLUDE_DIRS_SHADERC} ${Vulkan_INCLUDE_DIRS})
 
 target_compile_definitions(ZtGraphicLayerTest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ZINET_WINDOWS ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(ZtGraphicLayerTest PUBLIC ZtCore ZtGraphicLayer ${CONAN_LIBS_GTEST} ${CONAN_LIBS_SPDLOG} ${CONAN_LIBS_FMT} ${CONAN_LIBS_GLFW} ${Vulkan_LIBRARIES})
+target_link_libraries(ZtGraphicLayerTest PUBLIC ZtCore ZtGraphicLayer ${CONAN_LIBS_GTEST} ${CONAN_LIBS_SPDLOG} ${CONAN_LIBS_FMT} ${CONAN_LIBS_GLFW} ${CONAN_LIBS_SHADERC} ${Vulkan_LIBRARIES})
+
+add_test(NAME ZtGraphicLayerTest WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin COMMAND ZtGraphicLayerTest)

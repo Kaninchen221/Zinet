@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtKeyboard.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include "gtest/gtest.h"
 
@@ -14,6 +14,15 @@ namespace zt::gl::tests
 
 		Keyboard keyboard;
 
+		void SetUp() override
+		{
+			GLFW::InitGLFW();
+		}
+
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
+		}
 	};
 
 	TEST_F(ZtKeyboardTests, SetWindowTest)

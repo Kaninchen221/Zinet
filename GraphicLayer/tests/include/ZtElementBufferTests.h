@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtElementBuffer.h"
 #include "Zinet/GraphicLayer/ZtVertex.h"
-#include "Zinet/GraphicLayer/ZtWindow.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include "gtest/gtest.h"
 
