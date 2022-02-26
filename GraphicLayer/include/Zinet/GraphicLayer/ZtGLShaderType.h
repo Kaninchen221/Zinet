@@ -2,14 +2,19 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-#include "glslang/Public/ShaderLang.h"
+#include "shaderc/shaderc.hpp"
 
 namespace zt::gl
 {
 	enum class ZINET_GRAPHIC_LAYER_API ShaderType
 	{
-		Vertex = EShLanguage::EShLangVertex,
-		Fragment = EShLanguage::EShLangFragment
+		Invalid,
+		Vertex,
+		Fragment
 	};
+
+	shaderc_shader_kind ZINET_GRAPHIC_LAYER_API ShaderTypeToShaderc(ShaderType shaderType);
+
+	vk::ShaderStageFlagBits ZINET_GRAPHIC_LAYER_API ShaderTypeToVkShaderStage(ShaderType shaderType);
 
 }

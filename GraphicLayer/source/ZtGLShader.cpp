@@ -1,9 +1,8 @@
 #include "Zinet/GraphicLayer/ZtGLShader.h"
 
-#include <fstream>
-#include <sstream>
+#include "Zinet/Core/ZtFile.h"
 
-#include "glslang/Public/ShaderLang.h"
+#include "shaderc/shaderc.hpp"
 
 namespace zt::gl
 {
@@ -24,27 +23,66 @@ namespace zt::gl
 
 	void Shader::loadFromFile(const std::string& path)
 	{
-		std::ifstream file;
-		file.open(path);
-		if (file.is_open())
+		File file;
+		file.open(path, FileOpenMode::In);
+		if (!file.isOpen())
 		{
-			std::stringstream buffer;
-			buffer << file.rdbuf();
-            source = buffer.str();
+			Logger->error("Can't open file: {}", path);
+			return;
+		}
 
-			file.close();
-		}
-		else
-		{
-			Logger->error("Failed to open shader file with path: {}", path);
-		}
+		source = file.readAll();
 	}
 
-	bool Shader::parse()
+	ShaderType Shader::getType() const
 	{
-        
+		return type;
+	}
 
-        return true;
+	void Shader::setType(ShaderType shaderType)
+	{
+		type = shaderType;
+	}
+
+	std::string Shader::preprocess() const
+	{
+		shaderc::Compiler compiler;
+		shaderc::CompileOptions options;
+
+		shaderc::PreprocessedSourceCompilationResult result =
+			compiler.PreprocessGlsl(source, ShaderTypeToShaderc(type), "shader", options);
+
+		if (result.GetCompilationStatus() != shaderc_compilation_status_success) 
+		{
+			Logger->error("Failed to preprocess shader, error: {}", result.GetErrorMessage());
+			return "";
+		}
+
+		return { result.cbegin(), result.cend() };
+	}
+
+	bool Shader::compile()
+	{
+		shaderc::Compiler compiler;
+		shaderc::CompileOptions options;
+
+		shaderc::SpvCompilationResult result =
+			compiler.CompileGlslToSpv(source, ShaderTypeToShaderc(type), "shader", options);
+
+		if (result.GetCompilationStatus() != shaderc_compilation_status_success)
+		{
+			Logger->error("Failed to compile shader, error: {}", result.GetErrorMessage());
+			return false;
+		}
+
+		compiled = std::vector<uint32_t>{ result.cbegin(), result.cend() };
+
+		return true;
+	}
+
+	const std::vector<uint32_t>& Shader::getCompiled() const
+	{
+		return compiled;
 	}
 
 }

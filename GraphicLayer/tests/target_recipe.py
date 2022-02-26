@@ -17,17 +17,21 @@ renderer_lib_test.include_dirs_list = [
     "${CONAN_INCLUDE_DIRS_STB}",
     "${CONAN_INCLUDE_DIRS_GTEST}",
     "${CONAN_INCLUDE_DIRS_SHADERC}",
+    "${CONAN_INCLUDE_DIRS_SPIRV-TOOLS}",
     "${Vulkan_INCLUDE_DIRS}"
 ]
 renderer_lib_test.link_libraries_list = [
     "ZtCore",
     "ZtGraphicLayer",
+    "${Vulkan_LIBRARIES}",
     "${CONAN_LIBS_GTEST}",
     "${CONAN_LIBS_SPDLOG}",
     "${CONAN_LIBS_FMT}",
     "${CONAN_LIBS_GLFW}",
     "${CONAN_LIBS_SHADERC}",
-    "${Vulkan_LIBRARIES}"
+    "${CONAN_LIBS_GLSLANG}",
+    "${CONAN_LIBS_SPIRV-TOOLS}",
+    "${CONAN_LIBS_SPIRV-HEADERS}"
 ]
 renderer_lib_test.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"

@@ -33,7 +33,6 @@ namespace zt::gl::tests
 
 		Context context;
 
-		Instance instance;
 		instance.create(context);
 
 		Surface surface;
@@ -52,7 +51,6 @@ namespace zt::gl::tests
 
 		Context context;
 
-		Instance instance;
 		instance.create(context);
 
 		Surface surface;
@@ -84,6 +82,8 @@ namespace zt::gl::tests
 		vk::raii::Device& internal = device.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::Device(std::nullptr_t()));
+
+		surface.destroy(instance);
 	}
 
 	TEST_F(DeviceTests, CreateQueue)

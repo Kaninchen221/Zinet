@@ -55,11 +55,41 @@ namespace zt::gl::tests
 		ASSERT_FALSE(source.empty());
 	}
 
-	TEST_F(ShaderTests, ParseTest)
+	TEST_F(ShaderTests, GetTypeTest)
 	{
-		shader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.vert");
-		bool parseResult = shader.parse();
-		
-		ASSERT_TRUE(parseResult);
+		ShaderType type = shader.getType();
+
+		ASSERT_EQ(type, ShaderType::Invalid);
 	}
+
+	TEST_F(ShaderTests, SetTypeTest)
+	{
+		shader.setType(ShaderType::Vertex);
+		ShaderType type = shader.getType();
+
+		ASSERT_EQ(type, ShaderType::Vertex);
+	}
+
+	TEST_F(ShaderTests, PreprocessTest)
+	{
+		shader.setType(ShaderType::Vertex);
+		shader.loadFromCString(cStringVertexShaderSource);
+		std::string result = shader.preprocess();
+
+		ASSERT_FALSE(result.empty());
+	}
+
+	TEST_F(ShaderTests, CompileTest)
+	{
+		shader.setType(ShaderType::Vertex);
+		shader.loadFromCString(cStringVertexShaderSource);
+		bool isCompiled = shader.compile();
+
+		ASSERT_TRUE(isCompiled);
+
+		const std::vector<uint32_t>& result = shader.getCompiled();
+		
+		ASSERT_FALSE(result.empty());
+	}
+	
 }

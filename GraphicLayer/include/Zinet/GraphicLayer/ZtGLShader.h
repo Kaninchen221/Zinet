@@ -36,12 +36,21 @@ namespace zt::gl
 
 		void loadFromFile(const std::string& path);
 
-		bool parse();
+		ShaderType getType() const;
+
+		void setType(ShaderType shaderType);
+
+		std::string preprocess() const;
+
+		bool compile();
 		
+		const std::vector<uint32_t>& getCompiled() const;
 
 	protected:
 
+		ShaderType type = ShaderType::Invalid;
 		std::string source;
+		std::vector<uint32_t> compiled;
 
 	};
 
