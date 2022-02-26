@@ -4,7 +4,7 @@
 
 namespace zt::gl
 {
-    Renderer::Renderer()
+    void Renderer::run()
     {
         GLFW::InitGLFW();
 
@@ -49,6 +49,26 @@ namespace zt::gl
             imageViews.push_back(std::move(imageView));
         }
 
+        vertexShader.setType(ShaderType::Vertex);
+        vertexShader.loadFromFile((contentPath / "shader.vert").string());
+        if (!vertexShader.compile())
+        {
+            Logger->error("Can't compile vertex shader");
+            return;
+        }
+
+        fragmentShader.setType(ShaderType::Fragment);
+        fragmentShader.loadFromFile((contentPath / "shader.frag").string());
+        if (!fragmentShader.compile())
+        {
+            Logger->error("Can't compile fragment shader");
+            return;
+        }
+
+        vertexShaderModule.create(device, vertexShader);
+        fragmentShaderModule.create(device, fragmentShader);
+
+        pipeline.createPipelineLayout(device);
     }
 
     Renderer::~Renderer() noexcept

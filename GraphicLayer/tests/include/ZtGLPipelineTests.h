@@ -166,7 +166,7 @@ namespace zt::gl::tests
 		Device device;
 		device.create(physicalDevice, surface);
 
-		pipeline->createPipelineLayout(device.getInternal());
+		pipeline->createPipelineLayout(device);
 		vk::raii::PipelineLayout& pipelineLayout = pipeline->getPipelineLayout();
 
 		ASSERT_NE(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });
@@ -175,7 +175,5 @@ namespace zt::gl::tests
 		pipeline.reset();
 
 		GLFW::DeinitGLFW();
-
-		vk::Instance instance = vk::su::createInstance("hj", "hjk");
 	}
 }

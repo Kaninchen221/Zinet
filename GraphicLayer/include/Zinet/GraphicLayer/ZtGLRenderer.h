@@ -10,8 +10,13 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGLShader.h"
+#include "Zinet/GraphicLayer/ZtGLShaderModule.h"
+#include "Zinet/GraphicLayer/ZtGLPipeline.h"
 
 #include "Zinet/Core/ZtLogger.h"
+
+#include <filesystem>
 
 namespace zt::gl
 {
@@ -25,7 +30,7 @@ namespace zt::gl
 
 	public:
 
-		Renderer();
+		Renderer() = default;
 		Renderer(const Renderer& other) = default;
 		Renderer(Renderer&& other) = default;
 
@@ -33,6 +38,10 @@ namespace zt::gl
 		Renderer& operator = (Renderer&& other) = default;
 
 		~Renderer() noexcept;
+
+		void run();
+
+		std::filesystem::path contentPath;
 
 	protected:
 
@@ -60,6 +69,13 @@ namespace zt::gl
 
 		Context context;
 
+		Shader vertexShader;
+		Shader fragmentShader;
+
+		ShaderModule vertexShaderModule;
+		ShaderModule fragmentShaderModule;
+
+		Pipeline pipeline;
 	};
 
 }

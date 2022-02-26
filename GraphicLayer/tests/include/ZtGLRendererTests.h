@@ -18,9 +18,10 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(RendererTests, PassTest)
+	TEST_F(RendererTests, RunTest)
 	{
-
+		renderer.contentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
+		renderer.run();
 	}
 
 }

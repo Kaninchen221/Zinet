@@ -156,10 +156,10 @@ namespace zt::gl
 		return pipelineLayout;
 	}
 
-	void Pipeline::createPipelineLayout(vk::raii::Device& device)
+	void Pipeline::createPipelineLayout(Device& device)
 	{
 		vk::PipelineLayoutCreateInfo createInfo = createPipelineLayoutCreateInfo();
-		pipelineLayout = std::move(vk::raii::PipelineLayout{ device, createInfo });
+		pipelineLayout = std::move(vk::raii::PipelineLayout{ device.getInternal(), createInfo });
 	}
 
 }

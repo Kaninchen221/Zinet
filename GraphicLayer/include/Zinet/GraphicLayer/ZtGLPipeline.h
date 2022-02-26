@@ -7,6 +7,7 @@
 namespace zt::gl
 {
 	class ShaderModule;
+	class Device;
 
 	class ZINET_GRAPHIC_LAYER_API Pipeline
 	{
@@ -54,7 +55,7 @@ namespace zt::gl
 
 		vk::raii::PipelineLayout& getPipelineLayout();
 
-		void createPipelineLayout(vk::raii::Device& device);
+		void createPipelineLayout(Device& device);
 
 	protected:
 
