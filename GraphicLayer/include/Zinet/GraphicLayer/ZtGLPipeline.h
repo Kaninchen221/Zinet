@@ -27,13 +27,13 @@ namespace zt::gl
 
 		~Pipeline() noexcept = default;
 
-		vk::PipelineShaderStageCreateInfo createShaderStageCreateInfo(ShaderModule& shaderModule);
+		vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);
 
-		vk::PipelineVertexInputStateCreateInfo createVertexInputStateCreateInfo();
+		vk::PipelineVertexInputStateCreateInfo& createVertexInputStateCreateInfo();
 
-		vk::PipelineInputAssemblyStateCreateInfo createInputAssemblyStateCreateInfo();
+		vk::PipelineInputAssemblyStateCreateInfo& createInputAssemblyStateCreateInfo();
 
-		vk::PipelineViewportStateCreateInfo createViewportStateCreateInfo();
+		vk::PipelineViewportStateCreateInfo& createViewportStateCreateInfo();
 
 		void setViewportSize(float width, float height);
 
@@ -43,17 +43,17 @@ namespace zt::gl
 
 		const vk::Rect2D& getScissor() const;
 
-		vk::PipelineRasterizationStateCreateInfo createRasterizationStateCreateInfo();
+		vk::PipelineRasterizationStateCreateInfo& createRasterizationStateCreateInfo();
 
-		vk::PipelineMultisampleStateCreateInfo createMultisampleStateCreateInfo();
+		vk::PipelineMultisampleStateCreateInfo& createMultisampleStateCreateInfo();
 
-		vk::PipelineColorBlendAttachmentState createColorBlendAttachmentStateTest();
+		vk::PipelineColorBlendAttachmentState& createColorBlendAttachmentState();
 
-		vk::PipelineColorBlendStateCreateInfo createColorBlendStateCreateInfo();
+		vk::PipelineColorBlendStateCreateInfo& createColorBlendStateCreateInfo();
 
 		vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
 
-		vk::raii::PipelineLayout& getPipelineLayout();
+		vk::raii::PipelineLayout& getInternal();
 
 		void createPipelineLayout(Device& device);
 
@@ -62,7 +62,14 @@ namespace zt::gl
 		vk::Viewport viewport;
 		vk::Rect2D scissor;
 
+		vk::PipelineShaderStageCreateInfo shaderStageCreateInfo;
+		vk::PipelineVertexInputStateCreateInfo vertexInputStateCreateInfo;
+		vk::PipelineInputAssemblyStateCreateInfo inputAssemblyStateCreateInfo;
+		vk::PipelineViewportStateCreateInfo viewportStateCreateInfo;
+		vk::PipelineRasterizationStateCreateInfo rasterizationStateCreateInfo;
+		vk::PipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
+		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
 
 		vk::raii::PipelineLayout pipelineLayout;
 	};

@@ -24,6 +24,7 @@
 #include "ZtGLSwapChainTests.h"
 #include "ZtGLImageViewTests.h"
 #include "ZtGLRenderPassTests.h"
+#include "ZtGLGraphicsPipelineTests.h"
 
 #include "ZtGLRendererTests.h"
 

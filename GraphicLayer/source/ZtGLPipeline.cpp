@@ -18,45 +18,41 @@ namespace zt::gl
 
 	}
 
-	vk::PipelineShaderStageCreateInfo Pipeline::createShaderStageCreateInfo(ShaderModule& shaderModule)
+	vk::PipelineShaderStageCreateInfo& Pipeline::createShaderStageCreateInfo(ShaderModule& shaderModule)
 	{
-		vk::PipelineShaderStageCreateInfo createInfo{};
-		createInfo.stage = ShaderTypeToVkShaderStage(shaderModule.getType());
-		createInfo.module = *shaderModule.getInternal();
-		createInfo.pName = "main";
+		shaderStageCreateInfo.stage = ShaderTypeToVkShaderStage(shaderModule.getType());
+		shaderStageCreateInfo.module = *shaderModule.getInternal();
+		shaderStageCreateInfo.pName = "main";
 
-		return createInfo;
+		return shaderStageCreateInfo;
 	}
 
-	vk::PipelineVertexInputStateCreateInfo Pipeline::createVertexInputStateCreateInfo()
+	vk::PipelineVertexInputStateCreateInfo& Pipeline::createVertexInputStateCreateInfo()
 	{
-		vk::PipelineVertexInputStateCreateInfo createInfo{};
-		createInfo.vertexBindingDescriptionCount = 0;
-		createInfo.pVertexBindingDescriptions = nullptr;
-		createInfo.vertexAttributeDescriptionCount = 0;
-		createInfo.pVertexAttributeDescriptions = nullptr;
+		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 0;
+		vertexInputStateCreateInfo.pVertexBindingDescriptions = nullptr;
+		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = 0;
+		vertexInputStateCreateInfo.pVertexAttributeDescriptions = nullptr;
 
-		return createInfo;
+		return vertexInputStateCreateInfo;
 	}
 
-	vk::PipelineInputAssemblyStateCreateInfo Pipeline::createInputAssemblyStateCreateInfo()
+	vk::PipelineInputAssemblyStateCreateInfo& Pipeline::createInputAssemblyStateCreateInfo()
 	{
-		vk::PipelineInputAssemblyStateCreateInfo createInfo{};
-		createInfo.topology = vk::PrimitiveTopology::eTriangleList;
-		createInfo.primitiveRestartEnable = VK_FALSE;
+		inputAssemblyStateCreateInfo.topology = vk::PrimitiveTopology::eTriangleList;
+		inputAssemblyStateCreateInfo.primitiveRestartEnable = VK_FALSE;
 
-		return createInfo;
+		return inputAssemblyStateCreateInfo;
 	}
 
-	vk::PipelineViewportStateCreateInfo Pipeline::createViewportStateCreateInfo()
+	vk::PipelineViewportStateCreateInfo& Pipeline::createViewportStateCreateInfo()
 	{
-		vk::PipelineViewportStateCreateInfo createInfo{};
-		createInfo.viewportCount = 1;
-		createInfo.pViewports = &viewport;
-		createInfo.scissorCount = 1;
-		createInfo.pScissors = &scissor;
+		viewportStateCreateInfo.viewportCount = 1;
+		viewportStateCreateInfo.pViewports = &viewport;
+		viewportStateCreateInfo.scissorCount = 1;
+		viewportStateCreateInfo.pScissors = &scissor;
 
-		return createInfo;
+		return viewportStateCreateInfo;
 	}
 
 	void Pipeline::setViewportSize(float width, float height)
@@ -80,37 +76,35 @@ namespace zt::gl
 		return scissor;
 	}
 
-	vk::PipelineRasterizationStateCreateInfo Pipeline::createRasterizationStateCreateInfo()
+	vk::PipelineRasterizationStateCreateInfo& Pipeline::createRasterizationStateCreateInfo()
 	{
-		vk::PipelineRasterizationStateCreateInfo createInfo{};
-		createInfo.depthClampEnable = VK_FALSE;
-		createInfo.rasterizerDiscardEnable = VK_FALSE;
-		createInfo.polygonMode = vk::PolygonMode::eFill;
-		createInfo.lineWidth = 1.0f;
-		createInfo.cullMode = vk::CullModeFlagBits::eFront;
-		createInfo.frontFace = vk::FrontFace::eClockwise; 
-		createInfo.depthBiasEnable = VK_FALSE;
-		createInfo.depthBiasConstantFactor = 0.0f;
-		createInfo.depthBiasClamp = 0.0f;
-		createInfo.depthBiasSlopeFactor = 0.0f;
+		rasterizationStateCreateInfo.depthClampEnable = VK_FALSE;
+		rasterizationStateCreateInfo.rasterizerDiscardEnable = VK_FALSE;
+		rasterizationStateCreateInfo.polygonMode = vk::PolygonMode::eFill;
+		rasterizationStateCreateInfo.lineWidth = 1.0f;
+		rasterizationStateCreateInfo.cullMode = vk::CullModeFlagBits::eFront;
+		rasterizationStateCreateInfo.frontFace = vk::FrontFace::eClockwise;
+		rasterizationStateCreateInfo.depthBiasEnable = VK_FALSE;
+		rasterizationStateCreateInfo.depthBiasConstantFactor = 0.0f;
+		rasterizationStateCreateInfo.depthBiasClamp = 0.0f;
+		rasterizationStateCreateInfo.depthBiasSlopeFactor = 0.0f;
 
-		return createInfo;
+		return rasterizationStateCreateInfo;
 	}
 
-	vk::PipelineMultisampleStateCreateInfo Pipeline::createMultisampleStateCreateInfo()
+	vk::PipelineMultisampleStateCreateInfo& Pipeline::createMultisampleStateCreateInfo()
 	{
-		vk::PipelineMultisampleStateCreateInfo createInfo{};
-		createInfo.sampleShadingEnable = VK_FALSE;
-		createInfo.rasterizationSamples = vk::SampleCountFlagBits::e1;
-		createInfo.minSampleShading = 1.0f;
-		createInfo.pSampleMask = nullptr;
-		createInfo.alphaToCoverageEnable = VK_FALSE;
-		createInfo.alphaToOneEnable = VK_FALSE;
+		multisampleStateCreateInfo.sampleShadingEnable = VK_FALSE;
+		multisampleStateCreateInfo.rasterizationSamples = vk::SampleCountFlagBits::e1;
+		multisampleStateCreateInfo.minSampleShading = 1.0f;
+		multisampleStateCreateInfo.pSampleMask = nullptr;
+		multisampleStateCreateInfo.alphaToCoverageEnable = VK_FALSE;
+		multisampleStateCreateInfo.alphaToOneEnable = VK_FALSE;
 
-		return createInfo;
+		return multisampleStateCreateInfo;
 	}
 
-	vk::PipelineColorBlendAttachmentState Pipeline::createColorBlendAttachmentStateTest()
+	vk::PipelineColorBlendAttachmentState& Pipeline::createColorBlendAttachmentState()
 	{
 		colorBlendAttachmentState.colorWriteMask =
 			vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
@@ -125,33 +119,32 @@ namespace zt::gl
 		return colorBlendAttachmentState;
 	}
 
-	vk::PipelineColorBlendStateCreateInfo Pipeline::createColorBlendStateCreateInfo()
+	vk::PipelineColorBlendStateCreateInfo& Pipeline::createColorBlendStateCreateInfo()
 	{
-		vk::PipelineColorBlendStateCreateInfo createInfo{};
-		createInfo.logicOpEnable = VK_FALSE;
-		createInfo.logicOp = vk::LogicOp::eCopy;
-		createInfo.attachmentCount = 1;
-		createInfo.pAttachments = &colorBlendAttachmentState;
-		createInfo.blendConstants[0] = 0.0f;
-		createInfo.blendConstants[1] = 0.0f;
-		createInfo.blendConstants[2] = 0.0f;
-		createInfo.blendConstants[3] = 0.0f;
+		colorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
+		colorBlendStateCreateInfo.logicOp = vk::LogicOp::eCopy;
+		colorBlendStateCreateInfo.attachmentCount = 1;
+		colorBlendStateCreateInfo.pAttachments = &colorBlendAttachmentState;
+		colorBlendStateCreateInfo.blendConstants[0] = 0.0f;
+		colorBlendStateCreateInfo.blendConstants[1] = 0.0f;
+		colorBlendStateCreateInfo.blendConstants[2] = 0.0f;
+		colorBlendStateCreateInfo.blendConstants[3] = 0.0f;
 
-		return createInfo;
+		return colorBlendStateCreateInfo;
 	}
 
 	vk::PipelineLayoutCreateInfo Pipeline::createPipelineLayoutCreateInfo()
 	{
-		vk::PipelineLayoutCreateInfo createInfo{};
-		createInfo.setLayoutCount = 0;
-		createInfo.pSetLayouts = nullptr;
-		createInfo.pushConstantRangeCount = 0;
-		createInfo.pPushConstantRanges = nullptr;
+		vk::PipelineLayoutCreateInfo layoutCreateInfo;
+		layoutCreateInfo.setLayoutCount = 0;
+		layoutCreateInfo.pSetLayouts = nullptr;
+		layoutCreateInfo.pushConstantRangeCount = 0;
+		layoutCreateInfo.pPushConstantRanges = nullptr;
 
-		return createInfo;
+		return layoutCreateInfo;
 	}
 
-	vk::raii::PipelineLayout& Pipeline::getPipelineLayout()
+	vk::raii::PipelineLayout& Pipeline::getInternal()
 	{
 		return pipelineLayout;
 	}

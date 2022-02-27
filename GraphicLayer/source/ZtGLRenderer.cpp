@@ -83,6 +83,8 @@ namespace zt::gl
         scissor.extent = swapExtent;
         pipeline.setScissor(scissor);
 
+        pipeline.createColorBlendAttachmentState();
+
         pipeline.createPipelineLayout(device);
 
         /// RenderPass

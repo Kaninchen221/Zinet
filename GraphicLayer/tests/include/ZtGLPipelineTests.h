@@ -120,7 +120,7 @@ namespace zt::gl::tests
 
 	TEST_F(PipelineTests, CreateColorBlendAttachmentStateTest)
 	{
-		vk::PipelineColorBlendAttachmentState createInfo = pipeline->createColorBlendAttachmentStateTest();
+		vk::PipelineColorBlendAttachmentState createInfo = pipeline->createColorBlendAttachmentState();
 
 		ASSERT_NE(createInfo, vk::PipelineColorBlendAttachmentState{});
 	}
@@ -141,7 +141,7 @@ namespace zt::gl::tests
 
 	TEST_F(PipelineTests, GetPipelineLayoutTest)
 	{
-		vk::raii::PipelineLayout& pipelineLayout = pipeline->getPipelineLayout();
+		vk::raii::PipelineLayout& pipelineLayout = pipeline->getInternal();
 
 		ASSERT_EQ(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });
 	}
@@ -167,7 +167,7 @@ namespace zt::gl::tests
 		device.create(physicalDevice, surface);
 
 		pipeline->createPipelineLayout(device);
-		vk::raii::PipelineLayout& pipelineLayout = pipeline->getPipelineLayout();
+		vk::raii::PipelineLayout& pipelineLayout = pipeline->getInternal();
 
 		ASSERT_NE(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });
 
