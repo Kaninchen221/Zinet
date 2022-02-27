@@ -68,6 +68,17 @@ namespace zt::gl
         vertexShaderModule.create(device, vertexShader);
         fragmentShaderModule.create(device, fragmentShader);
 
+        /// Pipeline
+        /// Draw at entire space
+        
+        vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
+        pipeline.setViewportSize(swapExtent.width, swapExtent.height);
+
+        vk::Rect2D scissor;
+        scissor.offset = vk::Offset2D{ 0, 0 };
+        scissor.extent = swapExtent;
+        pipeline.setScissor(scissor);
+
         pipeline.createPipelineLayout(device);
     }
 
