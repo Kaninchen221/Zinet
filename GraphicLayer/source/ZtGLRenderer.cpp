@@ -72,6 +72,11 @@ namespace zt::gl
         vertexShaderModule.create(device, vertexShader);
         fragmentShaderModule.create(device, fragmentShader);
 
+        vk::PipelineShaderStageCreateInfo vertexShaderStage = pipelineLayout.createShaderStageCreateInfo(vertexShaderModule);
+        vk::PipelineShaderStageCreateInfo fragmentShaderStage = pipelineLayout.createShaderStageCreateInfo(fragmentShaderModule);
+
+        std::vector<vk::PipelineShaderStageCreateInfo> shaderStages = { vertexShaderStage, fragmentShaderStage };
+
         /// Pipeline
         /// Draw at entire space
         
@@ -94,6 +99,11 @@ namespace zt::gl
         renderPass.createSubpassDescription();
 
         renderPass.create(device);
+
+        /// Pipeline
+
+        vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, shaderStages);
+        pipeline.create(device, createInfo);
     }
 
     Renderer::~Renderer() noexcept

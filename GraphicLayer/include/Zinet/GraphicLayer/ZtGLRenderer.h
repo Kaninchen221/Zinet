@@ -14,6 +14,7 @@
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
+#include "Zinet/GraphicLayer/ZtGLPipeline.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -79,6 +80,8 @@ namespace zt::gl
 		PipelineLayout pipelineLayout;
 
 		RenderPass renderPass;
+
+		Pipeline pipeline;
 	};
 
 }
