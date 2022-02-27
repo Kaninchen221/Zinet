@@ -36,6 +36,8 @@ namespace zt::gl
 
         queue = device.createQueue(queueFamilyIndex);
 
+        /// SwapChain
+
         SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
         swapChain = std::make_unique<SwapChain>();
         swapChain->create(device, swapChainSupportDetails, surface, window);
@@ -48,6 +50,8 @@ namespace zt::gl
             imageView.create(device, swapChainImage, swapChainSupportDetails.pickFormat().format);
             imageViews.push_back(std::move(imageView));
         }
+
+        /// Shaders
 
         vertexShader.setType(ShaderType::Vertex);
         vertexShader.loadFromFile((contentPath / "shader.vert").string());
@@ -80,6 +84,14 @@ namespace zt::gl
         pipeline.setScissor(scissor);
 
         pipeline.createPipelineLayout(device);
+
+        /// RenderPass
+
+        renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
+        renderPass.createAttachmentReference();
+        renderPass.createSubpassDescription();
+
+        renderPass.create(device);
     }
 
     Renderer::~Renderer() noexcept

@@ -23,6 +23,7 @@
 #include "ZtGLSwapChainSupportDetailsTests.h"
 #include "ZtGLSwapChainTests.h"
 #include "ZtGLImageViewTests.h"
+#include "ZtGLRenderPassTests.h"
 
 #include "ZtGLRendererTests.h"
 
