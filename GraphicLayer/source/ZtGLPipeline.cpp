@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLGraphicsPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipeline.h"
 
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
@@ -6,13 +6,13 @@
 
 namespace zt::gl
 {
-	GraphicsPipeline::GraphicsPipeline()
+	Pipeline::Pipeline()
 		: internal(std::nullptr_t{})
 	{
 
 	}
 
-	vk::GraphicsPipelineCreateInfo GraphicsPipeline::createGraphicsPipelineCreateInfo(
+	vk::GraphicsPipelineCreateInfo Pipeline::createGraphicsPipelineCreateInfo(
 		PipelineLayout& pipelineLayout,
 		RenderPass& renderPass, 
 		std::vector<vk::PipelineShaderStageCreateInfo>& shaderStages)
@@ -37,12 +37,12 @@ namespace zt::gl
 		return graphicsPipelineCreateInfo;
 	}
 
-	vk::raii::Pipeline& GraphicsPipeline::getInternal()
+	vk::raii::Pipeline& Pipeline::getInternal()
 	{
 		return internal;
 	}
 
-	void GraphicsPipeline::create(Device& device, vk::GraphicsPipelineCreateInfo createInfo)
+	void Pipeline::create(Device& device, vk::GraphicsPipelineCreateInfo createInfo)
 	{
 		internal = std::move(vk::raii::Pipeline(device.getInternal(), nullptr, createInfo));
 	}

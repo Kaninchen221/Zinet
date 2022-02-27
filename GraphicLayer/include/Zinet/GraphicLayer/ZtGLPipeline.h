@@ -10,23 +10,23 @@ namespace zt::gl
 	class RenderPass;
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API GraphicsPipeline
+	class ZINET_GRAPHIC_LAYER_API Pipeline
 	{
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Graphics Pipeline");
+		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Pipeline");
 
 	public:
 
-		GraphicsPipeline();
-		GraphicsPipeline(const GraphicsPipeline& other) = default;
-		GraphicsPipeline(GraphicsPipeline&& other) = default;
+		Pipeline();
+		Pipeline(const Pipeline& other) = default;
+		Pipeline(Pipeline&& other) = default;
 
-		GraphicsPipeline& operator = (const GraphicsPipeline& other) = default;
-		GraphicsPipeline& operator = (GraphicsPipeline&& other) = default;
+		Pipeline& operator = (const Pipeline& other) = default;
+		Pipeline& operator = (Pipeline&& other) = default;
 
-		~GraphicsPipeline() noexcept = default;
+		~Pipeline() noexcept = default;
 
 		vk::GraphicsPipelineCreateInfo createGraphicsPipelineCreateInfo(
 			PipelineLayout& pipelineLayout,

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLGraphicsPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 
 #include "gtest/gtest.h"
@@ -8,32 +8,32 @@
 namespace zt::gl::tests
 {
 
-	class GraphicsPipelineTests : public ::testing::Test
+	class PipelineTests : public ::testing::Test
 	{
 	protected:
 
-		std::unique_ptr<GraphicsPipeline> graphicsPipeline = std::make_unique<GraphicsPipeline>();
+		std::unique_ptr<Pipeline> pipeline = std::make_unique<Pipeline>();
 
 	};
 
-	TEST_F(GraphicsPipelineTests, CreateGraphicsPipelineCreateInfoTest)
+	TEST_F(PipelineTests, CreateGraphicsPipelineCreateInfoTest)
 	{
 		PipelineLayout pipelineLayout;
 		RenderPass renderPass;
 		std::vector<vk::PipelineShaderStageCreateInfo> stages;
-		vk::GraphicsPipelineCreateInfo createInfo = graphicsPipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
+		vk::GraphicsPipelineCreateInfo createInfo = pipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
 
 		ASSERT_NE(createInfo, vk::GraphicsPipelineCreateInfo{});
 	}
 
-	TEST_F(GraphicsPipelineTests, GetInternalTest)
+	TEST_F(PipelineTests, GetInternalTest)
 	{
-		vk::raii::Pipeline& internal = graphicsPipeline->getInternal();
+		vk::raii::Pipeline& internal = pipeline->getInternal();
 
 		ASSERT_EQ(*internal, *vk::raii::Pipeline{ std::nullptr_t{} });
 	}
 
-	TEST_F(GraphicsPipelineTests, CreateTest)
+	TEST_F(PipelineTests, CreateTest)
 	{
 		GLFW::InitGLFW();
 
@@ -84,10 +84,10 @@ namespace zt::gl::tests
 
 		std::vector<vk::PipelineShaderStageCreateInfo> stages = { vertexShaderStage, fragmentShaderStage };
 
-		vk::GraphicsPipelineCreateInfo createInfo = graphicsPipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
-		graphicsPipeline->create(device, createInfo);
+		vk::GraphicsPipelineCreateInfo createInfo = pipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
+		pipeline->create(device, createInfo);
 
-		graphicsPipeline.reset();
+		pipeline.reset();
 
 		surface.destroy(instance);
 

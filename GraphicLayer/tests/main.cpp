@@ -10,7 +10,6 @@
 #include "ZtGLShaderTypeTests.h"
 #include "ZtGLShaderTests.h"
 #include "ZtGLShaderModuleTests.h"
-#include "ZtGLPipelineLayoutTests.h"
 #include "ZtGLWindowTests.h"
 #include "ZtGLGLFWTests.h"
 #include "ZtGLContextTests.h"
@@ -24,7 +23,8 @@
 #include "ZtGLSwapChainTests.h"
 #include "ZtGLImageViewTests.h"
 #include "ZtGLRenderPassTests.h"
-#include "ZtGLGraphicsPipelineTests.h"
+#include "ZtGLPipelineLayoutTests.h"
+#include "ZtGLPipelineTests.h"
 
 #include "ZtGLRendererTests.h"
 
