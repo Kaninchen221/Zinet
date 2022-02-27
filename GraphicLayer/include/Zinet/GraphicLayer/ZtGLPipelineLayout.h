@@ -9,7 +9,7 @@ namespace zt::gl
 	class ShaderModule;
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API Pipeline
+	class ZINET_GRAPHIC_LAYER_API PipelineLayout
 	{
 
 	protected:
@@ -18,14 +18,14 @@ namespace zt::gl
 
 	public:
 
-		Pipeline();
-		Pipeline(const Pipeline& other) = default;
-		Pipeline(Pipeline&& other) = default;
+		PipelineLayout();
+		PipelineLayout(const PipelineLayout& other) = default;
+		PipelineLayout(PipelineLayout&& other) = default;
 
-		Pipeline& operator = (const Pipeline& other) = default;
-		Pipeline& operator = (Pipeline&& other) = default;
+		PipelineLayout& operator = (const PipelineLayout& other) = default;
+		PipelineLayout& operator = (PipelineLayout&& other) = default;
 
-		~Pipeline() noexcept = default;
+		~PipelineLayout() noexcept = default;
 
 		vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);
 
@@ -71,7 +71,7 @@ namespace zt::gl
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
 		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
 
-		vk::raii::PipelineLayout pipelineLayout;
+		vk::raii::PipelineLayout internal;
 	};
 
 }

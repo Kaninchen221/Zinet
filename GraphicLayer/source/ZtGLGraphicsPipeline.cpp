@@ -1,6 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLGraphicsPipeline.h"
 
-#include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 
@@ -13,22 +13,22 @@ namespace zt::gl
 	}
 
 	vk::GraphicsPipelineCreateInfo GraphicsPipeline::createGraphicsPipelineCreateInfo(
-		Pipeline& pipeline, 
+		PipelineLayout& pipelineLayout,
 		RenderPass& renderPass, 
 		std::vector<vk::PipelineShaderStageCreateInfo>& shaderStages)
 	{
 		vk::GraphicsPipelineCreateInfo graphicsPipelineCreateInfo;
 		graphicsPipelineCreateInfo.stageCount = 2;
 		graphicsPipelineCreateInfo.pStages = shaderStages.data();
-		graphicsPipelineCreateInfo.pVertexInputState = &pipeline.createVertexInputStateCreateInfo();
-		graphicsPipelineCreateInfo.pInputAssemblyState = &pipeline.createInputAssemblyStateCreateInfo();
-		graphicsPipelineCreateInfo.pViewportState = &pipeline.createViewportStateCreateInfo();
-		graphicsPipelineCreateInfo.pRasterizationState = &pipeline.createRasterizationStateCreateInfo();
-		graphicsPipelineCreateInfo.pMultisampleState = &pipeline.createMultisampleStateCreateInfo();
+		graphicsPipelineCreateInfo.pVertexInputState = &pipelineLayout.createVertexInputStateCreateInfo();
+		graphicsPipelineCreateInfo.pInputAssemblyState = &pipelineLayout.createInputAssemblyStateCreateInfo();
+		graphicsPipelineCreateInfo.pViewportState = &pipelineLayout.createViewportStateCreateInfo();
+		graphicsPipelineCreateInfo.pRasterizationState = &pipelineLayout.createRasterizationStateCreateInfo();
+		graphicsPipelineCreateInfo.pMultisampleState = &pipelineLayout.createMultisampleStateCreateInfo();
 		graphicsPipelineCreateInfo.pDepthStencilState = nullptr;
-		graphicsPipelineCreateInfo.pColorBlendState = &pipeline.createColorBlendStateCreateInfo();
+		graphicsPipelineCreateInfo.pColorBlendState = &pipelineLayout.createColorBlendStateCreateInfo();
 		graphicsPipelineCreateInfo.pDynamicState = nullptr;
-		graphicsPipelineCreateInfo.layout = *pipeline.getInternal();
+		graphicsPipelineCreateInfo.layout = *pipelineLayout.getInternal();
 		graphicsPipelineCreateInfo.renderPass = *renderPass.getInternal();
 		graphicsPipelineCreateInfo.subpass = 0;
 		graphicsPipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;

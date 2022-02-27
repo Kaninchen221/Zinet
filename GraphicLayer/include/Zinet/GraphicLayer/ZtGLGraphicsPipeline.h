@@ -6,7 +6,7 @@
 
 namespace zt::gl
 {
-	class Pipeline;
+	class PipelineLayout;
 	class RenderPass;
 	class Device;
 
@@ -29,7 +29,7 @@ namespace zt::gl
 		~GraphicsPipeline() noexcept = default;
 
 		vk::GraphicsPipelineCreateInfo createGraphicsPipelineCreateInfo(
-			Pipeline& pipeline, 
+			PipelineLayout& pipelineLayout,
 			RenderPass& renderPass, 
 			std::vector<vk::PipelineShaderStageCreateInfo>& shaderStages);
 

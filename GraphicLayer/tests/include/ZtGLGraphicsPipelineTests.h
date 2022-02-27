@@ -18,10 +18,10 @@ namespace zt::gl::tests
 
 	TEST_F(GraphicsPipelineTests, CreateGraphicsPipelineCreateInfoTest)
 	{
-		Pipeline pipeline;
+		PipelineLayout pipelineLayout;
 		RenderPass renderPass;
 		std::vector<vk::PipelineShaderStageCreateInfo> stages;
-		vk::GraphicsPipelineCreateInfo createInfo = graphicsPipeline->createGraphicsPipelineCreateInfo(pipeline, renderPass, stages);
+		vk::GraphicsPipelineCreateInfo createInfo = graphicsPipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
 
 		ASSERT_NE(createInfo, vk::GraphicsPipelineCreateInfo{});
 	}
@@ -60,8 +60,8 @@ namespace zt::gl::tests
 		renderPass.createSubpassDescription();
 		renderPass.create(device);
 
-		Pipeline pipeline;
-		pipeline.createPipelineLayout(device);
+		PipelineLayout pipelineLayout;
+		pipelineLayout.createPipelineLayout(device);
 
 		Shader vertexShader;
 		vertexShader.setType(ShaderType::Vertex);
@@ -79,12 +79,12 @@ namespace zt::gl::tests
 		ShaderModule fragmentShaderModule;
 		fragmentShaderModule.create(device, fragmentShader);
 
-		vk::PipelineShaderStageCreateInfo vertexShaderStage = pipeline.createShaderStageCreateInfo(vertexShaderModule);
-		vk::PipelineShaderStageCreateInfo fragmentShaderStage = pipeline.createShaderStageCreateInfo(fragmentShaderModule);
+		vk::PipelineShaderStageCreateInfo vertexShaderStage = pipelineLayout.createShaderStageCreateInfo(vertexShaderModule);
+		vk::PipelineShaderStageCreateInfo fragmentShaderStage = pipelineLayout.createShaderStageCreateInfo(fragmentShaderModule);
 
 		std::vector<vk::PipelineShaderStageCreateInfo> stages = { vertexShaderStage, fragmentShaderStage };
 
-		vk::GraphicsPipelineCreateInfo createInfo = graphicsPipeline->createGraphicsPipelineCreateInfo(pipeline, renderPass, stages);
+		vk::GraphicsPipelineCreateInfo createInfo = graphicsPipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
 		graphicsPipeline->create(device, createInfo);
 
 		graphicsPipeline.reset();

@@ -76,17 +76,17 @@ namespace zt::gl
         /// Draw at entire space
         
         vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
-        pipeline.setViewportSize(swapExtent.width, swapExtent.height);
+        pipelineLayout.setViewportSize(swapExtent.width, swapExtent.height);
 
         vk::Rect2D scissor;
         scissor.offset = vk::Offset2D{ 0, 0 };
         scissor.extent = swapExtent;
-        pipeline.setScissor(scissor);
+        pipelineLayout.setScissor(scissor);
 
-        pipeline.createColorBlendAttachmentState();
+        pipelineLayout.createColorBlendAttachmentState();
 
-        pipeline.createPipelineLayout(device);
-
+        pipelineLayout.createPipelineLayout(device);
+        
         /// RenderPass
 
         renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 
 #include "gtest/gtest.h"
 
@@ -11,7 +11,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		std::unique_ptr<Pipeline> pipeline = std::make_unique<Pipeline>();
+		std::unique_ptr<PipelineLayout> pipeline = std::make_unique<PipelineLayout>();
 
 	};
 

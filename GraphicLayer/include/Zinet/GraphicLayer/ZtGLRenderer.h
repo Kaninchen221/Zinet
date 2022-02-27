@@ -12,7 +12,7 @@
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
 #include "Zinet/GraphicLayer/ZtGLShader.h"
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
-#include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 
 #include "Zinet/Core/ZtLogger.h"
@@ -76,7 +76,7 @@ namespace zt::gl
 		ShaderModule vertexShaderModule;
 		ShaderModule fragmentShaderModule;
 
-		Pipeline pipeline;
+		PipelineLayout pipelineLayout;
 
 		RenderPass renderPass;
 	};
