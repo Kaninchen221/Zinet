@@ -19,7 +19,8 @@ root.cmake_output_file_path = "CMakeLists.txt"
 root.build_type = ZtBuildType.Debug
 root.global_macros.extend([
     "ZINET_WINDOWS",
-    "ZINET_CURRENT_PROJECT_ROOT_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}\""
+    "ZINET_CURRENT_PROJECT_ROOT_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}\"",
+    "ZINET_ENGINE_ROOT_PATH=\"${ZINET_ENGINE_ROOT_PATH}\""
 ])
 
 # Generate all targets CMakeLists and gather all targets

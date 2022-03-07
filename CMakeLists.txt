@@ -20,14 +20,3 @@ find_package(Vulkan REQUIRED FATAL_ERROR)
 add_subdirectory(Core)
 add_subdirectory(GraphicLayer)
 add_subdirectory(EntryPoint)
-
-# Should contains all libs and executables names
-# Used for propagating macros to every target
-# TODO: Make this propagation inside python
-set(ZINET_TARGETS_NAMES "ZtEntryPoint" "ZtCore" "ZtCoreTest")
-
-include(cmake/multiple_targets_compile_definitions.cmake)
-
-# Propagate macro with engine root folder
-set(ZINET_ENGINE_ROOT_PATH ZINET_ENGINE_ROOT_PATH="${CMAKE_SOURCE_DIR}")
-multiple_targets_compile_definitions("${ZINET_TARGETS_NAMES}" ${ZINET_ENGINE_ROOT_PATH})
