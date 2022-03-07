@@ -1,6 +1,6 @@
 import os
-from Scripts.Utility import *
-from Scripts.GenerateTargetCMake import *
+from PPG.Utility import *
+from PPG.GenerateTargetCMake import *
 
 
 class ZtEntryPointCMakeGenerator(ZtTargetCMakeGenerator):

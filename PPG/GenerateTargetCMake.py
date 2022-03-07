@@ -1,6 +1,6 @@
 import os
-from Scripts.Utility import *
-from Scripts.GeneratorCMake import *
+from PPG.Utility import *
+from PPG.GeneratorCMake import *
 
 
 class ZtTargetCMakeGenerator(ZtGeneratorCMake):

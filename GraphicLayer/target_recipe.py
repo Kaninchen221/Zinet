@@ -1,4 +1,4 @@
-from Scripts.GenerateLibCMake import *
+from PPG.GenerateLibCMake import *
 
 
 renderer_lib = ZtLibCMakeGenerator()

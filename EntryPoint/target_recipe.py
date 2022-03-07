@@ -1,4 +1,4 @@
-from Scripts.GenerateEntryPointCMake import *
+from PPG.GenerateEntryPointCMake import *
 
 
 EntryPoint = ZtEntryPointCMakeGenerator()

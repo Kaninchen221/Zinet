@@ -1,4 +1,4 @@
-from Scripts.GenerateLibTestCMake import *
+from PPG.GenerateLibTestCMake import *
 
 
 renderer_lib_test = ZtLibTestCMakeGenerator()

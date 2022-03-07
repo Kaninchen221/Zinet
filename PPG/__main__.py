@@ -1,13 +1,12 @@
-from Scripts.GenerateEntryPointCMake import *
-from Scripts.GenerateLibCMake import *
-from Scripts.GenerateLibTestCMake import *
-from Scripts.GenerateRootCMake import *
+from .GenerateEntryPointCMake import *
+from .GenerateLibCMake import *
+from .GenerateLibTestCMake import *
+from .GenerateRootCMake import *
 
-
-ZtRootCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsRootTemplate.txt"
-ZtLibCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsLibTemplate.txt"
-ZtLibTestCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsLibTestTemplate.txt"
-ZtEntryPointCMakeGenerator.template_input_file = "Scripts/Templates/CMakeListsEntryPointTemplate.txt"
+ZtRootCMakeGenerator.template_input_file = "PPG/Templates/CMakeListsRootTemplate.txt"
+ZtLibCMakeGenerator.template_input_file = "PPG/Templates/CMakeListsLibTemplate.txt"
+ZtLibTestCMakeGenerator.template_input_file = "PPG/Templates/CMakeListsLibTestTemplate.txt"
+ZtEntryPointCMakeGenerator.template_input_file = "PPG/Templates/CMakeListsEntryPointTemplate.txt"
 
 # First prepare all root properties
 root = ZtRootCMakeGenerator()

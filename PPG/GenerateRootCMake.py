@@ -1,11 +1,11 @@
 import os
 from pathlib import Path
 from enum import Enum, unique, auto
-from Scripts.Utility import *
-from Scripts.GeneratorCMake import *
-from Scripts.GenerateLibCMake import *
-from Scripts.GenerateLibTestCMake import *
-from Scripts.GenerateEntryPointCMake import *
+from PPG.Utility import *
+from PPG.GeneratorCMake import *
+from PPG.GenerateLibCMake import *
+from PPG.GenerateLibTestCMake import *
+from PPG.GenerateEntryPointCMake import *
 
 
 @unique
@@ -18,9 +18,9 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
 
     _target_recipe_file_name = "target_recipe.py"
 
-    _targets_libs_list = []
-    _targets_libs_tests_list = []
-    _targets_libs_executable_list = []
+    targets_libs_list = []
+    targets_libs_tests_list = []
+    targets_libs_executable_list = []
 
     _subdirectories_list = []
     _add_subdirectory_string = ")\nadd_subdirectory("
@@ -38,10 +38,10 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
     def _prepare_template_arguments(self):
         self.project_description = '"' + self.project_description + '"'
 
-        for target_lib in self._targets_libs_list:
+        for target_lib in self.targets_libs_list:
             self._subdirectories_list.append(target_lib.folder_name)
 
-        for target_executable in self._targets_libs_executable_list:
+        for target_executable in self.targets_libs_executable_list:
             self._subdirectories_list.append(target_executable.folder_name)
 
         self._add_subdirectory_string = self._add_subdirectory_string.join(self._subdirectories_list)
@@ -71,15 +71,16 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
             args = {
                 "root": self
             }
+            print("Exec recipt: " + str(path))
             exec(open(path).read(), args)
 
     def add_target(self, target):
         if isinstance(target, ZtLibCMakeGenerator):
-            self._targets_libs_list.append(target)
+            self.targets_libs_list.append(target)
             print("Added lib target: " + target.pretty_name)
         elif isinstance(target, ZtLibTestCMakeGenerator):
-            self._targets_libs_tests_list.append(target)
+            self.targets_libs_tests_list.append(target)
             print("Added lib test target: " + target.pretty_name)
         elif isinstance(target, ZtEntryPointCMakeGenerator):
-            self._targets_libs_executable_list.append(target)
+            self.targets_libs_executable_list.append(target)
             print("Added executable target: " + target.pretty_name)
