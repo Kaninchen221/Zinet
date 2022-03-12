@@ -11,6 +11,8 @@ class ZtLibCMakeGenerator(ZtTargetCMakeGenerator):
 
     include_directories = "include/"
 
+    main_header = "ZtCore.h"
+
     def generate_cmake_from_template(self):
         self._prepare_template_arguments()
 
@@ -38,4 +40,3 @@ class ZtLibCMakeGenerator(ZtTargetCMakeGenerator):
         ))
 
         self._generated_cmake = template
-

@@ -19,6 +19,7 @@ core_lib.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
 ]
 core_lib.macros_list.extend(root.global_macros)
+core_lib.namespace = "zt::gl"
 core_lib.cmake_output_file_path = "Core/CMakeLists.txt"
 core_lib.generate_cmake_from_template()
 core_lib.create_cmake_file()

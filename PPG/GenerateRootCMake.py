@@ -18,9 +18,18 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
 
     _target_recipe_file_name = "target_recipe.py"
 
-    targets_libs_list = []
-    targets_libs_tests_list = []
-    targets_libs_executable_list = []
+    _targets_libs_list = []
+    _targets_libs_tests_list = []
+    _targets_libs_executable_list = []
+
+    def get_targets_libs(self):
+        return self._targets_libs_list
+
+    def get_targets_libs_tests(self):
+        return self._targets_libs_tests_list
+
+    def get_targets_libs_executable(self):
+        return self._targets_libs_executable_list
 
     _subdirectories_list = []
     _add_subdirectory_string = ")\nadd_subdirectory("
@@ -38,10 +47,10 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
     def _prepare_template_arguments(self):
         self.project_description = '"' + self.project_description + '"'
 
-        for target_lib in self.targets_libs_list:
+        for target_lib in self._targets_libs_list:
             self._subdirectories_list.append(target_lib.folder_name)
 
-        for target_executable in self.targets_libs_executable_list:
+        for target_executable in self._targets_libs_executable_list:
             self._subdirectories_list.append(target_executable.folder_name)
 
         self._add_subdirectory_string = self._add_subdirectory_string.join(self._subdirectories_list)
@@ -76,11 +85,11 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
 
     def add_target(self, target):
         if isinstance(target, ZtLibCMakeGenerator):
-            self.targets_libs_list.append(target)
+            self._targets_libs_list.append(target)
             print("Added lib target: " + target.pretty_name)
         elif isinstance(target, ZtLibTestCMakeGenerator):
-            self.targets_libs_tests_list.append(target)
+            self._targets_libs_tests_list.append(target)
             print("Added lib test target: " + target.pretty_name)
         elif isinstance(target, ZtEntryPointCMakeGenerator):
-            self.targets_libs_executable_list.append(target)
+            self._targets_libs_executable_list.append(target)
             print("Added executable target: " + target.pretty_name)

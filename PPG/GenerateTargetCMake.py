@@ -20,6 +20,8 @@ class ZtTargetCMakeGenerator(ZtGeneratorCMake):
 
     cpp_standard = "cxx_std_20"
 
+    namespace = ""
+
     include_dirs_list = []
 
     link_libraries_list = []
@@ -59,4 +61,3 @@ class ZtTargetCMakeGenerator(ZtGeneratorCMake):
 
         self._macros_string = " "
         self._macros_string = self._macros_string.join(self.macros_list)
-
