@@ -1,14 +1,14 @@
 #pragma once
 
-#include "{argument_lib_main_header_path}" // "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "{argument_lib_main_header_path}"
 
 #include "Zinet/Core/ZtLogger.h"
 
-namespace {argument_lib_namespace} // zt::gl
-{
+namespace {argument_lib_namespace}
+{{
 
-	class {argument_lib_api_macro} {argument_class_name} // ZINET_GRAPHIC_LAYER_API GLFW
-	{
+	class {argument_lib_api_macro} {argument_class_name}
+	{{
 
 	protected:
 
@@ -25,6 +25,6 @@ namespace {argument_lib_namespace} // zt::gl
 
 		~{argument_class_name}() noexcept = default;
 
-	};
+	}};
 
-}
+}}
