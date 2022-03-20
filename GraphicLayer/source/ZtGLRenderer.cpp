@@ -104,10 +104,20 @@ namespace zt::gl
 
         vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, shaderStages);
         pipeline.create(device, createInfo);
+
+        // Framebuffers
+
+        for (ImageView& imageView : imageViews)
+        {
+            Framebuffer framebuffer;
+            framebuffer.create(device, imageView, renderPass, swapExtent);
+            framebuffers.push_back(std::move(framebuffer));
+        }
     }
 
     Renderer::~Renderer() noexcept
     {
+        framebuffers.clear();
         imageViews.clear();
         swapChain.reset();
         surface.destroy(instance);

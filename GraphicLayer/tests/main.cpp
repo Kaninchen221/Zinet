@@ -25,6 +25,7 @@
 #include "ZtGLRenderPassTests.h"
 #include "ZtGLPipelineLayoutTests.h"
 #include "ZtGLPipelineTests.h"
+#include "ZtGLFramebufferTests.h"
 
 #include "ZtGLRendererTests.h"
 

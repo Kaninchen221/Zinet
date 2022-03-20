@@ -15,6 +15,7 @@
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -54,6 +55,8 @@ namespace zt::gl
 		std::vector<vk::Image> swapChainImages;
 
 		std::vector<ImageView> imageViews;
+
+		std::vector<Framebuffer> framebuffers;
 
 		Queue queue;
 
