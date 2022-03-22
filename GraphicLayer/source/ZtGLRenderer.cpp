@@ -113,6 +113,35 @@ namespace zt::gl
             framebuffer.create(device, imageView, renderPass, swapExtent);
             framebuffers.push_back(std::move(framebuffer));
         }
+
+        // Commands
+
+        for(Framebuffer& framebuffer : framebuffers)
+        { 
+
+            // Command Pool
+
+            uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
+            commandPool.create(device, queueFamilyIndex);
+
+            // Command Buffer
+
+            commandBuffer.allocateCommandBuffer(device, commandPool);
+
+            commandBuffer.begin();
+
+            vk::Rect2D renderArea; 
+            renderArea.offset = vk::Offset2D{ 0, 0 };
+            renderArea.extent = swapExtent;
+
+            commandBuffer.beginRenderPass(renderPass, framebuffer, renderArea);
+
+            commandBuffer->draw(3, 1, 0, 0);
+
+            commandBuffer.endRenderPass();
+            commandBuffer.end();
+
+        }
     }
 
     Renderer::~Renderer() noexcept

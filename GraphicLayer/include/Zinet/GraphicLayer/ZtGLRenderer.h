@@ -16,6 +16,8 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLCommandPool.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -85,6 +87,9 @@ namespace zt::gl
 		RenderPass renderPass;
 
 		Pipeline pipeline;
+
+		CommandPool commandPool;
+		CommandBuffer commandBuffer;
 	};
 
 }
