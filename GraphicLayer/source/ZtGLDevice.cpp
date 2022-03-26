@@ -1,4 +1,8 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLQueue.h"
+#include "Zinet/GraphicLayer/ZtGLFence.h"
 
 namespace zt::gl
 {
@@ -59,5 +63,13 @@ namespace zt::gl
         uint32_t queueIndex = 0u;
         vk::raii::Queue queue(internal, queueFamilyIndex, queueIndex);
         return queue;
+    }
+
+    vk::Result Device::waitForFence(Fence& fence, uint64_t timeout) const
+    {
+        vk::Result result;
+        result = internal.waitForFences({ *fence.getInternal() }, VK_TRUE, timeout);
+
+        return result;
     }
 }

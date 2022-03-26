@@ -28,6 +28,8 @@
 #include "ZtGLFramebufferTests.h"
 #include "ZtGLCommandPoolTests.h"
 #include "ZtGLCommandBufferTests.h"
+#include "ZtGLSemaphoreTests.h"
+#include "ZtGLFenceTests.h"
 
 #include "ZtGLRendererTests.h"
 

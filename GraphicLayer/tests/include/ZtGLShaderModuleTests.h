@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
 
 #include "gtest/gtest.h"
 
