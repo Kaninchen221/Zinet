@@ -76,7 +76,6 @@ namespace zt::gl::tests
 		
 		imageView.reset();
 		swapChain.reset();
-		surface.destroy(instance);
 		
 		GLFW::DeinitGLFW();
 	}

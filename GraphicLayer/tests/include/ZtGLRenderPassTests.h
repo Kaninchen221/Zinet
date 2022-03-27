@@ -82,7 +82,6 @@ namespace zt::gl::tests
 
 		ASSERT_NE(*internal, *vk::raii::RenderPass{ std::nullptr_t{} });
 
-		surface.destroy(instance);
 		renderPass.reset();
 
 		GLFW::DeinitGLFW();

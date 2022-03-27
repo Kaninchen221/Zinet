@@ -89,8 +89,6 @@ namespace zt::gl::tests
 
 		pipeline.reset();
 
-		surface.destroy(instance);
-
 		GLFW::DeinitGLFW();
 	}
 

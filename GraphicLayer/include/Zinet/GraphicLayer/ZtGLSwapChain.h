@@ -10,6 +10,8 @@ namespace zt::gl
 	class Surface;
 	class Window;
 	class Device;
+	class Semaphore;
+	class Fence;
 
 	class ZINET_GRAPHIC_LAYER_API SwapChain
 	{
@@ -29,22 +31,24 @@ namespace zt::gl
 
 		~SwapChain() noexcept = default;
 
-		const vk::raii::SwapchainKHR& getInternal() const;
+		vk::raii::SwapchainKHR& getInternal();
 
 		void create(
 			Device& device,
 			const SwapChainSupportDetails& swapChainSupportDetails,
-			const Surface& surface,
+			Surface& surface,
 			Window& window
 		);
 
 		vk::SwapchainCreateInfoKHR createSwapChainCreateInfo(
 			const SwapChainSupportDetails& swapChainSupportDetails,
-			const Surface& surface,
+			Surface& surface,
 			Window& window
 		) const;
 
 		std::vector<vk::Image> getImages();
+
+		std::pair<vk::Result, uint32_t> acquireNextImage(uint64_t timeout, Semaphore& semaphore, Fence& fence);
 
 	protected:
 

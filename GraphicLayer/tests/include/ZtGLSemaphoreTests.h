@@ -37,8 +37,6 @@ namespace zt::gl::tests
 		
 		void TearDown() override
 		{
-			surface.destroy(instance);
-		
 			GLFW::DeinitGLFW();
 		}
 	};

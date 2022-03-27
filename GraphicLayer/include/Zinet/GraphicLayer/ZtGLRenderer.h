@@ -19,6 +19,8 @@
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLCommandPool.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
+#include "Zinet/GraphicLayer/ZtGLFence.h"
 
 #include "Zinet/Core/ZtLogger.h"
 

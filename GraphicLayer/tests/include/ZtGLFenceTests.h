@@ -37,8 +37,6 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			surface.destroy(instance);
-
 			GLFW::DeinitGLFW();
 		}
 	};
@@ -56,7 +54,7 @@ namespace zt::gl::tests
 		Fence fence;
 		vk::FenceCreateInfo createInfo = fence.createFenceCreateInfo();
 
-		ASSERT_EQ(createInfo, vk::FenceCreateInfo{});
+		ASSERT_NE(createInfo, vk::FenceCreateInfo{});
 	}
 
 	TEST_F(FenceTests, CreateTest)
@@ -71,6 +69,6 @@ namespace zt::gl::tests
 		fence.create(device);
 		vk::Result result = fence.getStatus();
 
-		ASSERT_EQ(result, vk::Result::eNotReady);
+		ASSERT_EQ(result, vk::Result::eSuccess);
 	}
 }

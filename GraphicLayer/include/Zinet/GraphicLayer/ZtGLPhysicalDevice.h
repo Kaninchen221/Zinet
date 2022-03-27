@@ -30,7 +30,7 @@ namespace zt::gl
 
 		~PhysicalDevice() noexcept = default;
 
-		uint32_t pickQueueFamilyIndex(const Surface& surface) const;
+		uint32_t pickQueueFamilyIndex(Surface& surface);
 
 		vk::PhysicalDeviceFeatures createFeatures() const;
 
@@ -46,7 +46,7 @@ namespace zt::gl
 
 		bool isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
 
-		SwapChainSupportDetails getSwapChainSupportDetails(const Surface& surface);
+		SwapChainSupportDetails getSwapChainSupportDetails(Surface& surface);
 
 	protected:
 

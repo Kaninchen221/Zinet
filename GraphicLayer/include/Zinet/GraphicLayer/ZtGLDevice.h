@@ -29,17 +29,19 @@ namespace zt::gl
 
 		~Device() noexcept = default;
 
-		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface);
+		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface);
 
-		vk::DeviceCreateInfo createDeviceCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface);
+		vk::DeviceCreateInfo createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface);
 
-		void create(const PhysicalDevice& physicalDevice, const Surface& surface);
+		void create(PhysicalDevice& physicalDevice, Surface& surface);
 
 		vk::raii::Device& getInternal();
 
 		vk::raii::Queue createQueue(uint32_t queueFamilyIndex) const;
 
 		vk::Result waitForFence(Fence& fence, uint64_t timeout) const;
+
+		void resetFence(Fence& fence) const;
 
 	protected:
 

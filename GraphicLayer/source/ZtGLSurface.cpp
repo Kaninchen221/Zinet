@@ -3,10 +3,23 @@
 
 namespace zt::gl
 {
+	Surface::Surface()
+		: internal{ std::nullptr_t{} }
+	{
+	}
+
 	bool Surface::create(const Instance& instance, Window& window)
 	{
+		VkSurfaceKHR tempSurface{};
 		const VkAllocationCallbacks* allocationCallbacks = nullptr;
-		VkResult result = glfwCreateWindowSurface(*instance.getInternal(), window.getInternal(), allocationCallbacks, &internal);
+		VkResult result = glfwCreateWindowSurface(
+			*instance.getInternal(),
+			window.getInternal(), 
+			allocationCallbacks, 
+			&tempSurface);
+
+		internal = std::move(vk::raii::SurfaceKHR{ instance.getInternal(), std::move(tempSurface) });
+
 		if (result == VK_SUCCESS)
 		{
 			return true;
@@ -17,22 +30,8 @@ namespace zt::gl
 		}
 	}
 
-	VkSurfaceKHR Surface::getInternal() const
+	vk::raii::SurfaceKHR& Surface::getInternal()
 	{
 		return internal;
-	}
-
-	Surface::~Surface() noexcept
-	{
-		if (internal != VkSurfaceKHR())
-		{
-			Logger->error("Call destroy before detructor");
-		}
-	}
-
-	void Surface::destroy(const Instance& instance)
-	{
-		vkDestroySurfaceKHR(*instance.getInternal(), internal, nullptr);
-		internal = VkSurfaceKHR();
 	}
 }

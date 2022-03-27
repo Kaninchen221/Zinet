@@ -35,7 +35,6 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			surface.destroy(instance);
 			GLFW::DeinitGLFW();
 		}
 	};
@@ -82,5 +81,15 @@ namespace zt::gl::tests
 
 		uint64_t timeout = 1;
 		vk::Result result = device.waitForFence(fence, timeout);
+	}
+
+	TEST_F(DeviceTests, ResetFence)
+	{
+		device.create(physicalDevice, surface);
+
+		Fence fence;
+		fence.create(device);
+
+		device.resetFence(fence);
 	}
 }

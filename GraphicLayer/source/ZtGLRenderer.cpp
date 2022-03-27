@@ -149,7 +149,6 @@ namespace zt::gl
         framebuffers.clear();
         imageViews.clear();
         swapChain.reset();
-        surface.destroy(instance);
 
         GLFW::DeinitGLFW();
     }

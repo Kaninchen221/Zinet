@@ -55,7 +55,6 @@ namespace zt::gl::tests
 		ASSERT_NE(*commandPool->getInternal(), *vk::raii::CommandPool{ std::nullptr_t{} });
 
 		commandPool.reset();
-		surface.destroy(instance);
 
 		GLFW::DeinitGLFW();
 	}

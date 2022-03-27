@@ -171,7 +171,6 @@ namespace zt::gl::tests
 
 		ASSERT_NE(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });
 
-		surface.destroy(instance);
 		pipeline.reset();
 
 		GLFW::DeinitGLFW();

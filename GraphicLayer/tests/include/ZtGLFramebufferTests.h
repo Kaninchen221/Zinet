@@ -83,7 +83,6 @@ namespace zt::gl::tests
 
 		framebuffer.reset();
 		swapChain.reset();
-		surface.destroy(instance);
 
 		GLFW::DeinitGLFW();
 	}

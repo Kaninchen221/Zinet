@@ -15,7 +15,10 @@ namespace zt::gl
 
 	vk::FenceCreateInfo Fence::createFenceCreateInfo()
 	{
-		return vk::FenceCreateInfo();
+		vk::FenceCreateInfo createInfo{};
+		createInfo.flags = vk::FenceCreateFlagBits::eSignaled;
+
+		return createInfo;
 	}
 
 	void Fence::create(Device& device)

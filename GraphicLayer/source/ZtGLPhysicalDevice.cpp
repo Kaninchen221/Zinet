@@ -15,7 +15,7 @@ namespace zt::gl
 
     }
 
-    uint32_t PhysicalDevice::pickQueueFamilyIndex(const Surface& surface) const
+    uint32_t PhysicalDevice::pickQueueFamilyIndex(Surface& surface)
     {
         std::vector<vk::QueueFamilyProperties> queueFamiliesProperties = internal.getQueueFamilyProperties();
 
@@ -25,8 +25,7 @@ namespace zt::gl
             const vk::QueueFlags& queueFlags = queueFamilyProperties.queueFlags;
             bool neededFlags = static_cast<bool>(queueFlags & vk::QueueFlagBits::eGraphics);
 
-            VkBool32 surfaceSupport{};
-            vkGetPhysicalDeviceSurfaceSupportKHR(*internal, index, surface.getInternal(), &surfaceSupport);
+            vk::Bool32 surfaceSupport = internal.getSurfaceSupportKHR(index, *surface.getInternal());
 
             if (neededFlags && surfaceSupport)
             {
@@ -89,12 +88,12 @@ namespace zt::gl
         return true;
     }
 
-    SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(const Surface& surface)
+    SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(Surface& surface)
     {
         SwapChainSupportDetails swapChainSupportDetails;
-        swapChainSupportDetails.surfaceCapabilities = internal.getSurfaceCapabilitiesKHR(surface.getInternal());
-        swapChainSupportDetails.surfaceFormats = internal.getSurfaceFormatsKHR(surface.getInternal());
-        swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(surface.getInternal());
+        swapChainSupportDetails.surfaceCapabilities = internal.getSurfaceCapabilitiesKHR(*surface.getInternal());
+        swapChainSupportDetails.surfaceFormats = internal.getSurfaceFormatsKHR(*surface.getInternal());
+        swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(*surface.getInternal());
 
         return swapChainSupportDetails;
     }

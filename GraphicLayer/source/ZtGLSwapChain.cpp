@@ -4,6 +4,8 @@
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
+#include "Zinet/GraphicLayer/ZtGLFence.h"
 
 namespace zt::gl
 {
@@ -12,7 +14,7 @@ namespace zt::gl
 	{
 	}
 
-	const vk::raii::SwapchainKHR& SwapChain::getInternal() const
+	vk::raii::SwapchainKHR& SwapChain::getInternal()
 	{
 		return internal;
 	}
@@ -20,7 +22,7 @@ namespace zt::gl
 	void SwapChain::create(
 		Device& device,
 		const SwapChainSupportDetails& swapChainSupportDetails,
-		const Surface& surface,
+		Surface& surface,
 		Window& window
 	)
 	{
@@ -30,7 +32,7 @@ namespace zt::gl
 
 	vk::SwapchainCreateInfoKHR SwapChain::createSwapChainCreateInfo(
 		const SwapChainSupportDetails& swapChainSupportDetails,
-		const Surface& surface,
+		Surface& surface,
 		Window& window
 	) const
 	{
@@ -48,7 +50,7 @@ namespace zt::gl
 
 		vk::SwapchainCreateInfoKHR swapChainCreateInfo;
 		swapChainCreateInfo.sType = vk::StructureType::eSwapchainCreateInfoKHR;
-		swapChainCreateInfo.surface = surface.getInternal();
+		swapChainCreateInfo.surface = *surface.getInternal();
 		swapChainCreateInfo.minImageCount = imageCount;
 		swapChainCreateInfo.imageFormat = surfaceFormat.format;
 		swapChainCreateInfo.imageColorSpace = surfaceFormat.colorSpace;
@@ -78,6 +80,12 @@ namespace zt::gl
 			result.push_back({ rawImage });
 		}
 
+		return result;
+	}
+
+	std::pair<vk::Result, uint32_t> SwapChain::acquireNextImage(uint64_t timeout, Semaphore& semaphore, Fence& fence)
+	{
+		std::pair<vk::Result, uint32_t> result = internal.acquireNextImage(timeout, *semaphore.getInternal(), *fence.getInternal());
 		return result;
 	}
 

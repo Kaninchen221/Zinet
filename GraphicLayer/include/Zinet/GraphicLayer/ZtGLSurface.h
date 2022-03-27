@@ -18,24 +18,22 @@ namespace zt::gl
 
 	public:
 
-		Surface() = default;
+		Surface();
 		Surface(const Surface& other) = default;
 		Surface(Surface&& other) = default;
 
 		Surface& operator = (const Surface& other) = default;
 		Surface& operator = (Surface&& other) = default;
 
-		~Surface() noexcept;
+		~Surface() noexcept = default;
 
 		bool create(const Instance& instance, Window& window);
 
-		VkSurfaceKHR getInternal() const;
-
-		void destroy(const Instance& instance);
+		vk::raii::SurfaceKHR& getInternal();
 
 	protected:
 
-		VkSurfaceKHR internal{};
+		vk::raii::SurfaceKHR internal;
 
 	};
 

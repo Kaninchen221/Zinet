@@ -5,6 +5,8 @@
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
+#include "Zinet/GraphicLayer/ZtGLFence.h"
 
 #include "gtest/gtest.h"
 
@@ -15,90 +17,69 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		std::unique_ptr<SwapChain> swapChain;
+		Context context;
+		Instance instance;
+		Window window;
+		Surface surface;
+		PhysicalDevice physicalDevice;
+		Device device;
+		SwapChainSupportDetails swapChainSupportDetails;
+		SwapChain swapChain;
 
-		SwapChainTests()
+		void SetUp() override
 		{
-			swapChain = std::make_unique<SwapChain>();
+			GLFW::InitGLFW();
+
+			window.createWindow();
+			instance.createApplicationInfo();
+			instance.createInstanceCreateInfo();
+			instance.create(context);
+			surface.create(instance, window);
+			physicalDevice.create(instance);
+			device.create(physicalDevice, surface);
+			swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+		}
+
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
 		}
 	};
 
-	TEST_F(SwapChainTests, GetInternalTest)
+	TEST(SwapChain, GetInternal)
 	{
-		const vk::raii::SwapchainKHR& internal = swapChain->getInternal();
+		SwapChain swapChain;
+		vk::raii::SwapchainKHR& internal = swapChain.getInternal();
+
+		ASSERT_EQ(*internal, *vk::raii::SwapchainKHR{ std::nullptr_t{} });
 	}
 
-	TEST_F(SwapChainTests, CreateTest)
+	TEST(SwapChain, CreateSwapChainCreateInfo)
 	{
-		GLFW::InitGLFW();
+		SwapChain swapChain;
 
-		Window window;
-		window.createWindow();
-
-		Context context;
-		Instance instance;
-		instance.createInstanceCreateInfo();
-		instance.create(context);
-
-		Surface surface;
-		surface.create(instance, window);
-
-		PhysicalDevice physicalDevice;
-		physicalDevice.create(instance);
-
-		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-
-		Device device;
-		device.create(physicalDevice, surface);
-
-		swapChain->create(device, swapChainSupportDetails, surface, window);
-		const vk::raii::SwapchainKHR& internal = swapChain->getInternal();
-
-		ASSERT_NE(*internal, *vk::raii::SwapchainKHR(std::nullptr_t()));
-
-		swapChain.reset();
-		surface.destroy(instance);
-
-		GLFW::DeinitGLFW();
-	}
-
-	TEST_F(SwapChainTests, CreateSwapChainCreateInfoTest)
-	{
 		Surface surface;
 		SwapChainSupportDetails swapChainSupportDetails;
 		Window window;
 
-		vk::SwapchainCreateInfoKHR creatInfo = swapChain->createSwapChainCreateInfo(swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createSwapChainCreateInfo(swapChainSupportDetails, surface, window);
 
 		ASSERT_NE(creatInfo, vk::SwapchainCreateInfoKHR());
 	}
 
-	TEST_F(SwapChainTests, GetImagesTest)
+	TEST_F(SwapChainTests, Create)
 	{
-		GLFW::InitGLFW();
+		swapChain.create(device, swapChainSupportDetails, surface, window);
+		const vk::raii::SwapchainKHR& internal = swapChain.getInternal();
 
-		Window window;
-		window.createWindow();
+		ASSERT_NE(*internal, *vk::raii::SwapchainKHR(std::nullptr_t()));
+	}
 
-		Context context;
-		Instance instance;
-		instance.createInstanceCreateInfo();
-		instance.create(context);
-
-		Surface surface;
-		surface.create(instance, window);
-
-		PhysicalDevice physicalDevice;
-		physicalDevice.create(instance);
-
-		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-
-		Device device;
-		device.create(physicalDevice, surface);
-
-		swapChain->create(device, swapChainSupportDetails, surface, window);
-		std::vector<vk::Image> images = swapChain->getImages();
-		std::vector<VkImage> rawImages = swapChain->getInternal().getImages();
+	TEST_F(SwapChainTests, GetImages)
+	{
+		swapChain.create(device, swapChainSupportDetails, surface, window);
+		std::vector<vk::Image> images = swapChain.getImages();
+		std::vector<VkImage> rawImages = swapChain.getInternal().getImages();
 
 		ASSERT_EQ(images.size(), rawImages.size());
 		for (const vk::Image& image : images)
@@ -107,9 +88,24 @@ namespace zt::gl::tests
 		}
 
 		images.clear();
-		swapChain.reset();
-		surface.destroy(instance);
+	}
 
-		GLFW::DeinitGLFW();
+	TEST_F(SwapChainTests, AcquireNextImage)
+	{
+		device.create(physicalDevice, surface);
+		swapChain.create(device, swapChainSupportDetails, surface, window);
+		
+		uint64_t timeout = 1;
+
+		Semaphore semaphore;
+		semaphore.create(device);
+
+		Fence fence;
+		fence.create(device);
+
+		device.resetFence(fence);
+		device.waitForFence(fence, 1u);
+
+		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(timeout, semaphore, fence);
 	}
 }

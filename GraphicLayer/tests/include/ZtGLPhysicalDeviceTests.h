@@ -43,8 +43,6 @@ namespace zt::gl::tests
 		constexpr uint32_t notExpectedIndex = std::numeric_limits<uint32_t>::max();
 
 		ASSERT_NE(queueFamilyIndex, notExpectedIndex);
-
-		surface.destroy(instance);
 	}
 
 	TEST_F(PhysicalDeviceTests, CreateFeaturesTest)
@@ -106,7 +104,6 @@ namespace zt::gl::tests
 		ASSERT_FALSE(swapChainSupportDetails.surfaceFormats.empty());
 		ASSERT_FALSE(swapChainSupportDetails.presentModes.empty());
 
-		surface.destroy(instance);
 		GLFW::DeinitGLFW();
 	}
 

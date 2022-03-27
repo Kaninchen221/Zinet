@@ -89,7 +89,6 @@ namespace zt::gl::tests
 
 		GLFW::DeinitGLFW();
 
-		surface.destroy(instance);
 		shaderModule.reset();
 		device.reset();
 	}

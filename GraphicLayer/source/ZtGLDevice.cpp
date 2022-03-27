@@ -11,7 +11,7 @@ namespace zt::gl
     {
     }
 
-    vk::DeviceQueueCreateInfo Device::createDeviceQueueCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface)
+    vk::DeviceQueueCreateInfo Device::createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface)
     {
         deviceQueueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
         deviceQueueCreateInfo.queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
@@ -21,7 +21,7 @@ namespace zt::gl
         return deviceQueueCreateInfo;
     }
 
-    vk::DeviceCreateInfo Device::createDeviceCreateInfo(const PhysicalDevice& physicalDevice, const Surface& surface)
+    vk::DeviceCreateInfo Device::createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface)
     {
         createDeviceQueueCreateInfo(physicalDevice, surface);
 
@@ -46,7 +46,7 @@ namespace zt::gl
         return deviceCreateInfo;
     }
 
-    void Device::create(const PhysicalDevice& physicalDevice, const Surface& surface)
+    void Device::create(PhysicalDevice& physicalDevice, Surface& surface)
     {
         vk::DeviceCreateInfo deviceCreateInfo = createDeviceCreateInfo(physicalDevice, surface);
         internal = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
@@ -71,5 +71,10 @@ namespace zt::gl
         result = internal.waitForFences({ *fence.getInternal() }, VK_TRUE, timeout);
 
         return result;
+    }
+
+    void Device::resetFence(Fence& fence) const
+    {
+        internal.resetFences({ *fence.getInternal() });
     }
 }

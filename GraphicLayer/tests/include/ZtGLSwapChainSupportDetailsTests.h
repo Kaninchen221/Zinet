@@ -46,7 +46,6 @@ namespace zt::gl::tests
 
 		ASSERT_NE(format, vk::SurfaceFormatKHR());
 
-		surface.destroy(instance);
 		GLFW::DeinitGLFW();
 	}
 
@@ -74,7 +73,6 @@ namespace zt::gl::tests
 
 		ASSERT_NE(presentMode, vk::PresentModeKHR());
 
-		surface.destroy(instance);
 		GLFW::DeinitGLFW();
 	}
 
@@ -101,7 +99,6 @@ namespace zt::gl::tests
 		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 		ASSERT_NE(swapExtent, vk::Extent2D());
 
-		surface.destroy(instance);
 		GLFW::DeinitGLFW();
 	}
 }
