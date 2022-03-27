@@ -102,10 +102,10 @@ namespace zt::gl::tests
 
 		Fence fence;
 		fence.create(device);
-
 		device.resetFence(fence);
-		device.waitForFence(fence, 1u);
 
 		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(timeout, semaphore, fence);
+
+		device.waitForFence(fence, 1000u);
 	}
 }
