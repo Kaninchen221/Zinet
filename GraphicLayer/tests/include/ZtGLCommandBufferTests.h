@@ -162,4 +162,14 @@ namespace zt::gl::tests
 		commandBuffer.begin();
 		commandBuffer.bindPipeline(pipeline);
 	}
+
+	TEST_F(CommandBufferTests, Reset)
+	{
+		commandBuffer.reset();
+	}
+
+	TEST_F(CommandBufferTests, RecordCommandBuffer)
+	{
+		commandBuffer.reset();
+	}
 }

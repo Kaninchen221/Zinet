@@ -48,6 +48,8 @@ namespace zt::gl
 
 		void bindPipeline(Pipeline& pipeline);
 
+		void reset();
+
 	protected:
 
 		vk::raii::CommandBuffer internal;

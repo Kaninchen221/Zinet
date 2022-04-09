@@ -40,6 +40,19 @@ namespace zt::gl
 		return subpassDescription;
 	}
 
+	vk::SubpassDependency RenderPass::createSubpassDependency()
+	{
+		subpassDependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+		subpassDependency.dstSubpass = 0;
+		subpassDependency.srcStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		subpassDependency.srcAccessMask = static_cast<vk::AccessFlagBits>(0);
+		subpassDependency.dstStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		subpassDependency.dstAccessMask = vk::AccessFlagBits::eColorAttachmentWrite;
+		subpassDependency.dependencyFlags = vk::DependencyFlagBits::eByRegion;
+
+		return subpassDependency;
+	}
+
 	vk::RenderPassCreateInfo RenderPass::createRenderPassCreateInfo()
 	{
 		vk::RenderPassCreateInfo createInfo;
@@ -47,6 +60,8 @@ namespace zt::gl
 		createInfo.pAttachments = &attachmentDescription;
 		createInfo.subpassCount = 1;
 		createInfo.pSubpasses = &subpassDescription;
+		createInfo.dependencyCount = 1;
+		createInfo.pDependencies = &subpassDependency;
 
 		return createInfo;
 	}

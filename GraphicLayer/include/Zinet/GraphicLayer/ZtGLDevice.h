@@ -37,6 +37,7 @@ namespace zt::gl
 
 		vk::raii::Device& getInternal();
 
+		// TODO: Move to Queue class?
 		vk::raii::Queue createQueue(uint32_t queueFamilyIndex) const;
 
 		vk::Result waitForFence(Fence& fence, uint64_t timeout) const;

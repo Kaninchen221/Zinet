@@ -77,7 +77,7 @@ namespace zt::gl::tests
 		device.create(physicalDevice, surface);
 
 		Fence fence;
-		fence.create(device);
+		fence.createSignaled(device);
 
 		uint64_t timeout = 1;
 		vk::Result result = device.waitForFence(fence, timeout);
@@ -88,7 +88,7 @@ namespace zt::gl::tests
 		device.create(physicalDevice, surface);
 
 		Fence fence;
-		fence.create(device);
+		fence.createSignaled(device);
 
 		device.resetFence(fence);
 	}

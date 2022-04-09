@@ -76,4 +76,10 @@ namespace zt::gl
 		internal.bindPipeline(bindPoint, *pipeline.getInternal());
 	}
 
+	void CommandBuffer::reset()
+	{
+		vk::CommandBufferResetFlagBits flags = vk::CommandBufferResetFlagBits::eReleaseResources;
+		internal.reset(flags);
+	}
+
 }

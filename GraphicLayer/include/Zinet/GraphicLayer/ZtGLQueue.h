@@ -4,8 +4,13 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include <span>
+
 namespace zt::gl
 {
+	class Semaphore;
+	class CommandBuffer;
+	class Fence;
 
 	class ZINET_GRAPHIC_LAYER_API Queue
 	{
@@ -27,6 +32,14 @@ namespace zt::gl
 		~Queue() noexcept = default;
 
 		const vk::raii::Queue& getInternal() const;
+
+		static vk::SubmitInfo CreateSubmitInfo(
+			std::span<Semaphore> waitSemaphores,
+			vk::PipelineStageFlags& waitPipelineStageFlags,
+			std::span<CommandBuffer> commandBuffers,
+			std::span<Semaphore> signalSemaphores);
+
+		void submit(std::span<vk::SubmitInfo> submitInfo, Fence& fence);
 
 	protected:
 

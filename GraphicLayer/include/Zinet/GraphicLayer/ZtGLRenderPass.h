@@ -32,6 +32,8 @@ namespace zt::gl
 
 		vk::SubpassDescription createSubpassDescription();
 
+		vk::SubpassDependency createSubpassDependency();
+
 		vk::RenderPassCreateInfo createRenderPassCreateInfo();
 
 		vk::raii::RenderPass& getInternal();
@@ -43,6 +45,7 @@ namespace zt::gl
 		vk::AttachmentDescription attachmentDescription;
 		vk::AttachmentReference attachmentReference;
 		vk::SubpassDescription subpassDescription;
+		vk::SubpassDependency subpassDependency;
 
 		vk::raii::RenderPass internal;
 

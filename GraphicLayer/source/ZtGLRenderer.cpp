@@ -97,6 +97,7 @@ namespace zt::gl
         renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
         renderPass.createAttachmentReference();
         renderPass.createSubpassDescription();
+        renderPass.createSubpassDependency();
 
         renderPass.create(device);
 

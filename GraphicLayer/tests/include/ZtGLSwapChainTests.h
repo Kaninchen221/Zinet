@@ -101,7 +101,7 @@ namespace zt::gl::tests
 		semaphore.create(device);
 
 		Fence fence;
-		fence.create(device);
+		fence.createSignaled(device);
 		device.resetFence(fence);
 
 		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(timeout, semaphore, fence);

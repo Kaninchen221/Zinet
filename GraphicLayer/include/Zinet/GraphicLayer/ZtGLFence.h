@@ -30,7 +30,9 @@ namespace zt::gl
 
 		vk::FenceCreateInfo createFenceCreateInfo();
 
-		void create(Device& device);
+		void createUnsignaled(Device& device);
+
+		void createSignaled(Device& device);
 
 		vk::Result getStatus() const;
 

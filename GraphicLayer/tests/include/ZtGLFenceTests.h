@@ -54,19 +54,26 @@ namespace zt::gl::tests
 		Fence fence;
 		vk::FenceCreateInfo createInfo = fence.createFenceCreateInfo();
 
-		ASSERT_NE(createInfo, vk::FenceCreateInfo{});
+		ASSERT_EQ(createInfo, vk::FenceCreateInfo{});
 	}
 
 	TEST_F(FenceTests, CreateTest)
 	{
-		fence.create(device);
+		fence.createUnsignaled(device);
+
+		ASSERT_NE(*fence.getInternal(), *vk::raii::Fence{ std::nullptr_t{} });
+	}
+
+	TEST_F(FenceTests, CreateSignaledTest)
+	{
+		fence.createSignaled(device);
 
 		ASSERT_NE(*fence.getInternal(), *vk::raii::Fence{ std::nullptr_t{} });
 	}
 
 	TEST_F(FenceTests, GetStatusTest)
 	{
-		fence.create(device);
+		fence.createSignaled(device);
 		vk::Result result = fence.getStatus();
 
 		ASSERT_EQ(result, vk::Result::eSuccess);

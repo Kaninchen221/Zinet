@@ -44,6 +44,13 @@ namespace zt::gl::tests
 		ASSERT_NE(createInfo, vk::RenderPassCreateInfo{});
 	}
 
+	TEST_F(RenderPassTests, CreateSubpassDependencyTest)
+	{
+		vk::SubpassDependency subpassDependency = renderPass->createSubpassDependency();
+
+		ASSERT_NE(subpassDependency, vk::SubpassDependency{});
+	}
+
 	TEST_F(RenderPassTests, GetInternalTest)
 	{
 		vk::raii::RenderPass& internal = renderPass->getInternal();
@@ -76,6 +83,7 @@ namespace zt::gl::tests
 		renderPass->createAttachmentDescription(vk::Format::eR8G8Unorm);
 		renderPass->createAttachmentReference();
 		renderPass->createSubpassDescription();
+		renderPass->createSubpassDependency();
 
 		renderPass->create(device);
 		vk::raii::RenderPass& internal = renderPass->getInternal();
