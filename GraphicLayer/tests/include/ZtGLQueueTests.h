@@ -3,6 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 
 #include "gtest/gtest.h"
 
@@ -88,5 +89,25 @@ namespace zt::gl::tests
 		Fence fence;
 		fence.createUnsignaled(device);
 		queue.submit(submitInfos, fence);
+	}
+
+	TEST_F(QueueTests, CreatePresentInfo)
+	{
+		std::array<Semaphore, 1> waitSemaphores{ {} };
+		std::array<SwapChain, 1> swapChains{ {} };
+		uint32_t imageIndex;
+
+		vk::PresentInfoKHR presentInfo = Queue::CreatePresentInfo(
+			waitSemaphores,
+			swapChains,
+			imageIndex);
+
+		EXPECT_EQ(waitSemaphores.size(), presentInfo.waitSemaphoreCount);
+		EXPECT_EQ(&*waitSemaphores.begin()->getInternal(), presentInfo.pWaitSemaphores);
+
+		EXPECT_EQ(swapChains.size(), presentInfo.swapchainCount);
+		EXPECT_EQ(&*swapChains.begin()->getInternal(), presentInfo.pSwapchains);
+
+		EXPECT_EQ(&imageIndex, presentInfo.pImageIndices);
 	}
 }

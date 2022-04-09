@@ -2,6 +2,7 @@
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLFence.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 
 #include <utility>
 
@@ -46,4 +47,21 @@ namespace zt::gl
     {
         internal.submit(submitInfo, *fence.getInternal());
     }
+
+    vk::PresentInfoKHR Queue::CreatePresentInfo(
+        std::span<Semaphore> waitSemaphores, 
+        std::span<SwapChain> swapChains, 
+        uint32_t& imageIndex)
+    {
+        vk::PresentInfoKHR presentInfo;
+        presentInfo.waitSemaphoreCount = waitSemaphores.size();
+        presentInfo.pWaitSemaphores = &*waitSemaphores.data()->getInternal();
+        presentInfo.swapchainCount = swapChains.size();
+        presentInfo.pSwapchains = &*swapChains.data()->getInternal();
+        presentInfo.pImageIndices = &imageIndex;
+        presentInfo.pResults = nullptr;
+
+        return presentInfo;
+    }
+
 }

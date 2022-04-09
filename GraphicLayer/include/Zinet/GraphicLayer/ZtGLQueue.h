@@ -11,6 +11,7 @@ namespace zt::gl
 	class Semaphore;
 	class CommandBuffer;
 	class Fence;
+	class SwapChain;
 
 	class ZINET_GRAPHIC_LAYER_API Queue
 	{
@@ -40,6 +41,11 @@ namespace zt::gl
 			std::span<Semaphore> signalSemaphores);
 
 		void submit(std::span<vk::SubmitInfo> submitInfo, Fence& fence);
+
+		static vk::PresentInfoKHR CreatePresentInfo(
+			std::span<Semaphore> waitSemaphores,
+			std::span<SwapChain> swapChains,
+			uint32_t& imageIndex);
 
 	protected:
 
