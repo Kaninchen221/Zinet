@@ -107,6 +107,7 @@ namespace zt::gl::tests
 		renderPass.createAttachmentDescription(surfaceFormat.format);
 		renderPass.createAttachmentReference();
 		renderPass.createSubpassDescription();
+		renderPass.createSubpassDependency();
 		renderPass.create(device);
 
 		Framebuffer framebuffer;
@@ -129,6 +130,7 @@ namespace zt::gl::tests
 		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
 		renderPass.createAttachmentReference();
 		renderPass.createSubpassDescription();
+		renderPass.createSubpassDependency();
 		renderPass.create(device);
 
 		PipelineLayout pipelineLayout;

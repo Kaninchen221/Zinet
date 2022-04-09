@@ -87,7 +87,6 @@ namespace zt::gl::tests
 
 		std::array<vk::SubmitInfo, 1> submitInfos = { submitInfo };
 		Fence fence;
-		fence.createUnsignaled(device);
 		queue.submit(submitInfos, fence);
 	}
 

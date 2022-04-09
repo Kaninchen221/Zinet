@@ -64,6 +64,7 @@ namespace zt::gl::tests
 		renderPass.createAttachmentDescription(surfaceFormat.format);
 		renderPass.createAttachmentReference();
 		renderPass.createSubpassDescription();
+		renderPass.createSubpassDependency();
 		renderPass.create(device);
 
 		std::unique_ptr<SwapChain> swapChain = std::make_unique<SwapChain>();
