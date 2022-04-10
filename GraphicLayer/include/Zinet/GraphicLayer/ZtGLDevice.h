@@ -40,7 +40,7 @@ namespace zt::gl
 		// TODO: Move to Queue class?
 		vk::raii::Queue createQueue(uint32_t queueFamilyIndex) const;
 
-		vk::Result waitForFence(Fence& fence, uint64_t timeout) const;
+		vk::Result waitForFence(Fence& fence, uint64_t timeout = UINT64_MAX) const;
 
 		void resetFence(Fence& fence) const;
 

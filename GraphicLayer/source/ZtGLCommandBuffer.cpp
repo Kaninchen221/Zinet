@@ -11,6 +11,7 @@ namespace zt::gl
 	CommandBuffer::CommandBuffer()
 		: internal{ std::nullptr_t{} }
 	{
+		clearValue = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 1.f } };
 	}
 
 	vk::raii::CommandBuffer& CommandBuffer::getInternal()

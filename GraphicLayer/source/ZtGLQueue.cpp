@@ -26,20 +26,20 @@ namespace zt::gl
     }
 
     vk::SubmitInfo Queue::CreateSubmitInfo(
-        std::span<Semaphore> waitSemaphores,
+        std::span<Semaphore*> waitSemaphores,
         vk::PipelineStageFlags& waitPipelineStageFlags,
-        std::span<CommandBuffer> commandBuffers,
-        std::span<Semaphore> signalSemaphores)
+        std::span<CommandBuffer*> commandBuffers,
+        std::span<Semaphore*> signalSemaphores)
     {
         vk::SubmitInfo submitInfo;
         submitInfo.waitSemaphoreCount = waitSemaphores.size();
-        submitInfo.pWaitSemaphores = &*waitSemaphores.data()->getInternal();
+        submitInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
         submitInfo.pWaitDstStageMask = &waitPipelineStageFlags;
         submitInfo.commandBufferCount = commandBuffers.size();
-        submitInfo.pCommandBuffers = &*commandBuffers.data()->getInternal();
+        submitInfo.pCommandBuffers = &*commandBuffers[0]->getInternal();
         submitInfo.signalSemaphoreCount = signalSemaphores.size();
-        submitInfo.pSignalSemaphores = &*signalSemaphores.data()->getInternal();
-
+        submitInfo.pSignalSemaphores = &*signalSemaphores[0]->getInternal();
+         
         return submitInfo;
     }
 
@@ -49,19 +49,23 @@ namespace zt::gl
     }
 
     vk::PresentInfoKHR Queue::CreatePresentInfo(
-        std::span<Semaphore> waitSemaphores, 
-        std::span<SwapChain> swapChains, 
+        std::span<Semaphore*> waitSemaphores, 
+        std::span<SwapChain*> swapChains, 
         uint32_t& imageIndex)
     {
         vk::PresentInfoKHR presentInfo;
         presentInfo.waitSemaphoreCount = waitSemaphores.size();
-        presentInfo.pWaitSemaphores = &*waitSemaphores.data()->getInternal();
+        presentInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
         presentInfo.swapchainCount = swapChains.size();
-        presentInfo.pSwapchains = &*swapChains.data()->getInternal();
+        presentInfo.pSwapchains = &*swapChains[0]->getInternal();
         presentInfo.pImageIndices = &imageIndex;
         presentInfo.pResults = nullptr;
 
         return presentInfo;
     }
 
+    void Queue::present(vk::PresentInfoKHR& presentInfo)
+    {
+        internal.presentKHR(presentInfo);
+    }
 }

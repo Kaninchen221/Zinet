@@ -35,17 +35,19 @@ namespace zt::gl
 		const vk::raii::Queue& getInternal() const;
 
 		static vk::SubmitInfo CreateSubmitInfo(
-			std::span<Semaphore> waitSemaphores,
+			std::span<Semaphore*> waitSemaphores,
 			vk::PipelineStageFlags& waitPipelineStageFlags,
-			std::span<CommandBuffer> commandBuffers,
-			std::span<Semaphore> signalSemaphores);
+			std::span<CommandBuffer*> commandBuffers,
+			std::span<Semaphore*> signalSemaphores);
 
 		void submit(std::span<vk::SubmitInfo> submitInfo, Fence& fence);
 
 		static vk::PresentInfoKHR CreatePresentInfo(
-			std::span<Semaphore> waitSemaphores,
-			std::span<SwapChain> swapChains,
+			std::span<Semaphore*> waitSemaphores,
+			std::span<SwapChain*> swapChains,
 			uint32_t& imageIndex);
+
+		void present(vk::PresentInfoKHR& presentInfo);
 
 	protected:
 

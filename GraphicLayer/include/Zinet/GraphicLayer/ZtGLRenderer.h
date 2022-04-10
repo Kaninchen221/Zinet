@@ -53,9 +53,23 @@ namespace zt::gl
 
 	protected:
 
+		void prepareSwapChain();
+		void prepareShaders();
+
+		void drawFrame();
+
+		void submit();
+		void present(uint32_t image);
+
 		Instance instance;
 
-		std::unique_ptr<SwapChain> swapChain;
+		Device device;
+
+		Surface surface;
+
+		SwapChain swapChain;
+		SwapChainSupportDetails swapChainSupportDetails;
+		vk::Extent2D swapExtent;
 
 		std::vector<vk::Image> swapChainImages;
 
@@ -67,11 +81,7 @@ namespace zt::gl
 
 		uint32_t queueFamilyIndex{};
 
-		Surface surface;
-
 		Window window;
-
-		Device device;
 
 		PhysicalDevice physicalDevice;
 
@@ -85,6 +95,8 @@ namespace zt::gl
 		ShaderModule vertexShaderModule;
 		ShaderModule fragmentShaderModule;
 
+		std::vector<vk::PipelineShaderStageCreateInfo> shaderStages;
+
 		PipelineLayout pipelineLayout;
 
 		RenderPass renderPass;
@@ -93,6 +105,12 @@ namespace zt::gl
 
 		CommandPool commandPool;
 		CommandBuffer commandBuffer;
+
+		Fence drawFence;
+		//Fence acquireNextImageFence;
+
+		Semaphore imageAvailableSemaphore;
+		Semaphore renderFinishedSemaphore;
 	};
 
 }
