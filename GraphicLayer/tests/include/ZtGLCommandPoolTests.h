@@ -11,52 +11,57 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		std::unique_ptr<CommandPool> commandPool = std::make_unique<CommandPool>();
+		Context context;
+		Instance instance;
+		Window window;
+		Surface surface;
+		PhysicalDevice physicalDevice;
+		Device device;
+		CommandPool commandPool;
 
+		void SetUp() override
+		{
+			GLFW::InitGLFW();
+
+			instance.createInstanceCreateInfo();
+			instance.create(context);
+
+			window.createWindow();
+
+			surface.create(instance, window);
+
+			physicalDevice.create(instance);
+
+			device.create(physicalDevice, surface);
+		}
+
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
+		}
 	};
 
-	TEST_F(CommandPoolTests, GetInternalTest)
+	TEST(CommandPool, GetInternalTest)
 	{
-		vk::raii::CommandPool& internal = commandPool->getInternal();
+		CommandPool commandPool;
+		vk::raii::CommandPool& internal = commandPool.getInternal();
 	}
 
-	TEST_F(CommandPoolTests, CreateCommandPoolCreateInfoTest)
+	TEST(CommandPool, CreateCommandPoolCreateInfoTest)
 	{
+		CommandPool commandPool;
 		uint32_t queueFamilyIndex{};
-		vk::CommandPoolCreateInfo createInfo = commandPool->createCommandPoolCreateInfo(queueFamilyIndex);
+		vk::CommandPoolCreateInfo createInfo = commandPool.createCommandPoolCreateInfo(queueFamilyIndex);
 
 		ASSERT_NE(createInfo, vk::CommandPoolCreateInfo{});
 	}
 
 	TEST_F(CommandPoolTests, CreateCommandPoolTest)
 	{
-		GLFW::InitGLFW();
-
-		Context context;
-		Instance instance;
-		instance.createInstanceCreateInfo();
-		instance.create(context);
-
-		Window window;
-		window.createWindow();
-
-		Surface surface;
-		surface.create(instance, window);
-
-		PhysicalDevice physicalDevice;
-		physicalDevice.create(instance);
-
-		Device device;
-		device.create(physicalDevice, surface);
-
 		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		commandPool->create(device, queueFamilyIndex);
+		commandPool.create(device, queueFamilyIndex);
 
-		ASSERT_NE(*commandPool->getInternal(), *vk::raii::CommandPool{ std::nullptr_t{} });
-
-		commandPool.reset();
-
-		GLFW::DeinitGLFW();
+		ASSERT_NE(*commandPool.getInternal(), *vk::raii::CommandPool{ std::nullptr_t{} });
 	}
 
 }
