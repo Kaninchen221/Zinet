@@ -47,6 +47,8 @@ namespace zt::gl
 
 		~Renderer() noexcept;
 
+		void prepare();
+
 		void run();
 
 		std::filesystem::path contentPath;

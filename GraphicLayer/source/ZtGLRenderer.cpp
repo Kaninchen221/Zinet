@@ -4,7 +4,7 @@
 
 namespace zt::gl
 {
-    void Renderer::run()
+    void Renderer::prepare()
     {
         GLFW::InitGLFW();
 
@@ -87,7 +87,11 @@ namespace zt::gl
         imageAvailableSemaphore.create(device);
         renderFinishedSemaphore.create(device);
         
-        while (!window.shouldBeClosed()) 
+    }
+
+    void Renderer::run()
+    {
+        while (!window.shouldBeClosed())
         {
             glfwPollEvents();
             drawFrame();
