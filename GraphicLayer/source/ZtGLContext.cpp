@@ -3,7 +3,7 @@
 namespace zt::gl
 {
 
-	const vk::raii::Context& Context::getInternal() const
+	vk::raii::Context& Context::getInternal()
 	{
 		return internal;
 	}

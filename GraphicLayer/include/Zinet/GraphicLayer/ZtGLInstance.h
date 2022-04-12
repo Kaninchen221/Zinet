@@ -32,8 +32,8 @@ namespace zt::gl
 		void createInstanceCreateInfo();
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
-		void create(const Context& context);
-		const vk::raii::Instance& getInternal() const;
+		void create(Context& context);
+		vk::raii::Instance& getInternal();
 
 		static const std::vector<const char*>& GetValidationLayers();
 

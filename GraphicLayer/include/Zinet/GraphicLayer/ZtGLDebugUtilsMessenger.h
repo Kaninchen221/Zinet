@@ -34,7 +34,7 @@ namespace zt::gl
 
 		const vk::raii::DebugUtilsMessengerEXT& getDebugMessenger() const;
 
-		void createDebugUtilsMessenger(const Instance& instance);
+		void createDebugUtilsMessenger(Instance& instance);
 
 	protected:
 

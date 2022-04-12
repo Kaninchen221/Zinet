@@ -27,7 +27,7 @@ namespace zt::gl
 
 		~Surface() noexcept = default;
 
-		bool create(const Instance& instance, Window& window);
+		bool create(Instance& instance, Window& window);
 
 		vk::raii::SurfaceKHR& getInternal();
 

@@ -50,7 +50,7 @@ namespace zt::gl
         return instanceCreateInfo;
     }
 
-    void Instance::create(const Context& context)
+    void Instance::create(Context& context)
     {
         if (GetEnabledValidationLayers() && !CheckValidationLayerSupport())
         {
@@ -61,7 +61,7 @@ namespace zt::gl
         internal = vk::raii::Instance(context.getInternal(), instanceCreateInfo);
     }
 
-    const vk::raii::Instance& Instance::getInternal() const
+    vk::raii::Instance& Instance::getInternal()
     {
         return internal;
     }

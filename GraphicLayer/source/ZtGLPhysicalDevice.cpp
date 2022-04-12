@@ -53,7 +53,7 @@ namespace zt::gl
         return internal;
     }
 
-    vk::raii::PhysicalDevices PhysicalDevice::enumeratePhysicalDevices(const Instance& instance) const
+    vk::raii::PhysicalDevices PhysicalDevice::enumeratePhysicalDevices(Instance& instance) const
     {
         return vk::raii::PhysicalDevices(instance.getInternal());
     }
@@ -98,7 +98,7 @@ namespace zt::gl
         return swapChainSupportDetails;
     }
 
-    bool PhysicalDevice::create(const Instance& instance)
+    bool PhysicalDevice::create(Instance& instance)
     {
         vk::raii::PhysicalDevices physicalDevices = enumeratePhysicalDevices(instance);
         if (physicalDevices.size() == 0u)

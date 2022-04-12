@@ -8,7 +8,7 @@ namespace zt::gl
 	{
 	}
 
-	bool Surface::create(const Instance& instance, Window& window)
+	bool Surface::create(Instance& instance, Window& window)
 	{
 		VkSurfaceKHR tempSurface{};
 		const VkAllocationCallbacks* allocationCallbacks = nullptr;

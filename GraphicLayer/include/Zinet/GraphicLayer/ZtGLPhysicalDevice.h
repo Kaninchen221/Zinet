@@ -38,9 +38,9 @@ namespace zt::gl
 
 		const vk::raii::PhysicalDevice& getInternal() const;
 
-		vk::raii::PhysicalDevices enumeratePhysicalDevices(const Instance& instance) const;
+		vk::raii::PhysicalDevices enumeratePhysicalDevices(Instance& instance) const;
 
-		bool create(const Instance& instance);
+		bool create(Instance& instance);
 
 		static const std::vector<const char*>& GetPhysicalDeviceExtensions();
 
