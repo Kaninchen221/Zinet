@@ -17,6 +17,16 @@ EntryPoint.include_dirs_list = [
 ]
 EntryPoint.link_libraries_list = [
     "ZtCore",
+    "${Vulkan_LIBRARIES}",
+    "${Vulkan_LIBRARIES}",
+    "${CONAN_LIBS_GTEST}",
+    "${CONAN_LIBS_SPDLOG}",
+    "${CONAN_LIBS_FMT}",
+    "${CONAN_LIBS_GLFW}",
+    "${CONAN_LIBS_SHADERC}",
+    "${CONAN_LIBS_GLSLANG}",
+    "${CONAN_LIBS_SPIRV-TOOLS}",
+    "${CONAN_LIBS_SPIRV-HEADERS}"
     "ZtGraphicLayer"
 ]
 EntryPoint.macros_list = [

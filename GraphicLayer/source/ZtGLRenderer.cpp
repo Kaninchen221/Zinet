@@ -155,7 +155,6 @@ namespace zt::gl
         renderArea.offset = vk::Offset2D{ 0, 0 };
         renderArea.extent = swapExtent; /* Need to be declared should be same as extent from SwapChainSupportDetails */
 
-        Framebuffer framebuffer;
         commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
         commandBuffer.bindPipeline(pipeline);
         commandBuffer->draw(3, 1, 0, 0);
@@ -165,6 +164,7 @@ namespace zt::gl
         submit();
 
         present(nextImage.second);
+
     }
 
     void Renderer::submit()
