@@ -28,7 +28,7 @@ namespace zt::gl::tests
 	TEST_F(ZtKeyboardTests, SetWindowTest)
 	{
 		Window expectedWindow{};
-		expectedWindow.createWindow();
+		expectedWindow.create();
 		keyboard.setWindow(&expectedWindow);
 		const Window* actualWindow = keyboard.getWindow();
 
@@ -45,7 +45,7 @@ namespace zt::gl::tests
 	TEST_F(ZtKeyboardTests, IsPressedTest)
 	{
 		Window window;
-		window.createWindow();
+		window.create();
 		Event* event = window.getEvent();
 		Keyboard* keyboard = event->getKeyboard();
 		bool isPressed = keyboard->isPressed(KeyboardKey::F4);
@@ -56,7 +56,7 @@ namespace zt::gl::tests
 	TEST_F(ZtKeyboardTests, IsReleasedTest)
 	{
 		Window window;
-		window.createWindow();
+		window.create();
 		Event* event = window.getEvent();
 		Keyboard* keyboard = event->getKeyboard();
 		bool isReleased = keyboard->isReleased(KeyboardKey::F2);

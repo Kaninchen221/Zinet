@@ -26,7 +26,7 @@ namespace zt::gl::tests
 			instance.createInstanceCreateInfo();
 			instance.create(context);
 		
-			window.createWindow();
+			window.create();
 		
 			surface.create(instance, window);
 		

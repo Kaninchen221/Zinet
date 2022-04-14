@@ -16,7 +16,7 @@ namespace zt::gl
         }
     }
 
-    void Window::createWindow()
+    void Window::create()
     {
         WindowLogger->info(__FUNCTION__);
 

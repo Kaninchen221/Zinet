@@ -19,7 +19,7 @@ namespace zt::gl::tests
 	TEST_F(ZtEventTests, SetWindowTest)
 	{
 		Window expectedWindow;
-		expectedWindow.createWindow();
+		expectedWindow.create();
 		event.setWindow(&expectedWindow);
 		const Window* actualWindow = event.getWindow();
 

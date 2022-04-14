@@ -15,7 +15,7 @@ namespace zt::gl::tests
 
 		ZtElementBufferTests()
 		{
-			window.createWindow();
+			window.create();
 		}
 
 		~ZtElementBufferTests()

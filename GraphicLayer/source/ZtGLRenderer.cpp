@@ -12,9 +12,9 @@ namespace zt::gl
         instance.createInstanceCreateInfo();
         instance.create(context);
 
-        debugUtilsMessenger.createDebugUtilsMessenger(instance);
+        debugUtilsMessenger.create(instance);
 
-        window.createWindow();
+        window.create();
 
         bool surfaceResult = surface.create(instance, window);
         if (!surfaceResult)
@@ -48,7 +48,7 @@ namespace zt::gl
 
         pipelineLayout.createColorBlendAttachmentState();
 
-        pipelineLayout.createPipelineLayout(device);
+        pipelineLayout.create(device);
         
         /// RenderPass
 

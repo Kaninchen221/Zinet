@@ -14,7 +14,7 @@ namespace zt::gl::tests
 
 		ZtVertexArrayTests()
 		{
-			window.createWindow();
+			window.create();
 		}
 
 		~ZtVertexArrayTests()

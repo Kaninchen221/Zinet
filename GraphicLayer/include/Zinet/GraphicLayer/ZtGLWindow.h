@@ -24,7 +24,7 @@ namespace zt::gl
 
 		~Window() noexcept;
 
-		void createWindow();
+		void create();
 
 		GLFWwindow* getInternal();
 

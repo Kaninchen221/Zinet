@@ -35,7 +35,7 @@ namespace zt::gl::tests
 			instance.createApplicationInfo();
 			instance.createInstanceCreateInfo();
 			instance.create(context);
-			window.createWindow(); 
+			window.create();
 
 			bool surfaceResult = surface.create(instance, window);
 			if (!surfaceResult)

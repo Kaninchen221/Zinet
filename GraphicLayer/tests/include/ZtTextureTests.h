@@ -14,7 +14,7 @@ namespace zt::gl::tests
 
 		ZtTextureTests()
 		{
-			window.createWindow();
+			window.create();
 		}
 
 		~ZtTextureTests()

@@ -30,7 +30,7 @@ namespace zt::gl::tests
 			instance.createInstanceCreateInfo();
 			instance.create(context);
 
-			window.createWindow();
+			window.create();
 
 			surface.create(instance, window);
 
@@ -132,7 +132,7 @@ namespace zt::gl::tests
 		renderPass.create(device);
 
 		PipelineLayout pipelineLayout;
-		pipelineLayout.createPipelineLayout(device);
+		pipelineLayout.create(device);
 
 		Shader vertexShader;
 		vertexShader.setType(ShaderType::Vertex);

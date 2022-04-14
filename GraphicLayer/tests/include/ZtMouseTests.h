@@ -33,7 +33,7 @@ namespace zt::gl::tests
 	TEST_F(ZtMouseTests, SetWindowTest)
 	{
 		Window expectedWindow;
-		expectedWindow.createWindow();
+		expectedWindow.create();
 		mouse.setWindow(&expectedWindow);
 		const Window* actualWindow = mouse.getWindow();
 
@@ -68,7 +68,7 @@ namespace zt::gl::tests
 	TEST_F(ZtMouseTests, ButtonCallbackTest)
 	{
 		Window window;
-		window.createWindow();
+		window.create();
 		MouseButtonEvent expectedButtonEvent{};
 		Mouse::ButtonCallback(window.getInternal(), static_cast<int>(expectedButtonEvent.button), static_cast<int>(expectedButtonEvent.type), 0);
 		const std::vector<MouseButtonEvent>& buttonsEvents = mouse.getButtonsEvents();
@@ -84,7 +84,7 @@ namespace zt::gl::tests
 	TEST_F(ZtMouseTests, PositionCallbackTest)
 	{
 		Window window;
-		window.createWindow();
+		window.create();
 		glm::dvec2 expectedPosition{ 34.0, 2.4324 };
 		Mouse::PositionCallback(window.getInternal(), expectedPosition.x, expectedPosition.y);
 

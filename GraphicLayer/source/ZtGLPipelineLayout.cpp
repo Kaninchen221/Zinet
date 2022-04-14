@@ -143,7 +143,7 @@ namespace zt::gl
 		return layoutCreateInfo;
 	}
 
-	void PipelineLayout::createPipelineLayout(Device& device)
+	void PipelineLayout::create(Device& device)
 	{
 		vk::PipelineLayoutCreateInfo createInfo = createPipelineLayoutCreateInfo();
 		internal = std::move(vk::raii::PipelineLayout{ device.getInternal(), createInfo });

@@ -75,7 +75,7 @@ namespace zt::gl
         return true;
     }
 
-    void DebugUtilsMessenger::createDebugUtilsMessenger(Instance& instance)
+    void DebugUtilsMessenger::create(Instance& instance)
     {
         vk::DebugUtilsMessageSeverityFlagsEXT severityFlags(
             vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose |

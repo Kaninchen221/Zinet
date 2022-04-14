@@ -161,7 +161,7 @@ namespace zt::gl::tests
 		instance.create(context);
 
 		Window window;
-		window.createWindow();
+		window.create();
 
 		Surface surface;
 		surface.create(instance, window);
@@ -171,7 +171,7 @@ namespace zt::gl::tests
 		Device device;
 		device.create(physicalDevice, surface);
 
-		pipeline->createPipelineLayout(device);
+		pipeline->create(device);
 		vk::raii::PipelineLayout& pipelineLayout = pipeline->getInternal();
 
 		ASSERT_NE(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });

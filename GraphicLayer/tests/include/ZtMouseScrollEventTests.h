@@ -16,7 +16,7 @@ protected:
 TEST_F(ZtMouseTests, SetWindowTest)
 {
 	Window ExpectedWindow;
-	ExpectedWindow.CreateWindow();
+	ExpectedWindow.create();
 	Mouse.SetWindow(&ExpectedWindow);
 	const Window* ActualWindow = Mouse.GetWindow();
 
@@ -51,7 +51,7 @@ TEST_F(ZtMouseTests, SetMaximumRememberedButtonsEventsTest)
 TEST_F(ZtMouseTests, ButtonCallbackTest)
 {
 	Window Window;
-	Window.CreateWindow();
+	Window.create();
 	MouseButtonEvent ExpectedButtonEvent{};
 	Mouse::ButtonCallback(Window.GetInternalWindow(), static_cast<int>(ExpectedButtonEvent.Button), static_cast<int>(ExpectedButtonEvent.Type), 0);
 	const std::vector<MouseButtonEvent>& ButtonsEvents = Mouse.GetButtonsEvents();

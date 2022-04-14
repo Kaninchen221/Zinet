@@ -42,12 +42,12 @@ namespace zt::gl::tests
 		const vk::raii::DebugUtilsMessengerEXT& internal = debugUtilsMessenger.getInternal();
 	}
 
-	TEST_F(DebugUtilsMessengerTests, CreateDebugUtilsMessenger)
+	TEST_F(DebugUtilsMessengerTests, Create)
 	{
 		Context context;
 		instance.createInstanceCreateInfo();
 		instance.create(context);
-		debugUtilsMessenger.createDebugUtilsMessenger(instance);
+		debugUtilsMessenger.create(instance);
 	}
 
 }

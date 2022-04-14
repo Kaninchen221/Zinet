@@ -69,7 +69,7 @@ namespace zt::gl::tests
 		instance.create(context);
 
 		Window window;
-		window.createWindow();
+		window.create();
 
 		Surface surface;
 		surface.create(instance, window);

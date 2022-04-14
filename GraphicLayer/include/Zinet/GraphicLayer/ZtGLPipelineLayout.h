@@ -54,7 +54,7 @@ namespace zt::gl
 
 		vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
 
-		void createPipelineLayout(Device& device);
+		void create(Device& device);
 
 	protected:
 

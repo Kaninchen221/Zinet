@@ -33,7 +33,7 @@ namespace zt::gl
 			const VkDebugUtilsMessengerCallbackDataEXT* callbackData,
 			void* userData);
 
-		void createDebugUtilsMessenger(Instance& instance);
+		void create(Instance& instance);
 
 	};
 

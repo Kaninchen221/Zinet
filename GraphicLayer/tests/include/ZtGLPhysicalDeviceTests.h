@@ -26,7 +26,7 @@ namespace zt::gl::tests
 		GLFW::InitGLFW();
 
 		Window window;
-		window.createWindow();
+		window.create();
 
 		Context context;
 
@@ -86,7 +86,7 @@ namespace zt::gl::tests
 		GLFW::InitGLFW();
 
 		Window window;
-		window.createWindow();
+		window.create();
 
 		Context context;
 		Instance instance;

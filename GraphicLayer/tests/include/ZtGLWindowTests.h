@@ -25,9 +25,9 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST_F(ZtWindowTests, CreateWindowTest)
+	TEST_F(ZtWindowTests, Create)
 	{
-		window.createWindow();
+		window.create();
 
 		GLFWwindow* internalWindow = window.getInternal();
 		ASSERT_TRUE(internalWindow);
@@ -35,7 +35,7 @@ namespace zt::gl::tests
 
 	TEST_F(ZtWindowTests, SetViewportTest)
 	{
-		window.createWindow();
+		window.create();
 
 		int x = 0;
 		int y = 0;
@@ -52,13 +52,13 @@ namespace zt::gl::tests
 		float blue{};
 		float alpha{};
 
-		window.createWindow();
+		window.create();
 		window.setClearColor(red, green, blue, alpha);
 	}
 
 	TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
 	{
-		window.createWindow();
+		window.create();
 		window.bindFramebufferSizeCallback();
 
 		GLFWwindow* glfwWindow = window.getInternal();
@@ -70,7 +70,7 @@ namespace zt::gl::tests
 
 	TEST_F(ZtWindowTests, IsOpenTest)
 	{
-		window.createWindow();
+		window.create();
 	
 		bool isOpen = window.isOpen();
 		ASSERT_TRUE(isOpen);
@@ -84,19 +84,19 @@ namespace zt::gl::tests
 	
 	TEST_F(ZtWindowTests, ClearTest)
 	{
-		window.createWindow();
+		window.create();
 		window.clear();
 	}
 	
 	TEST_F(ZtWindowTests, SwapBuffersTest)
 	{
-		window.createWindow();
+		window.create();
 		window.swapBuffers();
 	}
 	
 	TEST_F(ZtWindowTests, ShouldBeClosedTest)
 	{
-		window.createWindow();
+		window.create();
 		GLboolean shouldBeClosed = window.shouldBeClosed();
 	
 		ASSERT_FALSE(shouldBeClosed);
@@ -109,7 +109,7 @@ namespace zt::gl::tests
 	
 	TEST_F(ZtWindowTests, BindCallbacksTest)
 	{
-		window.createWindow();
+		window.create();
 		window.bindCallbacks();
 	}
 

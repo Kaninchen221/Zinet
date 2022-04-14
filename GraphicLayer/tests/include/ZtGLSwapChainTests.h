@@ -30,7 +30,7 @@ namespace zt::gl::tests
 		{
 			GLFW::InitGLFW();
 
-			window.createWindow();
+			window.create();
 			instance.createApplicationInfo();
 			instance.createInstanceCreateInfo();
 			instance.create(context);

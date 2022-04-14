@@ -15,7 +15,7 @@ namespace zt::gl::tests
 
 		ZtVertexBufferTests()
 		{
-			window.createWindow();
+			window.create();
 		}
 
 		VertexBuffer vbo;

@@ -20,6 +20,8 @@ namespace zt::gl::tests
 		bool result = GLFW::InitGLFW();
 
 		ASSERT_TRUE(result);
+
+		GLFW::DeinitGLFW();
 	}
 
 	TEST_F(GLFWTests, DeinitGLFWTest)
