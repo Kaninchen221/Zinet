@@ -21,6 +21,27 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<PhysicalDevice, VulkanObject<vk::raii::PhysicalDevice>>);
 	}
 
+	TEST(PhysicalDevice, CreateFeaturesTest)
+	{
+		PhysicalDevice physicalDevice;
+		physicalDevice.createFeatures();
+	}
+
+	TEST(PhysicalDevice, GetFeaturesTest)
+	{
+		PhysicalDevice physicalDevice;
+		physicalDevice.createFeatures();
+		const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
+	}
+
+	TEST(PhysicalDevice, PhysicalDeviceExtensions)
+	{
+		PhysicalDevice physicalDevice;
+		const std::vector<const char*>& physicalDeviceExtensions = physicalDevice.GetPhysicalDeviceExtensions();
+
+		ASSERT_FALSE(physicalDeviceExtensions.empty());
+	}
+
 	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)
 	{
 		GLFW::InitGLFW();
@@ -45,33 +66,7 @@ namespace zt::gl::tests
 		ASSERT_NE(queueFamilyIndex, notExpectedIndex);
 	}
 
-	TEST_F(PhysicalDeviceTests, CreateFeaturesTest)
-	{
-		physicalDevice.createFeatures();
-	}
-
-	TEST_F(PhysicalDeviceTests, GetFeaturesTest)
-	{
-		physicalDevice.createFeatures();
-		const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
-	}
-
-	TEST_F(PhysicalDeviceTests, EnumeratePhysicalDevices)
-	{
-		Context context;
-		Instance instance;
-		instance.create(context);
-		vk::raii::PhysicalDevices physicalDevices = std::move(physicalDevice.enumeratePhysicalDevices(instance));
-	}
-
-	TEST_F(PhysicalDeviceTests, PhysicalDeviceExtensionsTest)
-	{
-		const std::vector<const char*>& physicalDeviceExtensions = physicalDevice.GetPhysicalDeviceExtensions();
-
-		ASSERT_FALSE(physicalDeviceExtensions.empty());
-	}
-
-	TEST_F(PhysicalDeviceTests, CreateTest)
+	TEST_F(PhysicalDeviceTests, Create)
 	{
 		Context context;
 		Instance instance;

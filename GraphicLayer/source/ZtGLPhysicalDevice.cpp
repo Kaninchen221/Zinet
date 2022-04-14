@@ -48,11 +48,6 @@ namespace zt::gl
         return features;
     }
 
-    vk::raii::PhysicalDevices PhysicalDevice::enumeratePhysicalDevices(Instance& instance) const
-    {
-        return vk::raii::PhysicalDevices(instance.getInternal());
-    }
-
     const std::vector<const char*>& PhysicalDevice::GetPhysicalDeviceExtensions()
     {
         return PhysicalDeviceExtensions;
@@ -95,7 +90,7 @@ namespace zt::gl
 
     bool PhysicalDevice::create(Instance& instance)
     {
-        vk::raii::PhysicalDevices physicalDevices = enumeratePhysicalDevices(instance);
+        vk::raii::PhysicalDevices physicalDevices = instance.enumeratePhysicalDevices();
         if (physicalDevices.size() == 0u)
         {
             Logger->error("Can't find physical device supporting vulkan");

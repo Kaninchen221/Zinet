@@ -20,6 +20,13 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<Instance, VulkanObject<vk::raii::Instance>>);
 	}
 
+	TEST_F(InstanceTests, EnumeratePhysicalDevices)
+	{
+		Context context;
+		instance.create(context);
+		vk::raii::PhysicalDevices physicalDevices = instance.enumeratePhysicalDevices();
+	}
+
 	TEST_F(InstanceTests, ApplicationInfoTest)
 	{
 		instance.createApplicationInfo();

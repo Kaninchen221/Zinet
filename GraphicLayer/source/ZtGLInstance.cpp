@@ -60,6 +60,11 @@ namespace zt::gl
         internal = vk::raii::Instance(context.getInternal(), instanceCreateInfo);
     }
 
+    vk::raii::PhysicalDevices Instance::enumeratePhysicalDevices() const
+    {
+        return vk::raii::PhysicalDevices(internal);
+    }
+
     const std::vector<const char*>& Instance::GetValidationLayers()
     {
         return ValidationLayers;

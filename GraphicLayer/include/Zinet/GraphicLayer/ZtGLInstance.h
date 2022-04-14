@@ -35,6 +35,8 @@ namespace zt::gl
 
 		void create(Context& context);
 
+		vk::raii::PhysicalDevices enumeratePhysicalDevices() const;
+
 		static const std::vector<const char*>& GetValidationLayers();
 
 		static bool CheckValidationLayerSupport();

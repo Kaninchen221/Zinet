@@ -36,8 +36,6 @@ namespace zt::gl
 
 		const vk::PhysicalDeviceFeatures& getFeatures() const;
 
-		vk::raii::PhysicalDevices enumeratePhysicalDevices(Instance& instance) const;
-
 		bool create(Instance& instance);
 
 		static const std::vector<const char*>& GetPhysicalDeviceExtensions();
