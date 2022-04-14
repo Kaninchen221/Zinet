@@ -11,9 +11,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		// Declare instance here then it will be destroyed after debugUtilsMessenger
 		Instance instance;
-
 		DebugUtilsMessenger debugUtilsMessenger;
 
 	};
