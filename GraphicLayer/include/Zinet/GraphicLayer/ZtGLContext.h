@@ -28,6 +28,8 @@ namespace zt::gl
 
 		vk::raii::Context& getInternal();
 
+		vk::raii::Context* operator->();
+
 	protected:
 
 		vk::raii::Context internal;

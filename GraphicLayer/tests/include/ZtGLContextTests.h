@@ -22,4 +22,10 @@ namespace zt::gl::tests
 		vk::raii::Context& internal = context.getInternal();
 	}
 
+	TEST_F(ContextTests, ArrowOperator)
+	{
+		vk::raii::Context* internal = context.operator->();
+
+		ASSERT_NE(internal, nullptr);
+	}
 }

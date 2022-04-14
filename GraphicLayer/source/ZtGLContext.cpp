@@ -8,4 +8,9 @@ namespace zt::gl
 		return internal;
 	}
 
+	vk::raii::Context* Context::operator->()
+	{
+		return &internal;
+	}
+
 }
