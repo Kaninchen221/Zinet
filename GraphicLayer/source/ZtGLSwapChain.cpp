@@ -10,13 +10,7 @@
 namespace zt::gl
 {
 	SwapChain::SwapChain()
-		: internal(std::nullptr_t())
 	{
-	}
-
-	vk::raii::SwapchainKHR& SwapChain::getInternal()
-	{
-		return internal;
 	}
 
 	void SwapChain::create(

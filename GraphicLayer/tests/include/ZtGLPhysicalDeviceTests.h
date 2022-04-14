@@ -16,9 +16,9 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(PhysicalDeviceTests, GetInternalTest)
+	TEST(PhysicalDevice, DerivedFromVulkanObject)
 	{
-		const vk::raii::PhysicalDevice& internal = physicalDevice.getInternal();
+		static_assert(std::derived_from<PhysicalDevice, VulkanObject<vk::raii::PhysicalDevice>>);
 	}
 
 	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)

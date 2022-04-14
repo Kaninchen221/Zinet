@@ -15,6 +15,11 @@ namespace zt::gl::tests
 
 	};
 
+	TEST(RenderPass, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<RenderPass, VulkanObject<vk::raii::RenderPass>>);
+	}
+
 	TEST_F(RenderPassTests, CreateAttachmentDescriptionTest)
 	{
 		vk::Format swapChainFormat{};
@@ -50,14 +55,6 @@ namespace zt::gl::tests
 
 		ASSERT_NE(subpassDependency, vk::SubpassDependency{});
 	}
-
-	TEST_F(RenderPassTests, GetInternalTest)
-	{
-		vk::raii::RenderPass& internal = renderPass->getInternal();
-
-		ASSERT_EQ(*internal, *vk::raii::RenderPass{ std::nullptr_t{} });
-	}
-
 
 	TEST_F(RenderPassTests, CreateTest)
 	{

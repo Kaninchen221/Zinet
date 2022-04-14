@@ -2,13 +2,14 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl
 {
 
-	class ZINET_GRAPHIC_LAYER_API Instance
+	class ZINET_GRAPHIC_LAYER_API Instance : public VulkanObject<vk::raii::Instance>
 	{
 
 	protected:
@@ -33,7 +34,6 @@ namespace zt::gl
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
 		void create(Context& context);
-		vk::raii::Instance& getInternal();
 
 		static const std::vector<const char*>& GetValidationLayers();
 
@@ -48,7 +48,6 @@ namespace zt::gl
 		vk::ApplicationInfo applicationInfo{};
 
 		vk::InstanceCreateInfo instanceCreateInfo{};
-		vk::raii::Instance internal;
 
 		std::vector<const char*> extensions;
 

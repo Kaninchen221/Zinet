@@ -9,6 +9,15 @@ namespace zt::gl
 
 	public:
 
+		VulkanObject() = default;
+		VulkanObject(const VulkanObject& Other) = default;
+		VulkanObject(VulkanObject&& Other) = default;
+
+		VulkanObject& operator=(const VulkanObject& Other) = default;
+		VulkanObject& operator=(VulkanObject&& Other) = default;
+
+		~VulkanObject() noexcept = default;
+
 		InternalType& getInternal();
 
 		InternalType* operator->();

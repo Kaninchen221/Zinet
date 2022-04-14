@@ -1,16 +1,16 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
 
 namespace zt::gl
 {
 
     PhysicalDevice::PhysicalDevice()
-        : internal(std::nullptr_t())
     {
 
     }
 
     PhysicalDevice::PhysicalDevice(vk::raii::PhysicalDevice&& physicalDevice)
-        : internal(std::move(physicalDevice))
     {
 
     }
@@ -46,11 +46,6 @@ namespace zt::gl
     const vk::PhysicalDeviceFeatures& PhysicalDevice::getFeatures() const
     {
         return features;
-    }
-
-    const vk::raii::PhysicalDevice& PhysicalDevice::getInternal() const
-    {
-        return internal;
     }
 
     vk::raii::PhysicalDevices PhysicalDevice::enumeratePhysicalDevices(Instance& instance) const

@@ -13,6 +13,7 @@ namespace zt::gl
 {
 	class Shader;
 
+	// TODO: Remove this class
 	class ZINET_GRAPHIC_LAYER_API Program
 	{
 		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Program");

@@ -7,7 +7,6 @@
 namespace zt::gl
 {
 	Pipeline::Pipeline()
-		: internal(std::nullptr_t{})
 	{
 
 	}
@@ -35,11 +34,6 @@ namespace zt::gl
 		graphicsPipelineCreateInfo.basePipelineIndex = -1;
 
 		return graphicsPipelineCreateInfo;
-	}
-
-	vk::raii::Pipeline& Pipeline::getInternal()
-	{
-		return internal;
 	}
 
 	void Pipeline::create(Device& device, vk::GraphicsPipelineCreateInfo createInfo)

@@ -2,13 +2,14 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl
 {
 
-	class ZINET_GRAPHIC_LAYER_API DebugUtilsMessenger
+	class ZINET_GRAPHIC_LAYER_API DebugUtilsMessenger : public VulkanObject<vk::raii::DebugUtilsMessengerEXT>
 	{
 
 	protected:
@@ -32,13 +33,7 @@ namespace zt::gl
 			const VkDebugUtilsMessengerCallbackDataEXT* callbackData,
 			void* userData);
 
-		const vk::raii::DebugUtilsMessengerEXT& getDebugMessenger() const;
-
 		void createDebugUtilsMessenger(Instance& instance);
-
-	protected:
-
-		vk::raii::DebugUtilsMessengerEXT debugUtilsMessenger;
 
 	};
 

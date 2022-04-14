@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -8,7 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API Semaphore
+	class ZINET_GRAPHIC_LAYER_API Semaphore : public VulkanObject<vk::raii::Semaphore>
 	{
 
 	protected:
@@ -26,17 +27,11 @@ namespace zt::gl
 
 		~Semaphore() noexcept = default;
 
-		vk::raii::Semaphore& getInternal();
-
 		vk::SemaphoreCreateInfo createSemaphoreCreateInfo();
 
 		void create(Device& device);
 
 		uint64_t getCounterValue() const;
-
-	protected:
-
-		vk::raii::Semaphore internal;
 
 	};
 

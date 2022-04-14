@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -8,7 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API Fence
+	class ZINET_GRAPHIC_LAYER_API Fence : public VulkanObject<vk::raii::Fence>
 	{
 
 	protected:
@@ -26,8 +27,6 @@ namespace zt::gl
 
 		~Fence() noexcept = default;
 
-		vk::raii::Fence& getInternal();
-
 		vk::FenceCreateInfo createFenceCreateInfo();
 
 		void createUnsignaled(Device& device);
@@ -35,11 +34,6 @@ namespace zt::gl
 		void createSignaled(Device& device);
 
 		vk::Result getStatus() const;
-
-	protected:
-
-		vk::raii::Fence internal;
-
 	};
 
 }

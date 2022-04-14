@@ -8,21 +8,10 @@
 
 namespace zt::gl
 {
-    Queue::Queue()
-        : internal(std::nullptr_t())
-    {
-
-    }
 
     Queue::Queue(vk::raii::Queue&& queue)
-        : internal(std::move(queue))
     {
-
-    }
-
-    const vk::raii::Queue& Queue::getInternal() const
-    {
-        return internal;
+        internal = std::move(queue); // TODO: Check if it's needed
     }
 
     vk::SubmitInfo Queue::CreateSubmitInfo(
@@ -41,6 +30,10 @@ namespace zt::gl
         submitInfo.pSignalSemaphores = &*signalSemaphores[0]->getInternal();
          
         return submitInfo;
+    }
+
+    Queue::Queue()
+    {
     }
 
     void Queue::submit(std::span<vk::SubmitInfo> submitInfo, Fence& fence)

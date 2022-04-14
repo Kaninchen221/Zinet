@@ -4,7 +4,6 @@
 namespace zt::gl
 {
 	RenderPass::RenderPass()
-		: internal(std::nullptr_t{})
 	{
 
 	}
@@ -64,11 +63,6 @@ namespace zt::gl
 		createInfo.pDependencies = &subpassDependency;
 
 		return createInfo;
-	}
-
-	vk::raii::RenderPass& RenderPass::getInternal()
-	{
-		return internal;
 	}
 
 	void RenderPass::create(Device& device)

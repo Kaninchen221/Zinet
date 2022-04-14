@@ -41,12 +41,9 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(Semaphore, GetInternalTest)
+	TEST(Semaphore, DerivedFromVulkanObject)
 	{
-		Semaphore semaphore;
-		vk::raii::Semaphore& internal = semaphore.getInternal();
-
-		ASSERT_EQ(*internal, *vk::raii::Semaphore{ std::nullptr_t{} });
+		static_assert(std::derived_from<Semaphore, VulkanObject<vk::raii::Semaphore>>);
 	}
 
 	TEST(Semaphore, CreateSemaphoreCreateInfoTest)

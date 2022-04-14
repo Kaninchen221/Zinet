@@ -33,6 +33,11 @@ namespace zt::gl::tests
 
 	};
 
+	TEST(Surface, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<Surface, VulkanObject<vk::raii::SurfaceKHR>>);
+	}
+
 	TEST_F(SurfaceTests, Create)
 	{
 		bool result = surface.create(instance, window);
@@ -42,13 +47,6 @@ namespace zt::gl::tests
 		vk::raii::SurfaceKHR& internalSurface = surface.getInternal();
 
 		ASSERT_NE(*internalSurface, *vk::raii::SurfaceKHR{ std::nullptr_t{} });
-	}
-
-	TEST_F(SurfaceTests, GetInternal)
-	{
-		vk::raii::SurfaceKHR& internalSurface = surface.getInternal();
-
-		ASSERT_EQ(*internalSurface, *vk::raii::SurfaceKHR{ std::nullptr_t{} });
 	}
 
 }

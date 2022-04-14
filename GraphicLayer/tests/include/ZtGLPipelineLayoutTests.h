@@ -15,6 +15,11 @@ namespace zt::gl::tests
 
 	};
 
+	TEST(PipelineLayout, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<PipelineLayout, VulkanObject<vk::raii::PipelineLayout>>);
+	}
+
 	TEST_F(PipelineLayoutTests, DefaultViewportTest)
 	{
 		vk::Viewport expected;

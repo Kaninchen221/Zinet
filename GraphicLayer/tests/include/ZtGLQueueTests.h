@@ -62,6 +62,11 @@ namespace zt::gl::tests
 		}
 	};
 
+	TEST(Queue, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<Queue, VulkanObject<vk::raii::Queue>>);
+	}
+
 	TEST(Queue, CreateSubmitInfo)
 	{
 		Semaphore semaphore;

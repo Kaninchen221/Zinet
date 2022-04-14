@@ -6,13 +6,7 @@
 namespace zt::gl
 {
 	ShaderModule::ShaderModule()
-		: internal(std::nullptr_t())
 	{}
-
-	vk::raii::ShaderModule& ShaderModule::getInternal()
-	{
-		return internal;
-	}
 
 	vk::ShaderModuleCreateInfo ShaderModule::createShaderModuleCreateInfo(const Shader& shader) const
 	{

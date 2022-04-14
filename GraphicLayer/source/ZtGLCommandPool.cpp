@@ -5,13 +5,7 @@
 namespace zt::gl
 {
 	CommandPool::CommandPool()
-		: internal{ std::nullptr_t{} }
 	{
-	}
-
-	vk::raii::CommandPool& CommandPool::getInternal()
-	{
-		return internal;
 	}
 
 	vk::CommandPoolCreateInfo CommandPool::createCommandPoolCreateInfo(uint32_t queueFamilyIndex) const

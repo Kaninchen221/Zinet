@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -9,7 +10,7 @@ namespace zt::gl
 {
 	class Instance;
 
-	class ZINET_GRAPHIC_LAYER_API Surface
+	class ZINET_GRAPHIC_LAYER_API Surface : public VulkanObject<vk::raii::SurfaceKHR>
 	{
 
 	protected:
@@ -28,12 +29,6 @@ namespace zt::gl
 		~Surface() noexcept = default;
 
 		bool create(Instance& instance, Window& window);
-
-		vk::raii::SurfaceKHR& getInternal();
-
-	protected:
-
-		vk::raii::SurfaceKHR internal;
 
 	};
 

@@ -41,10 +41,9 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(CommandPool, GetInternalTest)
+	TEST(CommandPool, DerivedFromVulkanObject)
 	{
-		CommandPool commandPool;
-		vk::raii::CommandPool& internal = commandPool.getInternal();
+		static_assert(std::derived_from<CommandPool, VulkanObject<vk::raii::CommandPool>>);
 	}
 
 	TEST(CommandPool, CreateCommandPoolCreateInfoTest)

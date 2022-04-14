@@ -15,9 +15,9 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(FramebufferTests, GetInternalTest)
+	TEST(Framebuffer, DerivedFromVulkanObject)
 	{
-		vk::raii::Framebuffer& internal = framebuffer->getInternal();
+		static_assert(std::derived_from<Framebuffer, VulkanObject<vk::raii::Framebuffer>>);
 	}
 
 	TEST_F(FramebufferTests, CreateFramebufferCreateInfoTest)

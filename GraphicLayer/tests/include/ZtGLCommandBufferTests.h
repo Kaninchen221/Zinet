@@ -50,13 +50,11 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(CommandBuffer, GetInternalTest)
+	TEST(CommandBuffer, DerivedFromVulkanObject)
 	{
-		CommandBuffer commandBuffer;
-		vk::raii::CommandBuffer& internal = commandBuffer.getInternal();
-
-		ASSERT_EQ(*internal, *vk::raii::CommandBuffer{ std::nullptr_t{} });
+		static_assert(std::derived_from<CommandBuffer, VulkanObject<vk::raii::CommandBuffer>>);
 	}
+
 	TEST(CommandBuffer, CreateCommandBufferAllocateInfoTest)
 	{
 		CommandBuffer commandBuffer;

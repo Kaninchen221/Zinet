@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -9,7 +10,7 @@ namespace zt::gl
 	class ShaderModule;
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API PipelineLayout
+	class ZINET_GRAPHIC_LAYER_API PipelineLayout : public VulkanObject<vk::raii::PipelineLayout>
 	{
 
 	protected:
@@ -53,8 +54,6 @@ namespace zt::gl
 
 		vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
 
-		vk::raii::PipelineLayout& getInternal();
-
 		void createPipelineLayout(Device& device);
 
 	protected:
@@ -70,8 +69,6 @@ namespace zt::gl
 		vk::PipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
 		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
-
-		vk::raii::PipelineLayout internal;
 	};
 
 }

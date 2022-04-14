@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl
 {
+	class Surface;
+	class Instance;
 
-	class ZINET_GRAPHIC_LAYER_API PhysicalDevice
+	class ZINET_GRAPHIC_LAYER_API PhysicalDevice : public VulkanObject<vk::raii::PhysicalDevice>
 	{
 
 	protected:
@@ -36,8 +36,6 @@ namespace zt::gl
 
 		const vk::PhysicalDeviceFeatures& getFeatures() const;
 
-		const vk::raii::PhysicalDevice& getInternal() const;
-
 		vk::raii::PhysicalDevices enumeratePhysicalDevices(Instance& instance) const;
 
 		bool create(Instance& instance);
@@ -50,7 +48,6 @@ namespace zt::gl
 
 	protected:
 
-		vk::raii::PhysicalDevice internal;
 		vk::PhysicalDeviceFeatures features;
 
 		inline static const std::vector<const char*> PhysicalDeviceExtensions =

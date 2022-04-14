@@ -18,6 +18,11 @@ namespace zt::gl::tests
 
 	};
 
+	TEST(DebugUtilsMessenger, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<DebugUtilsMessenger, VulkanObject<vk::raii::DebugUtilsMessengerEXT>>);
+	}
+
 	TEST_F(DebugUtilsMessengerTests, DebugCallbackTest)
 	{
 		VkDebugUtilsMessengerCallbackDataEXT callbackDataExt;
@@ -34,7 +39,7 @@ namespace zt::gl::tests
 
 	TEST_F(DebugUtilsMessengerTests, GetDebugDebugMessengerTest)
 	{
-		const vk::raii::DebugUtilsMessengerEXT& debugMessenger = debugUtilsMessenger.getDebugMessenger();
+		const vk::raii::DebugUtilsMessengerEXT& internal = debugUtilsMessenger.getInternal();
 	}
 
 	TEST_F(DebugUtilsMessengerTests, CreateDebugUtilsMessenger)

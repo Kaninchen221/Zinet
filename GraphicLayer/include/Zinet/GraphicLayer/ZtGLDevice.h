@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -11,7 +12,7 @@ namespace zt::gl
 	class Surface;
 	class Fence;
 
-	class ZINET_GRAPHIC_LAYER_API Device
+	class ZINET_GRAPHIC_LAYER_API Device : public VulkanObject<vk::raii::Device>
 	{
 
 	protected:
@@ -35,8 +36,6 @@ namespace zt::gl
 
 		void create(PhysicalDevice& physicalDevice, Surface& surface);
 
-		vk::raii::Device& getInternal();
-
 		// TODO: Move to Queue class?
 		vk::raii::Queue createQueue(uint32_t queueFamilyIndex) const;
 
@@ -49,8 +48,6 @@ namespace zt::gl
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
 		// Needed to deviceQueueCreateInfo
 		float queuePriority = 1.0f;
-
-		vk::raii::Device internal;
 	};
 
 }

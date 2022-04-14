@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -13,7 +14,7 @@ namespace zt::gl
 	class Fence;
 	class SwapChain;
 
-	class ZINET_GRAPHIC_LAYER_API Queue
+	class ZINET_GRAPHIC_LAYER_API Queue : public VulkanObject<vk::raii::Queue>
 	{
 
 	protected:
@@ -32,7 +33,7 @@ namespace zt::gl
 
 		~Queue() noexcept = default;
 
-		const vk::raii::Queue& getInternal() const;
+		// TODO: add create function
 
 		static vk::SubmitInfo CreateSubmitInfo(
 			std::span<Semaphore*> waitSemaphores,
@@ -48,10 +49,6 @@ namespace zt::gl
 			uint32_t& imageIndex);
 
 		void present(vk::PresentInfoKHR& presentInfo);
-
-	protected:
-
-		vk::raii::Queue internal;
 
 	};
 

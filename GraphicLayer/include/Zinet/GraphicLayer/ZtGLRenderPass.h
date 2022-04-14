@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -8,7 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API RenderPass
+	class ZINET_GRAPHIC_LAYER_API RenderPass : public VulkanObject<vk::raii::RenderPass>
 	{
 
 	protected:
@@ -36,8 +37,6 @@ namespace zt::gl
 
 		vk::RenderPassCreateInfo createRenderPassCreateInfo();
 
-		vk::raii::RenderPass& getInternal();
-
 		void create(Device& device);
 
 	protected:
@@ -46,8 +45,6 @@ namespace zt::gl
 		vk::AttachmentReference attachmentReference;
 		vk::SubpassDescription subpassDescription;
 		vk::SubpassDependency subpassDependency;
-
-		vk::raii::RenderPass internal;
 
 	};
 

@@ -7,7 +7,6 @@
 namespace zt::gl
 {
     Device::Device()
-        : internal(std::nullptr_t())
     {
     }
 
@@ -50,11 +49,6 @@ namespace zt::gl
     {
         vk::DeviceCreateInfo deviceCreateInfo = createDeviceCreateInfo(physicalDevice, surface);
         internal = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
-    }
-
-    vk::raii::Device& Device::getInternal()
-    {
-        return internal;
     }
 
     vk::raii::Queue Device::createQueue(uint32_t queueFamilyIndex) const

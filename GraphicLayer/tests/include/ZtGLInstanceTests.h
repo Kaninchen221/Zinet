@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-//#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 
 #include "gtest/gtest.h"
 
@@ -16,9 +15,9 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(InstanceTests, InternalTest)
+	TEST(Instance, DerivedFromVulkanObject)
 	{
-		const vk::raii::Instance& internal = instance.getInternal();
+		static_assert(std::derived_from<Instance, VulkanObject<vk::raii::Instance>>);
 	}
 
 	TEST_F(InstanceTests, ApplicationInfoTest)

@@ -3,7 +3,6 @@
 namespace zt::gl
 {
     Instance::Instance()
-        : internal(std::nullptr_t())
     {
 
     }
@@ -59,11 +58,6 @@ namespace zt::gl
         }
 
         internal = vk::raii::Instance(context.getInternal(), instanceCreateInfo);
-    }
-
-    vk::raii::Instance& Instance::getInternal()
-    {
-        return internal;
     }
 
     const std::vector<const char*>& Instance::GetValidationLayers()

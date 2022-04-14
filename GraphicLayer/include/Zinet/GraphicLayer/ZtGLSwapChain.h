@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -13,7 +14,7 @@ namespace zt::gl
 	class Semaphore;
 	class Fence;
 
-	class ZINET_GRAPHIC_LAYER_API SwapChain
+	class ZINET_GRAPHIC_LAYER_API SwapChain : public VulkanObject<vk::raii::SwapchainKHR>
 	{
 
 	protected:
@@ -31,8 +32,6 @@ namespace zt::gl
 
 		~SwapChain() noexcept = default;
 
-		vk::raii::SwapchainKHR& getInternal();
-
 		void create(
 			Device& device,
 			const SwapChainSupportDetails& swapChainSupportDetails,
@@ -49,10 +48,6 @@ namespace zt::gl
 		std::vector<vk::Image> getImages();
 
 		std::pair<vk::Result, uint32_t> acquireNextImage(uint64_t timeout, Semaphore& semaphore, Fence& fence);
-
-	protected:
-
-		vk::raii::SwapchainKHR internal;
 
 	};
 

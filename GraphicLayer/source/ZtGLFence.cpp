@@ -4,13 +4,7 @@
 namespace zt::gl
 {
 	Fence::Fence()
-		: internal{ std::nullptr_t{} }
 	{
-	}
-
-	vk::raii::Fence& Fence::getInternal()
-	{
-		return internal;
 	}
 
 	vk::FenceCreateInfo Fence::createFenceCreateInfo()

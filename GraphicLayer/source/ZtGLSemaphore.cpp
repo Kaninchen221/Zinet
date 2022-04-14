@@ -4,13 +4,7 @@
 namespace zt::gl
 {
 	Semaphore::Semaphore()
-		: internal{ std::nullptr_t{} }
 	{
-	}
-
-	vk::raii::Semaphore& Semaphore::getInternal()
-	{
-		return internal;
 	}
 
 	vk::SemaphoreCreateInfo Semaphore::createSemaphoreCreateInfo()

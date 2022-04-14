@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -8,7 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API ImageView
+	class ZINET_GRAPHIC_LAYER_API ImageView : public VulkanObject<vk::raii::ImageView>
 	{
 
 	protected:
@@ -26,15 +27,9 @@ namespace zt::gl
 
 		~ImageView() noexcept = default;
 
-		const vk::raii::ImageView& getInternal() const;
-
 		vk::ImageViewCreateInfo createImageViewCreateInfo(vk::Image image, const vk::Format& format) const;
 
 		void create(Device& device, vk::Image image, const vk::Format& format);
-
-	protected:
-
-		vk::raii::ImageView internal;
 
 	};
 

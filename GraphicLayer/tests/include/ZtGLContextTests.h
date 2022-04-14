@@ -17,7 +17,7 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ContextTests, GetInternalTest)
+	TEST_F(ContextTests, GetInternal)
 	{
 		vk::raii::Context& internal = context.getInternal();
 	}

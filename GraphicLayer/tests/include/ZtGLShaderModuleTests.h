@@ -36,9 +36,9 @@ namespace zt::gl::tests
 			"} \n\0";
 	};
 
-	TEST_F(ShaderModuleTests, GetInternalTest)
+	TEST(ShaderModule, DerivedFromVulkanObject)
 	{
-		vk::raii::ShaderModule& internal = shaderModule->getInternal();
+		static_assert(std::derived_from<ShaderModule, VulkanObject<vk::raii::ShaderModule>>);
 	}
 
 	TEST_F(ShaderModuleTests, GetTypeTest)

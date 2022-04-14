@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -12,7 +13,7 @@ namespace zt::gl
 	class RenderPass;
 	class Pipeline;
 
-	class ZINET_GRAPHIC_LAYER_API CommandBuffer
+	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
 
 	protected:
@@ -29,10 +30,6 @@ namespace zt::gl
 		CommandBuffer& operator = (CommandBuffer&& other) = default;
 
 		~CommandBuffer() noexcept = default;
-
-		vk::raii::CommandBuffer& getInternal();
-
-		vk::raii::CommandBuffer* operator -> ();
 
 		vk::CommandBufferAllocateInfo createCommandBufferAllocateInfo(CommandPool& commandPool) const;
 
@@ -52,7 +49,6 @@ namespace zt::gl
 
 	protected:
 
-		vk::raii::CommandBuffer internal;
 		vk::ClearValue clearValue{};
 
 	};

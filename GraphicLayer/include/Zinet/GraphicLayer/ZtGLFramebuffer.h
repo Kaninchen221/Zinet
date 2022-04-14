@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -10,7 +11,7 @@ namespace zt::gl
 	class ImageView;
 	class RenderPass;
 
-	class ZINET_GRAPHIC_LAYER_API Framebuffer
+	class ZINET_GRAPHIC_LAYER_API Framebuffer : public VulkanObject<vk::raii::Framebuffer>
 	{
 
 	protected:
@@ -28,8 +29,6 @@ namespace zt::gl
 
 		~Framebuffer() noexcept = default;
 
-		vk::raii::Framebuffer& getInternal();
-
 		vk::FramebufferCreateInfo createFramebufferCreateInfo(
 			ImageView& imageView,
 			RenderPass& renderPass,
@@ -40,10 +39,6 @@ namespace zt::gl
 			ImageView& imageView,
 			RenderPass& renderPass,
 			const vk::Extent2D& swapChainExtent);
-
-	protected:
-
-		vk::raii::Framebuffer internal;
 
 	};
 

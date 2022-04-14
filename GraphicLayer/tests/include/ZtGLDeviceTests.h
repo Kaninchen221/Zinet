@@ -39,6 +39,11 @@ namespace zt::gl::tests
 		}
 	};
 
+	TEST(Device, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<Device, VulkanObject<vk::raii::Device>>);
+	}
+
 	TEST_F(DeviceTests, CreateQueueCreateInfo)
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);

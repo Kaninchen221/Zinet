@@ -7,7 +7,6 @@
 namespace zt::gl
 {
 	PipelineLayout::PipelineLayout()
-		: internal(std::nullptr_t{})
 	{
 		viewport.x = 0.0f;
 		viewport.y = 0.0f;
@@ -142,11 +141,6 @@ namespace zt::gl
 		layoutCreateInfo.pPushConstantRanges = nullptr;
 
 		return layoutCreateInfo;
-	}
-
-	vk::raii::PipelineLayout& PipelineLayout::getInternal()
-	{
-		return internal;
 	}
 
 	void PipelineLayout::createPipelineLayout(Device& device)

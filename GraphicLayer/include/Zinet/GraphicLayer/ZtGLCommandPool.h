@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -8,7 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API CommandPool
+	class ZINET_GRAPHIC_LAYER_API CommandPool : public VulkanObject<vk::raii::CommandPool>
 	{
 
 	protected:
@@ -26,15 +27,9 @@ namespace zt::gl
 
 		~CommandPool() noexcept = default;
 
-		vk::raii::CommandPool& getInternal();
-
 		vk::CommandPoolCreateInfo createCommandPoolCreateInfo(uint32_t queueFamilyIndex) const;
 
 		void create(Device& device, uint32_t queueFamilyIndex);
-
-	protected:
-
-		vk::raii::CommandPool internal;
 
 	};
 

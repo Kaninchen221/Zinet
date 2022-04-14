@@ -24,6 +24,8 @@ namespace zt::gl::tests
 	TEST_F(VulkanObjectTests, GetInternal)
 	{
 		vk::raii::Instance& internal = testObject.getInternal();
+
+		ASSERT_EQ(*internal, *vk::raii::Instance{ std::nullptr_t{} });
 	}
 
 	TEST_F(VulkanObjectTests, ArrowOperator)

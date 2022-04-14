@@ -7,13 +7,7 @@
 namespace zt::gl
 {
 	Framebuffer::Framebuffer()
-		: internal(std::nullptr_t{})
 	{
-	}
-
-	vk::raii::Framebuffer& Framebuffer::getInternal()
-	{
-		return internal;
 	}
 
 	vk::FramebufferCreateInfo Framebuffer::createFramebufferCreateInfo(

@@ -28,9 +28,9 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ImageViewTests, GetInternalTest)
+	TEST(ImageView, DerivedFromVulkanObject)
 	{
-		const vk::raii::ImageView& internal = imageView->getInternal();
+		static_assert(std::derived_from<ImageView, VulkanObject<vk::raii::ImageView>>);
 	}
 
 	TEST_F(ImageViewTests, CreateImageViewCreateInfoTest)

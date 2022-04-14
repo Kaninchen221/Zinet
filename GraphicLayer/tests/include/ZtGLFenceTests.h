@@ -41,12 +41,9 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(Fence, GetInternalTest)
+	TEST(Fence, DerivedFromVulkanObject)
 	{
-		Fence fence;
-		vk::raii::Fence& internal = fence.getInternal();
-
-		ASSERT_EQ(*internal, *vk::raii::Fence{ std::nullptr_t{} });
+		static_assert(std::derived_from<Fence, VulkanObject<vk::raii::Fence>>);
 	}
 
 	TEST(Fence, CreateFenceCreateInfoTest)

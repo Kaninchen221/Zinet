@@ -46,12 +46,9 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(SwapChain, GetInternal)
+	TEST(SwapChain, DerivedFromVulkanObject)
 	{
-		SwapChain swapChain;
-		vk::raii::SwapchainKHR& internal = swapChain.getInternal();
-
-		ASSERT_EQ(*internal, *vk::raii::SwapchainKHR{ std::nullptr_t{} });
+		static_assert(std::derived_from<SwapChain, VulkanObject<vk::raii::SwapchainKHR>>);
 	}
 
 	TEST(SwapChain, CreateSwapChainCreateInfo)

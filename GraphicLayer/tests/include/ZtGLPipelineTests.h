@@ -16,6 +16,11 @@ namespace zt::gl::tests
 
 	};
 
+	TEST(Pipeline, DerivedFromVulkanObject)
+	{
+		static_assert(std::derived_from<Pipeline, VulkanObject<vk::raii::Pipeline>>);
+	}
+
 	TEST_F(PipelineTests, CreateGraphicsPipelineCreateInfoTest)
 	{
 		PipelineLayout pipelineLayout;
@@ -24,13 +29,6 @@ namespace zt::gl::tests
 		vk::GraphicsPipelineCreateInfo createInfo = pipeline->createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
 
 		ASSERT_NE(createInfo, vk::GraphicsPipelineCreateInfo{});
-	}
-
-	TEST_F(PipelineTests, GetInternalTest)
-	{
-		vk::raii::Pipeline& internal = pipeline->getInternal();
-
-		ASSERT_EQ(*internal, *vk::raii::Pipeline{ std::nullptr_t{} });
 	}
 
 	TEST_F(PipelineTests, CreateTest)

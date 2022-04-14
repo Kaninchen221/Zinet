@@ -5,14 +5,8 @@
 namespace zt::gl
 {
 	ImageView::ImageView()
-		: internal(std::nullptr_t())
 	{
 
-	}
-
-	const vk::raii::ImageView& ImageView::getInternal() const
-	{
-		return internal;
 	}
 
 	vk::ImageViewCreateInfo ImageView::createImageViewCreateInfo(vk::Image image, const vk::Format& format) const

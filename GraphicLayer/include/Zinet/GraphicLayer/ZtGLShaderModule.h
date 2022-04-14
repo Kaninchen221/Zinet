@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLShaderType.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -10,7 +11,7 @@ namespace zt::gl
 	class Shader;
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API ShaderModule
+	class ZINET_GRAPHIC_LAYER_API ShaderModule : public VulkanObject<vk::raii::ShaderModule>
 	{
 
 	protected:
@@ -28,8 +29,6 @@ namespace zt::gl
 
 		~ShaderModule() noexcept = default;
 
-		vk::raii::ShaderModule& getInternal();
-
 		vk::ShaderModuleCreateInfo createShaderModuleCreateInfo(const Shader& shader) const;
 
 		void create(Device& device, const Shader& shader);
@@ -38,7 +37,6 @@ namespace zt::gl
 
 	protected:
 
-		vk::raii::ShaderModule internal;
 		ShaderType shaderType = ShaderType::Invalid;
 
 	};

@@ -4,7 +4,6 @@
 namespace zt::gl
 {
 	Surface::Surface()
-		: internal{ std::nullptr_t{} }
 	{
 	}
 
@@ -30,8 +29,4 @@ namespace zt::gl
 		}
 	}
 
-	vk::raii::SurfaceKHR& Surface::getInternal()
-	{
-		return internal;
-	}
 }

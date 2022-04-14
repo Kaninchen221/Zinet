@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -10,7 +11,7 @@ namespace zt::gl
 	class RenderPass;
 	class Device;
 
-	class ZINET_GRAPHIC_LAYER_API Pipeline
+	class ZINET_GRAPHIC_LAYER_API Pipeline : public VulkanObject<vk::raii::Pipeline>
 	{
 
 	protected:
@@ -33,13 +34,7 @@ namespace zt::gl
 			RenderPass& renderPass, 
 			std::vector<vk::PipelineShaderStageCreateInfo>& shaderStages);
 
-		vk::raii::Pipeline& getInternal();
-
 		void create(Device& device, vk::GraphicsPipelineCreateInfo createInfo);
-
-	protected:
-
-		vk::raii::Pipeline internal;
 
 	};
 
