@@ -7,7 +7,6 @@
 #include "ZtObjectTests.h"
 
 #include "ZtGLVulkanObjectTests.h"
-#include "ZtGLProgramTests.h"
 #include "ZtGLShaderTypeTests.h"
 #include "ZtGLShaderTests.h"
 #include "ZtGLShaderModuleTests.h"
