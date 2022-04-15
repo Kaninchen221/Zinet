@@ -11,12 +11,6 @@
 
 namespace zt::gl
 {
-
-    Queue::Queue(vk::raii::Queue&& queue)
-    {
-        internal = std::move(queue); // TODO: Check if it's needed
-    }
-
     void Queue::create(Device& device, uint32_t queueFamilyIndex)
     {
         // We creating only one queue

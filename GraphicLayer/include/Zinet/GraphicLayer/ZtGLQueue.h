@@ -29,7 +29,6 @@ namespace zt::gl
 		Queue();
 		Queue(const Queue& other) = default;
 		Queue(Queue&& other) = default;
-		Queue(vk::raii::Queue&& queue);
 
 		Queue& operator = (const Queue& other) = default;
 		Queue& operator = (Queue&& other) = default;
