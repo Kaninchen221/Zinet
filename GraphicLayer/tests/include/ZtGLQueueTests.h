@@ -52,8 +52,8 @@ namespace zt::gl::tests
 			device.create(physicalDevice, surface);
 
 			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-			device.createDeviceQueueCreateInfo(physicalDevice, surface);
-			queue = device.createQueue(queueFamilyIndex);
+			//vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+			queue.create(device, queueFamilyIndex);
 		}
 
 		void TearDown() override
@@ -92,6 +92,14 @@ namespace zt::gl::tests
 
 		EXPECT_EQ(signalSemaphores.size(), submitInfo.signalSemaphoreCount);
 		EXPECT_EQ(&*signalSemaphores[0]->getInternal(), submitInfo.pSignalSemaphores);
+	}
+
+	TEST_F(QueueTests, CreateQueue)
+	{
+		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
+		queue.create(device, queueFamilyIndex);
+
+		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 	}
 
 	TEST_F(QueueTests, Submit)

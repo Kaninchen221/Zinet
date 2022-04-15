@@ -66,17 +66,6 @@ namespace zt::gl::tests
 		ASSERT_NE(*internal, *vk::raii::Device(std::nullptr_t()));
 	}
 
-	TEST_F(DeviceTests, CreateQueue)
-	{
-		device.create(physicalDevice, surface);
-
-		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		Queue queue = device.createQueue(queueFamilyIndex);
-
-		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
-	}
-
 	TEST_F(DeviceTests, WaitForFence)
 	{
 		device.create(physicalDevice, surface);

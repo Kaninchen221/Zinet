@@ -51,14 +51,6 @@ namespace zt::gl
         internal = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
     }
 
-    vk::raii::Queue Device::createQueue(uint32_t queueFamilyIndex) const
-    {
-        // We creating only one queue
-        uint32_t queueIndex = 0u;
-        vk::raii::Queue queue(internal, queueFamilyIndex, queueIndex);
-        return queue;
-    }
-
     vk::Result Device::waitForFence(Fence& fence, uint64_t timeout) const
     {
         vk::Result result;
@@ -71,4 +63,5 @@ namespace zt::gl
     {
         internal.resetFences({ *fence.getInternal() });
     }
+    
 }

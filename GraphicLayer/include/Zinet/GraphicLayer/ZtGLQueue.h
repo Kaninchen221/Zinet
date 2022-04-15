@@ -13,6 +13,9 @@ namespace zt::gl
 	class CommandBuffer;
 	class Fence;
 	class SwapChain;
+	class Device;
+	class PhysicalDevice;
+	class Surface;
 
 	class ZINET_GRAPHIC_LAYER_API Queue : public VulkanObject<vk::raii::Queue>
 	{
@@ -33,7 +36,7 @@ namespace zt::gl
 
 		~Queue() noexcept = default;
 
-		// TODO: add create function
+		void create(Device& device, uint32_t queueFamilyIndex);
 
 		static vk::SubmitInfo CreateSubmitInfo(
 			std::span<Semaphore*> waitSemaphores,

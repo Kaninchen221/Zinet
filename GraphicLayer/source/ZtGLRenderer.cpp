@@ -30,7 +30,7 @@ namespace zt::gl
 
         queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
         device.create(physicalDevice, surface);
-        queue = device.createQueue(queueFamilyIndex);
+        queue.create(device, queueFamilyIndex);
 
         prepareSwapChain();
         prepareShaders();

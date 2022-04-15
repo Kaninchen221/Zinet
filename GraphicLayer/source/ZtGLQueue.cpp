@@ -3,6 +3,9 @@
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLFence.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
 
 #include <utility>
 
@@ -12,6 +15,13 @@ namespace zt::gl
     Queue::Queue(vk::raii::Queue&& queue)
     {
         internal = std::move(queue); // TODO: Check if it's needed
+    }
+
+    void Queue::create(Device& device, uint32_t queueFamilyIndex)
+    {
+        // We creating only one queue
+        uint32_t queueIndex = 0u;
+        internal = std::move(vk::raii::Queue{ device.getInternal(), queueFamilyIndex, queueIndex });
     }
 
     vk::SubmitInfo Queue::CreateSubmitInfo(

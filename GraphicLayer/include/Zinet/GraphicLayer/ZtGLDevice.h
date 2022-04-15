@@ -36,9 +36,6 @@ namespace zt::gl
 
 		void create(PhysicalDevice& physicalDevice, Surface& surface);
 
-		// TODO: Move to Queue class?
-		vk::raii::Queue createQueue(uint32_t queueFamilyIndex) const;
-
 		vk::Result waitForFence(Fence& fence, uint64_t timeout = UINT64_MAX) const;
 
 		void resetFence(Fence& fence) const;
@@ -46,8 +43,9 @@ namespace zt::gl
 	protected:
 
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
-		// Needed to deviceQueueCreateInfo
+
 		float queuePriority = 1.0f;
+
 	};
 
 }
