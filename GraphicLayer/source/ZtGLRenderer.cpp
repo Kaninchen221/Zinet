@@ -202,12 +202,88 @@ namespace zt::gl
 
     Renderer::~Renderer() noexcept
     {
-        device.waitForFence(drawFence);
+        if (*drawFence.getInternal() != *vk::raii::Fence{ std::nullptr_t{} })
+            device.waitForFence(drawFence);
 
         framebuffers.clear();
         imageViews.clear();
 
         GLFW::DeinitGLFW();
+    }
+
+    Context& Renderer::getContext()
+    {
+        return context;
+    }
+
+    Instance& Renderer::getInstance()
+    {
+        return instance;
+    }
+
+    DebugUtilsMessenger& Renderer::getDebugUtilsMessenger()
+    {
+        return debugUtilsMessenger;
+    }
+
+    Window& Renderer::getWindow()
+    {
+        return window;
+    }
+
+    Surface& Renderer::getSurface()
+    {
+        return surface;
+    }
+
+    PhysicalDevice& Renderer::getPhysicalDevice()
+    {
+        return physicalDevice;
+    }
+
+    Device& Renderer::getDevice()
+    {
+        return device;
+    }
+
+    Queue& Renderer::getQueue()
+    {
+        return queue;
+    }
+
+    SwapChain& Renderer::getSwapChain()
+    {
+        return swapChain;
+    }
+
+    PipelineLayout& Renderer::getPipelineLayout()
+    {
+        return pipelineLayout;
+    }
+
+    RenderPass& Renderer::getRenderPass()
+    {
+        return renderPass;
+    }
+
+    Pipeline& Renderer::getPipeline()
+    {
+        return pipeline;
+    }
+
+    std::vector<Framebuffer>& Renderer::getFramebuffers()
+    {
+        return framebuffers;
+    }
+
+    CommandPool& Renderer::getCommandPool()
+    {
+        return commandPool;
+    }
+
+    CommandBuffer& Renderer::getCommandBuffer()
+    {
+        return commandBuffer;
     }
 
 }

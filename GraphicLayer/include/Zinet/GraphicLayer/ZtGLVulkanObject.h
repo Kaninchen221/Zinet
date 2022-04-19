@@ -3,6 +3,7 @@
 namespace zt::gl
 {
 
+	// TODO: Create parent class in Zinet Core to something like "ObjectProxy" or "LayerProxy"
 	template<class InternalType>
 	class VulkanObject
 	{

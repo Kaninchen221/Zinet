@@ -28,7 +28,7 @@
 
 namespace zt::gl
 {
-
+	//static_assert(false, "Refactor this");
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -46,6 +46,22 @@ namespace zt::gl
 		Renderer& operator = (Renderer&& other) = default;
 
 		~Renderer() noexcept;
+
+		Context& getContext();
+		Instance& getInstance();
+		DebugUtilsMessenger& getDebugUtilsMessenger();
+		Window& getWindow();
+		Surface& getSurface();
+		PhysicalDevice& getPhysicalDevice();
+		Device& getDevice();
+		Queue& getQueue();
+		SwapChain& getSwapChain();
+		PipelineLayout& getPipelineLayout();
+		RenderPass& getRenderPass();
+		Pipeline& getPipeline();
+		std::vector<Framebuffer>& getFramebuffers();
+		CommandPool& getCommandPool();
+		CommandBuffer& getCommandBuffer();
 
 		void prepare();
 
@@ -91,6 +107,10 @@ namespace zt::gl
 
 		Context context;
 
+		// TODO
+		// Create something like draw(const RenderInfo& renderInfo)
+		// RenderInfo.shaderStages
+		// RenderInfo.vertices
 		Shader vertexShader;
 		Shader fragmentShader;
 
@@ -98,6 +118,7 @@ namespace zt::gl
 		ShaderModule fragmentShaderModule;
 
 		std::vector<vk::PipelineShaderStageCreateInfo> shaderStages;
+		//
 
 		PipelineLayout pipelineLayout;
 

@@ -63,6 +63,6 @@ namespace zt::gl
 
     void Queue::present(vk::PresentInfoKHR& presentInfo)
     {
-        internal.presentKHR(presentInfo);
+        internal.presentKHR(presentInfo); // Return value ignored
     }
 }
