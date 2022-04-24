@@ -136,7 +136,7 @@ namespace zt::gl::tests
 
 		Shader vertexShader;
 		vertexShader.setType(ShaderType::Vertex);
-		vertexShader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.vert");
+		vertexShader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shaderStaticVertices.vert");
 		vertexShader.compile();
 
 		Shader fragmentShader;

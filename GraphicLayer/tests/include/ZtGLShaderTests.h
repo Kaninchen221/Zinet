@@ -49,7 +49,7 @@ namespace zt::gl::tests
 
 	TEST_F(ShaderTests, LoadFromFileTest)
 	{
-		shader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.vert");
+		shader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shaderStaticVertices.vert");
 		std::string_view source = shader.getSource();
 
 		ASSERT_FALSE(source.empty());

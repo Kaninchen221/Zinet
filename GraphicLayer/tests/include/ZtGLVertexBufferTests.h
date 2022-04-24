@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtVertex.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include "gtest/gtest.h"

@@ -42,6 +42,14 @@ namespace zt::gl
 
 		static std::size_t GetOffsetToTextureCoordinates();
 
+		static vk::VertexInputBindingDescription GetInputBindingDescription();
+
+		static vk::VertexInputAttributeDescription GetPositionInputAttributeDescription();
+
+		static vk::VertexInputAttributeDescription GetColorInputAttributeDescription();
+
+		static vk::VertexInputAttributeDescription GetTextureCoordinatesInputAttributeDescription();
+
 	protected:
 
 		glm::vec3 position;

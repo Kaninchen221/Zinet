@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtVertex.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
 
 #include "gtest/gtest.h"
 
@@ -9,7 +9,7 @@
 namespace zt::gl::tests
 {
 
-	class ZtVertexTests : public ::testing::Test
+	class VertexTests : public ::testing::Test
 	{
 	protected:
 
@@ -17,12 +17,12 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ZtVertexTests, GetPositionTest)
+	TEST_F(VertexTests, GetPosition)
 	{
 		glm::vec3 position = vertex.getPosition();
 	}
 
-	TEST_F(ZtVertexTests, SetPositionTest)
+	TEST_F(VertexTests, SetPosition)
 	{
 		glm::vec3 expectedPosition = { 1.f, 0.34f, 0.f };
 		vertex.setPosition(expectedPosition);
@@ -32,12 +32,12 @@ namespace zt::gl::tests
 		ASSERT_TRUE(glm::all(areEqual));
 	}
 
-	TEST_F(ZtVertexTests, GetColorTest)
+	TEST_F(VertexTests, GetColor)
 	{
 		glm::vec4 color = vertex.getColor();
 	}
 
-	TEST_F(ZtVertexTests, SetColorTest)
+	TEST_F(VertexTests, SetColor)
 	{
 		glm::vec4 expectedColor = { 1.34f, 0.21f, 0.f, 1.f };
 		vertex.setColor(expectedColor);
@@ -47,12 +47,12 @@ namespace zt::gl::tests
 		ASSERT_TRUE(glm::all(areEqual));
 	}
 
-	TEST_F(ZtVertexTests, GetTextureCoordinatesTest)
+	TEST_F(VertexTests, GetTextureCoordinates)
 	{
 		glm::vec2 textureCoordinates = vertex.getTextureCoordinates();
 	}
 
-	TEST_F(ZtVertexTests, SetTextureCoordinatesTest)
+	TEST_F(VertexTests, SetTextureCoordinates)
 	{
 		glm::vec2 expectedTextureCoordinates = { 1.0f, 0.0f };
 		vertex.setTextureCoordinates(expectedTextureCoordinates);
@@ -62,7 +62,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(glm::all(areEqual));
 	}
 
-	TEST_F(ZtVertexTests, ParamConstructorTest)
+	TEST_F(VertexTests, ParamConstructor)
 	{
 		glm::vec3 expectedPosition = { 34.f, 0.f, 2.323f };
 		glm::vec4 expectedColor = { 4.f, 0.23f, 211.35f, 1.f };
@@ -82,7 +82,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(glm::all(areTextureCoordinatesEqual));
 	}
 
-	TEST_F(ZtVertexTests, GetOffsetToPositionTest)
+	TEST_F(VertexTests, GetOffsetToPosition)
 	{
 		std::size_t actualOffset = Vertex::GetOffsetToPosition();
 		std::size_t expectedOffset = 0;
@@ -90,7 +90,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
-	TEST_F(ZtVertexTests, GetOffsetToColorTest)
+	TEST_F(VertexTests, GetOffsetToColor)
 	{
 		std::size_t actualOffset = Vertex::GetOffsetToColor();
 		std::size_t expectedOffset = sizeof(decltype(vertex.getPosition()));
@@ -98,7 +98,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
-	TEST_F(ZtVertexTests, GetOffsetToTextureCoordinatesTest)
+	TEST_F(VertexTests, GetOffsetToTextureCoordinates)
 	{
 		std::size_t actualOffset = Vertex::GetOffsetToTextureCoordinates();
 		std::size_t expectedOffset = sizeof(decltype(vertex.getPosition())) + sizeof(decltype(vertex.getColor()));
@@ -106,4 +106,40 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
+	TEST_F(VertexTests, GetInputBindingDescription)
+	{
+		vk::VertexInputBindingDescription vertexInputBindingDescription = Vertex::GetInputBindingDescription();
+
+		ASSERT_NE(vertexInputBindingDescription, vk::VertexInputBindingDescription{});
+	}
+
+	TEST_F(VertexTests, GetPositionInputAttributeDescription)
+	{
+		vk::VertexInputAttributeDescription description = Vertex::GetPositionInputAttributeDescription();
+
+		ASSERT_EQ(description.binding, 0);
+		ASSERT_EQ(description.location, 0);
+		ASSERT_EQ(description.format, vk::Format::eR32G32B32Sfloat);
+		ASSERT_EQ(description.offset, 0);
+	}
+
+	TEST_F(VertexTests, GetColorInputAttributeDescription)
+	{
+		vk::VertexInputAttributeDescription description = Vertex::GetColorInputAttributeDescription();
+
+		ASSERT_EQ(description.binding, 0);
+		ASSERT_EQ(description.location, 1);
+		ASSERT_EQ(description.format, vk::Format::eR32G32B32A32Sfloat);
+		ASSERT_EQ(description.offset, sizeof(glm::vec3));
+	}
+
+	TEST_F(VertexTests, GetTextureCoordinatesInputAttributeDescription)
+	{
+		vk::VertexInputAttributeDescription description = Vertex::GetTextureCoordinatesInputAttributeDescription();
+
+		ASSERT_EQ(description.binding, 0);
+		ASSERT_EQ(description.location, 2);
+		ASSERT_EQ(description.format, vk::Format::eR32G32Sfloat);
+		ASSERT_EQ(description.offset, sizeof(glm::vec3) + sizeof(glm::vec4));
+	}
 }

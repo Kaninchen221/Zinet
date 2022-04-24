@@ -3,6 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
 #include "Zinet/GraphicLayer/ZtGLShaderType.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
 
 namespace zt::gl
 {
@@ -28,10 +29,16 @@ namespace zt::gl
 
 	vk::PipelineVertexInputStateCreateInfo& PipelineLayout::createVertexInputStateCreateInfo()
 	{
-		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 0;
-		vertexInputStateCreateInfo.pVertexBindingDescriptions = nullptr;
-		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = 0;
-		vertexInputStateCreateInfo.pVertexAttributeDescriptions = nullptr;
+		vertexInputBindingDescription = Vertex::GetInputBindingDescription();
+
+		vertexInputAttributeDescriptions.push_back(Vertex::GetPositionInputAttributeDescription());
+		vertexInputAttributeDescriptions.push_back(Vertex::GetColorInputAttributeDescription());
+		vertexInputAttributeDescriptions.push_back(Vertex::GetTextureCoordinatesInputAttributeDescription());
+
+		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
+		vertexInputStateCreateInfo.pVertexBindingDescriptions = &vertexInputBindingDescription;
+		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = vertexInputAttributeDescriptions.size();
+		vertexInputStateCreateInfo.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
 
 		return vertexInputStateCreateInfo;
 	}

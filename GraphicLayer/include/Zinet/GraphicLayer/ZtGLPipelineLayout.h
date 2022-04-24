@@ -62,6 +62,8 @@ namespace zt::gl
 		vk::Rect2D scissor;
 
 		vk::PipelineShaderStageCreateInfo shaderStageCreateInfo;
+		vk::VertexInputBindingDescription vertexInputBindingDescription;
+		std::vector<vk::VertexInputAttributeDescription> vertexInputAttributeDescriptions;
 		vk::PipelineVertexInputStateCreateInfo vertexInputStateCreateInfo;
 		vk::PipelineInputAssemblyStateCreateInfo inputAssemblyStateCreateInfo;
 		vk::PipelineViewportStateCreateInfo viewportStateCreateInfo;
