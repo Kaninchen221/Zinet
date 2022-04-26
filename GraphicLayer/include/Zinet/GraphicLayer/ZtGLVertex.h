@@ -22,6 +22,8 @@ namespace zt::gl
 		Vertex& operator = (const Vertex& other) = default;
 		Vertex& operator = (Vertex&& other) = default;
 
+		bool operator == (const Vertex& other) const;
+
 		~Vertex() noexcept = default;
 
 		glm::vec3 getPosition() const;

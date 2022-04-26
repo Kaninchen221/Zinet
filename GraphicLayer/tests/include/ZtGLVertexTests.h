@@ -142,4 +142,16 @@ namespace zt::gl::tests
 		ASSERT_EQ(description.format, vk::Format::eR32G32Sfloat);
 		ASSERT_EQ(description.offset, sizeof(glm::vec3) + sizeof(glm::vec4));
 	}
+
+	TEST_F(VertexTests, ComparisonOperator)
+	{
+		Vertex vertexFirst{};
+		Vertex vertexSecond{};
+
+		ASSERT_EQ(vertexFirst, vertexSecond);
+
+		vertexFirst.setPosition({ 234.3f, 1.f, 2.f });
+
+		ASSERT_NE(vertexFirst, vertexSecond);
+	}
 }

@@ -1,5 +1,7 @@
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 
+#include "glm/vector_relational.hpp"
+
 namespace zt::gl
 {
 
@@ -8,6 +10,15 @@ namespace zt::gl
 		color(newColor),
 		textureCoordinates(newTextureCoordinates)
 	{}
+
+	bool Vertex::operator==(const Vertex& other) const
+	{
+		bool equal = glm::all(glm::equal(position, other.position)) &&
+			glm::all(glm::equal(color, other.color)) &&
+			glm::all(glm::equal(textureCoordinates, other.textureCoordinates));
+
+		return equal;
+	}
 
 	glm::vec3 Vertex::getPosition() const
 	{

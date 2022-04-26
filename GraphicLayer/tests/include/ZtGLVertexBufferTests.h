@@ -1,82 +1,119 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 
 #include "gtest/gtest.h"
 
 namespace zt::gl::tests
 {
 
-	class ZtVertexBufferTests : public ::testing::Test
+	class VertexBufferTests : public ::testing::Test
 	{
 	protected:
 
-		ZtVertexBufferTests()
+		Context context;
+		Instance instance;
+		Window window;
+		Surface surface;
+		PhysicalDevice physicalDevice;
+		Device device;
+		VertexBuffer vertexBuffer;
+
+		void SetUp() override
 		{
+			GLFW::InitGLFW();
+
 			window.create();
+			instance.createApplicationInfo();
+			instance.createInstanceCreateInfo();
+			instance.create(context);
+			surface.create(instance, window);
+			physicalDevice.create(instance);
+			device.create(physicalDevice, surface);
+
+			vertexBuffer.setVertices({ {} });
+			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+			vertexBuffer.create(device, vertexBufferCreateInfo);
 		}
 
-		VertexBuffer vbo;
-
-		Window window;
-
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
+		}
 	};
 
-	TEST_F(ZtVertexBufferTests, GenerateTest)
+	TEST(VertexBuffer, DerivedFromVulkanObject)
 	{
-		vbo.generate();
-		GLuint actualID = vbo.getID();
+		static_assert(std::derived_from<VertexBuffer, VulkanObject<vk::raii::Buffer>>);
 	}
 
-	TEST_F(ZtVertexBufferTests, GetIDTest)
+	TEST(VertexBuffer, GetVertices)
 	{
-		vbo.generate();
-		GLuint actualID = vbo.getID();
-		GLuint notExpectedID = VertexBuffer::InvalidID;
+		VertexBuffer vertexBuffer;
+		const std::vector<Vertex>& vertices = vertexBuffer.getVertices();
+
+		ASSERT_EQ(vertices.size(), 0);
 	}
 
-	TEST_F(ZtVertexBufferTests, BindTest)
+	TEST(VertexBuffer, SetVertices)
 	{
-		vbo.generate();
-		vbo.bind();
-		GLuint expectedBindedID = vbo.getID();
+		VertexBuffer vertexBuffer;
+		std::vector<Vertex> expectedVertices{ {} };
+		vertexBuffer.setVertices(expectedVertices);
+		const std::vector<Vertex>& actualVertices = vertexBuffer.getVertices();
+
+		ASSERT_EQ(expectedVertices, actualVertices);
 	}
 
-	TEST_F(ZtVertexBufferTests, UnbindTest)
+	TEST(VertexBuffer, CreateVertexBufferCreateInfo)
 	{
-		vbo.generate();
-		vbo.bind();
-		vbo.unbind();
-		GLuint notExpectedBindedID = vbo.getID();
+		VertexBuffer vertexBuffer;
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+
+		ASSERT_NE(vertexBufferCreateInfo, vk::BufferCreateInfo{});
 	}
 
-	TEST_F(ZtVertexBufferTests, SetDataTest)
+	TEST_F(VertexBufferTests, Create)
 	{
-		vbo.generate();
-		vbo.bind();
-		std::array<Vertex, 1> vertices;
-		vbo.setData<std::array<Vertex, 1>>(vertices, BufferUsage::Static);
+		ASSERT_NE(*vertexBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
 	}
 
-	TEST_F(ZtVertexBufferTests, InvalidIDTest)
+	TEST_F(VertexBufferTests, GetMemoryRequirements)
 	{
-		GLuint actualInvalidID = VertexBuffer::InvalidID;
-		GLuint expectedInvalidID = 0u;
-
-		ASSERT_EQ(actualInvalidID, expectedInvalidID);
+		vk::MemoryRequirements memoryRequirements = vertexBuffer->getMemoryRequirements();
 	}
 
-	TEST_F(ZtVertexBufferTests, DeleteTest)
+	TEST_F(VertexBufferTests, PhysicalDeviceMemoryProperties)
 	{
-		vbo.generate();
-		vbo.deleteResource();
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		uint32_t memoryType = vertexBuffer.findSuitableMemoryType(physicalDeviceMemoryProperties);
 
-		GLuint actualID = vbo.getID();
-		GLuint expectedID = VertexBuffer::InvalidID;
-
-		ASSERT_EQ(actualID, expectedID);
+		ASSERT_NE(memoryType, UINT32_MAX);
 	}
 
+	TEST_F(VertexBufferTests, CreateMemoryAllocateInfo)
+	{
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties);
+
+		ASSERT_NE(memoryAllocateInfo, vk::MemoryAllocateInfo{});
+	}
+
+	TEST_F(VertexBufferTests, BindMemory)
+	{
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties);
+		DeviceMemory deviceMemory;
+		deviceMemory.create(device, memoryAllocateInfo);
+
+		vertexBuffer.bindMemory(deviceMemory);
+	}
 }

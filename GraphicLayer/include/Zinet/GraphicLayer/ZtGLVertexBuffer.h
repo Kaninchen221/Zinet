@@ -1,36 +1,48 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtBufferUsage.h"
-#include "Zinet/GraphicLayer/ZtObject.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
-#include <array>
+#include <vector>
 
 namespace zt::gl
 {
+	class Vertex;
+	class Device;
+	class DeviceMemory;
 
-	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public Object
+	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public VulkanObject<vk::raii::Buffer>
 	{
 
 	public:
 
-		void generate();
+		VertexBuffer() = default;
+		VertexBuffer(const VertexBuffer& other) = default;
+		VertexBuffer(VertexBuffer&& other) = default;
 
-		void bind();
+		VertexBuffer& operator = (const VertexBuffer& other) = default;
+		VertexBuffer& operator = (VertexBuffer&& other) = default;
 
-		void unbind();
+		~VertexBuffer() noexcept = default;
 
-		template<typename ContainerType>
-		void setData(const ContainerType& Container, BufferUsage Usage);
+		const std::vector<Vertex>& getVertices() const;
 
-		void deleteResource();
+		void setVertices(const std::vector<Vertex>& vertices);
+
+		vk::BufferCreateInfo createVertexBufferCreateInfo() const;
+
+		void create(Device& device, const vk::BufferCreateInfo& vertexBufferCreateInfo);
+
+		uint32_t findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties) const;
+
+		vk::MemoryAllocateInfo createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties) const;
+
+		void bindMemory(DeviceMemory& deviceMemory);
+
+	protected:
+
+		std::vector<Vertex> vertices;
 
 	};
-
-	template<typename ContainerType>
-	inline void VertexBuffer::setData(const ContainerType& Container, BufferUsage Usage)
-	{
-
-	}
 
 }
