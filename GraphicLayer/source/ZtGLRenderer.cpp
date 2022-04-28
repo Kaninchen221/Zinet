@@ -96,7 +96,7 @@ namespace zt::gl
         position.y = -0.5f;
         position.z = 0.f;
         vertex.setPosition(position);
-        vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+        vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
         vertices.push_back(vertex);
 
         position.x = 0.5f;
@@ -110,7 +110,7 @@ namespace zt::gl
         position.y = 0.5f;
         position.z = 0.f;
         vertex.setPosition({ -0.5f, 0.5f, 0.f });
-        vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+        vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
         vertices.push_back(vertex);
 
         // Vertex Buffer & Device Memory

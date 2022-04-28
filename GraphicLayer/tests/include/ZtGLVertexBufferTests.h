@@ -94,7 +94,8 @@ namespace zt::gl::tests
 	TEST_F(VertexBufferTests, PhysicalDeviceMemoryProperties)
 	{
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		uint32_t memoryType = vertexBuffer.findSuitableMemoryType(physicalDeviceMemoryProperties);
+		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		uint32_t memoryType = vertexBuffer.findSuitableMemoryType(physicalDeviceMemoryProperties, memoryPropertyFlags);
 
 		ASSERT_NE(memoryType, UINT32_MAX);
 	}
@@ -102,15 +103,17 @@ namespace zt::gl::tests
 	TEST_F(VertexBufferTests, CreateMemoryAllocateInfo)
 	{
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties);
+		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
 
 		ASSERT_NE(memoryAllocateInfo, vk::MemoryAllocateInfo{});
 	}
 
 	TEST_F(VertexBufferTests, BindMemory)
 	{
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = {};
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
 		DeviceMemory deviceMemory;
 		deviceMemory.create(device, memoryAllocateInfo);
 
