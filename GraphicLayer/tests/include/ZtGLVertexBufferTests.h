@@ -109,8 +109,8 @@ namespace zt::gl::tests
 
 	TEST_F(VertexBufferTests, BindMemory)
 	{
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties);
+		vk::MemoryPropertyFlags memoryPropertyFlags = {};
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(memoryPropertyFlags);
 		DeviceMemory deviceMemory;
 		deviceMemory.create(device, memoryAllocateInfo);
 

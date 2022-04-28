@@ -21,6 +21,9 @@
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 #include "Zinet/GraphicLayer/ZtGLFence.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
+#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -134,6 +137,9 @@ namespace zt::gl
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderFinishedSemaphore;
+
+		VertexBuffer vertexBuffer;
+		DeviceMemory deviceMemory;
 	};
 
 }

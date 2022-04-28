@@ -30,14 +30,13 @@ namespace zt::gl
 		internal = vk::raii::Buffer{ device.getInternal(), vertexBufferCreateInfo };
 	}
 
-	uint32_t VertexBuffer::findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties) const
+	uint32_t VertexBuffer::findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const
 	{
-		vk::MemoryRequirements memoryRequirements = internal.getMemoryRequirements();
-		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryRequirements memoryRequirements = internal.getMemoryRequirements(); // TODO: Remove
 
 		for (uint32_t index = 0; index < physicalDeviceMemoryProperties.memoryTypeCount; index++)
 		{
-			if ((memoryRequirements.memoryTypeBits & (1 << index)) && (physicalDeviceMemoryProperties.memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags)
+			if ((physicalDeviceMemoryProperties.memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags)
 			{
 				return index;
 			}
@@ -45,13 +44,14 @@ namespace zt::gl
 
 		return UINT32_MAX;
 	}
-	vk::MemoryAllocateInfo VertexBuffer::createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties) const
+
+	vk::MemoryAllocateInfo VertexBuffer::createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const
 	{
 		vk::MemoryRequirements memoryRequirements = internal.getMemoryRequirements();
 
 		vk::MemoryAllocateInfo memoryAllocateInfo{};
 		memoryAllocateInfo.allocationSize = memoryRequirements.size;
-		memoryAllocateInfo.memoryTypeIndex = findSuitableMemoryType(physicalDeviceMemoryProperties);
+		memoryAllocateInfo.memoryTypeIndex = findSuitableMemoryType(physicalDeviceMemoryProperties, memoryPropertyFlags);
 
 		return memoryAllocateInfo;
 	}

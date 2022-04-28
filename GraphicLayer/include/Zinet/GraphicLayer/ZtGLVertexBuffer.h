@@ -33,9 +33,9 @@ namespace zt::gl
 
 		void create(Device& device, const vk::BufferCreateInfo& vertexBufferCreateInfo);
 
-		uint32_t findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties) const;
+		uint32_t findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
 
-		vk::MemoryAllocateInfo createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties) const;
+		vk::MemoryAllocateInfo createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
 
 		void bindMemory(DeviceMemory& deviceMemory);
 

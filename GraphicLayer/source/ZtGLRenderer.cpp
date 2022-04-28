@@ -87,6 +87,47 @@ namespace zt::gl
         imageAvailableSemaphore.create(device);
         renderFinishedSemaphore.create(device);
         
+        // Vertices
+        std::vector<Vertex> vertices;
+
+        Vertex vertex;
+        glm::vec3 position;
+        position.x = 0.f;
+        position.y = -0.5f;
+        position.z = 0.f;
+        vertex.setPosition(position);
+        vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        position.x = 0.5f;
+        position.y = 0.5f;
+        position.z = 0.f;
+        vertex.setPosition(position);
+        vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        position.x = -0.5f;
+        position.y = 0.5f;
+        position.z = 0.f;
+        vertex.setPosition({ -0.5f, 0.5f, 0.f });
+        vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        // Vertex Buffer & Device Memory
+        vertexBuffer.setVertices(vertices);
+
+        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+        vertexBuffer.create(device, vertexBufferCreateInfo);
+
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+
+        deviceMemory.create(device, vertexBufferMemoryAllocateInfo);
+
+        vertexBuffer.bindMemory(deviceMemory);
+
+        deviceMemory.fillWithVertexBuffer(vertexBuffer);
     }
 
     void Renderer::run()
@@ -157,10 +198,12 @@ namespace zt::gl
 
         vk::Rect2D renderArea;
         renderArea.offset = vk::Offset2D{ 0, 0 };
-        renderArea.extent = swapExtent; /* Need to be declared should be same as extent from SwapChainSupportDetails */
+        renderArea.extent = swapExtent;
 
         commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
         commandBuffer.bindPipeline(pipeline);
+        vk::ArrayProxy<const vk::Buffer> vertexBuffers{ *vertexBuffer.getInternal() };
+        commandBuffer->bindVertexBuffers(0u, vertexBuffers, vk::DeviceSize{ 0 });
         commandBuffer->draw(3, 1, 0, 0);
         commandBuffer.endRenderPass();
         commandBuffer.end();
