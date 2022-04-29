@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLBuffer.h"
 
 #include <vector>
 
@@ -11,7 +11,7 @@ namespace zt::gl
 	class Device;
 	class DeviceMemory;
 
-	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public VulkanObject<vk::raii::Buffer>
+	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public Buffer
 	{
 
 	public:
@@ -29,15 +29,7 @@ namespace zt::gl
 
 		void setVertices(const std::vector<Vertex>& vertices);
 
-		vk::BufferCreateInfo createVertexBufferCreateInfo() const;
-
-		void create(Device& device, const vk::BufferCreateInfo& vertexBufferCreateInfo);
-
-		uint32_t findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
-
-		vk::MemoryAllocateInfo createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
-
-		void bindMemory(DeviceMemory& deviceMemory);
+		vk::BufferCreateInfo createCreateInfo() const override;
 
 	protected:
 

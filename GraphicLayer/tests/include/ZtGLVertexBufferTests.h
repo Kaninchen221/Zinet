@@ -9,6 +9,7 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
+#include "Zinet/GraphicLayer/ZtGLBuffer.h"
 
 #include "gtest/gtest.h"
 
@@ -40,7 +41,7 @@ namespace zt::gl::tests
 			device.create(physicalDevice, surface);
 
 			vertexBuffer.setVertices({ {} });
-			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
 			vertexBuffer.create(device, vertexBufferCreateInfo);
 		}
 
@@ -50,9 +51,9 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(VertexBuffer, DerivedFromVulkanObject)
+	TEST(VertexBuffer, DerivedFromBuffer)
 	{
-		static_assert(std::derived_from<VertexBuffer, VulkanObject<vk::raii::Buffer>>);
+		static_assert(std::derived_from<VertexBuffer, Buffer>);
 	}
 
 	TEST(VertexBuffer, GetVertices)
@@ -76,47 +77,9 @@ namespace zt::gl::tests
 	TEST(VertexBuffer, CreateVertexBufferCreateInfo)
 	{
 		VertexBuffer vertexBuffer;
-		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
 
-		ASSERT_NE(vertexBufferCreateInfo, vk::BufferCreateInfo{});
+		ASSERT_EQ(vertexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eVertexBuffer);
 	}
 
-	TEST_F(VertexBufferTests, Create)
-	{
-		ASSERT_NE(*vertexBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
-	}
-
-	TEST_F(VertexBufferTests, GetMemoryRequirements)
-	{
-		vk::MemoryRequirements memoryRequirements = vertexBuffer->getMemoryRequirements();
-	}
-
-	TEST_F(VertexBufferTests, PhysicalDeviceMemoryProperties)
-	{
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		uint32_t memoryType = vertexBuffer.findSuitableMemoryType(physicalDeviceMemoryProperties, memoryPropertyFlags);
-
-		ASSERT_NE(memoryType, UINT32_MAX);
-	}
-
-	TEST_F(VertexBufferTests, CreateMemoryAllocateInfo)
-	{
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
-
-		ASSERT_NE(memoryAllocateInfo, vk::MemoryAllocateInfo{});
-	}
-
-	TEST_F(VertexBufferTests, BindMemory)
-	{
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags memoryPropertyFlags = {};
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
-		DeviceMemory deviceMemory;
-		deviceMemory.create(device, memoryAllocateInfo);
-
-		vertexBuffer.bindMemory(deviceMemory);
-	}
 }

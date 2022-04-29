@@ -15,7 +15,7 @@ namespace zt::gl
 		this->vertices = vertices;
 	}
 
-	vk::BufferCreateInfo VertexBuffer::createVertexBufferCreateInfo() const
+	vk::BufferCreateInfo VertexBuffer::createCreateInfo() const
 	{
 		vk::BufferCreateInfo bufferCreateInfo;
 		bufferCreateInfo.size = sizeof(vertices[0]) * vertices.size();
@@ -23,42 +23,5 @@ namespace zt::gl
 		bufferCreateInfo.sharingMode = vk::SharingMode::eExclusive;
 
 		return bufferCreateInfo;
-	}
-
-	void VertexBuffer::create(Device& device, const vk::BufferCreateInfo& vertexBufferCreateInfo)
-	{
-		internal = vk::raii::Buffer{ device.getInternal(), vertexBufferCreateInfo };
-	}
-
-	uint32_t VertexBuffer::findSuitableMemoryType(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const
-	{
-		vk::MemoryRequirements memoryRequirements = internal.getMemoryRequirements(); // TODO: Remove
-
-		for (uint32_t index = 0; index < physicalDeviceMemoryProperties.memoryTypeCount; index++)
-		{
-			if ((physicalDeviceMemoryProperties.memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags)
-			{
-				return index;
-			}
-		}
-
-		return UINT32_MAX;
-	}
-
-	vk::MemoryAllocateInfo VertexBuffer::createMemoryAllocateInfo(const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, const vk::MemoryPropertyFlags& memoryPropertyFlags) const
-	{
-		vk::MemoryRequirements memoryRequirements = internal.getMemoryRequirements();
-
-		vk::MemoryAllocateInfo memoryAllocateInfo{};
-		memoryAllocateInfo.allocationSize = memoryRequirements.size;
-		memoryAllocateInfo.memoryTypeIndex = findSuitableMemoryType(physicalDeviceMemoryProperties, memoryPropertyFlags);
-
-		return memoryAllocateInfo;
-	}
-
-	void VertexBuffer::bindMemory(DeviceMemory& deviceMemory)
-	{
-		vk::DeviceSize offset = 0;
-		internal.bindMemory(*deviceMemory.getInternal(), offset);
 	}
 }

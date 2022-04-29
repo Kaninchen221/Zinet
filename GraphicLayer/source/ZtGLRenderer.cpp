@@ -116,7 +116,7 @@ namespace zt::gl
         // Vertex Buffer & Device Memory
         vertexBuffer.setVertices(vertices);
 
-        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
         vertexBuffer.create(device, vertexBufferCreateInfo);
 
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
