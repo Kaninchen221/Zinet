@@ -18,13 +18,13 @@ namespace zt::gl
         internal = std::move(vk::raii::Queue{ device.getInternal(), queueFamilyIndex, queueIndex });
     }
 
-    vk::SubmitInfo Queue::CreateSubmitInfo(
+    SubmitInfo Queue::CreateSubmitInfo(
         std::span<Semaphore*> waitSemaphores,
         vk::PipelineStageFlags& waitPipelineStageFlags,
         std::span<CommandBuffer*> commandBuffers,
         std::span<Semaphore*> signalSemaphores)
     {
-        vk::SubmitInfo submitInfo;
+        SubmitInfo submitInfo;
         submitInfo.waitSemaphoreCount = waitSemaphores.size();
         submitInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
         submitInfo.pWaitDstStageMask = &waitPipelineStageFlags;
@@ -40,9 +40,14 @@ namespace zt::gl
     {
     }
 
-    void Queue::submit(std::span<vk::SubmitInfo> submitInfo, Fence& fence)
+    void Queue::submit(SubmitInfo submitInfo, Fence& fence)
     {
         internal.submit(submitInfo, *fence.getInternal());
+    }
+
+    void Queue::submit(SubmitInfo submitInfo)
+    {
+        internal.submit(submitInfo);
     }
 
     vk::PresentInfoKHR Queue::CreatePresentInfo(

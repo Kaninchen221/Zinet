@@ -149,12 +149,11 @@ namespace zt::gl
 
         transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer);
 
-        // TODO: Create own submit info
-        vk::SubmitInfo submitInfo{};
+        SubmitInfo submitInfo{};
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
 
-        queue->submit(submitInfo);
+        queue.submit(submitInfo);
         queue->waitIdle();
     }
 
@@ -249,15 +248,14 @@ namespace zt::gl
         std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
         std::array<Semaphore*, 1> signalSemaphores = { &renderFinishedSemaphore };
 
-        // TODO: Create own submit info
-        vk::SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+        SubmitInfo submitInfo = Queue::CreateSubmitInfo(
             waitSemaphores,
             waitPipelineStageFlags,
             commandBuffers,
             signalSemaphores);
 
-        std::array<vk::SubmitInfo, 1> submitInfos = { submitInfo };
-        queue.submit(submitInfos, drawFence);
+        //std::array<SubmitInfo, 1> submitInfos = { submitInfo };
+        queue.submit(submitInfo, drawFence);
     }
 
     void Renderer::present(uint32_t image)

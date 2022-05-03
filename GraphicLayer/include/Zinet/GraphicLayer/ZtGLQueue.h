@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLSubmitInfo.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -37,14 +38,15 @@ namespace zt::gl
 
 		void create(Device& device, uint32_t queueFamilyIndex);
 
-		// TODO: Create own submit info
-		static vk::SubmitInfo CreateSubmitInfo(
+		static SubmitInfo CreateSubmitInfo(
 			std::span<Semaphore*> waitSemaphores,
 			vk::PipelineStageFlags& waitPipelineStageFlags,
 			std::span<CommandBuffer*> commandBuffers,
 			std::span<Semaphore*> signalSemaphores);
 
-		void submit(std::span<vk::SubmitInfo> submitInfo, Fence& fence);
+		void submit(SubmitInfo submitInfo, Fence& fence);
+
+		void submit(SubmitInfo submitInfo);
 
 		static vk::PresentInfoKHR CreatePresentInfo(
 			std::span<Semaphore*> waitSemaphores,

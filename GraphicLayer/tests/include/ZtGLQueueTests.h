@@ -76,8 +76,7 @@ namespace zt::gl::tests
 		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
-		// TODO: Create own submit info
-		vk::SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
 			waitSemaphores, 
 			waitPipelineStageFlags,
 			commandBuffers, 
@@ -103,6 +102,34 @@ namespace zt::gl::tests
 		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 	}
 
+	TEST_F(QueueTests, SubmitWithFence)
+	{
+		Semaphore semaphore;
+		semaphore.create(device);
+		std::array<Semaphore*, 1> waitSemaphores{ &semaphore };
+		vk::PipelineStageFlags waitPipelineStageFlags{};
+
+		CommandPool commandPool;
+		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
+		commandPool.create(device, queueFamilyIndex);
+
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
+
+		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
+
+		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+			waitSemaphores,
+			waitPipelineStageFlags,
+			commandBuffers,
+			signalSemaphores);
+
+		Fence fence;
+		fence.createUnsignaled(device);
+		queue.submit(submitInfo, fence);
+	}
+
 	TEST_F(QueueTests, Submit)
 	{
 		Semaphore semaphore;
@@ -120,17 +147,13 @@ namespace zt::gl::tests
 
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
-		// TODO: Create own submit info
-		vk::SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
 			waitSemaphores,
 			waitPipelineStageFlags,
 			commandBuffers,
 			signalSemaphores);
 
-		std::array<vk::SubmitInfo, 1> submitInfos = { submitInfo };
-		Fence fence;
-		fence.createUnsignaled(device);
-		queue.submit(submitInfos, fence);
+		queue.submit(submitInfo);
 	}
 
 	TEST_F(QueueTests, CreatePresentInfo)

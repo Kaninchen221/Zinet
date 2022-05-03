@@ -239,12 +239,11 @@ namespace zt::gl::tests
 
 		commandBuffer.copyBuffer(sourceBuffer, destinationBuffer);
 
-		// TODO: Create own submit info
-		vk::SubmitInfo submitInfo{};
+		SubmitInfo submitInfo{};
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		queue->submit(submitInfo);
+		queue.submit(submitInfo);
 		queue->waitIdle();
 
 		std::pair<void*, std::uint64_t> data = destinationBufferDeviceMemory.getData(destinationBuffer.getSize());
