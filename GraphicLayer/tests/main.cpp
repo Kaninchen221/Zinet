@@ -4,9 +4,7 @@
 //#include "ZtTextureTests.h"
 //#include "ZtObjectTests.h"
 
-#include "ZtGLVertexBufferTests.h"
 //#include "ZtGLVertexTests.h"
-//#include "ZtGLDeviceMemoryTests.h"
 //#include "ZtGLVulkanObjectTests.h"
 //#include "ZtGLShaderTypeTests.h"
 //#include "ZtGLShaderTests.h"
@@ -28,10 +26,14 @@
 //#include "ZtGLPipelineTests.h"
 //#include "ZtGLFramebufferTests.h"
 //#include "ZtGLCommandPoolTests.h"
-//#include "ZtGLCommandBufferTests.h"
+#include "ZtGLCommandBufferTests.h"
 //#include "ZtGLSemaphoreTests.h"
 //#include "ZtGLFenceTests.h"
 #include "ZtGLBufferTests.h"
+#include "ZtGLVertexBufferTests.h"
+#include "ZtGLStagingBufferTests.h"
+#include "ZtGLDeviceMemoryTests.h"
+#include "ZtGLBufferCopyTests.h"
 
 //#include "ZtGLRendererTests.h"
 //

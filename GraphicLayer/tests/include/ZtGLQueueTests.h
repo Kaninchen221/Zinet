@@ -76,6 +76,7 @@ namespace zt::gl::tests
 		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
+		// TODO: Create own submit info
 		vk::SubmitInfo submitInfo = Queue::CreateSubmitInfo(
 			waitSemaphores, 
 			waitPipelineStageFlags,
@@ -119,6 +120,7 @@ namespace zt::gl::tests
 
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
+		// TODO: Create own submit info
 		vk::SubmitInfo submitInfo = Queue::CreateSubmitInfo(
 			waitSemaphores,
 			waitPipelineStageFlags,

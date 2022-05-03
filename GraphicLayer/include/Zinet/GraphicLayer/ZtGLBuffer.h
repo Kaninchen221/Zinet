@@ -42,6 +42,14 @@ namespace zt::gl
 
 		void bindMemory(DeviceMemory& deviceMemory);
 
+		void setSize(std::uint64_t size);
+
+		std::uint64_t getSize() const;
+
+	protected:
+
+		std::uint64_t size{};
+
 	};
 
 }

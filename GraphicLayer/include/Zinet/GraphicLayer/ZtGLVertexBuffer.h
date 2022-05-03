@@ -25,15 +25,7 @@ namespace zt::gl
 
 		~VertexBuffer() noexcept = default;
 
-		const std::vector<Vertex>& getVertices() const;
-
-		void setVertices(const std::vector<Vertex>& vertices);
-
 		vk::BufferCreateInfo createCreateInfo() const override;
-
-	protected:
-
-		std::vector<Vertex> vertices;
 
 	};
 

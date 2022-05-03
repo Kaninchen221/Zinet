@@ -1,6 +1,7 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include "Zinet/GraphicLayer/ZtGLShader.h"
+#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
 
 namespace zt::gl
 {
@@ -88,7 +89,6 @@ namespace zt::gl
         renderFinishedSemaphore.create(device);
         
         // Vertices
-        std::vector<Vertex> vertices;
 
         Vertex vertex;
         glm::vec3 position;
@@ -113,21 +113,49 @@ namespace zt::gl
         vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
         vertices.push_back(vertex);
 
-        // Vertex Buffer & Device Memory
-        vertexBuffer.setVertices(vertices);
+        // Staging Buffer
+        StagingBuffer stagingBuffer;
+        std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
+        stagingBuffer.setSize(verticesSize);
+        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
+        stagingBuffer.create(device, stagingBufferCreateInfo);
 
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eDeviceLocal;
+        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+
+        DeviceMemory stagingBufferDeviceMemory;
+        stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
+
+        stagingBuffer.bindMemory(stagingBufferDeviceMemory);
+        stagingBufferDeviceMemory.fillWithData(vertices);
+
+        // Vertex Buffer
+        vertexBuffer.setSize(verticesSize);
         vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
         vertexBuffer.create(device, vertexBufferCreateInfo);
 
-        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+        vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
+        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, vertexBufferMemoryPropertyFlags);
 
-        deviceMemory.create(device, vertexBufferMemoryAllocateInfo);
+        vertexBufferDeviceMemory.create(device, vertexBufferMemoryAllocateInfo);
 
-        vertexBuffer.bindMemory(deviceMemory);
+        vertexBuffer.bindMemory(vertexBufferDeviceMemory);
 
-        deviceMemory.fillWithVertexBuffer(vertexBuffer);
+        // Copy Staging Buffer to Vertex Buffer
+        CommandBuffer transferCommandBuffer;
+        vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
+        transferCommandBuffer.allocateCommandBuffer(device, commandPool);
+
+        transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer);
+
+        // TODO: Create own submit info
+        vk::SubmitInfo submitInfo{};
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
+
+        queue->submit(submitInfo);
+        queue->waitIdle();
     }
 
     void Renderer::run()
@@ -221,6 +249,7 @@ namespace zt::gl
         std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
         std::array<Semaphore*, 1> signalSemaphores = { &renderFinishedSemaphore };
 
+        // TODO: Create own submit info
         vk::SubmitInfo submitInfo = Queue::CreateSubmitInfo(
             waitSemaphores,
             waitPipelineStageFlags,

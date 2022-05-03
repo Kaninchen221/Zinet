@@ -138,8 +138,9 @@ namespace zt::gl
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderFinishedSemaphore;
 
+		std::vector<Vertex> vertices;
 		VertexBuffer vertexBuffer;
-		DeviceMemory deviceMemory;
+		DeviceMemory vertexBufferDeviceMemory;
 	};
 
 }

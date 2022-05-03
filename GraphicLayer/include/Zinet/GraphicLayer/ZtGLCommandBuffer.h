@@ -12,6 +12,7 @@ namespace zt::gl
 	class Framebuffer;
 	class RenderPass;
 	class Pipeline;
+	class Buffer;
 
 	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
@@ -46,6 +47,8 @@ namespace zt::gl
 		void bindPipeline(Pipeline& pipeline);
 
 		void reset();
+
+		void copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer);
 
 	protected:
 

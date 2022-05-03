@@ -5,6 +5,8 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLBufferCopy.h"
+#include "Zinet/GraphicLayer/ZtGLBuffer.h"
 
 namespace zt::gl
 {
@@ -70,6 +72,22 @@ namespace zt::gl
 	{
 		vk::CommandBufferResetFlagBits flags = vk::CommandBufferResetFlagBits::eReleaseResources;
 		internal.reset(flags);
+	}
+
+	void CommandBuffer::copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer)
+	{
+		begin();
+
+		BufferCopy bufferCopy;
+		bufferCopy.srcOffset = 0;
+		bufferCopy.dstOffset = 0;
+		bufferCopy.size = sourceBuffer.getSize();
+
+		internal.copyBuffer(*sourceBuffer.getInternal(), *destinationBuffer.getInternal(), bufferCopy);
+
+		destinationBuffer.setSize(sourceBuffer.getSize());
+
+		end();
 	}
 
 }

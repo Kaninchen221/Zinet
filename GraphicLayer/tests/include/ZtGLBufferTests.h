@@ -2,6 +2,13 @@
 
 #include "gtest/gtest.h"
 
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
 
 namespace zt::gl::tests
@@ -64,6 +71,24 @@ namespace zt::gl::tests
 		static_assert(std::is_abstract<Buffer>::value);
 	}
 
+	TEST(Buffer, SetSize)
+	{
+		StagingBuffer stagingBuffer;
+		std::uint64_t expectedSize = 8u;
+		stagingBuffer.setSize(expectedSize);
+
+		std::uint64_t actualSize = stagingBuffer.getSize();
+		ASSERT_EQ(expectedSize, actualSize);
+	}
+
+	TEST(Buffer, GetSize)
+	{
+		StagingBuffer stagingBuffer;
+		std::uint64_t actualSize = stagingBuffer.getSize();
+
+		ASSERT_EQ(actualSize, 0u);
+	}
+
 	TEST_F(BufferTests, Create)
 	{
 		ASSERT_NE(*bufferTest.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
@@ -102,4 +127,5 @@ namespace zt::gl::tests
 
 		bufferTest.bindMemory(deviceMemory);
 	}
+
 }

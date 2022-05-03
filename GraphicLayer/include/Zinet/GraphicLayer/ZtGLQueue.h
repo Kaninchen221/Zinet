@@ -37,6 +37,7 @@ namespace zt::gl
 
 		void create(Device& device, uint32_t queueFamilyIndex);
 
+		// TODO: Create own submit info
 		static vk::SubmitInfo CreateSubmitInfo(
 			std::span<Semaphore*> waitSemaphores,
 			vk::PipelineStageFlags& waitPipelineStageFlags,

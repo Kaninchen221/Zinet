@@ -4,6 +4,8 @@
 
 #include "gtest/gtest.h"
 
+#include <vector>
+
 namespace zt::gl::tests
 {
 
@@ -19,6 +21,7 @@ namespace zt::gl::tests
 		Device device;
 		VertexBuffer vertexBuffer;
 		DeviceMemory deviceMemory;
+		std::vector<Vertex> vertices{ {}, {} };
 
 		void SetUp() override
 		{
@@ -32,8 +35,8 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			vertexBuffer.setVertices({ {} });
-			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createVertexBufferCreateInfo();
+			vertexBuffer.setSize(sizeof(Vertex) * vertices.size());
+			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
 			vertexBuffer.create(device, vertexBufferCreateInfo);
 
 			vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
@@ -60,6 +63,16 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceMemoryTests, FillWithData)
 	{
-		deviceMemory.fillWithVertexBuffer(vertexBuffer);
+		deviceMemory.fillWithData<std::vector<Vertex>>(vertices);
+		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
+		std::pair<void*, std::uint64_t> data = deviceMemory.getData(expectedSize);
+
+		ASSERT_EQ(data.second, expectedSize);
+
+		int result = std::memcmp(data.first, vertices.data(), expectedSize);
+
+		ASSERT_EQ(result, 0);
+
+		std::free(data.first);
 	}
 }

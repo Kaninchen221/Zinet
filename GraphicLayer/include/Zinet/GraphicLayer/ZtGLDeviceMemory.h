@@ -5,10 +5,11 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include <any>
+
 namespace zt::gl
 {
 	class Device;
-	class VertexBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API DeviceMemory : public VulkanObject<vk::raii::DeviceMemory>
 	{
@@ -26,7 +27,23 @@ namespace zt::gl
 
 		void create(Device& device, const vk::MemoryAllocateInfo& memoryAllocateInfo);
 
-		void fillWithVertexBuffer(const VertexBuffer& vertexBuffer);
+		template<typename Data>
+		void fillWithData(const Data& data);
+
+		std::pair<void*, std::uint64_t> getData(vk::DeviceSize size) const;
+
 	};
+
+	template<typename Data>
+	inline void DeviceMemory::fillWithData(const Data& data)
+	{
+		vk::DeviceSize offset = 0u;
+		vk::DeviceSize size = sizeof(Data::value_type) * data.size();
+		void* memory = internal.mapMemory(offset, size);
+
+		std::memcpy(memory, data.data(), size);
+
+		internal.unmapMemory();
+	}
 
 }

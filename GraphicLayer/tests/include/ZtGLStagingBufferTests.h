@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
@@ -16,7 +16,7 @@
 namespace zt::gl::tests
 {
 
-	class VertexBufferTests : public ::testing::Test
+	class StagingBufferTests : public ::testing::Test
 	{
 	protected:
 
@@ -26,7 +26,7 @@ namespace zt::gl::tests
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		Device device;
-		VertexBuffer vertexBuffer;
+		StagingBuffer stagingBuffer;
 
 		void SetUp() override
 		{
@@ -40,9 +40,9 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			vertexBuffer.setSize(1u);
-			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
-			vertexBuffer.create(device, vertexBufferCreateInfo);
+			stagingBuffer.setSize(8u);
+			vk::BufferCreateInfo createInfo = stagingBuffer.createCreateInfo();
+			stagingBuffer.create(device, createInfo);
 		}
 
 		void TearDown() override
@@ -51,23 +51,25 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(VertexBuffer, DerivedFromBuffer)
+	TEST(StagingBuffer, DerivedFromBuffer)
 	{
 		static_assert(std::derived_from<VertexBuffer, Buffer>);
 	}
 
-	TEST(VertexBuffer, CreateCreateInfo)
+	TEST(StagingBuffer, CreateCreateInfo)
 	{
-		VertexBuffer vertexBuffer;
-		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+		StagingBuffer stagingBuffer;
+		std::uint64_t expectedSize = 60u;
+		stagingBuffer.setSize(expectedSize);
+		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
 
-		ASSERT_EQ(vertexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eVertexBuffer | vk::BufferUsageFlagBits::eTransferDst);
-		ASSERT_EQ(vertexBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
+		ASSERT_EQ(stagingBufferCreateInfo.usage, vk::BufferUsageFlagBits::eTransferSrc);
+		ASSERT_EQ(stagingBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
+		ASSERT_EQ(stagingBufferCreateInfo.size, expectedSize);
 	}
 
-	TEST_F(VertexBufferTests, CreateTest)
+	TEST_F(StagingBufferTests, Create)
 	{
-		ASSERT_NE(*vertexBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
+		ASSERT_NE(*stagingBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
 	}
-
 }

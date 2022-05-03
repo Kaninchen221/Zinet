@@ -10,16 +10,20 @@ namespace zt::gl
 		internal = vk::raii::DeviceMemory{ device.getInternal(), memoryAllocateInfo };
 	}
 
-	void DeviceMemory::fillWithVertexBuffer(const VertexBuffer& vertexBuffer)
+	std::pair<void*, std::uint64_t> DeviceMemory::getData(vk::DeviceSize size) const
 	{
-		const std::vector<Vertex>& vertices = vertexBuffer.getVertices();
+		std::pair<void*, std::uint64_t> result{}; 
+
+		result.first = std::malloc(size);
+		result.second = size;
 
 		vk::DeviceSize offset = 0u;
-		vk::DeviceSize size = sizeof(Vertex) * vertices.size();
 		void* memory = internal.mapMemory(offset, size);
 
-		std::memcpy(memory, vertices.data(), size);
+		std::memcpy(result.first, memory, size);
 
 		internal.unmapMemory();
+
+		return result;
 	}
 }
