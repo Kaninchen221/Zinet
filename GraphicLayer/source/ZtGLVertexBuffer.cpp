@@ -1,7 +1,4 @@
 #include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLVertex.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 
 namespace zt::gl
 {

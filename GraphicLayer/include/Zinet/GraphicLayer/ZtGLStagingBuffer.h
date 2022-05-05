@@ -7,9 +7,6 @@
 
 namespace zt::gl
 {
-	class Vertex;
-	class Device;
-	class DeviceMemory;
 
 	class ZINET_GRAPHIC_LAYER_API StagingBuffer : public Buffer
 	{

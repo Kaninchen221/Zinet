@@ -48,6 +48,7 @@ namespace zt::gl
 
 	protected:
 
+		// TODO: Move it as param to createCreateInfo
 		std::uint64_t size{};
 
 	};

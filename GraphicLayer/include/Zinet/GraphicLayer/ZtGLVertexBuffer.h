@@ -3,13 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
 
-#include <vector>
-
 namespace zt::gl
 {
-	class Vertex;
-	class Device;
-	class DeviceMemory;
 
 	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public Buffer
 	{

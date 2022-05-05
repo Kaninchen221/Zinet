@@ -24,6 +24,7 @@
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
+#include "Zinet/GraphicLayer/ZtGLIndexBuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -76,6 +77,8 @@ namespace zt::gl
 
 		void prepareSwapChain();
 		void prepareShaders();
+		void prepareVertexBuffer();
+		void prepareIndexBuffer();
 
 		void drawFrame();
 
@@ -141,6 +144,10 @@ namespace zt::gl
 		std::vector<Vertex> vertices;
 		VertexBuffer vertexBuffer;
 		DeviceMemory vertexBufferDeviceMemory;
+
+		std::vector<std::uint16_t> indices;
+		IndexBuffer indexBuffer;
+		DeviceMemory indexBufferDeviceMemory;
 	};
 
 }

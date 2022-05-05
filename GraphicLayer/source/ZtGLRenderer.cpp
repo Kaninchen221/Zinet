@@ -87,74 +87,9 @@ namespace zt::gl
         // Semaphores
         imageAvailableSemaphore.create(device);
         renderFinishedSemaphore.create(device);
-        
-        // Vertices
 
-        Vertex vertex;
-        glm::vec3 position;
-        position.x = 0.f;
-        position.y = -0.5f;
-        position.z = 0.f;
-        vertex.setPosition(position);
-        vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-        vertices.push_back(vertex);
-
-        position.x = 0.5f;
-        position.y = 0.5f;
-        position.z = 0.f;
-        vertex.setPosition(position);
-        vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-        vertices.push_back(vertex);
-
-        position.x = -0.5f;
-        position.y = 0.5f;
-        position.z = 0.f;
-        vertex.setPosition({ -0.5f, 0.5f, 0.f });
-        vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-        vertices.push_back(vertex);
-
-        // Staging Buffer
-        StagingBuffer stagingBuffer;
-        std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
-        stagingBuffer.setSize(verticesSize);
-        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
-        stagingBuffer.create(device, stagingBufferCreateInfo);
-
-        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eDeviceLocal;
-        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
-
-        DeviceMemory stagingBufferDeviceMemory;
-        stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
-
-        stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-        stagingBufferDeviceMemory.fillWithData(vertices);
-
-        // Vertex Buffer
-        vertexBuffer.setSize(verticesSize);
-        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
-        vertexBuffer.create(device, vertexBufferCreateInfo);
-
-        vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, vertexBufferMemoryPropertyFlags);
-
-        vertexBufferDeviceMemory.create(device, vertexBufferMemoryAllocateInfo);
-
-        vertexBuffer.bindMemory(vertexBufferDeviceMemory);
-
-        // Copy Staging Buffer to Vertex Buffer
-        CommandBuffer transferCommandBuffer;
-        vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
-        transferCommandBuffer.allocateCommandBuffer(device, commandPool);
-
-        transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer);
-
-        SubmitInfo submitInfo{};
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
-
-        queue.submit(submitInfo);
-        queue->waitIdle();
+        prepareVertexBuffer();
+        prepareIndexBuffer();
     }
 
     void Renderer::run()
@@ -209,6 +144,119 @@ namespace zt::gl
 
     }
 
+    void Renderer::prepareVertexBuffer()
+    {
+        // Vertices
+        Vertex vertex;
+        vertex.setPosition({ -0.5f, -0.5f, 0.f });
+        vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        vertex.setPosition({ 0.5f, -0.5f, 0.f });
+        vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        vertex.setPosition({ 0.5f, 0.5f, 0.f });
+        vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        vertex.setPosition({ -0.5f, 0.5f, 0.f });
+        vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+        vertices.push_back(vertex);
+
+        // Staging Buffer
+        StagingBuffer stagingBuffer;
+        std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
+        stagingBuffer.setSize(verticesSize);
+        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
+        stagingBuffer.create(device, stagingBufferCreateInfo);
+
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+
+        DeviceMemory stagingBufferDeviceMemory;
+        stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
+
+        stagingBuffer.bindMemory(stagingBufferDeviceMemory);
+        stagingBufferDeviceMemory.fillWithData(vertices);
+
+        // Vertex Buffer
+        vertexBuffer.setSize(verticesSize);
+        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+        vertexBuffer.create(device, vertexBufferCreateInfo);
+
+        vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
+        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, vertexBufferMemoryPropertyFlags);
+
+        vertexBufferDeviceMemory.create(device, vertexBufferMemoryAllocateInfo);
+
+        vertexBuffer.bindMemory(vertexBufferDeviceMemory);
+
+        // Copy Staging Buffer to Vertex Buffer
+        CommandBuffer transferCommandBuffer;
+        vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
+        transferCommandBuffer.allocateCommandBuffer(device, commandPool);
+
+        transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer);
+
+        SubmitInfo submitInfo{};
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
+
+        queue.submit(submitInfo);
+        queue->waitIdle();
+    }
+
+    void Renderer::prepareIndexBuffer()
+    {
+        // Indices
+        indices = { 0, 1, 2, 2, 3, 0 };
+
+        // Staging Buffer
+        StagingBuffer stagingBuffer;
+        std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
+        stagingBuffer.setSize(size);
+        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
+        stagingBuffer.create(device, stagingBufferCreateInfo);
+
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+
+        DeviceMemory stagingBufferDeviceMemory;
+        stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
+
+        stagingBuffer.bindMemory(stagingBufferDeviceMemory);
+        stagingBufferDeviceMemory.fillWithData(indices);
+
+        // IndexBuffer
+        indexBuffer.setSize(size);
+        vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo();
+        indexBuffer.create(device, indexBufferCreateInfo);
+
+        vk::MemoryPropertyFlags indexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
+        vk::MemoryAllocateInfo indexBufferMemoryAllocateInfo = indexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, indexBufferMemoryPropertyFlags);
+
+        indexBufferDeviceMemory.create(device, indexBufferMemoryAllocateInfo);
+
+        indexBuffer.bindMemory(indexBufferDeviceMemory);
+
+        // Copy Staging Buffer to Vertex Buffer
+        CommandBuffer transferCommandBuffer;
+        vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
+        transferCommandBuffer.allocateCommandBuffer(device, commandPool);
+
+        transferCommandBuffer.copyBuffer(stagingBuffer, indexBuffer);
+
+        SubmitInfo submitInfo{};
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
+
+        queue.submit(submitInfo);
+        queue->waitIdle();
+    }
+
     void Renderer::drawFrame()
     {
         device.waitForFence(drawFence);
@@ -231,7 +279,8 @@ namespace zt::gl
         commandBuffer.bindPipeline(pipeline);
         vk::ArrayProxy<const vk::Buffer> vertexBuffers{ *vertexBuffer.getInternal() };
         commandBuffer->bindVertexBuffers(0u, vertexBuffers, vk::DeviceSize{ 0 });
-        commandBuffer->draw(3, 1, 0, 0);
+        commandBuffer->bindIndexBuffer(*indexBuffer.getInternal(), 0, vk::IndexType::eUint16);
+        commandBuffer->drawIndexed(indices.size(), 1, 0, 0, 0);
         commandBuffer.endRenderPass();
         commandBuffer.end();
 
