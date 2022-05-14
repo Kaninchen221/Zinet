@@ -142,8 +142,8 @@ namespace zt::gl
 	vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
 	{
 		vk::PipelineLayoutCreateInfo layoutCreateInfo;
-		layoutCreateInfo.setLayoutCount = 0;
-		layoutCreateInfo.pSetLayouts = nullptr;
+		layoutCreateInfo.setLayoutCount = 1;
+		layoutCreateInfo.pSetLayouts = &*descriptorSetLayout.getInternal();
 		layoutCreateInfo.pushConstantRangeCount = 0;
 		layoutCreateInfo.pPushConstantRanges = nullptr;
 
@@ -152,8 +152,18 @@ namespace zt::gl
 
 	void PipelineLayout::create(Device& device)
 	{
+		// TODO: Probably we should in PipelineLayout the Descriptors Set Layouts store as container and create them outside
+		descriptorSetLayout.createDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
+		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
+
 		vk::PipelineLayoutCreateInfo createInfo = createPipelineLayoutCreateInfo();
 		internal = std::move(vk::raii::PipelineLayout{ device.getInternal(), createInfo });
+	}
+
+	const DescriptorSetLayout& PipelineLayout::getDescriptorSetLayout() const
+	{
+		return descriptorSetLayout;
 	}
 
 }

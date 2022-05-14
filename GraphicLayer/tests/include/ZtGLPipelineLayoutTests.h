@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 
 #include "gtest/gtest.h"
 
@@ -18,7 +19,32 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		std::unique_ptr<PipelineLayout> pipeline = std::make_unique<PipelineLayout>();
+		Context context;
+		Instance instance;
+		Window window;
+		Surface surface;
+		PhysicalDevice physicalDevice;
+		Device device;
+		PipelineLayout pipelineLayout;
+
+		void SetUp() override
+		{
+			GLFW::InitGLFW();
+
+			window.create();
+			instance.createApplicationInfo();
+			instance.createInstanceCreateInfo();
+			instance.create(context);
+			surface.create(instance, window);
+			physicalDevice.create(instance);
+			device.create(physicalDevice, surface);
+			pipelineLayout.create(device);
+		}
+
+		void TearDown() override
+		{
+			GLFW::DeinitGLFW();
+		}
 
 	};
 
@@ -27,8 +53,10 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<PipelineLayout, VulkanObject<vk::raii::PipelineLayout>>);
 	}
 
-	TEST_F(PipelineLayoutTests, DefaultViewportTest)
+	TEST(PipelineLayout, DefaultViewport)
 	{
+		PipelineLayout pipelineLayout;
+
 		vk::Viewport expected;
 		expected.x = 0.0f;
 		expected.y = 0.0f;
@@ -37,154 +65,165 @@ namespace zt::gl::tests
 		expected.minDepth = 0.0f;
 		expected.maxDepth = 1.0f;
 
-		const vk::Viewport& actual = pipeline->getViewport();
+		const vk::Viewport& actual = pipelineLayout.getViewport();
 
 		ASSERT_EQ(expected, actual);
 	}
 
-	TEST_F(PipelineLayoutTests, DefaultScissorTest)
+	TEST(PipelineLayout, DefaultScissor)
 	{
+		PipelineLayout pipelineLayout;
+
 		vk::Rect2D expected;
 		expected.offset = vk::Offset2D{ 0, 0 };
 		expected.extent = vk::Extent2D{ 0, 0 };
 
-		const vk::Rect2D& actual = pipeline->getScissor();
+		const vk::Rect2D& actual = pipelineLayout.getScissor();
 
 		ASSERT_EQ(expected, actual);
 	}
 
-	TEST_F(PipelineLayoutTests, CreateShaderStageCreateInfoTest)
+	TEST(PipelineLayout, CreateShaderStageCreateInfo)
 	{
+		PipelineLayout pipelineLayout;
+
 		ShaderModule shaderModule;
-		vk::PipelineShaderStageCreateInfo createInfo = pipeline->createShaderStageCreateInfo(shaderModule);
+		vk::PipelineShaderStageCreateInfo createInfo = pipelineLayout.createShaderStageCreateInfo(shaderModule);
 
 		ASSERT_NE(createInfo, vk::PipelineShaderStageCreateInfo{});
 	}
 
-	TEST_F(PipelineLayoutTests, CreateVertexInputStateCreateInfoTest)
+	TEST(PipelineLayout, CreateVertexInputStateCreateInfo)
 	{
-		vk::PipelineVertexInputStateCreateInfo createInfo = pipeline->createVertexInputStateCreateInfo();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineVertexInputStateCreateInfo createInfo = pipelineLayout.createVertexInputStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineVertexInputStateCreateInfo{});
 	}
 	
-	TEST_F(PipelineLayoutTests, CreateInputAssemblyStateCreateInfoTest)
+	TEST(PipelineLayout, CreateInputAssemblyStateCreateInfo)
 	{
-		vk::PipelineInputAssemblyStateCreateInfo createInfo = pipeline->createInputAssemblyStateCreateInfo();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineInputAssemblyStateCreateInfo createInfo = pipelineLayout.createInputAssemblyStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineInputAssemblyStateCreateInfo{});
 	}
 
-	TEST_F(PipelineLayoutTests, SetViewportSizeTest)
+	TEST(PipelineLayout, SetViewportSize)
 	{
-		vk::Viewport expected = pipeline->getViewport();
+		PipelineLayout pipelineLayout;
+
+		vk::Viewport expected = pipelineLayout.getViewport();
 		expected.width = 200.f;
 		expected.height = 200.f;
 
-		pipeline->setViewportSize(expected.width, expected.height);
-		const vk::Viewport& actual = pipeline->getViewport();
+		pipelineLayout.setViewportSize(expected.width, expected.height);
+		const vk::Viewport& actual = pipelineLayout.getViewport();
 
 		ASSERT_EQ(expected, actual);
 	}
 	
-	TEST_F(PipelineLayoutTests, GetViewportTest)
-	{	
-		const vk::Viewport& actual = pipeline->getViewport();
+	TEST(PipelineLayout, GetViewport)
+	{
+		PipelineLayout pipelineLayout;
+		const vk::Viewport& actual = pipelineLayout.getViewport();
 	}
 
-	TEST_F(PipelineLayoutTests, GetScissorTest)
+	TEST(PipelineLayout, GetScissor)
 	{
-		const vk::Rect2D& scissor = pipeline->getScissor();
+		PipelineLayout pipelineLayout;
+		const vk::Rect2D& scissor = pipelineLayout.getScissor();
 	}
 
-	TEST_F(PipelineLayoutTests, SetScissorTest)
+	TEST(PipelineLayout, SetScissor)
 	{
+		PipelineLayout pipelineLayout;
+
 		vk::Rect2D expected;
 		expected.offset = vk::Offset2D{ 23, 566 };
 		expected.extent = vk::Extent2D{ 100, 200 };
-		pipeline->setScissor(expected);
+		pipelineLayout.setScissor(expected);
 
-		const vk::Rect2D& actual = pipeline->getScissor();
+		const vk::Rect2D& actual = pipelineLayout.getScissor();
 
 		ASSERT_EQ(expected, actual);
 	}
 
-	TEST_F(PipelineLayoutTests, CreateViewportStateCreateInfoTest)
+	TEST(PipelineLayout, CreateViewportStateCreateInfo)
 	{
-		vk::PipelineViewportStateCreateInfo createInfo = pipeline->createViewportStateCreateInfo();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineViewportStateCreateInfo createInfo = pipelineLayout.createViewportStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineViewportStateCreateInfo{});
 	}
 
-	TEST_F(PipelineLayoutTests, CreateRasterizationStateCreateInfoTest)
+	TEST(PipelineLayout, CreateRasterizationStateCreateInfo)
 	{
-		vk::PipelineRasterizationStateCreateInfo createInfo = pipeline->createRasterizationStateCreateInfo();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineRasterizationStateCreateInfo createInfo = pipelineLayout.createRasterizationStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineRasterizationStateCreateInfo{});
 	}
 
-	TEST_F(PipelineLayoutTests, CreateMultisampleStateCreateInfoTest)
+	TEST(PipelineLayout, CreateMultisampleStateCreateInfo)
 	{
-		vk::PipelineMultisampleStateCreateInfo createInfo = pipeline->createMultisampleStateCreateInfo();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineMultisampleStateCreateInfo createInfo = pipelineLayout.createMultisampleStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineMultisampleStateCreateInfo{});
 	}
 
-	TEST_F(PipelineLayoutTests, CreateColorBlendAttachmentStateTest)
+	TEST(PipelineLayout, CreateColorBlendAttachmentState)
 	{
-		vk::PipelineColorBlendAttachmentState createInfo = pipeline->createColorBlendAttachmentState();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineColorBlendAttachmentState createInfo = pipelineLayout.createColorBlendAttachmentState();
 
 		ASSERT_NE(createInfo, vk::PipelineColorBlendAttachmentState{});
 	}
 
-	TEST_F(PipelineLayoutTests, CreateColorBlendStateCreateInfoTest)
+	TEST(PipelineLayout, CreateColorBlendStateCreateInfo)
 	{
-		vk::PipelineColorBlendStateCreateInfo createInfo = pipeline->createColorBlendStateCreateInfo();
+		PipelineLayout pipelineLayout;
+
+		vk::PipelineColorBlendStateCreateInfo createInfo = pipelineLayout.createColorBlendStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineColorBlendStateCreateInfo{});
 	}
 
-	TEST_F(PipelineLayoutTests, CreatePipelineLayoutCreateInfoTest)
+	TEST(PipelineLayout, CreatePipelineLayoutCreateInfo)
 	{
-		vk::PipelineLayoutCreateInfo createInfo = pipeline->createPipelineLayoutCreateInfo();
+		PipelineLayout pipelineLayout;
 
-		ASSERT_EQ(createInfo, vk::PipelineLayoutCreateInfo{});
+		vk::PipelineLayoutCreateInfo createInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+
+		ASSERT_EQ(createInfo.setLayoutCount, 1);
+		ASSERT_EQ(createInfo.pSetLayouts, &(*pipelineLayout.getDescriptorSetLayout().getInternal()));
+		ASSERT_EQ(createInfo.pushConstantRangeCount, 0);
+		ASSERT_EQ(createInfo.pPushConstantRanges, nullptr);
 	}
 
-	TEST_F(PipelineLayoutTests, GetPipelineLayoutTest)
+	TEST(PipelineLayout, GetPipelineLayout)
 	{
-		vk::raii::PipelineLayout& pipelineLayout = pipeline->getInternal();
+		PipelineLayout pipelineLayout;
 
-		ASSERT_EQ(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });
+		ASSERT_EQ(*pipelineLayout.getInternal(), *vk::raii::PipelineLayout{ std::nullptr_t{} });
 	}
 
-	TEST_F(PipelineLayoutTests, CreatePipelineLayoutTest)
+	TEST(PipelineLayout, GetDescriptorSetLayout)
 	{
-		GLFW::InitGLFW();
+		PipelineLayout pipelineLayout;
+		const DescriptorSetLayout& descriptorSetLayout = pipelineLayout.getDescriptorSetLayout();
+	}
 
-		Context context;
-		Instance instance;
-		instance.createInstanceCreateInfo();
-		instance.create(context);
-
-		Window window;
-		window.create();
-
-		Surface surface;
-		surface.create(instance, window);
-
-		PhysicalDevice physicalDevice;
-		physicalDevice.create(instance);
-		Device device;
-		device.create(physicalDevice, surface);
-
-		pipeline->create(device);
-		vk::raii::PipelineLayout& pipelineLayout = pipeline->getInternal();
-
-		ASSERT_NE(*pipelineLayout, *vk::raii::PipelineLayout{ std::nullptr_t{} });
-
-		pipeline.reset();
-
-		GLFW::DeinitGLFW();
+	TEST_F(PipelineLayoutTests, CreatePipelineLayout)
+	{
+		ASSERT_NE(pipelineLayout.getDescriptorSetLayout().getDescriptorSetLayoutBinding(), vk::DescriptorSetLayoutBinding{});
+		ASSERT_NE(*pipelineLayout.getInternal(), *vk::raii::PipelineLayout{ std::nullptr_t{} });
 	}
 }

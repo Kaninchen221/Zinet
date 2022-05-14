@@ -5,7 +5,7 @@
 //#include "ZtObjectTests.h"
 
 //#include "ZtGLVertexTests.h"
-//#include "ZtGLVulkanObjectTests.h"
+#include "ZtGLVulkanObjectTests.h"
 //#include "ZtGLShaderTypeTests.h"
 //#include "ZtGLShaderTests.h"
 //#include "ZtGLShaderModuleTests.h"
@@ -22,7 +22,7 @@
 //#include "ZtGLSwapChainTests.h"
 //#include "ZtGLImageViewTests.h"
 //#include "ZtGLRenderPassTests.h"
-//#include "ZtGLPipelineLayoutTests.h"
+#include "ZtGLPipelineLayoutTests.h"
 //#include "ZtGLPipelineTests.h"
 //#include "ZtGLFramebufferTests.h"
 //#include "ZtGLCommandPoolTests.h"

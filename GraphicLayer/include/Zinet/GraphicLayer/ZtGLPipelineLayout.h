@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -56,6 +57,8 @@ namespace zt::gl
 
 		void create(Device& device);
 
+		const DescriptorSetLayout& getDescriptorSetLayout() const;
+
 	protected:
 
 		vk::Viewport viewport;
@@ -71,6 +74,7 @@ namespace zt::gl
 		vk::PipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
 		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
+		DescriptorSetLayout descriptorSetLayout;
 	};
 
 }
