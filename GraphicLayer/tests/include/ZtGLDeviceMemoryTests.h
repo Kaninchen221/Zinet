@@ -1,6 +1,14 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLUniformBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include "gtest/gtest.h"
 
@@ -19,9 +27,7 @@ namespace zt::gl::tests
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		Device device;
-		VertexBuffer vertexBuffer;
 		DeviceMemory deviceMemory;
-		std::vector<Vertex> vertices{ {}, {} };
 
 		void SetUp() override
 		{
@@ -34,15 +40,6 @@ namespace zt::gl::tests
 			surface.create(instance, window);
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
-
-			vertexBuffer.setSize(sizeof(Vertex) * vertices.size());
-			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
-			vertexBuffer.create(device, vertexBufferCreateInfo);
-
-			vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-			vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-			vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
-			deviceMemory.create(device, memoryAllocateInfo);
 		}
 
 		void TearDown() override
@@ -58,12 +55,33 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceMemoryTests, Create)
 	{
+		VertexBuffer vertexBuffer;
+		vertexBuffer.setSize(1);
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+		vertexBuffer.create(device, vertexBufferCreateInfo);
+
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		deviceMemory.create(device, memoryAllocateInfo);
+
 		ASSERT_NE(*deviceMemory.getInternal(), *vk::raii::DeviceMemory{ std::nullptr_t{} });
 	}
 
-	TEST_F(DeviceMemoryTests, FillWithData)
+	TEST_F(DeviceMemoryTests, FillWithDataContainer)
 	{
-		deviceMemory.fillWithData<std::vector<Vertex>>(vertices);
+		VertexBuffer vertexBuffer;
+		std::vector<Vertex> vertices{ {}, {} };
+		vertexBuffer.setSize(sizeof(Vertex) * vertices.size());
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+		vertexBuffer.create(device, vertexBufferCreateInfo);
+
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		deviceMemory.create(device, memoryAllocateInfo);
+
+		deviceMemory.fillWithSTDContainer<std::vector<Vertex>>(vertices);
 		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
 		std::pair<void*, std::uint64_t> data = deviceMemory.getData(expectedSize);
 
@@ -73,6 +91,38 @@ namespace zt::gl::tests
 
 		ASSERT_EQ(result, 0);
 
+		std::free(data.first);
+	}
+
+	TEST_F(DeviceMemoryTests, FillWithObject)
+	{
+		struct MVPFake
+		{
+			int i = 34;
+			float f = 456.342f;
+		};
+		MVPFake object;
+
+		UniformBuffer uniformBuffer;
+		uniformBuffer.setSize(sizeof(MVPFake));
+		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo();
+		uniformBuffer.create(device, uniformBufferCreateInfo);
+
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo memoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		deviceMemory.create(device, memoryAllocateInfo);
+
+		deviceMemory.fillWithObject<MVPFake>(object);
+		std::size_t expectedSize = sizeof(MVPFake);
+		std::pair<void*, std::uint64_t> data = deviceMemory.getData(expectedSize);
+		
+		ASSERT_EQ(data.second, expectedSize);
+		
+		int result = std::memcmp(data.first, &object, expectedSize);
+		
+		ASSERT_EQ(result, 0);
+		
 		std::free(data.first);
 	}
 }

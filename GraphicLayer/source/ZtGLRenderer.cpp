@@ -90,6 +90,7 @@ namespace zt::gl
 
         prepareVertexBuffer();
         prepareIndexBuffer();
+        prepareUniformBuffer();
     }
 
     void Renderer::run()
@@ -97,6 +98,7 @@ namespace zt::gl
         while (!window.shouldBeClosed())
         {
             glfwPollEvents();
+            updateMVP();
             drawFrame();
         }
     }
@@ -179,7 +181,7 @@ namespace zt::gl
         stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
 
         stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-        stagingBufferDeviceMemory.fillWithData(vertices);
+        stagingBufferDeviceMemory.fillWithSTDContainer(vertices);
 
         // Vertex Buffer
         vertexBuffer.setSize(verticesSize);
@@ -228,7 +230,7 @@ namespace zt::gl
         stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
 
         stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-        stagingBufferDeviceMemory.fillWithData(indices);
+        stagingBufferDeviceMemory.fillWithSTDContainer(indices);
 
         // IndexBuffer
         indexBuffer.setSize(size);
@@ -242,7 +244,7 @@ namespace zt::gl
 
         indexBuffer.bindMemory(indexBufferDeviceMemory);
 
-        // Copy Staging Buffer to Vertex Buffer
+        // Copy Staging Buffer to Index Buffer
         CommandBuffer transferCommandBuffer;
         vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
         transferCommandBuffer.allocateCommandBuffer(device, commandPool);
@@ -255,6 +257,23 @@ namespace zt::gl
 
         queue.submit(submitInfo);
         queue->waitIdle();
+    }
+
+    void Renderer::prepareUniformBuffer()
+    {
+        std::uint64_t size = sizeof(MVP);
+        uniformBuffer.setSize(size);
+        vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo();
+        uniformBuffer.create(device, uniformBufferCreateInfo);
+
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags uniformBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+        vk::MemoryAllocateInfo uniformBufferMemoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, uniformBufferMemoryPropertyFlags);
+
+        uniformBufferDeviceMemory.create(device, uniformBufferMemoryAllocateInfo);
+
+        uniformBuffer.bindMemory(uniformBufferDeviceMemory);
+        uniformBufferDeviceMemory.fillWithObject(mvp);
     }
 
     void Renderer::drawFrame()
@@ -317,6 +336,17 @@ namespace zt::gl
             image);
 
         queue.present(presentInfo);
+    }
+
+    void Renderer::updateMVP()
+    {
+        float time = glfwGetTime();
+        mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        mvp.proj = glm::perspective(glm::radians(45.0f), swapExtent.width / (float)swapExtent.height, 0.1f, 10.0f);
+        mvp.proj[1][1] *= -1;
+
+        uniformBufferDeviceMemory.fillWithObject(mvp);
     }
 
     Renderer::~Renderer() noexcept

@@ -153,6 +153,7 @@ namespace zt::gl
 	void PipelineLayout::create(Device& device)
 	{
 		// TODO: Probably we should in PipelineLayout the Descriptors Set Layouts store as container and create them outside
+		// TODO: Add possibility to have more than one uniform
 		descriptorSetLayout.createDescriptorSetLayoutBinding();
 		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
 		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);

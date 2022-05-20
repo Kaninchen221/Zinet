@@ -25,14 +25,27 @@
 #include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLIndexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLUniformBuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 #include <filesystem>
 
+//#include "glm/mat4x4.hpp"
+#include "glm/glm.hpp"
+#include "glm/trigonometric.hpp"
+#include "glm/matrix.hpp"
+#include "glm/gtx/transform.hpp"
+
 namespace zt::gl
 {
-	//static_assert(false, "Refactor this");
+	struct ZINET_GRAPHIC_LAYER_API MVP
+	{
+		glm::mat4 model;
+		glm::mat4 view;
+		glm::mat4 proj;
+	};
+
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -79,11 +92,14 @@ namespace zt::gl
 		void prepareShaders();
 		void prepareVertexBuffer();
 		void prepareIndexBuffer();
+		void prepareUniformBuffer();
 
 		void drawFrame();
 
 		void submit();
 		void present(uint32_t image);
+
+		void updateMVP();
 
 		Instance instance;
 
@@ -148,6 +164,11 @@ namespace zt::gl
 		std::vector<std::uint16_t> indices;
 		IndexBuffer indexBuffer;
 		DeviceMemory indexBufferDeviceMemory;
+
+		UniformBuffer uniformBuffer;
+		DeviceMemory uniformBufferDeviceMemory;
+
+		MVP mvp;
 	};
 
 }

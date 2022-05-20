@@ -37,7 +37,8 @@
 //#include "ZtGLSubmitInfoTests.h"
 //#include "ZtGLIndexBufferTests.h"
 //#include "ZtGLDescriptorSetLayoutTests.h"
-#include "ZtGLUniformBufferTests.h"
+//#include "ZtGLUniformBufferTests.h"
+#include "ZtGLDescriptorPoolTests.h"
 
 //#include "ZtGLRendererTests.h"
 

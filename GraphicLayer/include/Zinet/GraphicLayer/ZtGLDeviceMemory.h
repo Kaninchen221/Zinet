@@ -28,20 +28,35 @@ namespace zt::gl
 		void create(Device& device, const vk::MemoryAllocateInfo& memoryAllocateInfo);
 
 		template<typename Data>
-		void fillWithData(const Data& data);
+		void fillWithSTDContainer(const Data& data);
+
+		template<typename Object>
+		void fillWithObject(const Object& object);
 
 		std::pair<void*, std::uint64_t> getData(vk::DeviceSize size) const;
 
 	};
 
 	template<typename Data>
-	inline void DeviceMemory::fillWithData(const Data& data)
+	inline void DeviceMemory::fillWithSTDContainer(const Data& data)
 	{
 		vk::DeviceSize offset = 0u;
 		vk::DeviceSize size = sizeof(Data::value_type) * data.size();
 		void* memory = internal.mapMemory(offset, size);
 
 		std::memcpy(memory, data.data(), size);
+
+		internal.unmapMemory();
+	}
+
+	template<typename Object>
+	inline void DeviceMemory::fillWithObject(const Object& object)
+	{
+		vk::DeviceSize offset = 0u;
+		vk::DeviceSize size = sizeof(Object);
+		void* memory = internal.mapMemory(offset, size);
+
+		std::memcpy(memory, &object, size);
 
 		internal.unmapMemory();
 	}
