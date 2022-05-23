@@ -21,6 +21,7 @@ namespace zt::gl
         createInfo.poolSizeCount = 1u;
         createInfo.pPoolSizes = &poolSize;
         createInfo.maxSets = 1u;
+        createInfo.flags = vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet;
 
         return createInfo;
     }

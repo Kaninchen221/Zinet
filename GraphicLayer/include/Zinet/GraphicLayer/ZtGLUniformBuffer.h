@@ -22,6 +22,7 @@ namespace zt::gl
 
 		vk::BufferCreateInfo createCreateInfo() const override;
 
+		vk::DescriptorBufferInfo createDescriptorBufferInfo();
 	};
 
 }

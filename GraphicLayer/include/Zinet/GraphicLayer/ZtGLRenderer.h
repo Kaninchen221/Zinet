@@ -26,6 +26,9 @@
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLIndexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLUniformBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -41,6 +44,7 @@ namespace zt::gl
 {
 	struct ZINET_GRAPHIC_LAYER_API MVP
 	{
+		glm::vec2 useless;
 		glm::mat4 model;
 		glm::mat4 view;
 		glm::mat4 proj;
@@ -169,6 +173,10 @@ namespace zt::gl
 		DeviceMemory uniformBufferDeviceMemory;
 
 		MVP mvp;
+
+		DescriptorPool descriptorPool;
+
+		std::optional<DescriptorSets> descriptorSets;
 	};
 
 }

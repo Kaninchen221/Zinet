@@ -7,6 +7,7 @@ layout(location = 2) in vec2 inTexCoords;
 layout(location = 0) out vec4 fragColor;
 
 layout(binding = 0) uniform MVP {
+	vec2 useless;
     mat4 model;
     mat4 view;
     mat4 proj;

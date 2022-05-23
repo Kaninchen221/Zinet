@@ -83,6 +83,7 @@ namespace zt::gl::tests
 		const vk::DescriptorPoolSize& expectedPoolSize = descriptorPool.getPoolSize();
 		ASSERT_EQ(createInfo.pPoolSizes, &expectedPoolSize);
 		ASSERT_EQ(createInfo.maxSets, 1u);
+		ASSERT_EQ(createInfo.flags, vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet);
 	}
 
 	TEST_F(DescriptorPoolTests, Create)

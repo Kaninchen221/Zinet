@@ -10,3 +10,7 @@
 
 // Needed for future compability
 #define ZINET_GRAPHIC_LAYER_API ZINET_CORE_API
+
+// GLM
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES

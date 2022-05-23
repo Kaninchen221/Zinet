@@ -64,6 +64,15 @@ namespace zt::gl::tests
 		ASSERT_EQ(uniformBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}
 
+	TEST_F(UniformBufferTests, CreateDescriptorBufferInfo)
+	{
+		vk::DescriptorBufferInfo info = uniformBuffer.createDescriptorBufferInfo();
+
+		ASSERT_EQ(info.buffer, *uniformBuffer.getInternal());
+		ASSERT_EQ(info.offset, 0);
+		ASSERT_EQ(info.range, uniformBuffer.getSize());
+	}
+
 	TEST_F(UniformBufferTests, CreateTest)
 	{
 		ASSERT_NE(*uniformBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });

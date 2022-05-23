@@ -91,6 +91,18 @@ namespace zt::gl
         prepareVertexBuffer();
         prepareIndexBuffer();
         prepareUniformBuffer();
+
+        descriptorPool.createPoolSize();
+        vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo();
+        descriptorPool.create(device, descriptorPoolCreateInfo);
+
+        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = pipelineLayout.getDescriptorSetLayout().createAllocateInfo(descriptorPool);
+
+        descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
+        vk::DescriptorBufferInfo descriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
+        vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, descriptorBufferInfo);
+
+        device->updateDescriptorSets(writeDescriptorSet, {});
     }
 
     void Renderer::run()
@@ -298,7 +310,10 @@ namespace zt::gl
         commandBuffer.bindPipeline(pipeline);
         vk::ArrayProxy<const vk::Buffer> vertexBuffers{ *vertexBuffer.getInternal() };
         commandBuffer->bindVertexBuffers(0u, vertexBuffers, vk::DeviceSize{ 0 });
-        commandBuffer->bindIndexBuffer(*indexBuffer.getInternal(), 0, vk::IndexType::eUint16);
+        commandBuffer->bindIndexBuffer(*indexBuffer.getInternal(), 0, vk::IndexType::eUint16); // TODO create simple function
+
+        commandBuffer->bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout.getInternal(), 0, *(*descriptorSets)[0], {}); // TODO create simple function
+
         commandBuffer->drawIndexed(indices.size(), 1, 0, 0, 0);
         commandBuffer.endRenderPass();
         commandBuffer.end();

@@ -89,7 +89,7 @@ namespace zt::gl
 		rasterizationStateCreateInfo.polygonMode = vk::PolygonMode::eFill;
 		rasterizationStateCreateInfo.lineWidth = 1.0f;
 		rasterizationStateCreateInfo.cullMode = vk::CullModeFlagBits::eBack;
-		rasterizationStateCreateInfo.frontFace = vk::FrontFace::eClockwise;
+		rasterizationStateCreateInfo.frontFace = vk::FrontFace::eCounterClockwise;
 		rasterizationStateCreateInfo.depthBiasEnable = VK_FALSE;
 		rasterizationStateCreateInfo.depthBiasConstantFactor = 0.0f;
 		rasterizationStateCreateInfo.depthBiasClamp = 0.0f;

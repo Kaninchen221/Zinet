@@ -1,5 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 
 namespace zt::gl
 {
@@ -24,6 +25,16 @@ namespace zt::gl
         descriptorSetLayoutCreateInfo.pBindings = &descriptorSetLayoutBinding;
 
         return descriptorSetLayoutCreateInfo;
+    }
+
+    vk::DescriptorSetAllocateInfo DescriptorSetLayout::createAllocateInfo(const DescriptorPool& descriptorPool) const
+    {
+        vk::DescriptorSetAllocateInfo allocateInfo;
+        allocateInfo.descriptorPool = *descriptorPool.getInternal();
+        allocateInfo.descriptorSetCount = 1u;
+        allocateInfo.pSetLayouts = &*internal;
+
+        return allocateInfo;
     }
 
     void DescriptorSetLayout::create(Device& device, const vk::DescriptorSetLayoutCreateInfo& createInfo)
