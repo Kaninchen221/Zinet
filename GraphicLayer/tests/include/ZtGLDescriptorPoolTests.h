@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 
 #include "gtest/gtest.h"
 
@@ -38,8 +39,8 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			descriptorPool.createPoolSize();
-			vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo();
+			vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
+			vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo(poolSize);
 			descriptorPool.create(device, createInfo);
 		}
 
@@ -57,33 +58,35 @@ namespace zt::gl::tests
 	TEST(DescriptorPool, CreatePoolSize)
 	{
 		DescriptorPool descriptorPool;
-		const vk::DescriptorPoolSize& actualPoolSize = descriptorPool.createPoolSize();
+		vk::DescriptorPoolSize actualPoolSize = descriptorPool.createPoolSize();
 
 		ASSERT_EQ(actualPoolSize.descriptorCount, 1u);
-
-		const vk::DescriptorPoolSize& expectedPoolSize = descriptorPool.getPoolSize();
-		ASSERT_EQ(&actualPoolSize, &expectedPoolSize);
-	}
-
-	TEST(DescriptorPool, GetPoolSize)
-	{
-		DescriptorPool descriptorPool;
-		const vk::DescriptorPoolSize& poolSize = descriptorPool.getPoolSize();
-
-		ASSERT_EQ(poolSize, vk::DescriptorPoolSize{});
 	}
 
 	TEST(DescriptorPool, CreateCreateInfo)
 	{
 		DescriptorPool descriptorPool;
-		vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo();
+		vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
+		vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo(poolSize);
 
 		ASSERT_EQ(createInfo.poolSizeCount, 1u);
-
-		const vk::DescriptorPoolSize& expectedPoolSize = descriptorPool.getPoolSize();
-		ASSERT_EQ(createInfo.pPoolSizes, &expectedPoolSize);
+		ASSERT_EQ(createInfo.pPoolSizes, &poolSize);
 		ASSERT_EQ(createInfo.maxSets, 1u);
 		ASSERT_EQ(createInfo.flags, vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet);
+	}
+
+	TEST_F(DescriptorPoolTests, CreateAllocateInfo)
+	{
+		DescriptorSetLayout descriptorSetLayout;
+		descriptorSetLayout.createDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
+		descriptorSetLayout.create(device, createInfo);
+
+		vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);
+
+		ASSERT_EQ(allocateInfo.descriptorPool, *descriptorPool.getInternal());
+		ASSERT_EQ(allocateInfo.descriptorSetCount, 1u);
+		ASSERT_EQ(allocateInfo.pSetLayouts, &*descriptorSetLayout.getInternal());
 	}
 
 	TEST_F(DescriptorPoolTests, Create)

@@ -42,15 +42,15 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			descriptorPool.createPoolSize();
-			vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo();
+			vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
+			vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSize);
 			descriptorPool.create(device, descriptorPoolCreateInfo);
 
 			descriptorSetLayout.createDescriptorSetLayoutBinding();
 			vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
 			descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
 
-			vk::DescriptorSetAllocateInfo allocateInfo = descriptorSetLayout.createAllocateInfo(descriptorPool);
+			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);
 			descriptorSets = DescriptorSets{ device, allocateInfo };
 		}
 

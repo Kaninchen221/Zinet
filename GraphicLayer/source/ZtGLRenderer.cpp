@@ -92,11 +92,11 @@ namespace zt::gl
         prepareIndexBuffer();
         prepareUniformBuffer();
 
-        descriptorPool.createPoolSize();
-        vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo();
+        vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
+        vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSize);
         descriptorPool.create(device, descriptorPoolCreateInfo);
 
-        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = pipelineLayout.getDescriptorSetLayout().createAllocateInfo(descriptorPool);
+        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout());
 
         descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
         vk::DescriptorBufferInfo descriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();

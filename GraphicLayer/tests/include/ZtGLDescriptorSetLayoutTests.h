@@ -82,20 +82,6 @@ namespace zt::gl::tests
 		ASSERT_EQ(createInfo.pBindings, &descriptorSetLayoutBinding);
 	}
 
-	TEST_F(DescriptorSetLayoutTests, CreateAllocateInfo)
-	{
-		DescriptorPool descriptorPool;
-		descriptorPool.createPoolSize();
-		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo();
-		descriptorPool.create(device, descriptorPoolCreateInfo);
-
-		vk::DescriptorSetAllocateInfo allocateInfo = descriptorSetLayout.createAllocateInfo(descriptorPool);
-
-		ASSERT_EQ(allocateInfo.descriptorPool, *descriptorPool.getInternal());
-		ASSERT_EQ(allocateInfo.descriptorSetCount, 1u);
-		ASSERT_EQ(allocateInfo.pSetLayouts, &*descriptorSetLayout.getInternal());
-	}
-
 	TEST_F(DescriptorSetLayoutTests, Create)
 	{
 		descriptorSetLayout.createDescriptorSetLayoutBinding();

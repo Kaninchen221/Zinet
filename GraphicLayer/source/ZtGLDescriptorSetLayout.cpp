@@ -27,16 +27,6 @@ namespace zt::gl
         return descriptorSetLayoutCreateInfo;
     }
 
-    vk::DescriptorSetAllocateInfo DescriptorSetLayout::createAllocateInfo(const DescriptorPool& descriptorPool) const
-    {
-        vk::DescriptorSetAllocateInfo allocateInfo;
-        allocateInfo.descriptorPool = *descriptorPool.getInternal();
-        allocateInfo.descriptorSetCount = 1u;
-        allocateInfo.pSetLayouts = &*internal;
-
-        return allocateInfo;
-    }
-
     void DescriptorSetLayout::create(Device& device, const vk::DescriptorSetLayoutCreateInfo& createInfo)
     {
         internal = std::move(vk::raii::DescriptorSetLayout{ device.getInternal(), createInfo });

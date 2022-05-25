@@ -6,6 +6,7 @@
 namespace zt::gl
 {
 	class Device;
+	class DescriptorSetLayout;
 
 	class ZINET_GRAPHIC_LAYER_API DescriptorPool : public VulkanObject<vk::raii::DescriptorPool>
 	{
@@ -21,17 +22,13 @@ namespace zt::gl
 
 		~DescriptorPool() noexcept = default;
 
-		const vk::DescriptorPoolSize& createPoolSize();
+		vk::DescriptorPoolSize createPoolSize();
 
-		const vk::DescriptorPoolSize& getPoolSize() const;
+		vk::DescriptorPoolCreateInfo createCreateInfo(const vk::DescriptorPoolSize& poolSize) const;
 
-		vk::DescriptorPoolCreateInfo createCreateInfo() const;
+		vk::DescriptorSetAllocateInfo createDescriptorSetAllocateInfo(const DescriptorSetLayout& descriptorSetLayout) const;
 
 		void create(Device& device, const vk::DescriptorPoolCreateInfo& createInfo);
-
-	protected:
-
-		vk::DescriptorPoolSize poolSize{};
 
 	};
 

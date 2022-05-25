@@ -28,13 +28,11 @@ namespace zt::gl
 
 		vk::DescriptorSetLayoutCreateInfo createDescriptorSetLayoutCreateInfo();
 
-		vk::DescriptorSetAllocateInfo createAllocateInfo(const DescriptorPool& descriptorPool) const; // TODO move it to DescriptorSet or DescriptorSets
-
 		void create(Device& device, const vk::DescriptorSetLayoutCreateInfo& createInfo);
 
 	protected:
 
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding;
+		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding; // TODO move it as param in create info function
 
 	};
 
