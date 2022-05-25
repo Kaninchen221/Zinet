@@ -11,7 +11,7 @@ namespace zt::gl
 	class ShaderModule;
 	class Device;
 
-	// TODO Probably the create... functions should return only a value
+	// TODO Probably the "create[...]" functions should return only a value
 	class ZINET_GRAPHIC_LAYER_API PipelineLayout : public VulkanObject<vk::raii::PipelineLayout>
 	{
 

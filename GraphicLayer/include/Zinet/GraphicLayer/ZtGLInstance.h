@@ -41,6 +41,7 @@ namespace zt::gl
 
 		static const std::vector<const char*>& GetValidationLayers();
 
+		// TODO Make non static function
 		static bool CheckValidationLayerSupport();
 
 		std::vector<const char*> getRequiredExtensions();

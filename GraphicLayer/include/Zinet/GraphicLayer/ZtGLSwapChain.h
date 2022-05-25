@@ -32,6 +32,7 @@ namespace zt::gl
 
 		~SwapChain() noexcept = default;
 
+		// TODO Instead of the params pass one createInfo
 		void create(
 			Device& device,
 			const SwapChainSupportDetails& swapChainSupportDetails,
@@ -39,6 +40,7 @@ namespace zt::gl
 			Window& window
 		);
 
+		// TODO Rename to createCreateInfo
 		vk::SwapchainCreateInfoKHR createSwapChainCreateInfo(
 			const SwapChainSupportDetails& swapChainSupportDetails,
 			Surface& surface,
