@@ -9,6 +9,7 @@ namespace zt::gl
 
 	class Window;
 
+	// TODO Review that class
 	class ZINET_GRAPHIC_LAYER_API Event
 	{
 

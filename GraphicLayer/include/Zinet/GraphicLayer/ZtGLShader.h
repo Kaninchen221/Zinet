@@ -46,6 +46,8 @@ namespace zt::gl
 		
 		const std::vector<uint32_t>& getCompiled() const;
 
+		// TODO Add free function than will clear the compiled container
+
 	protected:
 
 		ShaderType type = ShaderType::Invalid;

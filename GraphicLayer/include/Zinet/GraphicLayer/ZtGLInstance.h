@@ -27,9 +27,11 @@ namespace zt::gl
 
 		~Instance() noexcept = default;
 
+		// TODO Perhaps create this as one function
 		void createApplicationInfo();
 		const vk::ApplicationInfo& getApplicationInfo() const;
 
+		// TODO Perhaps create this as one function
 		void createInstanceCreateInfo();
 		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
 
@@ -53,6 +55,7 @@ namespace zt::gl
 
 		std::vector<const char*> extensions;
 
+		// TODO Move this as return value of function GetValidationLayers
 		inline static const std::vector<const char*> ValidationLayers =
 		{
 			"VK_LAYER_KHRONOS_validation"

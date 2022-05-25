@@ -8,6 +8,7 @@
 namespace zt::gl
 {
 
+	// TODO Remove that class
 	class ZINET_GRAPHIC_LAYER_API Texture : public Object
 	{
 

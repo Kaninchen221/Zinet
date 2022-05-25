@@ -42,6 +42,7 @@ namespace zt::gl
 
 	protected:
 
+		// TODO Pass the create info as param in createDeviceCreateInfo
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
 
 		float queuePriority = 1.0f;

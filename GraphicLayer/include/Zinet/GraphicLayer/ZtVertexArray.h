@@ -6,6 +6,7 @@
 namespace zt::gl
 {
 
+	// TODO Remove that class
 	class ZINET_GRAPHIC_LAYER_API VertexArray : public Object
 	{
 

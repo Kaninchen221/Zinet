@@ -22,6 +22,7 @@ namespace zt::gl
 
 		const InternalType& getInternal() const;
 
+		// TODO Add const version
 		InternalType* operator->();
 
 	protected:

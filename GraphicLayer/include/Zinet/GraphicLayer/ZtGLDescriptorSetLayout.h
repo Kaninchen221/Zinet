@@ -22,8 +22,8 @@ namespace zt::gl
 
 		~DescriptorSetLayout() noexcept = default;
 
+		// TODO create should return DescriptorSetLayoutBinding
 		void createDescriptorSetLayoutBinding();
-
 		const vk::DescriptorSetLayoutBinding& getDescriptorSetLayoutBinding() const;
 
 		vk::DescriptorSetLayoutCreateInfo createDescriptorSetLayoutCreateInfo();

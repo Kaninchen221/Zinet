@@ -33,11 +33,11 @@ namespace zt::gl
 		uint32_t pickQueueFamilyIndex(Surface& surface);
 
 		vk::PhysicalDeviceFeatures createFeatures() const;
-
 		const vk::PhysicalDeviceFeatures& getFeatures() const;
 
 		bool create(Instance& instance);
 
+		// TODO Convert it to non static function
 		static const std::vector<const char*>& GetPhysicalDeviceExtensions();
 
 		bool isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
@@ -45,9 +45,11 @@ namespace zt::gl
 		SwapChainSupportDetails getSwapChainSupportDetails(Surface& surface);
 
 	protected:
-
+		
+		// TODO Return it as value in createFeatures
 		vk::PhysicalDeviceFeatures features;
 
+		// TODO Return it as value in GetPhysicalDeviceExtensions
 		inline static const std::vector<const char*> PhysicalDeviceExtensions =
 		{
 			VK_KHR_SWAPCHAIN_EXTENSION_NAME

@@ -29,6 +29,7 @@ namespace zt::gl
 
 		~Framebuffer() noexcept = default;
 
+		// TODO Rename to createCreateInfo
 		vk::FramebufferCreateInfo createFramebufferCreateInfo(
 			ImageView& imageView,
 			RenderPass& renderPass,

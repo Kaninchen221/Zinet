@@ -9,6 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
+	// TODO Make the "create[...]" functions return a value and remove the properties from protected section
 	class ZINET_GRAPHIC_LAYER_API RenderPass : public VulkanObject<vk::raii::RenderPass>
 	{
 
