@@ -133,7 +133,7 @@ namespace zt::gl
 
 		Context context;
 
-		// TODO
+		// TODO but perhaps for late when we will creating final Renderer
 		// Create something like draw(const RenderInfo& renderInfo)
 		// RenderInfo.shaderStages
 		// RenderInfo.vertices
