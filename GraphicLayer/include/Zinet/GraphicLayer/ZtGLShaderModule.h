@@ -20,8 +20,7 @@ namespace zt::gl
 
 	public:
 
-		// TODO Remove the definition and mark as default
-		ShaderModule();
+		ShaderModule() = default;
 		ShaderModule(const ShaderModule& other) = default;
 		ShaderModule(ShaderModule&& other) = default;
 
@@ -30,7 +29,6 @@ namespace zt::gl
 
 		~ShaderModule() noexcept = default;
 
-		// TODO Move it to Shader class
 		vk::ShaderModuleCreateInfo createShaderModuleCreateInfo(const Shader& shader) const;
 
 		// TODO Replace the shader param with ShaderModuleCreateInfo

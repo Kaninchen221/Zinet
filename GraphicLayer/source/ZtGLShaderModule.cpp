@@ -5,9 +5,6 @@
 
 namespace zt::gl
 {
-	ShaderModule::ShaderModule()
-	{}
-
 	vk::ShaderModuleCreateInfo ShaderModule::createShaderModuleCreateInfo(const Shader& shader) const
 	{
 		vk::ShaderModuleCreateInfo createInfo;
