@@ -27,8 +27,7 @@ namespace zt::gl
 
 	public:
 
-		// TODO Remove definition and mark as default
-		Queue();
+		Queue() = default;
 		Queue(const Queue& other) = default;
 		Queue(Queue&& other) = default;
 

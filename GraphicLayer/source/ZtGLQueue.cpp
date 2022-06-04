@@ -36,10 +36,6 @@ namespace zt::gl
         return submitInfo;
     }
 
-    Queue::Queue()
-    {
-    }
-
     void Queue::submit(SubmitInfo submitInfo, Fence& fence)
     {
         internal.submit(submitInfo, *fence.getInternal());
