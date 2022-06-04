@@ -106,16 +106,16 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualOffset, expectedOffset);
 	}
 
-	TEST_F(VertexTests, GetInputBindingDescription)
+	TEST_F(VertexTests, CreateInputBindingDescription)
 	{
-		vk::VertexInputBindingDescription vertexInputBindingDescription = Vertex::GetInputBindingDescription();
+		vk::VertexInputBindingDescription vertexInputBindingDescription = Vertex::CreateInputBindingDescription();
 
 		ASSERT_NE(vertexInputBindingDescription, vk::VertexInputBindingDescription{});
 	}
 
-	TEST_F(VertexTests, GetPositionInputAttributeDescription)
+	TEST_F(VertexTests, CreatePositionInputAttributeDescription)
 	{
-		vk::VertexInputAttributeDescription description = Vertex::GetPositionInputAttributeDescription();
+		vk::VertexInputAttributeDescription description = Vertex::CreatePositionInputAttributeDescription();
 
 		ASSERT_EQ(description.binding, 0);
 		ASSERT_EQ(description.location, 0);
@@ -123,9 +123,9 @@ namespace zt::gl::tests
 		ASSERT_EQ(description.offset, 0);
 	}
 
-	TEST_F(VertexTests, GetColorInputAttributeDescription)
+	TEST_F(VertexTests, CreateColorInputAttributeDescription)
 	{
-		vk::VertexInputAttributeDescription description = Vertex::GetColorInputAttributeDescription();
+		vk::VertexInputAttributeDescription description = Vertex::CreateColorInputAttributeDescription();
 
 		ASSERT_EQ(description.binding, 0);
 		ASSERT_EQ(description.location, 1);
@@ -133,9 +133,9 @@ namespace zt::gl::tests
 		ASSERT_EQ(description.offset, sizeof(glm::vec3));
 	}
 
-	TEST_F(VertexTests, GetTextureCoordinatesInputAttributeDescription)
+	TEST_F(VertexTests, CreateTextureCoordinatesInputAttributeDescription)
 	{
-		vk::VertexInputAttributeDescription description = Vertex::GetTextureCoordinatesInputAttributeDescription();
+		vk::VertexInputAttributeDescription description = Vertex::CreateTextureCoordinatesInputAttributeDescription();
 
 		ASSERT_EQ(description.binding, 0);
 		ASSERT_EQ(description.location, 2);

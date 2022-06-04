@@ -65,7 +65,7 @@ namespace zt::gl
 		return sizeof(decltype(position)) + sizeof(decltype(color));
 	}
 
-	vk::VertexInputBindingDescription Vertex::GetInputBindingDescription()
+	vk::VertexInputBindingDescription Vertex::CreateInputBindingDescription()
 	{
 		vk::VertexInputBindingDescription vertexInputBindingDescription{};
 		vertexInputBindingDescription.binding = 0;
@@ -75,7 +75,7 @@ namespace zt::gl
 		return vertexInputBindingDescription;
 	}
 
-	vk::VertexInputAttributeDescription Vertex::GetPositionInputAttributeDescription()
+	vk::VertexInputAttributeDescription Vertex::CreatePositionInputAttributeDescription()
 	{
 		vk::VertexInputAttributeDescription positionInputAttributeDescription;
 		positionInputAttributeDescription.binding = 0;
@@ -86,7 +86,7 @@ namespace zt::gl
 		return positionInputAttributeDescription;
 	}
 
-	vk::VertexInputAttributeDescription Vertex::GetColorInputAttributeDescription()
+	vk::VertexInputAttributeDescription Vertex::CreateColorInputAttributeDescription()
 	{
 		vk::VertexInputAttributeDescription colorInputAttributeDescription;
 		colorInputAttributeDescription.binding = 0;
@@ -97,7 +97,7 @@ namespace zt::gl
 		return colorInputAttributeDescription;
 	}
 
-	vk::VertexInputAttributeDescription Vertex::GetTextureCoordinatesInputAttributeDescription()
+	vk::VertexInputAttributeDescription Vertex::CreateTextureCoordinatesInputAttributeDescription()
 	{
 		vk::VertexInputAttributeDescription textureCoordinatesInputAttributeDescription;
 		textureCoordinatesInputAttributeDescription.binding = 0;

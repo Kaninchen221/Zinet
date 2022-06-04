@@ -29,11 +29,11 @@ namespace zt::gl
 
 	vk::PipelineVertexInputStateCreateInfo& PipelineLayout::createVertexInputStateCreateInfo()
 	{
-		vertexInputBindingDescription = Vertex::GetInputBindingDescription();
+		vertexInputBindingDescription = Vertex::CreateInputBindingDescription();
 
-		vertexInputAttributeDescriptions.push_back(Vertex::GetPositionInputAttributeDescription());
-		vertexInputAttributeDescriptions.push_back(Vertex::GetColorInputAttributeDescription());
-		vertexInputAttributeDescriptions.push_back(Vertex::GetTextureCoordinatesInputAttributeDescription());
+		vertexInputAttributeDescriptions.push_back(Vertex::CreatePositionInputAttributeDescription());
+		vertexInputAttributeDescriptions.push_back(Vertex::CreateColorInputAttributeDescription());
+		vertexInputAttributeDescriptions.push_back(Vertex::CreateTextureCoordinatesInputAttributeDescription());
 
 		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
 		vertexInputStateCreateInfo.pVertexBindingDescriptions = &vertexInputBindingDescription;

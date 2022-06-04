@@ -44,17 +44,13 @@ namespace zt::gl
 
 		static std::size_t GetOffsetToTextureCoordinates();
 
-		// TODO Rename to createInputBindingDescription
-		static vk::VertexInputBindingDescription GetInputBindingDescription();
+		static vk::VertexInputBindingDescription CreateInputBindingDescription();
 
-		// TODO Rename to createPositionInputAttributeDescription
-		static vk::VertexInputAttributeDescription GetPositionInputAttributeDescription();
+		static vk::VertexInputAttributeDescription CreatePositionInputAttributeDescription();
 
-		// TODO Rename to createColorInputAttributeDescription
-		static vk::VertexInputAttributeDescription GetColorInputAttributeDescription();
+		static vk::VertexInputAttributeDescription CreateColorInputAttributeDescription();
 
-		// TODO Rename to createTextureCoordinatesInputAttributeDescription
-		static vk::VertexInputAttributeDescription GetTextureCoordinatesInputAttributeDescription();
+		static vk::VertexInputAttributeDescription CreateTextureCoordinatesInputAttributeDescription();
 
 	protected:
 
