@@ -61,7 +61,7 @@ namespace zt::gl::tests
 
 	TEST_F(ShaderModuleTests, CreateTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Context context;
 		Instance instance;
@@ -89,7 +89,7 @@ namespace zt::gl::tests
 
 		shaderModule->create(*device, shader);
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 
 		shaderModule.reset();
 		device.reset();

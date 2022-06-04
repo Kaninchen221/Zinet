@@ -30,7 +30,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::InitGLFW();
+			GLFW::Init();
 
 			instance.createApplicationInfo();
 			instance.createInstanceCreateInfo();
@@ -60,7 +60,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::DeinitGLFW();
+			GLFW::Deinit();
 		}
 	};
 

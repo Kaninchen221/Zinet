@@ -26,11 +26,9 @@ namespace zt::gl
 
 		~GLFW() noexcept = default;
 
-		// TODO Rename to Init
-		static bool InitGLFW();
+		static bool Init();
 
-		// TODO Rename to Deinit
-		static void DeinitGLFW();
+		static void Deinit();
 
 	};
 

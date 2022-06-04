@@ -24,7 +24,7 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainSupportDetailsTests, PickFormatTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Window window;
 		window.create();
@@ -46,12 +46,12 @@ namespace zt::gl::tests
 
 		ASSERT_NE(format, vk::SurfaceFormatKHR());
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 
 	TEST_F(SwapChainSupportDetailsTests, PickPresentModeTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Window window;
 		window.create();
@@ -73,12 +73,12 @@ namespace zt::gl::tests
 
 		ASSERT_NE(presentMode, vk::PresentModeKHR());
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 
 	TEST_F(SwapChainSupportDetailsTests, PickSwapExtentTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Window window;
 		window.create();
@@ -99,6 +99,6 @@ namespace zt::gl::tests
 		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 		ASSERT_NE(swapExtent, vk::Extent2D());
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 }

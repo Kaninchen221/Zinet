@@ -2,7 +2,7 @@
 
 namespace zt::gl
 {
-    bool GLFW::InitGLFW()
+    bool GLFW::Init()
     {
         if (glfwInit())
         {
@@ -22,7 +22,7 @@ namespace zt::gl
         return false;
     }
 
-    void GLFW::DeinitGLFW()
+    void GLFW::Deinit()
     {
         glfwTerminate();
     }

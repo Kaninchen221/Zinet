@@ -16,12 +16,12 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::InitGLFW();
+			GLFW::Init();
 		}
 
 		void TearDown() override
 		{
-			GLFW::DeinitGLFW();
+			GLFW::Deinit();
 		}
 	};
 

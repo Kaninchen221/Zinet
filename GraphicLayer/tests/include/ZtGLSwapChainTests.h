@@ -28,7 +28,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::InitGLFW();
+			GLFW::Init();
 
 			window.create();
 			instance.createApplicationInfo();
@@ -46,7 +46,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::DeinitGLFW();
+			GLFW::Deinit();
 		}
 	};
 

@@ -58,7 +58,7 @@ namespace zt::gl::tests
 
 	TEST_F(RenderPassTests, CreateTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Context context;
 		Instance instance;
@@ -91,6 +91,6 @@ namespace zt::gl::tests
 
 		renderPass.reset();
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 }

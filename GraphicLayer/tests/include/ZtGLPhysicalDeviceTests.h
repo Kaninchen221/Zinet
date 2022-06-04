@@ -44,7 +44,7 @@ namespace zt::gl::tests
 
 	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Window window;
 		window.create();
@@ -78,7 +78,7 @@ namespace zt::gl::tests
 
 	TEST_F(PhysicalDeviceTests, GetSwaptChainSupportDetailsTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Window window;
 		window.create();
@@ -99,7 +99,7 @@ namespace zt::gl::tests
 		ASSERT_FALSE(swapChainSupportDetails.surfaceFormats.empty());
 		ASSERT_FALSE(swapChainSupportDetails.presentModes.empty());
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 
 }

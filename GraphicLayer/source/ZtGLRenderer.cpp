@@ -7,7 +7,7 @@ namespace zt::gl
 {
     void Renderer::prepare()
     {
-        GLFW::InitGLFW();
+        GLFW::Init();
 
         instance.createApplicationInfo();
         instance.createInstanceCreateInfo();
@@ -369,7 +369,7 @@ namespace zt::gl
         framebuffers.clear();
         imageViews.clear();
 
-        GLFW::DeinitGLFW();
+        GLFW::Deinit();
     }
 
     Context& Renderer::getContext()

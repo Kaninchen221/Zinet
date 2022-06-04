@@ -44,7 +44,7 @@ namespace zt::gl::tests
 
 	TEST_F(ImageViewTests, CreateImageTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Window window;
 		window.create();
@@ -79,6 +79,6 @@ namespace zt::gl::tests
 		imageView.reset();
 		swapChain.reset();
 		
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 }

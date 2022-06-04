@@ -21,7 +21,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::InitGLFW();
+			GLFW::Init();
 		
 			instance.createInstanceCreateInfo();
 			instance.create(context);
@@ -36,7 +36,7 @@ namespace zt::gl::tests
 		
 		void TearDown() override
 		{
-			GLFW::DeinitGLFW();
+			GLFW::Deinit();
 		}
 	};
 

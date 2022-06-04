@@ -39,7 +39,7 @@ namespace zt::gl::tests
 
 	TEST_F(FramebufferTests, CreateTest)
 	{
-		GLFW::InitGLFW();
+		GLFW::Init();
 
 		Context context;
 		Instance instance;
@@ -90,7 +90,7 @@ namespace zt::gl::tests
 		framebuffer.reset();
 		swapChain.reset();
 
-		GLFW::DeinitGLFW();
+		GLFW::Deinit();
 	}
 
 }
