@@ -40,8 +40,7 @@ namespace zt::gl
 			Window& window
 		);
 
-		// TODO Rename to createCreateInfo
-		vk::SwapchainCreateInfoKHR createSwapChainCreateInfo(
+		vk::SwapchainCreateInfoKHR createCreateInfo(
 			const SwapChainSupportDetails& swapChainSupportDetails,
 			Surface& surface,
 			Window& window

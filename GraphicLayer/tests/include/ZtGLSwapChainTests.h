@@ -63,7 +63,7 @@ namespace zt::gl::tests
 		SwapChainSupportDetails swapChainSupportDetails;
 		Window window;
 
-		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createSwapChainCreateInfo(swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
 
 		ASSERT_NE(creatInfo, vk::SwapchainCreateInfoKHR());
 	}

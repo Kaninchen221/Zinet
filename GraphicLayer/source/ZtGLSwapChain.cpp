@@ -20,11 +20,11 @@ namespace zt::gl
 		Window& window
 	)
 	{
-		vk::SwapchainCreateInfoKHR swapChainCreateInfo = createSwapChainCreateInfo(swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR swapChainCreateInfo = createCreateInfo(swapChainSupportDetails, surface, window);
 		internal = std::move(vk::raii::SwapchainKHR(device.getInternal(), swapChainCreateInfo));
 	}
 
-	vk::SwapchainCreateInfoKHR SwapChain::createSwapChainCreateInfo(
+	vk::SwapchainCreateInfoKHR SwapChain::createCreateInfo(
 		const SwapChainSupportDetails& swapChainSupportDetails,
 		Surface& surface,
 		Window& window
