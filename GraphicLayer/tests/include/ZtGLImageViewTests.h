@@ -63,7 +63,9 @@ namespace zt::gl::tests
 		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 
 		Device device;
-		device.create(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device.create(physicalDevice, deviceCreateInfo);
 
 		std::unique_ptr<SwapChain> swapChain = std::make_unique<SwapChain>();
 		swapChain->create(device, swapChainSupportDetails, surface, window);

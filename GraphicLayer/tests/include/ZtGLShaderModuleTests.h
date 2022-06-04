@@ -78,7 +78,9 @@ namespace zt::gl::tests
 		physicalDevice.create(instance);
 
 		std::unique_ptr<Device> device = std::make_unique<Device>();
-		device->create(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device->createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device->createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device->create(physicalDevice, deviceCreateInfo);
 
 		Shader shader;
 		shader.loadFromCString(cStringVertexShaderSource);

@@ -37,7 +37,11 @@ namespace zt::gl::tests
 			instance.create(context);
 			surface.create(instance, window);
 			physicalDevice.create(instance);
-			device.create(physicalDevice, surface);
+
+			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+			device.create(physicalDevice, deviceCreateInfo);
+
 			pipelineLayout.create(device);
 		}
 

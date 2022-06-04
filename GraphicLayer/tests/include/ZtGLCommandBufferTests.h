@@ -48,14 +48,13 @@ namespace zt::gl::tests
 
 			instance.createInstanceCreateInfo();
 			instance.create(context);
-
 			window.create();
-
 			surface.create(instance, window);
-
 			physicalDevice.create(instance);
 
-			device.create(physicalDevice, surface);
+			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+			device.create(physicalDevice, deviceCreateInfo);
 
 			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 			commandPool.create(device, queueFamilyIndex);
@@ -204,8 +203,7 @@ namespace zt::gl::tests
 		StagingBuffer sourceBuffer;
 		DeviceMemory sourceBufferDeviceMemory;
 
-		sourceBuffer.setSize(sizeof(Vertex) * vertices.size());
-		vk::BufferCreateInfo sourceBufferCreateInfo = sourceBuffer.createCreateInfo();
+		vk::BufferCreateInfo sourceBufferCreateInfo = sourceBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
 		sourceBuffer.create(device, sourceBufferCreateInfo);
 
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
@@ -216,14 +214,13 @@ namespace zt::gl::tests
 
 		sourceBuffer.bindMemory(sourceBufferDeviceMemory);
 
-		sourceBufferDeviceMemory.fillWithData(vertices);
+		sourceBufferDeviceMemory.fillWithSTDContainer(vertices);
 		
 		// Vertex Buffer 
 		VertexBuffer destinationBuffer;
 		DeviceMemory destinationBufferDeviceMemory;
 
-		destinationBuffer.setSize(sizeof(Vertex) * vertices.size());
-		vk::BufferCreateInfo destinationBufferCreateInfo = destinationBuffer.createCreateInfo();
+		vk::BufferCreateInfo destinationBufferCreateInfo = destinationBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
 		destinationBuffer.create(device, destinationBufferCreateInfo);
 
 		vk::MemoryPropertyFlags destinationBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eDeviceLocal;

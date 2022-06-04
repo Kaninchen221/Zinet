@@ -40,15 +40,18 @@ namespace zt::gl::tests
 			instance.create(context);
 			surface.create(instance, window);
 			physicalDevice.create(instance);
-			device.create(physicalDevice, surface);
+
+			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+			device.create(physicalDevice, deviceCreateInfo);
 
 			vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
 			vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSize);
 			descriptorPool.create(device, descriptorPoolCreateInfo);
 
-			descriptorSetLayout.createDescriptorSetLayoutBinding();
-			vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
-			descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
+			vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
+			vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
+			descriptorSetLayout.create(device, createInfo);
 
 			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);
 			descriptorSets = DescriptorSets{ device, allocateInfo };

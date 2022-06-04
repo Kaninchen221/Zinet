@@ -49,7 +49,9 @@ namespace zt::gl::tests
 				FAIL() << "Can't create physical device";
 			}
 
-			device.create(physicalDevice, surface);
+			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+			device.create(physicalDevice, deviceCreateInfo);
 
 			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 			//vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);

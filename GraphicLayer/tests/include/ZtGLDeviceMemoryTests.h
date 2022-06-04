@@ -39,7 +39,10 @@ namespace zt::gl::tests
 			instance.create(context);
 			surface.create(instance, window);
 			physicalDevice.create(instance);
-			device.create(physicalDevice, surface);
+
+			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+			device.create(physicalDevice, deviceCreateInfo);
 		}
 
 		void TearDown() override
@@ -56,8 +59,7 @@ namespace zt::gl::tests
 	TEST_F(DeviceMemoryTests, Create)
 	{
 		VertexBuffer vertexBuffer;
-		vertexBuffer.setSize(1);
-		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 		vertexBuffer.create(device, vertexBufferCreateInfo);
 
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
@@ -72,8 +74,7 @@ namespace zt::gl::tests
 	{
 		VertexBuffer vertexBuffer;
 		std::vector<Vertex> vertices{ {}, {} };
-		vertexBuffer.setSize(sizeof(Vertex) * vertices.size());
-		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
 		vertexBuffer.create(device, vertexBufferCreateInfo);
 
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
@@ -104,8 +105,7 @@ namespace zt::gl::tests
 		MVPFake object;
 
 		UniformBuffer uniformBuffer;
-		uniformBuffer.setSize(sizeof(MVPFake));
-		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo();
+		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVPFake));
 		uniformBuffer.create(device, uniformBufferCreateInfo);
 
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include "gtest/gtest.h"
 
@@ -20,13 +23,13 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<Framebuffer, VulkanObject<vk::raii::Framebuffer>>);
 	}
 
-	TEST_F(FramebufferTests, CreateFramebufferCreateInfoTest)
+	TEST_F(FramebufferTests, CreateCreateInfoTest)
 	{
 		ImageView imageView;
 		RenderPass renderPass;
 		vk::Extent2D swapChainExtent;
 
-		vk::FramebufferCreateInfo createInfo = framebuffer->createFramebufferCreateInfo(
+		vk::FramebufferCreateInfo createInfo = framebuffer->createCreateInfo(
 			imageView,
 			renderPass,
 			swapChainExtent);
@@ -58,7 +61,9 @@ namespace zt::gl::tests
 		vk::SurfaceFormatKHR surfaceFormat = swapChainSupportDetails.pickFormat();
 
 		Device device;
-		device.create(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device.create(physicalDevice, deviceCreateInfo);
 
 		RenderPass renderPass;
 		renderPass.createAttachmentDescription(surfaceFormat.format);
