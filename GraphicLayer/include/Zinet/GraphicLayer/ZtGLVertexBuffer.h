@@ -20,7 +20,7 @@ namespace zt::gl
 
 		~VertexBuffer() noexcept = default;
 
-		vk::BufferCreateInfo createCreateInfo() const override;
+		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
 
 	};
 

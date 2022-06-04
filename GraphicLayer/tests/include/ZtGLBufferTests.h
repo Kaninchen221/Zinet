@@ -10,6 +10,7 @@
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
 
 namespace zt::gl::tests
 {
@@ -21,7 +22,7 @@ namespace zt::gl::tests
 		struct BufferTest : public Buffer
 		{
 
-			vk::BufferCreateInfo createCreateInfo() const override 
+			vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override
 			{ 
 				vk::BufferCreateInfo createInfo;
 				createInfo.usage = vk::BufferUsageFlagBits::eTransferSrc;
@@ -37,6 +38,8 @@ namespace zt::gl::tests
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		Device device;
+		std::uint64_t expectedSize = 1u;
+		vk::BufferCreateInfo createInfo;
 		BufferTest bufferTest;
 
 		void SetUp() override
@@ -51,7 +54,7 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			vk::BufferCreateInfo createInfo = bufferTest.createCreateInfo();
+			createInfo = bufferTest.createCreateInfo(expectedSize);
 			bufferTest.create(device, createInfo);
 		}
 
@@ -66,19 +69,9 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<Buffer, VulkanObject<vk::raii::Buffer>>);
 	}
 
-	TEST(Buffer, CanNotBeConstructed)
+	TEST(Buffer, IsAbstract)
 	{
 		static_assert(std::is_abstract<Buffer>::value);
-	}
-
-	TEST(Buffer, SetSize)
-	{
-		StagingBuffer stagingBuffer;
-		std::uint64_t expectedSize = 8u;
-		stagingBuffer.setSize(expectedSize);
-
-		std::uint64_t actualSize = stagingBuffer.getSize();
-		ASSERT_EQ(expectedSize, actualSize);
 	}
 
 	TEST(Buffer, GetSize)
@@ -92,6 +85,9 @@ namespace zt::gl::tests
 	TEST_F(BufferTests, Create)
 	{
 		ASSERT_NE(*bufferTest.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
+
+		std::uint64_t actualSize = bufferTest.getSize();
+		ASSERT_EQ(actualSize, expectedSize);
 	}
 
 	TEST_F(BufferTests, GetMemoryRequirements)

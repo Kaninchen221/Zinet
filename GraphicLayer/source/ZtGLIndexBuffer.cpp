@@ -3,7 +3,7 @@
 namespace zt::gl
 {
 
-	vk::BufferCreateInfo IndexBuffer::createCreateInfo() const
+	vk::BufferCreateInfo IndexBuffer::createCreateInfo(std::uint64_t size) const
 	{
 		vk::BufferCreateInfo bufferCreateInfo;
 		bufferCreateInfo.size = size;

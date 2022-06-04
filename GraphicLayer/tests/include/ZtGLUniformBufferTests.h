@@ -38,8 +38,7 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			uniformBuffer.setSize(1u);
-			vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo();
+			vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(1u);
 			uniformBuffer.create(device, uniformBufferCreateInfo);
 		}
 
@@ -57,10 +56,11 @@ namespace zt::gl::tests
 	TEST(UniformBuffer, CreateCreateInfo)
 	{
 		UniformBuffer uniformBuffer;
-		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo();
+		std::uint64_t expectedSize = 1u;
+		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(expectedSize);
 
 		ASSERT_EQ(uniformBufferCreateInfo.usage, vk::BufferUsageFlagBits::eUniformBuffer);
-		ASSERT_EQ(uniformBufferCreateInfo.size, uniformBuffer.getSize());
+		ASSERT_EQ(uniformBufferCreateInfo.size, expectedSize);
 		ASSERT_EQ(uniformBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}
 

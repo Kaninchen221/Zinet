@@ -40,8 +40,7 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			stagingBuffer.setSize(8u);
-			vk::BufferCreateInfo createInfo = stagingBuffer.createCreateInfo();
+			vk::BufferCreateInfo createInfo = stagingBuffer.createCreateInfo(8u);
 			stagingBuffer.create(device, createInfo);
 		}
 
@@ -60,8 +59,7 @@ namespace zt::gl::tests
 	{
 		StagingBuffer stagingBuffer;
 		std::uint64_t expectedSize = 60u;
-		stagingBuffer.setSize(expectedSize);
-		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
+		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(expectedSize);
 
 		ASSERT_EQ(stagingBufferCreateInfo.usage, vk::BufferUsageFlagBits::eTransferSrc);
 		ASSERT_EQ(stagingBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);

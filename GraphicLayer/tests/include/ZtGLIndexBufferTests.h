@@ -40,8 +40,7 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			indexBuffer.setSize(1u);
-			vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo();
+			vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo(1u);
 			indexBuffer.create(device, indexBufferCreateInfo);
 		}
 
@@ -56,11 +55,13 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<IndexBuffer, Buffer>);
 	}
 
-	TEST_F(IndexBufferTests, CreateCreateInfo)
+	TEST(IndexBuffer, CreateCreateInfo)
 	{
-		vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo();
+		IndexBuffer indexBuffer;
+		std::uint64_t expectedSize = 1u;
+		vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo(expectedSize);
 
-		ASSERT_NE(indexBufferCreateInfo.size, 0u);
+		ASSERT_EQ(indexBufferCreateInfo.size, expectedSize);
 		ASSERT_EQ(indexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eIndexBuffer | vk::BufferUsageFlagBits::eTransferDst);
 		ASSERT_EQ(indexBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}

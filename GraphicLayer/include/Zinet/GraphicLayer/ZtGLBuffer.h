@@ -28,7 +28,7 @@ namespace zt::gl
 
 		~Buffer() noexcept = default;
 
-		virtual vk::BufferCreateInfo createCreateInfo() const = 0;
+		virtual vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const = 0;
 
 		void create(Device& device, const vk::BufferCreateInfo& createInfo);
 
@@ -41,8 +41,6 @@ namespace zt::gl
 			const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
 
 		void bindMemory(DeviceMemory& deviceMemory);
-
-		void setSize(std::uint64_t size);
 
 		std::uint64_t getSize() const;
 

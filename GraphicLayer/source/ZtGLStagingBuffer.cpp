@@ -2,7 +2,7 @@
 
 namespace zt::gl
 {
-	vk::BufferCreateInfo StagingBuffer::createCreateInfo() const
+	vk::BufferCreateInfo StagingBuffer::createCreateInfo(std::uint64_t size) const
 	{
 		vk::BufferCreateInfo bufferCreateInfo;
 		bufferCreateInfo.size = size;

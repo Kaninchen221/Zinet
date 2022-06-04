@@ -40,8 +40,7 @@ namespace zt::gl::tests
 			physicalDevice.create(instance);
 			device.create(physicalDevice, surface);
 
-			vertexBuffer.setSize(1u);
-			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 			vertexBuffer.create(device, vertexBufferCreateInfo);
 		}
 
@@ -59,9 +58,11 @@ namespace zt::gl::tests
 	TEST(VertexBuffer, CreateCreateInfo)
 	{
 		VertexBuffer vertexBuffer;
-		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+		std::uint64_t expectedSize = 1u;
+		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(expectedSize);
 
 		ASSERT_EQ(vertexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eVertexBuffer | vk::BufferUsageFlagBits::eTransferDst);
+		ASSERT_EQ(vertexBufferCreateInfo.size, expectedSize);
 		ASSERT_EQ(vertexBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}
 

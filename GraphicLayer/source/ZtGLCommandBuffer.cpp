@@ -85,8 +85,6 @@ namespace zt::gl
 
 		internal.copyBuffer(*sourceBuffer.getInternal(), *destinationBuffer.getInternal(), bufferCopy);
 
-		destinationBuffer.setSize(sourceBuffer.getSize());
-
 		end();
 	}
 

@@ -181,8 +181,7 @@ namespace zt::gl
         // Staging Buffer
         StagingBuffer stagingBuffer;
         std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
-        stagingBuffer.setSize(verticesSize);
-        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
+        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(verticesSize);
         stagingBuffer.create(device, stagingBufferCreateInfo);
 
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
@@ -196,8 +195,7 @@ namespace zt::gl
         stagingBufferDeviceMemory.fillWithSTDContainer(vertices);
 
         // Vertex Buffer
-        vertexBuffer.setSize(verticesSize);
-        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo();
+        vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(verticesSize);
         vertexBuffer.create(device, vertexBufferCreateInfo);
 
         vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
@@ -230,8 +228,7 @@ namespace zt::gl
         // Staging Buffer
         StagingBuffer stagingBuffer;
         std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
-        stagingBuffer.setSize(size);
-        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo();
+        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(size);
         stagingBuffer.create(device, stagingBufferCreateInfo);
 
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
@@ -245,8 +242,7 @@ namespace zt::gl
         stagingBufferDeviceMemory.fillWithSTDContainer(indices);
 
         // IndexBuffer
-        indexBuffer.setSize(size);
-        vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo();
+        vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo(size);
         indexBuffer.create(device, indexBufferCreateInfo);
 
         vk::MemoryPropertyFlags indexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
@@ -274,8 +270,7 @@ namespace zt::gl
     void Renderer::prepareUniformBuffer()
     {
         std::uint64_t size = sizeof(MVP);
-        uniformBuffer.setSize(size);
-        vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo();
+        vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(size);
         uniformBuffer.create(device, uniformBufferCreateInfo);
 
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();

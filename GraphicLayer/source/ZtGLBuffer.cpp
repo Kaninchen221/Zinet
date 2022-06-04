@@ -7,6 +7,7 @@ namespace zt::gl
 	void Buffer::create(Device& device, const vk::BufferCreateInfo& createInfo)
 	{
 		internal = vk::raii::Buffer{ device.getInternal(), createInfo };
+		size = createInfo.size;
 	}
 
 	uint32_t Buffer::findSuitableMemoryType(
@@ -42,11 +43,6 @@ namespace zt::gl
 	{
 		vk::DeviceSize offset = 0;
 		internal.bindMemory(*deviceMemory.getInternal(), offset);
-	}
-
-	void Buffer::setSize(std::uint64_t size)
-	{
-		this->size = size;
 	}
 
 	std::uint64_t Buffer::getSize() const
