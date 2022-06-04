@@ -37,7 +37,7 @@ namespace zt::gl::tests
 	{
 		vk::Image image;
 		vk::Format format;
-		vk::ImageViewCreateInfo imageViewCreateInfo = imageView->createImageViewCreateInfo(image, format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView->createCreateInfo(image, format);
 
 		ASSERT_NE(imageViewCreateInfo, vk::ImageViewCreateInfo());
 	}

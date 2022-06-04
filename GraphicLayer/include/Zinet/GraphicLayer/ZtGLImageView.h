@@ -27,8 +27,7 @@ namespace zt::gl
 
 		~ImageView() noexcept = default;
 
-		// TODO Rename to createCreateInfo
-		vk::ImageViewCreateInfo createImageViewCreateInfo(vk::Image image, const vk::Format& format) const;
+		vk::ImageViewCreateInfo createCreateInfo(vk::Image image, const vk::Format& format) const;
 
 		void create(Device& device, vk::Image image, const vk::Format& format);
 

@@ -9,7 +9,7 @@ namespace zt::gl
 
 	}
 
-	vk::ImageViewCreateInfo ImageView::createImageViewCreateInfo(vk::Image image, const vk::Format& format) const
+	vk::ImageViewCreateInfo ImageView::createCreateInfo(vk::Image image, const vk::Format& format) const
 	{
 		vk::ImageViewCreateInfo imageViewCreateInfo;
 		imageViewCreateInfo.image = image; 
@@ -30,7 +30,7 @@ namespace zt::gl
 
 	void ImageView::create(Device& device, vk::Image image, const vk::Format& format)
 	{
-		vk::ImageViewCreateInfo imageViewCreateInfo = createImageViewCreateInfo(image, format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = createCreateInfo(image, format);
 		internal = std::move(vk::raii::ImageView(device.getInternal(), imageViewCreateInfo));
 	}
 }
