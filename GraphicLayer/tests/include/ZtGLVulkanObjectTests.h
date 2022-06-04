@@ -30,11 +30,12 @@ namespace zt::gl::tests
 
 	TEST_F(VulkanObjectTests, GetInternalConst)
 	{
-		[](const TestClass& testObject) {
+		[](const TestClass& testObject) 
+		{
 			const vk::raii::Instance& internal = testObject.getInternal();
-
 			ASSERT_EQ(*internal, *vk::raii::Instance{ std::nullptr_t{} });
-		}(testObject);
+		}
+		(testObject);
 	}
 
 	TEST_F(VulkanObjectTests, ArrowOperator)
@@ -42,5 +43,15 @@ namespace zt::gl::tests
 		vk::raii::Instance* internal = testObject.operator->();
 
 		ASSERT_NE(internal, nullptr);
+	}
+
+	TEST_F(VulkanObjectTests, ArrowOperatorConst)
+	{
+		[](const TestClass& testObject) 
+		{
+			const vk::raii::Instance* internal = testObject.operator->();
+			ASSERT_NE(internal, nullptr);
+		}
+		(testObject);
 	}
 }

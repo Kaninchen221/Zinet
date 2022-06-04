@@ -22,8 +22,9 @@ namespace zt::gl
 
 		const InternalType& getInternal() const;
 
-		// TODO Add const version
 		InternalType* operator->();
+
+		const InternalType* operator->() const;
 
 	protected:
 
@@ -45,6 +46,12 @@ namespace zt::gl
 
 	template<class InternalType>
 	inline InternalType* VulkanObject<InternalType>::operator->()
+	{
+		return &internal;
+	}
+
+	template<class InternalType>
+	inline const InternalType* VulkanObject<InternalType>::operator->() const
 	{
 		return &internal;
 	}
