@@ -32,18 +32,15 @@ namespace zt::gl
 
 		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface);
 
-		vk::DeviceCreateInfo createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface);
+		vk::DeviceCreateInfo createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface, vk::DeviceQueueCreateInfo& deviceQueueCreateInfo);
 
-		void create(PhysicalDevice& physicalDevice, Surface& surface);
+		void create(PhysicalDevice& physicalDevice, vk::DeviceCreateInfo& deviceCreateInfo);
 
 		vk::Result waitForFence(Fence& fence, uint64_t timeout = UINT64_MAX) const;
 
 		void resetFence(Fence& fence) const;
 
 	protected:
-
-		// TODO Pass the create info as param in createDeviceCreateInfo
-		vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
 
 		float queuePriority = 1.0f;
 

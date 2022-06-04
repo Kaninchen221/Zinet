@@ -4,6 +4,10 @@
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLFence.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include "gtest/gtest.h"
 
@@ -53,14 +57,17 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceTests, CreateDeviceCreateInfo)
 	{
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 
 		ASSERT_NE(deviceCreateInfo, vk::DeviceCreateInfo());
 	}
 
 	TEST_F(DeviceTests, CreateDevice)
 	{
-		device.create(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device.create(physicalDevice, deviceCreateInfo);
 		vk::raii::Device& internal = device.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::Device(std::nullptr_t()));
@@ -68,7 +75,9 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceTests, WaitForFence)
 	{
-		device.create(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device.create(physicalDevice, deviceCreateInfo);
 
 		Fence fence;
 		fence.createSignaled(device);
@@ -79,7 +88,9 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceTests, ResetFence)
 	{
-		device.create(physicalDevice, surface);
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device.create(physicalDevice, deviceCreateInfo);
 
 		Fence fence;
 		fence.createSignaled(device);

@@ -12,6 +12,7 @@ namespace zt::gl
 
     vk::DeviceQueueCreateInfo Device::createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface)
     {
+        vk::DeviceQueueCreateInfo deviceQueueCreateInfo;
         deviceQueueCreateInfo.sType = vk::StructureType::eDeviceQueueCreateInfo;
         deviceQueueCreateInfo.queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
         deviceQueueCreateInfo.queueCount = 1;
@@ -20,7 +21,7 @@ namespace zt::gl
         return deviceQueueCreateInfo;
     }
 
-    vk::DeviceCreateInfo Device::createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface)
+    vk::DeviceCreateInfo Device::createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface, vk::DeviceQueueCreateInfo& deviceQueueCreateInfo)
     {
         createDeviceQueueCreateInfo(physicalDevice, surface);
 
@@ -45,9 +46,8 @@ namespace zt::gl
         return deviceCreateInfo;
     }
 
-    void Device::create(PhysicalDevice& physicalDevice, Surface& surface)
+    void Device::create(PhysicalDevice& physicalDevice, vk::DeviceCreateInfo& deviceCreateInfo)
     {
-        vk::DeviceCreateInfo deviceCreateInfo = createDeviceCreateInfo(physicalDevice, surface);
         internal = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
     }
 
