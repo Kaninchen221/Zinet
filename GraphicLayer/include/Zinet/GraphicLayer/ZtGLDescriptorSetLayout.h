@@ -22,17 +22,11 @@ namespace zt::gl
 
 		~DescriptorSetLayout() noexcept = default;
 
-		// TODO create should return DescriptorSetLayoutBinding
-		void createDescriptorSetLayoutBinding();
-		const vk::DescriptorSetLayoutBinding& getDescriptorSetLayoutBinding() const;
+		vk::DescriptorSetLayoutBinding createDescriptorSetLayoutBinding();
 
-		vk::DescriptorSetLayoutCreateInfo createDescriptorSetLayoutCreateInfo();
+		vk::DescriptorSetLayoutCreateInfo createDescriptorSetLayoutCreateInfo(const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding);
 
 		void create(Device& device, const vk::DescriptorSetLayoutCreateInfo& createInfo);
-
-	protected:
-
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding; // TODO move it as param in create info function
 
 	};
 

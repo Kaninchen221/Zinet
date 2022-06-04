@@ -223,7 +223,6 @@ namespace zt::gl::tests
 
 	TEST_F(PipelineLayoutTests, CreatePipelineLayout)
 	{
-		ASSERT_NE(pipelineLayout.getDescriptorSetLayout().getDescriptorSetLayoutBinding(), vk::DescriptorSetLayoutBinding{});
 		ASSERT_NE(*pipelineLayout.getInternal(), *vk::raii::PipelineLayout{ std::nullptr_t{} });
 	}
 }

@@ -4,21 +4,19 @@
 
 namespace zt::gl
 {
-    void DescriptorSetLayout::createDescriptorSetLayoutBinding()
+    vk::DescriptorSetLayoutBinding DescriptorSetLayout::createDescriptorSetLayoutBinding()
     {
+        vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding;
         descriptorSetLayoutBinding.binding = 0;
         descriptorSetLayoutBinding.descriptorType = vk::DescriptorType::eUniformBuffer;
         descriptorSetLayoutBinding.descriptorCount = 1;
         descriptorSetLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eVertex;
         descriptorSetLayoutBinding.pImmutableSamplers = nullptr;
-    }
 
-    const vk::DescriptorSetLayoutBinding& DescriptorSetLayout::getDescriptorSetLayoutBinding() const
-    {
         return descriptorSetLayoutBinding;
     }
 
-    vk::DescriptorSetLayoutCreateInfo DescriptorSetLayout::createDescriptorSetLayoutCreateInfo()
+    vk::DescriptorSetLayoutCreateInfo DescriptorSetLayout::createDescriptorSetLayoutCreateInfo(const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding)
     {
         vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo;
         descriptorSetLayoutCreateInfo.bindingCount = 1;

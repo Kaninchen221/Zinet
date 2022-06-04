@@ -52,8 +52,7 @@ namespace zt::gl::tests
 	TEST(DescriptorSetLayout, CreateDescriptorSetLayoutBinding)
 	{
 		DescriptorSetLayout descriptorSetLayout;
-		descriptorSetLayout.createDescriptorSetLayoutBinding();
-		const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding = descriptorSetLayout.getDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
 
 		ASSERT_EQ(descriptorSetLayoutBinding.binding, 0);
 		ASSERT_EQ(descriptorSetLayoutBinding.descriptorType, vk::DescriptorType::eUniformBuffer);
@@ -63,20 +62,11 @@ namespace zt::gl::tests
 
 	}
 
-	TEST(DescriptorSetLayout, GetDescriptorSetLayoutBinding)
-	{
-		DescriptorSetLayout descriptorSetLayout;
-		const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding = descriptorSetLayout.getDescriptorSetLayoutBinding();
-
-		ASSERT_EQ(descriptorSetLayoutBinding, vk::DescriptorSetLayoutBinding{});
-	}
-
 	TEST(DescriptorSetLayout, CreateDescriptorSetLayoutCreateInfo)
 	{
 		DescriptorSetLayout descriptorSetLayout;
-		descriptorSetLayout.createDescriptorSetLayoutBinding();
-		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
-		const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding = descriptorSetLayout.getDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
 
 		ASSERT_EQ(createInfo.bindingCount, 1);
 		ASSERT_EQ(createInfo.pBindings, &descriptorSetLayoutBinding);
@@ -84,8 +74,8 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetLayoutTests, Create)
 	{
-		descriptorSetLayout.createDescriptorSetLayoutBinding();
-		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo();
+		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
 		descriptorSetLayout.create(device, createInfo);
 
 		ASSERT_NE(*descriptorSetLayout.getInternal(), *vk::raii::DescriptorSetLayout{ std::nullptr_t{} });
