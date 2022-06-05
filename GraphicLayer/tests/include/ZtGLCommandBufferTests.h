@@ -46,8 +46,10 @@ namespace zt::gl::tests
 		{
 			GLFW::Init();
 
-			instance.createInstanceCreateInfo();
-			instance.create(context);
+			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+			instance.getRequiredExtensions();
+			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+			instance.create(context, instanceCreateInfo);
 			window.create();
 			surface.create(instance, window);
 			physicalDevice.create(instance);

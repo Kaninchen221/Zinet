@@ -23,14 +23,16 @@ namespace zt::gl::tests
 	TEST_F(InstanceTests, EnumeratePhysicalDevices)
 	{
 		Context context;
-		instance.create(context);
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		instance.getRequiredExtensions();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
 		vk::raii::PhysicalDevices physicalDevices = instance.enumeratePhysicalDevices();
 	}
 
 	TEST_F(InstanceTests, ApplicationInfoTest)
 	{
-		instance.createApplicationInfo();
-		vk::ApplicationInfo applicationInfo = instance.getApplicationInfo();
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
 		vk::ApplicationInfo notExpected{};
 
 		ASSERT_NE(applicationInfo, notExpected);
@@ -38,8 +40,8 @@ namespace zt::gl::tests
 
 	TEST_F(InstanceTests, InstanceCreateInfoTest)
 	{
-		instance.createInstanceCreateInfo();
-		const vk::InstanceCreateInfo& instanceCreateInfo = instance.getInstanceCreateInfo();
+		vk::ApplicationInfo&& applicationInfo = instance.createApplicationInfo();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 
 		ASSERT_NE(instanceCreateInfo, vk::InstanceCreateInfo());
 	}
@@ -47,7 +49,9 @@ namespace zt::gl::tests
 	TEST_F(InstanceTests, CreateInstanceTest)
 	{
 		Context context;
-		instance.create(context);
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
 		const vk::raii::Instance& internalInstance = instance.getInternal();
 
 		ASSERT_NE(*internalInstance, vk::Instance());
@@ -69,7 +73,7 @@ namespace zt::gl::tests
 
 	TEST_F(InstanceTests, GetRequiredExtensionsTest)
 	{
-		std::vector<const char*> requiredExtensions = instance.getRequiredExtensions();
+		std::vector<const char*>& requiredExtensions = instance.getRequiredExtensions();
 
 		ASSERT_FALSE(requiredExtensions.empty());
 	}

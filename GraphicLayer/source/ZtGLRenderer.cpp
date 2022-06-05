@@ -9,9 +9,10 @@ namespace zt::gl
     {
         GLFW::Init();
 
-        instance.createApplicationInfo();
-        instance.createInstanceCreateInfo();
-        instance.create(context);
+        vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+        instance.getRequiredExtensions();
+        vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+        instance.create(context, instanceCreateInfo);
 
         debugUtilsMessenger.create(instance);
 

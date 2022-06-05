@@ -2,33 +2,24 @@
 
 namespace zt::gl
 {
-    Instance::Instance()
+    vk::ApplicationInfo Instance::createApplicationInfo() const
     {
-
-    }
-
-    void Instance::createApplicationInfo()
-    {
-        applicationInfo.sType = vk::StructureType::eApplicationInfo;
+        vk::ApplicationInfo applicationInfo{};
         applicationInfo.pNext = nullptr;
-        //applicationInfo.pApplicationName = "Zinet"; // Cause SEH exception with code 0xc0000005
-        applicationInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-        applicationInfo.pEngineName = "Zinet Renderer\0";
-        applicationInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+        applicationInfo.pApplicationName = "Zinet";
+        applicationInfo.applicationVersion = 0;
+        applicationInfo.pEngineName = "Zinet Renderer";
+        applicationInfo.engineVersion = 0;
         applicationInfo.apiVersion = VK_API_VERSION_1_0;
-    }
 
-    const vk::ApplicationInfo& Instance::getApplicationInfo() const
-    {
         return applicationInfo;
     }
 
-    void Instance::createInstanceCreateInfo()
+    vk::InstanceCreateInfo Instance::createInstanceCreateInfo(vk::ApplicationInfo applicationInfo) const
     {
-        instanceCreateInfo.sType = vk::StructureType::eInstanceCreateInfo;
+        vk::InstanceCreateInfo instanceCreateInfo{};
         instanceCreateInfo.pApplicationInfo = &applicationInfo;
 
-        extensions = getRequiredExtensions();
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -42,14 +33,11 @@ namespace zt::gl
             instanceCreateInfo.enabledLayerCount = 0;
             instanceCreateInfo.pNext = nullptr;
         }
-    }
 
-    const vk::InstanceCreateInfo& Instance::getInstanceCreateInfo() const
-    {
         return instanceCreateInfo;
     }
 
-    void Instance::create(Context& context)
+    void Instance::create(Context& context, vk::InstanceCreateInfo createInfo)
     {
         if (GetEnabledValidationLayers() && !CheckValidationLayerSupport())
         {
@@ -57,7 +45,7 @@ namespace zt::gl
             return;
         }
 
-        internal = vk::raii::Instance(context.getInternal(), instanceCreateInfo);
+        internal = vk::raii::Instance(context.getInternal(), createInfo);
     }
 
     vk::raii::PhysicalDevices Instance::enumeratePhysicalDevices() const
@@ -99,13 +87,13 @@ namespace zt::gl
         return true;
     }
 
-    std::vector<const char*> Instance::getRequiredExtensions()
+    std::vector<const char*>& Instance::getRequiredExtensions()
     {
         uint32_t glfwExtensionCount = 0;
         const char** glfwExtensions;
         glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-        std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+        extensions = std::vector<const char*>(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
         if (GetEnabledValidationLayers()) {
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);

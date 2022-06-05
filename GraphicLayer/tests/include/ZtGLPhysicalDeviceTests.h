@@ -52,9 +52,10 @@ namespace zt::gl::tests
 		Context context;
 
 		Instance instance;
-		instance.createApplicationInfo();
-		instance.createInstanceCreateInfo();
-		instance.create(context);
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		instance.getRequiredExtensions();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
 
 		Surface surface;
 		surface.create(instance, window);
@@ -70,7 +71,10 @@ namespace zt::gl::tests
 	{
 		Context context;
 		Instance instance;
-		instance.create(context);
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		instance.getRequiredExtensions();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
 		bool result = physicalDevice.create(instance);
 
 		ASSERT_TRUE(result);
@@ -85,8 +89,10 @@ namespace zt::gl::tests
 
 		Context context;
 		Instance instance;
-		instance.createInstanceCreateInfo();
-		instance.create(context);
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		instance.getRequiredExtensions();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
 
 		Surface surface;
 		surface.create(instance, window);

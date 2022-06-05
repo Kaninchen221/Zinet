@@ -21,9 +21,10 @@ namespace zt::gl::tests
 			GLFW::Init();
 
 			window.create();
-			instance.createApplicationInfo();
-			instance.createInstanceCreateInfo();
-			instance.create(context);
+			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+			instance.getRequiredExtensions();
+			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+			instance.create(context, instanceCreateInfo);
 		}
 
 		void TearDown() override

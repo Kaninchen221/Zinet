@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		Instance();
+		Instance() = default;
 		Instance(const Instance& other) = default;
 		Instance(Instance&& other) = default;
 
@@ -27,36 +27,26 @@ namespace zt::gl
 
 		~Instance() noexcept = default;
 
-		// TODO Perhaps create this as one function
-		void createApplicationInfo();
-		const vk::ApplicationInfo& getApplicationInfo() const;
+		vk::ApplicationInfo createApplicationInfo() const;
 
-		// TODO Perhaps create this as one function
-		void createInstanceCreateInfo();
-		const vk::InstanceCreateInfo& getInstanceCreateInfo() const;
+		vk::InstanceCreateInfo createInstanceCreateInfo(vk::ApplicationInfo applicationInfo) const;
 
-		void create(Context& context);
+		void create(Context& context, vk::InstanceCreateInfo createInfo);
 
 		vk::raii::PhysicalDevices enumeratePhysicalDevices() const;
 
 		static const std::vector<const char*>& GetValidationLayers();
 
-		// TODO Make non static function
 		static bool CheckValidationLayerSupport();
 
-		std::vector<const char*> getRequiredExtensions();
+		std::vector<const char*>& getRequiredExtensions();
 
 		static bool GetEnabledValidationLayers();
 
 	public:
 
-		vk::ApplicationInfo applicationInfo{};
-
-		vk::InstanceCreateInfo instanceCreateInfo{};
-
 		std::vector<const char*> extensions;
 
-		// TODO Move this as return value of function GetValidationLayers
 		inline static const std::vector<const char*> ValidationLayers =
 		{
 			"VK_LAYER_KHRONOS_validation"

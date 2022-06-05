@@ -43,8 +43,10 @@ namespace zt::gl::tests
 	TEST_F(DebugUtilsMessengerTests, Create)
 	{
 		Context context;
-		instance.createInstanceCreateInfo();
-		instance.create(context);
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		instance.getRequiredExtensions();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
 		debugUtilsMessenger.create(instance);
 	}
 
