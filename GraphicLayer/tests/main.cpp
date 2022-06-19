@@ -32,7 +32,7 @@
 //#include "ZtGLBufferTests.h"
 //#include "ZtGLVertexBufferTests.h"
 //#include "ZtGLStagingBufferTests.h"
-//#include "ZtGLDeviceMemoryTests.h"
+#include "ZtGLDeviceMemoryTests.h"
 //#include "ZtGLBufferCopyTests.h"
 //#include "ZtGLSubmitInfoTests.h"
 //#include "ZtGLIndexBufferTests.h"
@@ -41,6 +41,7 @@
 //#include "ZtGLDescriptorPoolTests.h"
 //#include "ZtGLDescriptorSetsTests.h"
 #include "ZtGLSTBImageTests.h"
+#include "ZtGLImageTests.h"
 
 //#include "ZtGLRendererTests.h"
 

@@ -126,4 +126,30 @@ namespace zt::gl::tests
 		
 		std::free(data.first);
 	}
+
+	TEST_F(DeviceMemoryTests, FillWithCArray)
+	{
+		char array[4];
+		std::size_t size = sizeof(array);
+
+		UniformBuffer uniformBuffer;
+		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(size);
+		uniformBuffer.create(device, uniformBufferCreateInfo);
+
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo memoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		deviceMemory.create(device, memoryAllocateInfo);
+		
+		deviceMemory.fillWithArray(array, size);
+		std::pair<void*, std::uint64_t> data = deviceMemory.getData(size);
+		
+		ASSERT_EQ(data.second, size);
+		
+		int result = std::memcmp(data.first, array, size);
+		
+		ASSERT_EQ(result, 0);
+		
+		std::free(data.first);
+	}
 }

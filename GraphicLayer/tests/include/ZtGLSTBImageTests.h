@@ -63,6 +63,15 @@ namespace zt::gl::tests
 		ASSERT_EQ(channels, 3);
 	}
 
+	TEST_F(STBImageTests, SizeInMemory)
+	{
+		bool result = image.load(texturePath);
+		ASSERT_TRUE(result);
+
+		std::size_t size = image.sizeBytes();
+		ASSERT_EQ(size, 1048576);
+	}
+
 	TEST_F(STBImageTests, Free)
 	{
 		[[maybe_unused]] bool result = image.load(texturePath);

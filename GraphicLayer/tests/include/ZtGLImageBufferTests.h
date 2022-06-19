@@ -16,7 +16,7 @@
 namespace zt::gl::tests
 {
 
-	class StagingBufferTests : public ::testing::Test
+	class ImageBufferTests : public ::testing::Test
 	{
 	protected:
 
@@ -26,7 +26,7 @@ namespace zt::gl::tests
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		Device device;
-		StagingBuffer stagingBuffer;
+		ImageBuffer imageBuffer;
 
 		void SetUp() override
 		{
@@ -44,8 +44,8 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
-			vk::BufferCreateInfo createInfo = stagingBuffer.createCreateInfo(8u);
-			stagingBuffer.create(device, createInfo);
+			vk::BufferCreateInfo createInfo = imageBuffer.createCreateInfo(8u);
+			imageBuffer.create(device, createInfo);
 		}
 
 		void TearDown() override
@@ -56,22 +56,6 @@ namespace zt::gl::tests
 
 	TEST(StagingBuffer, DerivedFromBuffer)
 	{
-		static_assert(std::derived_from<StagingBuffer, Buffer>);
-	}
-
-	TEST(StagingBuffer, CreateCreateInfo)
-	{
-		StagingBuffer stagingBuffer;
-		std::uint64_t expectedSize = 60u;
-		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(expectedSize);
-
-		ASSERT_EQ(stagingBufferCreateInfo.usage, vk::BufferUsageFlagBits::eTransferSrc);
-		ASSERT_EQ(stagingBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
-		ASSERT_EQ(stagingBufferCreateInfo.size, expectedSize);
-	}
-
-	TEST_F(StagingBufferTests, Create)
-	{
-		ASSERT_NE(*stagingBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
+		static_assert(std::derived_from<ImageBuffer, Buffer>);
 	}
 }

@@ -46,6 +46,7 @@ namespace zt::gl
 			Window& window
 		) const;
 
+		// TODO Replace vk::Image with zt::gl::Image
 		std::vector<vk::Image> getImages();
 
 		std::pair<vk::Result, uint32_t> acquireNextImage(uint64_t timeout, Semaphore& semaphore, Fence& fence);

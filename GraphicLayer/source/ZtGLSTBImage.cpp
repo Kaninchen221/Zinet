@@ -34,6 +34,11 @@ namespace zt::gl
 		return channels;
 	}
 
+	std::size_t STBImage::sizeBytes() const
+	{
+		return std::size_t(width) * height * STBI_rgb_alpha;
+	}
+
 	void STBImage::free()
 	{
 		stbi_image_free(data);

@@ -33,6 +33,8 @@ namespace zt::gl
 		template<typename Object>
 		void fillWithObject(const Object& object);
 
+		void fillWithArray(const void* const array, std::size_t size);
+
 		std::pair<void*, std::uint64_t> getData(vk::DeviceSize size) const;
 
 	};

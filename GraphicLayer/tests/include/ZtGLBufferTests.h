@@ -104,6 +104,7 @@ namespace zt::gl::tests
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
 		uint32_t memoryType = bufferTest.findSuitableMemoryType(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		// TODO Add MemoryRequirements
 
 		ASSERT_NE(memoryType, UINT32_MAX);
 	}

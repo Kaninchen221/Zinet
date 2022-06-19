@@ -31,6 +31,8 @@ namespace zt::gl
 
 		int getChannels() const;
 
+		std::size_t sizeBytes() const;
+
 		void free();
 
 	protected:

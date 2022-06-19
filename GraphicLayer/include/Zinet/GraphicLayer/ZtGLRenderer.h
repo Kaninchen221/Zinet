@@ -29,6 +29,8 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
+#include "Zinet/GraphicLayer/ZtGLImage.h"
+#include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -97,6 +99,7 @@ namespace zt::gl
 		void prepareVertexBuffer();
 		void prepareIndexBuffer();
 		void prepareUniformBuffer();
+		void prepareTexture();
 
 		void drawFrame();
 
@@ -177,6 +180,10 @@ namespace zt::gl
 		DescriptorPool descriptorPool;
 
 		std::optional<DescriptorSets> descriptorSets;
+
+		Image image;
+		ImageBuffer imageBuffer;
+		DeviceMemory imageDeviceMemory;
 	};
 
 }

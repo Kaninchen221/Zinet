@@ -2,6 +2,8 @@
 
 #include "Zinet/GraphicLayer/ZtGLShader.h"
 #include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 
 namespace zt::gl
 {
@@ -106,6 +108,8 @@ namespace zt::gl
         vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, descriptorBufferInfo);
 
         device->updateDescriptorSets(writeDescriptorSet, {});
+
+        prepareTexture();
     }
 
     void Renderer::run()
@@ -284,6 +288,36 @@ namespace zt::gl
 
         uniformBuffer.bindMemory(uniformBufferDeviceMemory);
         uniformBufferDeviceMemory.fillWithObject(mvp);
+    }
+
+    void Renderer::prepareTexture()
+    {
+        STBImage stbImage;
+        if (!stbImage.load((contentPath / "texture.jpg").string()))
+        {
+            Logger->error("Can't load texture image");
+            return;
+        }
+
+        // Image Buffer
+        std::uint64_t size = stbImage.sizeBytes();
+        vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(size);
+        imageBuffer.create(device, imageBufferCreateInfo);
+
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags imageBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible;
+        vk::MemoryAllocateInfo imageBufferMemoryAllocateInfo = imageBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, imageBufferMemoryPropertyFlags);
+
+        // Image Device Memory
+        imageDeviceMemory.create(device, imageBufferMemoryAllocateInfo);
+        imageBuffer.bindMemory(imageDeviceMemory);
+        imageDeviceMemory.fillWithArray(stbImage.get(), size);
+
+        // Image
+        vk::ImageCreateInfo createInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight());
+        image.create(device, createInfo);
+
+        //image->bindMemory(*imageDeviceMemory.getInternal(), 0u); // Probably useless
     }
 
     void Renderer::drawFrame()
