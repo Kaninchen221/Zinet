@@ -33,11 +33,11 @@ namespace zt::gl
         return createInfo;
     }
 
-    vk::DescriptorSetAllocateInfo DescriptorPool::createDescriptorSetAllocateInfo(const DescriptorSetLayout& descriptorSetLayout) const
+    vk::DescriptorSetAllocateInfo DescriptorPool::createDescriptorSetAllocateInfo(const DescriptorSetLayout& descriptorSetLayout, std::size_t descriptorSetCount) const
     {
         vk::DescriptorSetAllocateInfo allocateInfo;
         allocateInfo.descriptorPool = *getInternal();
-        allocateInfo.descriptorSetCount = 1u;
+        allocateInfo.descriptorSetCount = descriptorSetCount;
         allocateInfo.pSetLayouts = &*descriptorSetLayout.getInternal();
 
         return allocateInfo;

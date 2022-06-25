@@ -104,7 +104,8 @@ namespace zt::gl
         vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSizes);
         descriptorPool.create(device, descriptorPoolCreateInfo);
 
-        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout());
+        std::size_t descriptorSetCount = 1u;
+        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout(), descriptorSetCount);
 
         descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
         vk::DescriptorBufferInfo descriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();

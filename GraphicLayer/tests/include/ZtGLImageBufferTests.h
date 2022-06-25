@@ -10,6 +10,7 @@
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
 
 #include "gtest/gtest.h"
 
@@ -54,8 +55,17 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(StagingBuffer, DerivedFromBuffer)
+	TEST(ImageBuffer, DerivedFromBuffer)
 	{
 		static_assert(std::derived_from<ImageBuffer, Buffer>);
+	}
+
+	TEST_F(ImageBufferTests, CreateDescriptorBufferInfo)
+	{
+		vk::DescriptorBufferInfo info = imageBuffer.createDescriptorBufferInfo();
+
+		ASSERT_EQ(info.buffer, *imageBuffer.getInternal());
+		ASSERT_EQ(info.offset, 0);
+		ASSERT_EQ(info.range, imageBuffer.getSize());
 	}
 }

@@ -105,10 +105,11 @@ namespace zt::gl::tests
 		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 		descriptorSetLayout.create(device, createInfo);
 
-		vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);
+		std::size_t descriptorSetCount = 1u;
+		vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout, descriptorSetCount);
 
 		ASSERT_EQ(allocateInfo.descriptorPool, *descriptorPool.getInternal());
-		ASSERT_EQ(allocateInfo.descriptorSetCount, 1u);
+		ASSERT_EQ(allocateInfo.descriptorSetCount, descriptorSetCount);
 		ASSERT_EQ(allocateInfo.pSetLayouts, &*descriptorSetLayout.getInternal());
 	}
 

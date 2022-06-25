@@ -60,7 +60,8 @@ namespace zt::gl::tests
 			vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 			descriptorSetLayout.create(device, createInfo);
 
-			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);
+			std::size_t descriptorSetCount = 1u;
+			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout, descriptorSetCount);
 			descriptorSets = DescriptorSets{ device, allocateInfo };
 		}
 
@@ -80,18 +81,35 @@ namespace zt::gl::tests
 		ASSERT_NE(*(*descriptorSets)[0], *vk::raii::DescriptorSet{ std::nullptr_t{} });
 	}
 
-	TEST_F(DescriptorSetsTests, CreateWriteDescriptorSet)
+	TEST_F(DescriptorSetsTests, CreateBufferWriteDescriptorSet)
 	{
 		vk::DescriptorBufferInfo bufferInfo;
-		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, bufferInfo);
+		size_t expectedIndex = 0u;
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(expectedIndex, bufferInfo);
 		
-		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[0]);
+		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
 		ASSERT_EQ(writeDescriptorSet.dstBinding, 0);
 		ASSERT_EQ(writeDescriptorSet.dstArrayElement, 0);
 		ASSERT_EQ(writeDescriptorSet.descriptorType, vk::DescriptorType::eUniformBuffer);
 		ASSERT_EQ(writeDescriptorSet.descriptorCount, 1);
 		ASSERT_EQ(writeDescriptorSet.pBufferInfo, &bufferInfo);
 		ASSERT_EQ(writeDescriptorSet.pImageInfo, nullptr);
+		ASSERT_EQ(writeDescriptorSet.pTexelBufferView, nullptr);
+	}
+
+	TEST_F(DescriptorSetsTests, CreateWriteDescriptorSet)
+	{
+		vk::DescriptorImageInfo imageInfo;
+		size_t expectedIndex = 0u;
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(expectedIndex, imageInfo);
+	
+		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
+		ASSERT_EQ(writeDescriptorSet.dstBinding, 1);
+		ASSERT_EQ(writeDescriptorSet.dstArrayElement, 0);
+		ASSERT_EQ(writeDescriptorSet.descriptorType, vk::DescriptorType::eCombinedImageSampler);
+		ASSERT_EQ(writeDescriptorSet.descriptorCount, 1);
+		ASSERT_EQ(writeDescriptorSet.pBufferInfo, nullptr);
+		ASSERT_EQ(writeDescriptorSet.pImageInfo, &imageInfo);
 		ASSERT_EQ(writeDescriptorSet.pTexelBufferView, nullptr);
 	}
 }

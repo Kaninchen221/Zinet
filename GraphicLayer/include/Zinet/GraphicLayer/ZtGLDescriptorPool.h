@@ -28,7 +28,7 @@ namespace zt::gl
 
 		vk::DescriptorPoolCreateInfo createCreateInfo(const std::vector<vk::DescriptorPoolSize>& poolSizes) const;
 
-		vk::DescriptorSetAllocateInfo createDescriptorSetAllocateInfo(const DescriptorSetLayout& descriptorSetLayout) const;
+		vk::DescriptorSetAllocateInfo createDescriptorSetAllocateInfo(const DescriptorSetLayout& descriptorSetLayout, std::size_t descriptorSetCount) const;
 
 		void create(Device& device, const vk::DescriptorPoolCreateInfo& createInfo);
 
