@@ -96,6 +96,7 @@ namespace zt::gl
         prepareVertexBuffer();
         prepareIndexBuffer();
         prepareUniformBuffer();
+        prepareTexture();
 
         vk::DescriptorPoolSize uniformPoolSize = descriptorPool.createUniformPoolSize();
         vk::DescriptorPoolSize imageSamplerPoolSize = descriptorPool.createImageSamplerPoolSize();
@@ -108,12 +109,17 @@ namespace zt::gl
         vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout(), descriptorSetCount);
 
         descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
-        vk::DescriptorBufferInfo descriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
-        vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, descriptorBufferInfo);
 
-        device->updateDescriptorSets(writeDescriptorSet, {});
+        vk::DescriptorBufferInfo uniformDescriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
+        vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
 
-        prepareTexture();
+        vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eShaderReadOnlyOptimal);
+        //vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eTransferDstOptimal);
+        vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, imageDescriptorBufferInfo);
+
+        std::array<vk::WriteDescriptorSet, 2> descriptorSets{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
+        device->updateDescriptorSets(descriptorSets, {});
+
     }
 
     void Renderer::run()
@@ -175,18 +181,22 @@ namespace zt::gl
         Vertex vertex;
         vertex.setPosition({ -0.5f, -0.5f, 0.f });
         vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+        vertex.setTextureCoordinates({ 1.0f, 0.0f });
         vertices.push_back(vertex);
 
         vertex.setPosition({ 0.5f, -0.5f, 0.f });
         vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+        vertex.setTextureCoordinates({ 0.0f, 0.0f });
         vertices.push_back(vertex);
 
         vertex.setPosition({ 0.5f, 0.5f, 0.f });
         vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+        vertex.setTextureCoordinates({ 0.0f, 1.0f });
         vertices.push_back(vertex);
 
         vertex.setPosition({ -0.5f, 0.5f, 0.f });
         vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+        vertex.setTextureCoordinates({ 1.0f, 1.0f });
         vertices.push_back(vertex);
 
         // Staging Buffer
@@ -331,25 +341,41 @@ namespace zt::gl
         image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
 
         // Transfer CommandBuffer
-        CommandBuffer transferCommandBuffer;
-        vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
-        transferCommandBuffer.allocateCommandBuffer(device, commandPool);
+        vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+        commandBuffer.allocateCommandBuffer(device, commandPool);
 
-        transferCommandBuffer.begin();
+        commandBuffer.begin();
 
         // Barrier
         vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
-        //vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-        vk::ImageLayout newLayout = vk::ImageLayout::eGeneral;
+        //vk::ImageLayout newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+        vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+        //vk::ImageLayout newLayout = vk::ImageLayout::eGeneral;
         vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
 
-        transferCommandBuffer->pipelineBarrier(
-            vk::PipelineStageFlags{},
-            vk::PipelineStageFlags{},
+        vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
+        //vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTransfer;
+
+        //vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eTransfer;
+        vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
+        //vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eTransferDstOptimal;
+
+        commandBuffer->pipelineBarrier(
+            sourceStage,
+            destinationStage,
             vk::DependencyFlags{},
             {},
             {},
             barrier);
+
+        commandBuffer.end();
+
+        SubmitInfo submitInfo{};
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+        queue.submit(submitInfo);
+        queue->waitIdle();
 
         // BufferImageCopy
         vk::BufferImageCopy imageRegion{};
@@ -369,7 +395,49 @@ namespace zt::gl
             1
         };
 
-        transferCommandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
+        allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+        commandBuffer.allocateCommandBuffer(device, commandPool);
+
+        commandBuffer.begin();
+
+        newLayout = vk::ImageLayout::eTransferDstOptimal;
+        commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
+        commandBuffer->end();
+
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+        queue.submit(submitInfo);
+        queue->waitIdle();
+
+        // Barrier after copy=
+        allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+        commandBuffer.allocateCommandBuffer(device, commandPool);
+
+        commandBuffer.begin();
+
+        oldLayout = vk::ImageLayout::eTransferDstOptimal;
+        newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+        vk::ImageMemoryBarrier barrierAfterCopy = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
+
+        sourceStage = vk::PipelineStageFlagBits::eTransfer;
+        destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
+
+        commandBuffer->pipelineBarrier(
+            sourceStage,
+            destinationStage,
+            vk::DependencyFlags{},
+            {},
+            {},
+            barrierAfterCopy);
+
+        commandBuffer.end();
+
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+        queue.submit(submitInfo);
+        queue->waitIdle();
 
         // ImageView
         imageView.create(device, *image.getInternal(), vk::Format::eR8G8B8A8Srgb);
@@ -403,7 +471,12 @@ namespace zt::gl
         commandBuffer->bindVertexBuffers(0u, vertexBuffers, vk::DeviceSize{ 0 });
         commandBuffer->bindIndexBuffer(*indexBuffer.getInternal(), 0, vk::IndexType::eUint16); // TODO create simple function
 
-        commandBuffer->bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout.getInternal(), 0, *(*descriptorSets)[0], {}); // TODO create simple function
+        std::vector<vk::DescriptorSet> tempDescriptorSets;
+        for (auto& set : *descriptorSets)
+        {
+            tempDescriptorSets.push_back(*set);
+        }
+        commandBuffer->bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout.getInternal(), 0, tempDescriptorSets, {}); // TODO create simple function
 
         commandBuffer->drawIndexed(indices.size(), 1, 0, 0, 0);
         commandBuffer.endRenderPass();

@@ -7,6 +7,8 @@
 
 namespace zt::gl
 {
+	class Sampler;
+	class ImageView;
 
 	class ZINET_GRAPHIC_LAYER_API ImageBuffer : public Buffer
 	{
@@ -24,7 +26,7 @@ namespace zt::gl
 
 		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
 
-		vk::DescriptorBufferInfo createDescriptorBufferInfo();
+		vk::DescriptorImageInfo createDescriptorImageInfo(Sampler& sampler, ImageView& imageView, vk::ImageLayout imageLayout);
 	};
 
 }

@@ -11,6 +11,8 @@
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLSampler.h"
+#include "Zinet/GraphicLayer/ZtGLImageView.h"
 
 #include "gtest/gtest.h"
 
@@ -60,12 +62,15 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<ImageBuffer, Buffer>);
 	}
 
-	TEST_F(ImageBufferTests, CreateDescriptorBufferInfo)
+	TEST_F(ImageBufferTests, CreateDescriptorImageInfo)
 	{
-		vk::DescriptorBufferInfo info = imageBuffer.createDescriptorBufferInfo();
+		Sampler sampler;
+		ImageView imageView;
+		vk::ImageLayout imageLayout{};
+		vk::DescriptorImageInfo info = imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout);
 
-		ASSERT_EQ(info.buffer, *imageBuffer.getInternal());
-		ASSERT_EQ(info.offset, 0);
-		ASSERT_EQ(info.range, imageBuffer.getSize());
+		ASSERT_EQ(info.sampler, *sampler.getInternal());
+		ASSERT_EQ(info.imageView, *imageView.getInternal());
+		ASSERT_EQ(info.imageLayout, imageLayout);
 	}
 }

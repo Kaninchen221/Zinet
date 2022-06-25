@@ -1,5 +1,8 @@
 #include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
 
+#include "Zinet/GraphicLayer/ZtGLSampler.h"
+#include "Zinet/GraphicLayer/ZtGLImageView.h"
+
 namespace zt::gl
 {
 	vk::BufferCreateInfo ImageBuffer::createCreateInfo(std::uint64_t size) const
@@ -12,13 +15,13 @@ namespace zt::gl
 		return bufferCreateInfo;
 	}
 
-	vk::DescriptorBufferInfo ImageBuffer::createDescriptorBufferInfo()
+	vk::DescriptorImageInfo ImageBuffer::createDescriptorImageInfo(Sampler& sampler, ImageView& imageView, vk::ImageLayout imageLayout)
 	{
-		vk::DescriptorBufferInfo descriptorBufferInfo;
-		descriptorBufferInfo.buffer = *getInternal();
-		descriptorBufferInfo.offset = 0;
-		descriptorBufferInfo.range = size;
+		vk::DescriptorImageInfo descriptorImageInfo;
+		descriptorImageInfo.sampler = *sampler.getInternal();
+		descriptorImageInfo.imageView = *imageView.getInternal();
+		descriptorImageInfo.imageLayout = imageLayout;
 
-		return descriptorBufferInfo;
+		return descriptorImageInfo;
 	}
 }

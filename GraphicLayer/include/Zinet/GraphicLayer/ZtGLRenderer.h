@@ -47,7 +47,6 @@ namespace zt::gl
 {
 	struct ZINET_GRAPHIC_LAYER_API MVP
 	{
-		glm::vec2 useless;
 		glm::mat4 model;
 		glm::mat4 view;
 		glm::mat4 proj;
