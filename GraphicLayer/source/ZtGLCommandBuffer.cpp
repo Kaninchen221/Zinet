@@ -7,6 +7,8 @@
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLBufferCopy.h"
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLQueue.h"
+#include "Zinet/GraphicLayer/ZtGLImage.h"
 
 namespace zt::gl
 {
@@ -74,7 +76,7 @@ namespace zt::gl
 		internal.reset(flags);
 	}
 
-	void CommandBuffer::copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer)
+	void CommandBuffer::copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer, Queue& queue)
 	{
 		begin();
 
@@ -86,6 +88,33 @@ namespace zt::gl
 		internal.copyBuffer(*sourceBuffer.getInternal(), *destinationBuffer.getInternal(), bufferCopy);
 
 		end();
+
+		SubmitInfo submitInfo{};
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &*getInternal();
+
+		queue.submit(submitInfo);
+		queue->waitIdle();
+	}
+
+	vk::ImageMemoryBarrier CommandBuffer::createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout)
+	{
+		vk::ImageMemoryBarrier barrier;
+
+		barrier.oldLayout = oldLayout;
+		barrier.newLayout = newLayout;
+		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED; 
+		barrier.image = *image.getInternal();
+		barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
+		barrier.subresourceRange.baseMipLevel = 0;
+		barrier.subresourceRange.levelCount = 1;
+		barrier.subresourceRange.baseArrayLayer = 0;
+		barrier.subresourceRange.layerCount = 1;
+		barrier.srcAccessMask = vk::AccessFlagBits{};
+		barrier.dstAccessMask = vk::AccessFlagBits{};
+
+		return barrier;
 	}
 
 }

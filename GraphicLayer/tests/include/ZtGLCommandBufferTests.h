@@ -21,6 +21,7 @@
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
+#include "Zinet/GraphicLayer/ZtGLImage.h"
 
 #include "gtest/gtest.h"
 
@@ -208,9 +209,13 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo sourceBufferCreateInfo = sourceBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
 		sourceBuffer.create(device, sourceBufferCreateInfo);
 
+		vk::MemoryRequirements sourceBufferMemoryRequirements = sourceBuffer->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags sourceBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo sourceBufferMemoryAllocateInfo = sourceBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, sourceBufferMemoryPropertyFlags);
+		vk::MemoryAllocateInfo sourceBufferMemoryAllocateInfo = sourceBuffer.createMemoryAllocateInfo(
+																				sourceBufferMemoryRequirements, 
+																				physicalDeviceMemoryProperties, 
+																				sourceBufferMemoryPropertyFlags);
 
 		sourceBufferDeviceMemory.create(device, sourceBufferMemoryAllocateInfo);
 
@@ -225,8 +230,10 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo destinationBufferCreateInfo = destinationBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
 		destinationBuffer.create(device, destinationBufferCreateInfo);
 
+		vk::MemoryRequirements destinationBufferMemoryRequirements = destinationBuffer->getMemoryRequirements();
 		vk::MemoryPropertyFlags destinationBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eDeviceLocal;
 		vk::MemoryAllocateInfo destinationBufferrMemoryAllocateInfo = destinationBuffer.createMemoryAllocateInfo(
+																							destinationBufferMemoryRequirements,
 																							physicalDeviceMemoryProperties, 
 																							destinationBufferMemoryPropertyFlags);
 
@@ -236,14 +243,7 @@ namespace zt::gl::tests
 		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 
-		commandBuffer.copyBuffer(sourceBuffer, destinationBuffer);
-
-		SubmitInfo submitInfo{};
-		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
-
-		queue.submit(submitInfo);
-		queue->waitIdle();
+		commandBuffer.copyBuffer(sourceBuffer, destinationBuffer, queue);
 
 		std::pair<void*, std::uint64_t> data = destinationBufferDeviceMemory.getData(destinationBuffer.getSize());
 		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
@@ -255,5 +255,27 @@ namespace zt::gl::tests
 		ASSERT_EQ(result, 0);
 
 		std::free(data.first);
+	}
+
+	TEST(CommandBuffer, CreateImageMemoryBarrier)
+	{
+		CommandBuffer commandBuffer;
+		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
+		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+		Image image;
+		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
+
+		ASSERT_EQ(barrier.oldLayout, oldLayout);
+		ASSERT_EQ(barrier.newLayout, newLayout);
+		ASSERT_EQ(barrier.srcQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO Fix it
+		ASSERT_EQ(barrier.dstQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO Fix it
+		ASSERT_EQ(barrier.image, *image.getInternal());
+		ASSERT_EQ(barrier.subresourceRange.aspectMask, vk::ImageAspectFlagBits::eColor);
+		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, 0);
+		ASSERT_EQ(barrier.subresourceRange.levelCount, 1);
+		ASSERT_EQ(barrier.subresourceRange.baseArrayLayer, 0);
+		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
+		ASSERT_EQ(barrier.srcAccessMask, vk::AccessFlagBits{});
+		ASSERT_EQ(barrier.dstAccessMask, vk::AccessFlagBits{});
 	}
 }

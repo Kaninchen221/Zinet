@@ -63,9 +63,13 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 		vertexBuffer.create(device, vertexBufferCreateInfo);
 
+		vk::MemoryRequirements vertexBufferMemoryRequirements = vertexBuffer->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(
+																	vertexBufferMemoryRequirements, 
+																	physicalDeviceMemoryProperties, 
+																	memoryPropertyFlags);
 		deviceMemory.create(device, memoryAllocateInfo);
 
 		ASSERT_NE(*deviceMemory.getInternal(), *vk::raii::DeviceMemory{ std::nullptr_t{} });
@@ -78,9 +82,13 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
 		vertexBuffer.create(device, vertexBufferCreateInfo);
 
+		vk::MemoryRequirements vertexBufferMemoryRequirements = vertexBuffer->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(
+																	vertexBufferMemoryRequirements, 
+																	physicalDeviceMemoryProperties, 
+																	memoryPropertyFlags);
 		deviceMemory.create(device, memoryAllocateInfo);
 
 		deviceMemory.fillWithSTDContainer<std::vector<Vertex>>(vertices);
@@ -109,9 +117,13 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVPFake));
 		uniformBuffer.create(device, uniformBufferCreateInfo);
 
+		vk::MemoryRequirements uniformBufferMemoryRequirements = uniformBuffer->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(
+																	uniformBufferMemoryRequirements, 
+																	physicalDeviceMemoryProperties, 
+																	memoryPropertyFlags);
 		deviceMemory.create(device, memoryAllocateInfo);
 
 		deviceMemory.fillWithObject<MVPFake>(object);
@@ -136,9 +148,13 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(size);
 		uniformBuffer.create(device, uniformBufferCreateInfo);
 
+		vk::MemoryRequirements uniformBufferMemoryRequirements = uniformBuffer->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(
+																	uniformBufferMemoryRequirements, 
+																	physicalDeviceMemoryProperties, 
+																	memoryPropertyFlags);
 		deviceMemory.create(device, memoryAllocateInfo);
 		
 		deviceMemory.fillWithArray(array, size);

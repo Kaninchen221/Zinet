@@ -31,6 +31,7 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLSampler.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -184,6 +185,8 @@ namespace zt::gl
 		Image image;
 		ImageBuffer imageBuffer;
 		DeviceMemory imageDeviceMemory;
+		ImageView imageView;
+		Sampler sampler;
 	};
 
 }

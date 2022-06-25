@@ -101,28 +101,30 @@ namespace zt::gl::tests
 
 	TEST_F(BufferTests, FindSuitableMemoryType)
 	{
+		vk::MemoryRequirements memoryRequirements = bufferTest->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		uint32_t memoryType = bufferTest.findSuitableMemoryType(physicalDeviceMemoryProperties, memoryPropertyFlags);
-		// TODO Add MemoryRequirements
+		uint32_t memoryType = bufferTest.findSuitableMemoryType(memoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
 
 		ASSERT_NE(memoryType, UINT32_MAX);
 	}
 
 	TEST_F(BufferTests, CreateMemoryAllocateInfo)
 	{
+		vk::MemoryRequirements memoryRequirements;
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = bufferTest.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = bufferTest.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
 
 		ASSERT_NE(memoryAllocateInfo, vk::MemoryAllocateInfo{});
 	}
 
 	TEST_F(BufferTests, BindMemory)
 	{
+		vk::MemoryRequirements bufferMemoryRequirements = bufferTest->getMemoryRequirements();
 		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
 		vk::MemoryPropertyFlags memoryPropertyFlags = {};
-		vk::MemoryAllocateInfo memoryAllocateInfo = bufferTest.createMemoryAllocateInfo(physicalDeviceMemoryProperties, memoryPropertyFlags);
+		vk::MemoryAllocateInfo memoryAllocateInfo = bufferTest.createMemoryAllocateInfo(bufferMemoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
 		DeviceMemory deviceMemory;
 		deviceMemory.create(device, memoryAllocateInfo);
 

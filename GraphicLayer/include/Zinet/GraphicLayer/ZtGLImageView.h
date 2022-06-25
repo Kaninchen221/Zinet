@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		ImageView();
+		ImageView(); // TODO Mark as default
 		ImageView(const ImageView& other) = default;
 		ImageView(ImageView&& other) = default;
 
@@ -29,6 +29,8 @@ namespace zt::gl
 
 		vk::ImageViewCreateInfo createCreateInfo(vk::Image image, const vk::Format& format) const;
 
+		// TODO As params pass only device and create info
+		// TODO Possibility to create from zt::gl::Image
 		void create(Device& device, vk::Image image, const vk::Format& format);
 
 	};

@@ -190,10 +190,11 @@ namespace zt::gl
         std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
         vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(verticesSize);
         stagingBuffer.create(device, stagingBufferCreateInfo);
-
+        
+        vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
         vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
 
         DeviceMemory stagingBufferDeviceMemory;
         stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
@@ -205,8 +206,9 @@ namespace zt::gl
         vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(verticesSize);
         vertexBuffer.create(device, vertexBufferCreateInfo);
 
+        vk::MemoryRequirements vertexBufferMemoryRequirements = vertexBuffer->getMemoryRequirements();
         vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, vertexBufferMemoryPropertyFlags);
+        vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(vertexBufferMemoryRequirements, physicalDeviceMemoryProperties, vertexBufferMemoryPropertyFlags);
 
         vertexBufferDeviceMemory.create(device, vertexBufferMemoryAllocateInfo);
 
@@ -217,14 +219,7 @@ namespace zt::gl
         vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
         transferCommandBuffer.allocateCommandBuffer(device, commandPool);
 
-        transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer);
-
-        SubmitInfo submitInfo{};
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
-
-        queue.submit(submitInfo);
-        queue->waitIdle();
+        transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer, queue);
     }
 
     void Renderer::prepareIndexBuffer()
@@ -238,9 +233,10 @@ namespace zt::gl
         vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(size);
         stagingBuffer.create(device, stagingBufferCreateInfo);
 
+        vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
         vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
 
         DeviceMemory stagingBufferDeviceMemory;
         stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
@@ -252,8 +248,9 @@ namespace zt::gl
         vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo(size);
         indexBuffer.create(device, indexBufferCreateInfo);
 
+        vk::MemoryRequirements indexBufferMemoryRequirements = indexBuffer->getMemoryRequirements();
         vk::MemoryPropertyFlags indexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-        vk::MemoryAllocateInfo indexBufferMemoryAllocateInfo = indexBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, indexBufferMemoryPropertyFlags);
+        vk::MemoryAllocateInfo indexBufferMemoryAllocateInfo = indexBuffer.createMemoryAllocateInfo(indexBufferMemoryRequirements, physicalDeviceMemoryProperties, indexBufferMemoryPropertyFlags);
 
         indexBufferDeviceMemory.create(device, indexBufferMemoryAllocateInfo);
 
@@ -264,14 +261,7 @@ namespace zt::gl
         vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
         transferCommandBuffer.allocateCommandBuffer(device, commandPool);
 
-        transferCommandBuffer.copyBuffer(stagingBuffer, indexBuffer);
-
-        SubmitInfo submitInfo{};
-        submitInfo.commandBufferCount = 1;
-        submitInfo.pCommandBuffers = &*transferCommandBuffer.getInternal();
-
-        queue.submit(submitInfo);
-        queue->waitIdle();
+        transferCommandBuffer.copyBuffer(stagingBuffer, indexBuffer, queue);
     }
 
     void Renderer::prepareUniformBuffer()
@@ -280,9 +270,10 @@ namespace zt::gl
         vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(size);
         uniformBuffer.create(device, uniformBufferCreateInfo);
 
+        vk::MemoryRequirements memoryRequirements = uniformBuffer->getMemoryRequirements();
         vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
         vk::MemoryPropertyFlags uniformBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        vk::MemoryAllocateInfo uniformBufferMemoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, uniformBufferMemoryPropertyFlags);
+        vk::MemoryAllocateInfo uniformBufferMemoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, uniformBufferMemoryPropertyFlags);
 
         uniformBufferDeviceMemory.create(device, uniformBufferMemoryAllocateInfo);
 
@@ -299,25 +290,89 @@ namespace zt::gl
             return;
         }
 
-        // Image Buffer
+        // Staging Buffer
+        StagingBuffer stagingBuffer;
         std::uint64_t size = stbImage.sizeBytes();
+        vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(size);
+        stagingBuffer.create(device, stagingBufferCreateInfo);
+
+        vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
+        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+        vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+        vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+
+        DeviceMemory stagingBufferDeviceMemory;
+        stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
+
+        stagingBuffer.bindMemory(stagingBufferDeviceMemory);
+        stagingBufferDeviceMemory.fillWithArray(stbImage.get(), size);
+
+        // Image Buffer
         vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(size);
         imageBuffer.create(device, imageBufferCreateInfo);
-
-        vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        vk::MemoryPropertyFlags imageBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal | vk::MemoryPropertyFlagBits::eHostVisible;
-        vk::MemoryAllocateInfo imageBufferMemoryAllocateInfo = imageBuffer.createMemoryAllocateInfo(physicalDeviceMemoryProperties, imageBufferMemoryPropertyFlags);
-
-        // Image Device Memory
-        imageDeviceMemory.create(device, imageBufferMemoryAllocateInfo);
-        imageBuffer.bindMemory(imageDeviceMemory);
-        imageDeviceMemory.fillWithArray(stbImage.get(), size);
 
         // Image
         vk::ImageCreateInfo createInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight());
         image.create(device, createInfo);
 
-        //image->bindMemory(*imageDeviceMemory.getInternal(), 0u); // Probably useless
+        // Image Device Memory
+        vk::MemoryRequirements memoryRequirements = image->getMemoryRequirements();
+        vk::MemoryPropertyFlags imageBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
+        vk::MemoryAllocateInfo imageBufferMemoryAllocateInfo = imageBuffer.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, imageBufferMemoryPropertyFlags);
+
+        imageDeviceMemory.create(device, imageBufferMemoryAllocateInfo);
+        imageBuffer.bindMemory(imageDeviceMemory);
+
+        // Image
+        image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
+
+        // Transfer CommandBuffer
+        CommandBuffer transferCommandBuffer;
+        vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
+        transferCommandBuffer.allocateCommandBuffer(device, commandPool);
+
+        transferCommandBuffer.begin();
+
+        // Barrier
+        vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
+        //vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+        vk::ImageLayout newLayout = vk::ImageLayout::eGeneral;
+        vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
+
+        transferCommandBuffer->pipelineBarrier(
+            vk::PipelineStageFlags{},
+            vk::PipelineStageFlags{},
+            vk::DependencyFlags{},
+            {},
+            {},
+            barrier);
+
+        // BufferImageCopy
+        vk::BufferImageCopy imageRegion{};
+        imageRegion.bufferOffset = 0;
+        imageRegion.bufferRowLength = 0;
+        imageRegion.bufferImageHeight = 0;
+
+        imageRegion.imageSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
+        imageRegion.imageSubresource.mipLevel = 0;
+        imageRegion.imageSubresource.baseArrayLayer = 0;
+        imageRegion.imageSubresource.layerCount = 1;
+
+        imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
+        imageRegion.imageExtent = vk::Extent3D{
+            static_cast<std::uint32_t>(stbImage.getWidth()),
+            static_cast<std::uint32_t>(stbImage.getHeight()),
+            1
+        };
+
+        transferCommandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
+
+        // ImageView
+        imageView.create(device, *image.getInternal(), vk::Format::eR8G8B8A8Srgb);
+
+        // Sampler
+        vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
+        sampler.create(device, samplerCreateInfo);
     }
 
     void Renderer::drawFrame()
@@ -369,7 +424,6 @@ namespace zt::gl
             commandBuffers,
             signalSemaphores);
 
-        //std::array<SubmitInfo, 1> submitInfos = { submitInfo };
         queue.submit(submitInfo, drawFence);
     }
 

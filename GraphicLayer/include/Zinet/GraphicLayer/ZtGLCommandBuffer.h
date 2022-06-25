@@ -13,6 +13,8 @@ namespace zt::gl
 	class RenderPass;
 	class Pipeline;
 	class Buffer;
+	class Queue;
+	class Image;
 
 	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
@@ -48,7 +50,11 @@ namespace zt::gl
 
 		void reset();
 
-		void copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer);
+		// TODO Move to Queue it will reduce number of params to two
+		// It should inside create command buffer for one use and copy the buffers
+		void copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer, Queue& queue); 
+
+		vk::ImageMemoryBarrier createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
 
 	protected:
 
