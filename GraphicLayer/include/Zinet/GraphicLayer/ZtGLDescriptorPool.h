@@ -22,9 +22,11 @@ namespace zt::gl
 
 		~DescriptorPool() noexcept = default;
 
-		vk::DescriptorPoolSize createPoolSize();
+		vk::DescriptorPoolSize createUniformPoolSize();
 
-		vk::DescriptorPoolCreateInfo createCreateInfo(const vk::DescriptorPoolSize& poolSize) const;
+		vk::DescriptorPoolSize createImageSamplerPoolSize();
+
+		vk::DescriptorPoolCreateInfo createCreateInfo(const std::vector<vk::DescriptorPoolSize>& poolSizes) const;
 
 		vk::DescriptorSetAllocateInfo createDescriptorSetAllocateInfo(const DescriptorSetLayout& descriptorSetLayout) const;
 

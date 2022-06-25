@@ -53,33 +53,52 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<DescriptorSetLayout, VulkanObject<vk::raii::DescriptorSetLayout>>);
 	}
 
-	TEST(DescriptorSetLayout, CreateDescriptorSetLayoutBinding)
+	TEST(DescriptorSetLayout, CreateUniformLayoutBinding)
 	{
 		DescriptorSetLayout descriptorSetLayout;
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
 
-		ASSERT_EQ(descriptorSetLayoutBinding.binding, 0);
-		ASSERT_EQ(descriptorSetLayoutBinding.descriptorType, vk::DescriptorType::eUniformBuffer);
-		ASSERT_EQ(descriptorSetLayoutBinding.descriptorCount, 1);
-		ASSERT_EQ(descriptorSetLayoutBinding.stageFlags, vk::ShaderStageFlagBits::eVertex);
-		ASSERT_EQ(descriptorSetLayoutBinding.pImmutableSamplers, nullptr);
+		ASSERT_EQ(uniformLayoutBinding.binding, 0);
+		ASSERT_EQ(uniformLayoutBinding.descriptorType, vk::DescriptorType::eUniformBuffer);
+		ASSERT_EQ(uniformLayoutBinding.descriptorCount, 1);
+		ASSERT_EQ(uniformLayoutBinding.stageFlags, vk::ShaderStageFlagBits::eVertex);
+		ASSERT_EQ(uniformLayoutBinding.pImmutableSamplers, nullptr);
+
+	}
+
+	TEST(DescriptorSetLayout, CreateImageSamplerLayoutBinding)
+	{
+		DescriptorSetLayout descriptorSetLayout;
+		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+
+		ASSERT_EQ(imageSamplerLayoutBinding.binding, 1);
+		ASSERT_EQ(imageSamplerLayoutBinding.descriptorType, vk::DescriptorType::eCombinedImageSampler);
+		ASSERT_EQ(imageSamplerLayoutBinding.descriptorCount, 1);
+		ASSERT_EQ(imageSamplerLayoutBinding.stageFlags, vk::ShaderStageFlagBits::eFragment);
+		ASSERT_EQ(imageSamplerLayoutBinding.pImmutableSamplers, nullptr);
 
 	}
 
 	TEST(DescriptorSetLayout, CreateDescriptorSetLayoutCreateInfo)
 	{
 		DescriptorSetLayout descriptorSetLayout;
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
-		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
+		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
 
-		ASSERT_EQ(createInfo.bindingCount, 1);
-		ASSERT_EQ(createInfo.pBindings, &descriptorSetLayoutBinding);
+		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
+
+		ASSERT_EQ(createInfo.bindingCount, bindings.size());
+		ASSERT_EQ(createInfo.pBindings, bindings.data());
 	}
 
 	TEST_F(DescriptorSetLayoutTests, Create)
 	{
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
-		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
+		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+
+		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 		descriptorSetLayout.create(device, createInfo);
 
 		ASSERT_NE(*descriptorSetLayout.getInternal(), *vk::raii::DescriptorSetLayout{ std::nullptr_t{} });

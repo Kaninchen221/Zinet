@@ -4,23 +4,35 @@
 
 namespace zt::gl
 {
-    vk::DescriptorSetLayoutBinding DescriptorSetLayout::createDescriptorSetLayoutBinding()
+    vk::DescriptorSetLayoutBinding DescriptorSetLayout::createUniformLayoutBinding()
     {
-        vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding;
-        descriptorSetLayoutBinding.binding = 0;
-        descriptorSetLayoutBinding.descriptorType = vk::DescriptorType::eUniformBuffer;
-        descriptorSetLayoutBinding.descriptorCount = 1;
-        descriptorSetLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eVertex;
-        descriptorSetLayoutBinding.pImmutableSamplers = nullptr;
+        vk::DescriptorSetLayoutBinding uniformLayoutBinding;
+        uniformLayoutBinding.binding = 0;
+        uniformLayoutBinding.descriptorType = vk::DescriptorType::eUniformBuffer;
+        uniformLayoutBinding.descriptorCount = 1;
+        uniformLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eVertex;
+        uniformLayoutBinding.pImmutableSamplers = nullptr;
 
-        return descriptorSetLayoutBinding;
+        return uniformLayoutBinding;
     }
 
-    vk::DescriptorSetLayoutCreateInfo DescriptorSetLayout::createDescriptorSetLayoutCreateInfo(const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding)
+    vk::DescriptorSetLayoutBinding DescriptorSetLayout::createImageSamplerLayoutBinding()
+    {
+        vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding;
+        imageSamplerLayoutBinding.binding = 1;
+        imageSamplerLayoutBinding.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+        imageSamplerLayoutBinding.descriptorCount = 1;
+        imageSamplerLayoutBinding.stageFlags = vk::ShaderStageFlagBits::eFragment;
+        imageSamplerLayoutBinding.pImmutableSamplers = nullptr;
+
+        return imageSamplerLayoutBinding;
+    }
+
+    vk::DescriptorSetLayoutCreateInfo DescriptorSetLayout::createDescriptorSetLayoutCreateInfo(const std::vector<vk::DescriptorSetLayoutBinding>& bindings)
     {
         vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo;
-        descriptorSetLayoutCreateInfo.bindingCount = 1;
-        descriptorSetLayoutCreateInfo.pBindings = &descriptorSetLayoutBinding;
+        descriptorSetLayoutCreateInfo.bindingCount = bindings.size();
+        descriptorSetLayoutCreateInfo.pBindings = bindings.data();
 
         return descriptorSetLayoutCreateInfo;
     }

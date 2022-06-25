@@ -46,12 +46,18 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
-			vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
-			vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSize);
+			vk::DescriptorPoolSize uniformPoolSize = descriptorPool.createUniformPoolSize();
+			vk::DescriptorPoolSize imageSamplerPoolSize = descriptorPool.createImageSamplerPoolSize();
+
+			std::vector<vk::DescriptorPoolSize> poolSizes = { uniformPoolSize, imageSamplerPoolSize };
+			vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSizes);
 			descriptorPool.create(device, descriptorPoolCreateInfo);
 
-			vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
-			vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
+			vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+			vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+
+			std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+			vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 			descriptorSetLayout.create(device, createInfo);
 
 			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);

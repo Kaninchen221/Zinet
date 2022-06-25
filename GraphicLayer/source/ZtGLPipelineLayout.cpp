@@ -154,8 +154,11 @@ namespace zt::gl
 	{
 		// TODO: Probably we should in PipelineLayout the Descriptors Set Layouts store as container and create them outside
 		// TODO: Add possibility to have more than one uniform
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
-		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
+		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+
+		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
 
 		vk::PipelineLayoutCreateInfo createInfo = createPipelineLayoutCreateInfo();

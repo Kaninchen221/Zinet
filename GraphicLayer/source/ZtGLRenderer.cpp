@@ -97,8 +97,11 @@ namespace zt::gl
         prepareIndexBuffer();
         prepareUniformBuffer();
 
-        vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
-        vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSize);
+        vk::DescriptorPoolSize uniformPoolSize = descriptorPool.createUniformPoolSize();
+        vk::DescriptorPoolSize imageSamplerPoolSize = descriptorPool.createImageSamplerPoolSize();
+
+        std::vector<vk::DescriptorPoolSize> poolSizes = { uniformPoolSize, imageSamplerPoolSize };
+        vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSizes);
         descriptorPool.create(device, descriptorPoolCreateInfo);
 
         vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout());

@@ -22,9 +22,11 @@ namespace zt::gl
 
 		~DescriptorSetLayout() noexcept = default;
 
-		vk::DescriptorSetLayoutBinding createDescriptorSetLayoutBinding();
+		vk::DescriptorSetLayoutBinding createUniformLayoutBinding();
 
-		vk::DescriptorSetLayoutCreateInfo createDescriptorSetLayoutCreateInfo(const vk::DescriptorSetLayoutBinding& descriptorSetLayoutBinding);
+		vk::DescriptorSetLayoutBinding createImageSamplerLayoutBinding();
+
+		vk::DescriptorSetLayoutCreateInfo createDescriptorSetLayoutCreateInfo(const std::vector<vk::DescriptorSetLayoutBinding>& bindings);
 
 		void create(Device& device, const vk::DescriptorSetLayoutCreateInfo& createInfo);
 

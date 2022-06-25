@@ -43,8 +43,11 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
-			vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
-			vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo(poolSize);
+			vk::DescriptorPoolSize uniformPoolSize = descriptorPool.createUniformPoolSize();
+			vk::DescriptorPoolSize imageSamplerPoolSize = descriptorPool.createImageSamplerPoolSize();
+
+			std::vector<vk::DescriptorPoolSize> poolSizes = { uniformPoolSize, imageSamplerPoolSize };
+			vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo(poolSizes);
 			descriptorPool.create(device, createInfo);
 		}
 
@@ -59,22 +62,35 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<DescriptorPool, VulkanObject<vk::raii::DescriptorPool>>);
 	}
 
-	TEST(DescriptorPool, CreatePoolSize)
+	TEST(DescriptorPool, CreateUniformPoolSize)
 	{
 		DescriptorPool descriptorPool;
-		vk::DescriptorPoolSize actualPoolSize = descriptorPool.createPoolSize();
+		vk::DescriptorPoolSize poolSize = descriptorPool.createUniformPoolSize();
 
-		ASSERT_EQ(actualPoolSize.descriptorCount, 1u);
+		ASSERT_EQ(poolSize.type, vk::DescriptorType::eUniformBuffer);
+		ASSERT_EQ(poolSize.descriptorCount, 1u);
+	}
+
+	TEST(DescriptorPool, CreateImageSamplerPoolSize)
+	{
+		DescriptorPool descriptorPool;
+		vk::DescriptorPoolSize poolSize = descriptorPool.createImageSamplerPoolSize();
+
+		ASSERT_EQ(poolSize.type, vk::DescriptorType::eCombinedImageSampler);
+		ASSERT_EQ(poolSize.descriptorCount, 1u);
 	}
 
 	TEST(DescriptorPool, CreateCreateInfo)
 	{
 		DescriptorPool descriptorPool;
-		vk::DescriptorPoolSize poolSize = descriptorPool.createPoolSize();
-		vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo(poolSize);
+		vk::DescriptorPoolSize uniformPoolSize = descriptorPool.createUniformPoolSize();
+		vk::DescriptorPoolSize imageSamplerPoolSize = descriptorPool.createImageSamplerPoolSize();
 
-		ASSERT_EQ(createInfo.poolSizeCount, 1u);
-		ASSERT_EQ(createInfo.pPoolSizes, &poolSize);
+		std::vector<vk::DescriptorPoolSize> poolSizes = { uniformPoolSize, imageSamplerPoolSize };
+		vk::DescriptorPoolCreateInfo createInfo = descriptorPool.createCreateInfo(poolSizes);
+
+		ASSERT_EQ(createInfo.poolSizeCount, poolSizes.size());
+		ASSERT_EQ(createInfo.pPoolSizes, poolSizes.data());
 		ASSERT_EQ(createInfo.maxSets, 1u);
 		ASSERT_EQ(createInfo.flags, vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet);
 	}
@@ -82,8 +98,11 @@ namespace zt::gl::tests
 	TEST_F(DescriptorPoolTests, CreateAllocateInfo)
 	{
 		DescriptorSetLayout descriptorSetLayout;
-		vk::DescriptorSetLayoutBinding descriptorSetLayoutBinding = descriptorSetLayout.createDescriptorSetLayoutBinding();
-		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(descriptorSetLayoutBinding);
+		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+
+		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+		vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 		descriptorSetLayout.create(device, createInfo);
 
 		vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout);
