@@ -15,8 +15,9 @@ namespace zt::gl
         instance.getRequiredExtensions();
         vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
         instance.create(context, instanceCreateInfo);
-
-        debugUtilsMessenger.create(instance);
+        
+        if(Instance::GetEnabledValidationLayers())
+            debugUtilsMessenger.create(instance);
 
         window.create();
 
