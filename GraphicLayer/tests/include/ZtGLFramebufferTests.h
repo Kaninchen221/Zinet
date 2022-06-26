@@ -79,7 +79,8 @@ namespace zt::gl::tests
 
 		ImageView imageView;
 		std::vector<vk::Image> images = swapChain->getImages();
-		imageView.create(device, images[0], surfaceFormat.format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], surfaceFormat.format);
+		imageView.create(device, imageViewCreateInfo);
 
 		framebuffer->create(
 			device,

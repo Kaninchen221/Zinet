@@ -20,6 +20,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		// Must be destroyed before device and SwapChain
 		std::unique_ptr<ImageView> imageView;
 
 		ImageViewTests()
@@ -69,17 +70,17 @@ namespace zt::gl::tests
 		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
 
-		std::unique_ptr<SwapChain> swapChain = std::make_unique<SwapChain>();
-		swapChain->create(device, swapChainSupportDetails, surface, window);
+		SwapChain swapChain;
+		swapChain.create(device, swapChainSupportDetails, surface, window);
 
-		std::vector<vk::Image> images = swapChain->getImages();
+		std::vector<vk::Image> images = swapChain.getImages();
 		vk::SurfaceFormatKHR surfaceFormat = swapChainSupportDetails.pickFormat();
-		imageView->create(device, images[0], surfaceFormat.format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView->createCreateInfo(images[0], surfaceFormat.format);
+		imageView->create(device, imageViewCreateInfo);
 		
 		ASSERT_NE(*imageView->getInternal(), *vk::raii::ImageView(std::nullptr_t{}));
 		
 		imageView.reset();
-		swapChain.reset();
 		
 		GLFW::Deinit();
 	}

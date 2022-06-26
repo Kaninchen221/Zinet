@@ -143,7 +143,8 @@ namespace zt::gl
         for (vk::Image swapChainImage : swapChainImages)
         {
             ImageView imageView;
-            imageView.create(device, swapChainImage, swapChainSupportDetails.pickFormat().format);
+            vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(swapChainImage, swapChainSupportDetails.pickFormat().format);
+            imageView.create(device, imageViewCreateInfo);
             imageViews.push_back(std::move(imageView));
         }
     }
@@ -441,7 +442,8 @@ namespace zt::gl
         queue->waitIdle();
 
         // ImageView
-        imageView.create(device, *image.getInternal(), vk::Format::eR8G8B8A8Srgb);
+        vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), vk::Format::eR8G8B8A8Srgb);
+        imageView.create(device, imageViewCreateInfo);
 
         // Sampler
         vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();

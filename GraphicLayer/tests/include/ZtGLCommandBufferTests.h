@@ -119,7 +119,8 @@ namespace zt::gl::tests
 		ImageView imageView;
 		std::vector<vk::Image> images = swapChain.getImages();
 		vk::SurfaceFormatKHR surfaceFormat = swapChainSupportDetails.pickFormat();
-		imageView.create(device, images[0], surfaceFormat.format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], surfaceFormat.format);
+		imageView.create(device, imageViewCreateInfo);
 
 		RenderPass renderPass;
 		renderPass.createAttachmentDescription(surfaceFormat.format);
