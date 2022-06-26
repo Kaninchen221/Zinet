@@ -4,10 +4,6 @@
 
 namespace zt::gl
 {
-	ImageView::ImageView()
-	{
-
-	}
 
 	vk::ImageViewCreateInfo ImageView::createCreateInfo(vk::Image image, const vk::Format& format) const
 	{

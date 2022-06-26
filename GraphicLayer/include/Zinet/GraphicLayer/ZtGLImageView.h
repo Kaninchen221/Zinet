@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		ImageView(); // TODO Mark as default
+		ImageView() = default;
 		ImageView(const ImageView& other) = default;
 		ImageView(ImageView&& other) = default;
 
