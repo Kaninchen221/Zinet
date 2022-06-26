@@ -65,6 +65,7 @@ namespace zt::gl
 
 	std::vector<vk::Image> SwapChain::getImages()
 	{
+		// Images (acquired from the swapchain) lifetime are controlled by the implementation
 		std::vector<VkImage> rawImages = internal.getImages();
 		std::vector<vk::Image> result;
 		result.reserve(rawImages.size());

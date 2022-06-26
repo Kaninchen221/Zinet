@@ -18,8 +18,6 @@ namespace zt::gl
 
 	public:
 
-		// TODO Construct Image from vk::Image
-
 		Image() = default;
 		Image(const Image& other) = default;
 		Image(Image&& other) = default;

@@ -7,7 +7,8 @@
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
-
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 
 #include "gtest/gtest.h"
 
@@ -86,4 +87,5 @@ namespace zt::gl::tests
 
 		ASSERT_NE(*image.getInternal(), *vk::raii::Image{ std::nullptr_t{} });
 	}
+
 }

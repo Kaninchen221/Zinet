@@ -3,6 +3,7 @@
 
 namespace zt::gl
 {
+
 	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t width, std::uint32_t height)
 	{
 		vk::ImageCreateInfo createInfo{};
