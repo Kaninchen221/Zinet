@@ -38,21 +38,6 @@ namespace zt::gl
         return internalWindow;
     }
 
-    void Window::initStb()
-    {
-        // TODO
-    }
-
-    void Window::setViewport(int x, int y, int width, int height)
-    {
-
-    }
-
-    void Window::setClearColor(float red, float green, float blue, float alpha)
-    {
-
-    }
-
     void Window::bindCallbacks()
     {
         event.bindCallbacks();
@@ -71,11 +56,6 @@ namespace zt::gl
     bool Window::shouldBeClosed() const
     {
         return glfwWindowShouldClose(internalWindow);
-    }
-
-    void Window::clear()
-    {
-
     }
 
     void Window::swapBuffers()

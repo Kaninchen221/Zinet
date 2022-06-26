@@ -29,14 +29,6 @@ namespace zt::gl
 
 		GLFWwindow* getInternal();
 
-		void initStb();
-
-		// TODO Remove
-		void setViewport(int x, int y, int width, int height);
-
-		// TODO Remove
-		void setClearColor(float red, float green, float blue, float alpha);
-
 		void bindCallbacks();
 
 		void bindFramebufferSizeCallback();
@@ -45,12 +37,8 @@ namespace zt::gl
 
 		bool shouldBeClosed() const;
 
-		// TODO Remove
-		void clear();
-
 		void swapBuffers();
 
-		// TODO Remove
 		static void FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height);
 
 		Event* getEvent();

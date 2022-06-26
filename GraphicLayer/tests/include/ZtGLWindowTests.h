@@ -33,29 +33,6 @@ namespace zt::gl::tests
 		ASSERT_TRUE(internalWindow);
 	}
 
-	TEST_F(ZtWindowTests, SetViewportTest)
-	{
-		window.create();
-
-		int x = 0;
-		int y = 0;
-		int width = 800;
-		int height = 800;
-
-		window.setViewport(x, y, width, height);
-	}
-
-	TEST_F(ZtWindowTests, SetClearColorTest)
-	{
-		float red{};
-		float green{};
-		float blue{};
-		float alpha{};
-
-		window.create();
-		window.setClearColor(red, green, blue, alpha);
-	}
-
 	TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
 	{
 		window.create();
@@ -80,12 +57,6 @@ namespace zt::gl::tests
 	
 		isOpen = window.isOpen();
 		ASSERT_FALSE(isOpen);
-	}
-	
-	TEST_F(ZtWindowTests, ClearTest)
-	{
-		window.create();
-		window.clear();
 	}
 	
 	TEST_F(ZtWindowTests, SwapBuffersTest)
