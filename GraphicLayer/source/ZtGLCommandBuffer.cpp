@@ -76,27 +76,6 @@ namespace zt::gl
 		internal.reset(flags);
 	}
 
-	void CommandBuffer::copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer, Queue& queue)
-	{
-		begin();
-
-		BufferCopy bufferCopy;
-		bufferCopy.srcOffset = 0;
-		bufferCopy.dstOffset = 0;
-		bufferCopy.size = sourceBuffer.getSize();
-
-		internal.copyBuffer(*sourceBuffer.getInternal(), *destinationBuffer.getInternal(), bufferCopy);
-
-		end();
-
-		SubmitInfo submitInfo{};
-		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &*getInternal();
-
-		queue.submit(submitInfo);
-		queue->waitIdle();
-	}
-
 	vk::ImageMemoryBarrier CommandBuffer::createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout)
 	{
 		vk::ImageMemoryBarrier barrier;

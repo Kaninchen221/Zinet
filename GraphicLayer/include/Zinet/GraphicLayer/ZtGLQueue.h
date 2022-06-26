@@ -17,6 +17,7 @@ namespace zt::gl
 	class Device;
 	class PhysicalDevice;
 	class Surface;
+	class Buffer;
 
 	class ZINET_GRAPHIC_LAYER_API Queue : public VulkanObject<vk::raii::Queue>
 	{
@@ -55,6 +56,7 @@ namespace zt::gl
 
 		void present(vk::PresentInfoKHR& presentInfo);
 
+		void copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer);
 	};
 
 }

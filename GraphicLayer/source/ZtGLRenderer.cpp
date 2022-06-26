@@ -234,7 +234,7 @@ namespace zt::gl
         vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
         transferCommandBuffer.allocateCommandBuffer(device, commandPool);
 
-        transferCommandBuffer.copyBuffer(stagingBuffer, vertexBuffer, queue);
+        queue.copyBufferToBufferWaitIdle(transferCommandBuffer, stagingBuffer, vertexBuffer);
     }
 
     void Renderer::prepareIndexBuffer()
@@ -276,7 +276,7 @@ namespace zt::gl
         vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
         transferCommandBuffer.allocateCommandBuffer(device, commandPool);
 
-        transferCommandBuffer.copyBuffer(stagingBuffer, indexBuffer, queue);
+        queue.copyBufferToBufferWaitIdle(commandBuffer, stagingBuffer, indexBuffer);
     }
 
     void Renderer::prepareUniformBuffer()
@@ -402,7 +402,7 @@ namespace zt::gl
         commandBuffer.begin();
 
         newLayout = vk::ImageLayout::eTransferDstOptimal;
-        commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
+        commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion); // TODO Simplify it
         commandBuffer->end();
 
         submitInfo.commandBufferCount = 1;

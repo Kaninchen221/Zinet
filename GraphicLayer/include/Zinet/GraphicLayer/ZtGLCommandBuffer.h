@@ -50,10 +50,6 @@ namespace zt::gl
 
 		void reset();
 
-		// TODO Move to Queue it will reduce number of params to two
-		// It should inside create command buffer for one use and copy the buffers
-		void copyBuffer(Buffer& sourceBuffer, Buffer& destinationBuffer, Queue& queue); 
-
 		vk::ImageMemoryBarrier createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
 
 	protected:

@@ -8,6 +8,17 @@
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLCommandPool.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLFence.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
+#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 
 #include "gtest/gtest.h"
 
@@ -120,6 +131,9 @@ namespace zt::gl::tests
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
 
+		commandBuffer.begin();
+		commandBuffer.end();
+
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
 		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
@@ -212,5 +226,72 @@ namespace zt::gl::tests
 			imageIndex);
 
 		queue.present(presentInfo); // TODO: Resolve the runtime error
+	}
+
+	TEST_F(QueueTests, CopyBuffer)
+	{
+		Queue queue;
+		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
+		queue.create(device, queueFamilyIndex);
+
+		std::vector<Vertex> vertices{ {}, {} };
+
+		// Staging Buffer
+		StagingBuffer sourceBuffer;
+		DeviceMemory sourceBufferDeviceMemory;
+
+		vk::BufferCreateInfo sourceBufferCreateInfo = sourceBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
+		sourceBuffer.create(device, sourceBufferCreateInfo);
+
+		vk::MemoryRequirements sourceBufferMemoryRequirements = sourceBuffer->getMemoryRequirements();
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryPropertyFlags sourceBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo sourceBufferMemoryAllocateInfo = sourceBuffer.createMemoryAllocateInfo(
+			sourceBufferMemoryRequirements,
+			physicalDeviceMemoryProperties,
+			sourceBufferMemoryPropertyFlags);
+
+		sourceBufferDeviceMemory.create(device, sourceBufferMemoryAllocateInfo);
+
+		sourceBuffer.bindMemory(sourceBufferDeviceMemory);
+
+		sourceBufferDeviceMemory.fillWithSTDContainer(vertices);
+
+		// Vertex Buffer 
+		VertexBuffer destinationBuffer;
+		DeviceMemory destinationBufferDeviceMemory;
+
+		vk::BufferCreateInfo destinationBufferCreateInfo = destinationBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
+		destinationBuffer.create(device, destinationBufferCreateInfo);
+
+		vk::MemoryRequirements destinationBufferMemoryRequirements = destinationBuffer->getMemoryRequirements();
+		vk::MemoryPropertyFlags destinationBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eDeviceLocal;
+		vk::MemoryAllocateInfo destinationBufferrMemoryAllocateInfo = destinationBuffer.createMemoryAllocateInfo(
+			destinationBufferMemoryRequirements,
+			physicalDeviceMemoryProperties,
+			destinationBufferMemoryPropertyFlags);
+
+		destinationBufferDeviceMemory.create(device, destinationBufferrMemoryAllocateInfo);
+		destinationBuffer.bindMemory(destinationBufferDeviceMemory);
+		
+		CommandPool commandPool;
+		commandPool.create(device, queueFamilyIndex);
+
+		CommandBuffer commandBuffer;
+		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+
+		queue.copyBufferToBufferWaitIdle(commandBuffer, sourceBuffer, destinationBuffer);
+
+		std::pair<void*, std::uint64_t> data = destinationBufferDeviceMemory.getData(destinationBuffer.getSize());
+		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
+
+		ASSERT_EQ(data.second, expectedSize);
+
+		int result = std::memcmp(data.first, vertices.data(), expectedSize);
+
+		ASSERT_EQ(result, 0);
+
+		std::free(data.first);
 	}
 }

@@ -6,6 +6,8 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLBufferCopy.h"
 
 #include <utility>
 
@@ -65,5 +67,26 @@ namespace zt::gl
     void Queue::present(vk::PresentInfoKHR& presentInfo)
     {
         [[maybe_unused]] vk::Result result = internal.presentKHR(presentInfo);
+    }
+
+    void Queue::copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer)
+    {
+        commandBuffer.begin();
+
+        BufferCopy bufferCopy;
+        bufferCopy.srcOffset = 0;
+        bufferCopy.dstOffset = 0;
+        bufferCopy.size = sourceBuffer.getSize();
+
+        commandBuffer->copyBuffer(*sourceBuffer.getInternal(), *destinationBuffer.getInternal(), bufferCopy);
+
+        commandBuffer.end();
+
+        SubmitInfo submitInfo{};
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+        submit(submitInfo);
+        internal.waitIdle();
     }
 }
