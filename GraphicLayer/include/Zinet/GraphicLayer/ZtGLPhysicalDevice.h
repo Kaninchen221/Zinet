@@ -20,10 +20,9 @@ namespace zt::gl
 
 	public:
 
-		PhysicalDevice(); // TODO remove definition and add '= default'
+		PhysicalDevice() = default;
 		PhysicalDevice(const PhysicalDevice& other) = default;
 		PhysicalDevice(PhysicalDevice&& other) = default;
-		PhysicalDevice(vk::raii::PhysicalDevice&& physicalDevice);
 
 		PhysicalDevice& operator = (const PhysicalDevice& other) = default;
 		PhysicalDevice& operator = (PhysicalDevice&& PhysicalDevice) = default;

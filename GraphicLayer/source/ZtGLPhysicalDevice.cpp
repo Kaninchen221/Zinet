@@ -5,16 +5,6 @@
 namespace zt::gl
 {
 
-    PhysicalDevice::PhysicalDevice()
-    {
-
-    }
-
-    PhysicalDevice::PhysicalDevice(vk::raii::PhysicalDevice&& physicalDevice)
-    {
-
-    }
-
     uint32_t PhysicalDevice::pickQueueFamilyIndex(Surface& surface)
     {
         std::vector<vk::QueueFamilyProperties> queueFamiliesProperties = internal.getQueueFamilyProperties();
