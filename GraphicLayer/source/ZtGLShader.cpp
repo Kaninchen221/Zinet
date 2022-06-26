@@ -6,10 +6,6 @@
 
 namespace zt::gl
 {
-    Shader::Shader()
-    {
-
-    }
 
 	std::string_view Shader::getSource() const
 	{
@@ -83,6 +79,12 @@ namespace zt::gl
 	const std::vector<uint32_t>& Shader::getCompiled() const
 	{
 		return compiled;
+	}
+
+	void Shader::clear()
+	{
+		compiled.clear();
+		source.clear();
 	}
 
 }

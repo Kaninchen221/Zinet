@@ -91,5 +91,26 @@ namespace zt::gl::tests
 		
 		ASSERT_FALSE(result.empty());
 	}
+
+	TEST_F(ShaderTests, Clear)
+	{
+		shader.setType(ShaderType::Vertex);
+		shader.loadFromCString(cStringVertexShaderSource);
+		bool isCompiled = shader.compile();
+
+		ASSERT_TRUE(isCompiled);
+
+		const std::vector<uint32_t>& result = shader.getCompiled();
+
+		ASSERT_FALSE(result.empty());
+
+		shader.clear();
+
+		ASSERT_TRUE(result.empty());
+
+		std::string_view source = shader.getSource();
+
+		ASSERT_TRUE(source.empty());
+	}
 	
 }
