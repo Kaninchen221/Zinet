@@ -29,8 +29,6 @@ namespace zt::gl
 
 		vk::ImageViewCreateInfo createCreateInfo(vk::Image image, const vk::Format& format) const;
 
-		// TODO As params pass only device and create info
-		// TODO Add possibility to create from zt::gl::Image
 		void create(Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo);
 
 	};
