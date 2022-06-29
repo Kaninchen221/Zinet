@@ -9,19 +9,13 @@
 
 namespace zt::gl
 {
-	SwapChain::SwapChain()
-	{
-	}
 
 	void SwapChain::create(
 		Device& device,
-		const SwapChainSupportDetails& swapChainSupportDetails,
-		Surface& surface,
-		Window& window
+		const vk::SwapchainCreateInfoKHR& createInfo
 	)
 	{
-		vk::SwapchainCreateInfoKHR swapChainCreateInfo = createCreateInfo(swapChainSupportDetails, surface, window);
-		internal = std::move(vk::raii::SwapchainKHR(device.getInternal(), swapChainCreateInfo));
+		internal = std::move(vk::raii::SwapchainKHR(device.getInternal(), createInfo));
 	}
 
 	vk::SwapchainCreateInfoKHR SwapChain::createCreateInfo(
@@ -65,7 +59,6 @@ namespace zt::gl
 
 	std::vector<vk::Image> SwapChain::getImages()
 	{
-		// Images (acquired from the swapchain) lifetime are controlled by the implementation
 		std::vector<VkImage> rawImages = internal.getImages();
 		std::vector<vk::Image> result;
 		result.reserve(rawImages.size());

@@ -23,7 +23,7 @@ namespace zt::gl
 
 	public:
 
-		SwapChain();
+		SwapChain() = default;
 		SwapChain(const SwapChain& other) = default;
 		SwapChain(SwapChain&& other) = default;
 
@@ -32,12 +32,9 @@ namespace zt::gl
 
 		~SwapChain() noexcept = default;
 
-		// TODO Instead of the params pass one createInfo
 		void create(
 			Device& device,
-			const SwapChainSupportDetails& swapChainSupportDetails,
-			Surface& surface,
-			Window& window
+			const vk::SwapchainCreateInfoKHR& createInfo
 		);
 
 		vk::SwapchainCreateInfoKHR createCreateInfo(
@@ -46,7 +43,7 @@ namespace zt::gl
 			Window& window
 		) const;
 
-		// TODO Replace vk::Image with zt::gl::Image
+		// Images (acquired from the swapchain) lifetime are controlled by the implementation
 		std::vector<vk::Image> getImages();
 
 		std::pair<vk::Result, uint32_t> acquireNextImage(uint64_t timeout, Semaphore& semaphore, Fence& fence);

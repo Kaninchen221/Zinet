@@ -114,7 +114,8 @@ namespace zt::gl::tests
 		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 
 		SwapChain swapChain;
-		swapChain.create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 
 		ImageView imageView;
 		std::vector<vk::Image> images = swapChain.getImages();

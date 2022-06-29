@@ -198,7 +198,8 @@ namespace zt::gl::tests
 		SwapChain swapChain;
 		SwapChainSupportDetails swapChainSupportDetails;
 		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-		swapChain.create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 
 		Semaphore semaphore;
 		semaphore.create(device);

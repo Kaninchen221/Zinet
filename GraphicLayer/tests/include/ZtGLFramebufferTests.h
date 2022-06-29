@@ -75,7 +75,8 @@ namespace zt::gl::tests
 		renderPass.create(device);
 
 		std::unique_ptr<SwapChain> swapChain = std::make_unique<SwapChain>();
-		swapChain->create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain->createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain->create(device, creatInfo);
 
 		ImageView imageView;
 		std::vector<vk::Image> images = swapChain->getImages();

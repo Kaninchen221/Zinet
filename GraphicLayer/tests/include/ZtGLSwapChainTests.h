@@ -71,7 +71,8 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainTests, Create)
 	{
-		swapChain.create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 		const vk::raii::SwapchainKHR& internal = swapChain.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::SwapchainKHR(std::nullptr_t()));
@@ -79,7 +80,8 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainTests, GetImages)
 	{
-		swapChain.create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 		std::vector<vk::Image> images = swapChain.getImages();
 		std::vector<VkImage> rawImages = swapChain.getInternal().getImages();
 
@@ -98,7 +100,8 @@ namespace zt::gl::tests
 		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
 
-		swapChain.create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 		
 		uint64_t timeout = 1;
 

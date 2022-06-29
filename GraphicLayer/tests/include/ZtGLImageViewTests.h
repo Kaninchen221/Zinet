@@ -71,7 +71,8 @@ namespace zt::gl::tests
 		device.create(physicalDevice, deviceCreateInfo);
 
 		SwapChain swapChain;
-		swapChain.create(device, swapChainSupportDetails, surface, window);
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 
 		std::vector<vk::Image> images = swapChain.getImages();
 		vk::SurfaceFormatKHR surfaceFormat = swapChainSupportDetails.pickFormat();

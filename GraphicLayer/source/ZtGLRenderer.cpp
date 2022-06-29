@@ -136,7 +136,8 @@ namespace zt::gl
     void Renderer::prepareSwapChain()
     {
         swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-        swapChain.create(device, swapChainSupportDetails, surface, window);
+        vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+        swapChain.create(device, creatInfo);
 
         swapChainImages = swapChain.getImages();
         imageViews.reserve(swapChainImages.size());
