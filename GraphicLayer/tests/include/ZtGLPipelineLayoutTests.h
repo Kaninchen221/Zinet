@@ -93,7 +93,7 @@ namespace zt::gl::tests
 		PipelineLayout pipelineLayout;
 
 		ShaderModule shaderModule;
-		vk::PipelineShaderStageCreateInfo createInfo = pipelineLayout.createShaderStageCreateInfo(shaderModule);
+		const vk::PipelineShaderStageCreateInfo& createInfo = pipelineLayout.createShaderStageCreateInfo(shaderModule);
 
 		ASSERT_NE(createInfo, vk::PipelineShaderStageCreateInfo{});
 	}
@@ -102,7 +102,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineVertexInputStateCreateInfo createInfo = pipelineLayout.createVertexInputStateCreateInfo();
+		const vk::PipelineVertexInputStateCreateInfo& createInfo = pipelineLayout.createVertexInputStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineVertexInputStateCreateInfo{});
 	}
@@ -111,7 +111,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineInputAssemblyStateCreateInfo createInfo = pipelineLayout.createInputAssemblyStateCreateInfo();
+		const vk::PipelineInputAssemblyStateCreateInfo& createInfo = pipelineLayout.createInputAssemblyStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineInputAssemblyStateCreateInfo{});
 	}
@@ -160,7 +160,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineViewportStateCreateInfo createInfo = pipelineLayout.createViewportStateCreateInfo();
+		const vk::PipelineViewportStateCreateInfo& createInfo = pipelineLayout.createViewportStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineViewportStateCreateInfo{});
 	}
@@ -169,7 +169,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineRasterizationStateCreateInfo createInfo = pipelineLayout.createRasterizationStateCreateInfo();
+		const vk::PipelineRasterizationStateCreateInfo& createInfo = pipelineLayout.createRasterizationStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineRasterizationStateCreateInfo{});
 	}
@@ -178,7 +178,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineMultisampleStateCreateInfo createInfo = pipelineLayout.createMultisampleStateCreateInfo();
+		const vk::PipelineMultisampleStateCreateInfo& createInfo = pipelineLayout.createMultisampleStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineMultisampleStateCreateInfo{});
 	}
@@ -187,7 +187,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineColorBlendAttachmentState createInfo = pipelineLayout.createColorBlendAttachmentState();
+		const vk::PipelineColorBlendAttachmentState& createInfo = pipelineLayout.createColorBlendAttachmentState();
 
 		ASSERT_NE(createInfo, vk::PipelineColorBlendAttachmentState{});
 	}
@@ -196,7 +196,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineColorBlendStateCreateInfo createInfo = pipelineLayout.createColorBlendStateCreateInfo();
+		const vk::PipelineColorBlendStateCreateInfo& createInfo = pipelineLayout.createColorBlendStateCreateInfo();
 
 		ASSERT_NE(createInfo, vk::PipelineColorBlendStateCreateInfo{});
 	}
@@ -205,7 +205,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		vk::PipelineLayoutCreateInfo createInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+		const vk::PipelineLayoutCreateInfo& createInfo = pipelineLayout.createPipelineLayoutCreateInfo();
 
 		ASSERT_EQ(createInfo.setLayoutCount, 1);
 		ASSERT_EQ(createInfo.pSetLayouts, &(*pipelineLayout.getDescriptorSetLayout().getInternal()));

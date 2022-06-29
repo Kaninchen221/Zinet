@@ -11,7 +11,6 @@ namespace zt::gl
 	class ShaderModule;
 	class Device;
 
-	// TODO Probably the "create[...]" functions should return only a value
 	class ZINET_GRAPHIC_LAYER_API PipelineLayout : public VulkanObject<vk::raii::PipelineLayout>
 	{
 
@@ -30,13 +29,13 @@ namespace zt::gl
 
 		~PipelineLayout() noexcept = default;
 
-		vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);
+		const vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);
 
-		vk::PipelineVertexInputStateCreateInfo& createVertexInputStateCreateInfo();
+		const vk::PipelineVertexInputStateCreateInfo& createVertexInputStateCreateInfo();
 
-		vk::PipelineInputAssemblyStateCreateInfo& createInputAssemblyStateCreateInfo();
+		const vk::PipelineInputAssemblyStateCreateInfo& createInputAssemblyStateCreateInfo();
 
-		vk::PipelineViewportStateCreateInfo& createViewportStateCreateInfo();
+		const vk::PipelineViewportStateCreateInfo& createViewportStateCreateInfo();
 
 		void setViewportSize(float width, float height);
 
@@ -46,15 +45,15 @@ namespace zt::gl
 
 		const vk::Rect2D& getScissor() const;
 
-		vk::PipelineRasterizationStateCreateInfo& createRasterizationStateCreateInfo();
+		const vk::PipelineRasterizationStateCreateInfo& createRasterizationStateCreateInfo();
 
-		vk::PipelineMultisampleStateCreateInfo& createMultisampleStateCreateInfo();
+		const vk::PipelineMultisampleStateCreateInfo& createMultisampleStateCreateInfo();
 
-		vk::PipelineColorBlendAttachmentState& createColorBlendAttachmentState();
+		const vk::PipelineColorBlendAttachmentState& createColorBlendAttachmentState();
 
-		vk::PipelineColorBlendStateCreateInfo& createColorBlendStateCreateInfo();
+		const vk::PipelineColorBlendStateCreateInfo& createColorBlendStateCreateInfo();
 
-		vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
+		const vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
 
 		void create(Device& device);
 

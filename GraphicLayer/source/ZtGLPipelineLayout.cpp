@@ -18,7 +18,7 @@ namespace zt::gl
 
 	}
 
-	vk::PipelineShaderStageCreateInfo& PipelineLayout::createShaderStageCreateInfo(ShaderModule& shaderModule)
+	const vk::PipelineShaderStageCreateInfo& PipelineLayout::createShaderStageCreateInfo(ShaderModule& shaderModule)
 	{
 		shaderStageCreateInfo.stage = ShaderTypeToVkShaderStage(shaderModule.getType());
 		shaderStageCreateInfo.module = *shaderModule.getInternal();
@@ -27,7 +27,7 @@ namespace zt::gl
 		return shaderStageCreateInfo;
 	}
 
-	vk::PipelineVertexInputStateCreateInfo& PipelineLayout::createVertexInputStateCreateInfo()
+	const vk::PipelineVertexInputStateCreateInfo& PipelineLayout::createVertexInputStateCreateInfo()
 	{
 		vertexInputBindingDescription = Vertex::CreateInputBindingDescription();
 
@@ -43,7 +43,7 @@ namespace zt::gl
 		return vertexInputStateCreateInfo;
 	}
 
-	vk::PipelineInputAssemblyStateCreateInfo& PipelineLayout::createInputAssemblyStateCreateInfo()
+	const vk::PipelineInputAssemblyStateCreateInfo& PipelineLayout::createInputAssemblyStateCreateInfo()
 	{
 		inputAssemblyStateCreateInfo.topology = vk::PrimitiveTopology::eTriangleList;
 		inputAssemblyStateCreateInfo.primitiveRestartEnable = VK_FALSE;
@@ -51,7 +51,7 @@ namespace zt::gl
 		return inputAssemblyStateCreateInfo;
 	}
 
-	vk::PipelineViewportStateCreateInfo& PipelineLayout::createViewportStateCreateInfo()
+	const vk::PipelineViewportStateCreateInfo& PipelineLayout::createViewportStateCreateInfo()
 	{
 		viewportStateCreateInfo.viewportCount = 1;
 		viewportStateCreateInfo.pViewports = &viewport;
@@ -82,7 +82,7 @@ namespace zt::gl
 		return scissor;
 	}
 
-	vk::PipelineRasterizationStateCreateInfo& PipelineLayout::createRasterizationStateCreateInfo()
+	const vk::PipelineRasterizationStateCreateInfo& PipelineLayout::createRasterizationStateCreateInfo()
 	{
 		rasterizationStateCreateInfo.depthClampEnable = VK_FALSE;
 		rasterizationStateCreateInfo.rasterizerDiscardEnable = VK_FALSE;
@@ -98,7 +98,7 @@ namespace zt::gl
 		return rasterizationStateCreateInfo;
 	}
 
-	vk::PipelineMultisampleStateCreateInfo& PipelineLayout::createMultisampleStateCreateInfo()
+	const vk::PipelineMultisampleStateCreateInfo& PipelineLayout::createMultisampleStateCreateInfo()
 	{
 		multisampleStateCreateInfo.sampleShadingEnable = VK_FALSE;
 		multisampleStateCreateInfo.rasterizationSamples = vk::SampleCountFlagBits::e1;
@@ -110,7 +110,7 @@ namespace zt::gl
 		return multisampleStateCreateInfo;
 	}
 
-	vk::PipelineColorBlendAttachmentState& PipelineLayout::createColorBlendAttachmentState()
+	const vk::PipelineColorBlendAttachmentState& PipelineLayout::createColorBlendAttachmentState()
 	{
 		colorBlendAttachmentState.colorWriteMask =
 			vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
@@ -125,7 +125,7 @@ namespace zt::gl
 		return colorBlendAttachmentState;
 	}
 
-	vk::PipelineColorBlendStateCreateInfo& PipelineLayout::createColorBlendStateCreateInfo()
+	const vk::PipelineColorBlendStateCreateInfo& PipelineLayout::createColorBlendStateCreateInfo()
 	{
 		colorBlendStateCreateInfo.logicOpEnable = VK_FALSE;
 		colorBlendStateCreateInfo.logicOp = vk::LogicOp::eCopy;
@@ -139,7 +139,7 @@ namespace zt::gl
 		return colorBlendStateCreateInfo;
 	}
 
-	vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
+	const vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
 	{
 		vk::PipelineLayoutCreateInfo layoutCreateInfo;
 		layoutCreateInfo.setLayoutCount = 1;
