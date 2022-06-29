@@ -30,8 +30,8 @@ namespace zt::gl
         deviceCreateInfo.queueCreateInfoCount = 1;
         deviceCreateInfo.pQueueCreateInfos = &deviceQueueCreateInfo;
         deviceCreateInfo.pEnabledFeatures = &physicalDevice.getFeatures();
-        deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(PhysicalDevice::GetPhysicalDeviceExtensions().size());
-        deviceCreateInfo.ppEnabledExtensionNames = PhysicalDevice::GetPhysicalDeviceExtensions().data();
+        deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(physicalDevice.getPhysicalDeviceExtensions().size());
+        deviceCreateInfo.ppEnabledExtensionNames = physicalDevice.getPhysicalDeviceExtensions().data();
 
         if (Instance::GetEnabledValidationLayers())
         {

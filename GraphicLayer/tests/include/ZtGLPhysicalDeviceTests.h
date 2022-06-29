@@ -21,23 +21,16 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<PhysicalDevice, VulkanObject<vk::raii::PhysicalDevice>>);
 	}
 
-	TEST(PhysicalDevice, CreateFeaturesTest)
-	{
-		PhysicalDevice physicalDevice;
-		physicalDevice.createFeatures();
-	}
-
 	TEST(PhysicalDevice, GetFeaturesTest)
 	{
 		PhysicalDevice physicalDevice;
-		physicalDevice.createFeatures();
 		const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
 	}
 
 	TEST(PhysicalDevice, PhysicalDeviceExtensions)
 	{
 		PhysicalDevice physicalDevice;
-		const std::vector<const char*>& physicalDeviceExtensions = physicalDevice.GetPhysicalDeviceExtensions();
+		const std::vector<const char*>& physicalDeviceExtensions = physicalDevice.getPhysicalDeviceExtensions();
 
 		ASSERT_FALSE(physicalDeviceExtensions.empty());
 	}
@@ -81,7 +74,7 @@ namespace zt::gl::tests
 	}
 
 	TEST_F(PhysicalDeviceTests, GetSwaptChainSupportDetailsTest)
-	{
+    {
 		GLFW::Init();
 
 		Window window;
@@ -106,6 +99,5 @@ namespace zt::gl::tests
 		ASSERT_FALSE(swapChainSupportDetails.presentModes.empty());
 
 		GLFW::Deinit();
-	}
-
+    }
 }

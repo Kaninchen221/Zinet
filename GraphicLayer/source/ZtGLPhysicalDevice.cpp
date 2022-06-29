@@ -28,25 +28,20 @@ namespace zt::gl
         return std::numeric_limits<uint32_t>::max();
     }
 
-    vk::PhysicalDeviceFeatures PhysicalDevice::createFeatures() const
-    {
-        return features;
-    }
-
     const vk::PhysicalDeviceFeatures& PhysicalDevice::getFeatures() const
     {
         return features;
     }
 
-    const std::vector<const char*>& PhysicalDevice::GetPhysicalDeviceExtensions()
+    const std::vector<const char*>& PhysicalDevice::getPhysicalDeviceExtensions() const
     {
-        return PhysicalDeviceExtensions;
+        return physicalDeviceExtensions;
     }
 
     bool PhysicalDevice::isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const
     {
         std::vector<vk::ExtensionProperties> availableExtensionProperties = physicalDevice.enumerateDeviceExtensionProperties();
-        for (const char* neededExtension : PhysicalDeviceExtensions)
+        for (const char* neededExtension : physicalDeviceExtensions)
         {
             auto predicate = [neededExtension](const vk::ExtensionProperties& extension) -> bool
             {
@@ -66,16 +61,6 @@ namespace zt::gl
         }
 
         return true;
-    }
-
-    SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(Surface& surface)
-    {
-        SwapChainSupportDetails swapChainSupportDetails;
-        swapChainSupportDetails.surfaceCapabilities = internal.getSurfaceCapabilitiesKHR(*surface.getInternal());
-        swapChainSupportDetails.surfaceFormats = internal.getSurfaceFormatsKHR(*surface.getInternal());
-        swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(*surface.getInternal());
-
-        return swapChainSupportDetails;
     }
 
     bool PhysicalDevice::create(Instance& instance)
@@ -99,4 +84,13 @@ namespace zt::gl
         return false;
     }
 
+    SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(const Surface& surface) const
+    {
+        SwapChainSupportDetails swapChainSupportDetails;
+        swapChainSupportDetails.surfaceCapabilities = internal.getSurfaceCapabilitiesKHR(*surface.getInternal());
+        swapChainSupportDetails.surfaceFormats = internal.getSurfaceFormatsKHR(*surface.getInternal());
+        swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(*surface.getInternal());
+        
+        return swapChainSupportDetails;
+    }
 }

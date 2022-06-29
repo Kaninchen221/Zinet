@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -31,25 +31,21 @@ namespace zt::gl
 
 		uint32_t pickQueueFamilyIndex(Surface& surface);
 
-		vk::PhysicalDeviceFeatures createFeatures() const;
 		const vk::PhysicalDeviceFeatures& getFeatures() const;
 
 		bool create(Instance& instance);
 
-		// TODO Convert it to non static function
-		static const std::vector<const char*>& GetPhysicalDeviceExtensions();
+		const std::vector<const char*>& getPhysicalDeviceExtensions() const;
 
 		bool isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
 
-		SwapChainSupportDetails getSwapChainSupportDetails(Surface& surface);
+		SwapChainSupportDetails getSwapChainSupportDetails(const Surface& surface) const;
 
 	protected:
 		
-		// TODO Return it as value in createFeatures
 		vk::PhysicalDeviceFeatures features;
 
-		// TODO Return it as value in GetPhysicalDeviceExtensions
-		inline static const std::vector<const char*> PhysicalDeviceExtensions =
+		const std::vector<const char*> physicalDeviceExtensions =
 		{
 			VK_KHR_SWAPCHAIN_EXTENSION_NAME
 		};
