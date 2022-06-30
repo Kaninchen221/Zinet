@@ -66,7 +66,6 @@ namespace zt::gl::tests
 			device.create(physicalDevice, deviceCreateInfo);
 
 			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-			//vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
 			queue.create(device, queueFamilyIndex);
 		}
 
@@ -90,7 +89,8 @@ namespace zt::gl::tests
 		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
-		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+		Queue queue;
+		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
 			waitSemaphores, 
 			waitPipelineStageFlags,
 			commandBuffers, 
@@ -110,9 +110,6 @@ namespace zt::gl::tests
 
 	TEST_F(QueueTests, CreateQueue)
 	{
-		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		queue.create(device, queueFamilyIndex);
-
 		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 	}
 
@@ -136,7 +133,7 @@ namespace zt::gl::tests
 
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
-		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
 			waitSemaphores,
 			waitPipelineStageFlags,
 			commandBuffers,
@@ -164,7 +161,7 @@ namespace zt::gl::tests
 
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
-		SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
 			waitSemaphores,
 			waitPipelineStageFlags,
 			commandBuffers,
@@ -173,13 +170,14 @@ namespace zt::gl::tests
 		queue.submit(submitInfo);
 	}
 
-	TEST_F(QueueTests, CreatePresentInfo)
+	TEST(Queue, CreatePresentInfo)
 	{
 		std::array<Semaphore*, 1> waitSemaphores{ {} };
 		std::array<SwapChain*, 1> swapChains{ {} };
 		uint32_t imageIndex;
 
-		vk::PresentInfoKHR presentInfo = Queue::CreatePresentInfo(
+		Queue queue;
+		vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
 			waitSemaphores,
 			swapChains,
 			imageIndex);
@@ -221,7 +219,7 @@ namespace zt::gl::tests
 		renderPass.createSubpassDependency();
 		renderPass.create(device);
 
-		vk::PresentInfoKHR presentInfo = Queue::CreatePresentInfo(
+		vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
 			waitSemaphores,
 			swapChains,
 			imageIndex);

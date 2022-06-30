@@ -373,7 +373,7 @@ namespace zt::gl
 
         commandBuffer.end();
 
-        SubmitInfo submitInfo{};
+        vk::SubmitInfo submitInfo{};
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
@@ -499,7 +499,7 @@ namespace zt::gl
         std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
         std::array<Semaphore*, 1> signalSemaphores = { &renderFinishedSemaphore };
 
-        SubmitInfo submitInfo = Queue::CreateSubmitInfo(
+        vk::SubmitInfo submitInfo = queue.createSubmitInfo(
             waitSemaphores,
             waitPipelineStageFlags,
             commandBuffers,
@@ -512,7 +512,7 @@ namespace zt::gl
     {
         std::array<Semaphore*, 1> waitSemaphores = { &renderFinishedSemaphore };
         std::array<SwapChain*, 1> swapChains = { &swapChain };
-        vk::PresentInfoKHR presentInfo = Queue::CreatePresentInfo(
+        vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
             waitSemaphores,
             swapChains,
             image);

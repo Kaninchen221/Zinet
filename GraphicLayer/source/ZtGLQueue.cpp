@@ -20,13 +20,13 @@ namespace zt::gl
         internal = std::move(vk::raii::Queue{ device.getInternal(), queueFamilyIndex, queueIndex });
     }
 
-    SubmitInfo Queue::CreateSubmitInfo(
+    vk::SubmitInfo Queue::createSubmitInfo(
         std::span<Semaphore*> waitSemaphores,
         vk::PipelineStageFlags& waitPipelineStageFlags,
         std::span<CommandBuffer*> commandBuffers,
         std::span<Semaphore*> signalSemaphores)
     {
-        SubmitInfo submitInfo;
+        vk::SubmitInfo submitInfo;
         submitInfo.waitSemaphoreCount = waitSemaphores.size();
         submitInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
         submitInfo.pWaitDstStageMask = &waitPipelineStageFlags;
@@ -38,17 +38,17 @@ namespace zt::gl
         return submitInfo;
     }
 
-    void Queue::submit(SubmitInfo submitInfo, Fence& fence)
+    void Queue::submit(const vk::SubmitInfo& submitInfo, Fence& fence)
     {
         internal.submit(submitInfo, *fence.getInternal());
     }
 
-    void Queue::submit(SubmitInfo submitInfo)
+    void Queue::submit(const vk::SubmitInfo& submitInfo)
     {
         internal.submit(submitInfo);
     }
 
-    vk::PresentInfoKHR Queue::CreatePresentInfo(
+    vk::PresentInfoKHR Queue::createPresentInfo(
         std::span<Semaphore*> waitSemaphores, 
         std::span<SwapChain*> swapChains, 
         uint32_t& imageIndex)
@@ -82,7 +82,7 @@ namespace zt::gl
 
         commandBuffer.end();
 
-        SubmitInfo submitInfo{};
+        vk::SubmitInfo submitInfo{};
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 

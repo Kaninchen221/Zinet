@@ -34,7 +34,6 @@
 #include "ZtGLStagingBufferTests.h"
 #include "ZtGLDeviceMemoryTests.h"
 #include "ZtGLBufferCopyTests.h"
-#include "ZtGLSubmitInfoTests.h"
 #include "ZtGLIndexBufferTests.h"
 #include "ZtGLUniformBufferTests.h"
 #include "ZtGLDescriptorSetLayoutTests.h"
