@@ -3,12 +3,8 @@
 
 namespace zt::gl
 {
-	RenderPass::RenderPass()
-	{
 
-	}
-
-	vk::AttachmentDescription RenderPass::createAttachmentDescription(vk::Format format)
+	const vk::AttachmentDescription& RenderPass::createAttachmentDescription(vk::Format format)
 	{
 		attachmentDescription.format = format;
 		attachmentDescription.samples = vk::SampleCountFlagBits::e1;
@@ -22,7 +18,7 @@ namespace zt::gl
 		return attachmentDescription;
 	}
 
-	vk::AttachmentReference RenderPass::createAttachmentReference()
+	const vk::AttachmentReference& RenderPass::createAttachmentReference()
 	{
 		attachmentReference.attachment = 0;
 		attachmentReference.layout = vk::ImageLayout::eColorAttachmentOptimal;
@@ -30,7 +26,7 @@ namespace zt::gl
 		return attachmentReference;
 	}
 
-	vk::SubpassDescription RenderPass::createSubpassDescription()
+	const vk::SubpassDescription& RenderPass::createSubpassDescription()
 	{
 		subpassDescription.pipelineBindPoint = vk::PipelineBindPoint::eGraphics;
 		subpassDescription.colorAttachmentCount = 1;
@@ -39,7 +35,7 @@ namespace zt::gl
 		return subpassDescription;
 	}
 
-	vk::SubpassDependency RenderPass::createSubpassDependency()
+	const vk::SubpassDependency& RenderPass::createSubpassDependency()
 	{
 		subpassDependency.srcSubpass = VK_SUBPASS_EXTERNAL;
 		subpassDependency.dstSubpass = 0;
@@ -52,7 +48,7 @@ namespace zt::gl
 		return subpassDependency;
 	}
 
-	vk::RenderPassCreateInfo RenderPass::createRenderPassCreateInfo()
+	const vk::RenderPassCreateInfo& RenderPass::createRenderPassCreateInfo() const
 	{
 		vk::RenderPassCreateInfo createInfo;
 		createInfo.attachmentCount = 1;

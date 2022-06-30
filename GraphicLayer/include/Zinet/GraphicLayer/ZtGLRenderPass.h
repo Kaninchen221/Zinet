@@ -9,17 +9,16 @@ namespace zt::gl
 {
 	class Device;
 
-	// TODO Make the "create[...]" functions return a value and remove the properties from protected section
 	class ZINET_GRAPHIC_LAYER_API RenderPass : public VulkanObject<vk::raii::RenderPass>
 	{
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Render Pass");
+		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("RenderPass");
 
 	public:
 
-		RenderPass();
+		RenderPass() = default;
 		RenderPass(const RenderPass& other) = default;
 		RenderPass(RenderPass&& other) = default;
 
@@ -28,15 +27,15 @@ namespace zt::gl
 
 		~RenderPass() noexcept = default;
 
-		vk::AttachmentDescription createAttachmentDescription(vk::Format format);
+		const vk::AttachmentDescription& createAttachmentDescription(vk::Format format);
 
-		vk::AttachmentReference createAttachmentReference();
+		const vk::AttachmentReference& createAttachmentReference();
 
-		vk::SubpassDescription createSubpassDescription();
+		const vk::SubpassDescription& createSubpassDescription();
 
-		vk::SubpassDependency createSubpassDependency();
+		const vk::SubpassDependency& createSubpassDependency();
 
-		vk::RenderPassCreateInfo createRenderPassCreateInfo();
+		const vk::RenderPassCreateInfo& createRenderPassCreateInfo() const;
 
 		void create(Device& device);
 

@@ -23,35 +23,35 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, CreateAttachmentDescriptionTest)
 	{
 		vk::Format swapChainFormat{};
-		vk::AttachmentDescription attachmentDescription = renderPass->createAttachmentDescription(swapChainFormat);
+		const vk::AttachmentDescription& attachmentDescription = renderPass->createAttachmentDescription(swapChainFormat);
 
 		ASSERT_NE(attachmentDescription, vk::AttachmentDescription{});
 	}
 
 	TEST_F(RenderPassTests, CreateAttachmentReferenceTest)
 	{
-		vk::AttachmentReference attachmentReference = renderPass->createAttachmentReference();
+		const vk::AttachmentReference& attachmentReference = renderPass->createAttachmentReference();
 
 		ASSERT_NE(attachmentReference, vk::AttachmentReference{});
 	}
 
 	TEST_F(RenderPassTests, CreateSubpassDescriptionTest)
 	{
-		vk::SubpassDescription subpassDescription = renderPass->createSubpassDescription();
+		const vk::SubpassDescription& subpassDescription = renderPass->createSubpassDescription();
 
 		ASSERT_NE(subpassDescription, vk::SubpassDescription{});
 	}
 
 	TEST_F(RenderPassTests, CreateRenderPassCreateInfoTest)
 	{
-		vk::RenderPassCreateInfo createInfo = renderPass->createRenderPassCreateInfo();
+		const vk::RenderPassCreateInfo& createInfo = renderPass->createRenderPassCreateInfo();
 
 		ASSERT_NE(createInfo, vk::RenderPassCreateInfo{});
 	}
 
 	TEST_F(RenderPassTests, CreateSubpassDependencyTest)
 	{
-		vk::SubpassDependency subpassDependency = renderPass->createSubpassDependency();
+		const vk::SubpassDependency& subpassDependency = renderPass->createSubpassDependency();
 
 		ASSERT_NE(subpassDependency, vk::SubpassDependency{});
 	}
