@@ -89,7 +89,8 @@ namespace zt::gl::tests
 		shader.setType(ShaderType::Vertex);
 		shader.compile();
 
-		shaderModule->create(*device, shader);
+		vk::ShaderModuleCreateInfo createInfo = shaderModule->createShaderModuleCreateInfo(shader);
+		shaderModule->create(*device, ShaderType::Vertex, createInfo);
 
 		GLFW::Deinit();
 

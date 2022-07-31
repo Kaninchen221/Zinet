@@ -77,10 +77,12 @@ namespace zt::gl::tests
 		fragmentShader.compile();
 
 		ShaderModule vertexShaderModule;
-		vertexShaderModule.create(device, vertexShader);
+		vk::ShaderModuleCreateInfo vertexShaderCreateInfo = vertexShaderModule.createShaderModuleCreateInfo(vertexShader);
+		vertexShaderModule.create(device, ShaderType::Vertex, vertexShaderCreateInfo);
 
 		ShaderModule fragmentShaderModule;
-		fragmentShaderModule.create(device, fragmentShader);
+		vk::ShaderModuleCreateInfo fragmentShaderCreateInfo = fragmentShaderModule.createShaderModuleCreateInfo(fragmentShader);
+		fragmentShaderModule.create(device, ShaderType::Fragment, fragmentShaderCreateInfo);
 
 		vk::PipelineShaderStageCreateInfo vertexShaderStage = pipelineLayout.createShaderStageCreateInfo(vertexShaderModule);
 		vk::PipelineShaderStageCreateInfo fragmentShaderStage = pipelineLayout.createShaderStageCreateInfo(fragmentShaderModule);

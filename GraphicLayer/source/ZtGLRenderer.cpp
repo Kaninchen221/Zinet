@@ -168,8 +168,11 @@ namespace zt::gl
             return;
         }
 
-        vertexShaderModule.create(device, vertexShader);
-        fragmentShaderModule.create(device, fragmentShader);
+        vk::ShaderModuleCreateInfo vertexShaderCreateInfo = vertexShaderModule.createShaderModuleCreateInfo(vertexShader);
+        vertexShaderModule.create(device, ShaderType::Vertex, vertexShaderCreateInfo);
+
+        vk::ShaderModuleCreateInfo fragmentShaderCreateInfo = fragmentShaderModule.createShaderModuleCreateInfo(fragmentShader);
+        fragmentShaderModule.create(device, ShaderType::Fragment, fragmentShaderCreateInfo);
 
         vk::PipelineShaderStageCreateInfo vertexShaderStage = pipelineLayout.createShaderStageCreateInfo(vertexShaderModule);
         vk::PipelineShaderStageCreateInfo fragmentShaderStage = pipelineLayout.createShaderStageCreateInfo(fragmentShaderModule);
