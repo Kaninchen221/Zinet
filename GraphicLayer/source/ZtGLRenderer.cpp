@@ -475,7 +475,7 @@ namespace zt::gl
         commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
         commandBuffer.bindPipeline(pipeline);
         vk::ArrayProxy<const vk::Buffer> vertexBuffers{ *vertexBuffer.getInternal() };
-        commandBuffer->bindVertexBuffers(0u, vertexBuffers, vk::DeviceSize{ 0 });
+        commandBuffer->bindVertexBuffers(0u, vertexBuffers, vk::DeviceSize{ 0 }); // TODO create simple function
         commandBuffer->bindIndexBuffer(*indexBuffer.getInternal(), 0, vk::IndexType::eUint16); // TODO create simple function
 
         std::vector<vk::DescriptorSet> tempDescriptorSets;
