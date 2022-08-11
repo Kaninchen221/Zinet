@@ -21,6 +21,7 @@
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
+#include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
 
 #include "gtest/gtest.h"
 
@@ -217,5 +218,66 @@ namespace zt::gl::tests
 		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
 		ASSERT_EQ(barrier.srcAccessMask, vk::AccessFlagBits{});
 		ASSERT_EQ(barrier.dstAccessMask, vk::AccessFlagBits{});
+	}
+
+	TEST_F(CommandBufferTests, CopyBufferToImage)
+	{
+		StagingBuffer stagingBuffer;
+		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
+		stagingBuffer.create(device, stagingBufferCreateInfo);
+
+		vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
+		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
+		vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
+		vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
+
+		DeviceMemory stagingBufferDeviceMemory;
+		stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
+
+		stagingBuffer.bindMemory(stagingBufferDeviceMemory);
+		int stagingBufferSource;
+		stagingBufferDeviceMemory.fillWithObject(stagingBufferSource);
+
+		Image image;
+		std::uint32_t expectedWidth = 1u;
+		std::uint32_t expectedHeight = 1u;
+		vk::ImageCreateInfo imageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight);
+		image.create(device, imageCreateInfo);
+
+		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+
+		vk::BufferImageCopy imageRegion{};
+		imageRegion.bufferOffset = 0;
+		imageRegion.bufferRowLength = 0;
+		imageRegion.bufferImageHeight = 0;
+
+		imageRegion.imageSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
+		imageRegion.imageSubresource.mipLevel = 0;
+		imageRegion.imageSubresource.baseArrayLayer = 0;
+		imageRegion.imageSubresource.layerCount = 1;
+
+		imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
+		imageRegion.imageExtent = vk::Extent3D{
+			1, // width
+			1, // height
+			1
+		};
+
+		ImageBuffer imageBuffer;
+		vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(1);
+		imageBuffer.create(device, imageBufferCreateInfo);
+
+		vk::MemoryRequirements memoryRequirements = image->getMemoryRequirements();
+		vk::MemoryPropertyFlags imageBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
+		vk::MemoryAllocateInfo imageBufferMemoryAllocateInfo = imageBuffer.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, imageBufferMemoryPropertyFlags);
+
+		DeviceMemory imageDeviceMemory;
+		imageDeviceMemory.create(device, imageBufferMemoryAllocateInfo);
+		imageBuffer.bindMemory(imageDeviceMemory);
+
+		image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
+
+		commandBuffer.begin();
+		commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion); // TODO Convert it to simple function
 	}
 }
