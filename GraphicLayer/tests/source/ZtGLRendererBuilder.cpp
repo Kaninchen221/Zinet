@@ -138,6 +138,7 @@ namespace zt::gl::tests
             return;
         }
 
+        vertexShaderModule = ShaderModule{};
         vk::ShaderModuleCreateInfo vertexShaderCreateInfo = vertexShaderModule.createShaderModuleCreateInfo(vertexShader);
         vertexShaderModule.create(device, ShaderType::Vertex, vertexShaderCreateInfo);
     }
@@ -152,6 +153,7 @@ namespace zt::gl::tests
             return;
         }
 
+        fragmentShaderModule = ShaderModule{};
         vk::ShaderModuleCreateInfo fragmentShaderCreateInfo = fragmentShaderModule.createShaderModuleCreateInfo(fragmentShader);
         fragmentShaderModule.create(device, ShaderType::Fragment, fragmentShaderCreateInfo);
     }
@@ -399,17 +401,12 @@ namespace zt::gl::tests
 
         // Barrier
         vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
-        //vk::ImageLayout newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
         vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-        //vk::ImageLayout newLayout = vk::ImageLayout::eGeneral;
         vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
 
         vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
-        //vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTransfer;
 
-        //vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eTransfer;
         vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
-        //vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eTransferDstOptimal;
 
         commandBuffer->pipelineBarrier(
             sourceStage,
@@ -453,7 +450,7 @@ namespace zt::gl::tests
 
         newLayout = vk::ImageLayout::eTransferDstOptimal;
         commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion); // TODO Simplify it
-        commandBuffer->end();
+        commandBuffer.end();
 
         submitInfo.commandBufferCount = 1;
         submitInfo.pCommandBuffers = &*commandBuffer.getInternal();

@@ -36,6 +36,7 @@
 #include "Zinet/Core/ZtLogger.h"
 
 #include <filesystem>
+#include <optional>
 
 #include "glm/glm.hpp"
 #include "glm/trigonometric.hpp"
@@ -95,7 +96,6 @@ namespace zt::gl::tests
 		void createCommandBuffer();
 		void createFences();
 		void createSemaphores();
-
 		void createVertexBuffer();
 		void createIndexBuffer();
 		void createUniformBuffer();
