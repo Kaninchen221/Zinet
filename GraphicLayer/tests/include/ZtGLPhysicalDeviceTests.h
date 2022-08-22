@@ -100,4 +100,10 @@ namespace zt::gl::tests
 
 		GLFW::Deinit();
     }
+
+	TEST_F(PhysicalDeviceTests, AssignValueOperator)
+	{
+		PhysicalDevice other;
+		physicalDevice = other;
+	}
 }

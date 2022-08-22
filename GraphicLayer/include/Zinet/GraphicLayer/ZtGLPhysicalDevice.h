@@ -24,7 +24,7 @@ namespace zt::gl
 		PhysicalDevice(const PhysicalDevice& other) = default;
 		PhysicalDevice(PhysicalDevice&& other) = default;
 
-		PhysicalDevice& operator = (const PhysicalDevice& other) = default;
+		PhysicalDevice& operator = (const PhysicalDevice& other) { return *this; };
 		PhysicalDevice& operator = (PhysicalDevice&& PhysicalDevice) = default;
 
 		~PhysicalDevice() noexcept = default;
