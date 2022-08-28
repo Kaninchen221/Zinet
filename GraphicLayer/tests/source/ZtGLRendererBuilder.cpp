@@ -7,10 +7,13 @@
 
 namespace zt::gl::tests
 {
-    void RendererBuilder::createAll()
+    RendererBuilder::RendererBuilder()
     {
         GLFW::Init();
+    }
 
+    void RendererBuilder::createAll()
+    {
         createInstance();
         createDebugUtilsMessenger();
         createWindow();

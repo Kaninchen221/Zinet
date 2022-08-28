@@ -61,7 +61,7 @@ namespace zt::gl::tests
 
 	public:
 
-		RendererBuilder() = default;
+		RendererBuilder();
 		RendererBuilder(const RendererBuilder& other) = default;
 		RendererBuilder(RendererBuilder&& other) = default;
 
@@ -112,7 +112,7 @@ namespace zt::gl::tests
 
 		void updateMVP();
 
-		std::filesystem::path contentPath;
+		std::filesystem::path contentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
 		Instance instance;
 

@@ -19,6 +19,7 @@
 #include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
+#include "ZtGLRendererBuilder.h"
 
 #include "gtest/gtest.h"
 
@@ -113,35 +114,12 @@ namespace zt::gl::tests
 		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 	}
 
-	TEST_F(QueueTests, SubmitWithFence)
+	TEST(QueueTest, SubmitWithFence)
 	{
-		Semaphore semaphore;
-		semaphore.create(device);
-		std::array<Semaphore*, 1> waitSemaphores{ &semaphore };
-		vk::PipelineStageFlags waitPipelineStageFlags{};
-
-		CommandPool commandPool;
-		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		commandPool.create(device, queueFamilyIndex);
-
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(device, commandPool);
-		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
-
-		commandBuffer.begin();
-		commandBuffer.end();
-
-		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
-
-		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
-			waitSemaphores,
-			waitPipelineStageFlags,
-			commandBuffers,
-			signalSemaphores);
-
-		Fence fence;
-		fence.createUnsignaled(device);
-		queue.submit(submitInfo, fence);
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+		rendererBuilder.updateMVP();
+		rendererBuilder.drawFrame();
 	}
 
 	TEST_F(QueueTests, Submit)
