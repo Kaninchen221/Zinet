@@ -107,19 +107,20 @@ namespace zt::gl
         descriptorPool.create(device, descriptorPoolCreateInfo);
 
         std::size_t descriptorSetCount = 1u;
-        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout(), descriptorSetCount);
-
-        descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
-
-        vk::DescriptorBufferInfo uniformDescriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
-        vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
-
-        vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eShaderReadOnlyOptimal);
-        //vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eTransferDstOptimal);
-        vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, imageDescriptorBufferInfo);
-
-        std::array<vk::WriteDescriptorSet, 2> descriptorSets{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
-        device->updateDescriptorSets(descriptorSets, {});
+        // TODO Remove this class Renderer
+        //vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout(), descriptorSetCount);
+        //
+        //descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
+        //
+        //vk::DescriptorBufferInfo uniformDescriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
+        //vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
+        //
+        //vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eShaderReadOnlyOptimal);
+        ////vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eTransferDstOptimal);
+        //vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, imageDescriptorBufferInfo);
+        //
+        //std::array<vk::WriteDescriptorSet, 2> descriptorSets{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
+        //device->updateDescriptorSets(descriptorSets, {});
 
     }
 

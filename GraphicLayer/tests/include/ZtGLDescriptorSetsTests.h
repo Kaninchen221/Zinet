@@ -60,8 +60,8 @@ namespace zt::gl::tests
 			vk::DescriptorSetLayoutCreateInfo createInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 			descriptorSetLayout.create(device, createInfo);
 
-			std::size_t descriptorSetCount = 1u;
-			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayout, descriptorSetCount);
+			std::vector<vk::DescriptorSetLayout> descriptorSetLayouts = { *descriptorSetLayout.getInternal() };
+			vk::DescriptorSetAllocateInfo allocateInfo = descriptorPool.createDescriptorSetAllocateInfo(descriptorSetLayouts);
 			descriptorSets = DescriptorSets{ device, allocateInfo };
 		}
 

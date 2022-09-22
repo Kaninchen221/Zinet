@@ -142,8 +142,8 @@ namespace zt::gl
 	const vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
 	{
 		vk::PipelineLayoutCreateInfo layoutCreateInfo;
-		layoutCreateInfo.setLayoutCount = 1;
-		layoutCreateInfo.pSetLayouts = &*descriptorSetLayout.getInternal();
+		layoutCreateInfo.setLayoutCount = descriptorSetLayouts.size();
+		layoutCreateInfo.pSetLayouts = descriptorSetLayouts.data();
 		layoutCreateInfo.pushConstantRangeCount = 0;
 		layoutCreateInfo.pPushConstantRanges = nullptr;
 
@@ -160,14 +160,15 @@ namespace zt::gl
 		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
 		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
+		descriptorSetLayouts.push_back(*descriptorSetLayout.getInternal());
 
 		vk::PipelineLayoutCreateInfo createInfo = createPipelineLayoutCreateInfo();
 		internal = std::move(vk::raii::PipelineLayout{ device.getInternal(), createInfo });
 	}
 
-	const DescriptorSetLayout& PipelineLayout::getDescriptorSetLayout() const
+	const std::vector<vk::DescriptorSetLayout>& PipelineLayout::getDescriptorSetLayouts() const
 	{
-		return descriptorSetLayout;
+		return descriptorSetLayouts;
 	}
 
 }

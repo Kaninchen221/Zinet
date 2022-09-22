@@ -57,7 +57,7 @@ namespace zt::gl
 
 		void create(Device& device);
 
-		const DescriptorSetLayout& getDescriptorSetLayout() const;
+		const std::vector<vk::DescriptorSetLayout>& getDescriptorSetLayouts() const;
 
 	protected:
 
@@ -74,7 +74,9 @@ namespace zt::gl
 		vk::PipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
 		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
+		
 		DescriptorSetLayout descriptorSetLayout;
+		std::vector<vk::DescriptorSetLayout> descriptorSetLayouts;
 	};
 
 }

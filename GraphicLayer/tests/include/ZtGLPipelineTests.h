@@ -73,7 +73,7 @@ namespace zt::gl::tests
 
 		Shader fragmentShader;
 		fragmentShader.setType(ShaderType::Fragment);
-		fragmentShader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shader.frag");
+		fragmentShader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shaderStaticVertices.frag");
 		fragmentShader.compile();
 
 		ShaderModule vertexShaderModule;

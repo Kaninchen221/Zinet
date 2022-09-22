@@ -512,7 +512,7 @@ namespace zt::gl::tests
     void RendererBuilder::createDescriptorSets()
     {
         std::size_t descriptorSetCount = 1u;
-        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayout(), descriptorSetCount);
+        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayouts());
 
         descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
     }

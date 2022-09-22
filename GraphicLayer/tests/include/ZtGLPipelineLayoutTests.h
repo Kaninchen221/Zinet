@@ -207,8 +207,8 @@ namespace zt::gl::tests
 
 		const vk::PipelineLayoutCreateInfo& createInfo = pipelineLayout.createPipelineLayoutCreateInfo();
 
-		ASSERT_EQ(createInfo.setLayoutCount, 1);
-		ASSERT_EQ(createInfo.pSetLayouts, &(*pipelineLayout.getDescriptorSetLayout().getInternal()));
+		ASSERT_EQ(createInfo.setLayoutCount, pipelineLayout.getDescriptorSetLayouts().size());
+		ASSERT_EQ(createInfo.pSetLayouts, reinterpret_cast<const vk::DescriptorSetLayout*>(pipelineLayout.getDescriptorSetLayouts().data()));
 		ASSERT_EQ(createInfo.pushConstantRangeCount, 0);
 		ASSERT_EQ(createInfo.pPushConstantRanges, nullptr);
 	}
@@ -220,14 +220,19 @@ namespace zt::gl::tests
 		ASSERT_EQ(*pipelineLayout.getInternal(), *vk::raii::PipelineLayout{ std::nullptr_t{} });
 	}
 
-	TEST(PipelineLayout, GetDescriptorSetLayout)
-	{
-		PipelineLayout pipelineLayout;
-		const DescriptorSetLayout& descriptorSetLayout = pipelineLayout.getDescriptorSetLayout();
-	}
-
 	TEST_F(PipelineLayoutTests, CreatePipelineLayout)
 	{
 		ASSERT_NE(*pipelineLayout.getInternal(), *vk::raii::PipelineLayout{ std::nullptr_t{} });
+	}
+
+	TEST(PipelineLayout, GetDescriptorSetLayout)
+	{
+		PipelineLayout pipelineLayout;
+		const std::vector<vk::DescriptorSetLayout>& descriptorSetLayouts = pipelineLayout.getDescriptorSetLayouts();
+	}
+
+	TEST(PipelineLayout, SetDescriptorSetLayout)
+	{
+		// TODO
 	}
 }
