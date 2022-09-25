@@ -9,7 +9,6 @@
 namespace zt::gl
 {
 
-	// TODO Review that class
 	class ZINET_GRAPHIC_LAYER_API Window
 	{
 		static inline zt::Logger::SimpleConsoleLogger WindowLogger = zt::Logger::CreateSimpleConsoleLogger("Window");
