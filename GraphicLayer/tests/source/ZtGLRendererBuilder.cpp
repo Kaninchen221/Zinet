@@ -9,7 +9,7 @@ namespace zt::gl::tests
 {
     RendererBuilder::RendererBuilder()
     {
-        GLFW::Init();
+        GLFW::Init(false);
     }
 
     void RendererBuilder::createAll()

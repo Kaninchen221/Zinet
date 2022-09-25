@@ -2,7 +2,7 @@
 
 namespace zt::gl
 {
-    bool GLFW::Init()
+    bool GLFW::Init(bool hideWindow)
     {
         if (glfwInit())
         {
@@ -10,6 +10,11 @@ namespace zt::gl
 
             glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // Don't create OpenGL context
             glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+            if (hideWindow)
+            {
+                glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+            }
 
             return true;
         }
