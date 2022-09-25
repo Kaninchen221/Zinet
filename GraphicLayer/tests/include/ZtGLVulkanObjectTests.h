@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
 
 #include "gtest/gtest.h"
 
@@ -53,5 +54,21 @@ namespace zt::gl::tests
 			ASSERT_NE(internal, nullptr);
 		}
 		(testObject);
+	}
+
+	TEST_F(VulkanObjectTests, ComparisonEqualToInternalType)
+	{
+		ASSERT_EQ(testObject, vk::raii::Instance(std::nullptr_t{}));
+	}
+
+	TEST_F(VulkanObjectTests, ComparisonNotEqualToInternalType)
+	{
+		Context context;
+		Instance instance;
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
+
+		ASSERT_NE(testObject, instance.getInternal());
 	}
 }

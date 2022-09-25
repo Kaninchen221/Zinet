@@ -26,6 +26,8 @@ namespace zt::gl
 
 		const InternalType* operator->() const;
 
+		bool operator == (const InternalType& other) const;
+
 	protected:
 
 		InternalType internal{ std::nullptr_t{} };
@@ -54,6 +56,12 @@ namespace zt::gl
 	inline const InternalType* VulkanObject<InternalType>::operator->() const
 	{
 		return &internal;
+	}
+
+	template<class InternalType>
+	inline bool VulkanObject<InternalType>::operator==(const InternalType& other) const
+	{
+		return *getInternal() == *other;
 	}
 
 }
