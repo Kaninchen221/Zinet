@@ -281,4 +281,12 @@ namespace zt::gl::tests
 		commandBuffer.begin();
 		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
 	}
+
+	TEST(CommandBuffer, BindVertexBuffer)
+	{
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+
+		rendererBuilder.commandBuffer.bindVertexBuffer(0u, rendererBuilder.vertexBuffer, vk::DeviceSize{ 0 });
+	}
 }

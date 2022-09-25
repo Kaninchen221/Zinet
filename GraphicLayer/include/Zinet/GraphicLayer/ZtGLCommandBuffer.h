@@ -17,6 +17,7 @@ namespace zt::gl
 	class Image;
 	class StagingBuffer;
 	class Image;
+	class VertexBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
@@ -55,6 +56,8 @@ namespace zt::gl
 		vk::ImageMemoryBarrier createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
 		
 		void copyBufferToImage(const StagingBuffer& stagingBuffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion);
+
+		void bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset);
 
 	protected:
 
