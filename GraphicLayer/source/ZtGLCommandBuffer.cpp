@@ -9,6 +9,7 @@
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
+#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
 
 namespace zt::gl
 {
@@ -94,6 +95,11 @@ namespace zt::gl
 		barrier.dstAccessMask = vk::AccessFlagBits{};
 
 		return barrier;
+	}
+
+	void CommandBuffer::copyBufferToImage(const StagingBuffer& stagingBuffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion)
+	{
+		internal.copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
 	}
 
 }

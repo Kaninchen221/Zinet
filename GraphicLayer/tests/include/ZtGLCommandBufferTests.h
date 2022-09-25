@@ -279,6 +279,6 @@ namespace zt::gl::tests
 		image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
 
 		commandBuffer.begin();
-		commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion); // TODO Convert it to simple function
+		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
 	}
 }

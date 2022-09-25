@@ -4,6 +4,7 @@
 //#include "ZtTextureTests.h"
 //#include "ZtObjectTests.h"
 
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "ZtGLRendererBuilder.h"
 
 #include "ZtGLVertexTests.h"
@@ -69,6 +70,7 @@ int main(int argc, char* argv[])
     auto runAllTestsResult = RUN_ALL_TESTS();
 
     zt::gl::tests::RendererBuilder rb{};
+    zt::gl::GLFW::UnhideWindow();
     rb.contentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
     rb.createAll();
     rb.run();

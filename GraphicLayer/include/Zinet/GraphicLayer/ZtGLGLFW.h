@@ -27,8 +27,10 @@ namespace zt::gl
 		~GLFW() noexcept = default;
 
 		static bool Init(bool hideWindow = true);
-
 		static void Deinit();
+
+		static void HideWindow();
+		static void UnhideWindow();
 
 	};
 

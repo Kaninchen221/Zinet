@@ -13,7 +13,7 @@ namespace zt::gl
 
             if (hideWindow)
             {
-                glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+                HideWindow();
             }
 
             return true;
@@ -30,5 +30,15 @@ namespace zt::gl
     void GLFW::Deinit()
     {
         glfwTerminate();
+    }
+
+    void GLFW::HideWindow()
+    {
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    }
+
+    void GLFW::UnhideWindow()
+    {
+        glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
     }
 }

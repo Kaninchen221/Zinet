@@ -9,7 +9,8 @@ namespace zt::gl::tests
 {
     RendererBuilder::RendererBuilder()
     {
-        GLFW::Init(false);
+        GLFW::Init();
+        GLFW::HideWindow();
     }
 
     void RendererBuilder::createAll()
@@ -454,7 +455,7 @@ namespace zt::gl::tests
         commandBuffer.begin();
 
         newLayout = vk::ImageLayout::eTransferDstOptimal;
-        commandBuffer->copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion); // TODO Simplify it
+        commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
         commandBuffer.end();
 
         submitInfo.commandBufferCount = 1;
