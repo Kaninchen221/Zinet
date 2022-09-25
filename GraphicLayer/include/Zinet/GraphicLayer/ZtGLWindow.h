@@ -37,8 +37,6 @@ namespace zt::gl
 
 		bool shouldBeClosed() const;
 
-		void swapBuffers();
-
 		static void FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height);
 
 		Event* getEvent();

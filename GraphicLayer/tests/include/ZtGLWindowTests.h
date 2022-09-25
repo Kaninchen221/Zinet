@@ -59,12 +59,6 @@ namespace zt::gl::tests
 		ASSERT_FALSE(isOpen);
 	}
 	
-	TEST_F(ZtWindowTests, SwapBuffersTest)
-	{
-		window.create();
-		window.swapBuffers();
-	}
-	
 	TEST_F(ZtWindowTests, ShouldBeClosedTest)
 	{
 		window.create();

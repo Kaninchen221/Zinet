@@ -58,11 +58,6 @@ namespace zt::gl
         return glfwWindowShouldClose(internalWindow);
     }
 
-    void Window::swapBuffers()
-    {
-        glfwSwapBuffers(internalWindow);
-    }
-
     void Window::FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height)
     {
 
