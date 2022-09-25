@@ -61,7 +61,6 @@
 //#include "ZtMouseButtonEventTypeTests.h"
 //#include "ZtMousePositionEventTests.h"
 
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include <gtest/gtest.h>
 
 int main(int argc, char* argv[]) 
