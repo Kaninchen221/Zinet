@@ -38,7 +38,7 @@ namespace zt::gl
         vk::DescriptorSetAllocateInfo allocateInfo;
         allocateInfo.descriptorPool = *getInternal();
         allocateInfo.descriptorSetCount = descriptorSetLayouts.size();
-        allocateInfo.pSetLayouts = reinterpret_cast<const vk::DescriptorSetLayout*>(descriptorSetLayouts.data());
+        allocateInfo.pSetLayouts = descriptorSetLayouts.data();
 
         return allocateInfo;
     }

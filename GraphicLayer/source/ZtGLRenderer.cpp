@@ -55,7 +55,8 @@ namespace zt::gl
 
         pipelineLayout.createColorBlendAttachmentState();
 
-        pipelineLayout.create(device);
+        vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+        pipelineLayout.create(device, pipelineLayoutCreateInfo);
         
         /// RenderPass
 

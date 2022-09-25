@@ -139,36 +139,34 @@ namespace zt::gl
 		return colorBlendStateCreateInfo;
 	}
 
-	const vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
+	vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
 	{
 		vk::PipelineLayoutCreateInfo layoutCreateInfo;
-		layoutCreateInfo.setLayoutCount = descriptorSetLayouts.size();
-		layoutCreateInfo.pSetLayouts = descriptorSetLayouts.data();
+		layoutCreateInfo.setLayoutCount = vkDescriptorSetLayouts.size();
+		layoutCreateInfo.pSetLayouts = vkDescriptorSetLayouts.data();
 		layoutCreateInfo.pushConstantRangeCount = 0;
 		layoutCreateInfo.pPushConstantRanges = nullptr;
 
 		return layoutCreateInfo;
 	}
 
-	void PipelineLayout::create(Device& device)
+	void PipelineLayout::create(Device& device, const vk::PipelineLayoutCreateInfo& createInfo)
 	{
-		// TODO: Probably we should in PipelineLayout the Descriptors Set Layouts store as container and create them outside
-		// TODO: Add possibility to have more than one uniform
-		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
-		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
-
-		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
-		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
-		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
-		descriptorSetLayouts.push_back(*descriptorSetLayout.getInternal());
-
-		vk::PipelineLayoutCreateInfo createInfo = createPipelineLayoutCreateInfo();
 		internal = std::move(vk::raii::PipelineLayout{ device.getInternal(), createInfo });
 	}
 
-	const std::vector<vk::DescriptorSetLayout>& PipelineLayout::getDescriptorSetLayouts() const
+	const std::vector<vk::DescriptorSetLayout>& PipelineLayout::getVkDescriptorSetLayouts() const
 	{
-		return descriptorSetLayouts;
+		return vkDescriptorSetLayouts;
+	}
+
+	void PipelineLayout::setDescriptorSetLayouts(std::span<DescriptorSetLayout> descriptorSetLayouts)
+	{
+		vkDescriptorSetLayouts.clear();
+		for (DescriptorSetLayout& descriptorSetLayout : descriptorSetLayouts)
+		{
+			vkDescriptorSetLayouts.push_back(*descriptorSetLayout.getInternal());
+		}
 	}
 
 }

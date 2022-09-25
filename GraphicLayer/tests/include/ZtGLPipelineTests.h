@@ -64,7 +64,8 @@ namespace zt::gl::tests
 		renderPass.create(device);
 
 		PipelineLayout pipelineLayout;
-		pipelineLayout.create(device);
+		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+		pipelineLayout.create(device, pipelineLayoutCreateInfo);
 
 		Shader vertexShader;
 		vertexShader.setType(ShaderType::Vertex);

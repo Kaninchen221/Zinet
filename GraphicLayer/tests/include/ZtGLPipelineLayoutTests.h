@@ -43,7 +43,8 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
-			pipelineLayout.create(device);
+			vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+			pipelineLayout.create(device, pipelineLayoutCreateInfo);
 		}
 
 		void TearDown() override
@@ -207,8 +208,8 @@ namespace zt::gl::tests
 
 		const vk::PipelineLayoutCreateInfo& createInfo = pipelineLayout.createPipelineLayoutCreateInfo();
 
-		ASSERT_EQ(createInfo.setLayoutCount, pipelineLayout.getDescriptorSetLayouts().size());
-		ASSERT_EQ(createInfo.pSetLayouts, reinterpret_cast<const vk::DescriptorSetLayout*>(pipelineLayout.getDescriptorSetLayouts().data()));
+		ASSERT_EQ(createInfo.setLayoutCount, pipelineLayout.getVkDescriptorSetLayouts().size());
+		ASSERT_EQ(createInfo.pSetLayouts, pipelineLayout.getVkDescriptorSetLayouts().data());
 		ASSERT_EQ(createInfo.pushConstantRangeCount, 0);
 		ASSERT_EQ(createInfo.pPushConstantRanges, nullptr);
 	}
@@ -225,14 +226,23 @@ namespace zt::gl::tests
 		ASSERT_NE(*pipelineLayout.getInternal(), *vk::raii::PipelineLayout{ std::nullptr_t{} });
 	}
 
-	TEST(PipelineLayout, GetDescriptorSetLayout)
+	TEST(PipelineLayout, GetVkDescriptorSetLayout)
 	{
 		PipelineLayout pipelineLayout;
-		const std::vector<vk::DescriptorSetLayout>& descriptorSetLayouts = pipelineLayout.getDescriptorSetLayouts();
+		std::vector<vk::DescriptorSetLayout> vkDescriptorSetLayouts = pipelineLayout.getVkDescriptorSetLayouts();
 	}
 
 	TEST(PipelineLayout, SetDescriptorSetLayout)
 	{
-		// TODO
+		DescriptorSetLayout descriptorSetLayout;
+		vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+		vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+		std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+
+		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
+
+		PipelineLayout pipelineLayout;
+		std::array<DescriptorSetLayout, 1> descriptorSetLayouts = { std::move(descriptorSetLayout) };
+		pipelineLayout.setDescriptorSetLayouts(descriptorSetLayouts);
 	}
 }

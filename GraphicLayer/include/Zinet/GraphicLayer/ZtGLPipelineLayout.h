@@ -53,11 +53,13 @@ namespace zt::gl
 
 		const vk::PipelineColorBlendStateCreateInfo& createColorBlendStateCreateInfo();
 
-		const vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
+		vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
 
-		void create(Device& device);
+		void create(Device& device, const vk::PipelineLayoutCreateInfo& createInfo);
 
-		const std::vector<vk::DescriptorSetLayout>& getDescriptorSetLayouts() const;
+		const std::vector<vk::DescriptorSetLayout>& getVkDescriptorSetLayouts() const;
+
+		void setDescriptorSetLayouts(std::span<DescriptorSetLayout> descriptorSetLayouts);
 
 	protected:
 
@@ -74,9 +76,8 @@ namespace zt::gl
 		vk::PipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
 		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
-		
-		DescriptorSetLayout descriptorSetLayout;
-		std::vector<vk::DescriptorSetLayout> descriptorSetLayouts;
+
+		std::vector<vk::DescriptorSetLayout> vkDescriptorSetLayouts;
 	};
 
 }

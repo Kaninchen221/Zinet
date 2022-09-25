@@ -102,6 +102,7 @@ namespace zt::gl::tests
 		void createTexture();
 		void createDescrptorPool();
 		void createDescriptorSets();
+		void createDescriptorSetLayouts();
 
 		void updateDescriptorSets();
 
@@ -178,6 +179,7 @@ namespace zt::gl::tests
 		MVP mvp;
 
 		DescriptorPool descriptorPool;
+		std::array<DescriptorSetLayout, 1> descriptorSetLayouts;
 
 		std::optional<DescriptorSets> descriptorSets;
 

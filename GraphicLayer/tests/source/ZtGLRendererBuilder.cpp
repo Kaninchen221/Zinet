@@ -26,6 +26,7 @@ namespace zt::gl::tests
         createVertexShader();
         createFragmentShader();
         createShaderStages();
+        createDescriptorSetLayouts();
         createPipelineLayout();
         createRenderPass();
         createPipeline();
@@ -181,7 +182,8 @@ namespace zt::gl::tests
 
         pipelineLayout.createColorBlendAttachmentState();
 
-        pipelineLayout.create(device);
+        vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+        pipelineLayout.create(device, pipelineLayoutCreateInfo);
     }
 
     void RendererBuilder::createRenderPass()
@@ -511,8 +513,8 @@ namespace zt::gl::tests
 
     void RendererBuilder::createDescriptorSets()
     {
-        std::size_t descriptorSetCount = 1u;
-        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(pipelineLayout.getDescriptorSetLayouts());
+        const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout.getVkDescriptorSetLayouts();
+        vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
 
         descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
     }
@@ -528,6 +530,19 @@ namespace zt::gl::tests
         writeDescriptorSets = std::array<vk::WriteDescriptorSet, 2>{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
 
         device->updateDescriptorSets(writeDescriptorSets, {});
+    }
+
+    void RendererBuilder::createDescriptorSetLayouts()
+    {
+        DescriptorSetLayout descriptorSetLayout;
+        vk::DescriptorSetLayoutBinding uniformLayoutBinding = descriptorSetLayout.createUniformLayoutBinding();
+        vk::DescriptorSetLayoutBinding imageSamplerLayoutBinding = descriptorSetLayout.createImageSamplerLayoutBinding();
+        std::vector<vk::DescriptorSetLayoutBinding> bindings = { uniformLayoutBinding, imageSamplerLayoutBinding };
+
+        vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
+        descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
+        descriptorSetLayouts = { std::move(descriptorSetLayout) };
+        pipelineLayout.setDescriptorSetLayouts(descriptorSetLayouts);
     }
 
     void RendererBuilder::drawFrame()
