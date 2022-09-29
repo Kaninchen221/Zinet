@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -33,12 +34,15 @@ namespace zt::gl
 
 		const Instance& getInstance() const;
 
+		const DebugUtilsMessenger& getDebugUtilsMessenger() const;
+
 	protected:
 
 		void createInstance();
 
 		Context context;
 		Instance instance;
+		DebugUtilsMessenger debugUtilsMessenger;
 
 	};
 

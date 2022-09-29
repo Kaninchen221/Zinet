@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		DebugUtilsMessenger();
+		DebugUtilsMessenger() = default;
 		DebugUtilsMessenger(const DebugUtilsMessenger& other) = default;
 		DebugUtilsMessenger(DebugUtilsMessenger&& other) = default;
 

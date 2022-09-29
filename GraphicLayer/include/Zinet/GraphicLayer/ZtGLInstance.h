@@ -39,7 +39,7 @@ namespace zt::gl
 
 		static bool CheckValidationLayerSupport();
 
-		std::vector<const char*>& getRequiredExtensions();
+		std::vector<const char*>& getRequiredExtensions(); // TODO Split it to two functions: populate and getter
 
 		static bool GetEnabledValidationLayers();
 

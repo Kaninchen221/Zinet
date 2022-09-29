@@ -2,10 +2,6 @@
 
 namespace zt::gl
 {
-    DebugUtilsMessenger::DebugUtilsMessenger()
-    {
-
-    }
 
     VkBool32 DebugUtilsMessenger::DebugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
