@@ -38,6 +38,11 @@ namespace zt::gl
         return internalWindow;
     }
 
+    const GLFWwindow* Window::getInternal() const
+    {
+        return internalWindow;
+    }
+
     void Window::bindCallbacks()
     {
         event.bindCallbacks();

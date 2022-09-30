@@ -4,6 +4,8 @@
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
+#include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLSurface.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -19,14 +21,14 @@ namespace zt::gl
 
 	public:
 
-		Renderer() = default;
+		Renderer();
 		Renderer(const Renderer& other) = default;
 		Renderer(Renderer&& other) = default;
 
 		Renderer& operator = (const Renderer& other) = default;
 		Renderer& operator = (Renderer&& other) = default;
 
-		~Renderer() noexcept = default;
+		~Renderer() noexcept;
 
 		void initialize();
 
@@ -36,13 +38,22 @@ namespace zt::gl
 
 		const DebugUtilsMessenger& getDebugUtilsMessenger() const;
 
+		const Window& getWindow() const;
+
+		const Surface& getSurface() const;
+
 	protected:
 
 		void createInstance();
+		void createDebugUtilsMessenger();
+		void createWindow();
+		bool createSurface();
 
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;
+		Window window;
+		Surface surface;
 
 	};
 

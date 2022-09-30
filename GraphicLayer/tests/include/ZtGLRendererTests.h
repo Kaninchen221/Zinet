@@ -24,6 +24,13 @@ namespace zt::gl::tests
 
 		const DebugUtilsMessenger& debugUtilsMessenger = renderer.getDebugUtilsMessenger();
 		ASSERT_NE(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
+
+		const Window& window = renderer.getWindow();
+		const GLFWwindow* internalWindow = window.getInternal();
+		ASSERT_NE(internalWindow, nullptr);
+
+		const Surface& surface = renderer.getSurface();
+		ASSERT_NE(surface, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -41,6 +48,20 @@ namespace zt::gl::tests
 	{
 		const DebugUtilsMessenger& debugUtilsMessenger = renderer.getDebugUtilsMessenger();
 		ASSERT_EQ(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
+	}
+
+	TEST_F(RendererTests, GetWindow)
+	{
+		const Window& window = renderer.getWindow();
+		const GLFWwindow* internalWindow = window.getInternal();
+
+		ASSERT_EQ(internalWindow, nullptr);
+	}
+
+	TEST_F(RendererTests, GetSurface)
+	{
+		const Surface& surface = renderer.getSurface();
+		ASSERT_EQ(surface, nullptr);
 	}
 
 }

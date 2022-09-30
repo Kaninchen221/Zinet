@@ -28,6 +28,8 @@ namespace zt::gl
 
 		GLFWwindow* getInternal();
 
+		const GLFWwindow* getInternal() const;
+
 		void bindCallbacks();
 
 		void bindFramebufferSizeCallback();
