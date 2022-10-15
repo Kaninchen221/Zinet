@@ -46,6 +46,9 @@ namespace zt::gl::tests
 
 		const SwapChain& swapChain = renderer.getSwapChain();
 		ASSERT_NE(swapChain, nullptr);
+
+		const std::vector<ImageView>& imageViews = renderer.getImageViews();
+		ASSERT_FALSE(imageViews.empty());
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -112,6 +115,12 @@ namespace zt::gl::tests
 	{
 		const SwapChain& swapChain = renderer.getSwapChain();
 		ASSERT_EQ(swapChain, nullptr);
+	}
+
+	TEST_F(RendererTests, GetImageViews)
+	{
+		const std::vector<ImageView>& imageViews = renderer.getImageViews();
+		ASSERT_TRUE(imageViews.empty());
 	}
 
 }

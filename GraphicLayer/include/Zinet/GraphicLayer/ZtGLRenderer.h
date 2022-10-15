@@ -11,6 +11,7 @@
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
+#include "Zinet/GraphicLayer/ZtGLImageView.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -59,6 +60,8 @@ namespace zt::gl
 
 		const SwapChain& getSwapChain() const;
 
+		const std::vector<ImageView>& getImageViews() const;
+
 	protected:
 
 		void createInstance();
@@ -69,6 +72,7 @@ namespace zt::gl
 		void createDevice();
 		void createQueue();
 		void createSwapChain();
+		void createImageViews();
 
 		Context context;
 		Instance instance;
@@ -81,6 +85,7 @@ namespace zt::gl
 		Queue queue;
 		SwapChainSupportDetails swapChainSupportDetails;
 		SwapChain swapChain;
+		std::vector<ImageView> imageViews;
 
 	};
 

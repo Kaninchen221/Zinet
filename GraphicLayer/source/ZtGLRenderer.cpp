@@ -37,6 +37,8 @@ namespace zt::gl
 		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 		
 		createSwapChain();
+		createImageViews();
+
 	}
 
 	const Context& Renderer::getContext() const
@@ -92,6 +94,11 @@ namespace zt::gl
 	const SwapChain& Renderer::getSwapChain() const
 	{
 		return swapChain;
+	}
+
+	const std::vector<ImageView>& Renderer::getImageViews() const
+	{
+		return imageViews;
 	}
 
 	void Renderer::createInstance()
@@ -157,6 +164,19 @@ namespace zt::gl
 	{
 		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
 		swapChain.create(device, creatInfo);
+	}
+
+	void Renderer::createImageViews()
+	{
+		std::vector<vk::Image> swapChainImages = swapChain.getImages();
+		imageViews.reserve(swapChainImages.size());
+		for (vk::Image swapChainImage : swapChainImages)
+		{
+			ImageView imageView;
+			vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(swapChainImage, swapChainSupportDetails.pickFormat().format);
+			imageView.create(device, imageViewCreateInfo);
+			imageViews.push_back(std::move(imageView));
+		}
 	}
 
 }
