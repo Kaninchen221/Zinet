@@ -12,6 +12,7 @@
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -62,6 +63,12 @@ namespace zt::gl
 
 		const std::vector<ImageView>& getImageViews() const;
 
+		const vk::Extent2D& getSwapExtent() const;
+
+		const PipelineLayout& getPipelineLayout() const;
+
+		// TODO: Pass in some way shaders (vertex, fragment)
+
 	protected:
 
 		void createInstance();
@@ -86,6 +93,8 @@ namespace zt::gl
 		SwapChainSupportDetails swapChainSupportDetails;
 		SwapChain swapChain;
 		std::vector<ImageView> imageViews;
+		vk::Extent2D swapExtent;
+		PipelineLayout pipelineLayout;
 
 	};
 

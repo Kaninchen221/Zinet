@@ -49,6 +49,12 @@ namespace zt::gl::tests
 
 		const std::vector<ImageView>& imageViews = renderer.getImageViews();
 		ASSERT_FALSE(imageViews.empty());
+
+		const vk::Extent2D& swapExtent = renderer.getSwapExtent();
+		ASSERT_NE(swapExtent, vk::Extent2D{});
+
+		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
+		ASSERT_NE(pipelineLayout, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -121,6 +127,18 @@ namespace zt::gl::tests
 	{
 		const std::vector<ImageView>& imageViews = renderer.getImageViews();
 		ASSERT_TRUE(imageViews.empty());
+	}
+
+	TEST_F(RendererTests, GetSwapExtent)
+	{
+		const vk::Extent2D& swapExtent = renderer.getSwapExtent();
+		ASSERT_EQ(swapExtent, vk::Extent2D{});
+	}
+
+	TEST_F(RendererTests, GetPipelineLayout)
+	{
+		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
+		ASSERT_EQ(pipelineLayout, nullptr);
 	}
 
 }

@@ -39,6 +39,18 @@ namespace zt::gl
 		createSwapChain();
 		createImageViews();
 
+		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
+		pipelineLayout.setViewportSize(swapExtent.width, swapExtent.height);
+
+		vk::Rect2D scissor;
+		scissor.offset = vk::Offset2D{ 0, 0 };
+		scissor.extent = swapExtent;
+		pipelineLayout.setScissor(scissor);
+
+		pipelineLayout.createColorBlendAttachmentState();
+
+		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+		pipelineLayout.create(device, pipelineLayoutCreateInfo);
 	}
 
 	const Context& Renderer::getContext() const
@@ -99,6 +111,16 @@ namespace zt::gl
 	const std::vector<ImageView>& Renderer::getImageViews() const
 	{
 		return imageViews;
+	}
+
+	const vk::Extent2D& Renderer::getSwapExtent() const
+	{
+		return swapExtent;
+	}
+
+	const PipelineLayout& Renderer::getPipelineLayout() const
+	{
+		return pipelineLayout;
 	}
 
 	void Renderer::createInstance()
