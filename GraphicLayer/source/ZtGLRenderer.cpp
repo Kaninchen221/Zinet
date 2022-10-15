@@ -43,6 +43,7 @@ namespace zt::gl
 
 		createPipelineLayout();
 		createRenderPass();
+		createFramebuffers();
 
 	}
 
@@ -119,6 +120,16 @@ namespace zt::gl
 	const RenderPass& Renderer::getRenderPass() const
 	{
 		return renderPass;
+	}
+
+	const Pipeline& Renderer::getPipeline() const
+	{
+		return pipeline;
+	}
+
+	const std::vector<Framebuffer>& Renderer::getFramebuffers() const
+	{
+		return framebuffers;
 	}
 
 	void Renderer::createInstance()
@@ -222,6 +233,16 @@ namespace zt::gl
 		renderPass.createSubpassDependency();
 
 		renderPass.create(device);
+	}
+
+	void Renderer::createFramebuffers()
+	{
+		for (ImageView& imageView : imageViews)
+		{
+			Framebuffer framebuffer;
+			framebuffer.create(device, imageView, renderPass, swapExtent);
+			framebuffers.push_back(std::move(framebuffer));
+		}
 	}
 
 }

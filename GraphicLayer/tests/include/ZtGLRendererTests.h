@@ -58,6 +58,9 @@ namespace zt::gl::tests
 
 		const RenderPass& renderPass = renderer.getRenderPass();
 		ASSERT_NE(renderPass, nullptr);
+
+		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
+		ASSERT_FALSE(framebuffers.empty());
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -148,6 +151,18 @@ namespace zt::gl::tests
 	{
 		const RenderPass& renderPass = renderer.getRenderPass();
 		ASSERT_EQ(renderPass, nullptr);
+	}
+
+	TEST_F(RendererTests, GetPipeline)
+	{
+		const Pipeline& pipeline = renderer.getPipeline();
+		ASSERT_EQ(pipeline, nullptr);
+	}
+
+	TEST_F(RendererTests, GetFramebuffers)
+	{
+		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
+		ASSERT_TRUE(framebuffers.empty());
 	}
 
 }
