@@ -55,6 +55,9 @@ namespace zt::gl::tests
 
 		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
 		ASSERT_NE(pipelineLayout, nullptr);
+
+		const RenderPass& renderPass = renderer.getRenderPass();
+		ASSERT_NE(renderPass, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -139,6 +142,12 @@ namespace zt::gl::tests
 	{
 		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
 		ASSERT_EQ(pipelineLayout, nullptr);
+	}
+
+	TEST_F(RendererTests, GetRenderPass)
+	{
+		const RenderPass& renderPass = renderer.getRenderPass();
+		ASSERT_EQ(renderPass, nullptr);
 	}
 
 }

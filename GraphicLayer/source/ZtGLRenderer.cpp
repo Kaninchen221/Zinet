@@ -40,17 +40,10 @@ namespace zt::gl
 		createImageViews();
 
 		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
-		pipelineLayout.setViewportSize(swapExtent.width, swapExtent.height);
 
-		vk::Rect2D scissor;
-		scissor.offset = vk::Offset2D{ 0, 0 };
-		scissor.extent = swapExtent;
-		pipelineLayout.setScissor(scissor);
+		createPipelineLayout();
+		createRenderPass();
 
-		pipelineLayout.createColorBlendAttachmentState();
-
-		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
-		pipelineLayout.create(device, pipelineLayoutCreateInfo);
 	}
 
 	const Context& Renderer::getContext() const
@@ -121,6 +114,11 @@ namespace zt::gl
 	const PipelineLayout& Renderer::getPipelineLayout() const
 	{
 		return pipelineLayout;
+	}
+
+	const RenderPass& Renderer::getRenderPass() const
+	{
+		return renderPass;
 	}
 
 	void Renderer::createInstance()
@@ -199,6 +197,31 @@ namespace zt::gl
 			imageView.create(device, imageViewCreateInfo);
 			imageViews.push_back(std::move(imageView));
 		}
+	}
+
+	void Renderer::createPipelineLayout()
+	{
+		pipelineLayout.setViewportSize(swapExtent.width, swapExtent.height);
+
+		vk::Rect2D scissor;
+		scissor.offset = vk::Offset2D{ 0, 0 };
+		scissor.extent = swapExtent;
+		pipelineLayout.setScissor(scissor);
+
+		pipelineLayout.createColorBlendAttachmentState();
+
+		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+		pipelineLayout.create(device, pipelineLayoutCreateInfo);
+	}
+
+	void Renderer::createRenderPass()
+	{
+		renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
+		renderPass.createAttachmentReference();
+		renderPass.createSubpassDescription();
+		renderPass.createSubpassDependency();
+
+		renderPass.create(device);
 	}
 
 }
