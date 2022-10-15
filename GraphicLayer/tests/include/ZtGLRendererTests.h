@@ -40,6 +40,9 @@ namespace zt::gl::tests
 
 		const Device& device = renderer.getDevice();
 		ASSERT_NE(device, nullptr);
+
+		const Queue& queue = renderer.getQueue();
+		ASSERT_NE(queue, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -89,6 +92,12 @@ namespace zt::gl::tests
 	{
 		const Device& device = renderer.getDevice();
 		ASSERT_EQ(device, nullptr);
+	}
+
+	TEST_F(RendererTests, GetQueue)
+	{
+		const Queue& queue = renderer.getQueue();
+		ASSERT_EQ(queue, nullptr);
 	}
 
 }

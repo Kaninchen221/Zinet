@@ -32,7 +32,7 @@ namespace zt::gl
 		queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 
 		createDevice();
-
+		createQueue();
 	}
 
 	const Context& Renderer::getContext() const
@@ -73,6 +73,11 @@ namespace zt::gl
 	std::uint32_t Renderer::getQueueFamilyIndex() const
 	{
 		return queueFamilyIndex;
+	}
+
+	const Queue& Renderer::getQueue() const
+	{
+		return queue;
 	}
 
 	void Renderer::createInstance()
@@ -127,6 +132,11 @@ namespace zt::gl
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
 		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
+	}
+
+	void Renderer::createQueue()
+	{
+		queue.create(device, queueFamilyIndex);
 	}
 
 }
