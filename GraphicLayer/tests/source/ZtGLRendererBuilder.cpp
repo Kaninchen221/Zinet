@@ -30,8 +30,8 @@ namespace zt::gl::tests
         createDescriptorSetLayouts();
         createPipelineLayout();
         createRenderPass();
-        createPipeline();
         createFramebuffers();
+        createPipeline();
         createCommandPool();
         createCommandBuffer();
         createFences();

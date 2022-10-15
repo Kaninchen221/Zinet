@@ -16,6 +16,7 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
+#include "Zinet/GraphicLayer/ZtGLCommandPool.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -72,11 +73,13 @@ namespace zt::gl
 
 		const RenderPass& getRenderPass() const;
 
-		const Pipeline& getPipeline() const;
-
 		const std::vector<Framebuffer>& getFramebuffers() const;
 
+		const Pipeline& getPipeline() const;
+
 		// TODO: Pass in some way shaders (vertex, fragment)
+		// TODO: PrepareForDraw(DrawInfo)
+		// TODO: Draw()
 
 	protected:
 
@@ -108,8 +111,8 @@ namespace zt::gl
 		vk::Extent2D swapExtent;
 		PipelineLayout pipelineLayout;
 		RenderPass renderPass;
-		Pipeline pipeline; // TODO: Need valid shader stages to create it
 		std::vector<Framebuffer> framebuffers;
+		Pipeline pipeline; // TODO: Need valid shader stages to create it
 	};
 
 }
