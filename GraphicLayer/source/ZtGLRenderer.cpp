@@ -33,6 +33,10 @@ namespace zt::gl
 
 		createDevice();
 		createQueue();
+
+		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+		
+		createSwapChain();
 	}
 
 	const Context& Renderer::getContext() const
@@ -78,6 +82,16 @@ namespace zt::gl
 	const Queue& Renderer::getQueue() const
 	{
 		return queue;
+	}
+
+	const SwapChainSupportDetails& Renderer::getSwapChainSupportDetails() const
+	{
+		return swapChainSupportDetails;
+	}
+
+	const SwapChain& Renderer::getSwapChain() const
+	{
+		return swapChain;
 	}
 
 	void Renderer::createInstance()
@@ -137,6 +151,12 @@ namespace zt::gl
 	void Renderer::createQueue()
 	{
 		queue.create(device, queueFamilyIndex);
+	}
+
+	void Renderer::createSwapChain()
+	{
+		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
+		swapChain.create(device, creatInfo);
 	}
 
 }

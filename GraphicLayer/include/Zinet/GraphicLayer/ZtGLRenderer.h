@@ -9,6 +9,8 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -53,6 +55,10 @@ namespace zt::gl
 
 		const Queue& getQueue() const;
 
+		const SwapChainSupportDetails& getSwapChainSupportDetails() const;
+
+		const SwapChain& getSwapChain() const;
+
 	protected:
 
 		void createInstance();
@@ -62,6 +68,7 @@ namespace zt::gl
 		bool createPhysicalDevice();
 		void createDevice();
 		void createQueue();
+		void createSwapChain();
 
 		Context context;
 		Instance instance;
@@ -72,7 +79,8 @@ namespace zt::gl
 		std::uint32_t queueFamilyIndex;;
 		Device device;
 		Queue queue;
-
+		SwapChainSupportDetails swapChainSupportDetails;
+		SwapChain swapChain;
 
 	};
 

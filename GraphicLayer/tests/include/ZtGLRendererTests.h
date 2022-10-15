@@ -43,6 +43,9 @@ namespace zt::gl::tests
 
 		const Queue& queue = renderer.getQueue();
 		ASSERT_NE(queue, nullptr);
+
+		const SwapChain& swapChain = renderer.getSwapChain();
+		ASSERT_NE(swapChain, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -98,6 +101,17 @@ namespace zt::gl::tests
 	{
 		const Queue& queue = renderer.getQueue();
 		ASSERT_EQ(queue, nullptr);
+	}
+
+	TEST_F(RendererTests, GetSwapChainSupportDetails)
+	{
+		const SwapChainSupportDetails& swapChainSupportDetails = renderer.getSwapChainSupportDetails();
+	}
+
+	TEST_F(RendererTests, GetSwapChain)
+	{
+		const SwapChain& swapChain = renderer.getSwapChain();
+		ASSERT_EQ(swapChain, nullptr);
 	}
 
 }
