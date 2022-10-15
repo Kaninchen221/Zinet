@@ -31,6 +31,9 @@ namespace zt::gl::tests
 
 		const Surface& surface = renderer.getSurface();
 		ASSERT_NE(surface, nullptr);
+
+		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
+		ASSERT_NE(physicalDevice, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -62,6 +65,12 @@ namespace zt::gl::tests
 	{
 		const Surface& surface = renderer.getSurface();
 		ASSERT_EQ(surface, nullptr);
+	}
+
+	TEST_F(RendererTests, GetPhysicalDevice)
+	{
+		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
+		ASSERT_EQ(physicalDevice, nullptr);
 	}
 
 }

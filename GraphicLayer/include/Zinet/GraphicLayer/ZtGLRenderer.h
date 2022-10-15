@@ -6,6 +6,7 @@
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -42,18 +43,22 @@ namespace zt::gl
 
 		const Surface& getSurface() const;
 
+		const PhysicalDevice& getPhysicalDevice() const;
+
 	protected:
 
 		void createInstance();
 		void createDebugUtilsMessenger();
 		void createWindow();
 		bool createSurface();
+		bool createPhysicalDevice();
 
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;
 		Window window;
 		Surface surface;
+		PhysicalDevice physicalDevice;
 
 	};
 

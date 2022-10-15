@@ -20,7 +20,12 @@ namespace zt::gl
 		createInstance();
 		createDebugUtilsMessenger();
 		createWindow();
-		createSurface();
+		if (!createSurface())
+			return;
+
+		if (!createPhysicalDevice())
+			return;
+
 	}
 
 	const Context& Renderer::getContext() const
@@ -46,6 +51,11 @@ namespace zt::gl
 	const Surface& Renderer::getSurface() const
 	{
 		return surface;
+	}
+
+	const PhysicalDevice& Renderer::getPhysicalDevice() const
+	{
+		return physicalDevice;
 	}
 
 	void Renderer::createInstance()
@@ -82,6 +92,17 @@ namespace zt::gl
 		}
 
 		return createSurfaceResult;
+	}
+
+	bool Renderer::createPhysicalDevice()
+	{
+		bool createPhysicalDeviceResult = physicalDevice.create(instance);
+		if (!createPhysicalDeviceResult)
+		{
+			Logger->error("Can't create physical device");
+		}
+
+		return createPhysicalDeviceResult;
 	}
 
 }
