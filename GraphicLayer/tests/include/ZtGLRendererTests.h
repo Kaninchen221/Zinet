@@ -34,6 +34,12 @@ namespace zt::gl::tests
 
 		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
 		ASSERT_NE(physicalDevice, nullptr);
+
+		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
+		ASSERT_NE(queueFamilyIndex, std::numeric_limits<uint32_t>::max());
+
+		const Device& device = renderer.getDevice();
+		ASSERT_NE(device, nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -71,6 +77,18 @@ namespace zt::gl::tests
 	{
 		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
 		ASSERT_EQ(physicalDevice, nullptr);
+	}
+
+	TEST_F(RendererTests, GetQueueFamilyIndex)
+	{
+		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
+		ASSERT_EQ(queueFamilyIndex, std::numeric_limits<uint32_t>::max());
+	}
+
+	TEST_F(RendererTests, GetDevice)
+	{
+		const Device& device = renderer.getDevice();
+		ASSERT_EQ(device, nullptr);
 	}
 
 }

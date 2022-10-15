@@ -7,6 +7,7 @@
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -45,6 +46,10 @@ namespace zt::gl
 
 		const PhysicalDevice& getPhysicalDevice() const;
 
+		const Device& getDevice() const;
+
+		std::uint32_t getQueueFamilyIndex() const;
+
 	protected:
 
 		void createInstance();
@@ -52,6 +57,7 @@ namespace zt::gl
 		void createWindow();
 		bool createSurface();
 		bool createPhysicalDevice();
+		void createDevice();
 
 		Context context;
 		Instance instance;
@@ -59,6 +65,9 @@ namespace zt::gl
 		Window window;
 		Surface surface;
 		PhysicalDevice physicalDevice;
+		std::uint32_t queueFamilyIndex;;
+		Device device;
+
 
 	};
 

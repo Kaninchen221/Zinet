@@ -5,7 +5,9 @@
 
 namespace zt::gl
 {
+
 	Renderer::Renderer()
+		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() }
 	{
 		GLFW::Init();
 	}
@@ -20,11 +22,16 @@ namespace zt::gl
 		createInstance();
 		createDebugUtilsMessenger();
 		createWindow();
+
 		if (!createSurface())
 			return;
 
 		if (!createPhysicalDevice())
 			return;
+
+		queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
+
+		createDevice();
 
 	}
 
@@ -56,6 +63,16 @@ namespace zt::gl
 	const PhysicalDevice& Renderer::getPhysicalDevice() const
 	{
 		return physicalDevice;
+	}
+
+	const Device& Renderer::getDevice() const
+	{
+		return device;
+	}
+
+	std::uint32_t Renderer::getQueueFamilyIndex() const
+	{
+		return queueFamilyIndex;
 	}
 
 	void Renderer::createInstance()
@@ -103,6 +120,13 @@ namespace zt::gl
 		}
 
 		return createPhysicalDeviceResult;
+	}
+
+	void Renderer::createDevice()
+	{
+		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		device.create(physicalDevice, deviceCreateInfo);
 	}
 
 }
