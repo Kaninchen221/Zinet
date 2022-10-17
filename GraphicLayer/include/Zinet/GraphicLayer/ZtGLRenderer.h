@@ -81,6 +81,8 @@ namespace zt::gl
 		// TODO: PrepareForDraw(DrawInfo)
 		// TODO: Draw()
 
+		// TODO: Recreate swap chain
+
 	protected:
 
 		void createInstance();

@@ -122,14 +122,14 @@ namespace zt::gl
 		return renderPass;
 	}
 
-	const Pipeline& Renderer::getPipeline() const
-	{
-		return pipeline;
-	}
-
 	const std::vector<Framebuffer>& Renderer::getFramebuffers() const
 	{
 		return framebuffers;
+	}
+
+	const Pipeline& Renderer::getPipeline() const
+	{
+		return pipeline;
 	}
 
 	void Renderer::createInstance()
