@@ -15,7 +15,8 @@ class ZinetConan(ConanFile):
         "glm/0.9.9.5@",
         "glslang/11.7.0@",
         "spirv-tools/2021.4@",
-        "shaderc/2021.1@"
+        "shaderc/2021.1@",
+        "vulkan-memory-allocator/3.0.1@"
         ]
    generators = "cmake"
    default_options = {"gtest:shared": True}

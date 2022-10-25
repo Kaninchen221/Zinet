@@ -15,6 +15,7 @@ renderer_lib.include_dirs_list = [
     "${CONAN_INCLUDE_DIRS_GLFW}",
     "${CONAN_INCLUDE_DIRS_GLM}",
     "${CONAN_INCLUDE_DIRS_STB}",
+    "${CONAN_INCLUDE_DIRS_VULKAN-MEMORY-ALLOCATOR}",
     "${Vulkan_INCLUDE_DIRS}"
 ]
 renderer_lib.link_libraries_list = [

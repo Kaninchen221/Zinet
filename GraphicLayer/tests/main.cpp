@@ -7,7 +7,7 @@
 //#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 //#include "ZtGLRendererBuilder.h"
 //#include "ZtGLVertexTests.h"
-#include "ZtGLVulkanObjectTests.h"
+//#include "ZtGLVulkanObjectTests.h"
 //#include "ZtGLShaderTypeTests.h"
 //#include "ZtGLShaderTests.h"
 //#include "ZtGLShaderModuleTests.h"
@@ -45,7 +45,8 @@
 //#include "ZtGLImageTests.h"
 //#include "ZtGLImageBufferTests.h"
 //#include "ZtGLSamplerTests.h"
-#include "ZtGLRendererTests.h"
+//#include "ZtGLRendererTests.h"
+#include "ZtGLVmaTests.h"
 
 // TODO Review old files
 //#include "ZtEventTests.h"

@@ -18,6 +18,7 @@ renderer_lib_test.include_dirs_list = [
     "${CONAN_INCLUDE_DIRS_GTEST}",
     "${CONAN_INCLUDE_DIRS_SHADERC}",
     "${CONAN_INCLUDE_DIRS_SPIRV-TOOLS}",
+    "${CONAN_INCLUDE_DIRS_VULKAN-MEMORY-ALLOCATOR}",
     "${Vulkan_INCLUDE_DIRS}"
 ]
 renderer_lib_test.link_libraries_list = [
@@ -31,7 +32,8 @@ renderer_lib_test.link_libraries_list = [
     "${CONAN_LIBS_SHADERC}",
     "${CONAN_LIBS_GLSLANG}",
     "${CONAN_LIBS_SPIRV-TOOLS}",
-    "${CONAN_LIBS_SPIRV-HEADERS}"
+    "${CONAN_LIBS_SPIRV-HEADERS}",
+    "${CONAN_LIBS_VULKAN-MEMORY-ALLOCATOR}"
 ]
 renderer_lib_test.macros_list = [
     "${CMAKE_CURRENT_SOURCE_DIR}"
