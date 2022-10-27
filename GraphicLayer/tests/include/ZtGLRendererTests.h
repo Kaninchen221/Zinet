@@ -61,6 +61,9 @@ namespace zt::gl::tests
 
 		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
 		ASSERT_FALSE(framebuffers.empty());
+
+		const Vma& vma = renderer.getVma();
+		ASSERT_NE(vma.getInternal(), nullptr);
 	}
 
 	TEST_F(RendererTests, GetContext)
@@ -163,6 +166,12 @@ namespace zt::gl::tests
 	{
 		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
 		ASSERT_TRUE(framebuffers.empty());
+	}
+
+	TEST_F(RendererTests, GetVma)
+	{
+		const Vma& vma = renderer.getVma();
+		ASSERT_EQ(vma.getInternal(), nullptr);
 	}
 
 }

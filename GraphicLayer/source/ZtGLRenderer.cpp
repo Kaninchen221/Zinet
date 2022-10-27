@@ -32,6 +32,7 @@ namespace zt::gl
 		queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 
 		createDevice();
+		createVma();
 		createQueue();
 
 		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
@@ -130,6 +131,11 @@ namespace zt::gl
 	const Pipeline& Renderer::getPipeline() const
 	{
 		return pipeline;
+	}
+
+	const Vma& Renderer::getVma() const
+	{
+		return vma;
 	}
 
 	void Renderer::createInstance()
@@ -243,6 +249,12 @@ namespace zt::gl
 			framebuffer.create(device, imageView, renderPass, swapExtent);
 			framebuffers.push_back(std::move(framebuffer));
 		}
+	}
+
+	void Renderer::createVma()
+	{
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(*this);
+		vma.create(allocatorCreateInfo);
 	}
 
 }

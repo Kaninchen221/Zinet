@@ -45,7 +45,7 @@
 //#include "ZtGLImageTests.h"
 //#include "ZtGLImageBufferTests.h"
 //#include "ZtGLSamplerTests.h"
-//#include "ZtGLRendererTests.h"
+#include "ZtGLRendererTests.h"
 #include "ZtGLVmaTests.h"
 
 // TODO Review old files

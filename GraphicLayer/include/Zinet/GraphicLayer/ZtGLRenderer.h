@@ -17,6 +17,7 @@
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 #include "Zinet/GraphicLayer/ZtGLCommandPool.h"
+#include "Zinet/GraphicLayer/ZtGLVma.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -77,6 +78,8 @@ namespace zt::gl
 
 		const Pipeline& getPipeline() const;
 
+		const Vma& getVma() const;
+
 		// TODO: Pass in some way shaders (vertex, fragment)
 		// TODO: PrepareForDraw(DrawInfo)
 		// TODO: Draw()
@@ -97,6 +100,7 @@ namespace zt::gl
 		void createPipelineLayout();
 		void createRenderPass();
 		void createFramebuffers();
+		void createVma();
 
 		Context context;
 		Instance instance;
@@ -115,6 +119,7 @@ namespace zt::gl
 		RenderPass renderPass;
 		std::vector<Framebuffer> framebuffers;
 		Pipeline pipeline; // TODO: Need valid shader stages to create it
+		Vma vma;
 	};
 
 }
