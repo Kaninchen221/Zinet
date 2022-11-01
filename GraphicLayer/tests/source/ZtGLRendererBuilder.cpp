@@ -277,7 +277,7 @@ namespace zt::gl::tests
 
         // Vertex Buffer
         vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(verticesSize);
-        vertexBuffer.create(device, vertexBufferCreateInfo);
+        vertexBuffer.Buffer::create(device, vertexBufferCreateInfo);
 
         vk::MemoryRequirements vertexBufferMemoryRequirements = vertexBuffer->getMemoryRequirements();
         vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;

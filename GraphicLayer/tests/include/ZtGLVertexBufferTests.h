@@ -2,14 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
-#include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include "gtest/gtest.h"
 
@@ -20,32 +13,18 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Context context;
-		Instance instance;
-		Window window;
-		Surface surface;
-		PhysicalDevice physicalDevice;
-		Device device;
+		Renderer renderer;
 		VertexBuffer vertexBuffer;
 
 		void SetUp() override
 		{
 			GLFW::Init();
 
-			window.create();
-			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.getRequiredExtensions();
-			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-			instance.create(context, instanceCreateInfo);
-			surface.create(instance, window);
-			physicalDevice.create(instance);
+			renderer.initialize();
+			vk::BufferCreateInfo bufferCreateInfo = vertexBuffer.createCreateInfo(1u);
+			VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false);
 
-			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-			device.create(physicalDevice, deviceCreateInfo);
-
-			vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
-			vertexBuffer.create(device, vertexBufferCreateInfo);
+			vertexBuffer.create(renderer, bufferCreateInfo, allocationCreateInfo);
 		}
 
 		void TearDown() override
@@ -70,9 +49,23 @@ namespace zt::gl::tests
 		ASSERT_EQ(vertexBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}
 
-	TEST_F(VertexBufferTests, CreateTest)
+	TEST_F(VertexBufferTests, Create)
 	{
 		ASSERT_NE(*vertexBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
+	}
+
+	TEST(VertexBuffer, CreateVmaAllocationCreateInfo)
+	{
+		VertexBuffer vertexBuffer;
+
+		bool randomAccess = false;
+		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
+		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO);
+		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT);
+
+		randomAccess = true;
+		allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
+		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT);
 	}
 
 }

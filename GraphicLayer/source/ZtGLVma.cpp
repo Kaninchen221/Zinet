@@ -3,6 +3,11 @@
 
 namespace zt::gl
 {
+	Vma::~Vma() noexcept
+	{
+		vmaDestroyAllocator(vmaAllocator);
+	}
+
 	const VmaAllocator Vma::getInternal() const
 	{
 		return vmaAllocator;

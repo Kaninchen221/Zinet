@@ -26,7 +26,7 @@ namespace zt::gl
 		Vma& operator = (const Vma& other) = default;
 		Vma& operator = (Vma&& other) = default;
 
-		~Vma() noexcept = default;
+		~Vma() noexcept;
 
 		const VmaAllocator getInternal() const;
 

@@ -11,6 +11,7 @@ namespace zt::gl
 {
 	class Device;
 
+	// TODO: Not used for now because of Vma and shouldn't be used at all
 	class ZINET_GRAPHIC_LAYER_API DeviceMemory : public VulkanObject<vk::raii::DeviceMemory>
 	{
 
