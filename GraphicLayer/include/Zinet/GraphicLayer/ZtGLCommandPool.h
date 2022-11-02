@@ -29,7 +29,7 @@ namespace zt::gl
 
 		vk::CommandPoolCreateInfo createCommandPoolCreateInfo(uint32_t queueFamilyIndex) const;
 
-		void create(Device& device, uint32_t queueFamilyIndex);
+		void create(const Device& device, uint32_t queueFamilyIndex);
 
 	};
 

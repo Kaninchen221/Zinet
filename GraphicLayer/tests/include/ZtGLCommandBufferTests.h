@@ -22,6 +22,7 @@
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include "gtest/gtest.h"
 
@@ -62,6 +63,7 @@ namespace zt::gl::tests
 			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 			commandPool.create(device, queueFamilyIndex);
 
+			const Device& device = device;
 			commandBuffer.allocateCommandBuffer(device, commandPool);
 		}
 
@@ -221,29 +223,21 @@ namespace zt::gl::tests
 		ASSERT_EQ(barrier.dstAccessMask, vk::AccessFlagBits{});
 	}
 
-	TEST_F(CommandBufferTests, CopyBufferToImage)
+	TEST(CommandBuffer, CopyBufferToImage)
 	{
+		Renderer renderer;
+		renderer.initialize();
+
 		StagingBuffer stagingBuffer;
 		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
-		stagingBuffer.create(device, stagingBufferCreateInfo);
-
-		vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
-
-		DeviceMemory stagingBufferDeviceMemory;
-		stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
-
-		stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-		int stagingBufferSource;
-		stagingBufferDeviceMemory.fillWithObject(stagingBufferSource);
+		VmaAllocationCreateInfo stagingBufferAllocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
+		stagingBuffer.create(renderer, stagingBufferCreateInfo, stagingBufferAllocationCreateInfo);
 
 		Image image;
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
 		vk::ImageCreateInfo imageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight);
-		image.create(device, imageCreateInfo);
+		image.create(renderer.getDevice(), imageCreateInfo);
 
 		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
 
@@ -265,18 +259,16 @@ namespace zt::gl::tests
 		};
 
 		ImageBuffer imageBuffer;
-		vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(1);
-		imageBuffer.create(device, imageBufferCreateInfo);
+		vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(1u);
+		VmaAllocationCreateInfo imageBufferAllocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
+		imageBuffer.create(renderer, imageBufferCreateInfo, imageBufferAllocationCreateInfo);
 
-		vk::MemoryRequirements memoryRequirements = image->getMemoryRequirements();
-		vk::MemoryPropertyFlags imageBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-		vk::MemoryAllocateInfo imageBufferMemoryAllocateInfo = imageBuffer.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, imageBufferMemoryPropertyFlags);
+		uint32_t queueFamilyIndex = renderer.getPhysicalDevice().pickQueueFamilyIndex(renderer.getSurface());
+		CommandPool commandPool;
+		commandPool.create(renderer.getDevice(), queueFamilyIndex);
 
-		DeviceMemory imageDeviceMemory;
-		imageDeviceMemory.create(device, imageBufferMemoryAllocateInfo);
-		imageBuffer.bindMemory(imageDeviceMemory);
-
-		image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(renderer.getDevice(), commandPool);
 
 		commandBuffer.begin();
 		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);

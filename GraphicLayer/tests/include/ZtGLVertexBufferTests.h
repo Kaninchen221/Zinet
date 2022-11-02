@@ -18,18 +18,11 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
-
 			renderer.initialize();
 			vk::BufferCreateInfo bufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 			VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false);
 
 			vertexBuffer.create(renderer, bufferCreateInfo, allocationCreateInfo);
-		}
-
-		void TearDown() override
-		{
-			GLFW::Deinit();
 		}
 	};
 
@@ -52,20 +45,6 @@ namespace zt::gl::tests
 	TEST_F(VertexBufferTests, Create)
 	{
 		ASSERT_NE(*vertexBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
-	}
-
-	TEST(VertexBuffer, CreateVmaAllocationCreateInfo)
-	{
-		VertexBuffer vertexBuffer;
-
-		bool randomAccess = false;
-		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
-		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO);
-		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT);
-
-		randomAccess = true;
-		allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
-		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT);
 	}
 
 }

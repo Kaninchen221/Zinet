@@ -39,7 +39,7 @@ namespace zt::gl
 
 		vk::CommandBufferAllocateInfo createCommandBufferAllocateInfo(CommandPool& commandPool) const;
 
-		void allocateCommandBuffer(Device& device, CommandPool& commandPool);
+		void allocateCommandBuffer(const Device& device, CommandPool& commandPool);
 
 		void begin();
 

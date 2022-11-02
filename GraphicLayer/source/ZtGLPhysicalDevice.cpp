@@ -5,7 +5,7 @@
 namespace zt::gl
 {
 
-    uint32_t PhysicalDevice::pickQueueFamilyIndex(Surface& surface)
+    uint32_t PhysicalDevice::pickQueueFamilyIndex(const Surface& surface) const
     {
         std::vector<vk::QueueFamilyProperties> queueFamiliesProperties = internal.getQueueFamilyProperties();
 

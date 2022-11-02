@@ -29,7 +29,7 @@ namespace zt::gl
 
 		~PhysicalDevice() noexcept = default;
 
-		uint32_t pickQueueFamilyIndex(Surface& surface);
+		uint32_t pickQueueFamilyIndex(const Surface& surface) const;
 
 		const vk::PhysicalDeviceFeatures& getFeatures() const;
 

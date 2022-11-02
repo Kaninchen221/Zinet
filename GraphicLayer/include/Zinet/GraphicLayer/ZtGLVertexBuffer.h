@@ -22,18 +22,9 @@ namespace zt::gl
 		VertexBuffer& operator = (const VertexBuffer& other) = default;
 		VertexBuffer& operator = (VertexBuffer&& other) = default;
 
-		~VertexBuffer() noexcept;
+		~VertexBuffer() noexcept = default;
 
 		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
-
-		VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const;
-
-		void create(const Renderer& renderer, const VkBufferCreateInfo& bufferCreateInfo, const VmaAllocationCreateInfo& allocationCreateInfo);
-
-	private:
-
-		const Vma* vma;
-		VmaAllocation allocation = nullptr;
 
 	};
 

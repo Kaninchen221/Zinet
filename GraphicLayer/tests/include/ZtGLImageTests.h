@@ -82,7 +82,7 @@ namespace zt::gl::tests
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
 		vk::ImageCreateInfo createInfo = image.createCreateInfo(expectedWidth, expectedHeight);
-
+		
 		image.create(device, createInfo);
 
 		ASSERT_NE(*image.getInternal(), *vk::raii::Image{ std::nullptr_t{} });

@@ -17,7 +17,7 @@ namespace zt::gl
 		return createInfo;
 	}
 
-	void CommandPool::create(Device& device, uint32_t queueFamilyIndex)
+	void CommandPool::create(const Device& device, uint32_t queueFamilyIndex)
 	{
 		vk::CommandPoolCreateInfo createInfo = createCommandPoolCreateInfo(queueFamilyIndex);
 		internal = std::move(vk::raii::CommandPool{ device.getInternal(), createInfo });

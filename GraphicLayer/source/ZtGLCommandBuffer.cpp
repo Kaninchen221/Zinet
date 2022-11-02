@@ -29,7 +29,7 @@ namespace zt::gl
 		return allocateInfo;
 	}
 
-	void CommandBuffer::allocateCommandBuffer(Device& device, CommandPool& commandPool)
+	void CommandBuffer::allocateCommandBuffer(const Device& device, CommandPool& commandPool)
 	{
 		vk::CommandBufferAllocateInfo allocateInfo = createCommandBufferAllocateInfo(commandPool);
 		internal = std::move(vk::raii::CommandBuffers(device.getInternal(), allocateInfo).front());

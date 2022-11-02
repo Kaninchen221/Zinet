@@ -23,7 +23,7 @@ namespace zt::gl
 		return createInfo;
 	}
 
-	void Image::create(Device& device, const vk::ImageCreateInfo& createInfo)
+	void Image::create(const Device& device, const vk::ImageCreateInfo& createInfo)
 	{
 		internal = std::move(vk::raii::Image{ device.getInternal(), createInfo });
 	}

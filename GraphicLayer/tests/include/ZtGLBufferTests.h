@@ -2,15 +2,11 @@
 
 #include "gtest/gtest.h"
 
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
-#include "Zinet/GraphicLayer/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
 
 namespace zt::gl::tests
 {
@@ -26,45 +22,38 @@ namespace zt::gl::tests
 			{ 
 				vk::BufferCreateInfo createInfo;
 				createInfo.usage = vk::BufferUsageFlagBits::eTransferSrc;
-				createInfo.size = 1;
+				createInfo.size = size;
 				return createInfo;
+			}
+
+			VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const override
+			{
+				VmaAllocationCreateInfo allocationCreateInfo{};
+				allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
+				allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
+
+				return allocationCreateInfo;
 			}
 
 		};
 
-		Context context;
-		Instance instance;
-		Window window;
-		Surface surface;
-		PhysicalDevice physicalDevice;
-		Device device;
-		std::uint64_t expectedSize = 1u;
-		vk::BufferCreateInfo createInfo;
+		struct MVPFake
+		{
+			int i = 34;
+			float f = 456.342f;
+		};
+
+		Renderer renderer;
+		std::uint64_t expectedSize = sizeof(MVPFake);
 		BufferTest bufferTest;
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			renderer.initialize();
+			vk::BufferCreateInfo bufferCreateInfo = bufferTest.createCreateInfo(expectedSize);
+			VmaAllocationCreateInfo allocationCreateInfo = bufferTest.createVmaAllocationCreateInfo(false);
 
-			window.create();
-			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.getRequiredExtensions();
-			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-			instance.create(context, instanceCreateInfo);
-			surface.create(instance, window);
-			physicalDevice.create(instance);
-
-			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-			device.create(physicalDevice, deviceCreateInfo);
-
-			createInfo = bufferTest.createCreateInfo(expectedSize);
-			bufferTest.create(device, createInfo);
-		}
-
-		void TearDown() override
-		{
-			GLFW::Deinit();
+			bufferTest.create(renderer, bufferCreateInfo, allocationCreateInfo);
 		}
 	};
 
@@ -94,41 +83,36 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualSize, expectedSize);
 	}
 
-	TEST_F(BufferTests, GetMemoryRequirements)
+	TEST(Buffer, CreateVmaAllocationCreateInfo)
 	{
-		vk::MemoryRequirements memoryRequirements = bufferTest->getMemoryRequirements();
+		VertexBuffer vertexBuffer;
+
+		bool randomAccess = false;
+		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
+		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO);
+		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT);
+
+		randomAccess = true;
+		allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
+		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT);
 	}
 
-	TEST_F(BufferTests, FindSuitableMemoryType)
+	TEST_F(BufferTests, FillWithObject)
 	{
-		vk::MemoryRequirements memoryRequirements = bufferTest->getMemoryRequirements();
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		uint32_t memoryType = bufferTest.findSuitableMemoryType(memoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
+		MVPFake object;
 
-		ASSERT_NE(memoryType, UINT32_MAX);
+		bufferTest.fillWithObject<MVPFake>(object);
+
+		std::pair<void*, std::uint64_t> data = bufferTest.getData();
+		
+		ASSERT_EQ(data.second, expectedSize);
+
+		int result = std::memcmp(data.first, &object, expectedSize);
+		
+		ASSERT_EQ(result, 0);
+
+		std::free(data.first);
 	}
 
-	TEST_F(BufferTests, CreateMemoryAllocateInfo)
-	{
-		vk::MemoryRequirements memoryRequirements;
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags memoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		vk::MemoryAllocateInfo memoryAllocateInfo = bufferTest.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
-
-		ASSERT_NE(memoryAllocateInfo, vk::MemoryAllocateInfo{});
-	}
-
-	TEST_F(BufferTests, BindMemory)
-	{
-		vk::MemoryRequirements bufferMemoryRequirements = bufferTest->getMemoryRequirements();
-		vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		vk::MemoryPropertyFlags memoryPropertyFlags = {};
-		vk::MemoryAllocateInfo memoryAllocateInfo = bufferTest.createMemoryAllocateInfo(bufferMemoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
-		DeviceMemory deviceMemory;
-		deviceMemory.create(device, memoryAllocateInfo);
-
-		bufferTest.bindMemory(deviceMemory);
-	}
-
+	// TODO Migrate fillWith... functions from DeviceMemory to Buffer
 }

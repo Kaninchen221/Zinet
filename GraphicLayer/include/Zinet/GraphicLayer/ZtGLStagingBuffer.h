@@ -24,6 +24,11 @@ namespace zt::gl
 
 		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
 
+		VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const override
+		{
+			VmaAllocationCreateInfo allocationCreateInfo{};
+			return allocationCreateInfo;
+		}
 	};
 
 }

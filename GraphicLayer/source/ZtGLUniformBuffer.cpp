@@ -18,7 +18,7 @@ namespace zt::gl
 		vk::DescriptorBufferInfo descriptorBufferInfo;
 		descriptorBufferInfo.buffer = *getInternal();
 		descriptorBufferInfo.offset = 0;
-		descriptorBufferInfo.range = size;
+		descriptorBufferInfo.range = getSize();
 
 		return descriptorBufferInfo;
 	}

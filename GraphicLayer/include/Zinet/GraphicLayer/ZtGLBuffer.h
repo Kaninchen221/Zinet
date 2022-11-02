@@ -2,13 +2,16 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLVma.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include "vk_mem_alloc.h"
+
 namespace zt::gl
 {
-	class Device;
-	class DeviceMemory;
+	class Renderer;
+	class Vma;
 
 	class ZINET_GRAPHIC_LAYER_API Buffer : public VulkanObject<vk::raii::Buffer>
 	{
@@ -26,30 +29,35 @@ namespace zt::gl
 		Buffer& operator = (const Buffer& other) = default;
 		Buffer& operator = (Buffer&& other) = default;
 
-		~Buffer() noexcept = default;
+		~Buffer() noexcept;
 
 		virtual vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const = 0;
 
-		void create(Device& device, const vk::BufferCreateInfo& createInfo);
+		virtual VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const;
 
-		uint32_t findSuitableMemoryType(
-			const vk::MemoryRequirements& memoryRequirements,
-			const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, 
-			const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
-
-		vk::MemoryAllocateInfo createMemoryAllocateInfo(
-			const vk::MemoryRequirements& memoryRequirements,
-			const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, 
-			const vk::MemoryPropertyFlags& memoryPropertyFlags) const;
-
-		void bindMemory(DeviceMemory& deviceMemory);
+		void create(const Renderer& renderer, const VkBufferCreateInfo& bufferCreateInfo, const VmaAllocationCreateInfo& allocationCreateInfo);
 
 		std::uint64_t getSize() const;
 
-	protected:
+		template<typename T>
+		void fillWithObject(const T& object);
+
+		std::pair<void*, std::uint64_t> getData();
+
+	private:
 
 		std::uint64_t size{};
+		const Vma* vma{};
+		VmaAllocation allocation = nullptr;
 
 	};
 
+	template<typename T>
+	inline void Buffer::fillWithObject(const T& object)
+	{
+		void* mappedData;
+		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		std::memcpy(mappedData, &object, size);
+		vmaUnmapMemory(vma->getInternal(), allocation);
+	}
 }

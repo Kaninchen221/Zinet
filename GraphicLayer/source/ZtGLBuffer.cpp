@@ -1,52 +1,63 @@
 #include "Zinet/GraphicLayer/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
+//#include "Zinet/GraphicLayer/ZtGLVma.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 namespace zt::gl
 {
-	void Buffer::create(Device& device, const vk::BufferCreateInfo& createInfo)
+	Buffer::~Buffer()
 	{
-		internal = vk::raii::Buffer{ device.getInternal(), createInfo };
-		size = createInfo.size;
-	}
-
-	uint32_t Buffer::findSuitableMemoryType(
-		const vk::MemoryRequirements& memoryRequirements,
-		const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, 
-		const vk::MemoryPropertyFlags& memoryPropertyFlags) const
-	{
-		for (std::uint32_t index = 0; index < physicalDeviceMemoryProperties.memoryTypeCount; index++) {
-			if ((memoryRequirements.memoryTypeBits & (1 << index)) &&
-				(physicalDeviceMemoryProperties.memoryTypes[index].propertyFlags & memoryPropertyFlags) == memoryPropertyFlags)
-			{
-				return index;
-			}
+		if (allocation != nullptr)
+		{
+			vmaDestroyBuffer(vma->getInternal(), nullptr, allocation);
 		}
-
-		Logger->error("Can't find suitable memory type");
-		return UINT32_MAX;
-	}
-
-	vk::MemoryAllocateInfo Buffer::createMemoryAllocateInfo(
-		const vk::MemoryRequirements& memoryRequirements,
-		const vk::PhysicalDeviceMemoryProperties& physicalDeviceMemoryProperties, 
-		const vk::MemoryPropertyFlags& memoryPropertyFlags) const
-	{
-		vk::MemoryAllocateInfo memoryAllocateInfo{};
-		memoryAllocateInfo.allocationSize = memoryRequirements.size;
-		memoryAllocateInfo.memoryTypeIndex = findSuitableMemoryType(memoryRequirements, physicalDeviceMemoryProperties, memoryPropertyFlags);
-
-		return memoryAllocateInfo;
-	}
-
-	void Buffer::bindMemory(DeviceMemory& deviceMemory)
-	{
-		vk::DeviceSize offset = 0;
-		internal.bindMemory(*deviceMemory.getInternal(), offset);
 	}
 
 	std::uint64_t Buffer::getSize() const
 	{
 		return size;
+	}
+
+	std::pair<void*, std::uint64_t> Buffer::getData()
+	{
+		std::pair<void*, std::uint64_t> result{};
+
+		result.first = std::malloc(size);
+		result.second = size;
+
+		vk::DeviceSize offset = 0u;
+		void* mappedData;
+		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		std::memcpy(result.first, mappedData, size);
+
+		vmaUnmapMemory(vma->getInternal(), allocation);
+
+		return result;
+	}
+
+	void Buffer::create(const Renderer& renderer, const VkBufferCreateInfo& bufferCreateInfo, const VmaAllocationCreateInfo& allocationCreateInfo)
+	{
+		vma = &renderer.getVma();
+		VkBuffer buffer;
+		vmaCreateBuffer(vma->getInternal(), &bufferCreateInfo, &allocationCreateInfo, &buffer, &allocation, nullptr);
+		size = bufferCreateInfo.size;
+		internal = vk::raii::Buffer{ renderer.getDevice().getInternal(), buffer };
+	}
+
+	VmaAllocationCreateInfo Buffer::createVmaAllocationCreateInfo(bool randomAccess) const
+	{
+		VmaAllocationCreateInfo allocationCreateInfo{};
+		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
+
+		if (randomAccess)
+		{
+			allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT;
+		}
+		else
+		{
+			allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
+		}
+
+		return allocationCreateInfo;
 	}
 }
