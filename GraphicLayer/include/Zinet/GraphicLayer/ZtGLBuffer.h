@@ -42,6 +42,11 @@ namespace zt::gl
 		template<typename T>
 		void fillWithObject(const T& object);
 
+		template<typename T>
+		void fillWithStdContainer(const T& container);
+
+		void fillWithCArray(void* firstElement, std::size_t size);
+
 		std::pair<void*, std::uint64_t> getData();
 
 	private:
@@ -58,6 +63,15 @@ namespace zt::gl
 		void* mappedData;
 		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
 		std::memcpy(mappedData, &object, size);
+		vmaUnmapMemory(vma->getInternal(), allocation);
+	}
+
+	template<typename T>
+	inline void Buffer::fillWithStdContainer(const T& container)
+	{
+		void* mappedData;
+		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		std::memcpy(mappedData, container.data(), size);
 		vmaUnmapMemory(vma->getInternal(), allocation);
 	}
 }

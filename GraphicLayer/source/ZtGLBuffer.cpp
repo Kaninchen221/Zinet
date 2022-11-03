@@ -35,6 +35,14 @@ namespace zt::gl
 		return result;
 	}
 
+	void Buffer::fillWithCArray(void* firstElement, std::size_t size)
+	{
+		void* mappedData;
+		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		std::memcpy(mappedData, firstElement, size);
+		vmaUnmapMemory(vma->getInternal(), allocation);
+	}
+
 	void Buffer::create(const Renderer& renderer, const VkBufferCreateInfo& bufferCreateInfo, const VmaAllocationCreateInfo& allocationCreateInfo)
 	{
 		vma = &renderer.getVma();

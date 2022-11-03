@@ -40,7 +40,7 @@ namespace zt::gl::tests
 		struct MVPFake
 		{
 			int i = 34;
-			float f = 456.342f;
+			int f = 456.342f;
 		};
 
 		Renderer renderer;
@@ -114,5 +114,39 @@ namespace zt::gl::tests
 		std::free(data.first);
 	}
 
-	// TODO Migrate fillWith... functions from DeviceMemory to Buffer
+	TEST_F(BufferTests, FillWithDataContainer)
+	{
+		std::vector<int> container{ 34, 753345345 };
+		bufferTest.fillWithStdContainer<std::vector<int>>(container);
+
+		std::pair<void*, std::uint64_t> data = bufferTest.getData();
+
+		ASSERT_EQ(data.second, expectedSize);
+
+		int result = std::memcmp(data.first, container.data(), expectedSize);
+
+		ASSERT_EQ(result, 0);
+
+		std::free(data.first);
+	}
+
+	TEST_F(BufferTests, FillWithCArray)
+	{
+		int array[2];
+		array[0] = 67645;
+		array[1] = 123;
+		std::size_t size = sizeof(int) * 2u;
+		bufferTest.fillWithCArray(array, size);
+
+		std::pair<void*, std::uint64_t> data = bufferTest.getData();
+		
+		ASSERT_EQ(data.second, size);
+		
+		int result = std::memcmp(data.first, array, size);
+		
+		ASSERT_EQ(result, 0);
+		
+		std::free(data.first);
+	}
+
 }
