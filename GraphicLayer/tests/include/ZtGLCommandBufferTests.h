@@ -63,7 +63,6 @@ namespace zt::gl::tests
 			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 			commandPool.create(device, queueFamilyIndex);
 
-			const Device& device = device;
 			commandBuffer.allocateCommandBuffer(device, commandPool);
 		}
 

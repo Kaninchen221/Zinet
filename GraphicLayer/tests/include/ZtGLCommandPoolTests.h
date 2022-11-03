@@ -58,7 +58,6 @@ namespace zt::gl::tests
 
 	TEST_F(CommandPoolTests, CreateCommandPoolTest)
 	{
-		const Device& device = device;
 		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 		commandPool.create(device, queueFamilyIndex);
 
