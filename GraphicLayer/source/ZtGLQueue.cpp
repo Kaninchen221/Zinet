@@ -6,8 +6,7 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLBufferCopy.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 
 #include <utility>
 
@@ -73,7 +72,7 @@ namespace zt::gl
     {
         commandBuffer.begin();
 
-        BufferCopy bufferCopy;
+        vk::BufferCopy bufferCopy;
         bufferCopy.srcOffset = 0;
         bufferCopy.dstOffset = 0;
         bufferCopy.size = sourceBuffer.getSize();

@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLIndexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 
 namespace zt::gl
 {

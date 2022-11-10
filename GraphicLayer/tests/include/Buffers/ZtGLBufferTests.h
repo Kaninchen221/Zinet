@@ -4,9 +4,9 @@
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
-#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 
 namespace zt::gl::tests
 {

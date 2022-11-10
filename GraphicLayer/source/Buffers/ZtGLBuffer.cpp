@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 //#include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"

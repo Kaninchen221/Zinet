@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLUniformBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
 
 #include "gtest/gtest.h"
 

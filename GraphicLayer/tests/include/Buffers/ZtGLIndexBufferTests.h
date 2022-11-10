@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLIndexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include "gtest/gtest.h"

@@ -5,12 +5,11 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
-#include "Zinet/GraphicLayer/ZtGLBufferCopy.h"
-#include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 
 namespace zt::gl
 {

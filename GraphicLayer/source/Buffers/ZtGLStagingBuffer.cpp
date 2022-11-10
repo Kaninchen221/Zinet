@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 
 namespace zt::gl
 {

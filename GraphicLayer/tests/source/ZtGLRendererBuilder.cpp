@@ -1,8 +1,8 @@
 #include "ZtGLRendererBuilder.h"
 
 #include "Zinet/GraphicLayer/ZtGLShader.h"
-#include "Zinet/GraphicLayer/ZtGLStagingBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 
 namespace zt::gl::tests

@@ -5,8 +5,8 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLUniformBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
