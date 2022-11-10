@@ -34,18 +34,18 @@
 #include "ZtGLDescriptorPoolTests.h"
 #include "ZtGLDescriptorSetsTests.h"
 #include "ZtGLSTBImageTests.h"
+#include "ZtGLVmaTests.h"
+#include "ZtGLSamplerTests.h"
+#include "ZtGLRendererTests.h"
+#include "ZtGLImageTests.h"
+#include "ZtGLDeviceMemoryTests.h"
 
 #include "Buffers/ZtGLBufferTests.h"
 #include "Buffers/ZtGLVertexBufferTests.h"
 #include "Buffers/ZtGLStagingBufferTests.h"
-#include "ZtGLDeviceMemoryTests.h"
 #include "Buffers/ZtGLIndexBufferTests.h"
 #include "Buffers/ZtGLUniformBufferTests.h"
-#include "ZtGLImageTests.h"
 #include "Buffers/ZtGLImageBufferTests.h"
-#include "ZtGLVmaTests.h"
-#include "ZtGLSamplerTests.h"
-#include "ZtGLRendererTests.h"
 
 // TODO Review old files
 //#include "ZtEventTests.h"

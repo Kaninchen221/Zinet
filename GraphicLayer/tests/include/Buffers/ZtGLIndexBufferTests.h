@@ -37,7 +37,7 @@ namespace zt::gl::tests
 		vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo(expectedSize);
 
 		ASSERT_EQ(indexBufferCreateInfo.size, expectedSize);
-		ASSERT_EQ(indexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eIndexBuffer | vk::BufferUsageFlagBits::eTransferDst);
+		ASSERT_EQ(indexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eIndexBuffer);
 		ASSERT_EQ(indexBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}
 
