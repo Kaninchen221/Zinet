@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 
-#include "vk_mem_alloc.h"
+#include <vk_mem_alloc.h>
 
 namespace zt::gl
 {
@@ -24,7 +24,7 @@ namespace zt::gl
 
 		~VertexBuffer() noexcept = default;
 
-		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
+		vk::BufferCreateInfo createCreateInfo(std::uint64_t newSize) const override;
 
 	};
 

@@ -32,7 +32,7 @@ namespace zt::gl
 
 		std::string_view getSource() const;
 
-		void loadFromCString(const char* source);
+		void loadFromCString(const char* newSource);
 
 		void loadFromFile(const std::string& path);
 

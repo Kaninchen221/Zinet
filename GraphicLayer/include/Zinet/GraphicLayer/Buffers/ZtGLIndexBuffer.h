@@ -20,7 +20,7 @@ namespace zt::gl
 
 		~IndexBuffer() noexcept = default;
 
-		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
+		vk::BufferCreateInfo createCreateInfo(std::uint64_t newSize) const override;
 
 	};
 

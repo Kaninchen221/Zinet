@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtFile.h"
 
-#include "shaderc/shaderc.hpp"
+#include <shaderc/shaderc.hpp>
 
 namespace zt::gl
 {
@@ -12,9 +12,9 @@ namespace zt::gl
         return source;
 	}
 
-	void Shader::loadFromCString(const char* source)
+	void Shader::loadFromCString(const char* newSource)
 	{
-		this->source = source;
+		source = newSource;
 	}
 
 	void Shader::loadFromFile(const std::string& path)

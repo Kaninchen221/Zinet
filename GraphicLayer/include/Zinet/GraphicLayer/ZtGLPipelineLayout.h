@@ -41,7 +41,7 @@ namespace zt::gl
 
 		const vk::Viewport& getViewport() const;
 
-		void setScissor(const vk::Rect2D& scissor);
+		void setScissor(const vk::Rect2D& newScissor);
 
 		const vk::Rect2D& getScissor() const;
 

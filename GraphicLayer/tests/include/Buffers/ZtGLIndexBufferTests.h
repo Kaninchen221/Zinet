@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {

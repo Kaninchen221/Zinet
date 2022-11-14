@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -37,7 +37,7 @@ namespace zt::gl::tests
 
 	TEST_F(DebugUtilsMessengerTests, GetDebugDebugMessengerTest)
 	{
-		const vk::raii::DebugUtilsMessengerEXT& internal = debugUtilsMessenger.getInternal();
+		[[maybe_unused]] const vk::raii::DebugUtilsMessengerEXT& internal = debugUtilsMessenger.getInternal();
 	}
 
 	TEST_F(DebugUtilsMessengerTests, Create)

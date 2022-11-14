@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtKeyboardEvent.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {

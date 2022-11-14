@@ -4,9 +4,9 @@
 namespace zt::gl
 {
 
-	void Event::setWindow(Window* window)
+	void Event::setWindow(Window* newWindow)
 	{
-		this->window = window;
+		window = newWindow;
 		keyboard.setWindow(window);
 		mouse.setWindow(window);
 	}

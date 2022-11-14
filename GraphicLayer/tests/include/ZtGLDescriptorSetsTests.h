@@ -11,7 +11,7 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {

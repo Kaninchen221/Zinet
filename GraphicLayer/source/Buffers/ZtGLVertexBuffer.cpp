@@ -3,10 +3,10 @@
 
 namespace zt::gl
 {
-	vk::BufferCreateInfo VertexBuffer::createCreateInfo(std::uint64_t size) const
+	vk::BufferCreateInfo VertexBuffer::createCreateInfo(std::uint64_t newSize) const
 	{
 		vk::BufferCreateInfo bufferCreateInfo;
-		bufferCreateInfo.size = size;
+		bufferCreateInfo.size = newSize;
 		bufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
 		bufferCreateInfo.sharingMode = vk::SharingMode::eExclusive;
 

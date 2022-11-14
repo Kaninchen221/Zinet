@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtMouse.h"
 #include "Zinet/GraphicLayer/ZtWindow.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 class ZtMouseTests : public ::testing::Test
 {

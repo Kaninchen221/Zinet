@@ -2,7 +2,6 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl

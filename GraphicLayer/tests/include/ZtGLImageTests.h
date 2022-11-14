@@ -10,7 +10,7 @@
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -78,7 +78,6 @@ namespace zt::gl::tests
 
 	TEST_F(ImageTests, Create)
 	{
-		Image image;
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
 		vk::ImageCreateInfo createInfo = image.createCreateInfo(expectedWidth, expectedHeight);

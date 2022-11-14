@@ -9,7 +9,7 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -84,7 +84,7 @@ namespace zt::gl::tests
 		fence.createSignaled(device);
 
 		uint64_t timeout = 1;
-		vk::Result result = device.waitForFence(fence, timeout);
+		[[maybe_unused]] vk::Result result = device.waitForFence(fence, timeout);
 	}
 
 	TEST_F(DeviceTests, ResetFence)

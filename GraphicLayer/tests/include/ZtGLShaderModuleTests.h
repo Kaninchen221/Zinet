@@ -7,7 +7,7 @@
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include <memory>
 

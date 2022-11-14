@@ -37,7 +37,7 @@ namespace zt::gl
 
 		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
 		vertexInputStateCreateInfo.pVertexBindingDescriptions = &vertexInputBindingDescription;
-		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = vertexInputAttributeDescriptions.size();
+		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexInputAttributeDescriptions.size());
 		vertexInputStateCreateInfo.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
 
 		return vertexInputStateCreateInfo;
@@ -72,9 +72,9 @@ namespace zt::gl
 		return viewport;
 	}
 
-	void PipelineLayout::setScissor(const vk::Rect2D& scissor)
+	void PipelineLayout::setScissor(const vk::Rect2D& newScissor)
 	{
-		this->scissor = scissor;
+		scissor = newScissor;
 	}
 
 	const vk::Rect2D& PipelineLayout::getScissor() const
@@ -142,7 +142,7 @@ namespace zt::gl
 	vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
 	{
 		vk::PipelineLayoutCreateInfo layoutCreateInfo;
-		layoutCreateInfo.setLayoutCount = vkDescriptorSetLayouts.size();
+		layoutCreateInfo.setLayoutCount = static_cast<uint32_t>(vkDescriptorSetLayouts.size());
 		layoutCreateInfo.pSetLayouts = vkDescriptorSetLayouts.data();
 		layoutCreateInfo.pushConstantRangeCount = 0;
 		layoutCreateInfo.pPushConstantRanges = nullptr;

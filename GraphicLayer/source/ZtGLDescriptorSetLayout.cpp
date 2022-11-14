@@ -31,7 +31,7 @@ namespace zt::gl
     vk::DescriptorSetLayoutCreateInfo DescriptorSetLayout::createDescriptorSetLayoutCreateInfo(const std::vector<vk::DescriptorSetLayoutBinding>& bindings)
     {
         vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo;
-        descriptorSetLayoutCreateInfo.bindingCount = bindings.size();
+        descriptorSetLayoutCreateInfo.bindingCount = static_cast<uint32_t>(bindings.size());
         descriptorSetLayoutCreateInfo.pBindings = bindings.data();
 
         return descriptorSetLayoutCreateInfo;

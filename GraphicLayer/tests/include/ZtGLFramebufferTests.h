@@ -5,7 +5,7 @@
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {

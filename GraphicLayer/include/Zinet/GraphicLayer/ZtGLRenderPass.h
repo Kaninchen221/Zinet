@@ -35,7 +35,7 @@ namespace zt::gl
 
 		const vk::SubpassDependency& createSubpassDependency();
 
-		const vk::RenderPassCreateInfo& createRenderPassCreateInfo() const;
+		vk::RenderPassCreateInfo createRenderPassCreateInfo() const;
 
 		void create(Device& device);
 

@@ -14,9 +14,9 @@ namespace zt::gl
 		return createInfo;
 	}
 
-	void ShaderModule::create(Device& device, ShaderType shaderType, const vk::ShaderModuleCreateInfo& createInfo)
+	void ShaderModule::create(Device& device, ShaderType newShaderType, const vk::ShaderModuleCreateInfo& createInfo)
 	{
-		this->shaderType = shaderType;
+		shaderType = newShaderType;
 		internal = vk::raii::ShaderModule{ device.getInternal(), createInfo, nullptr };
 	}
 

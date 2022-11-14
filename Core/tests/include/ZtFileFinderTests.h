@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "Zinet/Core/ZtFileFinder.h"
 
 namespace zt::tests

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
@@ -18,15 +18,15 @@ namespace zt::gl::tests
 		struct BufferTest : public Buffer
 		{
 
-			vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override
+			vk::BufferCreateInfo createCreateInfo(std::uint64_t newSize) const override
 			{ 
 				vk::BufferCreateInfo createInfo;
 				createInfo.usage = vk::BufferUsageFlagBits::eTransferSrc;
-				createInfo.size = size;
+				createInfo.size = newSize;
 				return createInfo;
 			}
 
-			VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const override
+			VmaAllocationCreateInfo createVmaAllocationCreateInfo([[maybe_unused]] bool randomAccess) const override
 			{
 				VmaAllocationCreateInfo allocationCreateInfo{};
 				allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
@@ -40,7 +40,7 @@ namespace zt::gl::tests
 		struct MVPFake
 		{
 			int i = 34;
-			int f = 456.342f;
+			int f = 456;
 		};
 
 		Renderer renderer;
@@ -135,14 +135,13 @@ namespace zt::gl::tests
 		int array[2];
 		array[0] = 67645;
 		array[1] = 123;
-		std::size_t size = sizeof(int) * 2u;
-		bufferTest.fillWithCArray(array, size);
+		bufferTest.fillWithCArray(array);
 
 		std::pair<void*, std::uint64_t> data = bufferTest.getData();
 		
-		ASSERT_EQ(data.second, size);
+		ASSERT_EQ(data.second, bufferTest.getSize());
 		
-		int result = std::memcmp(data.first, array, size);
+		int result = std::memcmp(data.first, array, bufferTest.getSize());
 		
 		ASSERT_EQ(result, 0);
 		

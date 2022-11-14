@@ -9,9 +9,9 @@ namespace zt::gl
 		events = std::vector<KeyboardEvent>(1, KeyboardEvent());
 	}
 
-	void Keyboard::setWindow(Window* window)
+	void Keyboard::setWindow(Window* newWindow)
 	{
-		this->window = window;
+		window = newWindow;
 	}
 
 	const Window* Keyboard::getWindow() const
@@ -45,7 +45,7 @@ namespace zt::gl
 		glfwSetKeyCallback(window->getInternal(), Keyboard::KeyCallback);
 	}
 
-	void Keyboard::KeyCallback(GLFWwindow* internalWindow, int key, int scanCode, int action, int mods)
+	void Keyboard::KeyCallback(GLFWwindow* internalWindow, int key, [[maybe_unused]] int scanCode, int action, [[maybe_unused]] int mods)
 	{
 		void* windowUserPointer = glfwGetWindowUserPointer(internalWindow);
 		Window* window = static_cast<Window*>(windowUserPointer);

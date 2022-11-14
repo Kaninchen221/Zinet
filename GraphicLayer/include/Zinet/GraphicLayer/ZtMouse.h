@@ -25,7 +25,7 @@ namespace zt::gl
 
 		~Mouse() noexcept = default;
 
-		void setWindow(Window* window);
+		void setWindow(Window* newWindow);
 
 		const Window* getWindow() const;
 

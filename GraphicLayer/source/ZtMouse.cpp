@@ -10,9 +10,9 @@ namespace zt::gl
 		positionEvents = std::vector<MousePositionEvent>(1, MousePositionEvent());
 	}
 
-	void Mouse::setWindow(Window* window)
+	void Mouse::setWindow(Window* newWindow)
 	{
-		this->window = window;
+		window = newWindow;
 	}
 
 	const Window* Mouse::getWindow() const
@@ -35,7 +35,7 @@ namespace zt::gl
 		return buttonsEvents.size();
 	}
 
-	void Mouse::ButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods)
+	void Mouse::ButtonCallback(GLFWwindow* glfwWindow, int button, int action, [[maybe_unused]] int mods)
 	{
 		void* windowUserPointer = glfwGetWindowUserPointer(glfwWindow);
 		Window* window = static_cast<Window*>(windowUserPointer);

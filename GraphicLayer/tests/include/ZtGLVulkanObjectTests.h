@@ -4,7 +4,7 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -31,9 +31,9 @@ namespace zt::gl::tests
 
 	TEST_F(VulkanObjectTests, GetInternalConst)
 	{
-		[](const TestClass& testObject) 
+		[](const TestClass& constReference) 
 		{
-			const vk::raii::Instance& internal = testObject.getInternal();
+			const vk::raii::Instance& internal = constReference.getInternal();
 			ASSERT_EQ(*internal, *vk::raii::Instance{ std::nullptr_t{} });
 		}
 		(testObject);
@@ -48,9 +48,9 @@ namespace zt::gl::tests
 
 	TEST_F(VulkanObjectTests, ArrowOperatorConst)
 	{
-		[](const TestClass& testObject) 
+		[](const TestClass& constReference)
 		{
-			const vk::raii::Instance* internal = testObject.operator->();
+			const vk::raii::Instance* internal = constReference.operator->();
 			ASSERT_NE(internal, nullptr);
 		}
 		(testObject);

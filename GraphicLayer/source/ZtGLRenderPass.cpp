@@ -48,7 +48,7 @@ namespace zt::gl
 		return subpassDependency;
 	}
 
-	const vk::RenderPassCreateInfo& RenderPass::createRenderPassCreateInfo() const
+	vk::RenderPassCreateInfo RenderPass::createRenderPassCreateInfo() const
 	{
 		vk::RenderPassCreateInfo createInfo;
 		createInfo.attachmentCount = 1;

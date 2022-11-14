@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtTexture.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {

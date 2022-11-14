@@ -218,7 +218,7 @@ namespace zt::gl
 
 	void Renderer::createPipelineLayout()
 	{
-		pipelineLayout.setViewportSize(swapExtent.width, swapExtent.height);
+		pipelineLayout.setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
 
 		vk::Rect2D scissor;
 		scissor.offset = vk::Offset2D{ 0, 0 };

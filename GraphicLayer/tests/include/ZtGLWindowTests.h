@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -69,7 +69,7 @@ namespace zt::gl::tests
 	
 	TEST_F(ZtWindowTests, GetEventTest)
 	{
-		Event* event = window.getEvent();
+		[[maybe_unused]] Event* event = window.getEvent();
 	}
 	
 	TEST_F(ZtWindowTests, BindCallbacksTest)

@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
 
-#include "glm/vec2.hpp"
+#include <glm/vec2.hpp>
 
 namespace zt::gl
 {

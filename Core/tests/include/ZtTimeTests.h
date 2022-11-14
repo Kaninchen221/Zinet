@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtTime.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::tests
 {

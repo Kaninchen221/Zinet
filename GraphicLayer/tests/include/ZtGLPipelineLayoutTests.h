@@ -10,7 +10,7 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -134,13 +134,13 @@ namespace zt::gl::tests
 	TEST(PipelineLayout, GetViewport)
 	{
 		PipelineLayout pipelineLayout;
-		const vk::Viewport& actual = pipelineLayout.getViewport();
+		[[maybe_unused]] const vk::Viewport& actual = pipelineLayout.getViewport();
 	}
 
 	TEST(PipelineLayout, GetScissor)
 	{
 		PipelineLayout pipelineLayout;
-		const vk::Rect2D& scissor = pipelineLayout.getScissor();
+		[[maybe_unused]] const vk::Rect2D& scissor = pipelineLayout.getScissor();
 	}
 
 	TEST(PipelineLayout, SetScissor)

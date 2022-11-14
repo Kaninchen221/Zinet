@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "glm/vector_relational.hpp"
 
@@ -67,7 +67,7 @@ namespace zt::gl::tests
 		glm::vec3 expectedPosition = { 34.f, 0.f, 2.323f };
 		glm::vec4 expectedColor = { 4.f, 0.23f, 211.35f, 1.f };
 		glm::vec2 expectedTextureCoordinates = { 1.f, 0.f };
-		Vertex vertex(expectedPosition, expectedColor, expectedTextureCoordinates);
+		vertex = Vertex(expectedPosition, expectedColor, expectedTextureCoordinates);
 
 		glm::vec3 actualPosition = vertex.getPosition();
 		glm::bvec3 arePositionsEqual = glm::equal(expectedPosition, actualPosition);

@@ -23,8 +23,6 @@ namespace zt::gl
             Logger->error("Failed initialize glfw");
             return false;
         }
-
-        return false;
     }
 
     void GLFW::Deinit()

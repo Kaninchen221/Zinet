@@ -25,7 +25,7 @@ namespace zt::gl
     vk::DescriptorPoolCreateInfo DescriptorPool::createCreateInfo(const std::vector<vk::DescriptorPoolSize>& poolSizes) const
     {
         vk::DescriptorPoolCreateInfo createInfo;
-        createInfo.poolSizeCount = poolSizes.size();
+        createInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
         createInfo.pPoolSizes = poolSizes.data();
         createInfo.maxSets = 1u;
         createInfo.flags = vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet;
@@ -37,7 +37,7 @@ namespace zt::gl
     {
         vk::DescriptorSetAllocateInfo allocateInfo;
         allocateInfo.descriptorPool = *getInternal();
-        allocateInfo.descriptorSetCount = descriptorSetLayouts.size();
+        allocateInfo.descriptorSetCount = static_cast<uint32_t>(descriptorSetLayouts.size());
         allocateInfo.pSetLayouts = descriptorSetLayouts.data();
 
         return allocateInfo;

@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -68,7 +68,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, GetContext)
 	{
-		const Context& context = renderer.getContext();
+		[[maybe_unused]] const Context& context = renderer.getContext();
 	}
 
 	TEST_F(RendererTests, GetInstance)
@@ -123,7 +123,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, GetSwapChainSupportDetails)
 	{
-		const SwapChainSupportDetails& swapChainSupportDetails = renderer.getSwapChainSupportDetails();
+		[[maybe_unused]] const SwapChainSupportDetails& swapChainSupportDetails = renderer.getSwapChainSupportDetails();
 	}
 
 	TEST_F(RendererTests, GetSwapChain)

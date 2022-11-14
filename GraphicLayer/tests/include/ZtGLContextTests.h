@@ -4,7 +4,7 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -19,7 +19,7 @@ namespace zt::gl::tests
 
 	TEST_F(ContextTests, GetInternal)
 	{
-		vk::raii::Context& internal = context.getInternal();
+		[[maybe_unused]] vk::raii::Context& internal = context.getInternal();
 	}
 
 	TEST_F(ContextTests, ArrowOperator)

@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
 namespace zt::gl
 {

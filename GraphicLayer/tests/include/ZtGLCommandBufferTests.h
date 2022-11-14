@@ -24,7 +24,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include <vector>
 

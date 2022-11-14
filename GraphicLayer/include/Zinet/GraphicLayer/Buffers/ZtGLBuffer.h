@@ -6,7 +6,7 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-#include "vk_mem_alloc.h"
+#include <vk_mem_alloc.h>
 
 namespace zt::gl
 {
@@ -45,7 +45,7 @@ namespace zt::gl
 		template<typename T>
 		void fillWithStdContainer(const T& container);
 
-		void fillWithCArray(void* firstElement, std::size_t size);
+		void fillWithCArray(void* firstElement);
 
 		std::pair<void*, std::uint64_t> getData();
 

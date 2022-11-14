@@ -5,7 +5,7 @@
 #include "Zinet/GraphicLayer/ZtMouseButtonEvent.h"
 #include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include "glm/vec2.hpp"
 #include "glm/vector_relational.hpp"

@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -17,9 +17,9 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainSupportDetailsTests, PropertiesTest)
 	{
-		const vk::SurfaceCapabilitiesKHR& surfaceCapabilities = swapChainSupportDetails.surfaceCapabilities;
-		const std::vector<vk::SurfaceFormatKHR>& surfaceFormats = swapChainSupportDetails.surfaceFormats;
-		const std::vector<vk::PresentModeKHR>& presentModes = swapChainSupportDetails.presentModes;
+		[[maybe_unused]] const vk::SurfaceCapabilitiesKHR& surfaceCapabilities = swapChainSupportDetails.surfaceCapabilities;
+		[[maybe_unused]] const std::vector<vk::SurfaceFormatKHR>& surfaceFormats = swapChainSupportDetails.surfaceFormats;
+		[[maybe_unused]] const std::vector<vk::PresentModeKHR>& presentModes = swapChainSupportDetails.presentModes;
 	}
 
 	TEST_F(SwapChainSupportDetailsTests, PickFormatTest)
@@ -42,7 +42,7 @@ namespace zt::gl::tests
 		PhysicalDevice physicalDevice;
 		physicalDevice.create(instance);
 
-		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 
 		vk::SurfaceFormatKHR format = swapChainSupportDetails.pickFormat();
 
@@ -71,7 +71,7 @@ namespace zt::gl::tests
 		PhysicalDevice physicalDevice;
 		physicalDevice.create(instance);
 
-		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 
 		vk::PresentModeKHR presentMode = swapChainSupportDetails.pickPresentMode();
 
@@ -100,7 +100,7 @@ namespace zt::gl::tests
 		PhysicalDevice physicalDevice;
 		physicalDevice.create(instance);
 
-		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 
 		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 		ASSERT_NE(swapExtent, vk::Extent2D());

@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -24,7 +24,7 @@ namespace zt::gl::tests
 	TEST(PhysicalDevice, GetFeaturesTest)
 	{
 		PhysicalDevice physicalDevice;
-		const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
+		[[maybe_unused]] const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
 	}
 
 	TEST(PhysicalDevice, PhysicalDeviceExtensions)

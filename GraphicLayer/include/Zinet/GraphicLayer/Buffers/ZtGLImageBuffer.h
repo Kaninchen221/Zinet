@@ -24,7 +24,7 @@ namespace zt::gl
 
 		~ImageBuffer() noexcept = default;
 
-		vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const override;
+		vk::BufferCreateInfo createCreateInfo(std::uint64_t newSize) const override;
 
 		vk::DescriptorImageInfo createDescriptorImageInfo(Sampler& sampler, ImageView& imageView, vk::ImageLayout imageLayout);
 

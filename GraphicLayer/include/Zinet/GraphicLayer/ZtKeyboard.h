@@ -27,7 +27,7 @@ namespace zt::gl
 
 		~Keyboard() noexcept = default;
 
-		void setWindow(Window* window);
+		void setWindow(Window* newWindow);
 
 		const Window* getWindow() const;
 

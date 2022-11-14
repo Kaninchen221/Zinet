@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -80,7 +80,7 @@ namespace zt::gl::tests
 
 	TEST_F(InstanceTests, GetEnableValidationLayersTest)
 	{
-		bool EnabledValidationLayers = Instance::GetEnabledValidationLayers();
+		[[maybe_unused]] bool EnabledValidationLayers = Instance::GetEnabledValidationLayers();
 	}
 
 }

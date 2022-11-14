@@ -174,7 +174,7 @@ namespace zt::gl::tests
     void RendererBuilder::createPipelineLayout()
     {
         swapExtent = swapChainSupportDetails.pickSwapExtent(window);
-        pipelineLayout.setViewportSize(swapExtent.width, swapExtent.height);
+        pipelineLayout.setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
 
         vk::Rect2D scissor;
         scissor.offset = vk::Offset2D{ 0, 0 };
@@ -529,7 +529,7 @@ namespace zt::gl::tests
         vk::DescriptorBufferInfo uniformDescriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
         vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
 
-        vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, vk::ImageLayout::eShaderReadOnlyOptimal);
+        vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, textureImageView, vk::ImageLayout::eShaderReadOnlyOptimal);
         vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, imageDescriptorBufferInfo);
 
         writeDescriptorSets = std::array<vk::WriteDescriptorSet, 2>{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
@@ -580,7 +580,7 @@ namespace zt::gl::tests
         }
         commandBuffer->bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout.getInternal(), 0, tempDescriptorSets, {}); // TODO create simple function
 
-        commandBuffer->drawIndexed(indices.size(), 1, 0, 0, 0);
+        commandBuffer->drawIndexed(static_cast<std::uint32_t>(indices.size()), 1, 0, 0, 0);
         commandBuffer.endRenderPass();
         commandBuffer.end();
 
@@ -606,21 +606,21 @@ namespace zt::gl::tests
         queue.submit(submitInfo, drawFence);
     }
 
-    void RendererBuilder::present(uint32_t image)
+    void RendererBuilder::present(uint32_t imageToDraw)
     {
         std::array<Semaphore*, 1> waitSemaphores = { &renderFinishedSemaphore };
         std::array<SwapChain*, 1> swapChains = { &swapChain };
         vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
             waitSemaphores,
             swapChains,
-            image);
+            imageToDraw);
 
         queue.present(presentInfo);
     }
 
     void RendererBuilder::updateMVP()
     {
-        float time = glfwGetTime();
+        float time = static_cast<float>(glfwGetTime());
         mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         mvp.proj = glm::perspective(glm::radians(45.0f), swapExtent.width / (float)swapExtent.height, 0.1f, 10.0f);

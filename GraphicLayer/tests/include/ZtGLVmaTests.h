@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
@@ -18,7 +18,7 @@ namespace zt::gl::tests
 
 	TEST_F(VmaTests, GetInternal)
 	{
-		const VmaAllocator vmaAllocator = vma.getInternal();
+		[[maybe_unused]] const VmaAllocator vmaAllocator = vma.getInternal();
 	}
 
 	TEST_F(VmaTests, CreateAllocatorCreateInfo)

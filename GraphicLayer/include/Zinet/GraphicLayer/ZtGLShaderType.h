@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-#include "shaderc/shaderc.hpp"
+#include <shaderc/shaderc.hpp>
 
 namespace zt::gl
 {

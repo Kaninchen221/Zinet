@@ -26,12 +26,12 @@ namespace zt::gl
         std::span<Semaphore*> signalSemaphores)
     {
         vk::SubmitInfo submitInfo;
-        submitInfo.waitSemaphoreCount = waitSemaphores.size();
+        submitInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSemaphores.size());
         submitInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
         submitInfo.pWaitDstStageMask = &waitPipelineStageFlags;
-        submitInfo.commandBufferCount = commandBuffers.size();
+        submitInfo.commandBufferCount = static_cast<uint32_t>(commandBuffers.size());
         submitInfo.pCommandBuffers = &*commandBuffers[0]->getInternal();
-        submitInfo.signalSemaphoreCount = signalSemaphores.size();
+        submitInfo.signalSemaphoreCount = static_cast<uint32_t>(signalSemaphores.size());
         submitInfo.pSignalSemaphores = &*signalSemaphores[0]->getInternal();
          
         return submitInfo;
@@ -53,9 +53,9 @@ namespace zt::gl
         uint32_t& imageIndex)
     {
         vk::PresentInfoKHR presentInfo;
-        presentInfo.waitSemaphoreCount = waitSemaphores.size();
+        presentInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSemaphores.size());
         presentInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
-        presentInfo.swapchainCount = swapChains.size();
+        presentInfo.swapchainCount = static_cast<uint32_t>(swapChains.size());
         presentInfo.pSwapchains = &*swapChains[0]->getInternal();
         presentInfo.pImageIndices = &imageIndex;
         presentInfo.pResults = nullptr;

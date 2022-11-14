@@ -109,7 +109,7 @@ namespace zt::gl::tests
 		void drawFrame();
 
 		void submit();
-		void present(uint32_t image);
+		void present(uint32_t imageToDraw);
 
 		void updateMVP();
 
@@ -188,7 +188,7 @@ namespace zt::gl::tests
 		Image image;
 		ImageBuffer imageBuffer;
 		DeviceMemory imageDeviceMemory;
-		ImageView imageView;
+		ImageView textureImageView;
 		Sampler sampler;
 	};
 

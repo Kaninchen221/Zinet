@@ -1,6 +1,5 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
-//#include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 namespace zt::gl
@@ -25,7 +24,6 @@ namespace zt::gl
 		result.first = std::malloc(size);
 		result.second = size;
 
-		vk::DeviceSize offset = 0u;
 		void* mappedData;
 		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
 		std::memcpy(result.first, mappedData, size);
@@ -35,7 +33,7 @@ namespace zt::gl
 		return result;
 	}
 
-	void Buffer::fillWithCArray(void* firstElement, std::size_t size)
+	void Buffer::fillWithCArray(void* firstElement)
 	{
 		void* mappedData;
 		vmaMapMemory(vma->getInternal(), allocation, &mappedData);

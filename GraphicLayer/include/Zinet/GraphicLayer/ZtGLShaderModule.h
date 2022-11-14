@@ -31,7 +31,7 @@ namespace zt::gl
 
 		vk::ShaderModuleCreateInfo createShaderModuleCreateInfo(const Shader& shader) const;
 
-		void create(Device& device, ShaderType shaderType, const vk::ShaderModuleCreateInfo& createInfo);
+		void create(Device& device, ShaderType newShaderType, const vk::ShaderModuleCreateInfo& createInfo);
 
 		ShaderType getType() const;
 

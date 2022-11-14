@@ -21,7 +21,7 @@
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "ZtGLRendererBuilder.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 #include <utility>
 

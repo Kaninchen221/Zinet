@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtEventBroadcaster.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 namespace zt::tests
 {

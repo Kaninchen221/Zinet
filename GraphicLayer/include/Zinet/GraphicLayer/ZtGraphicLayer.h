@@ -7,8 +7,8 @@
 #include <GLFW/glfw3.h>
 
 // Vulkan
-#include "vulkan/vulkan.hpp"
-#include "vulkan/vulkan_raii.hpp"
+#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan_raii.hpp>
 
 // Needed for future compability
 #define ZINET_GRAPHIC_LAYER_API ZINET_CORE_API

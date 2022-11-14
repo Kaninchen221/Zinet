@@ -7,7 +7,7 @@ namespace zt::gl
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
         VkDebugUtilsMessageTypeFlagsEXT messageType,
         const VkDebugUtilsMessengerCallbackDataEXT* callbackData,
-        void* userData)
+        [[maybe_unused]] void* userData)
     {
         std::string messageTypeAsString;
         if (messageType == VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
