@@ -38,7 +38,7 @@ namespace zt::tests
 		return constMethodReturnSum(first, second);
 	}
 
-	inline void ReflectionTestStruct::notLiteralTypeParam(const std::string& string)
+	inline void ReflectionTestStruct::notLiteralTypeParam([[maybe_unused]] const std::string& string)
 	{
 	}
 

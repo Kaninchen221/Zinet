@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma warning(disable:26812)
+#pragma warning(disable:4820)
 
 #ifndef ZINET_STATIC
 

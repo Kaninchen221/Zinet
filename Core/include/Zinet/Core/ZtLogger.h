@@ -1,7 +1,7 @@
 #pragma once
 
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks-inl.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks-inl.h>
 
 namespace zt
 {
@@ -17,7 +17,7 @@ namespace zt
 
 	};
 
-	Logger::SimpleConsoleLogger Logger::CreateSimpleConsoleLogger(std::string name)
+	inline Logger::SimpleConsoleLogger Logger::CreateSimpleConsoleLogger(std::string name)
 	{
 		SimpleConsoleLogger logger = spdlog::stdout_color_mt(name);
 		return logger;

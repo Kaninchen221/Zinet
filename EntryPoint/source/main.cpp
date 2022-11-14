@@ -4,9 +4,10 @@
 int main()
 {
 	zt::gl::Renderer renderer;
-	renderer.contentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
-	renderer.prepare();
-	renderer.run();
+	//renderer.contentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
+	//renderer.prepare();
+	//renderer.run();
+	// TODO
 
     return 0;
 }

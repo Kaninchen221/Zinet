@@ -42,6 +42,9 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
 
     global_macros = []
 
+    global_compile_options = []
+    _global_compile_options_string = ""
+    
     build_type = ZtBuildType.Debug
 
     def _prepare_template_arguments(self):
@@ -56,6 +59,11 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
         self._add_subdirectory_string = self._add_subdirectory_string.join(self._subdirectories_list)
         self._add_subdirectory_string = "add_subdirectory(" + self._add_subdirectory_string + ")"
 
+        for global_compile_option in self.global_compile_options:
+            self._global_compile_options_string += global_compile_option + " "
+            
+        self._global_compile_options_string = self._global_compile_options_string[:-1]
+
 
     def generate_cmake_from_template(self):
         self._prepare_template_arguments()
@@ -69,7 +77,8 @@ class ZtRootCMakeGenerator(ZtGeneratorCMake):
             argument_project_name=self.project_name,
             argument_project_version=self.project_version,
             argument_project_description=self.project_description,
-            argument_subdirectories=self._add_subdirectory_string
+            argument_subdirectories=self._add_subdirectory_string,
+            argument_global_compile_options=self._global_compile_options_string
         ))
 
         self._generated_cmake = template

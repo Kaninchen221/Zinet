@@ -15,10 +15,10 @@ namespace zt
 	public:
 
 		File() = default;
-		File(const File& other) = default;
+		File(const File& other) = delete;
 		File(File&& other) = default;
 
-		File& operator = (const File& other) = default;
+		File& operator = (const File& other) = delete;
 		File& operator = (File&& other) = default;
 
 		~File() noexcept;

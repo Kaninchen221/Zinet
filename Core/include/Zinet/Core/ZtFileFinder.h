@@ -1,8 +1,5 @@
 #pragma once
 
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks-inl.h"
-
 #include <filesystem>
 #include <vector>
 
@@ -28,8 +25,6 @@ namespace zt
 		void printDebugInfo() const;
 
 		Path currentPath() const;
-
-		Path engineRootPath() const;
 
 		inline Path currentProjectRootPath() const;
 

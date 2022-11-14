@@ -20,7 +20,7 @@ namespace zt::tests
 
 	TEST_F(ReflectedMemberPropertyTests, GetPointerTest)
 	{
-		float ReflectionTestStruct::* pointer = floatReflectedMemberProperty.getPointer();
+		[[maybe_unused]] float ReflectionTestStruct::* pointer = floatReflectedMemberProperty.getPointer();
 	}
 
 }

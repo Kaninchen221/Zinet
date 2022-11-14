@@ -6,20 +6,11 @@ namespace zt
 	void FileFinder::printDebugInfo() const
 	{
 		Logger->info("Absolute current path: {}", currentPath().string());
-		Logger->info("Absolute engine root path: {}", engineRootPath().string());
 	}
 
 	FileFinder::Path FileFinder::currentPath() const
 	{
 		return std::filesystem::current_path();
-	}
-
-	FileFinder::Path FileFinder::engineRootPath() const
-	{
-		using MacroType = std::decay_t<decltype(ZINET_ENGINE_ROOT_PATH)>;
-		using ValidType = const char*;
-		static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
-		return ZINET_ENGINE_ROOT_PATH;
 	}
 
 	std::vector<FileFinder::FileInfo> FileFinder::findFiles(Path pathToFolder) const

@@ -9,6 +9,9 @@ message(STATUS "*** CMakeList source dir : ${CMAKE_SOURCE_DIR} ***")
 message(STATUS "*** C++ compiler path: ${CMAKE_CXX_COMPILER} ***")
 message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 
+# Global compile options
+add_compile_options(/W4 /WX /external:W0 /external:anglebrackets)
+
 # Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()

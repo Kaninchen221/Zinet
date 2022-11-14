@@ -28,7 +28,7 @@ namespace zt::tests
 
 		ReflectedMemberFunction<FunctionPointerType> reflectedMemberFunction(&ReflectionTestStruct::simpleMethod);
 
-		FunctionPointerType functionPointer = reflectedMemberFunction.getPointer();
+		[[maybe_unused]] FunctionPointerType functionPointer = reflectedMemberFunction.getPointer();
 	}
 
 }

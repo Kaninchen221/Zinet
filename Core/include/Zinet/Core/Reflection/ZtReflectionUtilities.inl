@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+
 #include "ZtReflectionUtilities.h"
 
 namespace zt
@@ -17,7 +18,7 @@ namespace zt
 
     template<typename TupleType, typename CallableType, typename NumberType, NumberType... Numbers>
     constexpr void ApplyToTupleInternal(TupleType& tuple, const CallableType& callable,
-        const std::integer_sequence<NumberType, Numbers...>& numberSequence)
+        [[maybe_unused]] const std::integer_sequence<NumberType, Numbers...>& numberSequence)
     {
         (callable(std::get<Numbers>(tuple)), ...);
     }

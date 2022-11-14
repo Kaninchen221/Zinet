@@ -10,7 +10,7 @@ namespace zt
     class ZINET_CORE_API Identifier {
     public:
 
-        const static inline size_t Invalid = -1;
+        const static inline size_t Invalid = size_t{}-1u;
 
         Identifier() = delete;
         explicit Identifier(size_t identifier);

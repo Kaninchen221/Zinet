@@ -17,16 +17,40 @@ namespace zt
 
     std::optional<Identifier> UniqueIdentifierMaker::tryReserveReleasedIdentifier()
     {
-        std::vector<bool>::iterator iterator = numbers.begin();
-        for (size_t index = 0; index < numbers.size(); ++index)
-        {
-            bool isReserved = *iterator;
-            if (!isReserved)
-            {
-                return Identifier(index);
-            }
+        //if (numbers.empty())
+        //    return {};
 
-            ++iterator;
+		//for (size_t index = 0; index < numbers.size(); ++index)
+		//{
+		//    if (!numbers[index])
+		//    {
+		//        numbers[index] = true;
+		//        return Identifier{ index };
+		//    }
+		//}
+
+        //size_t index = 0;
+        //while (true)
+		//{
+		//	if (!numbers[index])
+		//	{
+		//		numbers[index] = true;
+		//		return Identifier{ index };
+		//	}
+        //
+        //    ++index;
+        //}
+
+		size_t index = 0;
+        for (std::vector<bool>::iterator iterator = numbers.begin(); iterator != numbers.end(); ++iterator)
+		{
+			if (!*iterator)
+			{
+                *iterator = true;
+				return Identifier{ index };
+			}
+
+			++index;
         }
 
         return {};

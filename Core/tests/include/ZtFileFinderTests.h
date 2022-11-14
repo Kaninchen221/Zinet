@@ -25,12 +25,6 @@ namespace zt::tests
 		ASSERT_FALSE(path.empty());
 	}
 
-	TEST_F(FileFinderTests, EngineRootPathTest)
-	{
-		FileFinder::Path path = fileFinder.engineRootPath();
-		ASSERT_FALSE(path.empty());
-	}
-
 	TEST_F(FileFinderTests, CurrentProjectRootPathTest)
 	{
 		FileFinder::Path path = fileFinder.currentProjectRootPath();

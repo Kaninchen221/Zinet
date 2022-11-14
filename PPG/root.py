@@ -23,6 +23,12 @@ def generate_targets():
         "ZINET_CURRENT_PROJECT_ROOT_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}\"",
         "ZINET_ENGINE_ROOT_PATH=\"${ZINET_ENGINE_ROOT_PATH}\""
     ])
+    root.global_compile_options.extend([
+        "/W4",
+        "/WX",
+        "/external:W0",
+        "/external:anglebrackets"
+    ])
 
     # Generate all targets CMakeLists and gather all targets
     root.run_all_targets_recipes()

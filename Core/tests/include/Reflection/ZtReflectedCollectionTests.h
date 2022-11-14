@@ -26,7 +26,7 @@ namespace zt::tests
 	            collection = ReflectedCollection<>()
 	            .registerClass(ReflectedClass<ReflectionTestStruct>());
 	
-	    auto& classes = collection.getReflectedClasses();
+		[[maybe_unused]] auto& classes = collection.getReflectedClasses();
 	}
 	
 	TEST_F(ReflectedCollectionTests, ComplexRegisterTest)

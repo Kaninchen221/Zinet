@@ -3,17 +3,17 @@
 namespace zt
 {
 
-    void Object::beginPlay(BeginPlayReason reason)
+    void Object::beginPlay([[maybe_unused]] BeginPlayReason reason)
     {
 
     }
 
-    void Object::endPlay(EndPlayReason reason)
+    void Object::endPlay([[maybe_unused]] EndPlayReason reason)
     {
 
     }
 
-    void Object::tick(float deltaTime)
+    void Object::tick([[maybe_unused]] float deltaTime)
     {
 
     }
