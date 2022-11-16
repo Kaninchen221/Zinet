@@ -253,7 +253,7 @@ namespace zt::gl
 
 	void Renderer::createVma()
 	{
-		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(*this);
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
 		vma.create(allocatorCreateInfo);
 	}
 

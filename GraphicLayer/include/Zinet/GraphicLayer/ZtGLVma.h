@@ -8,7 +8,9 @@
 
 namespace zt::gl
 {
-	class Renderer;
+	class Instance;
+	class Device;
+	class PhysicalDevice;
 
 	class ZINET_GRAPHIC_LAYER_API Vma
 	{
@@ -30,7 +32,7 @@ namespace zt::gl
 
 		const VmaAllocator getInternal() const;
 
-		VmaAllocatorCreateInfo createAllocatorCreateInfo(const Renderer& renderer) const;
+		VmaAllocatorCreateInfo createAllocatorCreateInfo(const Instance& instance, const Device& device, const PhysicalDevice& physicalDevice) const;
 
 		void create(const VmaAllocatorCreateInfo& allocatorCreateInfo);
 

@@ -21,6 +21,10 @@ namespace zt::gl::tests
         createSurface();
         createPhysicalDevice();
         createDevice();
+
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
+		vma.create(allocatorCreateInfo);
+
         createQueue();
         createSwapChain();
         createImageViews();
@@ -341,20 +345,12 @@ namespace zt::gl::tests
 
     void RendererBuilder::createUniformBuffer()
     {
-        // TODO Fix this after integrating VMA
-        //std::uint64_t size = sizeof(MVP);
-        //vk::BufferCreateInfo uniformBufferCreateInfo = uniformBuffer.createCreateInfo(size);
-        //uniformBuffer.create(device, uniformBufferCreateInfo);
-        //
-        //vk::MemoryRequirements memoryRequirements = uniformBuffer->getMemoryRequirements();
-        //vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        //vk::MemoryPropertyFlags uniformBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        //vk::MemoryAllocateInfo uniformBufferMemoryAllocateInfo = uniformBuffer.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, uniformBufferMemoryPropertyFlags);
-        //
-        //uniformBufferDeviceMemory.create(device, uniformBufferMemoryAllocateInfo);
-        //
-        //uniformBuffer.bindMemory(uniformBufferDeviceMemory);
-        //uniformBufferDeviceMemory.fillWithObject(mvp);
+		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
+		bufferCreateInfo.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP));
+		bufferCreateInfo.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false);
+
+        uniformBuffer.create(bufferCreateInfo);
+        uniformBuffer.fillWithObject(mvp);
     }
 
     void RendererBuilder::createTexture()
@@ -626,8 +622,7 @@ namespace zt::gl::tests
         mvp.proj = glm::perspective(glm::radians(45.0f), swapExtent.width / (float)swapExtent.height, 0.1f, 10.0f);
         mvp.proj[1][1] *= -1;
 
-        // TODO buffer must be valid
-        //uniformBuffer.fillWithObject(mvp);
+        uniformBuffer.fillWithObject(mvp);
     }
 
     RendererBuilder::~RendererBuilder() noexcept

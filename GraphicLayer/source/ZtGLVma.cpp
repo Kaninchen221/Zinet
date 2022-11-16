@@ -1,5 +1,7 @@
 #include "Zinet/GraphicLayer/ZtGLVma.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 
 namespace zt::gl
 {
@@ -13,14 +15,13 @@ namespace zt::gl
 		return vmaAllocator;
 	}
 
-	VmaAllocatorCreateInfo Vma::createAllocatorCreateInfo(const Renderer& renderer) const
+	VmaAllocatorCreateInfo Vma::createAllocatorCreateInfo(const Instance& instance, const Device& device, const PhysicalDevice& physicalDevice) const
 	{
-		const Instance& instance = renderer.getInstance();
 
 		VmaAllocatorCreateInfo createInfo{};
 		createInfo.instance = *instance.getInternal();
-		createInfo.device = *renderer.getDevice().getInternal();
-		createInfo.physicalDevice = *renderer.getPhysicalDevice().getInternal();
+		createInfo.device = *device.getInternal();
+		createInfo.physicalDevice = *physicalDevice.getInternal();
 
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
 		createInfo.vulkanApiVersion = applicationInfo.apiVersion;

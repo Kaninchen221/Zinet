@@ -189,6 +189,8 @@ namespace zt::gl::tests
 		DeviceMemory imageDeviceMemory;
 		ImageView textureImageView;
 		Sampler sampler;
+
+		Vma vma;
 	};
 
 }

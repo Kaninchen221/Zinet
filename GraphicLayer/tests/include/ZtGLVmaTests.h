@@ -25,7 +25,7 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
-		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(renderer);
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(renderer.getInstance(), renderer.getDevice(), renderer.getPhysicalDevice());
 
 		const Instance& instance = renderer.getInstance();
 		ASSERT_EQ(*instance.getInternal(), vk::Instance(allocatorCreateInfo.instance));
@@ -40,7 +40,7 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
-		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(renderer);
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(renderer.getInstance(), renderer.getDevice(), renderer.getPhysicalDevice());
 		vma.create(allocatorCreateInfo);
 
 		const VmaAllocator vmaAllocator = vma.getInternal();
