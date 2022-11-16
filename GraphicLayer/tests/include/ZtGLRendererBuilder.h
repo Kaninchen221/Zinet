@@ -174,7 +174,6 @@ namespace zt::gl::tests
 		DeviceMemory indexBufferDeviceMemory;
 
 		UniformBuffer uniformBuffer;
-		DeviceMemory uniformBufferDeviceMemory;
 
 		MVP mvp;
 

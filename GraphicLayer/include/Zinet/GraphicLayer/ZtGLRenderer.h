@@ -118,8 +118,9 @@ namespace zt::gl
 		PipelineLayout pipelineLayout;
 		RenderPass renderPass;
 		std::vector<Framebuffer> framebuffers;
-		Pipeline pipeline; // TODO: Need valid shader stages to create it
 		Vma vma;
+
+		Pipeline pipeline; // TODO: Need valid shader stages to create it
 	};
 
 }

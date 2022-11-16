@@ -8,7 +8,7 @@ namespace zt::gl
 	{
 		if (allocation != nullptr)
 		{
-			vmaDestroyBuffer(vma->getInternal(), nullptr, allocation);
+			vmaDestroyBuffer(vmaAllocator, nullptr, allocation);
 		}
 	}
 
@@ -25,10 +25,10 @@ namespace zt::gl
 		result.second = size;
 
 		void* mappedData;
-		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(result.first, mappedData, size);
 
-		vmaUnmapMemory(vma->getInternal(), allocation);
+		vmaUnmapMemory(vmaAllocator, allocation);
 
 		return result;
 	}
@@ -36,18 +36,25 @@ namespace zt::gl
 	void Buffer::fillWithCArray(void* firstElement)
 	{
 		void* mappedData;
-		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(mappedData, firstElement, size);
-		vmaUnmapMemory(vma->getInternal(), allocation);
+		vmaUnmapMemory(vmaAllocator, allocation);
 	}
 
-	void Buffer::create(const Renderer& renderer, const VkBufferCreateInfo& bufferCreateInfo, const VmaAllocationCreateInfo& allocationCreateInfo)
+	void Buffer::create(const BufferCreateInfo& bufferCreateInfo)
 	{
-		vma = &renderer.getVma();
 		VkBuffer buffer;
-		vmaCreateBuffer(vma->getInternal(), &bufferCreateInfo, &allocationCreateInfo, &buffer, &allocation, nullptr);
-		size = bufferCreateInfo.size;
-		internal = vk::raii::Buffer{ renderer.getDevice().getInternal(), buffer };
+		vmaAllocator = bufferCreateInfo.vma.getInternal();
+
+		vmaCreateBuffer(vmaAllocator,
+			&bufferCreateInfo.vkBufferCreateInfo, 
+			&bufferCreateInfo.allocationCreateInfo, 
+			&buffer, 
+			&allocation, 
+			nullptr);
+
+		size = bufferCreateInfo.vkBufferCreateInfo.size;
+		internal = vk::raii::Buffer{ bufferCreateInfo.device.getInternal(), buffer };
 	}
 
 	VmaAllocationCreateInfo Buffer::createVmaAllocationCreateInfo(bool randomAccess) const

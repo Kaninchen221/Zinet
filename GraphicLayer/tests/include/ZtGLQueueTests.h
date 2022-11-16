@@ -114,15 +114,6 @@ namespace zt::gl::tests
 		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 	}
 
-	// TODO Fix after integrating the VMA
-	//TEST(QueueTest, SubmitWithFence)
-	//{
-	//	RendererBuilder rendererBuilder;
-	//	rendererBuilder.createAll();
-	//	rendererBuilder.updateMVP();
-	//	rendererBuilder.drawFrame();
-	//}
-
 	TEST_F(QueueTests, Submit)
 	{
 		Semaphore semaphore;

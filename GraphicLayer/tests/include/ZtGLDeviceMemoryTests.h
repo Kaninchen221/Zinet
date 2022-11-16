@@ -17,6 +17,7 @@
 namespace zt::gl::tests
 {
 
+	// TODO Remove this test class
 	class DeviceMemoryTests : public ::testing::Test
 	{
 	protected:
@@ -59,7 +60,6 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceMemoryTests, Create)
 	{
-		// TODO Use new way to create buffers
 		//VertexBuffer vertexBuffer;
 		//vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 		//vertexBuffer.create(device, vertexBufferCreateInfo);
@@ -78,7 +78,6 @@ namespace zt::gl::tests
 
 	TEST_F(DeviceMemoryTests, FillWithCArray)
 	{
-		// TODO Fix this after integrating VMA
 		//char array[4];
 		//std::size_t size = sizeof(array);
 		//

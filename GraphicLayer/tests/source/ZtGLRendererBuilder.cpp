@@ -626,7 +626,8 @@ namespace zt::gl::tests
         mvp.proj = glm::perspective(glm::radians(45.0f), swapExtent.width / (float)swapExtent.height, 0.1f, 10.0f);
         mvp.proj[1][1] *= -1;
 
-        uniformBufferDeviceMemory.fillWithObject(mvp);
+        // TODO buffer must be valid
+        //uniformBuffer.fillWithObject(mvp);
     }
 
     RendererBuilder::~RendererBuilder() noexcept

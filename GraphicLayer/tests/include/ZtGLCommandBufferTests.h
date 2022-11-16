@@ -228,9 +228,12 @@ namespace zt::gl::tests
 		renderer.initialize();
 
 		StagingBuffer stagingBuffer;
-		vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
-		VmaAllocationCreateInfo stagingBufferAllocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
-		stagingBuffer.create(renderer, stagingBufferCreateInfo, stagingBufferAllocationCreateInfo);
+
+		BufferCreateInfo stagingBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		stagingBufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
+		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
+
+		stagingBuffer.create(stagingBufferCreateInfo);
 
 		Image image;
 		std::uint32_t expectedWidth = 1u;
@@ -258,9 +261,12 @@ namespace zt::gl::tests
 		};
 
 		ImageBuffer imageBuffer;
-		vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(1u);
-		VmaAllocationCreateInfo imageBufferAllocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
-		imageBuffer.create(renderer, imageBufferCreateInfo, imageBufferAllocationCreateInfo);
+
+		BufferCreateInfo imageBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		imageBufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(1u);
+		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
+
+		imageBuffer.create(imageBufferCreateInfo);
 
 		uint32_t queueFamilyIndex = renderer.getPhysicalDevice().pickQueueFamilyIndex(renderer.getSurface());
 		CommandPool commandPool;

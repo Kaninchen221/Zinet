@@ -10,8 +10,16 @@
 
 namespace zt::gl
 {
-	class Renderer;
 	class Vma;
+	class Device;
+
+	struct BufferCreateInfo
+	{
+		const Device& device;
+		const Vma& vma;
+		VkBufferCreateInfo vkBufferCreateInfo;
+		VmaAllocationCreateInfo allocationCreateInfo;
+	};
 
 	class ZINET_GRAPHIC_LAYER_API Buffer : public VulkanObject<vk::raii::Buffer>
 	{
@@ -35,7 +43,7 @@ namespace zt::gl
 
 		virtual VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const;
 
-		void create(const Renderer& renderer, const VkBufferCreateInfo& bufferCreateInfo, const VmaAllocationCreateInfo& allocationCreateInfo);
+		void create(const BufferCreateInfo& bufferCreateInfo);
 
 		std::uint64_t getSize() const;
 
@@ -52,7 +60,7 @@ namespace zt::gl
 	private:
 
 		std::uint64_t size{};
-		const Vma* vma{};
+		VmaAllocator vmaAllocator{};
 		VmaAllocation allocation = nullptr;
 
 	};
@@ -61,17 +69,17 @@ namespace zt::gl
 	inline void Buffer::fillWithObject(const T& object)
 	{
 		void* mappedData;
-		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(mappedData, &object, size);
-		vmaUnmapMemory(vma->getInternal(), allocation);
+		vmaUnmapMemory(vmaAllocator, allocation);
 	}
 
 	template<typename T>
 	inline void Buffer::fillWithStdContainer(const T& container)
 	{
 		void* mappedData;
-		vmaMapMemory(vma->getInternal(), allocation, &mappedData);
+		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(mappedData, container.data(), size);
-		vmaUnmapMemory(vma->getInternal(), allocation);
+		vmaUnmapMemory(vmaAllocator, allocation);
 	}
 }

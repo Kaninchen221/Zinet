@@ -50,10 +50,14 @@ namespace zt::gl::tests
 		void SetUp() override
 		{
 			renderer.initialize();
-			vk::BufferCreateInfo bufferCreateInfo = bufferTest.createCreateInfo(expectedSize);
+			vk::BufferCreateInfo vkBufferCreateInfo = bufferTest.createCreateInfo(expectedSize);
 			VmaAllocationCreateInfo allocationCreateInfo = bufferTest.createVmaAllocationCreateInfo(false);
 
-			bufferTest.create(renderer, bufferCreateInfo, allocationCreateInfo);
+			BufferCreateInfo bufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+			bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
+			bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
+
+			bufferTest.create(bufferCreateInfo);
 		}
 	};
 

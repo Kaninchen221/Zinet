@@ -18,10 +18,12 @@ namespace zt::gl::tests
 		void SetUp() override
 		{
 			renderer.initialize();
-			vk::BufferCreateInfo bufferCreateInfo = stagingBuffer.createCreateInfo(1u);
-			VmaAllocationCreateInfo allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
 
-			stagingBuffer.create(renderer, bufferCreateInfo, allocationCreateInfo);
+			BufferCreateInfo bufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+			bufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(1u);
+			bufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
+
+			stagingBuffer.create(bufferCreateInfo);
 		}
 	};
 
