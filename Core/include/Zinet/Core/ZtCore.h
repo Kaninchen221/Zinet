@@ -32,3 +32,27 @@
 #ifdef _DEBUG
 	#define ZINET_DEBUG
 #endif
+
+// Define code breakpoint
+// TODO Move it somewhere else
+#include <intrin.h>
+namespace zt
+{
+
+#ifdef ZINET_DEBUG
+
+	static inline bool Ensure(bool Value)
+	{
+		if (!Value)
+		{
+			__nop();
+			__debugbreak();
+		}
+
+		return Value;
+	}
+#else
+	static inline bool Ensure(bool Value) { return true; }
+#endif
+
+}
