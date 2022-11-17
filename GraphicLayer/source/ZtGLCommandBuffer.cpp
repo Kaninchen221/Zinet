@@ -97,9 +97,9 @@ namespace zt::gl
 		return barrier;
 	}
 
-	void CommandBuffer::copyBufferToImage(const StagingBuffer& stagingBuffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion)
+	void CommandBuffer::copyBufferToImage(const Buffer& buffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion)
 	{
-		internal.copyBufferToImage(*stagingBuffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
+		internal.copyBufferToImage(*buffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
 	}
 
 	void CommandBuffer::bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset)

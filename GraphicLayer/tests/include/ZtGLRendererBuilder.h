@@ -167,11 +167,9 @@ namespace zt::gl::tests
 
 		std::vector<Vertex> vertices;
 		VertexBuffer vertexBuffer;
-		DeviceMemory vertexBufferDeviceMemory;
 
 		std::vector<std::uint16_t> indices;
 		IndexBuffer indexBuffer;
-		DeviceMemory indexBufferDeviceMemory;
 
 		UniformBuffer uniformBuffer;
 
@@ -185,8 +183,8 @@ namespace zt::gl::tests
 		std::array<vk::WriteDescriptorSet, 2> writeDescriptorSets;
 
 		Image image;
-		ImageBuffer imageBuffer;
 		DeviceMemory imageDeviceMemory;
+		ImageBuffer imageBuffer;
 		ImageView textureImageView;
 		Sampler sampler;
 

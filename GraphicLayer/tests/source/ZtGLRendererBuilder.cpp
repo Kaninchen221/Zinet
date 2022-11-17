@@ -240,107 +240,48 @@ namespace zt::gl::tests
 
     void RendererBuilder::createVertexBuffer()
     {
-        // TODO Fix this after integrating VMA
         //// Vertices
-        //Vertex vertex;
-        //vertex.setPosition({ -0.5f, -0.5f, 0.f });
-        //vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-        //vertex.setTextureCoordinates({ 1.0f, 0.0f });
-        //vertices.push_back(vertex);
-        //
-        //vertex.setPosition({ 0.5f, -0.5f, 0.f });
-        //vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-        //vertex.setTextureCoordinates({ 0.0f, 0.0f });
-        //vertices.push_back(vertex);
-        //
-        //vertex.setPosition({ 0.5f, 0.5f, 0.f });
-        //vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-        //vertex.setTextureCoordinates({ 0.0f, 1.0f });
-        //vertices.push_back(vertex);
-        //
-        //vertex.setPosition({ -0.5f, 0.5f, 0.f });
-        //vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-        //vertex.setTextureCoordinates({ 1.0f, 1.0f });
-        //vertices.push_back(vertex);
-        //
-        //// Staging Buffer
-        //StagingBuffer stagingBuffer;
-        //std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
-        //vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(verticesSize);
-        //stagingBuffer.create(device, stagingBufferCreateInfo);
-        //
-        //vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
-        //vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        //vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        ////vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
-        //
-        //DeviceMemory stagingBufferDeviceMemory;
-        //stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
-        //
-        //stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-        //stagingBufferDeviceMemory.fillWithSTDContainer(vertices);
-        //
-        //// Vertex Buffer
-        //vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(verticesSize);
-        //vertexBuffer.Buffer::create(device, vertexBufferCreateInfo);
-        //
-        //vk::MemoryRequirements vertexBufferMemoryRequirements = vertexBuffer->getMemoryRequirements();
-        //vk::MemoryPropertyFlags vertexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-        //vk::MemoryAllocateInfo vertexBufferMemoryAllocateInfo = vertexBuffer.createMemoryAllocateInfo(vertexBufferMemoryRequirements, physicalDeviceMemoryProperties, vertexBufferMemoryPropertyFlags);
-        //
-        //vertexBufferDeviceMemory.create(device, vertexBufferMemoryAllocateInfo);
-        //
-        //vertexBuffer.bindMemory(vertexBufferDeviceMemory);
-        //
-        //// Copy Staging Buffer to Vertex Buffer
-        //CommandBuffer transferCommandBuffer;
-        //vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
-        //transferCommandBuffer.allocateCommandBuffer(device, commandPool);
-        //
-        //queue.copyBufferToBufferWaitIdle(transferCommandBuffer, stagingBuffer, vertexBuffer);
+        Vertex vertex;
+        vertex.setPosition({ -0.5f, -0.5f, 0.f });
+        vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+        vertex.setTextureCoordinates({ 1.0f, 0.0f });
+        vertices.push_back(vertex);
+        
+        vertex.setPosition({ 0.5f, -0.5f, 0.f });
+        vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+        vertex.setTextureCoordinates({ 0.0f, 0.0f });
+        vertices.push_back(vertex);
+        
+        vertex.setPosition({ 0.5f, 0.5f, 0.f });
+        vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+        vertex.setTextureCoordinates({ 0.0f, 1.0f });
+        vertices.push_back(vertex);
+        
+        vertex.setPosition({ -0.5f, 0.5f, 0.f });
+        vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+        vertex.setTextureCoordinates({ 1.0f, 1.0f });
+        vertices.push_back(vertex);
+
+		std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
+		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
+		bufferCreateInfo.vkBufferCreateInfo = vertexBuffer.createCreateInfo(verticesSize);
+		bufferCreateInfo.allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false);
+
+		vertexBuffer.create(bufferCreateInfo);
+        vertexBuffer.fillWithStdContainer(vertices);
     }
 
     void RendererBuilder::createIndexBuffer()
     {
-        // TODO Fix this after integrating VMA
-        //// Indices
-        //indices = { 0, 1, 2, 2, 3, 0 };
-        //
-        //// Staging Buffer
-        //StagingBuffer stagingBuffer;
-        //std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
-        //vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(size);
-        //stagingBuffer.create(device, stagingBufferCreateInfo);
-        //
-        //vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
-        //vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        //vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        //vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
-        //
-        //DeviceMemory stagingBufferDeviceMemory;
-        //stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
-        //
-        //stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-        //stagingBufferDeviceMemory.fillWithSTDContainer(indices);
-        //
-        //// IndexBuffer
-        //vk::BufferCreateInfo indexBufferCreateInfo = indexBuffer.createCreateInfo(size);
-        //indexBuffer.create(device, indexBufferCreateInfo);
-        //
-        //vk::MemoryRequirements indexBufferMemoryRequirements = indexBuffer->getMemoryRequirements();
-        //vk::MemoryPropertyFlags indexBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-        ////vk::MemoryAllocateInfo indexBufferMemoryAllocateInfo = indexBuffer.createMemoryAllocateInfo(indexBufferMemoryRequirements, physicalDeviceMemoryProperties, indexBufferMemoryPropertyFlags);
-        //
-        //indexBufferDeviceMemory.create(device, indexBufferMemoryAllocateInfo);
-        //
-        //indexBuffer.bindMemory(indexBufferDeviceMemory);
-        //
-        //// Copy Staging Buffer to Index Buffer
-        //CommandBuffer transferCommandBuffer;
-        //vk::CommandBufferAllocateInfo allocateInfo = transferCommandBuffer.createCommandBufferAllocateInfo(commandPool);
-        //transferCommandBuffer.allocateCommandBuffer(device, commandPool);
-        //
-        //queue.copyBufferToBufferWaitIdle(commandBuffer, stagingBuffer, indexBuffer);
+		indices = { 0, 1, 2, 2, 3, 0 };
+
+		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
+		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
+		bufferCreateInfo.vkBufferCreateInfo = indexBuffer.createCreateInfo(size);
+		bufferCreateInfo.allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false);
+
+        indexBuffer.create(bufferCreateInfo);
+        indexBuffer.fillWithStdContainer(vertices);
     }
 
     void RendererBuilder::createUniformBuffer()
@@ -355,151 +296,133 @@ namespace zt::gl::tests
 
     void RendererBuilder::createTexture()
     {
-        // TODO Fix this after integrating VMA
-        //STBImage stbImage;
-        //if (!stbImage.load((contentPath / "texture.jpg").string()))
-        //{
-        //    Logger->error("Can't load texture image");
-        //    return;
-        //}
-        //
-        //// Staging Buffer
-        //StagingBuffer stagingBuffer;
-        //std::uint64_t size = stbImage.sizeBytes();
-        //vk::BufferCreateInfo stagingBufferCreateInfo = stagingBuffer.createCreateInfo(size);
-        //stagingBuffer.create(device, stagingBufferCreateInfo);
-        //
-        //vk::MemoryRequirements stagingBufferMemoryRequirements = stagingBuffer->getMemoryRequirements();
-        //vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-        //vk::MemoryPropertyFlags stagingBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        ////vk::MemoryAllocateInfo stagingBufferMemoryAllocateInfo = stagingBuffer.createMemoryAllocateInfo(stagingBufferMemoryRequirements, physicalDeviceMemoryProperties, stagingBufferMemoryPropertyFlags);
-        //
-        //DeviceMemory stagingBufferDeviceMemory;
-        //stagingBufferDeviceMemory.create(device, stagingBufferMemoryAllocateInfo);
-        //
-        //stagingBuffer.bindMemory(stagingBufferDeviceMemory);
-        //stagingBufferDeviceMemory.fillWithArray(stbImage.get(), size);
-        //
-        //// Image Buffer
-        //vk::BufferCreateInfo imageBufferCreateInfo = imageBuffer.createCreateInfo(size);
-        //imageBuffer.create(device, imageBufferCreateInfo);
-        //
+        // Buffer
+        STBImage stbImage;
+        if (!stbImage.load((contentPath / "texture.jpg").string()))
+        {
+            Logger->error("Can't load texture image");
+            return;
+        }
+        
+        std::uint64_t size = stbImage.sizeBytes();
+
+		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
+		bufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(sizeof(size));
+		bufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
+
+        imageBuffer.create(bufferCreateInfo);
+		imageBuffer.fillWithCArray(stbImage.get());
+
         //// Image
-        //vk::ImageCreateInfo createInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight());
-        //image.create(device, createInfo);
-        //
-        //// Image Device Memory
-        //vk::MemoryRequirements memoryRequirements = image->getMemoryRequirements();
-        //vk::MemoryPropertyFlags imageBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-        //vk::MemoryAllocateInfo imageBufferMemoryAllocateInfo = imageBuffer.createMemoryAllocateInfo(memoryRequirements, physicalDeviceMemoryProperties, imageBufferMemoryPropertyFlags);
-        //
-        //imageDeviceMemory.create(device, imageBufferMemoryAllocateInfo);
-        //imageBuffer.bindMemory(imageDeviceMemory);
-        //
-        //// Image
+		vk::ImageCreateInfo createInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight());
+		image.create(device, createInfo);
+
         //image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
-        //
-        //// Transfer CommandBuffer
-        //vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-        //commandBuffer.allocateCommandBuffer(device, commandPool);
-        //
-        //commandBuffer.begin();
-        //
-        //// Barrier
-        //vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
-        //vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-        //vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
-        //
-        //vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
-        //
-        //vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
-        //
-        //commandBuffer->pipelineBarrier(
-        //    sourceStage,
-        //    destinationStage,
-        //    vk::DependencyFlags{},
-        //    {},
-        //    {},
-        //    barrier);
-        //
-        //commandBuffer.end();
-        //
-        //vk::SubmitInfo submitInfo{};
-        //submitInfo.commandBufferCount = 1;
-        //submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
-        //
-        //queue.submit(submitInfo);
-        //queue->waitIdle();
-        //
-        //// BufferImageCopy
-        //vk::BufferImageCopy imageRegion{};
-        //imageRegion.bufferOffset = 0;
-        //imageRegion.bufferRowLength = 0;
-        //imageRegion.bufferImageHeight = 0;
-        //
-        //imageRegion.imageSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
-        //imageRegion.imageSubresource.mipLevel = 0;
-        //imageRegion.imageSubresource.baseArrayLayer = 0;
-        //imageRegion.imageSubresource.layerCount = 1;
-        //
-        //imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
-        //imageRegion.imageExtent = vk::Extent3D{
-        //    static_cast<std::uint32_t>(stbImage.getWidth()),
-        //    static_cast<std::uint32_t>(stbImage.getHeight()),
-        //    1
-        //};
-        //
-        //allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-        //commandBuffer.allocateCommandBuffer(device, commandPool);
-        //
-        //commandBuffer.begin();
-        //
-        //newLayout = vk::ImageLayout::eTransferDstOptimal;
-        //commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
-        //commandBuffer.end();
-        //
-        //submitInfo.commandBufferCount = 1;
-        //submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
-        //
-        //queue.submit(submitInfo);
-        //queue->waitIdle();
-        //
-        //// Barrier after copy=
-        //allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-        //commandBuffer.allocateCommandBuffer(device, commandPool);
-        //
-        //commandBuffer.begin();
-        //
-        //oldLayout = vk::ImageLayout::eTransferDstOptimal;
-        //newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-        //vk::ImageMemoryBarrier barrierAfterCopy = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
-        //
-        //sourceStage = vk::PipelineStageFlagBits::eTransfer;
-        //destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
-        //
-        //commandBuffer->pipelineBarrier(
-        //    sourceStage,
-        //    destinationStage,
-        //    vk::DependencyFlags{},
-        //    {},
-        //    {},
-        //    barrierAfterCopy);
-        //
-        //commandBuffer.end();
-        //
-        //submitInfo.commandBufferCount = 1;
-        //submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
-        //
-        //queue.submit(submitInfo);
-        //queue->waitIdle();
-        //
-        //// ImageView
-        //vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), vk::Format::eR8G8B8A8Srgb);
-        //imageView.create(device, imageViewCreateInfo);
-        //
-        //// Sampler
-        //vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-        //sampler.create(device, samplerCreateInfo);
+        // TODO Bind image memory
+        // https://gpuopen-librariesandsdks.github.io/VulkanMemoryAllocator/html/usage_patterns.html
+        // TODO Integrate Image with VMA
+
+        // Transfer CommandBuffer
+        vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+        commandBuffer.allocateCommandBuffer(device, commandPool);
+        
+        commandBuffer.begin();
+        
+        // Barrier
+        vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
+        vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+        vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
+        
+        vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
+        
+        vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
+        
+        commandBuffer->pipelineBarrier(
+            sourceStage,
+            destinationStage,
+            vk::DependencyFlags{},
+            {},
+            {},
+            barrier);
+        
+        commandBuffer.end();
+        
+        vk::SubmitInfo submitInfo{};
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+        
+        queue.submit(submitInfo);
+        queue->waitIdle();
+        
+        // BufferImageCopy
+        vk::BufferImageCopy imageRegion{};
+        imageRegion.bufferOffset = 0;
+        imageRegion.bufferRowLength = 0;
+        imageRegion.bufferImageHeight = 0;
+        
+        imageRegion.imageSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
+        imageRegion.imageSubresource.mipLevel = 0;
+        imageRegion.imageSubresource.baseArrayLayer = 0;
+        imageRegion.imageSubresource.layerCount = 1;
+        
+        imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
+        imageRegion.imageExtent = vk::Extent3D{
+            static_cast<std::uint32_t>(stbImage.getWidth()),
+            static_cast<std::uint32_t>(stbImage.getHeight()),
+            1
+        };
+        
+        allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+        commandBuffer.allocateCommandBuffer(device, commandPool);
+        
+        commandBuffer.begin();
+        
+        newLayout = vk::ImageLayout::eTransferDstOptimal;
+        commandBuffer.copyBufferToImage(imageBuffer, image, newLayout, imageRegion);
+        commandBuffer.end();
+        
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+        
+        queue.submit(submitInfo);
+        queue->waitIdle();
+        
+        // Barrier after copy=
+        allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+        commandBuffer.allocateCommandBuffer(device, commandPool);
+        
+        commandBuffer.begin();
+        
+        oldLayout = vk::ImageLayout::eTransferDstOptimal;
+        newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+        vk::ImageMemoryBarrier barrierAfterCopy = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
+        
+        sourceStage = vk::PipelineStageFlagBits::eTransfer;
+        destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
+        
+        commandBuffer->pipelineBarrier(
+            sourceStage,
+            destinationStage,
+            vk::DependencyFlags{},
+            {},
+            {},
+            barrierAfterCopy);
+        
+        commandBuffer.end();
+        
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+        
+        queue.submit(submitInfo);
+        queue->waitIdle();
+        
+        // ImageView
+        vk::ImageViewCreateInfo imageViewCreateInfo = textureImageView.createCreateInfo(*image.getInternal(), vk::Format::eR8G8B8A8Srgb);
+        textureImageView.create(device, imageViewCreateInfo);
+        
+        // Sampler
+        vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
+        sampler.create(device, samplerCreateInfo);
     }
 
     void RendererBuilder::createDescrptorPool()
