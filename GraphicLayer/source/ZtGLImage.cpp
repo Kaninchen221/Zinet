@@ -1,5 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLVma.h"
 
 namespace zt::gl
 {
@@ -23,8 +24,30 @@ namespace zt::gl
 		return createInfo;
 	}
 
-	void Image::create(const Device& device, const vk::ImageCreateInfo& createInfo)
+	VmaAllocationCreateInfo Image::createAllocationCreateInfo() const
 	{
-		internal = std::move(vk::raii::Image{ device.getInternal(), createInfo });
+		VmaAllocationCreateInfo allocationCreateInfo{};
+		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
+		allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_DEDICATED_MEMORY_BIT;
+		allocationCreateInfo.priority = 1.f;
+
+		return allocationCreateInfo;
 	}
+
+	void Image::create(const ImageCreateInfo& imageCreateInfo)
+	{
+		VkImage image;
+		VkResult result = vmaCreateImage(imageCreateInfo.vma.getInternal(), &imageCreateInfo.vkImageCreateInfo, &imageCreateInfo.allocationCreateInfo, &image, &allocation, nullptr);
+		
+		if (result == VK_SUCCESS)
+		{
+			internal = std::move(vk::raii::Image{ imageCreateInfo.device.getInternal(), image });
+		}
+		else
+		{
+			Logger->error("Failed to create Image");
+			Ensure(false);
+		}
+	}
+
 }

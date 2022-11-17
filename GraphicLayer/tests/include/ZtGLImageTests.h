@@ -1,14 +1,8 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLContext.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include <gtest/gtest.h>
 
@@ -19,34 +13,12 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Context context;
-		Instance instance;
-		Window window;
-		Surface surface;
-		PhysicalDevice physicalDevice;
-		Device device;
+		Renderer renderer;
 		Image image;
 
 		void SetUp() override
 		{
-			GLFW::Init();
-
-			window.create();
-			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.getRequiredExtensions();
-			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-			instance.create(context, instanceCreateInfo);
-			surface.create(instance, window);
-			physicalDevice.create(instance);
-
-			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-			device.create(physicalDevice, deviceCreateInfo);
-		}
-
-		void TearDown() override
-		{
-			GLFW::Deinit();
+			renderer.initialize();
 		}
 	};
 
@@ -76,13 +48,29 @@ namespace zt::gl::tests
 		ASSERT_EQ(createInfo.samples, vk::SampleCountFlagBits::e1);
 	}
 
+	TEST(Image, CreateVmaAllocationCreateInfo)
+	{
+		Image image;
+		VmaAllocationCreateInfo allocationCreateInfo = image.createAllocationCreateInfo();
+
+		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO);
+		ASSERT_EQ(allocationCreateInfo.flags, VMA_ALLOCATION_CREATE_DEDICATED_MEMORY_BIT);
+		ASSERT_EQ(allocationCreateInfo.priority, 1.f);
+	}
+
 	TEST_F(ImageTests, Create)
 	{
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
-		vk::ImageCreateInfo createInfo = image.createCreateInfo(expectedWidth, expectedHeight);
-		
-		image.create(device, createInfo);
+	
+		ImageCreateInfo imageCreateInfo { 
+			.device = renderer.getDevice(), 
+			.vma = renderer.getVma(),
+			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+			.allocationCreateInfo = image.createAllocationCreateInfo()
+		};
+
+		image.create(imageCreateInfo);
 
 		ASSERT_NE(*image.getInternal(), *vk::raii::Image{ std::nullptr_t{} });
 	}

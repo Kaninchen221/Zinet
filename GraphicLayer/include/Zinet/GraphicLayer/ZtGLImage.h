@@ -5,9 +5,20 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include <vk_mem_alloc.h>
+
 namespace zt::gl
 {
 	class Device;
+	class Vma;
+
+	struct ImageCreateInfo
+	{
+		const Device& device;
+		const Vma& vma;
+		VkImageCreateInfo vkImageCreateInfo;
+		VmaAllocationCreateInfo allocationCreateInfo;
+	};
 
 	class ZINET_GRAPHIC_LAYER_API Image : public VulkanObject<vk::raii::Image>
 	{
@@ -29,7 +40,14 @@ namespace zt::gl
 
 		vk::ImageCreateInfo createCreateInfo(std::uint32_t width, std::uint32_t height);
 
-		void create(const Device& device, const vk::ImageCreateInfo& createInfo);
+		VmaAllocationCreateInfo createAllocationCreateInfo() const;
+
+		void create(const ImageCreateInfo& imageCreateInfo);
+
+	protected:
+
+		VmaAllocation allocation;
+
 	};
 
 }
