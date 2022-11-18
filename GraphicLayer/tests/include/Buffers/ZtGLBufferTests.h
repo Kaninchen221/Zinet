@@ -93,7 +93,7 @@ namespace zt::gl::tests
 
 		bool randomAccess = false;
 		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
-		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO);
+		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO_PREFER_HOST);
 		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT);
 
 		randomAccess = true;

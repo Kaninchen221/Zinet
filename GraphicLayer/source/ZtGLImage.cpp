@@ -37,6 +37,7 @@ namespace zt::gl
 	void Image::create(const ImageCreateInfo& imageCreateInfo)
 	{
 		VkImage image;
+		vmaAllocator = imageCreateInfo.vma.getInternal();
 		VkResult result = vmaCreateImage(imageCreateInfo.vma.getInternal(), &imageCreateInfo.vkImageCreateInfo, &imageCreateInfo.allocationCreateInfo, &image, &allocation, nullptr);
 		
 		if (result == VK_SUCCESS)
@@ -47,6 +48,14 @@ namespace zt::gl
 		{
 			Logger->error("Failed to create Image");
 			Ensure(false);
+		}
+	}
+
+	Image::~Image() noexcept
+	{
+		if (allocation != nullptr)
+		{
+			vmaDestroyImage(vmaAllocator, nullptr, allocation);
 		}
 	}
 

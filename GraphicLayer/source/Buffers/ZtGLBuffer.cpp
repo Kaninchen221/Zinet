@@ -27,8 +27,8 @@ namespace zt::gl
 		void* mappedData;
 		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(result.first, mappedData, size);
-
 		vmaUnmapMemory(vmaAllocator, allocation);
+		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 
 		return result;
 	}
@@ -39,6 +39,7 @@ namespace zt::gl
 		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(mappedData, firstElement, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
+		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 	}
 
 	void Buffer::create(const BufferCreateInfo& bufferCreateInfo)
@@ -46,21 +47,31 @@ namespace zt::gl
 		VkBuffer buffer;
 		vmaAllocator = bufferCreateInfo.vma.getInternal();
 
-		vmaCreateBuffer(vmaAllocator,
+		VkResult result = vmaCreateBuffer(vmaAllocator,
 			&bufferCreateInfo.vkBufferCreateInfo, 
 			&bufferCreateInfo.allocationCreateInfo, 
 			&buffer, 
 			&allocation, 
 			nullptr);
 
-		size = bufferCreateInfo.vkBufferCreateInfo.size;
-		internal = vk::raii::Buffer{ bufferCreateInfo.device.getInternal(), buffer };
+		if (result == VK_SUCCESS)
+		{
+			size = bufferCreateInfo.vkBufferCreateInfo.size;
+			internal = vk::raii::Buffer{ bufferCreateInfo.device.getInternal(), buffer };
+		}
+		else
+		{
+			Logger->error("Failed to create Buffer");
+			Ensure(false);
+		}
+
 	}
 
 	VmaAllocationCreateInfo Buffer::createVmaAllocationCreateInfo(bool randomAccess) const
 	{
 		VmaAllocationCreateInfo allocationCreateInfo{};
-		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
+		//allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
+		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST;
 
 		if (randomAccess)
 		{

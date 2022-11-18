@@ -49,6 +49,7 @@ namespace zt::gl::tests
 
         updateDescriptorSets();
 
+		device.waitForFence(drawFence);
     }
 
     void RendererBuilder::run()
@@ -281,7 +282,7 @@ namespace zt::gl::tests
 		bufferCreateInfo.allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false);
 
         indexBuffer.create(bufferCreateInfo);
-        indexBuffer.fillWithStdContainer(vertices);
+        indexBuffer.fillWithStdContainer(indices);
     }
 
     void RendererBuilder::createUniformBuffer()
@@ -307,20 +308,21 @@ namespace zt::gl::tests
         std::uint64_t size = stbImage.sizeBytes();
 
 		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
-		bufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(sizeof(size));
+		bufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(size);
 		bufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
 
         imageBuffer.create(bufferCreateInfo);
 		imageBuffer.fillWithCArray(stbImage.get());
 
         //// Image
-		vk::ImageCreateInfo createInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight());
-		image.create(device, createInfo);
+		ImageCreateInfo imageCreateInfo{
+			.device = device,
+			.vma = vma,
+			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight()),
+			.allocationCreateInfo = image.createAllocationCreateInfo()
+		};
 
-        //image->bindMemory(*imageDeviceMemory.getInternal(), 0u);
-        // TODO Bind image memory
-        // https://gpuopen-librariesandsdks.github.io/VulkanMemoryAllocator/html/usage_patterns.html
-        // TODO Integrate Image with VMA
+		image.create(imageCreateInfo);
 
         // Transfer CommandBuffer
         vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);

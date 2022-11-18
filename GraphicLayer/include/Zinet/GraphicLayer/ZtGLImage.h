@@ -36,7 +36,7 @@ namespace zt::gl
 		Image& operator = (const Image& other) = default;
 		Image& operator = (Image&& other) = default;
 
-		~Image() noexcept = default;
+		~Image() noexcept;
 
 		vk::ImageCreateInfo createCreateInfo(std::uint32_t width, std::uint32_t height);
 
@@ -46,7 +46,8 @@ namespace zt::gl
 
 	protected:
 
-		VmaAllocation allocation;
+		VmaAllocator vmaAllocator{};
+		VmaAllocation allocation{};
 
 	};
 

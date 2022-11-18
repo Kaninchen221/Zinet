@@ -119,6 +119,8 @@ namespace zt::gl::tests
 
 		Device device;
 
+		Vma vma;
+
 		Surface surface;
 
 		SwapChain swapChain;
@@ -188,7 +190,6 @@ namespace zt::gl::tests
 		ImageView textureImageView;
 		Sampler sampler;
 
-		Vma vma;
 	};
 
 }

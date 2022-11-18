@@ -21,6 +21,7 @@ namespace zt::gl
 		VmaAllocationCreateInfo allocationCreateInfo;
 	};
 
+	// TODO Flush Vma allocator after unmap operation if mapped memory is not HOST_COHERENT
 	class ZINET_GRAPHIC_LAYER_API Buffer : public VulkanObject<vk::raii::Buffer>
 	{
 
@@ -61,7 +62,7 @@ namespace zt::gl
 
 		std::uint64_t size{};
 		VmaAllocator vmaAllocator{};
-		VmaAllocation allocation = nullptr;
+		VmaAllocation allocation{};
 
 	};
 
@@ -72,6 +73,7 @@ namespace zt::gl
 		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(mappedData, &object, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
+		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 	}
 
 	template<typename T>
@@ -81,5 +83,6 @@ namespace zt::gl
 		vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		std::memcpy(mappedData, container.data(), size);
 		vmaUnmapMemory(vmaAllocator, allocation);
+		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 	}
 }

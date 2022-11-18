@@ -234,12 +234,19 @@ namespace zt::gl::tests
 		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
 
 		stagingBuffer.create(stagingBufferCreateInfo);
-
-		Image image;
+		
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
-		vk::ImageCreateInfo imageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight);
-		image.create(renderer.getDevice(), imageCreateInfo);
+
+		Image image;
+		ImageCreateInfo imageCreateInfo{
+			.device = renderer.getDevice(),
+			.vma = renderer.getVma(),
+			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+			.allocationCreateInfo = image.createAllocationCreateInfo()
+		};
+
+		image.create(imageCreateInfo);
 
 		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
 
