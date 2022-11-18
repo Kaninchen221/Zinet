@@ -42,20 +42,20 @@ namespace zt::gl
 			std::span<Semaphore*> waitSemaphores,
 			vk::PipelineStageFlags& waitPipelineStageFlags,
 			std::span<CommandBuffer*> commandBuffers,
-			std::span<Semaphore*> signalSemaphores);
+			std::span<Semaphore*> signalSemaphores) const;
 
-		void submit(const vk::SubmitInfo& submitInfo, Fence& fence);
+		void submit(const vk::SubmitInfo& submitInfo, Fence& fence) const;
 
-		void submit(const vk::SubmitInfo& submitInfo);
+		void submit(const vk::SubmitInfo& submitInfo) const;
 
 		static vk::PresentInfoKHR createPresentInfo(
 			std::span<Semaphore*> waitSemaphores,
 			std::span<SwapChain*> swapChains,
 			uint32_t& imageIndex);
 
-		void present(vk::PresentInfoKHR& presentInfo);
+		void present(vk::PresentInfoKHR& presentInfo) const;
 
-		void copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer);
+		void copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer) const;
 	};
 
 }

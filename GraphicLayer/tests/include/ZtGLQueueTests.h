@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
@@ -19,6 +20,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
+#include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "ZtGLRendererBuilder.h"
 
 #include <gtest/gtest.h>
@@ -197,72 +199,57 @@ namespace zt::gl::tests
 		queue.present(presentInfo); // TODO: Resolve the runtime error
 	}
 
-	TEST_F(QueueTests, CopyBuffer)
+	TEST(Queue, CopyBuffer)
 	{
-		// TODO Use new way to create buffers
+		Renderer renderer;
+		renderer.initialize();
+		
+		std::vector<Vertex> vertices{ {}, {} };
+		
+		//Staging Buffer
+		StagingBuffer sourceBuffer;
 
-		//Queue queue;
-		//uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		//queue.create(device, queueFamilyIndex);
-		//
-		//std::vector<Vertex> vertices{ {}, {} };
-		//
-		//// Staging Buffer
-		//StagingBuffer sourceBuffer;
-		//DeviceMemory sourceBufferDeviceMemory;
-		//
-		//vk::BufferCreateInfo sourceBufferCreateInfo = sourceBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
-		//sourceBuffer.create(device, sourceBufferCreateInfo);
-		//
-		//vk::MemoryRequirements sourceBufferMemoryRequirements = sourceBuffer->getMemoryRequirements();
-		//vk::PhysicalDeviceMemoryProperties physicalDeviceMemoryProperties = physicalDevice->getMemoryProperties();
-		//vk::MemoryPropertyFlags sourceBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-		//vk::MemoryAllocateInfo sourceBufferMemoryAllocateInfo = sourceBuffer.createMemoryAllocateInfo(
-		//	sourceBufferMemoryRequirements,
-		//	physicalDeviceMemoryProperties,
-		//	sourceBufferMemoryPropertyFlags);
-		//
-		//sourceBufferDeviceMemory.create(device, sourceBufferMemoryAllocateInfo);
-		//
-		//sourceBuffer.bindMemory(sourceBufferDeviceMemory);
-		//
-		//sourceBufferDeviceMemory.fillWithSTDContainer(vertices);
-		//
-		//// Vertex Buffer 
-		//VertexBuffer destinationBuffer;
-		//DeviceMemory destinationBufferDeviceMemory;
-		//
-		//vk::BufferCreateInfo destinationBufferCreateInfo = destinationBuffer.createCreateInfo(sizeof(Vertex) * vertices.size());
-		//destinationBuffer.create(device, destinationBufferCreateInfo);
-		//
-		//vk::MemoryRequirements destinationBufferMemoryRequirements = destinationBuffer->getMemoryRequirements();
-		//vk::MemoryPropertyFlags destinationBufferMemoryPropertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eDeviceLocal;
-		//vk::MemoryAllocateInfo destinationBufferrMemoryAllocateInfo = destinationBuffer.createMemoryAllocateInfo(
-		//	destinationBufferMemoryRequirements,
-		//	physicalDeviceMemoryProperties,
-		//	destinationBufferMemoryPropertyFlags);
-		//
-		//destinationBufferDeviceMemory.create(device, destinationBufferrMemoryAllocateInfo);
-		//destinationBuffer.bindMemory(destinationBufferDeviceMemory);
-		//
-		//CommandPool commandPool;
-		//commandPool.create(device, queueFamilyIndex);
-		//
-		//CommandBuffer commandBuffer;
-		//vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-		//commandBuffer.allocateCommandBuffer(device, commandPool);
-		//
-		//queue.copyBufferToBufferWaitIdle(commandBuffer, sourceBuffer, destinationBuffer);
-		//
-		//std::pair<void*, std::uint64_t> data = destinationBufferDeviceMemory.getData(destinationBuffer.getSize());
-		//std::size_t expectedSize = sizeof(Vertex) * vertices.size();
-		//
-		//ASSERT_EQ(data.second, expectedSize);
-		//
-		//int result = std::memcmp(data.first, vertices.data(), expectedSize);
-		//
-		//ASSERT_EQ(result, 0);
-		//
-		//std::free(data.first);
+		std::uint64_t size = sizeof(Vertex) * vertices.size();
+		BufferCreateInfo sourceBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		sourceBufferCreateInfo.vkBufferCreateInfo = sourceBuffer.createCreateInfo(size);
+		sourceBufferCreateInfo.allocationCreateInfo = sourceBuffer.createVmaAllocationCreateInfo(false);
+
+		sourceBuffer.create(sourceBufferCreateInfo);
+		sourceBuffer.fillWithStdContainer(vertices);
+
+		// Vertex Buffer 
+		VertexBuffer destinationBuffer;
+
+		BufferCreateInfo destinationBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		destinationBufferCreateInfo.vkBufferCreateInfo = destinationBuffer.createCreateInfo(size);
+		destinationBufferCreateInfo.allocationCreateInfo = destinationBuffer.createVmaAllocationCreateInfo(false);
+
+		destinationBuffer.create(destinationBufferCreateInfo);
+		destinationBuffer.fillWithStdContainer(vertices);
+
+		// Copying
+
+		const Queue& queue = renderer.getQueue(); 
+		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
+
+		CommandPool commandPool;
+		commandPool.create(renderer.getDevice(), queueFamilyIndex);
+		
+		CommandBuffer commandBuffer;
+		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+		commandBuffer.allocateCommandBuffer(renderer.getDevice(), commandPool);
+		
+		queue.copyBufferToBufferWaitIdle(commandBuffer, sourceBuffer, destinationBuffer);
+		
+		std::pair<void*, std::uint64_t> data = destinationBuffer.getData();
+		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
+		
+		ASSERT_EQ(data.second, expectedSize);
+		
+		int result = std::memcmp(data.first, vertices.data(), expectedSize);
+		
+		ASSERT_EQ(result, 0);
+		
+		std::free(data.first);
 	}
 }

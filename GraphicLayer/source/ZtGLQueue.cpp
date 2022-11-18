@@ -23,7 +23,7 @@ namespace zt::gl
         std::span<Semaphore*> waitSemaphores,
         vk::PipelineStageFlags& waitPipelineStageFlags,
         std::span<CommandBuffer*> commandBuffers,
-        std::span<Semaphore*> signalSemaphores)
+        std::span<Semaphore*> signalSemaphores) const
     {
         vk::SubmitInfo submitInfo;
         submitInfo.waitSemaphoreCount = static_cast<uint32_t>(waitSemaphores.size());
@@ -37,12 +37,12 @@ namespace zt::gl
         return submitInfo;
     }
 
-    void Queue::submit(const vk::SubmitInfo& submitInfo, Fence& fence)
+    void Queue::submit(const vk::SubmitInfo& submitInfo, Fence& fence) const
     {
         internal.submit(submitInfo, *fence.getInternal());
     }
 
-    void Queue::submit(const vk::SubmitInfo& submitInfo)
+    void Queue::submit(const vk::SubmitInfo& submitInfo) const
     {
         internal.submit(submitInfo);
     }
@@ -63,12 +63,12 @@ namespace zt::gl
         return presentInfo;
     }
 
-    void Queue::present(vk::PresentInfoKHR& presentInfo)
+    void Queue::present(vk::PresentInfoKHR& presentInfo) const
     {
         [[maybe_unused]] vk::Result result = internal.presentKHR(presentInfo);
     }
 
-    void Queue::copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer)
+    void Queue::copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer) const
     {
         commandBuffer.begin();
 
