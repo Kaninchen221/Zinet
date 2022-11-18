@@ -21,7 +21,7 @@ namespace zt::gl::tests
 
 			BufferCreateInfo bufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 			bufferCreateInfo.vkBufferCreateInfo = indexBuffer.createCreateInfo(1u);
-			bufferCreateInfo.allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false);
+			bufferCreateInfo.allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
 
 			indexBuffer.create(bufferCreateInfo);
 		}

@@ -211,7 +211,7 @@ namespace zt::gl::tests
 		std::uint64_t size = sizeof(Vertex) * vertices.size();
 		BufferCreateInfo sourceBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 		sourceBufferCreateInfo.vkBufferCreateInfo = sourceBuffer.createCreateInfo(size);
-		sourceBufferCreateInfo.allocationCreateInfo = sourceBuffer.createVmaAllocationCreateInfo(false);
+		sourceBufferCreateInfo.allocationCreateInfo = sourceBuffer.createVmaAllocationCreateInfo(false, true);
 
 		sourceBuffer.create(sourceBufferCreateInfo);
 		sourceBuffer.fillWithStdContainer(vertices);
@@ -221,13 +221,12 @@ namespace zt::gl::tests
 
 		BufferCreateInfo destinationBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 		destinationBufferCreateInfo.vkBufferCreateInfo = destinationBuffer.createCreateInfo(size);
-		destinationBufferCreateInfo.allocationCreateInfo = destinationBuffer.createVmaAllocationCreateInfo(false);
+		destinationBufferCreateInfo.allocationCreateInfo = destinationBuffer.createVmaAllocationCreateInfo(false, false);
 
 		destinationBuffer.create(destinationBufferCreateInfo);
 		destinationBuffer.fillWithStdContainer(vertices);
 
 		// Copying
-
 		const Queue& queue = renderer.getQueue(); 
 		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
 

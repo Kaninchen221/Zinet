@@ -22,7 +22,7 @@ namespace zt::gl::tests
 
 			BufferCreateInfo vertexBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 			vertexBufferCreateInfo.vkBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
-			vertexBufferCreateInfo.allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false);
+			vertexBufferCreateInfo.allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
 
 			vertexBuffer.create(vertexBufferCreateInfo);
 		}
@@ -39,7 +39,8 @@ namespace zt::gl::tests
 		std::uint64_t expectedSize = 1u;
 		vk::BufferCreateInfo vertexBufferCreateInfo = vertexBuffer.createCreateInfo(expectedSize);
 
-		ASSERT_EQ(vertexBufferCreateInfo.usage, vk::BufferUsageFlagBits::eVertexBuffer);
+		ASSERT_TRUE(vertexBufferCreateInfo.usage & vk::BufferUsageFlagBits::eVertexBuffer);
+		ASSERT_TRUE(vertexBufferCreateInfo.usage & vk::BufferUsageFlagBits::eTransferDst);
 		ASSERT_EQ(vertexBufferCreateInfo.size, expectedSize);
 		ASSERT_EQ(vertexBufferCreateInfo.sharingMode, vk::SharingMode::eExclusive);
 	}

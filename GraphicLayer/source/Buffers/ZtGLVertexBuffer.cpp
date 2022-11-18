@@ -7,7 +7,7 @@ namespace zt::gl
 	{
 		vk::BufferCreateInfo bufferCreateInfo;
 		bufferCreateInfo.size = newSize;
-		bufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
+		bufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer | vk::BufferUsageFlagBits::eTransferDst;
 		bufferCreateInfo.sharingMode = vk::SharingMode::eExclusive;
 
 		return bufferCreateInfo;

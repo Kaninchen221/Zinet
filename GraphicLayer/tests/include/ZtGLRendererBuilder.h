@@ -37,10 +37,10 @@
 #include <filesystem>
 #include <optional>
 
-#include "glm/glm.hpp"
-#include "glm/trigonometric.hpp"
-#include "glm/matrix.hpp"
-#include "glm/gtx/transform.hpp"
+#include <glm/glm.hpp>
+#include <glm/trigonometric.hpp>
+#include <glm/matrix.hpp>
+#include <glm/gtx/transform.hpp>
 
 namespace zt::gl::tests
 {

@@ -17,12 +17,12 @@
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLVma.h"
 
 #include <gtest/gtest.h>
 
@@ -231,7 +231,7 @@ namespace zt::gl::tests
 
 		BufferCreateInfo stagingBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 		stagingBufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
-		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false);
+		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
 
 		stagingBuffer.create(stagingBufferCreateInfo);
 		
@@ -271,7 +271,7 @@ namespace zt::gl::tests
 
 		BufferCreateInfo imageBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 		imageBufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(1u);
-		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
+		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false);
 
 		imageBuffer.create(imageBufferCreateInfo);
 
@@ -291,6 +291,18 @@ namespace zt::gl::tests
 		RendererBuilder rendererBuilder;
 		rendererBuilder.createAll();
 
-		rendererBuilder.commandBuffer.bindVertexBuffer(0u, rendererBuilder.vertexBuffer, vk::DeviceSize{ 0 });
+		VertexBuffer vertexBuffer;
+		vk::BufferCreateInfo vkBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
+		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
+		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
+
+		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
+		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
+		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
+
+		vertexBuffer.create(bufferCreateInfo);
+
+		rendererBuilder.commandBuffer.begin();
+		rendererBuilder.commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
 	}
 }

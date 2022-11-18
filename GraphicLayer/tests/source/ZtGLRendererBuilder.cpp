@@ -266,7 +266,7 @@ namespace zt::gl::tests
 		std::uint64_t verticesSize = sizeof(Vertex) * vertices.size();
 		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
 		bufferCreateInfo.vkBufferCreateInfo = vertexBuffer.createCreateInfo(verticesSize);
-		bufferCreateInfo.allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false);
+		bufferCreateInfo.allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
 
 		vertexBuffer.create(bufferCreateInfo);
         vertexBuffer.fillWithStdContainer(vertices);
@@ -279,7 +279,7 @@ namespace zt::gl::tests
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
 		bufferCreateInfo.vkBufferCreateInfo = indexBuffer.createCreateInfo(size);
-		bufferCreateInfo.allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false);
+		bufferCreateInfo.allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
 
         indexBuffer.create(bufferCreateInfo);
         indexBuffer.fillWithStdContainer(indices);
@@ -289,7 +289,7 @@ namespace zt::gl::tests
     {
 		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
 		bufferCreateInfo.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP));
-		bufferCreateInfo.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false);
+		bufferCreateInfo.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true);
 
         uniformBuffer.create(bufferCreateInfo);
         uniformBuffer.fillWithObject(mvp);
@@ -309,7 +309,7 @@ namespace zt::gl::tests
 
 		BufferCreateInfo bufferCreateInfo{ .device = device, .vma = vma };
 		bufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(size);
-		bufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false);
+		bufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, true);
 
         imageBuffer.create(bufferCreateInfo);
 		imageBuffer.fillWithCArray(stbImage.get());

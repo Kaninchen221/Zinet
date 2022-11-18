@@ -3,7 +3,6 @@
 #include <gtest/gtest.h>
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
-#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
@@ -26,7 +25,7 @@ namespace zt::gl::tests
 				return createInfo;
 			}
 
-			VmaAllocationCreateInfo createVmaAllocationCreateInfo([[maybe_unused]] bool randomAccess) const override
+			VmaAllocationCreateInfo createVmaAllocationCreateInfo([[maybe_unused]] bool randomAccess, [[maybe_unused]] bool useCPUMemory) const override
 			{
 				VmaAllocationCreateInfo allocationCreateInfo{};
 				allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
@@ -51,7 +50,7 @@ namespace zt::gl::tests
 		{
 			renderer.initialize();
 			vk::BufferCreateInfo vkBufferCreateInfo = bufferTest.createCreateInfo(expectedSize);
-			VmaAllocationCreateInfo allocationCreateInfo = bufferTest.createVmaAllocationCreateInfo(false);
+			VmaAllocationCreateInfo allocationCreateInfo = bufferTest.createVmaAllocationCreateInfo(false, true);
 
 			BufferCreateInfo bufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
 			bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
@@ -92,12 +91,15 @@ namespace zt::gl::tests
 		VertexBuffer vertexBuffer;
 
 		bool randomAccess = false;
-		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
+		bool useCPUMemory = true;
+		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess, useCPUMemory);
 		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO_PREFER_HOST);
 		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT);
 
 		randomAccess = true;
-		allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess);
+		useCPUMemory = false;
+		allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(randomAccess, useCPUMemory);
+		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE);
 		ASSERT_TRUE(allocationCreateInfo.flags & VMA_ALLOCATION_CREATE_HOST_ACCESS_RANDOM_BIT);
 	}
 

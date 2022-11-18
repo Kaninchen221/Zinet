@@ -67,11 +67,9 @@ namespace zt::gl
 
 	}
 
-	VmaAllocationCreateInfo Buffer::createVmaAllocationCreateInfo(bool randomAccess) const
+	VmaAllocationCreateInfo Buffer::createVmaAllocationCreateInfo(bool randomAccess, bool useCPUMemory) const
 	{
 		VmaAllocationCreateInfo allocationCreateInfo{};
-		//allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
-		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST;
 
 		if (randomAccess)
 		{
@@ -82,6 +80,15 @@ namespace zt::gl
 			allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
 		}
 		
+		if (useCPUMemory)
+		{
+			allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_HOST;
+		}
+		else
+		{
+			allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO_PREFER_DEVICE;
+		}
+
 		return allocationCreateInfo;
 	}
 }

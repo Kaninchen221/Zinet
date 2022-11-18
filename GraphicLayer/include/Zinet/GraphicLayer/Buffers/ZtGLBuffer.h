@@ -42,7 +42,7 @@ namespace zt::gl
 
 		virtual vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const = 0;
 
-		virtual VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess) const;
+		virtual VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess, bool useCPUMemory) const;
 
 		void create(const BufferCreateInfo& bufferCreateInfo);
 
