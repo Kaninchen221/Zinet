@@ -81,7 +81,7 @@ namespace zt::gl
 		{
 			allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
 		}
-
+		
 		return allocationCreateInfo;
 	}
 }

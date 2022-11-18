@@ -23,7 +23,6 @@
 #include "Zinet/GraphicLayer/ZtGLFence.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLDeviceMemory.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
@@ -185,7 +184,6 @@ namespace zt::gl::tests
 		std::array<vk::WriteDescriptorSet, 2> writeDescriptorSets;
 
 		Image image;
-		DeviceMemory imageDeviceMemory;
 		ImageBuffer imageBuffer;
 		ImageView textureImageView;
 		Sampler sampler;
