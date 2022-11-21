@@ -328,4 +328,22 @@ namespace zt::gl::tests
 		vk::IndexType indexType = vk::IndexType::eUint16;
 		rendererBuilder.commandBuffer.bindIndexBuffer(indexBuffer, offset, indexType);
 	}
+
+	TEST(CommandBuffer, BindDescriptorSets)
+	{
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+
+		std::vector<vk::DescriptorSet> tempDescriptorSets;
+		for (auto& set : *rendererBuilder.descriptorSets)
+		{
+			tempDescriptorSets.push_back(*set);
+		}
+
+		vk::PipelineBindPoint bindPoint = vk::PipelineBindPoint::eGraphics;
+		std::uint32_t firstSet = 0u;
+		std::array<std::uint32_t, 0> dynamicOffsets;
+		rendererBuilder.commandBuffer.begin();
+		rendererBuilder.commandBuffer.bindDescriptorSets(bindPoint, rendererBuilder.pipelineLayout, firstSet, tempDescriptorSets, dynamicOffsets);
+	}
 }

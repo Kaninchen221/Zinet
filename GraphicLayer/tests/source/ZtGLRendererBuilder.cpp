@@ -499,7 +499,7 @@ namespace zt::gl::tests
         {
             tempDescriptorSets.push_back(*set);
         }
-        commandBuffer->bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout.getInternal(), 0, tempDescriptorSets, {}); // TODO create simple function
+		commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipelineLayout, 0, tempDescriptorSets, {});
 
         commandBuffer->drawIndexed(static_cast<std::uint32_t>(indices.size()), 1, 0, 0, 0);
         commandBuffer.endRenderPass();

@@ -12,6 +12,7 @@ namespace zt::gl
 	class Framebuffer;
 	class RenderPass;
 	class Pipeline;
+	class PipelineLayout;
 	class Buffer;
 	class Queue;
 	class Image;
@@ -61,6 +62,13 @@ namespace zt::gl
 		void bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset);
 
 		void bindIndexBuffer(const IndexBuffer& indexBuffer, vk::DeviceSize deviceSize, vk::IndexType indexType);
+
+		void bindDescriptorSets(
+			vk::PipelineBindPoint bindPoint,
+			const PipelineLayout& pipelineLayout,
+			std::uint32_t firstSet,
+			const std::vector<vk::DescriptorSet>& descriptorSets,
+			const vk::ArrayProxy<const uint32_t>& dynamicOffsets);
 
 	protected:
 

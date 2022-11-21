@@ -5,6 +5,7 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
@@ -111,6 +112,16 @@ namespace zt::gl
 	void CommandBuffer::bindIndexBuffer(const IndexBuffer& indexBuffer, vk::DeviceSize deviceSize, vk::IndexType indexType)
 	{
 		internal.bindIndexBuffer(*indexBuffer.getInternal(), deviceSize, indexType);
+	}
+
+	void CommandBuffer::bindDescriptorSets(
+		vk::PipelineBindPoint bindPoint, 
+		const PipelineLayout& pipelineLayout, 
+		std::uint32_t firstSet, 
+		const std::vector<vk::DescriptorSet>& descriptorSets, 
+		const vk::ArrayProxy<const uint32_t>& dynamicOffsets)
+	{
+		internal.bindDescriptorSets(bindPoint, *pipelineLayout.getInternal(), firstSet, descriptorSets, dynamicOffsets);
 	}
 
 }
