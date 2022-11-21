@@ -23,6 +23,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
+#include "ZtGLRendererBuilder.h"
 
 #include <gtest/gtest.h>
 
@@ -304,5 +305,27 @@ namespace zt::gl::tests
 
 		rendererBuilder.commandBuffer.begin();
 		rendererBuilder.commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
+	}
+
+	TEST(CommandBuffer, BindIndexBuffer)
+	{
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+
+		IndexBuffer indexBuffer;
+		vk::BufferCreateInfo vkBufferCreateInfo = indexBuffer.createCreateInfo(1u);
+		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eIndexBuffer;
+		VmaAllocationCreateInfo allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
+
+		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
+		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
+		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
+
+		indexBuffer.create(bufferCreateInfo);
+
+		rendererBuilder.commandBuffer.begin();
+		vk::DeviceSize offset = 0u;
+		vk::IndexType indexType = vk::IndexType::eUint16;
+		rendererBuilder.commandBuffer.bindIndexBuffer(indexBuffer, offset, indexType);
 	}
 }

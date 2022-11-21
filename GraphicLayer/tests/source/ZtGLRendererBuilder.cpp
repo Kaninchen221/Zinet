@@ -492,7 +492,7 @@ namespace zt::gl::tests
         commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
         commandBuffer.bindPipeline(pipeline);
         commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
-        commandBuffer->bindIndexBuffer(*indexBuffer.getInternal(), 0, vk::IndexType::eUint16); // TODO create simple function
+        commandBuffer.bindIndexBuffer(indexBuffer, vk::DeviceSize{ 0 }, vk::IndexType::eUint16);
 
         std::vector<vk::DescriptorSet> tempDescriptorSets;
         for (auto& set : *descriptorSets)

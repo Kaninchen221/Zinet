@@ -10,6 +10,7 @@
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 
 namespace zt::gl
 {
@@ -105,6 +106,11 @@ namespace zt::gl
 	void CommandBuffer::bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset)
 	{
 		internal.bindVertexBuffers(firstBinding, { *vertexBuffer.getInternal() }, offset);
+	}
+
+	void CommandBuffer::bindIndexBuffer(const IndexBuffer& indexBuffer, vk::DeviceSize deviceSize, vk::IndexType indexType)
+	{
+		internal.bindIndexBuffer(*indexBuffer.getInternal(), deviceSize, indexType);
 	}
 
 }

@@ -18,6 +18,7 @@ namespace zt::gl
 	class StagingBuffer;
 	class Image;
 	class VertexBuffer;
+	class IndexBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
@@ -58,6 +59,8 @@ namespace zt::gl
 		void copyBufferToImage(const Buffer& buffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion);
 
 		void bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset);
+
+		void bindIndexBuffer(const IndexBuffer& indexBuffer, vk::DeviceSize deviceSize, vk::IndexType indexType);
 
 	protected:
 
