@@ -2,7 +2,7 @@
 
 #include "ZtGraphicLayer.h"
 #include "ZtGLContext.h"
-#include "ZtEvent.h"
+#include "ZtGLEvent.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -44,7 +44,6 @@ namespace zt::gl
 
 	protected:
 
-		Context context;
 		GLFWwindow* internalWindow = nullptr;
 		Event event;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtKeyboardEvent.h"
+#include "Zinet/GraphicLayer/ZtGLKeyboardEvent.h"
 
 #include "Zinet/Core/ZtLogger.h"
 

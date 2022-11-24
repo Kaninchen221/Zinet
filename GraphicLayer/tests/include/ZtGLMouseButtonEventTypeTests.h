@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtMouseButtonEventType.h"
+#include "Zinet/GraphicLayer/ZtGLMouseButtonEventType.h"
 
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
 
-	class ZtMouseButtonEventTypeTests : public ::testing::Test
+	class MouseButtonEventTypeTests : public ::testing::Test
 	{
 	protected:
 
@@ -15,7 +15,7 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ZtMouseButtonEventTypeTests, AssignTest)
+	TEST_F(MouseButtonEventTypeTests, Assign)
 	{
 		mouseButtonEventType = MouseButtonEventType::Pressed;
 	}

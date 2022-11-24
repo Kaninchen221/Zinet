@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtKeyboardEventType.h"
-#include "Zinet/GraphicLayer/ZtKeyboardKey.h"
+#include "Zinet/GraphicLayer/ZtGLKeyboardEventType.h"
+#include "Zinet/GraphicLayer/ZtGLKeyboardKey.h"
 
 namespace zt::gl
 {

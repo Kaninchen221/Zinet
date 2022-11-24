@@ -1,10 +1,4 @@
 
-// TODO Clean/Remove that files
-//#include "ZtElementBufferTests.h"
-//#include "ZtVertexArrayTests.h"
-//#include "ZtTextureTests.h"
-//#include "ZtObjectTests.h"
-
 #include "ZtGLVertexTests.h"
 #include "ZtGLVulkanObjectTests.h"
 #include "ZtGLShaderTypeTests.h"
@@ -46,17 +40,17 @@
 #include "Buffers/ZtGLUniformBufferTests.h"
 #include "Buffers/ZtGLImageBufferTests.h"
 
-// TODO Review old files
-//#include "ZtEventTests.h"
-//#include "ZtKeyboardTests.h"
-//#include "ZtKeyboardKeyTests.h"
-//#include "ZtKeyboardEventTests.h"
-//#include "ZtKeyboardEventTypeTests.h"
-//#include "ZtMouseTests.h"
-//#include "ZtMouseButtonEventTests.h"
-//#include "ZtMouseButtonTests.h"
-//#include "ZtMouseButtonEventTypeTests.h"
-//#include "ZtMousePositionEventTests.h"
+// Input events related classes
+#include "ZtGLEventTests.h"
+#include "ZtGLKeyboardTests.h"
+#include "ZtGLKeyboardKeyTests.h"
+#include "ZtGLKeyboardEventTests.h"
+#include "ZtGLKeyboardEventTypeTests.h"
+#include "ZtGLMouseTests.h"
+#include "ZtGLMouseButtonEventTests.h"
+#include "ZtGLMouseButtonTests.h"
+#include "ZtGLMouseButtonEventTypeTests.h"
+#include "ZtGLMousePositionEventTests.h"
 
 #include <gtest/gtest.h>
 

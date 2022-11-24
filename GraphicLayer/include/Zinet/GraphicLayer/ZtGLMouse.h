@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
-#include "Zinet/GraphicLayer/ZtMouseButtonEvent.h"
+#include "Zinet/GraphicLayer/ZtGLMousePositionEvent.h"
+#include "Zinet/GraphicLayer/ZtGLMouseButtonEvent.h"
 
 #include <vector>
 
 namespace zt::gl
 {
-
 	class Window;
 
 	class ZINET_GRAPHIC_LAYER_API Mouse

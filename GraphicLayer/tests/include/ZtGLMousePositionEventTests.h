@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtMouse.h"
+#include "Zinet/GraphicLayer/ZtGLMouse.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include <gtest/gtest.h>
@@ -8,7 +8,7 @@
 namespace zt::gl::tests
 {
 
-	class ZtMousePositionEventTests : public ::testing::Test
+	class MousePositionEventTests : public ::testing::Test
 	{
 	protected:
 
@@ -16,7 +16,7 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ZtMousePositionEventTests, PositionTest)
+	TEST_F(MousePositionEventTests, Position)
 	{
 		positionEvent.position = glm::dvec2();
 	}

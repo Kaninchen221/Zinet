@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtMouse.h"
+#include "Zinet/GraphicLayer/ZtGLMouse.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtMouseButtonEvent.h"
-#include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLMouseButtonEvent.h"
+#include "Zinet/GraphicLayer/ZtGLMousePositionEvent.h"
 
 #include <gtest/gtest.h>
 
@@ -13,7 +14,7 @@
 namespace zt::gl::tests
 {
 
-	class ZtMouseTests : public ::testing::Test
+	class MouseTests : public ::testing::Test
 	{
 	protected:
 
@@ -30,7 +31,7 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST_F(ZtMouseTests, SetWindowTest)
+	TEST_F(MouseTests, SetWindow)
 	{
 		Window expectedWindow;
 		expectedWindow.create();
@@ -40,19 +41,19 @@ namespace zt::gl::tests
 		ASSERT_EQ(&expectedWindow, actualWindow);
 	}
 
-	TEST_F(ZtMouseTests, GetWindowTest)
+	TEST_F(MouseTests, GetWindow)
 	{
 		const Window* actualWindow = mouse.getWindow();
 
 		ASSERT_EQ(actualWindow, nullptr);
 	}
 
-	TEST_F(ZtMouseTests, GetButtonsEventsTest)
+	TEST_F(MouseTests, GetButtonsEvents)
 	{
-		const std::vector<MouseButtonEvent>& buttonsEvents = mouse.getButtonsEvents();
+		[[maybe_unused]] const std::vector<MouseButtonEvent>& buttonsEvents = mouse.getButtonsEvents();
 	}
 
-	TEST_F(ZtMouseTests, SetMaxRememberedButtonsEventsTest)
+	TEST_F(MouseTests, SetMaxRememberedButtonsEvents)
 	{
 		size_t expectedMaxRememberedButtonsEvents = 4u;
 		mouse.setMaxRememberedButtonsEvents(expectedMaxRememberedButtonsEvents);
@@ -65,7 +66,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(expectedMaxRememberedButtonsEvents, actualMaxRememberedButtonsEvents);
 	}
 
-	TEST_F(ZtMouseTests, ButtonCallbackTest)
+	TEST_F(MouseTests, ButtonCallback)
 	{
 		Window window;
 		window.create();
@@ -81,8 +82,10 @@ namespace zt::gl::tests
 		ASSERT_EQ(expectedButtonEvent, actualButtonEvent);
 	}
 
-	TEST_F(ZtMouseTests, PositionCallbackTest)
+	TEST(Mouse, PositionCallback)
 	{
+		GLFW::Init();
+
 		Window window;
 		window.create();
 		glm::dvec2 expectedPosition{ 34.0, 2.4324 };
@@ -102,14 +105,16 @@ namespace zt::gl::tests
 		glm::dvec2 actualSecondPosition = positions[0].position;
 		areEqual = glm::equal(expectedSecondPosition, actualSecondPosition);
 		ASSERT_TRUE(glm::all(areEqual));
+
+		GLFW::Deinit();
 	}
 
-	TEST_F(ZtMouseTests, GetPositionEventsTest)
+	TEST_F(MouseTests, GetPositionEvents)
 	{
-		const std::vector<MousePositionEvent>& positions = mouse.getPositionEvents();
+		[[maybe_unused]] const std::vector<MousePositionEvent>& positions = mouse.getPositionEvents();
 	}
 
-	TEST_F(ZtMouseTests, SetMaxRememberedPositionEventsTest)
+	TEST_F(MouseTests, SetMaxRememberedPositionEvents)
 	{
 		size_t expectedMaxRememberedPositionEvents = 3u;
 		mouse.setMaxRememberedPositionEvents(expectedMaxRememberedPositionEvents);

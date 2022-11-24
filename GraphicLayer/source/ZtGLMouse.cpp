@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtMouse.h"
+#include "Zinet/GraphicLayer/ZtGLMouse.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 namespace zt::gl

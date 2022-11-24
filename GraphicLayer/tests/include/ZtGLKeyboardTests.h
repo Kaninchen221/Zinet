@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtKeyboard.h"
+#include "Zinet/GraphicLayer/ZtGLKeyboard.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
 
-	class ZtKeyboardTests : public ::testing::Test
+	class KeyboardTests : public ::testing::Test
 	{
 	protected:
 
@@ -25,7 +26,7 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST_F(ZtKeyboardTests, SetWindowTest)
+	TEST_F(KeyboardTests, SetWindow)
 	{
 		Window expectedWindow{};
 		expectedWindow.create();
@@ -35,36 +36,46 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualWindow, &expectedWindow);
 	}
 
-	TEST_F(ZtKeyboardTests, GetWindowTest)
+	TEST_F(KeyboardTests, GetWindow)
 	{
 		const Window* window = keyboard.getWindow();
 
 		ASSERT_EQ(window, nullptr);
 	}
 
-	TEST_F(ZtKeyboardTests, IsPressedTest)
+	TEST(Keyboard, IsPressed)
 	{
+		GLFW::Init();
+
 		Window window;
 		window.create();
 		Event* event = window.getEvent();
 		Keyboard* keyboard = event->getKeyboard();
+		ASSERT_NE(keyboard, nullptr);
+
 		bool isPressed = keyboard->isPressed(KeyboardKey::F4);
-
 		ASSERT_FALSE(isPressed);
+
+		GLFW::Deinit();
 	}
 
-	TEST_F(ZtKeyboardTests, IsReleasedTest)
+	TEST(Keyboard, IsReleased)
 	{
+		GLFW::Init();
+
 		Window window;
 		window.create();
 		Event* event = window.getEvent();
 		Keyboard* keyboard = event->getKeyboard();
-		bool isReleased = keyboard->isReleased(KeyboardKey::F2);
+		ASSERT_NE(keyboard, nullptr);
 
+		bool isReleased = keyboard->isReleased(KeyboardKey::F2);
 		ASSERT_TRUE(isReleased);
+
+		GLFW::Deinit();
 	}
 
-	TEST_F(ZtKeyboardTests, SetMaximumRememberedEventsTest)
+	TEST_F(KeyboardTests, SetMaximumRememberedEvents)
 	{
 		size_t expectedMaximumRememberedEvents = 9u;
 		keyboard.setMaximumRememberedEvents(expectedMaximumRememberedEvents);

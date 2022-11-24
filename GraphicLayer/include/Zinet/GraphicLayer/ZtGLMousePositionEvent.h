@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtMousePositionEvent.h"
+#include "Zinet/GraphicLayer/ZtGLMousePositionEvent.h"
 
 #include <glm/vec2.hpp>
 

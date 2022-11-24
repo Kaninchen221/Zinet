@@ -1,15 +1,13 @@
 #pragma once
 
 #include "ZtGraphicLayer.h"
-#include "ZtKeyboard.h"
-#include "ZtMouse.h"
+#include "ZtGLKeyboard.h"
+#include "ZtGLMouse.h"
 
 namespace zt::gl
 {
-
 	class Window;
 
-	// TODO Review that class
 	class ZINET_GRAPHIC_LAYER_API Event
 	{
 

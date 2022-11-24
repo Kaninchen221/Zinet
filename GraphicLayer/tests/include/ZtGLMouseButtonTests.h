@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtMouseButton.h"
+#include "Zinet/GraphicLayer/ZtGLMouseButton.h"
 
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
 
-	class ZtMouseButtonTests : public ::testing::Test
+	class MouseButtonTests : public ::testing::Test
 	{
 	protected:
 
@@ -15,7 +15,7 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ZtMouseButtonTests, AssignTest)
+	TEST_F(MouseButtonTests, Assign)
 	{
 		button = MouseButton::RIGHT;
 	}

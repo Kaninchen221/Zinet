@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtEvent.h"
+#include "Zinet/GraphicLayer/ZtGLEvent.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 
 #include <gtest/gtest.h>
@@ -8,7 +8,7 @@
 namespace zt::gl::tests
 {
 
-	class ZtEventTests : public ::testing::Test
+	class EventTests : public ::testing::Test
 	{
 	protected:
 
@@ -16,7 +16,7 @@ namespace zt::gl::tests
 
 	};
 
-	TEST_F(ZtEventTests, SetWindowTest)
+	TEST_F(EventTests, SetWindow)
 	{
 		Window expectedWindow;
 		expectedWindow.create();
@@ -26,26 +26,26 @@ namespace zt::gl::tests
 		ASSERT_EQ(&expectedWindow, actualWindow);
 	}
 
-	TEST_F(ZtEventTests, GetWindowTest)
+	TEST_F(EventTests, GetWindow)
 	{
 		const Window* window = event.getWindow();
 
 		ASSERT_EQ(window, nullptr);
 	}
 
-	TEST_F(ZtEventTests, PollEventsTest)
+	TEST_F(EventTests, PollEvents)
 	{
 		event.pollEvents();
 	}
 
-	TEST_F(ZtEventTests, GetKeyboardTest)
+	TEST_F(EventTests, GetKeyboard)
 	{
 		Keyboard* keyboard = event.getKeyboard();
 
 		ASSERT_NE(keyboard, nullptr);
 	}
 
-	TEST_F(ZtEventTests, GetMouseTest)
+	TEST_F(EventTests, GetMouse)
 	{
 		Mouse* mouse = event.getMouse();
 
