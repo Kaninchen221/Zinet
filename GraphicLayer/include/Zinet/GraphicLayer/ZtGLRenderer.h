@@ -38,9 +38,9 @@
 // RenderPass - done
 // 
 //// Must be passed from outside
-// VertexShader
-// FragmentShader
-// ShaderStages
+// VertexShader // Only code & created inside
+// FragmentShader // Only code & created inside
+// ShaderStages /// Created inside
 // 
 // VertexBuffer // Data must be passed from outside & object created inside
 // IndexBuffer // Data must be passed from outside & object created inside
@@ -64,6 +64,8 @@
 // drawFrame
 // submit
 // present
+// 
+// TODO: Recreate swap chain
 
 namespace zt::gl
 {
@@ -124,12 +126,6 @@ namespace zt::gl
 
 		const Vma& getVma() const;
 
-		// TODO: Pass in some way shaders (vertex, fragment)
-		// TODO: PrepareForDraw(DrawInfo)
-		// TODO: Draw()
-
-		// TODO: Recreate swap chain
-
 	protected:
 
 		void createInstance();
@@ -164,7 +160,7 @@ namespace zt::gl
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;
 
-		Pipeline pipeline; // TODO: Need valid shader stages to create it
+		Pipeline pipeline;
 	};
 
 }
