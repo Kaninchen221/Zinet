@@ -21,6 +21,50 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+//////////////////////////////////////////////////////////////////////////
+// TODO
+// Plan for the renderer
+// Instance - done
+// Messenger - done
+// Window - done
+// Surface - done
+// PhysicalDevice - done
+// Device - done
+// Queue - done
+// SwapChain - done
+// ImageViews - done
+// Framebuffers - done
+// PipelineLayout - done
+// RenderPass - done
+// 
+//// Must be passed from outside
+// VertexShader
+// FragmentShader
+// ShaderStages
+// 
+// VertexBuffer // Data must be passed from outside & object created inside
+// IndexBuffer // Data must be passed from outside & object created inside
+// UniformBuffer // Data must be passed from outside & object created inside
+// ImageBuffer(Texture) // Data must be passed from outside & object created insid
+// 
+//// Must be created before pipeline
+// DescriptorPool
+// DescriptorSets
+// DescriptorSetLayouts
+// updateDescriptorSets
+// updateMVP
+// 
+// Pipeline // Must be created after shaders, buffers and descriptors
+// CommandPool
+// CommandBuffers
+// Fences
+// Semaphores
+// 
+//// Final functions
+// drawFrame
+// submit
+// present
+
 namespace zt::gl
 {
 
