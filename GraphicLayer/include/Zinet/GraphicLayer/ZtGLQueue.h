@@ -44,7 +44,7 @@ namespace zt::gl
 			std::span<CommandBuffer*> commandBuffers,
 			std::span<Semaphore*> signalSemaphores) const;
 
-		void submit(const vk::SubmitInfo& submitInfo, Fence& fence) const;
+		void submitWithFence(const vk::SubmitInfo& submitInfo, Fence& fence) const;
 
 		void submit(const vk::SubmitInfo& submitInfo) const;
 

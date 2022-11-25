@@ -524,7 +524,7 @@ namespace zt::gl::tests
             commandBuffers,
             signalSemaphores);
 
-        queue.submit(submitInfo, drawFence);
+        queue.submitWithFence(submitInfo, drawFence);
     }
 
     void RendererBuilder::present(uint32_t imageToDraw)

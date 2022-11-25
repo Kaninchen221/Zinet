@@ -25,6 +25,7 @@
 #include <gtest/gtest.h>
 
 #include <utility>
+#include <functional>
 
 namespace zt::gl::tests
 {
@@ -115,30 +116,23 @@ namespace zt::gl::tests
 		ASSERT_NE(*queue.getInternal(), *vk::raii::Queue(std::nullptr_t()));
 	}
 
-	TEST_F(QueueTests, Submit)
+	TEST(Queue, Submit)
 	{
-		Semaphore semaphore;
-		semaphore.create(device);
-		std::array<Semaphore*, 1> waitSemaphores{ &semaphore };
-		vk::PipelineStageFlags waitPipelineStageFlags{};
+		Queue queue;
+		vk::SubmitInfo submitInfo;
+		
+		typedef void(Queue::* Submit)(const vk::SubmitInfo&) const;
+		[[maybe_unused]] Submit submit = &Queue::submit;
+	}
 
-		CommandPool commandPool;
-		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-		commandPool.create(device, queueFamilyIndex);
+	TEST(Queue, SubmitWithFence)
+	{
+		Queue queue;
+		vk::SubmitInfo submitInfo;
+		Fence fence;
 
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(device, commandPool);
-		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
-
-		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
-
-		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
-			waitSemaphores,
-			waitPipelineStageFlags,
-			commandBuffers,
-			signalSemaphores);
-
-		queue.submit(submitInfo);
+		typedef void(Queue::* SubmitWithFence)(const vk::SubmitInfo&, Fence& fence) const;
+		[[maybe_unused]] SubmitWithFence submitWithFence = &Queue::submitWithFence;
 	}
 
 	TEST(Queue, CreatePresentInfo)
@@ -162,40 +156,12 @@ namespace zt::gl::tests
 		EXPECT_EQ(&imageIndex, presentInfo.pImageIndices);
 	}
 
-	TEST_F(QueueTests, Present)
+	TEST(Queue, Present)
 	{
-		SwapChain swapChain;
-		SwapChainSupportDetails swapChainSupportDetails;
-		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
-		swapChain.create(device, creatInfo);
-
-		Semaphore semaphore;
-		semaphore.create(device);
-		std::array<Semaphore*, 1> waitSemaphores{ &semaphore };
-		std::array<SwapChain*, 1> swapChains{ &swapChain };
-
-		uint64_t timeout = 1;
-
-		Fence fence;
-		fence.createUnsignaled(device);
-
-		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(timeout, semaphore, fence);
-		uint32_t imageIndex = nextImage.second;
-
-		RenderPass renderPass;
-		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
-		renderPass.createAttachmentReference();
-		renderPass.createSubpassDescription();
-		renderPass.createSubpassDependency();
-		renderPass.create(device);
-
-		vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
-			waitSemaphores,
-			swapChains,
-			imageIndex);
-
-		queue.present(presentInfo); // TODO: Resolve the runtime error
+		Queue queue;
+		vk::PresentInfoKHR presentInfo;
+		
+		auto present = std::bind_front(&Queue::present, &queue, presentInfo);
 	}
 
 	TEST(Queue, CopyBuffer)

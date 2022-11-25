@@ -37,7 +37,7 @@ namespace zt::gl
         return submitInfo;
     }
 
-    void Queue::submit(const vk::SubmitInfo& submitInfo, Fence& fence) const
+    void Queue::submitWithFence(const vk::SubmitInfo& submitInfo, Fence& fence) const
     {
         internal.submit(submitInfo, *fence.getInternal());
     }
