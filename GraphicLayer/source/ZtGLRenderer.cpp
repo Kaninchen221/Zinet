@@ -138,6 +138,37 @@ namespace zt::gl
 		return vma;
 	}
 
+	const std::vector<ShaderModule>& Renderer::getShadersModules() const
+	{
+		return shadersModules;
+	}
+
+	const std::vector<vk::PipelineShaderStageCreateInfo>& Renderer::getShadersStages() const
+	{
+		return shadersStages;
+	}
+
+	void Renderer::prepareDraw(const RendererDrawInfo& drawInfo)
+	{
+		// Create shaders modules
+		for (const Shader& shader : drawInfo.shaders)
+		{
+			ShaderModule& shaderModule = shadersModules.emplace_back();
+			vk::ShaderModuleCreateInfo shaderModuleCreateInfo = shaderModule.createShaderModuleCreateInfo(shader);
+			shaderModule.create(device, shader.getType(), shaderModuleCreateInfo);
+		}
+
+		// Create shader stages
+		for (ShaderModule& module : shadersModules)
+		{
+			shadersStages.push_back(pipelineLayout.createShaderStageCreateInfo(module));
+		}
+
+		// Create pipeline
+		vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, shadersStages);
+		pipeline.create(device, createInfo);
+	}
+
 	void Renderer::createInstance()
 	{
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();

@@ -4,6 +4,9 @@
 
 #include <gtest/gtest.h>
 
+#include <filesystem>
+#include <vector>
+
 namespace zt::gl::tests
 {
 
@@ -11,10 +14,15 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
+
 		Renderer renderer;
+		std::vector<Shader> shaders;
+
+		void createShaders();
 
 	};
-
+	/*
 	TEST_F(RendererTests, Initialize)
 	{
 		renderer.initialize();
@@ -170,8 +178,59 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, GetVma)
 	{
+		typedef const Vma&(Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getVma);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
 		const Vma& vma = renderer.getVma();
 		ASSERT_EQ(vma.getInternal(), nullptr);
 	}
+	*/
 
+	TEST_F(RendererTests, GetShadersModules)
+	{
+		typedef const std::vector<ShaderModule>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getShadersModules);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		const std::vector<ShaderModule>& shadersModules = renderer.getShadersModules();
+		ASSERT_TRUE(shadersModules.empty());
+	}
+
+	TEST_F(RendererTests, GetShadersStagesCreateInfo)
+	{
+		typedef const std::vector<vk::PipelineShaderStageCreateInfo>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getShadersStages);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		const std::vector<vk::PipelineShaderStageCreateInfo>& shadersStages = renderer.getShadersStages();
+		ASSERT_TRUE(shadersStages.empty());
+	}
+
+	TEST_F(RendererTests, PrepareDraw)
+	{
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(const RendererDrawInfo&);
+		using FunctionDeclaration = decltype(&Renderer::prepareDraw);
+
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		renderer.initialize();
+		createShaders();
+		RendererDrawInfo drawInfo;
+		drawInfo.shaders = shaders;
+		renderer.prepareDraw(drawInfo);
+
+		const std::vector<ShaderModule>& shadersModules = renderer.getShadersModules();
+		ASSERT_EQ(shadersModules.size(), 2u);
+
+		const std::vector<vk::PipelineShaderStageCreateInfo>& shadersStages = renderer.getShadersStages();
+		ASSERT_EQ(shadersStages.size(), 2u);
+
+		const Pipeline& pipeline = renderer.getPipeline();
+		ASSERT_NE(pipeline, nullptr);
+
+		// TODO descriptors must be valid
+	}
 }
+
+#include "ZtGLRendererTests.inl"

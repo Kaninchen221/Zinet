@@ -148,7 +148,7 @@ namespace zt::gl::tests
             return;
         }
 
-        vertexShaderModule = ShaderModule{};
+        //vertexShaderModule = ShaderModule{};
         vk::ShaderModuleCreateInfo vertexShaderCreateInfo = vertexShaderModule.createShaderModuleCreateInfo(vertexShader);
         vertexShaderModule.create(device, ShaderType::Vertex, vertexShaderCreateInfo);
     }
@@ -163,9 +163,9 @@ namespace zt::gl::tests
             return;
         }
 
-        fragmentShaderModule = ShaderModule{};
-        vk::ShaderModuleCreateInfo fragmentShaderCreateInfo = fragmentShaderModule.createShaderModuleCreateInfo(fragmentShader);
-        fragmentShaderModule.create(device, ShaderType::Fragment, fragmentShaderCreateInfo);
+		//fragmentShaderModule = ShaderModule{};
+		vk::ShaderModuleCreateInfo fragmentShaderCreateInfo = fragmentShaderModule.createShaderModuleCreateInfo(fragmentShader);
+		fragmentShaderModule.create(device, ShaderType::Fragment, fragmentShaderCreateInfo);
     }
 
     void RendererBuilder::createShaderStages()

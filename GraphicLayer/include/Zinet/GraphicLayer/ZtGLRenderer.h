@@ -18,6 +18,9 @@
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 #include "Zinet/GraphicLayer/ZtGLCommandPool.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
+#include "Zinet/GraphicLayer/ZtGLShaderModule.h"
+
+#include "Zinet/GraphicLayer/ZtGLRendererDrawInfo.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -66,6 +69,7 @@
 // present
 // 
 // TODO: Recreate swap chain
+// TODO: Batch rendering
 
 namespace zt::gl
 {
@@ -126,6 +130,12 @@ namespace zt::gl
 
 		const Vma& getVma() const;
 
+		const std::vector<ShaderModule>& getShadersModules() const;
+
+		const std::vector<vk::PipelineShaderStageCreateInfo>& getShadersStages() const;
+
+		void prepareDraw(const RendererDrawInfo& drawInfo);
+
 	protected:
 
 		void createInstance();
@@ -160,6 +170,8 @@ namespace zt::gl
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;
 
+		std::vector<ShaderModule> shadersModules;
+		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
 		Pipeline pipeline;
 	};
 
