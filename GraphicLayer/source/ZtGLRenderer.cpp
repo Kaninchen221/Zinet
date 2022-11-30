@@ -42,7 +42,6 @@ namespace zt::gl
 
 		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 
-		createPipelineLayout();
 		createRenderPass();
 		createFramebuffers();
 
@@ -148,7 +147,12 @@ namespace zt::gl
 		return shadersStages;
 	}
 
-	void Renderer::prepareDraw(const RendererDrawInfo& drawInfo)
+	const std::array<DescriptorSetLayout, 1>& Renderer::getDescriptorSetLayouts() const
+	{
+		return descriptorSetLayouts;
+	}
+
+	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
 		// Create shaders modules
 		for (const Shader& shader : drawInfo.shaders)
@@ -164,6 +168,23 @@ namespace zt::gl
 			shadersStages.push_back(pipelineLayout.createShaderStageCreateInfo(module));
 		}
 
+		// Descriptors
+		bindings.reserve(drawInfo.descriptors.size());
+		for (const DrawInfo::Descriptor& descriptor : drawInfo.descriptors)
+		{
+			vk::DescriptorSetLayoutBinding vkBinding = descriptor.toVkDescriptorSetLayoutBinding();
+			bindings.push_back(vkBinding);
+		}
+
+		DescriptorSetLayout descriptorSetLayout;
+		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
+		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
+		descriptorSetLayouts = { std::move(descriptorSetLayout) };
+
+		// Pipeline
+		pipelineLayout.setDescriptorSetLayouts(descriptorSetLayouts);
+		createPipelineLayout();
+		
 		// Create pipeline
 		vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, shadersStages);
 		pipeline.create(device, createInfo);

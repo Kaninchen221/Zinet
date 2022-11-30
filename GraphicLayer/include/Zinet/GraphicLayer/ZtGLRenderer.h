@@ -20,7 +20,7 @@
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
 
-#include "Zinet/GraphicLayer/ZtGLRendererDrawInfo.h"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -134,7 +134,9 @@ namespace zt::gl
 
 		const std::vector<vk::PipelineShaderStageCreateInfo>& getShadersStages() const;
 
-		void prepareDraw(const RendererDrawInfo& drawInfo);
+		const std::array<DescriptorSetLayout, 1>& getDescriptorSetLayouts() const;
+
+		void prepareDraw(const DrawInfo& drawInfo);
 
 	protected:
 
@@ -165,13 +167,15 @@ namespace zt::gl
 		SwapChain swapChain;
 		std::vector<ImageView> imageViews;
 		vk::Extent2D swapExtent;
-		PipelineLayout pipelineLayout;
 		RenderPass renderPass;
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;
 
 		std::vector<ShaderModule> shadersModules;
 		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
+		std::vector<vk::DescriptorSetLayoutBinding> bindings;
+		std::array<DescriptorSetLayout, 1> descriptorSetLayouts;
+		PipelineLayout pipelineLayout;
 		Pipeline pipeline;
 	};
 

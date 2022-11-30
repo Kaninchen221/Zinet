@@ -32,7 +32,7 @@
 #include "ZtGLSamplerTests.h"
 #include "ZtGLImageTests.h"
 #include "ZtGLRendererTests.h"
-#include "ZtGLRendererDrawInfoTests.h"
+#include "ZtGLDrawInfoTests.h"
 
 #include "Buffers/ZtGLBufferTests.h"
 #include "Buffers/ZtGLVertexBufferTests.h"
