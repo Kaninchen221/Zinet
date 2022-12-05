@@ -18,11 +18,12 @@ namespace zt::gl::tests
 
 		Renderer renderer;
 		std::vector<Shader> shaders;
+		std::vector<DrawInfo::Descriptor> descriptors;
 
 		void createShaders();
-		std::vector<DrawInfo::Descriptor> createDescriptors() const;
+		void createDescriptors();
 	};
-	
+	/*
 	TEST_F(RendererTests, Initialize)
 	{
 		renderer.initialize();
@@ -211,9 +212,12 @@ namespace zt::gl::tests
 
 		[[maybe_unused]] const std::array<DescriptorSetLayout, 1>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
 	}
-
+	*/
 	TEST_F(RendererTests, PrepareDraw)
 	{
+		createShaders();
+		createDescriptors();
+
 		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
 		using FunctionDeclaration = decltype(&Renderer::prepareDraw);
 
@@ -221,9 +225,9 @@ namespace zt::gl::tests
 
 		renderer.initialize();
 		DrawInfo drawInfo;
-		createShaders();
 		drawInfo.shaders = shaders;
-		drawInfo.descriptors = createDescriptors();
+		drawInfo.descriptors = descriptors;
+		renderer.prepareDraw(drawInfo);
 		renderer.prepareDraw(drawInfo);
 
 		const std::vector<ShaderModule>& shadersModules = renderer.getShadersModules();
@@ -232,7 +236,7 @@ namespace zt::gl::tests
 		const std::vector<vk::PipelineShaderStageCreateInfo>& shadersStages = renderer.getShadersStages();
 		ASSERT_EQ(shadersStages.size(), 2u);
 
-		const std::array<DescriptorSetLayout, 1>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
+		const std::vector<DescriptorSetLayout>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
 		ASSERT_EQ(descriptorSetLayouts.size(), 1u);
 
 		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
@@ -241,8 +245,8 @@ namespace zt::gl::tests
 		const Pipeline& pipeline = renderer.getPipeline();
 		ASSERT_NE(pipeline, nullptr);
 
-		// TODO: Complete this
 	}
+	// TODO: Complete draw call
 }
 
 #include "ZtGLRendererTests.inl"

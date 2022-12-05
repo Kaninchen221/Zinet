@@ -27,7 +27,7 @@ namespace zt::gl
 		PipelineLayout& operator = (const PipelineLayout& other) = default;
 		PipelineLayout& operator = (PipelineLayout&& other) = default;
 
-		~PipelineLayout() noexcept = default;
+		~PipelineLayout() noexcept;
 
 		// TODO: Move to Pipeline class?
 		const vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);

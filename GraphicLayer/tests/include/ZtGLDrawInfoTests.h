@@ -18,7 +18,7 @@ namespace zt::gl::tests
 	TEST_F(DrawInfoTests, Properties)
 	{
 		static_assert(std::is_same_v<decltype(drawInfo.shaders), std::span<Shader>>);
-		static_assert(std::is_same_v<decltype(drawInfo.descriptors), std::vector<DrawInfo::Descriptor>>);
+		static_assert(std::is_same_v<decltype(drawInfo.descriptors), std::span<DrawInfo::Descriptor>>);
 	}
 
 	class DescriptorInfoTests : public ::testing::Test

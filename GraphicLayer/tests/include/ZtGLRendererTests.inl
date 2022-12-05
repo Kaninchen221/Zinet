@@ -16,10 +16,8 @@ namespace zt::gl::tests
 		shaders[1].compile();
 	}
 
-	inline std::vector<DrawInfo::Descriptor> RendererTests::createDescriptors() const
+	inline void RendererTests::createDescriptors()
 	{
-		std::vector<DrawInfo::Descriptor> descriptors;
-
 		DrawInfo::Descriptor descriptor;
 		descriptor.binding = 0;
 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
@@ -32,8 +30,6 @@ namespace zt::gl::tests
 		descriptor.count = 1;
 		descriptor.shaderType = ShaderType::Fragment;
 		descriptors.push_back(descriptor);
-
-		return descriptors;
 	}
 
 }

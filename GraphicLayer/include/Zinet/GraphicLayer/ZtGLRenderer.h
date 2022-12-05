@@ -134,7 +134,7 @@ namespace zt::gl
 
 		const std::vector<vk::PipelineShaderStageCreateInfo>& getShadersStages() const;
 
-		const std::array<DescriptorSetLayout, 1>& getDescriptorSetLayouts() const;
+		const std::vector<DescriptorSetLayout>& getDescriptorSetLayouts() const;
 
 		void prepareDraw(const DrawInfo& drawInfo);
 
@@ -154,13 +154,19 @@ namespace zt::gl
 		void createFramebuffers();
 		void createVma();
 
+		void createPipeline(const DrawInfo& drawInfo);
+		void createShadersModules(const std::span<Shader>& shaders);
+		void createShadersStages();
+		void createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors);
+
+
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;
 		Window window;
 		Surface surface;
 		PhysicalDevice physicalDevice;
-		std::uint32_t queueFamilyIndex;;
+		std::uint32_t queueFamilyIndex;
 		Device device;
 		Queue queue;
 		SwapChainSupportDetails swapChainSupportDetails;
@@ -174,9 +180,9 @@ namespace zt::gl
 		std::vector<ShaderModule> shadersModules;
 		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
 		std::vector<vk::DescriptorSetLayoutBinding> bindings;
-		std::array<DescriptorSetLayout, 1> descriptorSetLayouts;
-		PipelineLayout pipelineLayout;
-		Pipeline pipeline;
+		std::vector<DescriptorSetLayout> descriptorSetLayouts;
+		std::optional<PipelineLayout> pipelineLayout;
+		std::optional<Pipeline> pipeline;
 	};
 
 }

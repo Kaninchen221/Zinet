@@ -37,7 +37,7 @@ namespace zt::gl
 		};
 
 		std::span<Shader> shaders;
-		std::vector<Descriptor> descriptors;
+		std::span<Descriptor> descriptors;
 	};
 
 }

@@ -114,7 +114,7 @@ namespace zt::gl
 
 	const PipelineLayout& Renderer::getPipelineLayout() const
 	{
-		return pipelineLayout;
+		return *pipelineLayout;
 	}
 
 	const RenderPass& Renderer::getRenderPass() const
@@ -129,7 +129,7 @@ namespace zt::gl
 
 	const Pipeline& Renderer::getPipeline() const
 	{
-		return pipeline;
+		return *pipeline;
 	}
 
 	const Vma& Renderer::getVma() const
@@ -147,47 +147,14 @@ namespace zt::gl
 		return shadersStages;
 	}
 
-	const std::array<DescriptorSetLayout, 1>& Renderer::getDescriptorSetLayouts() const
+	const std::vector<DescriptorSetLayout>& Renderer::getDescriptorSetLayouts() const
 	{
 		return descriptorSetLayouts;
 	}
 
 	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
-		// Create shaders modules
-		for (const Shader& shader : drawInfo.shaders)
-		{
-			ShaderModule& shaderModule = shadersModules.emplace_back();
-			vk::ShaderModuleCreateInfo shaderModuleCreateInfo = shaderModule.createShaderModuleCreateInfo(shader);
-			shaderModule.create(device, shader.getType(), shaderModuleCreateInfo);
-		}
-
-		// Create shader stages
-		for (ShaderModule& module : shadersModules)
-		{
-			shadersStages.push_back(pipelineLayout.createShaderStageCreateInfo(module));
-		}
-
-		// Descriptors
-		bindings.reserve(drawInfo.descriptors.size());
-		for (const DrawInfo::Descriptor& descriptor : drawInfo.descriptors)
-		{
-			vk::DescriptorSetLayoutBinding vkBinding = descriptor.toVkDescriptorSetLayoutBinding();
-			bindings.push_back(vkBinding);
-		}
-
-		DescriptorSetLayout descriptorSetLayout;
-		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
-		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
-		descriptorSetLayouts = { std::move(descriptorSetLayout) };
-
-		// Pipeline
-		pipelineLayout.setDescriptorSetLayouts(descriptorSetLayouts);
-		createPipelineLayout();
-		
-		// Create pipeline
-		vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, shadersStages);
-		pipeline.create(device, createInfo);
+		createPipeline(drawInfo);
 	}
 
 	void Renderer::createInstance()
@@ -270,17 +237,19 @@ namespace zt::gl
 
 	void Renderer::createPipelineLayout()
 	{
-		pipelineLayout.setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
+		pipelineLayout->setDescriptorSetLayouts(descriptorSetLayouts);
+
+		pipelineLayout->setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
 
 		vk::Rect2D scissor;
 		scissor.offset = vk::Offset2D{ 0, 0 };
 		scissor.extent = swapExtent;
-		pipelineLayout.setScissor(scissor);
+		pipelineLayout->setScissor(scissor);
 
-		pipelineLayout.createColorBlendAttachmentState();
+		pipelineLayout->createColorBlendAttachmentState();
 
-		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
-		pipelineLayout.create(device, pipelineLayoutCreateInfo);
+		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout->createPipelineLayoutCreateInfo();
+		pipelineLayout->create(device, pipelineLayoutCreateInfo);
 	}
 
 	void Renderer::createRenderPass()
@@ -307,6 +276,61 @@ namespace zt::gl
 	{
 		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
 		vma.create(allocatorCreateInfo);
+	}
+
+	void Renderer::createPipeline(const DrawInfo& drawInfo)
+	{
+		pipelineLayout.reset();
+		pipelineLayout = PipelineLayout{};
+
+		pipeline.reset();
+		pipeline = Pipeline{};
+
+		createShadersModules(drawInfo.shaders);
+		createShadersStages();
+		createDescriptorSetLayouts(drawInfo.descriptors);
+		createPipelineLayout();
+
+		vk::GraphicsPipelineCreateInfo createInfo = pipeline->createGraphicsPipelineCreateInfo(*pipelineLayout, renderPass, shadersStages);
+		pipeline->create(device, createInfo);
+	}
+
+	void Renderer::createShadersModules(const std::span<Shader>& shaders)
+	{
+		shadersModules.clear();
+		shadersModules.reserve(shaders.size());
+		for (const Shader& shader : shaders)
+		{
+			ShaderModule& shaderModule = shadersModules.emplace_back();
+			vk::ShaderModuleCreateInfo shaderModuleCreateInfo = shaderModule.createShaderModuleCreateInfo(shader);
+			shaderModule.create(device, shader.getType(), shaderModuleCreateInfo);
+		}
+	}
+
+	void Renderer::createShadersStages()
+	{
+		shadersStages.clear();
+		shadersStages.reserve(shadersModules.size());
+		for (ShaderModule& module : shadersModules)
+		{
+			shadersStages.push_back(pipelineLayout->createShaderStageCreateInfo(module));
+		}
+	}
+
+	void Renderer::createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors)
+	{
+		bindings.clear();
+		bindings.reserve(descriptors.size());
+		for (const DrawInfo::Descriptor& descriptor : descriptors)
+		{
+			vk::DescriptorSetLayoutBinding vkBinding = descriptor.toVkDescriptorSetLayoutBinding();
+			bindings.push_back(vkBinding);
+		}
+
+		descriptorSetLayouts.clear();
+		DescriptorSetLayout& descriptorSetLayout = descriptorSetLayouts.emplace_back();
+		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
+		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
 	}
 
 }
