@@ -3,6 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLShader.h"
 #include "Zinet/GraphicLayer/ZtGLShaderType.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 
 #include <span>
 #include <vector>
@@ -38,6 +40,8 @@ namespace zt::gl
 
 		std::span<Shader> shaders;
 		std::span<Descriptor> descriptors;
+		VertexBuffer vertexBuffer;
+		IndexBuffer indexBuffer;
 	};
 
 }

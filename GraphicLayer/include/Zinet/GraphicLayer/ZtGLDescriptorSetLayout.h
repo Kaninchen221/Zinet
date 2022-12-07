@@ -6,7 +6,6 @@
 namespace zt::gl
 {
 	class Device;
-	class DescriptorPool;
 
 	class ZINET_GRAPHIC_LAYER_API DescriptorSetLayout : public VulkanObject<vk::raii::DescriptorSetLayout>
 	{

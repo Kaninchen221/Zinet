@@ -3,6 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
+#include <map>
+
 namespace zt::gl
 {
 
@@ -112,9 +114,9 @@ namespace zt::gl
 		return swapExtent;
 	}
 
-	const PipelineLayout& Renderer::getPipelineLayout() const
+	const std::optional<PipelineLayout>& Renderer::getPipelineLayout() const
 	{
-		return *pipelineLayout;
+		return pipelineLayout;
 	}
 
 	const RenderPass& Renderer::getRenderPass() const
@@ -127,9 +129,9 @@ namespace zt::gl
 		return framebuffers;
 	}
 
-	const Pipeline& Renderer::getPipeline() const
+	const std::optional<Pipeline>& Renderer::getPipeline() const
 	{
-		return *pipeline;
+		return pipeline;
 	}
 
 	const Vma& Renderer::getVma() const
@@ -152,9 +154,54 @@ namespace zt::gl
 		return descriptorSetLayouts;
 	}
 
+	const std::optional<DescriptorPool>& Renderer::getDescriptorPool() const
+	{
+		return descriptorPool;
+	}
+
+	const std::optional<DescriptorSets>& Renderer::getDescriptorSets() const
+	{
+		return descriptorSets;
+	}
+
 	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
 		createPipeline(drawInfo);
+
+		// Descriptor Pool
+		// Create descriptor pool sizes
+		std::map<DescriptorType, std::uint32_t> descriptorTypes;
+		for (const DrawInfo::Descriptor descriptor : drawInfo.descriptors)
+		{
+			std::uint32_t& poolSize = descriptorTypes[descriptor.descriptorType];
+			poolSize++;
+		}
+
+		// Create vector of vk::DescriptorPoolSize
+		std::vector<vk::DescriptorPoolSize> poolSizes;
+		poolSizes.reserve(descriptorTypes.size());
+		for (const std::pair<DescriptorType, std::uint32_t>& descriptorType : descriptorTypes)
+		{
+			vk::DescriptorPoolSize poolSize{
+				DescriptorTypeToVkDescriptorType(descriptorType.first),
+				descriptorType.second
+			};
+
+			poolSizes.emplace_back(poolSize);
+		}
+
+		descriptorPool.reset();
+		descriptorPool = DescriptorPool{};
+		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool->createCreateInfo(poolSizes);
+		descriptorPool->create(device, descriptorPoolCreateInfo);
+
+		// Descriptor Sets
+		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout->getVkDescriptorSetLayouts();
+		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
+		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
+
+		// TODO
+		// Refactor
 	}
 
 	void Renderer::createInstance()

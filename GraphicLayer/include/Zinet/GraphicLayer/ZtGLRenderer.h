@@ -19,6 +19,8 @@
 #include "Zinet/GraphicLayer/ZtGLCommandPool.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
 
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 
@@ -45,10 +47,10 @@
 // FragmentShader // Only code & created inside
 // ShaderStages /// Created inside
 // 
-// VertexBuffer // Data must be passed from outside & object created inside
-// IndexBuffer // Data must be passed from outside & object created inside
-// UniformBuffer // Data must be passed from outside & object created inside
-// ImageBuffer(Texture) // Data must be passed from outside & object created insid
+// VertexBuffer // Data must be passed from outside
+// IndexBuffer // Data must be passed from outside
+// UniformBuffer // Data must be passed from outside
+// ImageBuffer(Texture) // Data must be passed from outside
 // 
 //// Must be created before pipeline
 // DescriptorPool
@@ -120,13 +122,13 @@ namespace zt::gl
 
 		const vk::Extent2D& getSwapExtent() const;
 
-		const PipelineLayout& getPipelineLayout() const;
+		const std::optional<PipelineLayout>& getPipelineLayout() const;
 
 		const RenderPass& getRenderPass() const;
 
 		const std::vector<Framebuffer>& getFramebuffers() const;
 
-		const Pipeline& getPipeline() const;
+		const std::optional<Pipeline>& getPipeline() const;
 
 		const Vma& getVma() const;
 
@@ -135,6 +137,10 @@ namespace zt::gl
 		const std::vector<vk::PipelineShaderStageCreateInfo>& getShadersStages() const;
 
 		const std::vector<DescriptorSetLayout>& getDescriptorSetLayouts() const;
+
+		const std::optional<DescriptorPool>& getDescriptorPool() const;
+
+		const std::optional<DescriptorSets>& getDescriptorSets() const;
 
 		void prepareDraw(const DrawInfo& drawInfo);
 
@@ -181,6 +187,8 @@ namespace zt::gl
 		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
 		std::vector<vk::DescriptorSetLayoutBinding> bindings;
 		std::vector<DescriptorSetLayout> descriptorSetLayouts;
+		std::optional<DescriptorSets> descriptorSets;
+		std::optional<DescriptorPool> descriptorPool;
 		std::optional<PipelineLayout> pipelineLayout;
 		std::optional<Pipeline> pipeline;
 	};

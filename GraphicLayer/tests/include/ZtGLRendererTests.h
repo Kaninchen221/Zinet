@@ -23,7 +23,7 @@ namespace zt::gl::tests
 		void createShaders();
 		void createDescriptors();
 	};
-	/*
+	
 	TEST_F(RendererTests, Initialize)
 	{
 		renderer.initialize();
@@ -152,8 +152,8 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, GetPipelineLayout)
 	{
-		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
-		ASSERT_EQ(pipelineLayout, nullptr);
+		const std::optional<PipelineLayout>& pipelineLayout = renderer.getPipelineLayout();
+		ASSERT_FALSE(pipelineLayout.has_value());
 	}
 
 	TEST_F(RendererTests, GetRenderPass)
@@ -164,8 +164,8 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, GetPipeline)
 	{
-		const Pipeline& pipeline = renderer.getPipeline();
-		ASSERT_EQ(pipeline, nullptr);
+		const std::optional<Pipeline>& pipeline = renderer.getPipeline();
+		ASSERT_FALSE(pipeline.has_value());
 	}
 
 	TEST_F(RendererTests, GetFramebuffers)
@@ -206,13 +206,31 @@ namespace zt::gl::tests
 	
 	TEST_F(RendererTests, GetDescriptorSetLayouts)
 	{
-		typedef const std::array<DescriptorSetLayout, 1>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		typedef const std::vector<DescriptorSetLayout>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getDescriptorSetLayouts);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
-		[[maybe_unused]] const std::array<DescriptorSetLayout, 1>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
+		[[maybe_unused]] const std::vector<DescriptorSetLayout>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
 	}
-	*/
+	
+	TEST_F(RendererTests, GetDescriptorPool)
+	{
+		typedef const std::optional<DescriptorPool>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getDescriptorPool);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+	
+		[[maybe_unused]] const std::optional<DescriptorPool>& descriptorPool = renderer.getDescriptorPool();
+	}
+
+	TEST_F(RendererTests, GetDescriptorSets)
+	{
+		typedef const std::optional<DescriptorSets>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getDescriptorSets);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		[[maybe_unused]] const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
+	}
+	
 	TEST_F(RendererTests, PrepareDraw)
 	{
 		createShaders();
@@ -239,13 +257,21 @@ namespace zt::gl::tests
 		const std::vector<DescriptorSetLayout>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
 		ASSERT_EQ(descriptorSetLayouts.size(), 1u);
 
-		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
+		const std::optional<PipelineLayout>& pipelineLayout = renderer.getPipelineLayout();
 		ASSERT_NE(pipelineLayout, nullptr);
 
-		const Pipeline& pipeline = renderer.getPipeline();
+		const std::optional<Pipeline>& pipeline = renderer.getPipeline();
 		ASSERT_NE(pipeline, nullptr);
 
+		const std::optional<DescriptorPool>& descriptorPool = renderer.getDescriptorPool();
+		ASSERT_TRUE(descriptorPool.has_value());
+		ASSERT_NE(descriptorPool, nullptr);
+
+		const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
+		ASSERT_TRUE(descriptorSets.has_value());
+		ASSERT_FALSE(descriptorSets->empty());
 	}
+	
 	// TODO: Complete draw call
 }
 
