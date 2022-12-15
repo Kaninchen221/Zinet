@@ -9,7 +9,10 @@ namespace zt::gl
 {
 
 	Renderer::Renderer()
-		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() }
+		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() },
+		pipelineLayout{ std::in_place_t{} },
+		pipeline{ std::in_place_t{} },
+		descriptorPool{ std::in_place_t{} }
 	{
 		GLFW::Init();
 	}
@@ -114,9 +117,9 @@ namespace zt::gl
 		return swapExtent;
 	}
 
-	const std::optional<PipelineLayout>& Renderer::getPipelineLayout() const
+	const PipelineLayout& Renderer::getPipelineLayout() const
 	{
-		return pipelineLayout;
+		return *pipelineLayout;
 	}
 
 	const RenderPass& Renderer::getRenderPass() const
@@ -129,9 +132,9 @@ namespace zt::gl
 		return framebuffers;
 	}
 
-	const std::optional<Pipeline>& Renderer::getPipeline() const
+	const Pipeline& Renderer::getPipeline() const
 	{
-		return pipeline;
+		return *pipeline;
 	}
 
 	const Vma& Renderer::getVma() const
@@ -154,9 +157,9 @@ namespace zt::gl
 		return descriptorSetLayouts;
 	}
 
-	const std::optional<DescriptorPool>& Renderer::getDescriptorPool() const
+	const DescriptorPool& Renderer::getDescriptorPool() const
 	{
-		return descriptorPool;
+		return *descriptorPool;
 	}
 
 	const std::optional<DescriptorSets>& Renderer::getDescriptorSets() const

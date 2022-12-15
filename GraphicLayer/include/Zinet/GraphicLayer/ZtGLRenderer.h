@@ -122,13 +122,13 @@ namespace zt::gl
 
 		const vk::Extent2D& getSwapExtent() const;
 
-		const std::optional<PipelineLayout>& getPipelineLayout() const;
+		const PipelineLayout& getPipelineLayout() const;
 
 		const RenderPass& getRenderPass() const;
 
 		const std::vector<Framebuffer>& getFramebuffers() const;
 
-		const std::optional<Pipeline>& getPipeline() const;
+		const Pipeline& getPipeline() const;
 
 		const Vma& getVma() const;
 
@@ -138,7 +138,7 @@ namespace zt::gl
 
 		const std::vector<DescriptorSetLayout>& getDescriptorSetLayouts() const;
 
-		const std::optional<DescriptorPool>& getDescriptorPool() const;
+		const DescriptorPool& getDescriptorPool() const;
 
 		const std::optional<DescriptorSets>& getDescriptorSets() const;
 
