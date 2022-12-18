@@ -19,6 +19,7 @@ namespace zt::gl
 
 	Renderer::~Renderer() noexcept
 	{
+		descriptorSets.reset();
 		GLFW::Deinit();
 	}
 
@@ -49,7 +50,9 @@ namespace zt::gl
 
 		createRenderPass();
 		createFramebuffers();
-
+		
+		commandPool.create(device, queueFamilyIndex);
+		imageAvailableSemaphore.create(device);
 	}
 
 	const Context& Renderer::getContext() const
@@ -167,6 +170,21 @@ namespace zt::gl
 		return descriptorSets;
 	}
 
+	const CommandPool& Renderer::getCommandPool() const
+	{
+		return commandPool;
+	}
+
+	const CommandBuffer& Renderer::getCommandBuffer() const
+	{
+		return commandBuffer;
+	}
+
+	const std::vector<vk::WriteDescriptorSet>& Renderer::getWriteDescriptorSets() const
+	{
+		return writeDescriptorSets;
+	}
+
 	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
 		createPipeline(drawInfo);
@@ -193,6 +211,7 @@ namespace zt::gl
 			poolSizes.emplace_back(poolSize);
 		}
 
+		descriptorSets.reset();
 		descriptorPool.reset();
 		descriptorPool = DescriptorPool{};
 		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool->createCreateInfo(poolSizes);
@@ -202,6 +221,27 @@ namespace zt::gl
 		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout->getVkDescriptorSetLayouts();
 		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
 		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
+
+		// Create Write Descriptor Sets from Uniforms buffers
+		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.buffers.size());
+		for (const UniformBuffer& uniformBuffer : drawInfo.uniformBuffers)
+		{
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformBuffer.createDescriptorBufferInfo());
+			writeDescriptorSets.push_back(writeDescriptorSet);
+		}
+
+		// Create Write Descriptor Sets from Image Buffers
+		for (std::size_t index = 0u; index < drawInfo.buffers.size(); ++index)
+		{
+			const ImageBuffer& imageBuffer = drawInfo.buffers[index];
+			const Sampler& sampler = drawInfo.samplers[index];
+			const ImageView& imageView = drawInfo.views[index];
+			vk::ImageLayout imageLayout = drawInfo.layouts[index];
+
+			vk::DescriptorImageInfo descriptorImageInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout);
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, descriptorImageInfo);
+			writeDescriptorSets.push_back(writeDescriptorSet);
+		}
 
 		// TODO
 		// Refactor
@@ -381,6 +421,38 @@ namespace zt::gl
 		DescriptorSetLayout& descriptorSetLayout = descriptorSetLayouts.emplace_back();
 		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(bindings);
 		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
+	}
+
+	void Renderer::draw(const DrawInfo& drawInfo)
+	{
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+
+		uint64_t nextImageTimeout = UINT64_MAX;
+		Fence acquireNextImageFence;
+		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
+
+		commandBuffer.reset();
+		commandBuffer.begin();
+
+		vk::Rect2D renderArea;
+		renderArea.offset = vk::Offset2D{ 0, 0 };
+		renderArea.extent = swapExtent;
+
+		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
+		commandBuffer.bindPipeline(*pipeline);
+		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
+		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, vk::DeviceSize{ 0 }, vk::IndexType::eUint16);
+
+		std::vector<vk::DescriptorSet> tempDescriptorSets;
+		for (auto& set : *descriptorSets)
+		{
+			tempDescriptorSets.push_back(*set);
+		}
+		commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout, 0, tempDescriptorSets, {});
+
+		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indexBuffer.getSize() / sizeof(vk::IndexType::eUint16)), 1, 0, 0, 0);
+		commandBuffer.endRenderPass();
+		commandBuffer.end();
 	}
 
 }

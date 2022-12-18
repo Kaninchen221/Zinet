@@ -83,6 +83,9 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetsTests, CreateBufferWriteDescriptorSet)
 	{
+		typedef void(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorBufferInfo&);
+		using FunctionDeclaration = decltype(&DescriptorSets::createWriteDescriptorSet);
+
 		vk::DescriptorBufferInfo bufferInfo;
 		size_t expectedIndex = 0u;
 		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(expectedIndex, bufferInfo);
@@ -99,6 +102,9 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetsTests, CreateWriteDescriptorSet)
 	{
+		typedef void(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorImageInfo&);
+		using FunctionDeclaration = decltype(&DescriptorSets::createWriteDescriptorSet);
+
 		vk::DescriptorImageInfo imageInfo;
 		size_t expectedIndex = 0u;
 		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(expectedIndex, imageInfo);

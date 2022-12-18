@@ -26,7 +26,7 @@ namespace zt::gl
 
 		vk::BufferCreateInfo createCreateInfo(std::uint64_t newSize) const override;
 
-		vk::DescriptorImageInfo createDescriptorImageInfo(Sampler& sampler, ImageView& imageView, vk::ImageLayout imageLayout);
+		vk::DescriptorImageInfo createDescriptorImageInfo(const Sampler& sampler, const ImageView& imageView, vk::ImageLayout imageLayout) const;
 
 	};
 

@@ -34,12 +34,12 @@
 #include "ZtGLRendererTests.h"
 #include "ZtGLDrawInfoTests.h"
 //
-//#include "Buffers/ZtGLBufferTests.h"
+#include "Buffers/ZtGLBufferTests.h"
 //#include "Buffers/ZtGLVertexBufferTests.h"
 //#include "Buffers/ZtGLStagingBufferTests.h"
 //#include "Buffers/ZtGLIndexBufferTests.h"
-//#include "Buffers/ZtGLUniformBufferTests.h"
-//#include "Buffers/ZtGLImageBufferTests.h"
+#include "Buffers/ZtGLUniformBufferTests.h"
+#include "Buffers/ZtGLImageBufferTests.h"
 //
 //// Input events related classes
 //#include "ZtGLEventTests.h"

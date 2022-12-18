@@ -11,7 +11,9 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		DrawInfo drawInfo;
+		VertexBuffer vertexBuffer;
+		IndexBuffer indexBuffer;
+		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 
 	};
 
@@ -19,8 +21,13 @@ namespace zt::gl::tests
 	{
 		static_assert(std::is_same_v<decltype(drawInfo.shaders), std::span<Shader>>);
 		static_assert(std::is_same_v<decltype(drawInfo.descriptors), std::span<DrawInfo::Descriptor>>);
-		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer>);
-		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer>);
+		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer&>);
+		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer&>);
+		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::span<UniformBuffer>>);
+		static_assert(std::is_same_v<decltype(drawInfo.buffers), std::span<ImageBuffer>>);
+		static_assert(std::is_same_v<decltype(drawInfo.layouts), std::span<vk::ImageLayout>>);
+		static_assert(std::is_same_v<decltype(drawInfo.samplers), std::span<Sampler>>);
+		static_assert(std::is_same_v<decltype(drawInfo.views), std::span<ImageView>>);
 	}
 
 	class DescriptorInfoTests : public ::testing::Test

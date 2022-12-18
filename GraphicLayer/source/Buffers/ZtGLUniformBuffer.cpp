@@ -13,7 +13,7 @@ namespace zt::gl
 		return bufferCreateInfo;
 	}
 
-	vk::DescriptorBufferInfo UniformBuffer::createDescriptorBufferInfo()
+	vk::DescriptorBufferInfo UniformBuffer::createDescriptorBufferInfo() const
 	{
 		vk::DescriptorBufferInfo descriptorBufferInfo;
 		descriptorBufferInfo.buffer = *getInternal();

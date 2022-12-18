@@ -35,6 +35,10 @@ namespace zt::gl::tests
 
 	TEST_F(ImageBufferTests, CreateDescriptorImageInfo)
 	{
+		typedef vk::DescriptorImageInfo(ImageBuffer::* ExpectedFunctionDeclaration)(const Sampler&, const ImageView&, vk::ImageLayout) const;
+		using FunctionDeclaration = decltype(&ImageBuffer::createDescriptorImageInfo);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
 		Sampler sampler;
 		ImageView imageView;
 		vk::ImageLayout imageLayout{};

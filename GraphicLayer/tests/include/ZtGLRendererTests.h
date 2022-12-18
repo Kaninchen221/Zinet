@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
 
 #include <gtest/gtest.h>
 
@@ -19,11 +20,17 @@ namespace zt::gl::tests
 		Renderer renderer;
 		std::vector<Shader> shaders;
 		std::vector<DrawInfo::Descriptor> descriptors;
+		VertexBuffer vertexBuffer;
+		std::vector<Vertex> vertices;
+		IndexBuffer indexBuffer;
+		std::vector<std::uint16_t> indices;
 
 		void createShaders();
 		void createDescriptors();
+		void createVertexBuffer();
+		void createIndexBuffer();
 	};
-	
+
 	TEST_F(RendererTests, Initialize)
 	{
 		renderer.initialize();
@@ -70,8 +77,15 @@ namespace zt::gl::tests
 
 		const Vma& vma = renderer.getVma();
 		ASSERT_NE(vma.getInternal(), nullptr);
+
+		const CommandPool& commandPool = renderer.getCommandPool();
+		ASSERT_NE(commandPool, nullptr);
+
+		const CommandBuffer& commandBuffer = renderer.getCommandBuffer();
+		ASSERT_EQ(commandBuffer, nullptr);
 	}
 
+	/*
 	TEST_F(RendererTests, GetContext)
 	{
 		[[maybe_unused]] const Context& context = renderer.getContext();
@@ -238,7 +252,35 @@ namespace zt::gl::tests
 
 		[[maybe_unused]] const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
 	}
+	*/
+
+	TEST_F(RendererTests, GetCommandPool)
+	{
+		typedef const CommandPool& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getCommandPool);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 	
+		[[maybe_unused]] const CommandPool& commandPool = renderer.getCommandPool();
+	}
+
+	TEST_F(RendererTests, GetCommandBuffer)
+	{
+		typedef const CommandBuffer& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getCommandBuffer);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+	
+		[[maybe_unused]] const CommandBuffer& commandBuffer = renderer.getCommandBuffer();
+	}
+
+	TEST_F(RendererTests, GetWriteDescriptorSets)
+	{
+		typedef const std::vector<vk::WriteDescriptorSet>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getWriteDescriptorSets);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		[[maybe_unused]] const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
+	}
+
 	TEST_F(RendererTests, PrepareDraw)
 	{
 		createShaders();
@@ -250,7 +292,7 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
 		renderer.initialize();
-		DrawInfo drawInfo;
+		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
 		renderer.prepareDraw(drawInfo);
@@ -277,9 +319,35 @@ namespace zt::gl::tests
 		const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
 		ASSERT_TRUE(descriptorSets.has_value());
 		ASSERT_FALSE(descriptorSets->empty());
+
+		const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
+		ASSERT_EQ(writeDescriptorSets.size(), 2u);
 	}
-	
-	// TODO: Complete draw call
+
+	TEST_F(RendererTests, Draw)
+	{
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
+		using FunctionDeclaration = decltype(&Renderer::draw);
+
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		renderer.initialize();
+
+		createShaders();
+		createDescriptors();
+		createVertexBuffer();
+		createIndexBuffer();
+
+		std::vector<UniformBuffer> uniformBuffers;
+		[[maybe_unused]] UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
+
+		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
+		drawInfo.shaders = shaders;
+		drawInfo.descriptors = descriptors;
+		drawInfo.uniformBuffers = uniformBuffers;
+		renderer.prepareDraw(drawInfo);
+		renderer.draw(drawInfo);
+	}
 }
 
 #include "ZtGLRendererTests.inl"

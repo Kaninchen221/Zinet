@@ -15,7 +15,7 @@ namespace zt::gl
 		return bufferCreateInfo;
 	}
 
-	vk::DescriptorImageInfo ImageBuffer::createDescriptorImageInfo(Sampler& sampler, ImageView& imageView, vk::ImageLayout imageLayout)
+	vk::DescriptorImageInfo ImageBuffer::createDescriptorImageInfo(const Sampler& sampler, const ImageView& imageView, vk::ImageLayout imageLayout) const
 	{
 		vk::DescriptorImageInfo descriptorImageInfo;
 		descriptorImageInfo.sampler = *sampler.getInternal();

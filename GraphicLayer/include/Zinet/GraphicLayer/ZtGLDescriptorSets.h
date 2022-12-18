@@ -23,9 +23,9 @@ namespace zt::gl
 
 		~DescriptorSets() noexcept = default;
 
-		vk::WriteDescriptorSet createWriteDescriptorSet(size_t descriptorSetIndex, vk::DescriptorBufferInfo& descriptorBufferInfo);
+		vk::WriteDescriptorSet createWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorBufferInfo& descriptorBufferInfo);
 
-		vk::WriteDescriptorSet createWriteDescriptorSet(size_t descriptorSetIndex, vk::DescriptorImageInfo& descriptorImageInfo);
+		vk::WriteDescriptorSet createWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorImageInfo& descriptorImageInfo);
 
 	};
 

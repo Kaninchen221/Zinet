@@ -5,6 +5,9 @@
 #include "Zinet/GraphicLayer/ZtGLShaderType.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLSampler.h"
 
 #include <span>
 #include <vector>
@@ -40,8 +43,16 @@ namespace zt::gl
 
 		std::span<Shader> shaders;
 		std::span<Descriptor> descriptors;
-		VertexBuffer vertexBuffer;
-		IndexBuffer indexBuffer;
+		VertexBuffer& vertexBuffer;
+		IndexBuffer& indexBuffer;
+		std::span<UniformBuffer> uniformBuffers;
+
+		// TODO Refactor
+		std::span<ImageBuffer> buffers;
+		std::span<Sampler> samplers;
+		std::span<ImageView> views;
+		std::span<vk::ImageLayout> layouts;
+
 	};
 
 }

@@ -22,7 +22,7 @@ namespace zt::gl
 
 		vk::BufferCreateInfo createCreateInfo(std::uint64_t newSize) const override;
 
-		vk::DescriptorBufferInfo createDescriptorBufferInfo();
+		vk::DescriptorBufferInfo createDescriptorBufferInfo() const;
 
 	};
 

@@ -10,7 +10,7 @@ namespace zt::gl
 
 	}
 
-	vk::WriteDescriptorSet DescriptorSets::createWriteDescriptorSet(size_t descriptorSetIndex, vk::DescriptorBufferInfo& descriptorBufferInfo)
+	vk::WriteDescriptorSet DescriptorSets::createWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorBufferInfo& descriptorBufferInfo)
 	{
 		vk::WriteDescriptorSet writeDescriptorSet;
 		writeDescriptorSet.dstSet = *operator[](descriptorSetIndex);
@@ -25,7 +25,7 @@ namespace zt::gl
 		return writeDescriptorSet;
 	}
 
-	vk::WriteDescriptorSet DescriptorSets::createWriteDescriptorSet(size_t descriptorSetIndex, vk::DescriptorImageInfo& descriptorImageInfo)
+	vk::WriteDescriptorSet DescriptorSets::createWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorImageInfo& descriptorImageInfo)
 	{
 		vk::WriteDescriptorSet writeDescriptorSet;
 		writeDescriptorSet.dstSet = *operator[](descriptorSetIndex);

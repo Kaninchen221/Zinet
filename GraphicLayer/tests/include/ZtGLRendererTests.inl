@@ -32,4 +32,50 @@ namespace zt::gl::tests
 		descriptors.push_back(descriptor);
 	}
 
+	inline void RendererTests::createVertexBuffer()
+	{
+		Vertex vertex;
+		vertex.setPosition({ -0.5f, -0.5f, 0.f });
+		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		vertex.setTextureCoordinates({ 1.0f, 0.0f });
+		vertices.push_back(vertex);
+
+		vertex.setPosition({ 0.5f, -0.5f, 0.f });
+		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+		vertex.setTextureCoordinates({ 0.0f, 0.0f });
+		vertices.push_back(vertex);
+
+		vertex.setPosition({ 0.5f, 0.5f, 0.f });
+		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+		vertex.setTextureCoordinates({ 0.0f, 1.0f });
+		vertices.push_back(vertex);
+
+		vertex.setPosition({ -0.5f, 0.5f, 0.f });
+		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		vertex.setTextureCoordinates({ 1.0f, 1.0f });
+		vertices.push_back(vertex);
+
+		BufferCreateInfo bufferCreateInfo{
+			renderer.getDevice(),
+			renderer.getVma(),
+			vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
+			vertexBuffer.createVmaAllocationCreateInfo(false, true)
+		};
+
+		vertexBuffer.create(bufferCreateInfo);
+	}
+
+	inline void RendererTests::createIndexBuffer()
+	{
+		indices = { 0, 1, 2, 2, 3, 0 };
+
+		BufferCreateInfo bufferCreateInfo{
+			renderer.getDevice(),
+			renderer.getVma(),
+			indexBuffer.createCreateInfo(indices.size() * sizeof(std::uint16_t)),
+			indexBuffer.createVmaAllocationCreateInfo(false, true)
+		};
+
+		indexBuffer.create(bufferCreateInfo);
+	}
 }

@@ -23,6 +23,9 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
 
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
+#include "Zinet/GraphicLayer/ZtGLFence.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -142,7 +145,15 @@ namespace zt::gl
 
 		const std::optional<DescriptorSets>& getDescriptorSets() const;
 
+		const CommandPool& getCommandPool() const;
+
+		const CommandBuffer& getCommandBuffer() const;
+
+		const std::vector<vk::WriteDescriptorSet>& getWriteDescriptorSets() const;
+
 		void prepareDraw(const DrawInfo& drawInfo);
+
+		void draw(const DrawInfo& drawInfo);
 
 	protected:
 
@@ -189,8 +200,13 @@ namespace zt::gl
 		std::vector<DescriptorSetLayout> descriptorSetLayouts;
 		std::optional<DescriptorSets> descriptorSets;
 		std::optional<DescriptorPool> descriptorPool;
+		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
 		std::optional<PipelineLayout> pipelineLayout;
 		std::optional<Pipeline> pipeline;
+
+		Semaphore imageAvailableSemaphore;
+		CommandPool commandPool;
+		CommandBuffer commandBuffer;
 	};
 
 }
