@@ -45,6 +45,10 @@ namespace zt::gl::tests
 
 	TEST_F(ImageViewTests, CreateImageTest)
 	{
+		typedef void(ImageView::* ExpectedFunctionDeclaration)(const Device& device, const vk::ImageViewCreateInfo&) const;
+		using FunctionDeclaration = decltype(&ImageView::create);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
 		GLFW::Init();
 
 		Window window;

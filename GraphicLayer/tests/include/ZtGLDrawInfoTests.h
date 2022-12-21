@@ -24,10 +24,7 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer&>);
 		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer&>);
 		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::span<UniformBuffer>>);
-		static_assert(std::is_same_v<decltype(drawInfo.buffers), std::span<ImageBuffer>>);
-		static_assert(std::is_same_v<decltype(drawInfo.layouts), std::span<vk::ImageLayout>>);
-		static_assert(std::is_same_v<decltype(drawInfo.samplers), std::span<Sampler>>);
-		static_assert(std::is_same_v<decltype(drawInfo.views), std::span<ImageView>>);
+		static_assert(std::is_same_v<decltype(drawInfo.images), std::span<DrawInfo::Image>>);
 	}
 
 	class DescriptorInfoTests : public ::testing::Test
@@ -62,5 +59,24 @@ namespace zt::gl::tests
 		ASSERT_EQ(vkBinding.descriptorType, DescriptorType::eUniformBuffer);
 		ASSERT_EQ(vkBinding.descriptorCount, 2u);
 		ASSERT_EQ(vkBinding.stageFlags, ShaderTypeToVkShaderStage(ShaderType::Vertex));
+	}
+
+	class ImageInfoTests : public ::testing::Test
+	{
+	protected:
+
+		ImageBuffer buffer;
+		Sampler sampler;
+		ImageView imageView;
+		DrawInfo::Image image{ buffer, sampler, imageView, vk::ImageLayout{} };
+
+	};
+
+	TEST_F(ImageInfoTests, Properties)
+	{
+		static_assert(std::is_same_v<decltype(image.buffer), ImageBuffer&>);
+		static_assert(std::is_same_v<decltype(image.sampler), Sampler&>);
+		static_assert(std::is_same_v<decltype(image.view), ImageView&>);
+		static_assert(std::is_same_v<decltype(image.layout), vk::ImageLayout>);
 	}
 }

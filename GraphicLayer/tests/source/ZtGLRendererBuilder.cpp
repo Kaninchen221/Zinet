@@ -552,7 +552,7 @@ namespace zt::gl::tests
 
     RendererBuilder::~RendererBuilder() noexcept
     {
-        if (*drawFence.getInternal() != *vk::raii::Fence{ std::nullptr_t{} })
+        if (drawFence != nullptr)
             device.waitForFence(drawFence);
 
         framebuffers.clear();

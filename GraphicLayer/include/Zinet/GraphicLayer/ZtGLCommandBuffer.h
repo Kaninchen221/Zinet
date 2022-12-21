@@ -39,9 +39,9 @@ namespace zt::gl
 
 		~CommandBuffer() noexcept = default;
 
-		vk::CommandBufferAllocateInfo createCommandBufferAllocateInfo(CommandPool& commandPool) const;
+		vk::CommandBufferAllocateInfo createCommandBufferAllocateInfo(const CommandPool& commandPool) const;
 
-		void allocateCommandBuffer(const Device& device, CommandPool& commandPool);
+		void allocateCommandBuffer(const Device& device, const CommandPool& commandPool);
 
 		void begin();
 

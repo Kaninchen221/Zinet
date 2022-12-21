@@ -14,6 +14,9 @@ namespace zt::gl
 		pipeline{ std::in_place_t{} },
 		descriptorPool{ std::in_place_t{} }
 	{
+		if (*drawFence.getInternal() != *vk::raii::Fence{ std::nullptr_t{} })
+			device.waitForFence(drawFence);
+
 		GLFW::Init();
 	}
 
@@ -53,6 +56,10 @@ namespace zt::gl
 		
 		commandPool.create(device, queueFamilyIndex);
 		imageAvailableSemaphore.create(device);
+		renderingFinishedSemaphore.create(device);
+
+		drawFence.createSignaled(device);
+		device.waitForFence(drawFence);
 	}
 
 	const Context& Renderer::getContext() const
@@ -222,8 +229,11 @@ namespace zt::gl
 		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
 		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
 
+		// Write Descriptor Sets section
+		writeDescriptorSets.clear();
+
 		// Create Write Descriptor Sets from Uniforms buffers
-		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.buffers.size());
+		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.images.size());
 		for (const UniformBuffer& uniformBuffer : drawInfo.uniformBuffers)
 		{
 			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformBuffer.createDescriptorBufferInfo());
@@ -231,17 +241,19 @@ namespace zt::gl
 		}
 
 		// Create Write Descriptor Sets from Image Buffers
-		for (std::size_t index = 0u; index < drawInfo.buffers.size(); ++index)
+		for (std::size_t index = 0u; index < drawInfo.images.size(); ++index)
 		{
-			const ImageBuffer& imageBuffer = drawInfo.buffers[index];
-			const Sampler& sampler = drawInfo.samplers[index];
-			const ImageView& imageView = drawInfo.views[index];
-			vk::ImageLayout imageLayout = drawInfo.layouts[index];
+			const ImageBuffer& imageBuffer = drawInfo.images[index].buffer;
+			const Sampler& sampler = drawInfo.images[index].sampler;
+			const ImageView& imageView = drawInfo.images[index].view;
+			vk::ImageLayout imageLayout = drawInfo.images[index].layout;
 
 			vk::DescriptorImageInfo descriptorImageInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout);
 			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, descriptorImageInfo);
 			writeDescriptorSets.push_back(writeDescriptorSet);
 		}
+
+		device->updateDescriptorSets(writeDescriptorSets, {});
 
 		// TODO
 		// Refactor
@@ -425,9 +437,12 @@ namespace zt::gl
 
 	void Renderer::draw(const DrawInfo& drawInfo)
 	{
+		device.waitForFence(drawFence);
+		device.resetFence(drawFence);
+
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 
-		uint64_t nextImageTimeout = UINT64_MAX;
+		std::uint16_t nextImageTimeout = std::numeric_limits<std::uint16_t>::max();
 		Fence acquireNextImageFence;
 		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
 
@@ -453,6 +468,20 @@ namespace zt::gl
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indexBuffer.getSize() / sizeof(vk::IndexType::eUint16)), 1, 0, 0, 0);
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
+
+		// TODO Move it
+		std::array<Semaphore*, 1> waitSemaphores = { &imageAvailableSemaphore };
+		vk::PipelineStageFlags waitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
+		std::array<Semaphore*, 1> signalSemaphores = { &renderingFinishedSemaphore };
+
+		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
+			waitSemaphores,
+			waitPipelineStageFlags,
+			commandBuffers,
+			signalSemaphores);
+
+		queue.submitWithFence(submitInfo, drawFence);
 	}
 
 }

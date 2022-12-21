@@ -205,6 +205,8 @@ namespace zt::gl
 		std::optional<Pipeline> pipeline;
 
 		Semaphore imageAvailableSemaphore;
+		Semaphore renderingFinishedSemaphore;
+		Fence drawFence;
 		CommandPool commandPool;
 		CommandBuffer commandBuffer;
 	};

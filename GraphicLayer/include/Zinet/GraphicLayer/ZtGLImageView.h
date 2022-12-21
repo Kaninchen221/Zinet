@@ -29,7 +29,7 @@ namespace zt::gl
 
 		vk::ImageViewCreateInfo createCreateInfo(vk::Image image, const vk::Format& format) const;
 
-		void create(Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo);
+		void create(const Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo);
 
 	};
 

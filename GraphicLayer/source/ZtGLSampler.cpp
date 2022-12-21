@@ -26,7 +26,7 @@ namespace zt::gl
 		return samplerInfo;
 	}
 
-	void Sampler::create(Device& device, const vk::SamplerCreateInfo& createInfo)
+	void Sampler::create(const Device& device, const vk::SamplerCreateInfo& createInfo)
 	{
 		internal = std::move(vk::raii::Sampler{ device.getInternal(), createInfo });
 	}

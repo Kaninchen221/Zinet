@@ -80,6 +80,10 @@ namespace zt::gl::tests
 
 	TEST(CommandBuffer, CreateCommandBufferAllocateInfoTest)
 	{
+		typedef void(CommandBuffer::* ExpectedFunctionDeclaration)(const CommandPool&) const;
+		using FunctionDeclaration = decltype(&CommandBuffer::createCommandBufferAllocateInfo);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
 		CommandBuffer commandBuffer;
 		CommandPool commandPool;
 		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
@@ -97,6 +101,10 @@ namespace zt::gl::tests
 
 	TEST_F(CommandBufferTests, AllocateCommandBufferTest)
 	{
+		typedef void(CommandBuffer::* ExpectedFunctionDeclaration)(const Device&, const CommandPool&) const;
+		using FunctionDeclaration = decltype(&CommandBuffer::allocateCommandBuffer);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
 		ASSERT_NE(*commandBuffer.getInternal(), *vk::raii::CommandBuffer{ std::nullptr_t{} });
 	}
 

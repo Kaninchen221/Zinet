@@ -2,6 +2,9 @@
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
+#include "Zinet/GraphicLayer/ZtGLImage.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 
 #include <gtest/gtest.h>
 
@@ -24,15 +27,33 @@ namespace zt::gl::tests
 		std::vector<Vertex> vertices;
 		IndexBuffer indexBuffer;
 		std::vector<std::uint16_t> indices;
+		std::vector<UniformBuffer> uniformBuffers;
+		
+		std::vector<DrawInfo::Image> imageDrawInfos;
+		std::vector<Image> images;
+		std::vector<ImageBuffer> imageBuffers;
+		std::vector<Sampler> samplers;
+		std::vector<ImageView> imageViews;
+		std::vector<vk::ImageLayout> imageLayouts;
+		STBImage stbImage;
 
 		void createShaders();
 		void createDescriptors();
 		void createVertexBuffer();
 		void createIndexBuffer();
+		void createUniformBuffers();
+		void createImageDrawInfos();
+		void copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer);
+
+		struct MVP
+		{
+
+		};
 	};
 
-	TEST_F(RendererTests, Initialize)
+	TEST(Renderer, Initialize)
 	{
+		Renderer renderer;
 		renderer.initialize();
 
 		const Instance& instance = renderer.getInstance();
@@ -252,7 +273,6 @@ namespace zt::gl::tests
 
 		[[maybe_unused]] const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
 	}
-	*/
 
 	TEST_F(RendererTests, GetCommandPool)
 	{
@@ -283,18 +303,22 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, PrepareDraw)
 	{
+		renderer.initialize();
 		createShaders();
 		createDescriptors();
+		createUniformBuffers();
+		createImageDrawInfos();
 
 		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
 		using FunctionDeclaration = decltype(&Renderer::prepareDraw);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
-		renderer.initialize();
 		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
+		drawInfo.uniformBuffers = uniformBuffers;
+		drawInfo.images = imageDrawInfos;
 		renderer.prepareDraw(drawInfo);
 		renderer.prepareDraw(drawInfo);
 
@@ -323,9 +347,11 @@ namespace zt::gl::tests
 		const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
 		ASSERT_EQ(writeDescriptorSets.size(), 2u);
 	}
+	*/
 
 	TEST_F(RendererTests, Draw)
 	{
+		zt::gl::GLFW::UnhideWindow();
 		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
 		using FunctionDeclaration = decltype(&Renderer::draw);
 
@@ -337,16 +363,19 @@ namespace zt::gl::tests
 		createDescriptors();
 		createVertexBuffer();
 		createIndexBuffer();
-
-		std::vector<UniformBuffer> uniformBuffers;
-		[[maybe_unused]] UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
+		createUniformBuffers();
+		createImageDrawInfos();
 
 		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
+		drawInfo.images = imageDrawInfos;
 		renderer.prepareDraw(drawInfo);
 		renderer.draw(drawInfo);
+
+		// Resolve runtime errors
+		renderer.getQueue()->waitIdle();
 	}
 }
 

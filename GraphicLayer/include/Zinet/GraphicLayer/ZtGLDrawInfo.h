@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
+#include "Zinet/GraphicLayer/ZtGLImageView.h"
 
 #include <span>
 #include <vector>
@@ -41,17 +42,20 @@ namespace zt::gl
 			}
 		};
 
+		struct ZINET_GRAPHIC_LAYER_API Image
+		{
+			ImageBuffer& buffer;
+			Sampler& sampler;
+			ImageView& view;
+			vk::ImageLayout layout;
+		};
+
 		std::span<Shader> shaders;
 		std::span<Descriptor> descriptors;
 		VertexBuffer& vertexBuffer;
 		IndexBuffer& indexBuffer;
 		std::span<UniformBuffer> uniformBuffers;
-
-		// TODO Refactor
-		std::span<ImageBuffer> buffers;
-		std::span<Sampler> samplers;
-		std::span<ImageView> views;
-		std::span<vk::ImageLayout> layouts;
+		std::span<Image> images;
 
 	};
 

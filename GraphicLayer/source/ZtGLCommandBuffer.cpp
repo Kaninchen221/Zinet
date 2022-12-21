@@ -20,7 +20,7 @@ namespace zt::gl
 		clearValue = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 1.f } };
 	}
 
-	vk::CommandBufferAllocateInfo CommandBuffer::createCommandBufferAllocateInfo(CommandPool& commandPool) const
+	vk::CommandBufferAllocateInfo CommandBuffer::createCommandBufferAllocateInfo(const CommandPool& commandPool) const
 	{
 		vk::CommandBufferAllocateInfo allocateInfo;
 		allocateInfo.commandPool = *commandPool.getInternal();
@@ -30,7 +30,7 @@ namespace zt::gl
 		return allocateInfo;
 	}
 
-	void CommandBuffer::allocateCommandBuffer(const Device& device, CommandPool& commandPool)
+	void CommandBuffer::allocateCommandBuffer(const Device& device, const CommandPool& commandPool)
 	{
 		vk::CommandBufferAllocateInfo allocateInfo = createCommandBufferAllocateInfo(commandPool);
 		internal = std::move(vk::raii::CommandBuffers(device.getInternal(), allocateInfo).front());

@@ -23,7 +23,7 @@ namespace zt::gl
 
 		vk::SamplerCreateInfo createCreateInfo();
 
-		void create(Device& device, const vk::SamplerCreateInfo& createInfo);
+		void create(const Device& device, const vk::SamplerCreateInfo& createInfo);
 	};
 
 }
