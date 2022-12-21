@@ -65,7 +65,7 @@ namespace zt::gl::tests
     void RendererBuilder::createInstance()
     {
         vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-        instance.getRequiredExtensions();
+        instance.populateRequiredExtensions();
         vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
         instance.create(context, instanceCreateInfo);
     }
@@ -448,10 +448,10 @@ namespace zt::gl::tests
     void RendererBuilder::updateDescriptorSets()
     {
         vk::DescriptorBufferInfo uniformDescriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
-        vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
+        vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
 
         vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, textureImageView, vk::ImageLayout::eShaderReadOnlyOptimal);
-        vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, imageDescriptorBufferInfo);
+        vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, imageDescriptorBufferInfo);
 
         writeDescriptorSets = std::array<vk::WriteDescriptorSet, 2>{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
 

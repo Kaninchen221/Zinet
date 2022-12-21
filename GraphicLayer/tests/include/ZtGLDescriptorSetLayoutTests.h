@@ -31,7 +31,7 @@ namespace zt::gl::tests
 
 			window.create();
 			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.getRequiredExtensions();
+			instance.populateRequiredExtensions();
 			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 			instance.create(context, instanceCreateInfo);
 			surface.create(instance, window);

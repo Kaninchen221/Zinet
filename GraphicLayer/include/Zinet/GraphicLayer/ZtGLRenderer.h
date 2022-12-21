@@ -151,6 +151,10 @@ namespace zt::gl
 
 		const std::vector<vk::WriteDescriptorSet>& getWriteDescriptorSets() const;
 
+		const std::vector<vk::DescriptorBufferInfo>& getDescriptorBufferInfos() const;
+
+		const std::vector<vk::DescriptorImageInfo>& getDescriptorImageInfos() const;
+
 		void prepareDraw(const DrawInfo& drawInfo);
 
 		void draw(const DrawInfo& drawInfo);
@@ -176,6 +180,11 @@ namespace zt::gl
 		void createShadersStages();
 		void createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors);
 
+		void createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors);
+		void createDescriptorSets();
+		void createWriteDescriptorSets(const DrawInfo& drawInfo);
+		void createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers);
+		void createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images);
 
 		Context context;
 		Instance instance;
@@ -194,12 +203,16 @@ namespace zt::gl
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;
 
+		// TODO Refactor this
+		// Refactor this by creating the batch renderer?
 		std::vector<ShaderModule> shadersModules;
 		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
 		std::vector<vk::DescriptorSetLayoutBinding> bindings;
 		std::vector<DescriptorSetLayout> descriptorSetLayouts;
 		std::optional<DescriptorSets> descriptorSets;
 		std::optional<DescriptorPool> descriptorPool;
+		std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
+		std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
 		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
 		std::optional<PipelineLayout> pipelineLayout;
 		std::optional<Pipeline> pipeline;

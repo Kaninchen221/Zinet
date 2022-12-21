@@ -300,6 +300,25 @@ namespace zt::gl::tests
 
 		[[maybe_unused]] const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
 	}
+	*/
+
+	TEST_F(RendererTests, GetDescriptorBufferInfos)
+	{
+		typedef const std::vector<vk::DescriptorBufferInfo>&(Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getDescriptorBufferInfos);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		[[maybe_unused]] const std::vector<vk::DescriptorBufferInfo>& descriptorBufferInfos = renderer.getDescriptorBufferInfos();
+	}
+
+	TEST_F(RendererTests, GetDescriptorImageInfos)
+	{
+		typedef const std::vector<vk::DescriptorImageInfo>& (Renderer::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Renderer::getDescriptorImageInfos);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		[[maybe_unused]] const std::vector<vk::DescriptorImageInfo>& descriptorImageInfos = renderer.getDescriptorImageInfos();
+	}
 
 	TEST_F(RendererTests, PrepareDraw)
 	{
@@ -346,8 +365,13 @@ namespace zt::gl::tests
 
 		const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
 		ASSERT_EQ(writeDescriptorSets.size(), 2u);
+
+		const std::vector<vk::DescriptorBufferInfo>& descriptorBufferInfos = renderer.getDescriptorBufferInfos();
+		ASSERT_EQ(descriptorBufferInfos.size(), 1u);
+
+		const std::vector<vk::DescriptorImageInfo>& descriptorImageInfos = renderer.getDescriptorImageInfos();
+		ASSERT_EQ(descriptorImageInfos.size(), 1u);
 	}
-	*/
 
 	TEST_F(RendererTests, Draw)
 	{

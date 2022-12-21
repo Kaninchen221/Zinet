@@ -45,7 +45,7 @@ namespace zt::gl::tests
 
 	TEST_F(ImageViewTests, CreateImageTest)
 	{
-		typedef void(ImageView::* ExpectedFunctionDeclaration)(const Device& device, const vk::ImageViewCreateInfo&) const;
+		typedef void(ImageView::* ExpectedFunctionDeclaration)(const Device& device, const vk::ImageViewCreateInfo&);
 		using FunctionDeclaration = decltype(&ImageView::create);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
@@ -57,7 +57,7 @@ namespace zt::gl::tests
 		Context context;
 		Instance instance;
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.getRequiredExtensions();
+		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 

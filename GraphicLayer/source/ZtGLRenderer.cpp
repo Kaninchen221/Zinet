@@ -192,77 +192,30 @@ namespace zt::gl
 		return writeDescriptorSets;
 	}
 
+	const std::vector<vk::DescriptorBufferInfo>& Renderer::getDescriptorBufferInfos() const
+	{
+		return descriptorBufferInfos;
+	}
+
+	const std::vector<vk::DescriptorImageInfo>& Renderer::getDescriptorImageInfos() const
+	{
+		return descriptorImageInfos;
+	}
+
 	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
 		createPipeline(drawInfo);
-
-		// Descriptor Pool
-		// Create descriptor pool sizes
-		std::map<DescriptorType, std::uint32_t> descriptorTypes;
-		for (const DrawInfo::Descriptor descriptor : drawInfo.descriptors)
-		{
-			std::uint32_t& poolSize = descriptorTypes[descriptor.descriptorType];
-			poolSize++;
-		}
-
-		// Create vector of vk::DescriptorPoolSize
-		std::vector<vk::DescriptorPoolSize> poolSizes;
-		poolSizes.reserve(descriptorTypes.size());
-		for (const std::pair<DescriptorType, std::uint32_t>& descriptorType : descriptorTypes)
-		{
-			vk::DescriptorPoolSize poolSize{
-				DescriptorTypeToVkDescriptorType(descriptorType.first),
-				descriptorType.second
-			};
-
-			poolSizes.emplace_back(poolSize);
-		}
-
-		descriptorSets.reset();
-		descriptorPool.reset();
-		descriptorPool = DescriptorPool{};
-		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool->createCreateInfo(poolSizes);
-		descriptorPool->create(device, descriptorPoolCreateInfo);
-
-		// Descriptor Sets
-		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout->getVkDescriptorSetLayouts();
-		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
-		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
-
-		// Write Descriptor Sets section
-		writeDescriptorSets.clear();
-
-		// Create Write Descriptor Sets from Uniforms buffers
-		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.images.size());
-		for (const UniformBuffer& uniformBuffer : drawInfo.uniformBuffers)
-		{
-			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, uniformBuffer.createDescriptorBufferInfo());
-			writeDescriptorSets.push_back(writeDescriptorSet);
-		}
-
-		// Create Write Descriptor Sets from Image Buffers
-		for (std::size_t index = 0u; index < drawInfo.images.size(); ++index)
-		{
-			const ImageBuffer& imageBuffer = drawInfo.images[index].buffer;
-			const Sampler& sampler = drawInfo.images[index].sampler;
-			const ImageView& imageView = drawInfo.images[index].view;
-			vk::ImageLayout imageLayout = drawInfo.images[index].layout;
-
-			vk::DescriptorImageInfo descriptorImageInfo = imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout);
-			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(0u, descriptorImageInfo);
-			writeDescriptorSets.push_back(writeDescriptorSet);
-		}
+		createDescriptorPool(drawInfo.descriptors);
+		createDescriptorSets();
+		createWriteDescriptorSets(drawInfo);
 
 		device->updateDescriptorSets(writeDescriptorSets, {});
-
-		// TODO
-		// Refactor
 	}
 
 	void Renderer::createInstance()
 	{
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.getRequiredExtensions();
+		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 	}
@@ -482,6 +435,77 @@ namespace zt::gl
 			signalSemaphores);
 
 		queue.submitWithFence(submitInfo, drawFence);
+	}
+
+	void Renderer::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors)
+	{
+		// Create descriptor pool sizes
+		std::map<DescriptorType, std::uint32_t> descriptorTypes;
+		for (const DrawInfo::Descriptor descriptor : descriptors)
+		{
+			std::uint32_t& poolSize = descriptorTypes[descriptor.descriptorType];
+			poolSize++;
+		}
+
+		// Create vector of vk::DescriptorPoolSize
+		std::vector<vk::DescriptorPoolSize> poolSizes;
+		poolSizes.reserve(descriptorTypes.size());
+		for (const std::pair<DescriptorType, std::uint32_t>& descriptorType : descriptorTypes)
+		{
+			vk::DescriptorPoolSize poolSize{
+				DescriptorTypeToVkDescriptorType(descriptorType.first),
+				descriptorType.second
+			};
+
+			poolSizes.emplace_back(poolSize);
+		}
+
+		descriptorSets.reset();
+		descriptorPool.reset();
+		descriptorPool = DescriptorPool{};
+		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool->createCreateInfo(poolSizes);
+		descriptorPool->create(device, descriptorPoolCreateInfo);
+	}
+
+	void Renderer::createDescriptorSets()
+	{
+		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout->getVkDescriptorSetLayouts();
+		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
+		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
+	}
+
+	void Renderer::createWriteDescriptorSets(const DrawInfo& drawInfo)
+	{
+		writeDescriptorSets.clear();
+		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.images.size());
+		createBufferWriteDescriptorSets(drawInfo.uniformBuffers);
+		createImageWriteDescriptorSets(drawInfo.images);
+	}
+
+	void Renderer::createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers)
+	{
+		descriptorBufferInfos.clear();
+		for (const UniformBuffer& uniformBuffer : uniformBuffers)
+		{
+			vk::DescriptorBufferInfo& descriptorBufferInfo = descriptorBufferInfos.emplace_back(uniformBuffer.createDescriptorBufferInfo());
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, descriptorBufferInfo);
+			writeDescriptorSets.push_back(writeDescriptorSet);
+		}
+	}
+
+	void Renderer::createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images)
+	{
+		descriptorImageInfos.clear();
+		for (std::size_t index = 0u; index < images.size(); ++index)
+		{
+			const ImageBuffer& imageBuffer = images[index].buffer;
+			const Sampler& sampler = images[index].sampler;
+			const ImageView& imageView = images[index].view;
+			vk::ImageLayout imageLayout = images[index].layout;
+			vk::DescriptorImageInfo& descriptorImageInfo = descriptorImageInfos.emplace_back(imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout));
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, descriptorImageInfo);
+			writeDescriptorSets.push_back(writeDescriptorSet);
+		}
 	}
 
 }

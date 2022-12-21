@@ -36,7 +36,7 @@ namespace zt::gl::tests
 
 			window.create();
 			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.getRequiredExtensions();
+			instance.populateRequiredExtensions();
 			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 			instance.create(context, instanceCreateInfo);
 			surface.create(instance, window);
@@ -83,12 +83,12 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetsTests, CreateBufferWriteDescriptorSet)
 	{
-		typedef void(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorBufferInfo&);
-		using FunctionDeclaration = decltype(&DescriptorSets::createWriteDescriptorSet);
+		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorBufferInfo&);
+		using FunctionDeclaration = decltype(&DescriptorSets::createBufferWriteDescriptorSet);
 
 		vk::DescriptorBufferInfo bufferInfo;
 		size_t expectedIndex = 0u;
-		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(expectedIndex, bufferInfo);
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(expectedIndex, bufferInfo);
 		
 		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
 		ASSERT_EQ(writeDescriptorSet.dstBinding, 0);
@@ -100,14 +100,14 @@ namespace zt::gl::tests
 		ASSERT_EQ(writeDescriptorSet.pTexelBufferView, nullptr);
 	}
 
-	TEST_F(DescriptorSetsTests, CreateWriteDescriptorSet)
+	TEST_F(DescriptorSetsTests, CreateImageWriteDescriptorSet)
 	{
-		typedef void(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorImageInfo&);
-		using FunctionDeclaration = decltype(&DescriptorSets::createWriteDescriptorSet);
+		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorImageInfo&);
+		using FunctionDeclaration = decltype(&DescriptorSets::createImageWriteDescriptorSet);
 
 		vk::DescriptorImageInfo imageInfo;
 		size_t expectedIndex = 0u;
-		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createWriteDescriptorSet(expectedIndex, imageInfo);
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(expectedIndex, imageInfo);
 	
 		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
 		ASSERT_EQ(writeDescriptorSet.dstBinding, 1);

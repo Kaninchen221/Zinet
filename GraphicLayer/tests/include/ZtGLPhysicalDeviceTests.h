@@ -46,7 +46,7 @@ namespace zt::gl::tests
 
 		Instance instance;
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.getRequiredExtensions();
+		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 
@@ -65,7 +65,7 @@ namespace zt::gl::tests
 		Context context;
 		Instance instance;
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.getRequiredExtensions();
+		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 		bool result = physicalDevice.create(instance);
@@ -83,7 +83,7 @@ namespace zt::gl::tests
 		Context context;
 		Instance instance;
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.getRequiredExtensions();
+		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 

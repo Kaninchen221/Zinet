@@ -89,17 +89,20 @@ namespace zt::gl
 
     std::vector<const char*>& Instance::getRequiredExtensions()
     {
-        uint32_t glfwExtensionCount = 0;
-        const char** glfwExtensions;
-        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-        extensions = std::vector<const char*>(glfwExtensions, glfwExtensions + glfwExtensionCount);
-
-        if (GetEnabledValidationLayers()) {
-            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-        }
-
         return extensions;
+    }
+
+    void Instance::populateRequiredExtensions()
+    {
+		uint32_t glfwExtensionCount = 0;
+		const char** glfwExtensions;
+		glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+		extensions = std::vector<const char*>(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+		if (GetEnabledValidationLayers()) {
+			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+		}
     }
 
     bool Instance::GetEnabledValidationLayers()

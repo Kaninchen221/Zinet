@@ -24,7 +24,7 @@ namespace zt::gl::tests
 			GLFW::Init();
 
 			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.getRequiredExtensions();
+			instance.populateRequiredExtensions();
 			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 			instance.create(context, instanceCreateInfo);
 			window.create();
