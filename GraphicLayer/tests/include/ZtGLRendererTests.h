@@ -106,217 +106,243 @@ namespace zt::gl::tests
 		ASSERT_EQ(commandBuffer, nullptr);
 	}
 
-	/*
-	TEST_F(RendererTests, GetContext)
+	TEST(Renderer, GetContext)
 	{
+		Renderer renderer;
 		[[maybe_unused]] const Context& context = renderer.getContext();
 	}
 
-	TEST_F(RendererTests, GetInstance)
+	TEST(Renderer, GetInstance)
 	{
+		Renderer renderer;
 		const Instance& instance = renderer.getInstance();
 		ASSERT_EQ(instance, vk::raii::Instance(std::nullptr_t{}));
 	}
 
-	TEST_F(RendererTests, GetDebugUtilsMessenger)
+	TEST(Renderer, GetDebugUtilsMessenger)
 	{
+		Renderer renderer;
 		const DebugUtilsMessenger& debugUtilsMessenger = renderer.getDebugUtilsMessenger();
 		ASSERT_EQ(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
 	}
 
-	TEST_F(RendererTests, GetWindow)
+	TEST(Renderer, GetWindow)
 	{
+		Renderer renderer;
 		const Window& window = renderer.getWindow();
 		const GLFWwindow* internalWindow = window.getInternal();
 
 		ASSERT_EQ(internalWindow, nullptr);
 	}
 
-	TEST_F(RendererTests, GetSurface)
+	TEST(Renderer, GetSurface)
 	{
+		Renderer renderer;
 		const Surface& surface = renderer.getSurface();
 		ASSERT_EQ(surface, nullptr);
 	}
 
-	TEST_F(RendererTests, GetPhysicalDevice)
+	TEST(Renderer, GetPhysicalDevice)
 	{
+		Renderer renderer;
 		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
 		ASSERT_EQ(physicalDevice, nullptr);
 	}
 
-	TEST_F(RendererTests, GetQueueFamilyIndex)
+	TEST(Renderer, GetQueueFamilyIndex)
 	{
+		Renderer renderer;
 		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
 		ASSERT_EQ(queueFamilyIndex, std::numeric_limits<uint32_t>::max());
 	}
 
-	TEST_F(RendererTests, GetDevice)
+	TEST(Renderer, GetDevice)
 	{
+		Renderer renderer;
 		const Device& device = renderer.getDevice();
 		ASSERT_EQ(device, nullptr);
 	}
 
-	TEST_F(RendererTests, GetQueue)
+	TEST(Renderer, GetQueue)
 	{
+		Renderer renderer;
 		const Queue& queue = renderer.getQueue();
 		ASSERT_EQ(queue, nullptr);
 	}
 
-	TEST_F(RendererTests, GetSwapChainSupportDetails)
+	TEST(Renderer, GetSwapChainSupportDetails)
 	{
+		Renderer renderer;
 		[[maybe_unused]] const SwapChainSupportDetails& swapChainSupportDetails = renderer.getSwapChainSupportDetails();
 	}
 
-	TEST_F(RendererTests, GetSwapChain)
+	TEST(Renderer, GetSwapChain)
 	{
+		Renderer renderer;
 		const SwapChain& swapChain = renderer.getSwapChain();
 		ASSERT_EQ(swapChain, nullptr);
 	}
 
-	TEST_F(RendererTests, GetImageViews)
+	TEST(Renderer, GetImageViews)
 	{
+		Renderer renderer;
 		const std::vector<ImageView>& imageViews = renderer.getImageViews();
 		ASSERT_TRUE(imageViews.empty());
 	}
 
-	TEST_F(RendererTests, GetSwapExtent)
+	TEST(Renderer, GetSwapExtent)
 	{
+		Renderer renderer;
 		const vk::Extent2D& swapExtent = renderer.getSwapExtent();
 		ASSERT_EQ(swapExtent, vk::Extent2D{});
 	}
 
-	TEST_F(RendererTests, GetPipelineLayout)
+	TEST(Renderer, GetPipelineLayout)
 	{
 		typedef const PipelineLayout& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getPipelineLayout);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
 		ASSERT_EQ(pipelineLayout, nullptr);
 	}
 
-	TEST_F(RendererTests, GetRenderPass)
+	TEST(Renderer, GetRenderPass)
 	{
+		Renderer renderer;
 		const RenderPass& renderPass = renderer.getRenderPass();
 		ASSERT_EQ(renderPass, nullptr);
 	}
 
-	TEST_F(RendererTests, GetPipeline)
+	TEST(Renderer, GetPipeline)
 	{
 		typedef const Pipeline& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getPipeline);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		const Pipeline& pipeline = renderer.getPipeline();
 		ASSERT_EQ(pipeline, nullptr);
 	}
 
-	TEST_F(RendererTests, GetFramebuffers)
+	TEST(Renderer, GetFramebuffers)
 	{
+		Renderer renderer;
 		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
 		ASSERT_TRUE(framebuffers.empty());
 	}
 
-	TEST_F(RendererTests, GetVma)
+	TEST(Renderer, GetVma)
 	{
 		typedef const Vma&(Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getVma);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		const Vma& vma = renderer.getVma();
 		ASSERT_EQ(vma.getInternal(), nullptr);
 	}
 
-	TEST_F(RendererTests, GetShadersModules)
+	TEST(Renderer, GetShadersModules)
 	{
 		typedef const std::vector<ShaderModule>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getShadersModules);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		const std::vector<ShaderModule>& shadersModules = renderer.getShadersModules();
 		ASSERT_TRUE(shadersModules.empty());
 	}
 
-	TEST_F(RendererTests, GetShadersStagesCreateInfo)
+	TEST(Renderer, GetShadersStagesCreateInfo)
 	{
 		typedef const std::vector<vk::PipelineShaderStageCreateInfo>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getShadersStages);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		const std::vector<vk::PipelineShaderStageCreateInfo>& shadersStages = renderer.getShadersStages();
 		ASSERT_TRUE(shadersStages.empty());
 	}
 	
-	TEST_F(RendererTests, GetDescriptorSetLayouts)
+	TEST(Renderer, GetDescriptorSetLayouts)
 	{
 		typedef const std::vector<DescriptorSetLayout>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getDescriptorSetLayouts);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		[[maybe_unused]] const std::vector<DescriptorSetLayout>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
 	}
 	
-	TEST_F(RendererTests, GetDescriptorPool)
+	TEST(Renderer, GetDescriptorPool)
 	{
 		typedef const DescriptorPool& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getDescriptorPool);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-	
+
+		Renderer renderer;
 		[[maybe_unused]] const DescriptorPool& descriptorPool = renderer.getDescriptorPool();
 	}
 
-	TEST_F(RendererTests, GetDescriptorSets)
+	TEST(Renderer, GetDescriptorSets)
 	{
 		typedef const std::optional<DescriptorSets>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getDescriptorSets);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		[[maybe_unused]] const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
 	}
 
-	TEST_F(RendererTests, GetCommandPool)
+	TEST(Renderer, GetCommandPool)
 	{
 		typedef const CommandPool& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getCommandPool);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-	
+
+		Renderer renderer;
 		[[maybe_unused]] const CommandPool& commandPool = renderer.getCommandPool();
 	}
 
-	TEST_F(RendererTests, GetCommandBuffer)
+	TEST(Renderer, GetCommandBuffer)
 	{
 		typedef const CommandBuffer& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getCommandBuffer);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-	
+
+		Renderer renderer;
 		[[maybe_unused]] const CommandBuffer& commandBuffer = renderer.getCommandBuffer();
 	}
 
-	TEST_F(RendererTests, GetWriteDescriptorSets)
+	TEST(Renderer, GetWriteDescriptorSets)
 	{
 		typedef const std::vector<vk::WriteDescriptorSet>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getWriteDescriptorSets);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		[[maybe_unused]] const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
 	}
-	*/
 
-	TEST_F(RendererTests, GetDescriptorBufferInfos)
+	TEST(Renderer, GetDescriptorBufferInfos)
 	{
 		typedef const std::vector<vk::DescriptorBufferInfo>&(Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getDescriptorBufferInfos);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		[[maybe_unused]] const std::vector<vk::DescriptorBufferInfo>& descriptorBufferInfos = renderer.getDescriptorBufferInfos();
 	}
 
-	TEST_F(RendererTests, GetDescriptorImageInfos)
+	TEST(Renderer, GetDescriptorImageInfos)
 	{
 		typedef const std::vector<vk::DescriptorImageInfo>& (Renderer::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Renderer::getDescriptorImageInfos);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
+		Renderer renderer;
 		[[maybe_unused]] const std::vector<vk::DescriptorImageInfo>& descriptorImageInfos = renderer.getDescriptorImageInfos();
 	}
 
