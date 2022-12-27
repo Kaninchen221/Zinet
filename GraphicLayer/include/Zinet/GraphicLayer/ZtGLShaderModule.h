@@ -3,6 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLShaderType.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLShader.h"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 
 #include "Zinet/Core/ZtLogger.h"
 

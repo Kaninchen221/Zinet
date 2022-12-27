@@ -3,6 +3,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include <gtest/gtest.h>
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLMouseButton.h"
 
 namespace zt::gl
