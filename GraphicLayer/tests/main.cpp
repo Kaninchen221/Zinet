@@ -1,4 +1,4 @@
-
+/*
 #include "ZtGLVertexTests.h"
 #include "ZtGLVulkanObjectTests.h"
 #include "ZtGLShaderTypeTests.h"
@@ -52,10 +52,10 @@
 #include "ZtGLMouseButtonTests.h"
 #include "ZtGLMouseButtonEventTypeTests.h"
 #include "ZtGLMousePositionEventTests.h"
-
+*/
 #include <gtest/gtest.h>
 
-#include "ZtGLRendererBuilder.h"
+//#include "ZtGLRendererBuilder.h"
 
 int main(int argc, char* argv[]) 
 {
@@ -63,10 +63,10 @@ int main(int argc, char* argv[])
     auto runAllTestsResult = RUN_ALL_TESTS();
 
     //int runAllTestsResult = 0;
-    zt::gl::tests::RendererBuilder rb;
-    zt::gl::GLFW::UnhideWindow();
-    rb.createAll();
-    rb.run();
+    //zt::gl::tests::RendererBuilder rb;
+    //zt::gl::GLFW::UnhideWindow();
+    //rb.createAll();
+    //rb.run();
 
     return runAllTestsResult;
 }

@@ -422,7 +422,6 @@ namespace zt::gl
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
 
-		// TODO Move it
 		std::array<Semaphore*, 1> waitSemaphores = { &imageAvailableSemaphore };
 		vk::PipelineStageFlags waitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
 		std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
