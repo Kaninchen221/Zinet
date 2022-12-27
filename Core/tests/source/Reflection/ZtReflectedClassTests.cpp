@@ -1,8 +1,10 @@
 #pragma once
 
-#include "ZtReflectionTestStruct.h"
+#include "ZtReflectionTestStruct.cpp"
 
 #include "Zinet/Core/Reflection/ZtReflectedClass.h"
+
+#include <gtest/gtest.h>
 
 namespace zt::tests
 {

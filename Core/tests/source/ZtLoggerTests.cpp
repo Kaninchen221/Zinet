@@ -10,14 +10,14 @@ namespace zt::tests
 	{
 	protected:
 
-		ZtLogger Logger;
+		Logger logger;
 
 	};
 
 	TEST_F(LoggerTests, CreateSimpleLoggerTest)
 	{
-		std::string Name = "ZtLoggerTests";
-		Logger::SimpleConsoleLogger SimpleConsoleLogger = Logger::CreateSimpleConsoleLogger(Name);
+		std::string name = "ZtLoggerTests";
+		Logger::SimpleConsoleLogger SimpleConsoleLogger = Logger::CreateSimpleConsoleLogger(name);
 
 		ASSERT_TRUE(SimpleConsoleLogger);
 	}

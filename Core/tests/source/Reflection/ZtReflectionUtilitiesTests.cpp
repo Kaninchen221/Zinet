@@ -2,6 +2,8 @@
 
 #include "Zinet/Core/Reflection/ZtReflectionUtilities.h"
 
+#include <gtest/gtest.h>
+
 namespace zt::tests
 {
 

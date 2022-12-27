@@ -1,6 +1,13 @@
 #pragma once
 
 #include "Zinet/Core/Reflection/ZtReflectedCollection.h"
+#include "Zinet/Core/Reflection/ZtReflectedClass.h"
+
+#include "ZtReflectionTestStruct.cpp"
+
+#include <gtest/gtest.h>
+
+#include <tuple>
 
 namespace zt::tests
 {

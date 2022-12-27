@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace zt::tests
 {
 
@@ -25,7 +27,7 @@ namespace zt::tests
 		void notLiteralTypeParam(const std::string& string);
 	};
 
-	void ReflectionTestStruct::simpleMethod()
+	inline void ReflectionTestStruct::simpleMethod()
 	{}
 
 	inline int ReflectionTestStruct::constMethodReturnSum(const int& first, const int& second) const
