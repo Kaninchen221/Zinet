@@ -21,6 +21,12 @@ _deps
 # Python
 __pycache__
 
+# PG
+pg.egg-info
+
+# Visual Studio Code
+.vscode
+
 # JetBrains
 .idea
 
