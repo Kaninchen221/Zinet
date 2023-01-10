@@ -14,4 +14,7 @@ class TestCmakelistsGenerator:
         arguments = self.cmakelistsGenerator.prepare_arguments()
         assert type(arguments) is SafeDict
 
+    def test_properties(self):
+        assert type(self.cmakelistsGenerator.fileLocation) is pathlib.WindowsPath
+
     cmakelistsGenerator = CMakeListsGenerator()

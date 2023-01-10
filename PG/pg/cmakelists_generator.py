@@ -1,4 +1,5 @@
 from pg.safe_dict import SafeDict
+from pathlib import Path
 
 class CMakeListsGenerator:
     def generate_cmakelists(self, templatePath, dictionary):
@@ -8,3 +9,5 @@ class CMakeListsGenerator:
 
     def prepare_arguments(self):
         return SafeDict()
+
+    fileLocation = Path(__file__)
