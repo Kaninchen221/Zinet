@@ -2,8 +2,9 @@ from pg.cmakelists_generator_target import CMakeListsGeneratorTarget
 from pg.cmakelists_generator import CMakeListsGenerator
 from pg.safe_dict import SafeDict
 from pathlib import Path
+import pytest
 
-class TestCmakelistsGenerator:
+class TestCmakelistsGeneratorTarget:
     def test_inherited_from_CMakelistsGenerator(self):
         assert issubclass(CMakeListsGeneratorTarget, CMakeListsGenerator)
 
@@ -17,6 +18,9 @@ class TestCmakelistsGenerator:
         assert self.generatorTarget.includeDirectories == ""
         assert self.generatorTarget.linkLibraries == ""
         assert self.generatorTarget.compileDefinitions == ""
+        assert self.generatorTarget.archiveOutputSubfolder == "archive"
+        assert self.generatorTarget.libraryOutputSubfolder == "lib"
+        assert self.generatorTarget.runtimeOutputSubfolder == "runtime"
 
     def test_create_argument_files(self):
         testFilesPath = Path(".").absolute() / "tests/test_files"
@@ -56,5 +60,8 @@ class TestCmakelistsGenerator:
         assert arguments['argument_include_directories'] == self.generatorTarget.includeDirectories
         assert arguments['argument_link_libraries'] == self.generatorTarget.linkLibraries
         assert arguments['argument_compile_definitions'] == self.generatorTarget.compileDefinitions
+        assert arguments['argument_archive_output_subfolder'] == self.generatorTarget.archiveOutputSubfolder
+        assert arguments['argument_library_output_subfolder'] == self.generatorTarget.libraryOutputSubfolder
+        assert arguments['argument_runtime_output_subfolder'] == self.generatorTarget.runtimeOutputSubfolder
 
     generatorTarget = CMakeListsGeneratorTarget()

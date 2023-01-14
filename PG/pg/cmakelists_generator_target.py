@@ -5,6 +5,9 @@ import numpy
 
 class CMakeListsGeneratorTarget(CMakeListsGenerator):
 
+    def __init__(self) -> None:
+        super().__init__()
+
     def create_argument_files(paths, extensions):
         argument = ""
         for path, extension in zip(paths, extensions):
@@ -25,7 +28,10 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
             argument_cpp_version = self.cppVersion,
             argument_include_directories = self.includeDirectories,
             argument_link_libraries = self.linkLibraries,
-            argument_compile_definitions = self.compileDefinitions
+            argument_compile_definitions = self.compileDefinitions,
+            argument_archive_output_subfolder = self.archiveOutputSubfolder,
+            argument_library_output_subfolder = self.libraryOutputSubfolder,
+            argument_runtime_output_subfolder = self.runtimeOutputSubfolder
             )
         return arguments
         
@@ -35,8 +41,11 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
     headersSubfolder = "include"
     sourcesExtension = "cpp"
     sourcesSubfolder = "source"
-    cppVersion = "cxx_std_20"
     includeDirectories = ""
+    cppVersion = "cxx_std_20"
     linkLibraries = ""
     compileDefinitions = ""
+    archiveOutputSubfolder = "archive"
+    libraryOutputSubfolder = "lib"
+    runtimeOutputSubfolder = "runtime"
 
