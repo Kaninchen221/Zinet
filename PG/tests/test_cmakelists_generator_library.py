@@ -15,15 +15,36 @@ class TestCMakeListsGeneratorLibrary():
         assert self.generatorLibrary.testsSubfoldersPrefix == "test_"
 
     def test_prepare_arguments(self):
-        testFilesPath = Path(".").absolute() / "tests/test_files"
+        testFilesPath = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
         self.generatorLibrary.fileLocation = testFilesPath
 
-        expectedTestsSubfoldersArgument = "add_subdirectory(test_system)\nadd_subdirectory(test_unit)\n"
+        expectedTestsSubfoldersArgument = "add_subdirectory(test_system)\n\tadd_subdirectory(test_unit)\n\t"
 
         arguments = self.generatorLibrary.prepare_arguments()
         assert type(arguments) is SafeDict
         assert arguments['argument_library_type'] == self.generatorLibrary.libraryType
         assert arguments['argument_should_add_tests'] == self.generatorLibrary.shouldAddTests
         assert arguments['argument_tests_subfolders'] == expectedTestsSubfoldersArgument
+
+    def test_generate_cmake(self):
+        templatePath = Path(".").absolute() / "pg/templates/CMakeListsLibTemplate.txt"
+        
+        # Fake file path
+        testFilesPath = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
+        self.generatorLibrary.fileLocation = testFilesPath
+        arguments = self.generatorLibrary.prepare_arguments()
+
+        cmakelists = self.generatorLibrary.generate_cmakelists(templatePath, arguments)
+        expectedCMakeLists = open(Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt").read()
+        expectedCMakeLists = expectedCMakeLists.replace("\\\\", "\\")
+
+        position = 0
+        for (actual, expected) in zip(cmakelists, expectedCMakeLists):
+            if (actual != expected):
+                previousActual = cmakelists[position - 1]
+                previousExpected = expectedCMakeLists[position - 1]
+                print(f"Not equal at: {position} {previousActual} {previousExpected}")
+                assert False
+            position += 1
 
     generatorLibrary = CMakeListsGeneratorLibrary()

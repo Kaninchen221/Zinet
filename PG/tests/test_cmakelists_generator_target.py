@@ -10,6 +10,7 @@ class TestCmakelistsGeneratorTarget:
 
     def test_properties(self):
         assert self.generatorTarget.targetName == "target_name"
+        assert self.generatorTarget.targetPrettyName == "target_pretty_name"
         assert self.generatorTarget.headersExtension == "h"
         assert self.generatorTarget.headersSubfolder == "include"
         assert self.generatorTarget.sourcesExtension == "cpp"
@@ -32,8 +33,8 @@ class TestCmakelistsGeneratorTarget:
         argument = CMakeListsGeneratorTarget.create_argument_files(paths, extensions)
         headersSubfolder = self.generatorTarget.headersSubfolder
         sourcesSubfolder = self.generatorTarget.sourcesSubfolder
-        expectedArgument = str(testFilesPath / headersSubfolder / "header1.h") + "\n" + str(testFilesPath / headersSubfolder / "header2.h") + "\n\n"
-        expectedArgument += str(testFilesPath / sourcesSubfolder / "source1.cpp") + "\n" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\n\n"
+        expectedArgument = str(testFilesPath / headersSubfolder / "header1.h") + "\n\t" + str(testFilesPath / headersSubfolder / "header2.h") + "\n\t\n\t"
+        expectedArgument += str(testFilesPath / sourcesSubfolder / "source1.cpp") + "\n\t" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\n\t\n\t"
         assert argument == expectedArgument
 
     def test_prepare_arguments(self):
@@ -46,8 +47,8 @@ class TestCmakelistsGeneratorTarget:
         extensions = [self.generatorTarget.headersExtension]
         headersSubfolder = self.generatorTarget.headersSubfolder
         sourcesSubfolder = self.generatorTarget.sourcesSubfolder
-        expectedFilesArgument = str(testFilesPath / headersSubfolder / "header1.h") + "\n" + str(testFilesPath / headersSubfolder / "header2.h") + "\n\n"
-        expectedFilesArgument += str(testFilesPath / sourcesSubfolder / "source1.cpp") + "\n" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\n\n"
+        expectedFilesArgument = str(testFilesPath / headersSubfolder / "header1.h") + "\n\t" + str(testFilesPath / headersSubfolder / "header2.h") + "\n\t\n\t"
+        expectedFilesArgument += str(testFilesPath / sourcesSubfolder / "source1.cpp") + "\n\t" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\n\t\n\t"
 
         self.generatorTarget.fileLocation = testFilesPath / "test_files"
 
@@ -55,6 +56,9 @@ class TestCmakelistsGeneratorTarget:
         assert self.generatorTarget.files == expectedFilesArgument
         assert type(arguments) is SafeDict
         assert arguments['argument_target_name'] == self.generatorTarget.targetName
+        assert arguments['argument_target_pretty_name'] == self.generatorTarget.targetPrettyName
+        assert arguments['argument_headers_subfolder'] == self.generatorTarget.headersSubfolder
+        assert arguments['argument_sources_subfolder'] == self.generatorTarget.sourcesSubfolder
         assert arguments['argument_files'] == self.generatorTarget.files
         assert arguments['argument_cpp_version'] == self.generatorTarget.cppVersion
         assert arguments['argument_include_directories'] == self.generatorTarget.includeDirectories

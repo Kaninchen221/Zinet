@@ -14,8 +14,8 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
             filesPaths = Path(path).rglob('*.' + extension)
             filesPaths = numpy.fromiter(filesPaths, Path)
             for filePath in filesPaths:
-                argument += str(filePath) + "\n"
-            argument += "\n"
+                argument += str(filePath) + "\n\t"
+            argument += "\n\t"
         return argument
 
     def prepare_arguments(self):
@@ -24,6 +24,9 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
         self.files = CMakeListsGeneratorTarget.create_argument_files(pathsToFindFiles, extensions)
         arguments = SafeDict(
             argument_target_name = self.targetName,
+            argument_target_pretty_name = self.targetPrettyName,
+            argument_headers_subfolder = self.headersSubfolder,
+            argument_sources_subfolder = self.sourcesSubfolder,
             argument_files = self.files,
             argument_cpp_version = self.cppVersion,
             argument_include_directories = self.includeDirectories,
@@ -36,6 +39,7 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
         return arguments
         
     targetName = "target_name"
+    targetPrettyName = "target_pretty_name"
     files = ""
     headersExtension = "h"
     headersSubfolder = "include"
