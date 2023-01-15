@@ -30,13 +30,13 @@ class TestCMakeListsGeneratorLibrary():
         templatePath = Path(".").absolute() / "pg/templates/CMakeListsLibTemplate.txt"
         
         # Fake file path
-        testFilesPath = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
-        self.generatorLibrary.fileLocation = testFilesPath
+        fileLocation = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
+        self.generatorLibrary.fileLocation = fileLocation
         arguments = self.generatorLibrary.prepare_arguments()
 
         cmakelists = self.generatorLibrary.generate_cmakelists(templatePath, arguments)
         expectedCMakeLists = open(Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt").read()
-        expectedCMakeLists = expectedCMakeLists.replace("\\\\", "\\")
+        expectedCMakeLists = expectedCMakeLists.replace("\\\\", "/")
 
         position = 0
         for (actual, expected) in zip(cmakelists, expectedCMakeLists):

@@ -1,6 +1,7 @@
-message(STATUS "*** Create target_pretty_name Lib ***")
+message(STATUS "*** Create Zinet target_pretty_name test ***")
 
-add_library(target_name STATIC
+add_executable(target_name
+	main.cpp
 	c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/include/header1.h
 	c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/include/header2.h
 	
@@ -12,7 +13,10 @@ add_library(target_name STATIC
 
 target_compile_features(target_name PUBLIC cxx_std_20)
 
-set_target_properties(target_name PROPERTIES
+target_compile_definitions(target_name PUBLIC GTEST_LINKED_AS_SHARED_LIBRARY)
+
+set_target_properties(target_name
+    PROPERTIES
 	LINKER_LANGUAGE CXX
 	INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include
 	INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -27,9 +31,4 @@ target_link_libraries(target_name PUBLIC )
 
 target_compile_definitions(target_name PRIVATE )
 
-# Tests
-if(TRUE)
-	add_subdirectory(test_system)
-	add_subdirectory(test_unit)
-	
-endif()
+add_test(NAME target_name WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin COMMAND target_name)

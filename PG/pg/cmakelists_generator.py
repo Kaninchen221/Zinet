@@ -5,6 +5,7 @@ class CMakeListsGenerator:
     def generate_cmakelists(self, templatePath, dictionary):
         template = open(templatePath).read()
         cmakelists = template.format_map(dictionary)
+        cmakelists = cmakelists.replace("\\", "/")
         return cmakelists
 
     def prepare_arguments(self):
