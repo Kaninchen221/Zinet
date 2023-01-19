@@ -2,11 +2,16 @@ from pg import cmakelists_generator_root as cgr
 from pg.cmakelists_generator_root import CMakelistsGeneratorRoot
 from pg.cmakelists_generator import CMakeListsGenerator
 from pg.safe_dict import SafeDict
-import pathlib
+from pathlib import Path
 
 class TestCmakelistsGeneratorRoot:
     def test_inherited_from_CMakelistsGenerator(self):
         assert issubclass(CMakelistsGeneratorRoot, CMakeListsGenerator)
+
+    def test_properties(self):
+        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsRootTemplate.txt"
+        assert self.generatorRoot.templatePath == expectedTemplatePath
+        assert self.generatorRoot.templatePath.exists()
 
     def test_prepare_arguments(self):
         self.prepare_arguments()
@@ -22,10 +27,10 @@ class TestCmakelistsGeneratorRoot:
 
     def test_generate_cmakelists(self):
         self.prepare_arguments()
-        templatePath = pathlib.Path(".").absolute() / "pg/templates/CMakeListsRootTemplate.txt"
+        templatePath = Path(".").absolute() / "pg/templates/CMakeListsRootTemplate.txt"
         arguments = self.generatorRoot.prepare_arguments()
         cmakelists = self.generatorRoot.generate_cmakelists(templatePath, arguments)
-        expectedCmakelistsPath = pathlib.Path(".").absolute() / "tests/test_files/expected_root.txt"
+        expectedCmakelistsPath = Path(".").absolute() / "tests/test_files/expected_root.txt"
         expectedCmakelists = open(expectedCmakelistsPath).read()
         assert cmakelists == expectedCmakelists
 

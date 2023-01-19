@@ -4,4 +4,7 @@ from pathlib import Path
 import numpy
 
 class CMakeListsGeneratorTest(CMakeListsGeneratorTarget):
-    pass
+    
+    def __init__(self) -> None:
+        super().__init__()
+        self.templatePath = Path(".").absolute() / "pg/templates/CMakeListsTestTemplate.txt"

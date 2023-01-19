@@ -10,7 +10,9 @@ class TestCMakeListsGeneratorExecutable():
         assert issubclass(CMakeListsGeneratorExecutable, CMakeListsGeneratorTarget)
 
     def test_properties(self):
-        pass
+        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsExecutableTemplate.txt"
+        assert self.generatorExecutable.templatePath == expectedTemplatePath
+        assert self.generatorExecutable.templatePath.exists()
 
     def test_generate_cmake(self):
         templatePath = Path(".").absolute() / "pg/templates/CMakeListsExecutableTemplate.txt"

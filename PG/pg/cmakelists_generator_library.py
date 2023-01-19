@@ -5,6 +5,10 @@ import numpy
 
 class CMakeListsGeneratorLibrary(CMakeListsGeneratorTarget):
 
+    def __init__(self) -> None:
+        super().__init__()
+        self.templatePath = Path(".").absolute() / "pg/templates/CMakeListsLibraryTemplate.txt"
+
     def prepare_arguments(self):
         testsSubfolders = ""
         for path in Path(self.fileLocation.parent).iterdir():

@@ -13,6 +13,9 @@ class TestCMakeListsGeneratorLibrary():
         assert self.generatorLibrary.libraryType == "STATIC"
         assert self.generatorLibrary.shouldAddTests == "TRUE"
         assert self.generatorLibrary.testsSubfoldersPrefix == "test_"
+        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsLibraryTemplate.txt"
+        assert self.generatorLibrary.templatePath == expectedTemplatePath
+        assert self.generatorLibrary.templatePath.exists()
 
     def test_prepare_arguments(self):
         testFilesPath = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"

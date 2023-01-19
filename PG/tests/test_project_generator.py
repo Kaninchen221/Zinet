@@ -1,31 +1,36 @@
-from pg import project_generator
-from pg import cmakelists_generator
-import pathlib
+from pg.project_generator import ProjectGenerator
+from pathlib import Path
+import numpy
 
 class TestProjectGenerator:
-    def test_variables(self):
-        assert self.projectGenerator.projectRootTemplate == "PG/pg/Templates/CMakeListsRootTemplate.txt"
+    def test_properties(self):
+        assert self.projectGenerator.get_generators().size == 0
+        assert self.projectGenerator.get_collected_recipes().size == 0
 
     def test_collect_recipes(self):
-        path = pathlib.Path(__file__).parent / 'test_files'
+        path = Path(__file__).parent / 'test_files'
         recipes = self.projectGenerator.collect_recipes(path)
-        assert recipes.size == 5
-        expected_recipes = [
-            'recipe_exec.py',
-            'recipe_lib.py',
-            'recipe_lib_system_tests.py',
-            'recipe_lib_unit_tests.py',
-            'recipe_root.py'
-        ]
+        assert recipes.size == 11
         for recipe in recipes:
-            assert issubclass(type(recipe), pathlib.Path)
+            assert issubclass(type(recipe), Path)
             recipe_file_name = str(recipe.name)
-            assert recipe_file_name in expected_recipes
+            assert recipe_file_name.startswith("recipe_")
 
-    def test_generate_cmakelists_from_recipe(self):
-        path = pathlib.Path(__file__).parent / 'test_files/recipe_root.py'
-        self.projectGenerator.generate_cmakelists_from_recipe(path)
-        assert len(self.projectGenerator.generators) == 1
-        assert type(self.projectGenerator.generators[0]) is cmakelists_generator.CMakeListsGenerator
+    def test_execute_recipe(self):
+        path = Path(__file__).parent / 'test_files/recipe_root.py'
+        self.projectGenerator.execute_recipe(path)
 
-    projectGenerator = project_generator.ProjectGenerator()
+    def test_generate_project(self):
+        projectRootPath = Path(__file__).parent / 'test_files/fake_project'
+        self.projectGenerator.generate_project(projectRootPath)
+        assert self.projectGenerator.get_collected_recipes().size == 6
+        assert self.projectGenerator.get_generators().size == 6
+        
+        generatedCMakelists = ProjectGenerator.collect_files(projectRootPath, 'CMakeLists.txt')
+        assert generatedCMakelists.size == 6
+
+        # TODO
+        # How to check the files are correct filed up?
+        # 1. Expected files text in another files in the same folder
+
+    projectGenerator = ProjectGenerator()

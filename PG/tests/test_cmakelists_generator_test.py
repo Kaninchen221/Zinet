@@ -10,8 +10,9 @@ class TestCMakeListsGeneratorTest():
         assert issubclass(CMakeListsGeneratorTest, CMakeListsGeneratorTarget)
 
     def test_properties(self):
-        #assert self.generatorTarget.targetName == "target_name"
-        pass
+        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsTestTemplate.txt"
+        assert self.generatorTest.templatePath == expectedTemplatePath
+        assert self.generatorTest.templatePath.exists()
 
     def test_generate_cmake(self):
         templatePath = Path(".").absolute() / "pg/templates/CMakeListsTestTemplate.txt"
