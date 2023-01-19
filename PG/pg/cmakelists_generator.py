@@ -8,6 +8,9 @@ class CMakeListsGenerator:
         cmakelists = cmakelists.replace("\\", "/")
         return cmakelists
 
+    def generate_cmakelists(self, dictionary):
+        return self.generate_cmake_implementation(self.templatePath, dictionary)
+
     def prepare_arguments(self):
         return SafeDict()
 

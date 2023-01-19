@@ -30,14 +30,13 @@ class TestCMakeListsGeneratorLibrary():
         assert arguments['argument_tests_subfolders'] == expectedTestsSubfoldersArgument
 
     def test_generate_cmake(self):
-        templatePath = Path(".").absolute() / "pg/templates/CMakeListsLibTemplate.txt"
         
         # Fake file path
         fileLocation = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
         self.generatorLibrary.fileLocation = fileLocation
         arguments = self.generatorLibrary.prepare_arguments()
 
-        cmakelists = self.generatorLibrary.generate_cmakelists(templatePath, arguments)
+        cmakelists = self.generatorLibrary.generate_cmakelists(arguments)
         expectedCMakeLists = open(Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt").read()
         expectedCMakeLists = expectedCMakeLists.replace("\\\\", "/")
 

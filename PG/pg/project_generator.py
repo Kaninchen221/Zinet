@@ -20,9 +20,17 @@ class ProjectGenerator:
         self._collectedRecipes = self.collect_recipes(projectRootPath)
         for recipe in self._collectedRecipes:
             self.execute_recipe(recipe)
-            recipeFolder = recipe.parent
-            cmakelistsPath = recipeFolder / "CMakeLists.txt"
-            open(cmakelistsPath, "w")
+            generator = self._generators[-1]
+            folder = recipe.parent
+            arguments = generator.prepare_arguments()
+            cmakelists = generator.generate_cmakelists(arguments)
+            cmakelistsPath = folder / "CMakeLists.txt"
+            file = open(cmakelistsPath, "w")
+            file.write(cmakelists)
+            file.close()
+            pass
+
+        pass
 
     def collect_files(path, format):
         paths = path.rglob(format)

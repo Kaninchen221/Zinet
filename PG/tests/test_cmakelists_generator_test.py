@@ -22,7 +22,7 @@ class TestCMakeListsGeneratorTest():
         self.generatorTest.fileLocation = fileLocation
         arguments = self.generatorTest.prepare_arguments()
 
-        cmakelists = self.generatorTest.generate_cmakelists(templatePath, arguments)
+        cmakelists = self.generatorTest.generate_cmakelists(arguments)
         expectedCMakeLists = open(Path(".").absolute() / "tests/test_files/expected_test_cmakelists.txt").read()
         expectedCMakeLists = expectedCMakeLists.replace("\\\\", "/")
 

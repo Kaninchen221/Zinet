@@ -1,6 +1,7 @@
 from pg.project_generator import ProjectGenerator
 from pathlib import Path
 import numpy
+import pytest_mock
 
 class TestProjectGenerator:
     def test_properties(self):
@@ -20,7 +21,7 @@ class TestProjectGenerator:
         path = Path(__file__).parent / 'test_files/recipe_root.py'
         self.projectGenerator.execute_recipe(path)
 
-    def test_generate_project(self):
+    def test_generate_project(self, mocker):
         projectRootPath = Path(__file__).parent / 'test_files/fake_project'
         self.projectGenerator.generate_project(projectRootPath)
         assert self.projectGenerator.get_collected_recipes().size == 6
@@ -28,9 +29,10 @@ class TestProjectGenerator:
         
         generatedCMakelists = ProjectGenerator.collect_files(projectRootPath, 'CMakeLists.txt')
         assert generatedCMakelists.size == 6
-
-        # TODO
-        # How to check the files are correct filed up?
-        # 1. Expected files text in another files in the same folder
+        for generatedCMake in generatedCMakelists:
+            file = open(generatedCMake, "r")
+            text = file.read()
+            assert text != ''
+            # TODO Use correct generator in recipes
 
     projectGenerator = ProjectGenerator()

@@ -27,9 +27,8 @@ class TestCmakelistsGeneratorRoot:
 
     def test_generate_cmakelists(self):
         self.prepare_arguments()
-        templatePath = Path(".").absolute() / "pg/templates/CMakeListsRootTemplate.txt"
         arguments = self.generatorRoot.prepare_arguments()
-        cmakelists = self.generatorRoot.generate_cmakelists(templatePath, arguments)
+        cmakelists = self.generatorRoot.generate_cmakelists(arguments)
         expectedCmakelistsPath = Path(".").absolute() / "tests/test_files/expected_root.txt"
         expectedCmakelists = open(expectedCmakelistsPath).read()
         assert cmakelists == expectedCmakelists
