@@ -14,7 +14,7 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
             filesPaths = Path(path).rglob('*.' + extension)
             filesPaths = numpy.fromiter(filesPaths, Path)
             for filePath in filesPaths:
-                argument += str(filePath) + "\n\t"
+                argument += "\"" + str(filePath) + "\"\n\t"
             argument += "\n\t"
         return argument
 

@@ -1,3 +1,3 @@
-pip install -r pg/requirements.txt
-python -m pip install --user ./pg
+python pg/setup.py build
+python pg/setup.py install
 pause

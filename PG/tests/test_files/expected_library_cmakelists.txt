@@ -1,11 +1,11 @@
 message(STATUS "*** Create target_pretty_name Lib ***")
 
 add_library(target_name STATIC
-	c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/include/header1.h
-	c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/include/header2.h
+	"c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/include/header1.h"
+	"c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/include/header2.h"
 	
-	c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/source/source1.cpp
-	c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/source/source2.cpp
+	"c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/source/source1.cpp"
+	"c:/Users/Kaninchen/Desktop/Zinet/Zinet - Work in progress/PG/tests/test_files/source/source2.cpp"
 	
 	
 )

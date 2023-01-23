@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION {argument_cmake_minimum_version})
 
 project({argument_project_name} VERSION {argument_project_version}
-                  DESCRIPTION {argument_project_description}
+                  DESCRIPTION "{argument_project_description}"
                   LANGUAGES CXX)
 
 # Usefull information

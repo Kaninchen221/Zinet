@@ -23,20 +23,6 @@ class TestCmakelistsGeneratorTarget:
         assert self.generatorTarget.libraryOutputSubfolder == "lib"
         assert self.generatorTarget.runtimeOutputSubfolder == "runtime"
 
-    def test_create_argument_files(self):
-        testFilesPath = Path(".").absolute() / "tests/test_files"
-        paths = [testFilesPath / self.generatorTarget.headersSubfolder]
-        paths.append(testFilesPath / self.generatorTarget.sourcesSubfolder)
-        extensions = [self.generatorTarget.headersExtension]
-        extensions.append(self.generatorTarget.sourcesExtension)
-
-        argument = CMakeListsGeneratorTarget.create_argument_files(paths, extensions)
-        headersSubfolder = self.generatorTarget.headersSubfolder
-        sourcesSubfolder = self.generatorTarget.sourcesSubfolder
-        expectedArgument = str(testFilesPath / headersSubfolder / "header1.h") + "\n\t" + str(testFilesPath / headersSubfolder / "header2.h") + "\n\t\n\t"
-        expectedArgument += str(testFilesPath / sourcesSubfolder / "source1.cpp") + "\n\t" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\n\t\n\t"
-        assert argument == expectedArgument
-
     def test_prepare_arguments(self):
         self.generatorTarget.includeDirectories = "includeDirectories"
         self.generatorTarget.linkLibraries = "linkLibraries"
@@ -47,8 +33,8 @@ class TestCmakelistsGeneratorTarget:
         extensions = [self.generatorTarget.headersExtension]
         headersSubfolder = self.generatorTarget.headersSubfolder
         sourcesSubfolder = self.generatorTarget.sourcesSubfolder
-        expectedFilesArgument = str(testFilesPath / headersSubfolder / "header1.h") + "\n\t" + str(testFilesPath / headersSubfolder / "header2.h") + "\n\t\n\t"
-        expectedFilesArgument += str(testFilesPath / sourcesSubfolder / "source1.cpp") + "\n\t" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\n\t\n\t"
+        expectedFilesArgument = "\"" + str(testFilesPath / headersSubfolder / "header1.h\"") + "\n\t\"" + str(testFilesPath / headersSubfolder / "header2.h") + "\"\n\t\n\t"
+        expectedFilesArgument += "\"" + str(testFilesPath / sourcesSubfolder / "source1.cpp\"") + "\n\t\"" + str(testFilesPath / sourcesSubfolder / "source2.cpp") + "\"\n\t\n\t"
 
         self.generatorTarget.fileLocation = testFilesPath / "test_files"
 

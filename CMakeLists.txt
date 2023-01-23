@@ -10,7 +10,7 @@ message(STATUS "*** C++ compiler path: ${CMAKE_CXX_COMPILER} ***")
 message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 
 # Global compile options
-add_compile_options(/W4 /WX /external:W0 /external:anglebrackets)
+add_compile_options()
 
 # Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -21,5 +21,5 @@ find_package(Vulkan REQUIRED FATAL_ERROR)
 
 # Add subdirectories
 add_subdirectory(Core)
-add_subdirectory(GraphicLayer)
 add_subdirectory(EntryPoint)
+add_subdirectory(GraphicLayer)

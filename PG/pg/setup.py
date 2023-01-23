@@ -1,3 +1,11 @@
-import setuptools
+from setuptools import setup
 
-setuptools.setup(name='pg')
+setup(
+    name='pg',
+    version='1.0.0',
+    install_requires = [
+        "pytest == 7.2.0",
+        "pytest-mock == 3.10.0",
+        "numpy == 1.24.0"
+    ]
+)

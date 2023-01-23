@@ -18,18 +18,22 @@ class ProjectGenerator:
 
     def generate_project(self, projectRootPath):
         self._collectedRecipes = self.collect_recipes(projectRootPath)
-        for recipe in self._collectedRecipes:
-            self.execute_recipe(recipe)
+        print("Collected recipes: ", self._collectedRecipes.size)
+
+        for recipePath in self._collectedRecipes:
+            self.execute_recipe(recipePath)
+            if self._generators.size == 0:
+                raise RuntimeError('No valid generators in collected recipes')
+
             generator = self._generators[-1]
-            folder = recipe.parent
+            generator.fileLocation = recipePath
+            folder = recipePath.parent
             arguments = generator.prepare_arguments()
             cmakelists = generator.generate_cmakelists(arguments)
             cmakelistsPath = folder / "CMakeLists.txt"
             file = open(cmakelistsPath, "w")
             file.write(cmakelists)
             file.close()
-            pass
-
         pass
 
     def collect_files(path, format):

@@ -1,5 +1,6 @@
 from pg.safe_dict import SafeDict
 from pathlib import Path
+import os 
 
 class CMakeListsGenerator:
     def generate_cmake_implementation(self, templatePath, dictionary):
