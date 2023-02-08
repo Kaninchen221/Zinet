@@ -23,6 +23,7 @@ class TestCmakelistsGeneratorRoot:
         assert arguments['argument_project_version'] == self.generatorRoot.projectVersion
         assert arguments['argument_project_description'] == self.generatorRoot.projectDescription
         assert arguments['argument_global_compile_options'] == self.generatorRoot.globalCompileOptions
+        assert arguments['argument_global_compile_definitions'] == self.generatorRoot.globalCompileDefinitions
         assert arguments['argument_subdirectories'] == "add_subdirectory(Core)\nadd_subdirectory(GraphicLayer)\n"
 
     def test_generate_cmakelists(self):
@@ -39,6 +40,7 @@ class TestCmakelistsGeneratorRoot:
         self.generatorRoot.projectVersion = "project version"
         self.generatorRoot.projectDescription = "description"
         self.generatorRoot.globalCompileOptions = "/W4 /WX"
+        self.generatorRoot.globalCompileDefinitions = "opt1 opt2 opt3"
         self.generatorRoot.subdirectories = ["Core", "GraphicLayer"]
 
 

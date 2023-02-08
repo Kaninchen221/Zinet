@@ -12,6 +12,9 @@ message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 # Global compile options
 add_compile_options(/W4 /WX)
 
+# Global compile definitions
+add_compile_definitions(opt1 opt2 opt3)
+
 # Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()

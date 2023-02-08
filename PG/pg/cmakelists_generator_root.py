@@ -16,6 +16,7 @@ class CMakelistsGeneratorRoot(CMakeListsGenerator):
             argument_project_version = self.projectVersion,
             argument_project_description = self.projectDescription,
             argument_global_compile_options = self.globalCompileOptions,
+            argument_global_compile_definitions = self.globalCompileDefinitions,
             argument_subdirectories = subdirectories
             )
         return arguments
@@ -31,4 +32,5 @@ class CMakelistsGeneratorRoot(CMakeListsGenerator):
     projectVersion = ''
     projectDescription = ''
     globalCompileOptions = ''
+    globalCompileDefinitions = ''
     subdirectories = ''

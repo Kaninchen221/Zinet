@@ -12,6 +12,9 @@ message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 # Global compile options
 add_compile_options()
 
+# Global compile definitions
+add_compile_definitions(ZINET_STATIC ZINET_WINDOWS)
+
 # Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
@@ -21,5 +24,3 @@ find_package(Vulkan REQUIRED FATAL_ERROR)
 
 # Add subdirectories
 add_subdirectory(Core)
-add_subdirectory(EntryPoint)
-add_subdirectory(GraphicLayer)
