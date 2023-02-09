@@ -11,5 +11,9 @@ core.includeDirectories = """
     ${CONAN_INCLUDE_DIRS_PLF_COLONY}
     ${CONAN_INCLUDE_DIRS_FMT}
     """
-#core.linkLibraries = 
+core.linkLibraries = """
+    ${CONAN_LIBS_GTEST}
+    ${CONAN_LIBS_SPDLOG}
+    ${CONAN_LIBS_FMT}
+    """
 projectGenerator.add_generator(core)

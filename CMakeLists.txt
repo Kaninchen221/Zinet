@@ -24,3 +24,4 @@ find_package(Vulkan REQUIRED FATAL_ERROR)
 
 # Add subdirectories
 add_subdirectory(Core)
+add_subdirectory(GraphicLayer)

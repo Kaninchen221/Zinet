@@ -30,6 +30,8 @@ namespace zt::gl::tests
 	{
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
 		vk::ApplicationInfo notExpected{};
+		notExpected.pApplicationName = "AppName";
+		notExpected.pEngineName = "EngineName";
 
 		ASSERT_NE(applicationInfo, notExpected);
 	}
