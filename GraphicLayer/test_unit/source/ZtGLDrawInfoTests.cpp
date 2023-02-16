@@ -23,6 +23,7 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<decltype(drawInfo.descriptors), std::span<DrawInfo::Descriptor>>);
 		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer&>);
 		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer&>);
+		static_assert(std::is_same_v<decltype(drawInfo.indices), std::vector<std::uint16_t>>);
 		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::span<UniformBuffer>>);
 		static_assert(std::is_same_v<decltype(drawInfo.images), std::span<DrawInfo::Image>>);
 	}

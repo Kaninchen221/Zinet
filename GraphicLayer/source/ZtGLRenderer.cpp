@@ -418,22 +418,14 @@ namespace zt::gl
 		}
 		commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout, 0, tempDescriptorSets, {});
 
-		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indexBuffer.getSize() / sizeof(vk::IndexType::eUint16)), 1, 0, 0, 0);
+		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
 
-		std::array<Semaphore*, 1> waitSemaphores = { &imageAvailableSemaphore };
-		vk::PipelineStageFlags waitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
-		std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
-		std::array<Semaphore*, 1> signalSemaphores = { &renderingFinishedSemaphore };
+		submit();
+		present(nextImage.second);
 
-		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
-			waitSemaphores,
-			waitPipelineStageFlags,
-			commandBuffers,
-			signalSemaphores);
-
-		queue.submitWithFence(submitInfo, drawFence);
+		Logger->info("Post draw");
 	}
 
 	void Renderer::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors)
@@ -505,6 +497,34 @@ namespace zt::gl
 			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, descriptorImageInfo);
 			writeDescriptorSets.push_back(writeDescriptorSet);
 		}
+	}
+
+	void Renderer::submit()
+	{
+		std::array<Semaphore*, 1> waitSemaphores = { &imageAvailableSemaphore };
+		vk::PipelineStageFlags waitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
+		std::array<Semaphore*, 1> signalSemaphores = { &renderingFinishedSemaphore };
+
+		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
+			waitSemaphores,
+			waitPipelineStageFlags,
+			commandBuffers,
+			signalSemaphores);
+
+		queue.submitWithFence(submitInfo, drawFence);
+	}
+
+	void Renderer::present(uint32_t& image)
+	{
+		std::array<Semaphore*, 1> waitSemaphores = { &renderingFinishedSemaphore };
+		std::array<SwapChain*, 1> swapChains = { &swapChain };
+		vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
+			waitSemaphores,
+			swapChains,
+			image);
+
+		queue.present(presentInfo);
 	}
 
 }

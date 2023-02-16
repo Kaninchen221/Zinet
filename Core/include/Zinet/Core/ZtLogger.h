@@ -15,6 +15,8 @@ namespace zt
 
 		inline static SimpleConsoleLogger CreateSimpleConsoleLogger(std::string name);
 
+		// TODO: Error and Warning should fail tests
+
 	};
 
 	inline Logger::SimpleConsoleLogger Logger::CreateSimpleConsoleLogger(std::string name)

@@ -69,6 +69,7 @@ namespace zt::gl::tests
 		createImageDrawInfos();
 
 		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
+		drawInfo.indices = indices;
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
@@ -147,11 +148,12 @@ namespace zt::gl::tests
 	void RendererTests::createIndexBuffer()
 	{
 		indices = { 0, 1, 2, 2, 3, 0 };
+		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 
 		BufferCreateInfo bufferCreateInfo{
 			renderer.getDevice(),
 			renderer.getVma(),
-			indexBuffer.createCreateInfo(indices.size() * sizeof(std::uint16_t)),
+			indexBuffer.createCreateInfo(size),
 			indexBuffer.createVmaAllocationCreateInfo(false, true)
 		};
 

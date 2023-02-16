@@ -222,6 +222,9 @@ namespace zt::gl
 		Fence drawFence;
 		CommandPool commandPool;
 		CommandBuffer commandBuffer;
+
+		void submit();
+		void present(uint32_t& image);
 	};
 
 }

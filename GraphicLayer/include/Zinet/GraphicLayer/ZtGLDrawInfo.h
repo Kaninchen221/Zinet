@@ -54,6 +54,7 @@ namespace zt::gl
 		std::span<Descriptor> descriptors;
 		VertexBuffer& vertexBuffer;
 		IndexBuffer& indexBuffer;
+		std::vector<std::uint16_t> indices;
 		std::span<UniformBuffer> uniformBuffers;
 		std::span<Image> images;
 
