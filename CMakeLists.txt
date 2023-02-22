@@ -10,7 +10,7 @@ message(STATUS "*** C++ compiler path: ${CMAKE_CXX_COMPILER} ***")
 message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 
 # Global compile options
-add_compile_options()
+add_compile_options(/W4 /WX /external:W0 /external:anglebrackets /MP)
 
 # Global compile definitions
 add_compile_definitions(ZINET_STATIC ZINET_WINDOWS)
