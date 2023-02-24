@@ -25,7 +25,10 @@ namespace zt::gl
 		result.second = size;
 
 		void* mappedData;
-		vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		if (mapMemoryResult != VK_SUCCESS)
+			Logger->error("Failed to map memory");
+
 		std::memcpy(result.first, mappedData, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
 		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
@@ -36,7 +39,10 @@ namespace zt::gl
 	void Buffer::fillWithCArray(void* firstElement)
 	{
 		void* mappedData;
-		vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		if (mapMemoryResult != VK_SUCCESS)
+			Logger->error("Failed to map memory");
+
 		std::memcpy(mappedData, firstElement, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
 		vmaFlushAllocation(vmaAllocator, allocation, 0, size);

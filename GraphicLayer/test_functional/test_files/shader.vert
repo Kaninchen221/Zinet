@@ -14,7 +14,8 @@ layout(binding = 0) uniform MVP {
 } mvp;
 
 void main() {
-    gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPosition, 1.0);
+    //gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPosition, 1.0);
+    gl_Position = vec4(inPosition, 1.0);
     fragColor = inColor;
     fragTexCoords = inTexCoords;
 }

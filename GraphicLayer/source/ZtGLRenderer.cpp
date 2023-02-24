@@ -14,14 +14,18 @@ namespace zt::gl
 		pipeline{ std::in_place_t{} },
 		descriptorPool{ std::in_place_t{} }
 	{
-		if (*drawFence.getInternal() != *vk::raii::Fence{ std::nullptr_t{} })
-			device.waitForFence(drawFence);
+// 		if (*drawFence.getInternal() != *vk::raii::Fence{ std::nullptr_t{} })
+// 			device.waitForFence(drawFence);
 
 		GLFW::Init();
 	}
 
 	Renderer::~Renderer() noexcept
 	{
+		if (drawFence != nullptr)
+			device.waitForFence(drawFence);
+
+		queue->waitIdle();
 		descriptorSets.reset();
 		GLFW::Deinit();
 	}
@@ -58,8 +62,10 @@ namespace zt::gl
 		imageAvailableSemaphore.create(device);
 		renderingFinishedSemaphore.create(device);
 
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+
 		drawFence.createSignaled(device);
-		device.waitForFence(drawFence);
+		//device.waitForFence(drawFence);
 	}
 
 	const Context& Renderer::getContext() const
@@ -393,11 +399,12 @@ namespace zt::gl
 		device.waitForFence(drawFence);
 		device.resetFence(drawFence);
 
-		commandBuffer.allocateCommandBuffer(device, commandPool);
-
 		std::uint16_t nextImageTimeout = std::numeric_limits<std::uint16_t>::max();
 		Fence acquireNextImageFence;
-		std::pair<vk::Result, uint32_t> nextImage = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
+		acquireNextImageFence.createUnsignaled(device);
+		nextImageToDraw = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
+		if (nextImageToDraw.first != vk::Result::eSuccess)
+			Logger->error("Failed to acquire next image from swap chain");
 
 		commandBuffer.reset();
 		commandBuffer.begin();
@@ -406,10 +413,12 @@ namespace zt::gl
 		renderArea.offset = vk::Offset2D{ 0, 0 };
 		renderArea.extent = swapExtent;
 
-		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
+		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea);
 		commandBuffer.bindPipeline(*pipeline);
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
-		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, vk::DeviceSize{ 0 }, vk::IndexType::eUint16);
+
+		vk::DeviceSize indexBufferOffset{ 0 };
+		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
 
 		std::vector<vk::DescriptorSet> tempDescriptorSets;
 		for (auto& set : *descriptorSets)
@@ -423,9 +432,10 @@ namespace zt::gl
 		commandBuffer.end();
 
 		submit();
-		present(nextImage.second);
+		device.waitForFence(acquireNextImageFence);
+		present(nextImageToDraw.second);
 
-		Logger->info("Post draw");
+		//Logger->info("Post draw");
 	}
 
 	void Renderer::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors)

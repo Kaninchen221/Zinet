@@ -202,6 +202,7 @@ namespace zt::gl
 		RenderPass renderPass;
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;
+		std::pair<vk::Result, uint32_t> nextImageToDraw;
 
 		// TODO Refactor this
 		// Refactor this by creating the batch renderer?

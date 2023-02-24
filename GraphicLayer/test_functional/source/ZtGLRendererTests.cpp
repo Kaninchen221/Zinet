@@ -5,6 +5,7 @@
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
+#include "Zinet/GraphicLayer/ZtGLMVP.h"
 
 #include <gtest/gtest.h>
 
@@ -36,6 +37,7 @@ namespace zt::gl::tests
 		std::vector<ImageView> imageViews;
 		std::vector<vk::ImageLayout> imageLayouts;
 		STBImage stbImage;
+		MVP mvp;
 
 		void createShaders();
 		void createDescriptors();
@@ -44,11 +46,6 @@ namespace zt::gl::tests
 		void createUniformBuffers();
 		void createImageDrawInfos();
 		void copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer);
-
-		struct MVP
-		{
-
-		};
 	};
 
 	TEST_F(RendererTests, Draw)
@@ -75,11 +72,11 @@ namespace zt::gl::tests
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
 
+		renderer.prepareDraw(drawInfo);
 		while (!renderer.getWindow().shouldBeClosed())
 		{
-			renderer.prepareDraw(drawInfo);
+			glfwPollEvents();
 			renderer.draw(drawInfo);
-			renderer.getQueue()->waitIdle();
 		}
 	}
 
@@ -143,6 +140,7 @@ namespace zt::gl::tests
 		};
 
 		vertexBuffer.create(bufferCreateInfo);
+		vertexBuffer.fillWithStdContainer(vertices);
 	}
 
 	void RendererTests::createIndexBuffer()
@@ -158,6 +156,7 @@ namespace zt::gl::tests
 		};
 
 		indexBuffer.create(bufferCreateInfo);
+		indexBuffer.fillWithStdContainer(indices);
 	}
 
 	void RendererTests::createUniformBuffers()
@@ -166,10 +165,11 @@ namespace zt::gl::tests
 		BufferCreateInfo bufferCreateInfo{
 			.device = renderer.getDevice(),
 			.vma = renderer.getVma(),
-			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
+			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(decltype(mvp))),
 			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
 		};
 		uniformBuffer.create(bufferCreateInfo);
+		uniformBuffer.fillWithObject(mvp);
 	}
 
 	void RendererTests::createImageDrawInfos()
@@ -197,6 +197,7 @@ namespace zt::gl::tests
 			.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, true)
 		};
 		imageBuffer.create(bufferCreateInfo);
+		imageBuffer.fillWithCArray(stbImage.get());
 
 		copyImageBufferToImage(image, imageBuffer);
 

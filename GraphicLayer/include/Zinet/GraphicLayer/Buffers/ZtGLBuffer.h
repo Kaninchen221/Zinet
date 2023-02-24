@@ -70,7 +70,10 @@ namespace zt::gl
 	inline void Buffer::fillWithObject(const T& object)
 	{
 		void* mappedData;
-		vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		if (mapMemoryResult != VK_SUCCESS)
+			Logger->error("Failed to map memory");
+
 		std::memcpy(mappedData, &object, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
 		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
@@ -80,7 +83,10 @@ namespace zt::gl
 	inline void Buffer::fillWithStdContainer(const T& container)
 	{
 		void* mappedData;
-		vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
+		if (mapMemoryResult != VK_SUCCESS)
+			Logger->error("Failed to map memory");
+
 		std::memcpy(mappedData, container.data(), size);
 		vmaUnmapMemory(vmaAllocator, allocation);
 		vmaFlushAllocation(vmaAllocator, allocation, 0, size);

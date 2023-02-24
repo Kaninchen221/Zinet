@@ -65,7 +65,9 @@ namespace zt::gl
 
     void Queue::present(vk::PresentInfoKHR& presentInfo) const
     {
-        [[maybe_unused]] vk::Result result = internal.presentKHR(presentInfo);
+        vk::Result result = internal.presentKHR(presentInfo);
+        if (result != vk::Result::eSuccess)
+            Logger->error("Submit return non success vk::Result");
     }
 
     void Queue::copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer) const
