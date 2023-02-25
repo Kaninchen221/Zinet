@@ -10,22 +10,19 @@ namespace zt::gl
 
 	Renderer::Renderer()
 		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() },
-		pipelineLayout{ std::in_place_t{} },
-		pipeline{ std::in_place_t{} },
 		descriptorPool{ std::in_place_t{} }
 	{
-// 		if (*drawFence.getInternal() != *vk::raii::Fence{ std::nullptr_t{} })
-// 			device.waitForFence(drawFence);
-
 		GLFW::Init();
 	}
 
 	Renderer::~Renderer() noexcept
 	{
+		queue->waitIdle();
+		device->waitIdle();
+
 		if (drawFence != nullptr)
 			device.waitForFence(drawFence);
 
-		queue->waitIdle();
 		descriptorSets.reset();
 		GLFW::Deinit();
 	}
@@ -210,12 +207,15 @@ namespace zt::gl
 
 	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
+		device.waitForFence(drawFence);
+
 		createPipeline(drawInfo);
 		createDescriptorPool(drawInfo.descriptors);
 		createDescriptorSets();
 		createWriteDescriptorSets(drawInfo);
 
-		device->updateDescriptorSets(writeDescriptorSets, {});
+		if (!writeDescriptorSets.empty())
+			device->updateDescriptorSets(writeDescriptorSets, {});
 	}
 
 	void Renderer::createInstance()
@@ -301,14 +301,14 @@ namespace zt::gl
 		pipelineLayout->setDescriptorSetLayouts(descriptorSetLayouts);
 
 		pipelineLayout->setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
-
+		
 		vk::Rect2D scissor;
 		scissor.offset = vk::Offset2D{ 0, 0 };
 		scissor.extent = swapExtent;
 		pipelineLayout->setScissor(scissor);
-
+		
 		pipelineLayout->createColorBlendAttachmentState();
-
+		
 		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout->createPipelineLayoutCreateInfo();
 		pipelineLayout->create(device, pipelineLayoutCreateInfo);
 	}
@@ -339,19 +339,19 @@ namespace zt::gl
 		vma.create(allocatorCreateInfo);
 	}
 
-	void Renderer::createPipeline(const DrawInfo& drawInfo)
+	void Renderer::createPipeline([[maybe_unused]] const DrawInfo& drawInfo)
 	{
 		pipelineLayout.reset();
-		pipelineLayout = PipelineLayout{};
+		pipelineLayout = std::make_unique<PipelineLayout>();
 
 		pipeline.reset();
-		pipeline = Pipeline{};
+		pipeline = std::make_unique<Pipeline>();
 
 		createShadersModules(drawInfo.shaders);
 		createShadersStages();
 		createDescriptorSetLayouts(drawInfo.descriptors);
 		createPipelineLayout();
-
+		
 		vk::GraphicsPipelineCreateInfo createInfo = pipeline->createGraphicsPipelineCreateInfo(*pipelineLayout, renderPass, shadersStages);
 		pipeline->create(device, createInfo);
 	}
@@ -380,6 +380,9 @@ namespace zt::gl
 
 	void Renderer::createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors)
 	{
+		if (descriptors.empty())
+			return;
+
 		bindings.clear();
 		bindings.reserve(descriptors.size());
 		for (const DrawInfo::Descriptor& descriptor : descriptors)
@@ -401,7 +404,6 @@ namespace zt::gl
 
 		std::uint16_t nextImageTimeout = std::numeric_limits<std::uint16_t>::max();
 		Fence acquireNextImageFence;
-		acquireNextImageFence.createUnsignaled(device);
 		nextImageToDraw = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
 		if (nextImageToDraw.first != vk::Result::eSuccess)
 			Logger->error("Failed to acquire next image from swap chain");
@@ -420,19 +422,21 @@ namespace zt::gl
 		vk::DeviceSize indexBufferOffset{ 0 };
 		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
 
-		std::vector<vk::DescriptorSet> tempDescriptorSets;
-		for (auto& set : *descriptorSets)
+		if (descriptorSets.has_value())
 		{
-			tempDescriptorSets.push_back(*set);
+			std::vector<vk::DescriptorSet> tempDescriptorSets;
+			for (auto& set : *descriptorSets)
+			{
+				tempDescriptorSets.push_back(*set);
+			}
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout, 0, tempDescriptorSets, {});
 		}
-		commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout, 0, tempDescriptorSets, {});
 
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
 
 		submit();
-		device.waitForFence(acquireNextImageFence);
 		present(nextImageToDraw.second);
 
 		//Logger->info("Post draw");
@@ -440,6 +444,9 @@ namespace zt::gl
 
 	void Renderer::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors)
 	{
+		if (descriptors.empty())
+			return;
+
 		// Create descriptor pool sizes
 		std::map<DescriptorType, std::uint32_t> descriptorTypes;
 		for (const DrawInfo::Descriptor descriptor : descriptors)
@@ -470,6 +477,9 @@ namespace zt::gl
 
 	void Renderer::createDescriptorSets()
 	{
+		if (descriptorPool == nullptr)
+			return;
+
 		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout->getVkDescriptorSetLayouts();
 		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
 		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
@@ -511,30 +521,34 @@ namespace zt::gl
 
 	void Renderer::submit()
 	{
-		std::array<Semaphore*, 1> waitSemaphores = { &imageAvailableSemaphore };
-		vk::PipelineStageFlags waitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
-		std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
-		std::array<Semaphore*, 1> signalSemaphores = { &renderingFinishedSemaphore };
+		submitWaitSemaphores = { &imageAvailableSemaphore };
+		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		submitCommandBuffers = { &commandBuffer };
+		submitSignalSemaphores = { &renderingFinishedSemaphore };
 
-		vk::SubmitInfo submitInfo = queue.createSubmitInfo(
-			waitSemaphores,
-			waitPipelineStageFlags,
-			commandBuffers,
-			signalSemaphores);
+		submitInfo = queue.createSubmitInfo(
+			submitWaitSemaphores,
+			submitWaitPipelineStageFlags,
+			submitCommandBuffers,
+			submitSignalSemaphores);
 
 		queue.submitWithFence(submitInfo, drawFence);
 	}
 
 	void Renderer::present(uint32_t& image)
 	{
-		std::array<Semaphore*, 1> waitSemaphores = { &renderingFinishedSemaphore };
-		std::array<SwapChain*, 1> swapChains = { &swapChain };
-		vk::PresentInfoKHR presentInfo = queue.createPresentInfo(
-			waitSemaphores,
-			swapChains,
+		vk::Result results[1];
+		presentWaitSemaphores = { &renderingFinishedSemaphore };
+		presentSwapChains = { &swapChain };
+		presentInfo = queue.createPresentInfo(
+			presentWaitSemaphores,
+			presentSwapChains,
 			image);
+		presentInfo.pResults = results;
 
 		queue.present(presentInfo);
+		if (results[0] != vk::Result::eSuccess)
+			Logger->error("present return non success vk::Result");
 	}
 
 }

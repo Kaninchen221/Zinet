@@ -10,7 +10,7 @@
 namespace zt::gl
 {
 
-	class ZINET_GRAPHIC_LAYER_API MVP
+	struct ZINET_GRAPHIC_LAYER_API MVP
 	{
 		glm::mat4 model;
 		glm::mat4 view;

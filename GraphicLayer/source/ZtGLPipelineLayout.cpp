@@ -169,9 +169,4 @@ namespace zt::gl
 		}
 	}
 
-	PipelineLayout::~PipelineLayout() noexcept
-	{
-		[[maybe_unused]] int i = 1 + 1;
-	}
-
 }

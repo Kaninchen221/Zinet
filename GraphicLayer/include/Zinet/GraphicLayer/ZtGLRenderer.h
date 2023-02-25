@@ -29,6 +29,8 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include <memory>
+
 //////////////////////////////////////////////////////////////////////////
 // TODO
 // Plan for the renderer
@@ -215,14 +217,26 @@ namespace zt::gl
 		std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
 		std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
 		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
-		std::optional<PipelineLayout> pipelineLayout;
-		std::optional<Pipeline> pipeline;
+		std::unique_ptr<PipelineLayout> pipelineLayout;
+		std::unique_ptr<Pipeline> pipeline;
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;
 		Fence drawFence;
 		CommandPool commandPool;
 		CommandBuffer commandBuffer;
+
+		// Submit info
+		std::array<Semaphore*, 1> submitWaitSemaphores;
+		vk::PipelineStageFlags submitWaitPipelineStageFlags;
+		std::array<CommandBuffer*, 1> submitCommandBuffers;
+		std::array<Semaphore*, 1> submitSignalSemaphores;
+		vk::SubmitInfo submitInfo;
+
+		// Present info
+		std::array<Semaphore*, 1> presentWaitSemaphores = { &renderingFinishedSemaphore };
+		std::array<SwapChain*, 1> presentSwapChains = { &swapChain };
+		vk::PresentInfoKHR presentInfo;
 
 		void submit();
 		void present(uint32_t& image);
