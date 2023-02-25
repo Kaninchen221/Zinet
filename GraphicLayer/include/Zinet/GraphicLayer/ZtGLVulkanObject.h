@@ -28,6 +28,8 @@ namespace zt::gl
 
 		bool operator == (const InternalType& other) const;
 
+		// TODO Add IsValid
+
 	protected:
 
 		InternalType internal{ std::nullptr_t{} };

@@ -103,7 +103,7 @@ namespace zt::gl::tests
 		ASSERT_NE(commandPool, nullptr);
 
 		const CommandBuffer& commandBuffer = renderer.getCommandBuffer();
-		ASSERT_EQ(commandBuffer, nullptr);
+		ASSERT_NE(commandBuffer, nullptr);
 	}
 
 	TEST(Renderer, GetContext)

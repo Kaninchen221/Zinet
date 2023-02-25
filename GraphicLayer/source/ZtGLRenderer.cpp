@@ -10,6 +10,8 @@ namespace zt::gl
 
 	Renderer::Renderer()
 		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() },
+		pipelineLayout{ std::make_unique<PipelineLayout>() },
+		pipeline{ std::make_unique<Pipeline>() },
 		descriptorPool{ std::in_place_t{} }
 	{
 		GLFW::Init();
@@ -17,8 +19,13 @@ namespace zt::gl
 
 	Renderer::~Renderer() noexcept
 	{
-		queue->waitIdle();
-		device->waitIdle();
+		// TODO Fix errors when we close window
+
+		if (queue != nullptr)
+			queue->waitIdle();
+
+		if (device != nullptr)
+			device->waitIdle();
 
 		if (drawFence != nullptr)
 			device.waitForFence(drawFence);
