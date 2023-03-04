@@ -21,7 +21,6 @@ namespace zt::gl::tests
 
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
-		Renderer renderer;
 		std::vector<Shader> shaders;
 		std::vector<DrawInfo::Descriptor> descriptors;
 		VertexBuffer vertexBuffer;
@@ -38,6 +37,7 @@ namespace zt::gl::tests
 		std::vector<vk::ImageLayout> imageLayouts;
 		STBImage stbImage;
 		MVP mvp;
+		Renderer renderer;
 
 		void createShaders();
 		void createDescriptors();

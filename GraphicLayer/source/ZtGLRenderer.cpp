@@ -19,8 +19,6 @@ namespace zt::gl
 
 	Renderer::~Renderer() noexcept
 	{
-		// TODO Fix errors when we close window
-
 		if (queue != nullptr)
 			queue->waitIdle();
 
