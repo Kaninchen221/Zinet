@@ -71,4 +71,19 @@ namespace zt::gl::tests
 
 		ASSERT_NE(testObject, instance.getInternal());
 	}
+
+	TEST(VulkanObject, IsValid)
+	{
+		Instance instance;
+		bool isValid = instance.isValid();
+		ASSERT_FALSE(isValid);
+
+		Context context;
+		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+		instance.create(context, instanceCreateInfo);
+
+		isValid = instance.isValid();
+		ASSERT_TRUE(isValid);
+	}
 }

@@ -28,9 +28,9 @@ namespace zt::gl
 
 		bool operator == (const InternalType& other) const;
 
-		// TODO Add isValid
-
 		void clear() { internal.clear(); }
+
+		bool isValid() const { return *internal != *InternalType{ std::nullptr_t{} }; }
 
 	protected:
 
