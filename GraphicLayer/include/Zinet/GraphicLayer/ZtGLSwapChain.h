@@ -32,10 +32,7 @@ namespace zt::gl
 
 		~SwapChain() noexcept = default;
 
-		void create(
-			Device& device,
-			const vk::SwapchainCreateInfoKHR& createInfo
-		);
+		void create(Device& device, const vk::SwapchainCreateInfoKHR& createInfo);
 
 		vk::SwapchainCreateInfoKHR createCreateInfo(
 			const SwapChainSupportDetails& swapChainSupportDetails,

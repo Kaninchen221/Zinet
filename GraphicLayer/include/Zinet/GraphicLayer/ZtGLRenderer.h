@@ -213,12 +213,12 @@ namespace zt::gl
 		std::vector<vk::DescriptorSetLayoutBinding> bindings;
 		std::vector<DescriptorSetLayout> descriptorSetLayouts;
 		std::optional<DescriptorSets> descriptorSets;
-		std::optional<DescriptorPool> descriptorPool;
+		DescriptorPool descriptorPool;
 		std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
 		std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
 		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
-		std::unique_ptr<PipelineLayout> pipelineLayout;
-		std::unique_ptr<Pipeline> pipeline;
+		PipelineLayout pipelineLayout;
+		Pipeline pipeline;
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;

@@ -28,7 +28,9 @@ namespace zt::gl
 
 		bool operator == (const InternalType& other) const;
 
-		// TODO Add IsValid
+		// TODO Add isValid
+
+		void clear() { internal.clear(); }
 
 	protected:
 

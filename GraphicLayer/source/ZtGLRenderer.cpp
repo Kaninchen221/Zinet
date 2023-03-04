@@ -9,10 +9,7 @@ namespace zt::gl
 {
 
 	Renderer::Renderer()
-		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() },
-		pipelineLayout{ std::make_unique<PipelineLayout>() },
-		pipeline{ std::make_unique<Pipeline>() },
-		descriptorPool{ std::in_place_t{} }
+		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() }
 	{
 		GLFW::Init();
 	}
@@ -137,7 +134,7 @@ namespace zt::gl
 
 	const PipelineLayout& Renderer::getPipelineLayout() const
 	{
-		return *pipelineLayout;
+		return pipelineLayout;
 	}
 
 	const RenderPass& Renderer::getRenderPass() const
@@ -152,7 +149,7 @@ namespace zt::gl
 
 	const Pipeline& Renderer::getPipeline() const
 	{
-		return *pipeline;
+		return pipeline;
 	}
 
 	const Vma& Renderer::getVma() const
@@ -177,7 +174,7 @@ namespace zt::gl
 
 	const DescriptorPool& Renderer::getDescriptorPool() const
 	{
-		return *descriptorPool;
+		return descriptorPool;
 	}
 
 	const std::optional<DescriptorSets>& Renderer::getDescriptorSets() const
@@ -303,19 +300,19 @@ namespace zt::gl
 
 	void Renderer::createPipelineLayout()
 	{
-		pipelineLayout->setDescriptorSetLayouts(descriptorSetLayouts);
+		pipelineLayout.setDescriptorSetLayouts(descriptorSetLayouts);
 
-		pipelineLayout->setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
+		pipelineLayout.setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
 		
 		vk::Rect2D scissor;
 		scissor.offset = vk::Offset2D{ 0, 0 };
 		scissor.extent = swapExtent;
-		pipelineLayout->setScissor(scissor);
+		pipelineLayout.setScissor(scissor);
 		
-		pipelineLayout->createColorBlendAttachmentState();
+		pipelineLayout.createColorBlendAttachmentState();
 		
-		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout->createPipelineLayoutCreateInfo();
-		pipelineLayout->create(device, pipelineLayoutCreateInfo);
+		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
+		pipelineLayout.create(device, pipelineLayoutCreateInfo);
 	}
 
 	void Renderer::createRenderPass()
@@ -346,19 +343,16 @@ namespace zt::gl
 
 	void Renderer::createPipeline([[maybe_unused]] const DrawInfo& drawInfo)
 	{
-		pipelineLayout.reset();
-		pipelineLayout = std::make_unique<PipelineLayout>();
-
-		pipeline.reset();
-		pipeline = std::make_unique<Pipeline>();
+		pipelineLayout = PipelineLayout{};
+		pipeline = Pipeline{};
 
 		createShadersModules(drawInfo.shaders);
 		createShadersStages();
 		createDescriptorSetLayouts(drawInfo.descriptors);
 		createPipelineLayout();
 		
-		vk::GraphicsPipelineCreateInfo createInfo = pipeline->createGraphicsPipelineCreateInfo(*pipelineLayout, renderPass, shadersStages);
-		pipeline->create(device, createInfo);
+		vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, shadersStages);
+		pipeline.create(device, createInfo);
 	}
 
 	void Renderer::createShadersModules(const std::span<Shader>& shaders)
@@ -379,7 +373,7 @@ namespace zt::gl
 		shadersStages.reserve(shadersModules.size());
 		for (ShaderModule& module : shadersModules)
 		{
-			shadersStages.push_back(pipelineLayout->createShaderStageCreateInfo(module));
+			shadersStages.push_back(pipelineLayout.createShaderStageCreateInfo(module));
 		}
 	}
 
@@ -421,7 +415,7 @@ namespace zt::gl
 		renderArea.extent = swapExtent;
 
 		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea);
-		commandBuffer.bindPipeline(*pipeline);
+		commandBuffer.bindPipeline(pipeline);
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
 		vk::DeviceSize indexBufferOffset{ 0 };
@@ -434,7 +428,7 @@ namespace zt::gl
 			{
 				tempDescriptorSets.push_back(*set);
 			}
-			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, *pipelineLayout, 0, tempDescriptorSets, {});
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipelineLayout, 0, tempDescriptorSets, {});
 		}
 
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
@@ -474,10 +468,10 @@ namespace zt::gl
 		}
 
 		descriptorSets.reset();
-		descriptorPool.reset();
+		descriptorPool.clear();
 		descriptorPool = DescriptorPool{};
-		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool->createCreateInfo(poolSizes);
-		descriptorPool->create(device, descriptorPoolCreateInfo);
+		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = descriptorPool.createCreateInfo(poolSizes);
+		descriptorPool.create(device, descriptorPoolCreateInfo);
 	}
 
 	void Renderer::createDescriptorSets()
@@ -485,8 +479,8 @@ namespace zt::gl
 		if (descriptorPool == nullptr)
 			return;
 
-		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout->getVkDescriptorSetLayouts();
-		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool->createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
+		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = pipelineLayout.getVkDescriptorSetLayouts();
+		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = descriptorPool.createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
 		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
 	}
 
