@@ -31,55 +31,9 @@
 
 #include <memory>
 
-//////////////////////////////////////////////////////////////////////////
-// TODO
-// Plan for the renderer
-// Instance - done
-// Messenger - done
-// Window - done
-// Surface - done
-// PhysicalDevice - done
-// Device - done
-// Queue - done
-// SwapChain - done
-// ImageViews - done
-// Framebuffers - done
-// PipelineLayout - done
-// RenderPass - done
-// 
-//// Must be passed from outside
-// VertexShader // Only code & created inside
-// FragmentShader // Only code & created inside
-// ShaderStages /// Created inside
-// 
-// VertexBuffer // Data must be passed from outside
-// IndexBuffer // Data must be passed from outside
-// UniformBuffer // Data must be passed from outside
-// ImageBuffer(Texture) // Data must be passed from outside
-// 
-//// Must be created before pipeline
-// DescriptorPool
-// DescriptorSets
-// DescriptorSetLayouts
-// updateDescriptorSets
-// updateMVP
-// 
-// Pipeline // Must be created after shaders, buffers and descriptors
-// CommandPool
-// CommandBuffers
-// Fences
-// Semaphores
-// 
-//// Final functions
-// drawFrame
-// submit
-// present
-// 
-// TODO: Recreate swap chain
-// TODO: Batch rendering
-
 namespace zt::gl
 {
+	// TODO: Add possibility to draw two objects
 
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
