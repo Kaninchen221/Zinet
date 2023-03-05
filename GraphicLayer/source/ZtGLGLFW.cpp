@@ -9,7 +9,7 @@ namespace zt::gl
             Logger->info("Succesfull initialize GLFW");
 
             glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // Don't create OpenGL context
-            glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
             if (hideWindow)
             {

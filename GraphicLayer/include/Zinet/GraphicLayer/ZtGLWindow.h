@@ -3,15 +3,18 @@
 #include "ZtGraphicLayer.h"
 #include "ZtGLContext.h"
 #include "ZtGLEvent.h"
+#include "ZtGLVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl
 {
+	class Renderer;
 
 	class ZINET_GRAPHIC_LAYER_API Window
 	{
 		static inline zt::Logger::SimpleConsoleLogger WindowLogger = zt::Logger::CreateSimpleConsoleLogger("Window");
+		static inline Renderer* RendererReference = nullptr;
 
 	public:
 
@@ -32,8 +35,6 @@ namespace zt::gl
 
 		void bindCallbacks();
 
-		void bindFramebufferSizeCallback();
-
 		bool isOpen();
 
 		bool shouldBeClosed() const;
@@ -42,11 +43,20 @@ namespace zt::gl
 
 		Event* getEvent();
 
+		void setRenderer(Renderer& newRenderer) { RendererReference = &newRenderer; }
+
+		Renderer* getRenderer() { return RendererReference; }
+
+		Vector2i getSize() const;
+
+		bool isMinimized() const;
+
 	protected:
 
 		GLFWwindow* internalWindow = nullptr;
 		Event event;
 
+		void bindFramebufferSizeCallback();
 	};
 
 }

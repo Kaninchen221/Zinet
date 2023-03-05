@@ -2,13 +2,15 @@
 
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
 
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
 
-	class ZtWindowTests : public ::testing::Test
+	class WindowTests : public ::testing::Test
 	{
 	protected:
 
@@ -25,7 +27,7 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST_F(ZtWindowTests, Create)
+	TEST_F(WindowTests, Create)
 	{
 		window.create();
 
@@ -33,10 +35,9 @@ namespace zt::gl::tests
 		ASSERT_TRUE(internalWindow);
 	}
 
-	TEST_F(ZtWindowTests, BindFramebufferSizeCallbackTest)
+	TEST_F(WindowTests, BindFramebufferSizeCallbackTest)
 	{
 		window.create();
-		window.bindFramebufferSizeCallback();
 
 		GLFWwindow* glfwWindow = window.getInternal();
 		GLFWframebuffersizefun actualPointer = glfwSetFramebufferSizeCallback(glfwWindow, nullptr);
@@ -45,7 +46,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(actualPointer, expectedPointer);
 	}
 
-	TEST_F(ZtWindowTests, IsOpenTest)
+	TEST_F(WindowTests, IsOpenTest)
 	{
 		window.create();
 	
@@ -59,7 +60,7 @@ namespace zt::gl::tests
 		ASSERT_FALSE(isOpen);
 	}
 	
-	TEST_F(ZtWindowTests, ShouldBeClosedTest)
+	TEST_F(WindowTests, ShouldBeClosedTest)
 	{
 		window.create();
 		GLboolean shouldBeClosed = window.shouldBeClosed();
@@ -67,15 +68,52 @@ namespace zt::gl::tests
 		ASSERT_FALSE(shouldBeClosed);
 	}
 	
-	TEST_F(ZtWindowTests, GetEventTest)
+	TEST_F(WindowTests, GetEventTest)
 	{
 		[[maybe_unused]] Event* event = window.getEvent();
 	}
 	
-	TEST_F(ZtWindowTests, BindCallbacksTest)
+	TEST_F(WindowTests, BindCallbacksTest)
 	{
 		window.create();
 		window.bindCallbacks();
 	}
 
+	TEST_F(WindowTests, GetRenderer)
+	{
+		typedef Renderer* (Window::* ExpectedFunctionDeclaration)();
+		using FunctionDeclaration = decltype(&Window::getRenderer);
+
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+	}
+
+	TEST_F(WindowTests, SetRenderer)
+	{
+		typedef void(Window::* ExpectedFunctionDeclaration)(Renderer&);
+		using FunctionDeclaration = decltype(&Window::setRenderer);
+
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		Renderer expectedRenderer;
+		window.setRenderer(expectedRenderer);
+		Renderer* actualRenderer = window.getRenderer();
+
+		ASSERT_EQ(&expectedRenderer, actualRenderer);
+	}
+
+	TEST_F(WindowTests, GetWindowSize)
+	{
+		typedef Vector2i(Window::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Window::getSize);
+
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+	}
+
+	TEST_F(WindowTests, IsMinimized)
+	{
+		typedef bool(Window::* ExpectedFunctionDeclaration)() const;
+		using FunctionDeclaration = decltype(&Window::isMinimized);
+
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+	}
 }

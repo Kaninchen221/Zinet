@@ -1,4 +1,5 @@
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 namespace zt::gl
 {
@@ -28,6 +29,8 @@ namespace zt::gl
         glfwMakeContextCurrent(internalWindow);
 
         glfwSetWindowUserPointer(internalWindow, this);
+
+		bindFramebufferSizeCallback();
 
         event.setWindow(this);
         event.bindCallbacks();
@@ -63,14 +66,29 @@ namespace zt::gl
         return glfwWindowShouldClose(internalWindow);
     }
 
-    void Window::FramebufferSizeCallback([[maybe_unused]] GLFWwindow* internalWindow, [[maybe_unused]] int width, [[maybe_unused]] int height)
+    void Window::FramebufferSizeCallback([[maybe_unused]] GLFWwindow* internalWindow, int width, int height)
     {
-
+        if (RendererReference != nullptr)
+            RendererReference->informAboutWindowResize(width, height);
     }
 
     Event* Window::getEvent()
     {
         return &event;
     }
+
+    Vector2i Window::getSize() const
+	{
+        int width = 0;
+        int height = 0;
+		glfwGetFramebufferSize(internalWindow, &width, &height);
+        return { width, height };
+	}
+
+	bool Window::isMinimized() const
+	{
+        Vector2i windowSize = getSize();
+        return windowSize.x == 0 && windowSize.y == 0;
+	}
 
 }

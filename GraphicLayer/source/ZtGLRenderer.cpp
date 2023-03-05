@@ -47,12 +47,10 @@ namespace zt::gl
 		createVma();
 		createQueue();
 
-		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-		
+		updateSwapChainSupportDetails();
+
 		createSwapChain();
 		createImageViews();
-
-		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 
 		createRenderPass();
 		createFramebuffers();
@@ -243,6 +241,7 @@ namespace zt::gl
 	void Renderer::createWindow()
 	{
 		window.create();
+		window.setRenderer(*this);
 	}
 
 	bool Renderer::createSurface()
@@ -548,6 +547,32 @@ namespace zt::gl
 		queue.present(presentInfo);
 		if (results[0] != vk::Result::eSuccess)
 			Logger->error("present return non success vk::Result");
+	}
+
+	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
+	{
+		while (window.isMinimized())
+		{
+			glfwWaitEvents();
+		}
+
+		device->waitIdle();
+
+		framebuffers.clear();
+		imageViews.clear();
+		swapChain.clear();
+
+		updateSwapChainSupportDetails();
+
+		createSwapChain();
+		createImageViews();
+		createFramebuffers();
+	}
+
+	void Renderer::updateSwapChainSupportDetails()
+	{
+		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
+		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 	}
 
 }

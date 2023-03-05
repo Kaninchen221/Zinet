@@ -161,6 +161,8 @@ namespace zt::gl
 
 		void draw(const DrawInfo& drawInfo);
 
+		void informAboutWindowResize(int width, int height);
+
 	protected:
 
 		void createInstance();
@@ -187,6 +189,8 @@ namespace zt::gl
 		void createWriteDescriptorSets(const DrawInfo& drawInfo);
 		void createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers);
 		void createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images);
+
+		void updateSwapChainSupportDetails();
 
 		Context context;
 		Instance instance;
