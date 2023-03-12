@@ -86,6 +86,22 @@ namespace zt::gl::tests
 			glfwPollEvents();
 			renderer.draw(drawInfo);
 		}
+
+		renderer.getQueue()->waitIdle();
+		renderer.getDevice()->waitIdle();
+		
+		shaders.clear();
+		descriptors.clear();
+		vertexBuffer.~VertexBuffer();
+		indexBuffer.~IndexBuffer();
+		uniformBuffers.clear();
+		
+		imageDrawInfos.clear();
+		images.clear();
+		imageBuffers.clear();
+		samplers.clear();
+		imageViews.clear();
+		imageLayouts.clear();
 	}
 
 	void RendererTests::createShaders()

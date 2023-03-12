@@ -9,6 +9,7 @@ namespace zt::gl
 		if (allocation != nullptr)
 		{
 			vmaDestroyBuffer(vmaAllocator, nullptr, allocation);
+			allocation = nullptr;
 		}
 	}
 

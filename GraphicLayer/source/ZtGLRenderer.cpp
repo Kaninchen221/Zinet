@@ -205,19 +205,6 @@ namespace zt::gl
 		return descriptorImageInfos;
 	}
 
-	void Renderer::prepareDraw(const DrawInfo& drawInfo)
-	{
-		device.waitForFence(drawFence);
-
-		createPipeline(drawInfo);
-		createDescriptorPool(drawInfo.descriptors);
-		createDescriptorSets();
-		createWriteDescriptorSets(drawInfo);
-
-		if (!writeDescriptorSets.empty())
-			device->updateDescriptorSets(writeDescriptorSets, {});
-	}
-
 	void Renderer::createInstance()
 	{
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
@@ -395,6 +382,19 @@ namespace zt::gl
 		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
 	}
 
+	void Renderer::prepareDraw(const DrawInfo& drawInfo)
+	{
+		device.waitForFence(drawFence);
+
+		createPipeline(drawInfo);
+		createDescriptorPool(drawInfo.descriptors);
+		createDescriptorSets();
+		createWriteDescriptorSets(drawInfo);
+
+		if (!writeDescriptorSets.empty())
+			device->updateDescriptorSets(writeDescriptorSets, {});
+	}
+
 	void Renderer::draw(const DrawInfo& drawInfo)
 	{
 		device.waitForFence(drawFence);
@@ -438,6 +438,38 @@ namespace zt::gl
 		present(nextImageToDraw.second);
 
 		//Logger->info("Post draw");
+	}
+
+	void Renderer::submit()
+	{
+		submitWaitSemaphores = { &imageAvailableSemaphore };
+		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
+		submitCommandBuffers = { &commandBuffer };
+		submitSignalSemaphores = { &renderingFinishedSemaphore };
+
+		submitInfo = queue.createSubmitInfo(
+			submitWaitSemaphores,
+			submitWaitPipelineStageFlags,
+			submitCommandBuffers,
+			submitSignalSemaphores);
+
+		queue.submitWithFence(submitInfo, drawFence);
+	}
+
+	void Renderer::present(uint32_t& image)
+	{
+		vk::Result results[1];
+		presentWaitSemaphores = { &renderingFinishedSemaphore };
+		presentSwapChains = { &swapChain };
+		presentInfo = queue.createPresentInfo(
+			presentWaitSemaphores,
+			presentSwapChains,
+			image);
+		presentInfo.pResults = results;
+
+		queue.present(presentInfo);
+		if (results[0] != vk::Result::eSuccess)
+			Logger->error("present return non success vk::Result");
 	}
 
 	void Renderer::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors)
@@ -515,38 +547,6 @@ namespace zt::gl
 			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, descriptorImageInfo);
 			writeDescriptorSets.push_back(writeDescriptorSet);
 		}
-	}
-
-	void Renderer::submit()
-	{
-		submitWaitSemaphores = { &imageAvailableSemaphore };
-		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
-		submitCommandBuffers = { &commandBuffer };
-		submitSignalSemaphores = { &renderingFinishedSemaphore };
-
-		submitInfo = queue.createSubmitInfo(
-			submitWaitSemaphores,
-			submitWaitPipelineStageFlags,
-			submitCommandBuffers,
-			submitSignalSemaphores);
-
-		queue.submitWithFence(submitInfo, drawFence);
-	}
-
-	void Renderer::present(uint32_t& image)
-	{
-		vk::Result results[1];
-		presentWaitSemaphores = { &renderingFinishedSemaphore };
-		presentSwapChains = { &swapChain };
-		presentInfo = queue.createPresentInfo(
-			presentWaitSemaphores,
-			presentSwapChains,
-			image);
-		presentInfo.pResults = results;
-
-		queue.present(presentInfo);
-		if (results[0] != vk::Result::eSuccess)
-			Logger->error("present return non success vk::Result");
 	}
 
 	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)

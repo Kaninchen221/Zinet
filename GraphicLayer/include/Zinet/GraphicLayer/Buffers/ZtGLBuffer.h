@@ -38,7 +38,7 @@ namespace zt::gl
 		Buffer& operator = (const Buffer& other) = default;
 		Buffer& operator = (Buffer&& other) = default;
 
-		~Buffer() noexcept;
+		virtual ~Buffer() noexcept;
 
 		virtual vk::BufferCreateInfo createCreateInfo(std::uint64_t size) const = 0;
 
@@ -76,7 +76,7 @@ namespace zt::gl
 
 		std::memcpy(mappedData, &object, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
-		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
+		//vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 	}
 
 	template<typename T>
