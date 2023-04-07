@@ -166,17 +166,21 @@ namespace zt::gl
 
 		// TODO Refactor this
 		// Refactor this by creating the batch renderer?
-		std::vector<ShaderModule> shadersModules;
-		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
-		std::vector<vk::DescriptorSetLayoutBinding> bindings;
-		std::vector<DescriptorSetLayout> descriptorSetLayouts;
-		std::optional<DescriptorSets> descriptorSets;
-		DescriptorPool descriptorPool;
-		std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
-		std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
-		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
-		PipelineLayout pipelineLayout;
-		Pipeline pipeline;
+		struct ZINET_GRAPHIC_LAYER_API RendererPipeline
+		{
+			std::vector<ShaderModule> shadersModules;
+			std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
+			std::vector<vk::DescriptorSetLayoutBinding> bindings;
+			std::vector<DescriptorSetLayout> descriptorSetLayouts;
+			std::optional<DescriptorSets> descriptorSets;
+			DescriptorPool descriptorPool;
+			std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
+			std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
+			std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
+			PipelineLayout pipelineLayout;
+			Pipeline pipeline;
+		};
+		RendererPipeline rendererPipeline;
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;
