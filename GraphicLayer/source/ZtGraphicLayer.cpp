@@ -2,6 +2,7 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+// TODO: Move it to separete file
 // VMA
 namespace zt::gl
 {
