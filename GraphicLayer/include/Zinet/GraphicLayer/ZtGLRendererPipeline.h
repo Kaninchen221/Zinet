@@ -8,14 +8,27 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 
 #include "Zinet/Core/ZtLogger.h"
+
+#include <map>
 
 namespace zt::gl
 {
 
 	class ZINET_GRAPHIC_LAYER_API RendererPipeline
 	{
+
+	public:
+
+		struct ZINET_GRAPHIC_LAYER_API CreateInfo
+		{
+			const DrawInfo& drawInfo;
+			Device& device;
+			RenderPass& renderPass;
+			const vk::Extent2D& swapExtent;
+		};
 
 	protected:
 
@@ -52,7 +65,12 @@ namespace zt::gl
 
 		const PipelineLayout& getPipelineLayout() const;
 
+		Pipeline& getPipeline();
 		const Pipeline& getPipeline() const;
+
+		void create(const CreateInfo& createInfo);
+
+		void updateDescriptorSets(Device& device);
 
 	protected:
 
@@ -68,6 +86,18 @@ namespace zt::gl
 		PipelineLayout pipelineLayout;
 		Pipeline pipeline;
 
+		void createPipeline(const CreateInfo& createInfo);
+		void createShadersModules(const std::span<Shader>& shaders, Device& device);
+		void createShadersStages();
+		void createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors, Device& device);
+		void createPipelineLayout(Device& device, const vk::Extent2D& swapExtent);
+
+		void createDescriptors(const CreateInfo& createInfo);
+		void createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors, Device& device);
+		void createDescriptorSets(Device& device);
+		void createWriteDescriptorSets(const DrawInfo& drawInfo);
+		void createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers);
+		void createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images);
 	};
 
 }

@@ -25,7 +25,7 @@ namespace zt::gl
 		if (drawFence != nullptr && drawFence.getStatus() != vk::Result::eNotReady)
 			device.waitForFence(drawFence);
 
-		rendererPipeline.descriptorSets.reset(); // TODO Pipeline refactor
+		rendererPipeline = RendererPipeline{};
 		GLFW::Deinit();
 	}
 
@@ -132,7 +132,7 @@ namespace zt::gl
 
 	const PipelineLayout& Renderer::getPipelineLayout() const
 	{
-		return rendererPipeline.pipelineLayout;
+		return rendererPipeline.getPipelineLayout();
 	}
 
 	const RenderPass& Renderer::getRenderPass() const
@@ -147,7 +147,7 @@ namespace zt::gl
 
 	const Pipeline& Renderer::getPipeline() const
 	{
-		return rendererPipeline.pipeline;
+		return rendererPipeline.getPipeline();
 	}
 
 	const Vma& Renderer::getVma() const
@@ -157,27 +157,27 @@ namespace zt::gl
 
 	const std::vector<ShaderModule>& Renderer::getShadersModules() const
 	{
-		return rendererPipeline.shadersModules;
+		return rendererPipeline.getShadersModules();
 	}
 
 	const std::vector<vk::PipelineShaderStageCreateInfo>& Renderer::getShadersStages() const
 	{
-		return rendererPipeline.shadersStages;
+		return rendererPipeline.getShadersStages();
 	}
 
 	const std::vector<DescriptorSetLayout>& Renderer::getDescriptorSetLayouts() const
 	{
-		return rendererPipeline.descriptorSetLayouts;
+		return rendererPipeline.getDescriptorSetLayouts();
 	}
 
 	const DescriptorPool& Renderer::getDescriptorPool() const
 	{
-		return rendererPipeline.descriptorPool;
+		return rendererPipeline.getDescriptorPool();
 	}
 
 	const std::optional<DescriptorSets>& Renderer::getDescriptorSets() const
 	{
-		return rendererPipeline.descriptorSets;
+		return rendererPipeline.getDescriptorSets();
 	}
 
 	const CommandPool& Renderer::getCommandPool() const
@@ -192,17 +192,17 @@ namespace zt::gl
 
 	const std::vector<vk::WriteDescriptorSet>& Renderer::getWriteDescriptorSets() const
 	{
-		return rendererPipeline.writeDescriptorSets;
+		return rendererPipeline.getWriteDescriptorSets();
 	}
 
 	const std::vector<vk::DescriptorBufferInfo>& Renderer::getDescriptorBufferInfos() const
 	{
-		return rendererPipeline.descriptorBufferInfos;
+		return rendererPipeline.getDescriptorBufferInfos();
 	}
 
 	const std::vector<vk::DescriptorImageInfo>& Renderer::getDescriptorImageInfos() const
 	{
-		return rendererPipeline.descriptorImageInfos;
+		return rendererPipeline.getDescriptorImageInfos();
 	}
 
 	void Renderer::createInstance()
@@ -284,23 +284,6 @@ namespace zt::gl
 		}
 	}
 
-	void Renderer::createPipelineLayout()
-	{
-		rendererPipeline.pipelineLayout.setDescriptorSetLayouts(rendererPipeline.descriptorSetLayouts);
-
-		rendererPipeline.pipelineLayout.setViewportSize(static_cast<float>(swapExtent.width), static_cast<float>(swapExtent.height));
-		
-		vk::Rect2D scissor;
-		scissor.offset = vk::Offset2D{ 0, 0 };
-		scissor.extent = swapExtent;
-		rendererPipeline.pipelineLayout.setScissor(scissor);
-		
-		rendererPipeline.pipelineLayout.createColorBlendAttachmentState();
-		
-		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = rendererPipeline.pipelineLayout.createPipelineLayoutCreateInfo();
-		rendererPipeline.pipelineLayout.create(device, pipelineLayoutCreateInfo);
-	}
-
 	void Renderer::createRenderPass()
 	{
 		renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
@@ -327,58 +310,6 @@ namespace zt::gl
 		vma.create(allocatorCreateInfo);
 	}
 
-	void Renderer::createPipeline([[maybe_unused]] const DrawInfo& drawInfo)
-	{
-		createShadersModules(drawInfo.shaders);
-		createShadersStages();
-		createDescriptorSetLayouts(drawInfo.descriptors);
-		createPipelineLayout();
-		
-		vk::GraphicsPipelineCreateInfo createInfo = rendererPipeline.pipeline.createGraphicsPipelineCreateInfo(rendererPipeline.pipelineLayout, renderPass, rendererPipeline.shadersStages);
-		rendererPipeline.pipeline.create(device, createInfo);
-	}
-
-	void Renderer::createShadersModules(const std::span<Shader>& shaders)
-	{
-		rendererPipeline.shadersModules.clear();
-		rendererPipeline.shadersModules.reserve(shaders.size());
-		for (const Shader& shader : shaders)
-		{
-			ShaderModule& shaderModule = rendererPipeline.shadersModules.emplace_back();
-			vk::ShaderModuleCreateInfo shaderModuleCreateInfo = shaderModule.createShaderModuleCreateInfo(shader);
-			shaderModule.create(device, shader.getType(), shaderModuleCreateInfo);
-		}
-	}
-
-	void Renderer::createShadersStages()
-	{
-		rendererPipeline.shadersStages.clear();
-		rendererPipeline.shadersStages.reserve(rendererPipeline.shadersModules.size());
-		for (ShaderModule& module : rendererPipeline.shadersModules)
-		{
-			rendererPipeline.shadersStages.push_back(rendererPipeline.pipelineLayout.createShaderStageCreateInfo(module));
-		}
-	}
-
-	void Renderer::createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors)
-	{
-		if (descriptors.empty())
-			return;
-
-		rendererPipeline.bindings.clear();
-		rendererPipeline.bindings.reserve(descriptors.size());
-		for (const DrawInfo::Descriptor& descriptor : descriptors)
-		{
-			vk::DescriptorSetLayoutBinding vkBinding = descriptor.toVkDescriptorSetLayoutBinding();
-			rendererPipeline.bindings.push_back(vkBinding);
-		}
-
-		rendererPipeline.descriptorSetLayouts.clear();
-		DescriptorSetLayout& descriptorSetLayout = rendererPipeline.descriptorSetLayouts.emplace_back();
-		vk::DescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = descriptorSetLayout.createDescriptorSetLayoutCreateInfo(rendererPipeline.bindings);
-		descriptorSetLayout.create(device, descriptorSetLayoutCreateInfo);
-	}
-
 	void Renderer::prepareDraw(const DrawInfo& drawInfo)
 	{
 		// Should be in prepare draw
@@ -392,29 +323,21 @@ namespace zt::gl
 			Logger->error("Failed to acquire next image from swap chain");
 
 		// Should be in separated function that will create pipeline from drawInfo
-		//device.waitForFence(drawFence);
-
 		rendererPipeline = RendererPipeline{};
-		createPipeline(drawInfo);
-		createDescriptorPool(drawInfo.descriptors);
-		createDescriptorSets();
-		createWriteDescriptorSets(drawInfo);
+		RendererPipeline::CreateInfo rendererPipelineCreateInfo
+		{
+			.drawInfo = drawInfo,
+			.device = device,
+			.renderPass = renderPass,
+			.swapExtent = swapExtent
+		};
+		rendererPipeline.create(rendererPipelineCreateInfo);
 
-		if (!rendererPipeline.writeDescriptorSets.empty())
-			device->updateDescriptorSets(rendererPipeline.writeDescriptorSets, {});
+		rendererPipeline.updateDescriptorSets(device);
 	}
 
 	void Renderer::draw(const DrawInfo& drawInfo)
 	{
-		//device.waitForFence(drawFence);
-		//device.resetFence(drawFence);
-
-		//std::uint16_t nextImageTimeout = std::numeric_limits<std::uint16_t>::max();
-		//Fence acquireNextImageFence;
-		//nextImageToDraw = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
-		//if (nextImageToDraw.first != vk::Result::eSuccess)
-		//	Logger->error("Failed to acquire next image from swap chain");
-
 		commandBuffer.reset();
 		commandBuffer.begin();
 
@@ -423,20 +346,20 @@ namespace zt::gl
 		renderArea.extent = swapExtent;
 
 		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea);
-		commandBuffer.bindPipeline(rendererPipeline.pipeline);
+		commandBuffer.bindPipeline(rendererPipeline.getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
 		vk::DeviceSize indexBufferOffset{ 0 };
 		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
 
-		if (rendererPipeline.descriptorSets.has_value())
+		if (rendererPipeline.getDescriptorSets().has_value())
 		{
 			std::vector<vk::DescriptorSet> tempDescriptorSets;
-			for (auto& set : *rendererPipeline.descriptorSets)
+			for (auto& set : *rendererPipeline.getDescriptorSets())
 			{
 				tempDescriptorSets.push_back(*set);
 			}
-			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipeline.pipelineLayout, 0, tempDescriptorSets, {});
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipeline.getPipelineLayout(), 0, tempDescriptorSets, {});
 		}
 
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
@@ -479,83 +402,6 @@ namespace zt::gl
 		queue.present(presentInfo);
 		if (results[0] != vk::Result::eSuccess)
 			Logger->error("present return non success vk::Result");
-	}
-
-	void Renderer::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors)
-	{
-		if (descriptors.empty())
-			return;
-
-		// Create descriptor pool sizes
-		std::map<DescriptorType, std::uint32_t> descriptorTypes;
-		for (const DrawInfo::Descriptor descriptor : descriptors)
-		{
-			std::uint32_t& poolSize = descriptorTypes[descriptor.descriptorType];
-			poolSize++;
-		}
-
-		// Create vector of vk::DescriptorPoolSize
-		std::vector<vk::DescriptorPoolSize> poolSizes;
-		poolSizes.reserve(descriptorTypes.size());
-		for (const std::pair<DescriptorType, std::uint32_t>& descriptorType : descriptorTypes)
-		{
-			vk::DescriptorPoolSize poolSize{
-				DescriptorTypeToVkDescriptorType(descriptorType.first),
-				descriptorType.second
-			};
-
-			poolSizes.emplace_back(poolSize);
-		}
-
-		rendererPipeline.descriptorSets.reset();
-		rendererPipeline.descriptorPool.clear();
-		rendererPipeline.descriptorPool = DescriptorPool{};
-		vk::DescriptorPoolCreateInfo descriptorPoolCreateInfo = rendererPipeline.descriptorPool.createCreateInfo(poolSizes);
-		rendererPipeline.descriptorPool.create(device, descriptorPoolCreateInfo);
-	}
-
-	void Renderer::createDescriptorSets()
-	{
-		if (rendererPipeline.descriptorPool == nullptr)
-			return;
-
-		const std::vector<vk::DescriptorSetLayout>& vkDescriptorSetLayouts = rendererPipeline.pipelineLayout.getVkDescriptorSetLayouts();
-		vk::DescriptorSetAllocateInfo descriptorsSetsAllocateInfo = rendererPipeline.descriptorPool.createDescriptorSetAllocateInfo(vkDescriptorSetLayouts);
-		rendererPipeline.descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
-	}
-
-	void Renderer::createWriteDescriptorSets(const DrawInfo& drawInfo)
-	{
-		rendererPipeline.writeDescriptorSets.clear();
-		rendererPipeline.writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.images.size());
-		createBufferWriteDescriptorSets(drawInfo.uniformBuffers);
-		createImageWriteDescriptorSets(drawInfo.images);
-	}
-
-	void Renderer::createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers)
-	{
-		rendererPipeline.descriptorBufferInfos.clear();
-		for (const UniformBuffer& uniformBuffer : uniformBuffers)
-		{
-			vk::DescriptorBufferInfo& descriptorBufferInfo = rendererPipeline.descriptorBufferInfos.emplace_back(uniformBuffer.createDescriptorBufferInfo());
-			vk::WriteDescriptorSet writeDescriptorSet = rendererPipeline.descriptorSets->createBufferWriteDescriptorSet(0u, descriptorBufferInfo);
-			rendererPipeline.writeDescriptorSets.push_back(writeDescriptorSet);
-		}
-	}
-
-	void Renderer::createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images)
-	{
-		rendererPipeline.descriptorImageInfos.clear();
-		for (std::size_t index = 0u; index < images.size(); ++index)
-		{
-			const ImageBuffer& imageBuffer = images[index].buffer;
-			const Sampler& sampler = images[index].sampler;
-			const ImageView& imageView = images[index].view;
-			vk::ImageLayout imageLayout = images[index].layout;
-			vk::DescriptorImageInfo& descriptorImageInfo = rendererPipeline.descriptorImageInfos.emplace_back(imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout));
-			vk::WriteDescriptorSet writeDescriptorSet = rendererPipeline.descriptorSets->createImageWriteDescriptorSet(0u, descriptorImageInfo);
-			rendererPipeline.writeDescriptorSets.push_back(writeDescriptorSet);
-		}
 	}
 
 	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)

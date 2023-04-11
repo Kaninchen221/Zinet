@@ -26,6 +26,7 @@
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 #include "Zinet/GraphicLayer/ZtGLFence.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -33,8 +34,8 @@
 
 namespace zt::gl
 {
-	// TODO: Add possibility to draw two objects
-
+	// TODO Draw multiple objects
+	// TODO Batch renderer
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -133,17 +134,6 @@ namespace zt::gl
 		void createFramebuffers();
 		void createVma();
 
-		void createPipeline(const DrawInfo& drawInfo);
-		void createShadersModules(const std::span<Shader>& shaders);
-		void createShadersStages();
-		void createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors);
-
-		void createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors);
-		void createDescriptorSets();
-		void createWriteDescriptorSets(const DrawInfo& drawInfo);
-		void createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers);
-		void createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images);
-
 		void updateSwapChainSupportDetails();
 
 		Context context;
@@ -164,22 +154,6 @@ namespace zt::gl
 		Vma vma;
 		std::pair<vk::Result, uint32_t> nextImageToDraw;
 
-		// TODO Refactor this
-		// Refactor this by creating the batch renderer?
-		struct ZINET_GRAPHIC_LAYER_API RendererPipeline
-		{
-			std::vector<ShaderModule> shadersModules;
-			std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
-			std::vector<vk::DescriptorSetLayoutBinding> bindings;
-			std::vector<DescriptorSetLayout> descriptorSetLayouts;
-			std::optional<DescriptorSets> descriptorSets;
-			DescriptorPool descriptorPool;
-			std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
-			std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
-			std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
-			PipelineLayout pipelineLayout;
-			Pipeline pipeline;
-		};
 		RendererPipeline rendererPipeline;
 
 		Semaphore imageAvailableSemaphore;
