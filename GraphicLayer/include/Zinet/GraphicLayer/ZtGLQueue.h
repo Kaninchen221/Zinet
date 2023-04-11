@@ -38,6 +38,7 @@ namespace zt::gl
 
 		void create(Device& device, uint32_t queueFamilyIndex);
 
+		// TODO Support more than one command buffer
 		vk::SubmitInfo createSubmitInfo(
 			std::span<Semaphore*> waitSemaphores,
 			vk::PipelineStageFlags& waitPipelineStageFlags,

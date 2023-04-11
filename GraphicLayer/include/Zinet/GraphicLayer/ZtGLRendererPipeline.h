@@ -74,18 +74,6 @@ namespace zt::gl
 
 	protected:
 
-		std::vector<ShaderModule> shadersModules;
-		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
-		std::vector<vk::DescriptorSetLayoutBinding> bindings;
-		std::vector<DescriptorSetLayout> descriptorSetLayouts;
-		std::optional<DescriptorSets> descriptorSets;
-		DescriptorPool descriptorPool;
-		std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
-		std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
-		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
-		PipelineLayout pipelineLayout;
-		Pipeline pipeline;
-
 		void createPipeline(const CreateInfo& createInfo);
 		void createShadersModules(const std::span<Shader>& shaders, Device& device);
 		void createShadersStages();
@@ -98,6 +86,19 @@ namespace zt::gl
 		void createWriteDescriptorSets(const DrawInfo& drawInfo);
 		void createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers);
 		void createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images);
+
+		std::vector<ShaderModule> shadersModules;
+		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
+		std::vector<vk::DescriptorSetLayoutBinding> bindings;
+		std::vector<DescriptorSetLayout> descriptorSetLayouts;
+		std::optional<DescriptorSets> descriptorSets;
+		DescriptorPool descriptorPool;
+		std::vector<vk::DescriptorBufferInfo> descriptorBufferInfos;
+		std::vector<vk::DescriptorImageInfo> descriptorImageInfos;
+		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
+		PipelineLayout pipelineLayout;
+		Pipeline pipeline;
+
 	};
 
 }

@@ -25,7 +25,8 @@ namespace zt::gl
 		if (drawFence != nullptr && drawFence.getStatus() != vk::Result::eNotReady)
 			device.waitForFence(drawFence);
 
-		rendererPipeline = RendererPipeline{};
+		//rendererPipeline = RendererPipeline{};
+		rendererPipelines.clear();
 		GLFW::Deinit();
 	}
 
@@ -310,9 +311,8 @@ namespace zt::gl
 		vma.create(allocatorCreateInfo);
 	}
 
-	void Renderer::prepareDraw(const DrawInfo& drawInfo)
+	void Renderer::preDraw()
 	{
-		// Should be in prepare draw
 		device.waitForFence(drawFence);
 		device.resetFence(drawFence);
 
@@ -322,22 +322,15 @@ namespace zt::gl
 		if (nextImageToDraw.first != vk::Result::eSuccess)
 			Logger->error("Failed to acquire next image from swap chain");
 
-		// Should be in separated function that will create pipeline from drawInfo
-		rendererPipeline = RendererPipeline{};
-		RendererPipeline::CreateInfo rendererPipelineCreateInfo
-		{
-			.drawInfo = drawInfo,
-			.device = device,
-			.renderPass = renderPass,
-			.swapExtent = swapExtent
-		};
-		rendererPipeline.create(rendererPipelineCreateInfo);
-
-		rendererPipeline.updateDescriptorSets(device);
+		//rendererPipelines.clear();
+		//commandBuffers.clear();
 	}
 
 	void Renderer::draw(const DrawInfo& drawInfo)
 	{
+		createRendererPipeline(drawInfo);
+
+		commandBuffer.allocateCommandBuffer(device, commandPool);
 		commandBuffer.reset();
 		commandBuffer.begin();
 
@@ -345,31 +338,34 @@ namespace zt::gl
 		renderArea.offset = vk::Offset2D{ 0, 0 };
 		renderArea.extent = swapExtent;
 
-		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea);
-		commandBuffer.bindPipeline(rendererPipeline.getPipeline());
+		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 1.f } };
+		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
+		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
 		vk::DeviceSize indexBufferOffset{ 0 };
 		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
 
-		if (rendererPipeline.getDescriptorSets().has_value())
+		if (rendererPipelines.back().getDescriptorSets().has_value())
 		{
 			std::vector<vk::DescriptorSet> tempDescriptorSets;
-			for (auto& set : *rendererPipeline.getDescriptorSets())
+			for (auto& set : *rendererPipelines.back().getDescriptorSets())
 			{
 				tempDescriptorSets.push_back(*set);
 			}
-			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipeline.getPipelineLayout(), 0, tempDescriptorSets, {});
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, tempDescriptorSets, {});
 		}
 
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
 
+	}
+
+	void Renderer::postDraw()
+	{
 		submit();
 		present(nextImageToDraw.second);
-
-		//Logger->info("Post draw");
 	}
 
 	void Renderer::submit()
@@ -428,6 +424,22 @@ namespace zt::gl
 	{
 		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
+	}
+
+	void Renderer::createRendererPipeline(const DrawInfo& drawInfo)
+	{
+		//rendererPipeline = RendererPipeline{};
+		RendererPipeline& newRendererPipeline = rendererPipelines.emplace_back();
+		RendererPipeline::CreateInfo rendererPipelineCreateInfo
+		{
+			.drawInfo = drawInfo,
+			.device = device,
+			.renderPass = renderPass,
+			.swapExtent = swapExtent
+		};
+		newRendererPipeline.create(rendererPipelineCreateInfo);
+
+		newRendererPipeline.updateDescriptorSets(device);
 	}
 
 }

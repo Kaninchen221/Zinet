@@ -17,7 +17,7 @@ namespace zt::gl
 {
 	CommandBuffer::CommandBuffer()
 	{
-		clearValue = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 1.f } };
+
 	}
 
 	vk::CommandBufferAllocateInfo CommandBuffer::createCommandBufferAllocateInfo(const CommandPool& commandPool) const
@@ -50,7 +50,7 @@ namespace zt::gl
 		internal.end();
 	}
 
-	void CommandBuffer::beginRenderPass(RenderPass& renderPass, Framebuffer& framebuffer, const vk::Rect2D& renderArea)
+	void CommandBuffer::beginRenderPass(RenderPass& renderPass, Framebuffer& framebuffer, const vk::Rect2D& renderArea, const vk::ClearValue& clearValue)
 	{
 		vk::RenderPassBeginInfo renderPassInfo{};
 		renderPassInfo.renderPass = *renderPass.getInternal();

@@ -47,7 +47,8 @@ namespace zt::gl
 
 		void end();
 
-		void beginRenderPass(RenderPass& renderPass, Framebuffer& framebuffer, const vk::Rect2D& renderArea);
+		// TODO Refactor params to one struct
+		void beginRenderPass(RenderPass& renderPass, Framebuffer& framebuffer, const vk::Rect2D& renderArea, const vk::ClearValue& clearValue);
 
 		void endRenderPass();
 
@@ -69,10 +70,6 @@ namespace zt::gl
 			std::uint32_t firstSet,
 			const std::vector<vk::DescriptorSet>& descriptorSets,
 			const vk::ArrayProxy<const uint32_t>& dynamicOffsets);
-
-	protected:
-
-		vk::ClearValue clearValue{};
 
 	};
 

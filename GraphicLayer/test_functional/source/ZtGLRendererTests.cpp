@@ -74,18 +74,35 @@ namespace zt::gl::tests
 
 		while (!renderer.getWindow().shouldBeClosed())
 		{
-			renderer.prepareDraw(drawInfo);
+			renderer.preDraw();
 
-			float time = static_cast<float>(glfwGetTime());
-			mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-			mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-			mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
-			mvp.proj[1][1] *= -1;
+			{
+				float time = static_cast<float>(glfwGetTime());
+				mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
+				mvp.proj[1][1] *= -1;
 
-			uniformBuffers[0].fillWithObject(mvp);
+				uniformBuffers[0].fillWithObject(mvp);
+				renderer.draw(drawInfo);
+			}
+
+			{
+				[[maybe_unused]] float time = static_cast<float>(glfwGetTime());
+				mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
+				mvp.proj[1][1] *= -1;
+			
+				uniformBuffers[0].fillWithObject(mvp);
+			
+				renderer.draw(drawInfo);
+			}
 
 			glfwPollEvents();
-			renderer.draw(drawInfo);
+
+			// TODO The last problem with invalid command buffer when there is more one command buffer is possibly because we use same resources (DrawInfo) to draw 2 "separeted" objects
+			renderer.postDraw();
 		}
 
 		renderer.getQueue()->waitIdle();

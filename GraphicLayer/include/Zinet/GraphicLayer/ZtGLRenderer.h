@@ -112,9 +112,11 @@ namespace zt::gl
 
 		const std::vector<vk::DescriptorImageInfo>& getDescriptorImageInfos() const;
 
-		void prepareDraw(const DrawInfo& drawInfo);
+		void preDraw();
 
 		void draw(const DrawInfo& drawInfo);
+
+		void postDraw();
 
 		void informAboutWindowResize(int width, int height);
 
@@ -136,6 +138,11 @@ namespace zt::gl
 
 		void updateSwapChainSupportDetails();
 
+		void submit();
+		void present(uint32_t& image);
+
+		void createRendererPipeline(const DrawInfo & drawInfo);
+
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;
@@ -154,7 +161,8 @@ namespace zt::gl
 		Vma vma;
 		std::pair<vk::Result, uint32_t> nextImageToDraw;
 
-		RendererPipeline rendererPipeline;
+		std::vector<RendererPipeline> rendererPipelines;
+		RendererPipeline rendererPipeline; // TODO Remove it's now working as a dummy
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;
@@ -173,9 +181,6 @@ namespace zt::gl
 		std::array<Semaphore*, 1> presentWaitSemaphores = { &renderingFinishedSemaphore };
 		std::array<SwapChain*, 1> presentSwapChains = { &swapChain };
 		vk::PresentInfoKHR presentInfo;
-
-		void submit();
-		void present(uint32_t& image);
 	};
 
 }
