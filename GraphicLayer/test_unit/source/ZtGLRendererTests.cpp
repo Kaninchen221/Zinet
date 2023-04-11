@@ -365,7 +365,6 @@ namespace zt::gl::tests
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
 		renderer.prepareDraw(drawInfo);
-		renderer.prepareDraw(drawInfo);
 
 		const std::vector<ShaderModule>& shadersModules = renderer.getShadersModules();
 		ASSERT_EQ(shadersModules.size(), 2u);

@@ -8,7 +8,7 @@
 namespace zt::gl::tests
 {
 
-	class RendererPipelineTests : public ::testing::Test
+	class RendererPipelineSimpleTests : public ::testing::Test
 	{
 	protected:
 
@@ -16,7 +16,7 @@ namespace zt::gl::tests
 
 	};
 
-	TEST(RendererPipelineTest, GetShadersModules)
+	TEST(RendererPipelineSimpleTests, GetShadersModules)
 	{
 		typedef const std::vector<ShaderModule>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getShadersModules);
@@ -27,7 +27,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(shadersModules.empty());
 	}
 
-	TEST(RendererPipelineTest, GetShadersStages)
+	TEST(RendererPipelineSimpleTests, GetShadersStages)
 	{
 		typedef const std::vector<vk::PipelineShaderStageCreateInfo>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getShadersStages);
@@ -38,7 +38,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(shadersStages.empty());
 	}
 
-	TEST(RendererPipelineTest, GetBindings)
+	TEST(RendererPipelineSimpleTests, GetBindings)
 	{
 		typedef const std::vector<vk::DescriptorSetLayoutBinding>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getBindings);
@@ -49,7 +49,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(bindings.empty());
 	}
 
-	TEST(RendererPipelineTest, GetDescriptorSetLayouts)
+	TEST(RendererPipelineSimpleTests, GetDescriptorSetLayouts)
 	{
 		typedef const std::vector<DescriptorSetLayout>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getDescriptorSetLayouts);
@@ -60,7 +60,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(descriptorSetLayouts.empty());
 	}
 
-	TEST(RendererPipelineTest, GetDescriptorSets)
+	TEST(RendererPipelineSimpleTests, GetDescriptorSets)
 	{
 		typedef const std::optional<DescriptorSets>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getDescriptorSets);
@@ -71,7 +71,7 @@ namespace zt::gl::tests
 		ASSERT_FALSE(descriptorSets.has_value());
 	}
 
-	TEST(RendererPipelineTest, GetDescriptorPool)
+	TEST(RendererPipelineSimpleTests, GetDescriptorPool)
 	{
 		typedef const DescriptorPool& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getDescriptorPool);
@@ -81,7 +81,7 @@ namespace zt::gl::tests
 		[[maybe_unused]] const DescriptorPool& descriptorPool = rendererPipeline.getDescriptorPool();
 	}
 
-	TEST(RendererPipelineTest, GetDescriptorBufferInfos)
+	TEST(RendererPipelineSimpleTests, GetDescriptorBufferInfos)
 	{
 		typedef const std::vector<vk::DescriptorBufferInfo>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getDescriptorBufferInfos);
@@ -92,7 +92,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(descriptorBufferInfos.empty());
 	}
 
-	TEST(RendererPipelineTest, GetDescriptorImageInfos)
+	TEST(RendererPipelineSimpleTests, GetDescriptorImageInfos)
 	{
 		typedef const std::vector<vk::DescriptorImageInfo>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getDescriptorImageInfos);
@@ -103,7 +103,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(descriptorImageInfos.empty());
 	}
 
-	TEST(RendererPipelineTest, GetWriteDescriptorSets)
+	TEST(RendererPipelineSimpleTests, GetWriteDescriptorSets)
 	{
 		typedef const std::vector<vk::WriteDescriptorSet>& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getWriteDescriptorSets);
@@ -114,7 +114,7 @@ namespace zt::gl::tests
 		ASSERT_TRUE(writeDescriptorSets.empty());
 	}
 
-	TEST(RendererPipelineTest, GetPipelineLayout)
+	TEST(RendererPipelineSimpleTests, GetPipelineLayout)
 	{
 		typedef const PipelineLayout& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getPipelineLayout);
@@ -124,7 +124,7 @@ namespace zt::gl::tests
 		[[maybe_unused]] const PipelineLayout& pipelineLayout = rendererPipeline.getPipelineLayout();
 	}
 
-	TEST(RendererPipelineTest, GetPipeline)
+	TEST(RendererPipelineSimpleTests, GetPipeline)
 	{
 		typedef const Pipeline& (RendererPipeline::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&RendererPipeline::getPipeline);

@@ -22,7 +22,7 @@ namespace zt::gl
 		if (device != nullptr)
 			device->waitIdle();
 
-		if (drawFence != nullptr)
+		if (drawFence != nullptr && drawFence.getStatus() != vk::Result::eNotReady)
 			device.waitForFence(drawFence);
 
 		rendererPipeline.descriptorSets.reset(); // TODO Pipeline refactor
