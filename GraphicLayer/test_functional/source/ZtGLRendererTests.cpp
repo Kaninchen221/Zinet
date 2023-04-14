@@ -19,33 +19,54 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("RendererTests");
+
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
-		std::vector<Shader> shaders;
-		std::vector<DrawInfo::Descriptor> descriptors;
-		VertexBuffer vertexBuffer;
-		std::vector<Vertex> vertices;
-		IndexBuffer indexBuffer;
-		std::vector<std::uint16_t> indices;
-		std::vector<UniformBuffer> uniformBuffers;
-
-		std::vector<DrawInfo::Image> imageDrawInfos;
-		std::vector<Image> images;
-		std::vector<ImageBuffer> imageBuffers;
-		std::vector<Sampler> samplers;
-		std::vector<ImageView> imageViews;
-		std::vector<vk::ImageLayout> imageLayouts;
-		STBImage stbImage;
-		MVP mvp;
 		Renderer renderer;
 
-		void createShaders();
-		void createDescriptors();
-		void createVertexBuffer();
-		void createIndexBuffer();
-		void createUniformBuffers();
-		void createImageDrawInfos();
-		void copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer);
+		// TODO: Fix crash: The STBIImage pointer to image is invalid in one of the images and program crash at the end
+		struct DrawableObject 
+		{
+			DrawableObject() = delete;
+			DrawableObject(const DrawableObject& other) = default;
+			DrawableObject(DrawableObject&& other) = default;
+			DrawableObject& operator = (const DrawableObject& other) = default;
+			DrawableObject& operator = (DrawableObject& other) = default;
+			~DrawableObject() noexcept;
+			DrawableObject(Renderer& rendererRef) : renderer(rendererRef) {}
+
+			std::vector<Shader> shaders;
+			std::vector<DrawInfo::Descriptor> descriptors;
+			VertexBuffer vertexBuffer;
+			std::vector<Vertex> vertices;
+			IndexBuffer indexBuffer;
+			std::vector<std::uint16_t> indices;
+			std::vector<UniformBuffer> uniformBuffers;
+
+			std::vector<DrawInfo::Image> imageDrawInfos;
+			std::vector<Image> images;
+			std::vector<ImageBuffer> imageBuffers;
+			std::vector<Sampler> samplers;
+			std::vector<ImageView> imageViews;
+			std::vector<vk::ImageLayout> imageLayouts;
+			STBImage stbImage;
+			MVP mvp;
+			Renderer& renderer;
+
+			void createShaders();
+			void createDescriptors();
+			void createVertexBuffer();
+			void createIndexBuffer();
+			void createUniformBuffers();
+			void createImageDrawInfos();
+			void copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer);
+
+			DrawInfo createDrawInfo();
+
+			void rotateImage();
+		};
+
 	};
 
 	TEST_F(RendererTests, Draw)
@@ -58,71 +79,71 @@ namespace zt::gl::tests
 
 		renderer.initialize();
 
-		createShaders();
-		createDescriptors();
-		createVertexBuffer();
-		createIndexBuffer();
-		createUniformBuffers();
-		createImageDrawInfos();
+		int count = 2;
+		std::vector<DrawableObject> drawableObjects;
+		drawableObjects.reserve(count);
+		std::vector<DrawInfo> drawInfos;
+		drawInfos.reserve(count);
+		for (size_t i = 0u; i < count; ++i)
+		{
+			drawableObjects.push_back(renderer);
+			DrawableObject& drawableObject = drawableObjects[i];
+			drawableObject.createShaders();
+			drawableObject.createDescriptors();
+			drawableObject.createVertexBuffer();
+			drawableObject.createIndexBuffer();
+			drawableObject.createUniformBuffers();
+			drawableObject.createImageDrawInfos();
 
-		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
-		drawInfo.indices = indices;
-		drawInfo.shaders = shaders;
-		drawInfo.descriptors = descriptors;
-		drawInfo.uniformBuffers = uniformBuffers;
-		drawInfo.images = imageDrawInfos;
+			drawInfos.push_back(drawableObject.createDrawInfo());
+		}
 
 		while (!renderer.getWindow().shouldBeClosed())
 		{
+			Logger->info("preDraw");
 			renderer.preDraw();
 
-			{
-				float time = static_cast<float>(glfwGetTime());
-				mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
-				mvp.proj[1][1] *= -1;
+			drawableObjects[0].rotateImage();
 
-				uniformBuffers[0].fillWithObject(mvp);
-				renderer.draw(drawInfo);
-			}
+			Logger->info("Draw 0");
+			renderer.draw(drawInfos[0]);
 
-			{
-				[[maybe_unused]] float time = static_cast<float>(glfwGetTime());
-				mvp.model = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-				mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
-				mvp.proj[1][1] *= -1;
-			
-				uniformBuffers[0].fillWithObject(mvp);
-			
-				renderer.draw(drawInfo);
-			}
+			Logger->info("Draw 1");
+			renderer.draw(drawInfos[1]);
+
+			//for (DrawInfo& drawInfo : drawInfos)
+			//{
+			//	renderer.draw(drawInfo);
+			//}
 
 			glfwPollEvents();
 
-			// TODO The last problem with invalid command buffer when there is more one command buffer is possibly because we use same resources (DrawInfo) to draw 2 "separeted" objects
+			Logger->info("postDraw");
 			renderer.postDraw();
 		}
 
 		renderer.getQueue()->waitIdle();
 		renderer.getDevice()->waitIdle();
-		
+	}
+
+	RendererTests::DrawableObject::~DrawableObject() noexcept
+	{
 		shaders.clear();
 		descriptors.clear();
 		vertexBuffer.~VertexBuffer();
 		indexBuffer.~IndexBuffer();
 		uniformBuffers.clear();
-		
+
 		imageDrawInfos.clear();
 		images.clear();
 		imageBuffers.clear();
 		samplers.clear();
 		imageViews.clear();
 		imageLayouts.clear();
+		stbImage.~STBImage();
 	}
 
-	void RendererTests::createShaders()
+	void RendererTests::DrawableObject::createShaders()
 	{
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
@@ -135,7 +156,7 @@ namespace zt::gl::tests
 		shaders[1].compile();
 	}
 
-	void RendererTests::createDescriptors()
+	void RendererTests::DrawableObject::createDescriptors()
 	{
 		DrawInfo::Descriptor descriptor;
 		descriptor.binding = 0;
@@ -151,7 +172,7 @@ namespace zt::gl::tests
 		descriptors.push_back(descriptor);
 	}
 
-	void RendererTests::createVertexBuffer()
+	void RendererTests::DrawableObject::createVertexBuffer()
 	{
 		Vertex vertex;
 		vertex.setPosition({ -0.5f, -0.5f, 0.f });
@@ -185,7 +206,7 @@ namespace zt::gl::tests
 		vertexBuffer.fillWithStdContainer(vertices);
 	}
 
-	void RendererTests::createIndexBuffer()
+	void RendererTests::DrawableObject::createIndexBuffer()
 	{
 		indices = { 0, 1, 2, 2, 3, 0 };
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
@@ -201,7 +222,7 @@ namespace zt::gl::tests
 		indexBuffer.fillWithStdContainer(indices);
 	}
 
-	void RendererTests::createUniformBuffers()
+	void RendererTests::DrawableObject::createUniformBuffers()
 	{
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
 		BufferCreateInfo bufferCreateInfo{
@@ -214,7 +235,7 @@ namespace zt::gl::tests
 		uniformBuffer.fillWithObject(mvp);
 	}
 
-	void RendererTests::createImageDrawInfos()
+	void RendererTests::DrawableObject::createImageDrawInfos()
 	{
 		if (!stbImage.load((ContentPath / "texture.jpg").string()))
 		{
@@ -256,7 +277,7 @@ namespace zt::gl::tests
 
 	}
 
-	void RendererTests::copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer)
+	void RendererTests::DrawableObject::copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer)
 	{
 		CommandBuffer commandBuffer;
 		//vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
@@ -350,4 +371,28 @@ namespace zt::gl::tests
 		renderer.getQueue().submit(submitInfo);
 		renderer.getQueue()->waitIdle();
 	}
+
+	DrawInfo RendererTests::DrawableObject::createDrawInfo()
+	{
+		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
+		drawInfo.indices = indices;
+		drawInfo.shaders = shaders;
+		drawInfo.descriptors = descriptors;
+		drawInfo.uniformBuffers = uniformBuffers;
+		drawInfo.images = imageDrawInfos;
+
+		return drawInfo;
+	}
+
+	void RendererTests::DrawableObject::rotateImage()
+	{
+		float time = static_cast<float>(glfwGetTime());
+		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
+		mvp.proj[1][1] *= -1;
+
+		uniformBuffers[0].fillWithObject(mvp);
+	}
+
 }

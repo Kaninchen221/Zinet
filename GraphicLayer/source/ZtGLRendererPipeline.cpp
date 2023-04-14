@@ -229,4 +229,19 @@ namespace zt::gl
 		}
 	}
 
+	RendererPipeline::~RendererPipeline() noexcept
+	{
+		shadersModules.clear();
+		shadersStages.clear();
+		bindings.clear();
+		descriptorSetLayouts.clear();
+		descriptorSets.reset();
+		descriptorPool.~DescriptorPool();
+		descriptorBufferInfos.clear();
+		descriptorImageInfos.clear();
+		writeDescriptorSets.clear();
+		pipelineLayout.~PipelineLayout();
+		pipeline.~Pipeline();
+	}
+
 }

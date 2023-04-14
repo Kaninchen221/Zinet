@@ -43,7 +43,7 @@ namespace zt::gl
 		RendererPipeline& operator = (const RendererPipeline& other) = default;
 		RendererPipeline& operator = (RendererPipeline&& other) = default;
 
-		~RendererPipeline() noexcept = default;
+		~RendererPipeline() noexcept;
 
 		const std::vector<ShaderModule>& getShadersModules() const;
 

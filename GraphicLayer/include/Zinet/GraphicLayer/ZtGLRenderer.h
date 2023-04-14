@@ -36,6 +36,9 @@ namespace zt::gl
 {
 	// TODO Draw multiple objects
 	// TODO Batch renderer
+	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or validation layers. We should compile Vulkan API/Validation layers by the hand
+	// TODO Next: If you want still draw 2 objects then you need to make the submit function works with multiple command buffers
+	// and the command buffer per object should be inside draw info (best place to store it now)
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -103,8 +106,6 @@ namespace zt::gl
 		const std::optional<DescriptorSets>& getDescriptorSets() const;
 
 		const CommandPool& getCommandPool() const;
-
-		const CommandBuffer& getCommandBuffer() const;
 
 		const std::vector<vk::WriteDescriptorSet>& getWriteDescriptorSets() const;
 

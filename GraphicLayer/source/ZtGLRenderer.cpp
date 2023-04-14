@@ -60,8 +60,6 @@ namespace zt::gl
 		imageAvailableSemaphore.create(device);
 		renderingFinishedSemaphore.create(device);
 
-		commandBuffer.allocateCommandBuffer(device, commandPool);
-
 		drawFence.createSignaled(device);
 		//device.waitForFence(drawFence);
 	}
@@ -184,11 +182,6 @@ namespace zt::gl
 	const CommandPool& Renderer::getCommandPool() const
 	{
 		return commandPool;
-	}
-
-	const CommandBuffer& Renderer::getCommandBuffer() const
-	{
-		return commandBuffer;
 	}
 
 	const std::vector<vk::WriteDescriptorSet>& Renderer::getWriteDescriptorSets() const
@@ -322,7 +315,7 @@ namespace zt::gl
 		if (nextImageToDraw.first != vk::Result::eSuccess)
 			Logger->error("Failed to acquire next image from swap chain");
 
-		//rendererPipelines.clear();
+		rendererPipelines.clear();
 		//commandBuffers.clear();
 	}
 
@@ -359,7 +352,6 @@ namespace zt::gl
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
-
 	}
 
 	void Renderer::postDraw()
