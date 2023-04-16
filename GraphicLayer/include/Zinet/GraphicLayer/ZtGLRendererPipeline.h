@@ -9,6 +9,7 @@
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -27,6 +28,7 @@ namespace zt::gl
 			const DrawInfo& drawInfo;
 			Device& device;
 			RenderPass& renderPass;
+			CommandPool& commandPool;
 			const vk::Extent2D& swapExtent;
 		};
 
@@ -98,7 +100,6 @@ namespace zt::gl
 		std::vector<vk::WriteDescriptorSet> writeDescriptorSets;
 		PipelineLayout pipelineLayout;
 		Pipeline pipeline;
-
 	};
 
 }

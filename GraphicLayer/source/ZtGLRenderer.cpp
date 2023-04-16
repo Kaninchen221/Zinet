@@ -316,13 +316,15 @@ namespace zt::gl
 			Logger->error("Failed to acquire next image from swap chain");
 
 		rendererPipelines.clear();
-		//commandBuffers.clear();
+		commandBuffers.clear();
+		submitCommandBuffers.clear();
 	}
 
 	void Renderer::draw(const DrawInfo& drawInfo)
 	{
 		createRendererPipeline(drawInfo);
 
+		CommandBuffer& commandBuffer = commandBuffers.emplace_back();
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 		commandBuffer.reset();
 		commandBuffer.begin();
@@ -331,7 +333,7 @@ namespace zt::gl
 		renderArea.offset = vk::Offset2D{ 0, 0 };
 		renderArea.extent = swapExtent;
 
-		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 1.f } };
+		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
 		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
@@ -362,9 +364,14 @@ namespace zt::gl
 
 	void Renderer::submit()
 	{
+		submitCommandBuffers.reserve(commandBuffers.size());
+		for (CommandBuffer& commandBuffer : commandBuffers)
+		{
+			submitCommandBuffers.push_back(*commandBuffer.getInternal());
+		}
+
 		submitWaitSemaphores = { &imageAvailableSemaphore };
 		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
-		submitCommandBuffers = { &commandBuffer };
 		submitSignalSemaphores = { &renderingFinishedSemaphore };
 
 		submitInfo = queue.createSubmitInfo(
@@ -427,6 +434,7 @@ namespace zt::gl
 			.drawInfo = drawInfo,
 			.device = device,
 			.renderPass = renderPass,
+			.commandPool = commandPool,
 			.swapExtent = swapExtent
 		};
 		newRendererPipeline.create(rendererPipelineCreateInfo);

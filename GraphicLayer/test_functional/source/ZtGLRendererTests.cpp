@@ -65,6 +65,7 @@ namespace zt::gl::tests
 			DrawInfo createDrawInfo();
 
 			void rotateImage();
+			void rotateImage2();
 		};
 
 	};
@@ -107,6 +108,8 @@ namespace zt::gl::tests
 
 			Logger->info("Draw 0");
 			renderer.draw(drawInfos[0]);
+
+			drawableObjects[1].rotateImage2();
 
 			Logger->info("Draw 1");
 			renderer.draw(drawInfos[1]);
@@ -387,6 +390,17 @@ namespace zt::gl::tests
 	void RendererTests::DrawableObject::rotateImage()
 	{
 		float time = static_cast<float>(glfwGetTime());
+		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
+		mvp.proj[1][1] *= -1;
+
+		uniformBuffers[0].fillWithObject(mvp);
+	}
+
+	void RendererTests::DrawableObject::rotateImage2()
+	{
+		float time = -static_cast<float>(glfwGetTime());
 		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);

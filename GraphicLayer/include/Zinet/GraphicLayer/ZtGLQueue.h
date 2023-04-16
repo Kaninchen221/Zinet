@@ -42,7 +42,7 @@ namespace zt::gl
 		vk::SubmitInfo createSubmitInfo(
 			std::span<Semaphore*> waitSemaphores,
 			vk::PipelineStageFlags& waitPipelineStageFlags,
-			std::span<CommandBuffer*> commandBuffers,
+			std::span<vk::CommandBuffer> commandBuffers,
 			std::span<Semaphore*> signalSemaphores) const;
 
 		void submitWithFence(const vk::SubmitInfo& submitInfo, Fence& fence) const;

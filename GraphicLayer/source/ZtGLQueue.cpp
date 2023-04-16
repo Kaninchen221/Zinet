@@ -22,7 +22,7 @@ namespace zt::gl
     vk::SubmitInfo Queue::createSubmitInfo(
         std::span<Semaphore*> waitSemaphores,
         vk::PipelineStageFlags& waitPipelineStageFlags,
-        std::span<CommandBuffer*> commandBuffers,
+        std::span<vk::CommandBuffer> commandBuffers,
         std::span<Semaphore*> signalSemaphores) const
     {
         vk::SubmitInfo submitInfo;
@@ -30,7 +30,7 @@ namespace zt::gl
         submitInfo.pWaitSemaphores = &*waitSemaphores[0]->getInternal();
         submitInfo.pWaitDstStageMask = &waitPipelineStageFlags;
         submitInfo.commandBufferCount = static_cast<uint32_t>(commandBuffers.size());
-        submitInfo.pCommandBuffers = &*commandBuffers[0]->getInternal();
+        submitInfo.pCommandBuffers = &commandBuffers[0];
         submitInfo.signalSemaphoreCount = static_cast<uint32_t>(signalSemaphores.size());
         submitInfo.pSignalSemaphores = &*signalSemaphores[0]->getInternal();
          

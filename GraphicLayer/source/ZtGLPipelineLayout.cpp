@@ -114,7 +114,7 @@ namespace zt::gl
 	{
 		colorBlendAttachmentState.colorWriteMask =
 			vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
-		colorBlendAttachmentState.blendEnable = VK_FALSE;
+		colorBlendAttachmentState.blendEnable = VK_TRUE; // TODO I changed it to true while trying to render 2 objects 
 		colorBlendAttachmentState.srcColorBlendFactor = vk::BlendFactor::eOne;
 		colorBlendAttachmentState.dstColorBlendFactor = vk::BlendFactor::eZero;
 		colorBlendAttachmentState.colorBlendOp = vk::BlendOp::eAdd;
