@@ -4,7 +4,7 @@ namespace zt::gl
 {
 	STBImage::~STBImage() noexcept
 	{
-		stbi_image_free(data);
+		free();
 	}
 
 	STBImage::MemoryPointer* STBImage::get()
@@ -41,6 +41,9 @@ namespace zt::gl
 
 	void STBImage::free()
 	{
+		if (data == nullptr)
+			return;
+
 		stbi_image_free(data);
 		data = nullptr;
 		width = 0;
