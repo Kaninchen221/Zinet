@@ -489,7 +489,9 @@ namespace zt::gl::tests
         renderArea.offset = vk::Offset2D{ 0, 0 };
         renderArea.extent = swapExtent;
 
-        commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea);
+		vk::ClearValue clearValue;
+
+        commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea, clearValue);
         commandBuffer.bindPipeline(pipeline);
         commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
         commandBuffer.bindIndexBuffer(indexBuffer, vk::DeviceSize{ 0 }, vk::IndexType::eUint16);

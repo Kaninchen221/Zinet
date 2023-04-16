@@ -149,9 +149,10 @@ namespace zt::gl::tests
 			swapExtent);
 
 		vk::Rect2D renderArea;
+		vk::ClearValue clearValue;
 
 		commandBuffer.begin();
-		commandBuffer.beginRenderPass(renderPass, framebuffer, renderArea);
+		commandBuffer.beginRenderPass(renderPass, framebuffer, renderArea, clearValue);
 		commandBuffer.endRenderPass();
 	}
 

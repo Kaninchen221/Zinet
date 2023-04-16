@@ -101,9 +101,6 @@ namespace zt::gl::tests
 
 		const CommandPool& commandPool = renderer.getCommandPool();
 		ASSERT_NE(commandPool, nullptr);
-
-		const CommandBuffer& commandBuffer = renderer.getCommandBuffer();
-		ASSERT_NE(commandBuffer, nullptr);
 	}
 
 	TEST(Renderer, GetContext)
@@ -306,16 +303,6 @@ namespace zt::gl::tests
 		[[maybe_unused]] const CommandPool& commandPool = renderer.getCommandPool();
 	}
 
-	TEST(Renderer, GetCommandBuffer)
-	{
-		typedef const CommandBuffer& (Renderer::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Renderer::getCommandBuffer);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		Renderer renderer;
-		[[maybe_unused]] const CommandBuffer& commandBuffer = renderer.getCommandBuffer();
-	}
-
 	TEST(Renderer, GetWriteDescriptorSets)
 	{
 		typedef const std::vector<vk::WriteDescriptorSet>& (Renderer::* ExpectedFunctionDeclaration)() const;
@@ -346,56 +333,16 @@ namespace zt::gl::tests
 		[[maybe_unused]] const std::vector<vk::DescriptorImageInfo>& descriptorImageInfos = renderer.getDescriptorImageInfos();
 	}
 
-	TEST_F(RendererTests, PrepareDraw)
+	TEST_F(RendererTests, preDraw)
 	{
 		renderer.initialize();
-		createShaders();
-		createDescriptors();
-		createUniformBuffers();
-		createImageDrawInfos();
 
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
-		using FunctionDeclaration = decltype(&Renderer::prepareDraw);
+		typedef void(Renderer::* ExpectedFunctionDeclaration)();
+		using FunctionDeclaration = decltype(&Renderer::preDraw);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
-		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
-		drawInfo.shaders = shaders;
-		drawInfo.descriptors = descriptors;
-		drawInfo.uniformBuffers = uniformBuffers;
-		drawInfo.images = imageDrawInfos;
-		renderer.prepareDraw(drawInfo);
-
-		const std::vector<ShaderModule>& shadersModules = renderer.getShadersModules();
-		ASSERT_EQ(shadersModules.size(), 2u);
-
-		const std::vector<vk::PipelineShaderStageCreateInfo>& shadersStages = renderer.getShadersStages();
-		ASSERT_EQ(shadersStages.size(), 2u);
-
-		const std::vector<DescriptorSetLayout>& descriptorSetLayouts = renderer.getDescriptorSetLayouts();
-		ASSERT_EQ(descriptorSetLayouts.size(), 1u);
-
-		const PipelineLayout& pipelineLayout = renderer.getPipelineLayout();
-		ASSERT_NE(pipelineLayout, nullptr);
-
-		const Pipeline& pipeline = renderer.getPipeline();
-		ASSERT_NE(pipeline, nullptr);
-
-		const DescriptorPool& descriptorPool = renderer.getDescriptorPool();
-		ASSERT_NE(descriptorPool, nullptr);
-
-		const std::optional<DescriptorSets>& descriptorSets = renderer.getDescriptorSets();
-		ASSERT_TRUE(descriptorSets.has_value());
-		ASSERT_FALSE(descriptorSets->empty());
-
-		const std::vector<vk::WriteDescriptorSet>& writeDescriptorSets = renderer.getWriteDescriptorSets();
-		ASSERT_EQ(writeDescriptorSets.size(), 2u);
-
-		const std::vector<vk::DescriptorBufferInfo>& descriptorBufferInfos = renderer.getDescriptorBufferInfos();
-		ASSERT_EQ(descriptorBufferInfos.size(), 1u);
-
-		const std::vector<vk::DescriptorImageInfo>& descriptorImageInfos = renderer.getDescriptorImageInfos();
-		ASSERT_EQ(descriptorImageInfos.size(), 1u);
+		renderer.preDraw();
 	}
 
 	TEST_F(RendererTests, Draw)
@@ -420,7 +367,7 @@ namespace zt::gl::tests
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
-		renderer.prepareDraw(drawInfo);
+		renderer.preDraw();
 		renderer.draw(drawInfo);
 
 		// Resolve runtime errors
