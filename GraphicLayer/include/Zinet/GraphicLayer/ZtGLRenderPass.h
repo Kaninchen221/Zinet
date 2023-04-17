@@ -27,6 +27,7 @@ namespace zt::gl
 
 		~RenderPass() noexcept = default;
 
+		// TODO Create separete for clear background and draw object/image copy
 		const vk::AttachmentDescription& createAttachmentDescription(vk::Format format);
 
 		const vk::AttachmentReference& createAttachmentReference();

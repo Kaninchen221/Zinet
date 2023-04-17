@@ -89,6 +89,7 @@ namespace zt::gl
 		rasterizationStateCreateInfo.polygonMode = vk::PolygonMode::eFill;
 		rasterizationStateCreateInfo.lineWidth = 1.0f;
 		rasterizationStateCreateInfo.cullMode = vk::CullModeFlagBits::eBack;
+		rasterizationStateCreateInfo.cullMode = vk::CullModeFlagBits::eNone; // TODO I add it while trying to render 2 objects 
 		rasterizationStateCreateInfo.frontFace = vk::FrontFace::eCounterClockwise;
 		rasterizationStateCreateInfo.depthBiasEnable = VK_FALSE;
 		rasterizationStateCreateInfo.depthBiasConstantFactor = 0.0f;
@@ -112,14 +113,15 @@ namespace zt::gl
 
 	const vk::PipelineColorBlendAttachmentState& PipelineLayout::createColorBlendAttachmentState()
 	{
+		// TODO I changed a few properties while trying to render 2 objects 
 		colorBlendAttachmentState.colorWriteMask =
 			vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
-		colorBlendAttachmentState.blendEnable = VK_TRUE; // TODO I changed it to true while trying to render 2 objects 
+		colorBlendAttachmentState.blendEnable = VK_TRUE;
 		colorBlendAttachmentState.srcColorBlendFactor = vk::BlendFactor::eOne;
-		colorBlendAttachmentState.dstColorBlendFactor = vk::BlendFactor::eZero;
+		colorBlendAttachmentState.dstColorBlendFactor = vk::BlendFactor::eOne;
 		colorBlendAttachmentState.colorBlendOp = vk::BlendOp::eAdd;
 		colorBlendAttachmentState.srcAlphaBlendFactor = vk::BlendFactor::eOne;
-		colorBlendAttachmentState.dstAlphaBlendFactor = vk::BlendFactor::eZero;
+		colorBlendAttachmentState.dstAlphaBlendFactor = vk::BlendFactor::eOne;
 		colorBlendAttachmentState.alphaBlendOp = vk::BlendOp::eAdd;
 
 		return colorBlendAttachmentState;
