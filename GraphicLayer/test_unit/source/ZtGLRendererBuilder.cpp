@@ -315,7 +315,7 @@ namespace zt::gl::tests
 		imageBuffer.fillWithCArray(stbImage.get());
 
         //// Image
-		ImageCreateInfo imageCreateInfo{
+		Image::CreateInfo imageCreateInfo{
 			.device = device,
 			.vma = vma,
 			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight()),

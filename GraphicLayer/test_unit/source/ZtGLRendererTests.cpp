@@ -471,7 +471,7 @@ namespace zt::gl::tests
 		}
 
 		Image& image = images.emplace_back();
-		ImageCreateInfo imageCreateInfo{
+		Image::CreateInfo imageCreateInfo{
 			.device = renderer.getDevice(),
 			.vma = renderer.getVma(),
 			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight()),

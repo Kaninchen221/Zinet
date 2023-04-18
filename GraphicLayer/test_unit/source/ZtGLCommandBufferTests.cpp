@@ -249,7 +249,7 @@ namespace zt::gl::tests
 		std::uint32_t expectedHeight = 1u;
 
 		Image image;
-		ImageCreateInfo imageCreateInfo{
+		Image::CreateInfo imageCreateInfo{
 			.device = renderer.getDevice(),
 			.vma = renderer.getVma(),
 			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),

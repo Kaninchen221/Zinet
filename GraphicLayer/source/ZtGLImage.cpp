@@ -34,7 +34,7 @@ namespace zt::gl
 		return allocationCreateInfo;
 	}
 
-	void Image::create(const ImageCreateInfo& imageCreateInfo)
+	void Image::create(const Image::CreateInfo& imageCreateInfo)
 	{
 		VkImage image;
 		vmaAllocator = imageCreateInfo.vma.getInternal();

@@ -12,16 +12,18 @@ namespace zt::gl
 	class Device;
 	class Vma;
 
-	struct ImageCreateInfo
-	{
-		const Device& device;
-		const Vma& vma;
-		VkImageCreateInfo vkImageCreateInfo;
-		VmaAllocationCreateInfo allocationCreateInfo;
-	};
-
 	class ZINET_GRAPHIC_LAYER_API Image : public VulkanObject<vk::raii::Image>
 	{
+
+	public:
+
+		struct CreateInfo
+		{
+			const Device& device;
+			const Vma& vma;
+			VkImageCreateInfo vkImageCreateInfo;
+			VmaAllocationCreateInfo allocationCreateInfo;
+		};
 
 	protected:
 
@@ -42,7 +44,7 @@ namespace zt::gl
 
 		VmaAllocationCreateInfo createAllocationCreateInfo() const;
 
-		void create(const ImageCreateInfo& imageCreateInfo);
+		void create(const CreateInfo& imageCreateInfo);
 
 	protected:
 
