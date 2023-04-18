@@ -517,7 +517,7 @@ namespace zt::gl::tests
     {
         std::array<Semaphore*, 1> waitSemaphores = { &imageAvailableSemaphore };
         vk::PipelineStageFlags waitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
-        std::array<CommandBuffer*, 1> commandBuffers = { &commandBuffer };
+        std::vector<vk::CommandBuffer> commandBuffers = { *commandBuffer.getInternal() };
         std::array<Semaphore*, 1> signalSemaphores = { &renderFinishedSemaphore };
 
         vk::SubmitInfo submitInfo = queue.createSubmitInfo(

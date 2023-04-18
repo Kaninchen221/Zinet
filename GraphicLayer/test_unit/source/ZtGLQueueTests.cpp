@@ -89,7 +89,7 @@ namespace zt::gl::tests
 		std::array<Semaphore*, 1> waitSemaphores{ &semaphore };
 		vk::PipelineStageFlags waitPipelineStageFlags{};
 		CommandBuffer commandBuffer;
-		std::array<CommandBuffer*, 1> commandBuffers{ &commandBuffer };
+		std::vector<vk::CommandBuffer> commandBuffers = { *commandBuffer.getInternal() };
 		std::array<Semaphore*, 1> signalSemaphores{ &semaphore };
 
 		Queue queue;
@@ -105,7 +105,7 @@ namespace zt::gl::tests
 		EXPECT_EQ(&waitPipelineStageFlags, submitInfo.pWaitDstStageMask);
 
 		EXPECT_EQ(commandBuffers.size(), submitInfo.commandBufferCount);
-		EXPECT_EQ(&*commandBuffers[0]->getInternal(), submitInfo.pCommandBuffers);
+		EXPECT_EQ(commandBuffers[0], *submitInfo.pCommandBuffers);
 
 		EXPECT_EQ(signalSemaphores.size(), submitInfo.signalSemaphoreCount);
 		EXPECT_EQ(&*signalSemaphores[0]->getInternal(), submitInfo.pSignalSemaphores);
