@@ -34,11 +34,7 @@ namespace zt::gl
 			RenderPass& renderPass,
 			const vk::Extent2D& swapChainExtent) const;
 
-		void create(
-			Device& device,
-			ImageView& imageView,
-			RenderPass& renderPass,
-			const vk::Extent2D& swapChainExtent);
+		void create(const Device& device, vk::FramebufferCreateInfo& framebufferCreateInfo);
 
 	};
 

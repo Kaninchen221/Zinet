@@ -142,11 +142,8 @@ namespace zt::gl::tests
 		renderPass.create(device);
 
 		Framebuffer framebuffer;
-		framebuffer.create(
-			device,
-			imageView,
-			renderPass,
-			swapExtent);
+		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, swapExtent);
+		framebuffer.create(device, framebufferCreateInfo);
 
 		vk::Rect2D renderArea;
 		vk::ClearValue clearValue;

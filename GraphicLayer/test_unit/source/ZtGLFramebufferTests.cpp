@@ -90,11 +90,8 @@ namespace zt::gl::tests
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], surfaceFormat.format);
 		imageView.create(device, imageViewCreateInfo);
 
-		framebuffer->create(
-			device,
-			imageView,
-			renderPass,
-			swapChainExtent);
+		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer->createCreateInfo(imageView, renderPass, swapChainExtent);
+		framebuffer->create(device, framebufferCreateInfo);
 
 		ASSERT_NE(*framebuffer->getInternal(), *vk::raii::Framebuffer{ std::nullptr_t{} });
 

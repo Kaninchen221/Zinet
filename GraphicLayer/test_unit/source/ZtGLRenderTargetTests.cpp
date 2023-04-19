@@ -7,6 +7,7 @@
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
+#include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 
 #include <gtest/gtest.h>
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
@@ -41,6 +42,16 @@ namespace zt::gl::tests
 		ASSERT_EQ(imageView, nullptr);
 	}
 
+	TEST_F(RenderTargetSimpleTests, GetFramebuffer)
+	{
+		typedef Framebuffer& (RenderTarget::* ExpectedFunctionDeclaration)();
+		using FunctionDeclaration = decltype(&RenderTarget::getFramebuffer);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		Framebuffer& framebuffer = renderTarget.getFramebuffer();
+		ASSERT_EQ(framebuffer, nullptr);
+	}
+
 	class RenderTargetTests : public ::testing::Test
 	{
 	protected:
@@ -49,9 +60,11 @@ namespace zt::gl::tests
 		Instance instance;
 		PhysicalDevice physicalDevice;
 		Device device;
+		RenderPass renderPass;
 		Window window;
 		Surface surface;
 		Vma vma;
+
 
 		RenderTarget renderTarget;
 
@@ -74,6 +87,8 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
+			renderPass.create(device);
+
 			VmaAllocatorCreateInfo vmaCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
 			vma.create(vmaCreateInfo);
 		}
@@ -90,6 +105,7 @@ namespace zt::gl::tests
 		{
 			.device = device,
 			.vma = vma,
+			.renderPass = renderPass,
 			.width = 400u,
 			.height = 400u,
 			.format = vk::Format::eR8G8B8A8Srgb
@@ -103,6 +119,7 @@ namespace zt::gl::tests
 		const ImageView& imageView = renderTarget.getImageView();
 		ASSERT_NE(imageView, nullptr);
 
-		// TODO: Framebuffer etc
+		const Framebuffer& framebuffer = renderTarget.getFramebuffer();
+		ASSERT_NE(framebuffer, nullptr);
 	}
 }

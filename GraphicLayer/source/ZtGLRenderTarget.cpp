@@ -6,9 +6,8 @@ namespace zt::gl
 	void RenderTarget::create(const CreateInfo& createInfo)
 	{
 		createImage(createInfo);
-
-		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), createInfo.format);
-		imageView.create(createInfo.device, imageViewCreateInfo);
+		createImageView(createInfo);
+		createFramebuffer(createInfo);
 	}
 
 	void RenderTarget::createImage(const CreateInfo& createInfo)
@@ -23,6 +22,21 @@ namespace zt::gl
 			.allocationCreateInfo = imageAllocationCreateInfo
 		};
 		image.create(imageCreateInfo);
+	}
+
+	void RenderTarget::createImageView(const CreateInfo& createInfo)
+	{
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), createInfo.format);
+		imageView.create(createInfo.device, imageViewCreateInfo);
+	}
+
+	void RenderTarget::createFramebuffer(const CreateInfo& createInfo)
+	{
+		vk::Extent2D extent2D;
+		extent2D.height = createInfo.height;
+		extent2D.width = createInfo.width;
+		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, createInfo.renderPass, extent2D);
+		framebuffer.create(createInfo.device, framebufferCreateInfo);
 	}
 
 }

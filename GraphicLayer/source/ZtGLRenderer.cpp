@@ -293,7 +293,8 @@ namespace zt::gl
 		for (ImageView& imageView : imageViews)
 		{
 			Framebuffer framebuffer;
-			framebuffer.create(device, imageView, renderPass, swapExtent);
+			vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, swapExtent);
+			framebuffer.create(device, framebufferCreateInfo);
 			framebuffers.push_back(std::move(framebuffer));
 		}
 	}

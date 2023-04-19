@@ -27,13 +27,10 @@ namespace zt::gl
 	}
 
 	void Framebuffer::create(
-		Device& device,
-		ImageView& imageView, 
-		RenderPass& renderPass, 
-		const vk::Extent2D& swapChainExtent)
+		const Device& device,
+		vk::FramebufferCreateInfo& framebufferCreateInfo)
 	{
-		vk::FramebufferCreateInfo createInfo = createCreateInfo(imageView, renderPass, swapChainExtent);
-		internal = std::move(vk::raii::Framebuffer{ device.getInternal(), createInfo });
+		internal = std::move(vk::raii::Framebuffer{ device.getInternal(), framebufferCreateInfo });
 	}
 
 }
