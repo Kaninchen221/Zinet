@@ -27,9 +27,11 @@
 #include "Zinet/GraphicLayer/ZtGLFence.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLRenderTarget.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include <plf_colony.h>
 #include <memory>
 
 namespace zt::gl
@@ -37,7 +39,7 @@ namespace zt::gl
 	// TODO Draw multiple objects
 	// TODO Batch renderer
 	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or validation layers. We should compile Vulkan API/Validation layers by the hand
-	// TODO Next: The renderer handle now more than one renderer pipeline and command buffer but now we have this problem: Only last drawn object is visible in the window
+	// TODO Next: We draw the two objects on two diffrent framebuffers and now we need modify draw function and add logic that will present framebuffer from swapchain and draw the framebuffers from offscreen to framebuffer from swapchain
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -138,6 +140,7 @@ namespace zt::gl
 
 		void updateSwapChainSupportDetails();
 
+		void drawFinal(); // TODO Change name
 		void submit();
 		void present(uint32_t& image);
 
@@ -162,13 +165,22 @@ namespace zt::gl
 		std::pair<vk::Result, uint32_t> nextImageToDraw;
 
 		std::vector<RendererPipeline> rendererPipelines;
-		RendererPipeline rendererPipeline; // TODO Remove it's now working as a dummy
+		
+		// TODO Remove getters and create getter that will return only renderer pipeline
+		// TODO Change name
+		// TODO Create DrawInfo that will use two framebuffers to draw them at one framebuffer
+		// TODO Create rendererPipeline that will use this DrawInfo
+		// TODO Finish drawFinal function
+		RendererPipeline rendererPipeline;
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;
 		Fence drawFence;
 		CommandPool commandPool;
+
+		// Offscreen rendering
 		std::vector<CommandBuffer> commandBuffers;
+		plf::colony<RenderTarget> renderTargets;
 
 		// Submit info
 		std::array<Semaphore*, 1> submitWaitSemaphores;

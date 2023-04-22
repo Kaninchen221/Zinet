@@ -319,11 +319,25 @@ namespace zt::gl
 		rendererPipelines.clear();
 		commandBuffers.clear();
 		submitCommandBuffers.clear();
+		renderTargets.clear();
 	}
 
 	void Renderer::draw(const DrawInfo& drawInfo)
 	{
 		createRendererPipeline(drawInfo);
+
+		// RenderTargets for offscreen rendering
+		auto renderTargetIt = renderTargets.emplace();
+		RenderTarget::CreateInfo renderTargetCreateInfo
+		{
+			.device = device,
+			.vma = vma,
+			.renderPass = renderPass,
+			.width = swapExtent.width,
+			.height = swapExtent.height,
+			.format = swapChainSupportDetails.pickFormat().format
+		};
+		renderTargetIt->create(renderTargetCreateInfo);
 
 		CommandBuffer& commandBuffer = commandBuffers.emplace_back();
 		commandBuffer.allocateCommandBuffer(device, commandPool);
@@ -335,7 +349,8 @@ namespace zt::gl
 		renderArea.extent = swapExtent;
 
 		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
-		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
+		//commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
+		commandBuffer.beginRenderPass(renderPass, renderTargetIt->getFramebuffer(), renderArea, clearColor);
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
@@ -360,6 +375,7 @@ namespace zt::gl
 	void Renderer::postDraw()
 	{
 		submit();
+		drawFinal();
 		present(nextImageToDraw.second);
 	}
 
@@ -441,6 +457,43 @@ namespace zt::gl
 		newRendererPipeline.create(rendererPipelineCreateInfo);
 
 		newRendererPipeline.updateDescriptorSets(device);
+	}
+
+	void Renderer::drawFinal()
+	{
+		
+
+		CommandBuffer& commandBuffer = commandBuffers.emplace_back();
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+		commandBuffer.reset();
+		commandBuffer.begin();
+
+		vk::Rect2D renderArea;
+		renderArea.offset = vk::Offset2D{ 0, 0 };
+		renderArea.extent = swapExtent;
+
+		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
+		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
+		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
+
+		//vk::DeviceSize indexBufferOffset{ 0 };
+		//commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
+
+		/*
+		if (rendererPipelines.back().getDescriptorSets().has_value())
+		{
+			std::vector<vk::DescriptorSet> tempDescriptorSets;
+			for (auto& set : *rendererPipelines.back().getDescriptorSets())
+			{
+				tempDescriptorSets.push_back(*set);
+			}
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, tempDescriptorSets, {});
+		}
+		*/
+
+		//commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
+		commandBuffer.endRenderPass();
+		commandBuffer.end();
 	}
 
 }

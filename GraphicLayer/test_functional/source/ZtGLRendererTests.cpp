@@ -250,7 +250,7 @@ namespace zt::gl::tests
 		Image::CreateInfo imageCreateInfo{
 			.device = renderer.getDevice(),
 			.vma = renderer.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight()),
+			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight(), vk::Format::eR8G8B8A8Srgb),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);

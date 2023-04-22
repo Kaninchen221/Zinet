@@ -12,7 +12,9 @@ namespace zt::gl
 
 	void RenderTarget::createImage(const CreateInfo& createInfo)
 	{
-		VkImageCreateInfo vkImageCreateInfo = image.createCreateInfo(createInfo.width, createInfo.height);
+		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(createInfo.width, createInfo.height, createInfo.format);
+		vkImageCreateInfo.usage = vk::ImageUsageFlagBits::eColorAttachment;
+		//vkImageCreateInfo.initialLayout = vk::ImageLayout::ePresentSrcKHR;
 		VmaAllocationCreateInfo imageAllocationCreateInfo = image.createAllocationCreateInfo();
 		Image::CreateInfo imageCreateInfo
 		{

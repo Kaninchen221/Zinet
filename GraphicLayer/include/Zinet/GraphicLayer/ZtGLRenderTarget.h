@@ -25,7 +25,6 @@ namespace zt::gl
 			std::uint32_t width;
 			std::uint32_t height;
 			vk::Format format;
-
 		};
 
 	protected:

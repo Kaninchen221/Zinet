@@ -40,7 +40,7 @@ namespace zt::gl
 
 		~Image() noexcept;
 
-		vk::ImageCreateInfo createCreateInfo(std::uint32_t width, std::uint32_t height);
+		vk::ImageCreateInfo createCreateInfo(std::uint32_t width, std::uint32_t height, vk::Format format = vk::Format::eR8G8B8A8Srgb);
 
 		VmaAllocationCreateInfo createAllocationCreateInfo() const;
 

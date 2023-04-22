@@ -5,7 +5,7 @@
 namespace zt::gl
 {
 
-	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t width, std::uint32_t height)
+	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t width, std::uint32_t height, vk::Format format)
 	{
 		vk::ImageCreateInfo createInfo{};
 		createInfo.imageType = vk::ImageType::e2D;
@@ -14,7 +14,7 @@ namespace zt::gl
 		createInfo.extent.depth = 1;
 		createInfo.mipLevels = 1;
 		createInfo.arrayLayers = 1;
-		createInfo.format = vk::Format::eR8G8B8A8Srgb;
+		createInfo.format = format;
 		createInfo.tiling = vk::ImageTiling::eOptimal;
 		createInfo.initialLayout = vk::ImageLayout::eUndefined;
 		createInfo.usage = vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled;
