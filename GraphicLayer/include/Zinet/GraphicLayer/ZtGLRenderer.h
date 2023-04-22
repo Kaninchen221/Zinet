@@ -36,10 +36,8 @@
 
 namespace zt::gl
 {
-	// TODO Draw multiple objects
 	// TODO Batch renderer
 	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or validation layers. We should compile Vulkan API/Validation layers by the hand
-	// TODO Next: We draw the two objects on two diffrent framebuffers and now we need modify draw function and add logic that will present framebuffer from swapchain and draw the framebuffers from offscreen to framebuffer from swapchain
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -86,33 +84,13 @@ namespace zt::gl
 
 		const vk::Extent2D& getSwapExtent() const;
 
-		const PipelineLayout& getPipelineLayout() const;
-
 		const RenderPass& getRenderPass() const;
 
 		const std::vector<Framebuffer>& getFramebuffers() const;
 
-		const Pipeline& getPipeline() const;
-
 		const Vma& getVma() const;
 
-		const std::vector<ShaderModule>& getShadersModules() const;
-
-		const std::vector<vk::PipelineShaderStageCreateInfo>& getShadersStages() const;
-
-		const std::vector<DescriptorSetLayout>& getDescriptorSetLayouts() const;
-
-		const DescriptorPool& getDescriptorPool() const;
-
-		const std::optional<DescriptorSets>& getDescriptorSets() const;
-
 		const CommandPool& getCommandPool() const;
-
-		const std::vector<vk::WriteDescriptorSet>& getWriteDescriptorSets() const;
-
-		const std::vector<vk::DescriptorBufferInfo>& getDescriptorBufferInfos() const;
-
-		const std::vector<vk::DescriptorImageInfo>& getDescriptorImageInfos() const;
 
 		void preDraw();
 
@@ -140,7 +118,6 @@ namespace zt::gl
 
 		void updateSwapChainSupportDetails();
 
-		void drawFinal(); // TODO Change name
 		void submit();
 		void present(uint32_t& image);
 
@@ -164,22 +141,13 @@ namespace zt::gl
 		Vma vma;
 		std::pair<vk::Result, uint32_t> nextImageToDraw;
 
-		std::vector<RendererPipeline> rendererPipelines;
-		
-		// TODO Remove getters and create getter that will return only renderer pipeline
-		// TODO Change name
-		// TODO Create DrawInfo that will use two framebuffers to draw them at one framebuffer
-		// TODO Create rendererPipeline that will use this DrawInfo
-		// TODO Finish drawFinal function
-		RendererPipeline rendererPipeline;
-
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;
 		Fence drawFence;
 		CommandPool commandPool;
 
-		// Offscreen rendering
-		std::vector<CommandBuffer> commandBuffers;
+		std::vector<RendererPipeline> rendererPipelines;
+		CommandBuffer commandBuffer;
 		plf::colony<RenderTarget> renderTargets;
 
 		// Submit info

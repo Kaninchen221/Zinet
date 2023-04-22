@@ -117,12 +117,12 @@ namespace zt::gl
 		colorBlendAttachmentState.colorWriteMask =
 			vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG | vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA;
 		colorBlendAttachmentState.blendEnable = VK_TRUE;
-		colorBlendAttachmentState.srcColorBlendFactor = vk::BlendFactor::eOne;
-		colorBlendAttachmentState.dstColorBlendFactor = vk::BlendFactor::eOne;
-		colorBlendAttachmentState.colorBlendOp = vk::BlendOp::eAdd;
-		colorBlendAttachmentState.srcAlphaBlendFactor = vk::BlendFactor::eOne;
-		colorBlendAttachmentState.dstAlphaBlendFactor = vk::BlendFactor::eOne;
-		colorBlendAttachmentState.alphaBlendOp = vk::BlendOp::eAdd;
+		colorBlendAttachmentState.srcColorBlendFactor = vk::BlendFactor::eSrcAlpha;
+		colorBlendAttachmentState.dstColorBlendFactor = vk::BlendFactor::eOneMinusSrcAlpha;
+		//colorBlendAttachmentState.colorBlendOp = vk::BlendOp::eAdd;
+		colorBlendAttachmentState.srcAlphaBlendFactor = vk::BlendFactor::eSrcAlpha;
+		colorBlendAttachmentState.dstAlphaBlendFactor = vk::BlendFactor::eOneMinusSrcAlpha;
+		//colorBlendAttachmentState.alphaBlendOp = vk::BlendOp::eAdd;
 
 		return colorBlendAttachmentState;
 	}

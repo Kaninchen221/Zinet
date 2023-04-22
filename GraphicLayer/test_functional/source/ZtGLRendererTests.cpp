@@ -101,27 +101,20 @@ namespace zt::gl::tests
 
 		while (!renderer.getWindow().shouldBeClosed())
 		{
-			Logger->info("preDraw");
+			//Logger->info("preDraw");
 			renderer.preDraw();
 
+			//Logger->info("Draw 0");
 			drawableObjects[0].rotateImage();
-
-			Logger->info("Draw 0");
 			renderer.draw(drawInfos[0]);
 
+			//Logger->info("Draw 1");
 			drawableObjects[1].rotateImage2();
-
-			Logger->info("Draw 1");
 			renderer.draw(drawInfos[1]);
-
-			//for (DrawInfo& drawInfo : drawInfos)
-			//{
-			//	renderer.draw(drawInfo);
-			//}
 
 			glfwPollEvents();
 
-			Logger->info("postDraw");
+			//Logger->info("postDraw");
 			renderer.postDraw();
 		}
 
@@ -391,7 +384,7 @@ namespace zt::gl::tests
 	{
 		float time = static_cast<float>(glfwGetTime());
 		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, -1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
 		mvp.proj[1][1] *= -1;
 
@@ -400,9 +393,10 @@ namespace zt::gl::tests
 
 	void RendererTests::DrawableObject::rotateImage2()
 	{
-		float time = -static_cast<float>(glfwGetTime());
+		float time = -1.f;
+		time *= static_cast<float>(glfwGetTime());
 		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
 		mvp.proj[1][1] *= -1;
 

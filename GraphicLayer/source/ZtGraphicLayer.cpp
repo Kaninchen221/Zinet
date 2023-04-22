@@ -2,23 +2,36 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-// TODO: Move it to separete file
+// TODO: Move it to separate file
 // VMA
 namespace zt::gl
 {
 	class ZINET_GRAPHIC_LAYER_API VmaAllocLogger
 	{
 		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Vma_alloc");
+		static inline std::once_flag onceFlag = {};
 
 	public:
+
+		VmaAllocLogger() = default;
+		VmaAllocLogger(const VmaAllocLogger& other) = default;
+		VmaAllocLogger(VmaAllocLogger&& other) = default;
+
+		VmaAllocLogger& operator = (const VmaAllocLogger& other) = default;
+		VmaAllocLogger& operator = (VmaAllocLogger&& other) = default;
+
+		~VmaAllocLogger() noexcept = default;
 
 		template<typename... Args>
 		static void Log(fmt::format_string<Args...> format, [[maybe_unused]] Args &&...args) // TODO use args
 		{
+			std::call_once(onceFlag, []() { Logger->set_level(spdlog::level::off); });
+
 			Logger->info(format);
 		}
 
 	};
+
 }
 
 #define VMA_DEBUG_LOG(format, ...) \

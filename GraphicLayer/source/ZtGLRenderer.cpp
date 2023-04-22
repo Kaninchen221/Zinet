@@ -62,6 +62,8 @@ namespace zt::gl
 
 		drawFence.createSignaled(device);
 		//device.waitForFence(drawFence);
+		
+		commandBuffer.allocateCommandBuffer(device, commandPool);
 	}
 
 	const Context& Renderer::getContext() const
@@ -129,11 +131,6 @@ namespace zt::gl
 		return swapExtent;
 	}
 
-	const PipelineLayout& Renderer::getPipelineLayout() const
-	{
-		return rendererPipeline.getPipelineLayout();
-	}
-
 	const RenderPass& Renderer::getRenderPass() const
 	{
 		return renderPass;
@@ -144,59 +141,14 @@ namespace zt::gl
 		return framebuffers;
 	}
 
-	const Pipeline& Renderer::getPipeline() const
-	{
-		return rendererPipeline.getPipeline();
-	}
-
 	const Vma& Renderer::getVma() const
 	{
 		return vma;
 	}
 
-	const std::vector<ShaderModule>& Renderer::getShadersModules() const
-	{
-		return rendererPipeline.getShadersModules();
-	}
-
-	const std::vector<vk::PipelineShaderStageCreateInfo>& Renderer::getShadersStages() const
-	{
-		return rendererPipeline.getShadersStages();
-	}
-
-	const std::vector<DescriptorSetLayout>& Renderer::getDescriptorSetLayouts() const
-	{
-		return rendererPipeline.getDescriptorSetLayouts();
-	}
-
-	const DescriptorPool& Renderer::getDescriptorPool() const
-	{
-		return rendererPipeline.getDescriptorPool();
-	}
-
-	const std::optional<DescriptorSets>& Renderer::getDescriptorSets() const
-	{
-		return rendererPipeline.getDescriptorSets();
-	}
-
 	const CommandPool& Renderer::getCommandPool() const
 	{
 		return commandPool;
-	}
-
-	const std::vector<vk::WriteDescriptorSet>& Renderer::getWriteDescriptorSets() const
-	{
-		return rendererPipeline.getWriteDescriptorSets();
-	}
-
-	const std::vector<vk::DescriptorBufferInfo>& Renderer::getDescriptorBufferInfos() const
-	{
-		return rendererPipeline.getDescriptorBufferInfos();
-	}
-
-	const std::vector<vk::DescriptorImageInfo>& Renderer::getDescriptorImageInfos() const
-	{
-		return rendererPipeline.getDescriptorImageInfos();
 	}
 
 	void Renderer::createInstance()
@@ -317,9 +269,17 @@ namespace zt::gl
 			Logger->error("Failed to acquire next image from swap chain");
 
 		rendererPipelines.clear();
-		commandBuffers.clear();
 		submitCommandBuffers.clear();
 		renderTargets.clear();
+
+		commandBuffer.reset();
+		commandBuffer.begin();
+
+		vk::Rect2D renderArea;
+		renderArea.offset = vk::Offset2D{ 0, 0 };
+		renderArea.extent = swapExtent;
+		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
+		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
 	}
 
 	void Renderer::draw(const DrawInfo& drawInfo)
@@ -339,18 +299,10 @@ namespace zt::gl
 		};
 		renderTargetIt->create(renderTargetCreateInfo);
 
-		CommandBuffer& commandBuffer = commandBuffers.emplace_back();
-		commandBuffer.allocateCommandBuffer(device, commandPool);
-		commandBuffer.reset();
-		commandBuffer.begin();
+		//CommandBuffer& commandBuffer = commandBuffers.emplace_back();
+		//commandBuffer.allocateCommandBuffer(device, commandPool);
 
-		vk::Rect2D renderArea;
-		renderArea.offset = vk::Offset2D{ 0, 0 };
-		renderArea.extent = swapExtent;
-
-		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
-		//commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
-		commandBuffer.beginRenderPass(renderPass, renderTargetIt->getFramebuffer(), renderArea, clearColor);
+		//commandBuffer.beginRenderPass(renderPass, renderTargetIt->getFramebuffer(), renderArea, clearColor);
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
@@ -368,24 +320,26 @@ namespace zt::gl
 		}
 
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
-		commandBuffer.endRenderPass();
-		commandBuffer.end();
 	}
 
 	void Renderer::postDraw()
 	{
+		commandBuffer.endRenderPass();
+		commandBuffer.end();
+
 		submit();
-		drawFinal();
+		//drawFinal();
 		present(nextImageToDraw.second);
 	}
 
 	void Renderer::submit()
 	{
-		submitCommandBuffers.reserve(commandBuffers.size());
-		for (CommandBuffer& commandBuffer : commandBuffers)
-		{
-			submitCommandBuffers.push_back(*commandBuffer.getInternal());
-		}
+		//submitCommandBuffers.reserve(commandBuffers.size());
+		//for (CommandBuffer& commandBuffer : commandBuffers)
+		//{
+		//	submitCommandBuffers.push_back(*commandBuffer.getInternal());
+		//}
+		submitCommandBuffers.push_back(*commandBuffer.getInternal());
 
 		submitWaitSemaphores = { &imageAvailableSemaphore };
 		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
@@ -444,7 +398,6 @@ namespace zt::gl
 
 	void Renderer::createRendererPipeline(const DrawInfo& drawInfo)
 	{
-		//rendererPipeline = RendererPipeline{};
 		RendererPipeline& newRendererPipeline = rendererPipelines.emplace_back();
 		RendererPipeline::CreateInfo rendererPipelineCreateInfo
 		{
@@ -457,43 +410,6 @@ namespace zt::gl
 		newRendererPipeline.create(rendererPipelineCreateInfo);
 
 		newRendererPipeline.updateDescriptorSets(device);
-	}
-
-	void Renderer::drawFinal()
-	{
-		
-
-		CommandBuffer& commandBuffer = commandBuffers.emplace_back();
-		commandBuffer.allocateCommandBuffer(device, commandPool);
-		commandBuffer.reset();
-		commandBuffer.begin();
-
-		vk::Rect2D renderArea;
-		renderArea.offset = vk::Offset2D{ 0, 0 };
-		renderArea.extent = swapExtent;
-
-		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
-		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
-		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
-
-		//vk::DeviceSize indexBufferOffset{ 0 };
-		//commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
-
-		/*
-		if (rendererPipelines.back().getDescriptorSets().has_value())
-		{
-			std::vector<vk::DescriptorSet> tempDescriptorSets;
-			for (auto& set : *rendererPipelines.back().getDescriptorSets())
-			{
-				tempDescriptorSets.push_back(*set);
-			}
-			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, tempDescriptorSets, {});
-		}
-		*/
-
-		//commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
-		commandBuffer.endRenderPass();
-		commandBuffer.end();
 	}
 
 }
