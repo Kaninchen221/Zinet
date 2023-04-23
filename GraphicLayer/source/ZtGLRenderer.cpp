@@ -257,7 +257,6 @@ namespace zt::gl
 
 	void Renderer::preDraw()
 	{
-		Logger->warn("Blabla");
 		device.waitForFence(drawFence);
 		device.resetFence(drawFence);
 
@@ -269,7 +268,6 @@ namespace zt::gl
 
 		rendererPipelines.clear();
 		submitCommandBuffers.clear();
-		renderTargets.clear();
 
 		commandBuffer.reset();
 		commandBuffer.begin();
@@ -285,18 +283,6 @@ namespace zt::gl
 	{
 		createRendererPipeline(drawInfo);
 
-		auto renderTargetIt = renderTargets.emplace();
-		RenderTarget::CreateInfo renderTargetCreateInfo
-		{
-			.device = device,
-			.vma = vma,
-			.renderPass = renderPass,
-			.width = swapExtent.width,
-			.height = swapExtent.height,
-			.format = swapChainSupportDetails.pickFormat().format
-		};
-		renderTargetIt->create(renderTargetCreateInfo);
-
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
@@ -305,12 +291,7 @@ namespace zt::gl
 
 		if (rendererPipelines.back().getDescriptorSets().has_value())
 		{
-			std::vector<vk::DescriptorSet> tempDescriptorSets;
-			for (auto& set : *rendererPipelines.back().getDescriptorSets())
-			{
-				tempDescriptorSets.push_back(*set);
-			}
-			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, tempDescriptorSets, {});
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, rendererPipelines.back().getDescriptorSets().value(), {});
 		}
 
 		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);

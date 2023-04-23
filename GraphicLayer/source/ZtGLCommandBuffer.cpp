@@ -6,12 +6,13 @@
 #include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLQueue.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
 
 namespace zt::gl
 {
@@ -118,10 +119,16 @@ namespace zt::gl
 		vk::PipelineBindPoint bindPoint, 
 		const PipelineLayout& pipelineLayout, 
 		std::uint32_t firstSet, 
-		const std::vector<vk::DescriptorSet>& descriptorSets, 
+		const DescriptorSets& descriptorSets,
 		const vk::ArrayProxy<const uint32_t>& dynamicOffsets)
 	{
-		internal.bindDescriptorSets(bindPoint, *pipelineLayout.getInternal(), firstSet, descriptorSets, dynamicOffsets);
+		vkDescriptorSets.clear();
+		for (auto& set : descriptorSets)
+		{
+			vkDescriptorSets.push_back(*set);
+		}
+
+		internal.bindDescriptorSets(bindPoint, *pipelineLayout.getInternal(), firstSet, vkDescriptorSets, dynamicOffsets);
 	}
 
 }

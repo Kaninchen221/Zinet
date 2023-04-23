@@ -20,6 +20,7 @@ namespace zt::gl
 	class Image;
 	class VertexBuffer;
 	class IndexBuffer;
+	class DescriptorSets;
 
 	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
@@ -68,8 +69,12 @@ namespace zt::gl
 			vk::PipelineBindPoint bindPoint,
 			const PipelineLayout& pipelineLayout,
 			std::uint32_t firstSet,
-			const std::vector<vk::DescriptorSet>& descriptorSets,
+			const DescriptorSets& descriptorSets,
 			const vk::ArrayProxy<const uint32_t>& dynamicOffsets);
+
+	protected:
+
+		std::vector<vk::DescriptorSet> vkDescriptorSets;
 
 	};
 

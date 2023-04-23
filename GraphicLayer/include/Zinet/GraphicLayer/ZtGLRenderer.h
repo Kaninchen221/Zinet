@@ -148,7 +148,6 @@ namespace zt::gl
 
 		std::vector<RendererPipeline> rendererPipelines;
 		CommandBuffer commandBuffer;
-		plf::colony<RenderTarget> renderTargets;
 
 		// Submit info
 		std::array<Semaphore*, 1> submitWaitSemaphores;
