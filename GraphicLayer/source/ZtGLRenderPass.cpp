@@ -9,7 +9,6 @@ namespace zt::gl
 		attachmentDescription.format = format;
 		attachmentDescription.samples = vk::SampleCountFlagBits::e1;
 		attachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
-		//attachmentDescription.loadOp = vk::AttachmentLoadOp::eDontCare; // TODO I add it while trying to render 2 objects 
 		attachmentDescription.storeOp = vk::AttachmentStoreOp::eStore;
 		attachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
 		attachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;

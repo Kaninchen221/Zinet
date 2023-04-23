@@ -25,7 +25,6 @@ namespace zt::gl::tests
 
 		Renderer renderer;
 
-		// TODO: Fix crash: The STBIImage pointer to image is invalid in one of the images and program crash at the end
 		struct DrawableObject 
 		{
 			DrawableObject() = delete;
@@ -44,6 +43,7 @@ namespace zt::gl::tests
 			std::vector<std::uint16_t> indices;
 			std::vector<UniformBuffer> uniformBuffers;
 
+			// TODO Create Texture class
 			std::vector<DrawInfo::Image> imageDrawInfos;
 			std::vector<Image> images;
 			std::vector<ImageBuffer> imageBuffers;
