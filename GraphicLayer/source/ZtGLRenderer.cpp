@@ -25,7 +25,6 @@ namespace zt::gl
 		if (drawFence != nullptr && drawFence.getStatus() != vk::Result::eNotReady)
 			device.waitForFence(drawFence);
 
-		//rendererPipeline = RendererPipeline{};
 		rendererPipelines.clear();
 		GLFW::Deinit();
 	}
@@ -61,7 +60,6 @@ namespace zt::gl
 		renderingFinishedSemaphore.create(device);
 
 		drawFence.createSignaled(device);
-		//device.waitForFence(drawFence);
 		
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 	}
@@ -259,6 +257,7 @@ namespace zt::gl
 
 	void Renderer::preDraw()
 	{
+		Logger->warn("Blabla");
 		device.waitForFence(drawFence);
 		device.resetFence(drawFence);
 
@@ -286,7 +285,6 @@ namespace zt::gl
 	{
 		createRendererPipeline(drawInfo);
 
-		// RenderTargets for offscreen rendering
 		auto renderTargetIt = renderTargets.emplace();
 		RenderTarget::CreateInfo renderTargetCreateInfo
 		{
@@ -299,10 +297,6 @@ namespace zt::gl
 		};
 		renderTargetIt->create(renderTargetCreateInfo);
 
-		//CommandBuffer& commandBuffer = commandBuffers.emplace_back();
-		//commandBuffer.allocateCommandBuffer(device, commandPool);
-
-		//commandBuffer.beginRenderPass(renderPass, renderTargetIt->getFramebuffer(), renderArea, clearColor);
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
@@ -328,17 +322,11 @@ namespace zt::gl
 		commandBuffer.end();
 
 		submit();
-		//drawFinal();
 		present(nextImageToDraw.second);
 	}
 
 	void Renderer::submit()
 	{
-		//submitCommandBuffers.reserve(commandBuffers.size());
-		//for (CommandBuffer& commandBuffer : commandBuffers)
-		//{
-		//	submitCommandBuffers.push_back(*commandBuffer.getInternal());
-		//}
 		submitCommandBuffers.push_back(*commandBuffer.getInternal());
 
 		submitWaitSemaphores = { &imageAvailableSemaphore };
