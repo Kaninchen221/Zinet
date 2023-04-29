@@ -11,6 +11,7 @@
 
 #include <filesystem>
 #include <vector>
+#include <chrono>
 
 namespace zt::gl::tests
 {
@@ -99,6 +100,8 @@ namespace zt::gl::tests
 			drawInfos.push_back(drawableObject.createDrawInfo());
 		}
 
+		auto timeAtStartDrawing = std::chrono::high_resolution_clock::now();
+
 		while (!renderer.getWindow().shouldBeClosed())
 		{
 			//Logger->info("preDraw");
@@ -116,6 +119,13 @@ namespace zt::gl::tests
 
 			//Logger->info("postDraw");
 			renderer.postDraw();
+
+			auto currentTime = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::seconds>(currentTime - timeAtStartDrawing).count();
+			if (duration > 5)
+			{
+				glfwSetWindowShouldClose(renderer.getWindow().getInternal(), true);
+			}
 		}
 
 		renderer.getQueue()->waitIdle();

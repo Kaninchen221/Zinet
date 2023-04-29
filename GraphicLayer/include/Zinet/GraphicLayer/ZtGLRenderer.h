@@ -65,6 +65,7 @@ namespace zt::gl
 		const DebugUtilsMessenger& getDebugUtilsMessenger() const;
 
 		const Window& getWindow() const;
+		Window& getWindow() { return window; }
 
 		const Surface& getSurface() const;
 
