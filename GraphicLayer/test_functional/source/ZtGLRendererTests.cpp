@@ -130,8 +130,6 @@ namespace zt::gl::tests
 
 		renderer.getQueue()->waitIdle();
 		renderer.getDevice()->waitIdle();
-
-		FAIL() << "Test fail";
 	}
 
 	RendererTests::DrawableObject::~DrawableObject() noexcept
