@@ -1,5 +1,3 @@
 @echo off
 
-cd build
-cmake --build .
-cd ..
+cmake --build ./build
