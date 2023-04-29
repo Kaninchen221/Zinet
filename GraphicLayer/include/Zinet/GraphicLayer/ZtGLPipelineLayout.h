@@ -29,7 +29,7 @@ namespace zt::gl
 
 		~PipelineLayout() noexcept = default;
 
-		// TODO: Move to Pipeline class?
+		// TODO: Move to ShaderModule class?
 		const vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);
 
 		const vk::PipelineVertexInputStateCreateInfo& createVertexInputStateCreateInfo();

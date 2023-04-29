@@ -497,12 +497,10 @@ namespace zt::gl::tests
         commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
         commandBuffer.bindIndexBuffer(indexBuffer, vk::DeviceSize{ 0 }, vk::IndexType::eUint16);
 
-        std::vector<vk::DescriptorSet> tempDescriptorSets;
-        for (auto& set : *descriptorSets)
-        {
-            tempDescriptorSets.push_back(*set);
-        }
-		commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipelineLayout, 0, tempDescriptorSets, {});
+		if (descriptorSets.has_value())
+		{
+			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, pipelineLayout, 0, descriptorSets.value(), {});
+		}
 
         commandBuffer->drawIndexed(static_cast<std::uint32_t>(indices.size()), 1, 0, 0, 0);
         commandBuffer.endRenderPass();
