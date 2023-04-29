@@ -6,9 +6,10 @@ os.chdir("build/bin")
 
 for file in os.listdir():
     if file.endswith(".exe"):
-        #os.system(file)
-        result = subprocess.run(file, capture_output=True)
+        process = subprocess.run(file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, universal_newlines=True)
+        print(process.stdout)
+        print(process.stderr)
 
-        if result.returncode != 0:
-            print(f"Process {file} return code {result.returncode}")
+        if process.returncode != 0:
+            print(f"Process {file} return code {process.returncode}")
             sys.exit(1)
