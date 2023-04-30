@@ -2,11 +2,13 @@
 # Zinet
 
 README is in TODO state
-## Step by step
+
+## Step by step first config
   + Install Vulkan SDK
   + Install Python 3.X
-  + Install Visual Studio 2019
+  + Install min Visual Studio 2019
   + Clone repo
-  + Run PPG.bat
-  + Run build_windows.bat
+  + Run generate_project_files.bat
+  + Run conan_install.bat
+  + In cmd: python build.py --BuildType Debug
   + The solution file will be in build folder
