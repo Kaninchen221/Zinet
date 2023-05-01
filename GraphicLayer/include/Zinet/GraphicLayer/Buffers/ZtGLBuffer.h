@@ -54,7 +54,7 @@ namespace zt::gl
 		template<typename T>
 		void fillWithStdContainer(const T& container);
 
-		void fillWithCArray(void* firstElement);
+		void fillWithCArray(const void* firstElement);
 
 		std::pair<void*, std::uint64_t> getData();
 

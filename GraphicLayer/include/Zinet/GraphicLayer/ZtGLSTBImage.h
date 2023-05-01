@@ -22,6 +22,7 @@ namespace zt::gl
 		~STBImage() noexcept;
 
 		MemoryPointer* get();
+		const MemoryPointer* get() const { return data; }
 
 		bool load(const std::string& path);
 

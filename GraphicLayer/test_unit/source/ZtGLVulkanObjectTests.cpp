@@ -72,6 +72,12 @@ namespace zt::gl::tests
 		ASSERT_NE(testObject, instance.getInternal());
 	}
 
+	TEST_F(VulkanObjectTests, ComparisonEqualToOther)
+	{
+		TestClass testObject2;
+		ASSERT_EQ(testObject, testObject2);
+	}
+
 	TEST(VulkanObject, IsValid)
 	{
 		Instance instance;

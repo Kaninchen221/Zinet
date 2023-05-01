@@ -37,7 +37,7 @@ namespace zt::gl
 		return result;
 	}
 
-	void Buffer::fillWithCArray(void* firstElement)
+	void Buffer::fillWithCArray(const void* firstElement)
 	{
 		void* mappedData;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
