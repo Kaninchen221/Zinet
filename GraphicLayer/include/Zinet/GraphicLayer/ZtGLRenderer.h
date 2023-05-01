@@ -37,7 +37,7 @@
 namespace zt::gl
 {
 	// TODO Batch renderer
-	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or validation layers. We should compile Vulkan API/Validation layers by the hand
+	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 

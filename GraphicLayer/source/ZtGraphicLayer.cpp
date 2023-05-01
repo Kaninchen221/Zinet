@@ -13,14 +13,14 @@ namespace zt::gl
 
 	public:
 
-		VmaAllocLogger() = default;
-		VmaAllocLogger(const VmaAllocLogger& other) = default;
-		VmaAllocLogger(VmaAllocLogger&& other) = default;
+		VmaAllocLogger() = delete;
+		VmaAllocLogger(const VmaAllocLogger& other) = delete;
+		VmaAllocLogger(VmaAllocLogger&& other) = delete;
 
-		VmaAllocLogger& operator = (const VmaAllocLogger& other) = default;
-		VmaAllocLogger& operator = (VmaAllocLogger&& other) = default;
+		VmaAllocLogger& operator = (const VmaAllocLogger& other) = delete;
+		VmaAllocLogger& operator = (VmaAllocLogger&& other) = delete;
 
-		~VmaAllocLogger() noexcept = default;
+		~VmaAllocLogger() noexcept = delete;
 
 		template<typename... Args>
 		static void Log(fmt::format_string<Args...> format, [[maybe_unused]] Args &&...args) // TODO use args
