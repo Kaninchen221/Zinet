@@ -27,6 +27,7 @@ namespace zt::gl::tests
 
 		Renderer renderer;
 
+		// TODO Refactor this class to Drawable Object, Sprite
 		struct DrawableObject 
 		{
 			DrawableObject() = delete;
@@ -45,7 +46,6 @@ namespace zt::gl::tests
 			std::vector<std::uint16_t> indices;
 			std::vector<UniformBuffer> uniformBuffers;
 
-			// TODO Create Texture class
 			std::vector<DrawInfo::Image> imageDrawInfos;
 			std::vector<Sampler> samplers;
 
