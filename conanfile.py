@@ -5,7 +5,7 @@ class ZinetConan(ConanFile):
    requires = [
         "gtest/1.10.0@",
         "spdlog/1.9.2@",
-        "plf_colony/6.25@",
+        "plf_colony/7.06@",
         "imgui/1.86@",
         "glfw/3.3.6@",
         "stb/20200203@",
