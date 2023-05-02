@@ -7,6 +7,9 @@
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+
+#include "Zinet/Core/ZtClock.h"
 
 #include <gtest/gtest.h>
 
@@ -28,15 +31,15 @@ namespace zt::gl::tests
 		Renderer renderer;
 
 		// TODO Refactor this class to Drawable Object, Sprite
-		struct DrawableObject 
+		struct Sprite : public DrawableObject
 		{
-			DrawableObject() = delete;
-			DrawableObject(const DrawableObject& other) = default;
-			DrawableObject(DrawableObject&& other) = default;
-			DrawableObject& operator = (const DrawableObject& other) = default;
-			DrawableObject& operator = (DrawableObject& other) = default;
-			~DrawableObject() noexcept;
-			DrawableObject(Renderer& rendererRef) : renderer(rendererRef) {}
+			Sprite() = delete;
+			Sprite(const Sprite& other) = delete;
+			Sprite(Sprite&& other) = default;
+			Sprite& operator = (const Sprite& other) = delete;
+			Sprite& operator = (Sprite& other) = default;
+			~Sprite() noexcept;
+			Sprite(Renderer& rendererRef) : renderer(rendererRef) {}
 
 			std::vector<Shader> shaders;
 			std::vector<DrawInfo::Descriptor> descriptors;
@@ -62,10 +65,14 @@ namespace zt::gl::tests
 			void createUniformBuffers();
 			void createImageDrawInfos();
 
-			DrawInfo createDrawInfo();
+			void createDrawInfo() override;
 
 			void rotateImage();
 			void rotateImage2();
+
+			const DrawInfo& getDrawInfo() const override { return drawInfo; }
+
+			DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 		};
 
 	};
@@ -81,25 +88,22 @@ namespace zt::gl::tests
 		renderer.initialize();
 
 		int count = 2;
-		std::vector<DrawableObject> drawableObjects;
-		drawableObjects.reserve(count);
-		std::vector<DrawInfo> drawInfos;
-		drawInfos.reserve(count);
+		plf::colony<Sprite> sprites;
+		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
 		{
-			drawableObjects.push_back(renderer);
-			DrawableObject& drawableObject = drawableObjects[i];
-			drawableObject.createShaders();
-			drawableObject.createDescriptors();
-			drawableObject.createVertexBuffer();
-			drawableObject.createIndexBuffer();
-			drawableObject.createUniformBuffers();
-			drawableObject.createImageDrawInfos();
-
-			drawInfos.push_back(drawableObject.createDrawInfo());
+			auto sprite = sprites.emplace(renderer);
+			sprite->createShaders();
+			sprite->createDescriptors();
+			sprite->createVertexBuffer();
+			sprite->createIndexBuffer();
+			sprite->createUniformBuffers();
+			sprite->createImageDrawInfos();
+			sprite->createDrawInfo();
 		}
 
-		auto timeAtStartDrawing = std::chrono::high_resolution_clock::now();
+		zt::Clock clock;
+		clock.start();
 
 		while (!renderer.getWindow().shouldBeClosed())
 		{
@@ -107,22 +111,24 @@ namespace zt::gl::tests
 			renderer.preDraw();
 
 			//Logger->info("Draw 0");
-			drawableObjects[0].rotateImage();
-			renderer.draw(drawInfos[0]);
+			auto sprite = sprites.begin();
+			sprite->rotateImage();
+			renderer.draw(sprite->getDrawInfo());
 
 			//Logger->info("Draw 1");
-			drawableObjects[1].rotateImage2();
-			renderer.draw(drawInfos[1]);
+			sprite = sprites.begin();
+			sprite++;
+			sprite->rotateImage2();
+			renderer.draw(sprite->getDrawInfo());
 
 			glfwPollEvents();
 
 			//Logger->info("postDraw");
 			renderer.postDraw();
 
-			auto currentTime = std::chrono::high_resolution_clock::now();
-			auto duration = std::chrono::duration_cast<std::chrono::seconds>(currentTime - timeAtStartDrawing).count();
-			if (duration > 5)
+			if (clock.getElapsedTime().getAsSeconds() > 4)
 			{
+				// TODO Add close window function to Window class
 				glfwSetWindowShouldClose(renderer.getWindow().getInternal(), true);
 			}
 		}
@@ -131,7 +137,7 @@ namespace zt::gl::tests
 		renderer.getDevice()->waitIdle();
 	}
 
-	RendererTests::DrawableObject::~DrawableObject() noexcept
+	RendererTests::Sprite::~Sprite() noexcept
 	{
 		shaders.clear();
 		descriptors.clear();
@@ -144,7 +150,7 @@ namespace zt::gl::tests
 		stbImage.~STBImage();
 	}
 
-	void RendererTests::DrawableObject::createShaders()
+	void RendererTests::Sprite::createShaders()
 	{
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
@@ -157,7 +163,7 @@ namespace zt::gl::tests
 		shaders[1].compile();
 	}
 
-	void RendererTests::DrawableObject::createDescriptors()
+	void RendererTests::Sprite::createDescriptors()
 	{
 		DrawInfo::Descriptor descriptor;
 		descriptor.binding = 0;
@@ -173,7 +179,7 @@ namespace zt::gl::tests
 		descriptors.push_back(descriptor);
 	}
 
-	void RendererTests::DrawableObject::createVertexBuffer()
+	void RendererTests::Sprite::createVertexBuffer()
 	{
 		Vertex vertex;
 		vertex.setPosition({ -0.5f, -0.5f, 0.f });
@@ -207,7 +213,7 @@ namespace zt::gl::tests
 		vertexBuffer.fillWithStdContainer(vertices);
 	}
 
-	void RendererTests::DrawableObject::createIndexBuffer()
+	void RendererTests::Sprite::createIndexBuffer()
 	{
 		indices = { 0, 1, 2, 2, 3, 0 };
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
@@ -223,7 +229,7 @@ namespace zt::gl::tests
 		indexBuffer.fillWithStdContainer(indices);
 	}
 
-	void RendererTests::DrawableObject::createUniformBuffers()
+	void RendererTests::Sprite::createUniformBuffers()
 	{
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
 		BufferCreateInfo bufferCreateInfo{
@@ -236,9 +242,9 @@ namespace zt::gl::tests
 		uniformBuffer.fillWithObject(mvp);
 	}
 
-	void RendererTests::DrawableObject::createImageDrawInfos()
+	void RendererTests::Sprite::createImageDrawInfos()
 	{
-		if (!stbImage.load((ContentPath / "texture.jpg").string()))
+		if (!stbImage.load((ContentPath / "texture.png").string()))
 		{
 			FAIL() << "Can't load texture image";
 			return;
@@ -252,19 +258,16 @@ namespace zt::gl::tests
 		imageDrawInfos.push_back(texture.createImageDrawInfo(sampler));
 	}
 
-	DrawInfo RendererTests::DrawableObject::createDrawInfo()
+	void RendererTests::Sprite::createDrawInfo()
 	{
-		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 		drawInfo.indices = indices;
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
-
-		return drawInfo;
 	}
 
-	void RendererTests::DrawableObject::rotateImage()
+	void RendererTests::Sprite::rotateImage()
 	{
 		float time = static_cast<float>(glfwGetTime());
 		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -275,7 +278,7 @@ namespace zt::gl::tests
 		uniformBuffers[0].fillWithObject(mvp);
 	}
 
-	void RendererTests::DrawableObject::rotateImage2()
+	void RendererTests::Sprite::rotateImage2()
 	{
 		float time = -1.f;
 		time *= static_cast<float>(glfwGetTime());
