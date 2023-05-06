@@ -7,13 +7,11 @@
 
 namespace zt::gl
 {
+	class Texture;
+	class Sampler;
 
 	class ZINET_GRAPHIC_LAYER_API DrawableObject
 	{
-
-	protected:
-
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("DrawableObject");
 
 	public:
 
@@ -28,7 +26,7 @@ namespace zt::gl
 
 		virtual const DrawInfo& getDrawInfo() const = 0;
 
-		virtual void createDrawInfo() = 0;
+		virtual void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) = 0;
 	};
 
 }

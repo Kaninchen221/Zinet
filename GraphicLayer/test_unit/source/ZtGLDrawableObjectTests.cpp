@@ -4,6 +4,11 @@
 
 #include <gtest/gtest.h>
 
+namespace zt::gl
+{
+	class Texture;
+}
+
 namespace zt::gl::tests
 {
 
@@ -22,7 +27,7 @@ namespace zt::gl::tests
 
 			const DrawInfo& getDrawInfo() const override { return drawInfo; }
 
-			void createDrawInfo() override {}
+			void createDrawInfo([[maybe_unused]] std::span<Shader> shaders, [[maybe_unused]] const Texture& texture, [[maybe_unused]] const Sampler& sampler) override {}
 
 		};
 

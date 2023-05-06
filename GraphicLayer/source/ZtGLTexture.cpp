@@ -31,7 +31,7 @@ namespace zt::gl
 		vkImageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
 	}
 
-	DrawInfo::Image Texture::createImageDrawInfo(Sampler& sampler)
+	DrawInfo::Image Texture::createImageDrawInfo(const Sampler& sampler) const
 	{
 		DrawInfo::Image imageDrawInfo
 		{

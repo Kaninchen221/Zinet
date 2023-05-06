@@ -44,9 +44,9 @@ namespace zt::gl
 
 		struct ZINET_GRAPHIC_LAYER_API Image
 		{
-			ImageBuffer& buffer;
-			Sampler& sampler;
-			ImageView& view;
+			const ImageBuffer& buffer;
+			const Sampler& sampler;
+			const ImageView& view;
 			vk::ImageLayout layout;
 		};
 

@@ -14,7 +14,7 @@ namespace glslang
 
 namespace zt::gl
 {
-
+	// TODO: LoadFrom... should return bool
 	class ZINET_GRAPHIC_LAYER_API Shader
 	{
 		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Shader");

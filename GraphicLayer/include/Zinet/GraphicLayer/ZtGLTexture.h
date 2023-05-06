@@ -43,7 +43,7 @@ namespace zt::gl
 
 		void create(const STBImage& stbImage, const Renderer& renderer);
 
-		DrawInfo::Image createImageDrawInfo(Sampler& sampler);
+		DrawInfo::Image createImageDrawInfo(const Sampler& sampler) const;
 
 	protected:
 

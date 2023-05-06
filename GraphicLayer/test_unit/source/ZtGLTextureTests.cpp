@@ -59,7 +59,7 @@ namespace zt::gl::tests
 
 	TEST_F(TextureSimpleTests, CreateImageDrawInfo)
 	{
-		typedef DrawInfo::Image (Texture::* ExpectedFunctionDeclaration)(Sampler&);
+		typedef DrawInfo::Image (Texture::* ExpectedFunctionDeclaration)(const Sampler&) const;
 		using FunctionDeclaration = decltype(&Texture::createImageDrawInfo);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 

@@ -41,7 +41,6 @@ namespace zt::gl::tests
 			~Sprite() noexcept;
 			Sprite(Renderer& rendererRef) : renderer(rendererRef) {}
 
-			std::vector<Shader> shaders;
 			std::vector<DrawInfo::Descriptor> descriptors;
 			VertexBuffer vertexBuffer;
 			std::vector<Vertex> vertices;
@@ -50,22 +49,17 @@ namespace zt::gl::tests
 			std::vector<UniformBuffer> uniformBuffers;
 
 			std::vector<DrawInfo::Image> imageDrawInfos;
-			std::vector<Sampler> samplers;
-
-			STBImage stbImage;
-			Texture texture;
 
 			MVP mvp;
 			Renderer& renderer;
 
-			void createShaders();
 			void createDescriptors();
 			void createVertexBuffer();
 			void createIndexBuffer();
 			void createUniformBuffers();
-			void createImageDrawInfos();
+			void createImageDrawInfos(const Texture& texture, const Sampler& sampler);
 
-			void createDrawInfo() override;
+			void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
 
 			void rotateImage();
 			void rotateImage2();
@@ -75,6 +69,13 @@ namespace zt::gl::tests
 			DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
 		};
 
+		void createShaders();
+		void createSTBImage();
+
+		std::vector<Shader> shaders;
+		Sampler sampler;
+		STBImage stbImage;
+		Texture texture;
 	};
 
 	TEST_F(RendererTests, Draw)
@@ -87,19 +88,23 @@ namespace zt::gl::tests
 
 		renderer.initialize();
 
+		createShaders();
+		createSTBImage();
+
+		// Create Sampler
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
+		sampler.create(renderer.getDevice(), samplerCreateInfo);
+
+		// Create texture
+		texture.create(stbImage, renderer);
+
 		int count = 2;
 		plf::colony<Sprite> sprites;
 		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
 		{
 			auto sprite = sprites.emplace(renderer);
-			sprite->createShaders();
-			sprite->createDescriptors();
-			sprite->createVertexBuffer();
-			sprite->createIndexBuffer();
-			sprite->createUniformBuffers();
-			sprite->createImageDrawInfos();
-			sprite->createDrawInfo();
+			sprite->createDrawInfo(shaders, texture, sampler);
 		}
 
 		zt::Clock clock;
@@ -139,18 +144,15 @@ namespace zt::gl::tests
 
 	RendererTests::Sprite::~Sprite() noexcept
 	{
-		shaders.clear();
 		descriptors.clear();
 		vertexBuffer.~VertexBuffer();
 		indexBuffer.~IndexBuffer();
 		uniformBuffers.clear();
 
 		imageDrawInfos.clear();
-		samplers.clear();
-		stbImage.~STBImage();
 	}
 
-	void RendererTests::Sprite::createShaders()
+	void RendererTests::createShaders()
 	{
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
@@ -242,24 +244,27 @@ namespace zt::gl::tests
 		uniformBuffer.fillWithObject(mvp);
 	}
 
-	void RendererTests::Sprite::createImageDrawInfos()
+	void RendererTests::createSTBImage()
 	{
 		if (!stbImage.load((ContentPath / "texture.png").string()))
 		{
 			FAIL() << "Can't load texture image";
-			return;
 		}
+	}
 
-		Sampler& sampler = samplers.emplace_back();
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(renderer.getDevice(), samplerCreateInfo);
-
-		texture.create(stbImage, renderer);
+	void RendererTests::Sprite::createImageDrawInfos(const Texture& texture, const Sampler& sampler)
+	{
 		imageDrawInfos.push_back(texture.createImageDrawInfo(sampler));
 	}
 
-	void RendererTests::Sprite::createDrawInfo()
+	void RendererTests::Sprite::createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler)
 	{
+		createDescriptors();
+		createVertexBuffer();
+		createIndexBuffer();
+		createUniformBuffers();
+		createImageDrawInfos(texture, sampler);
+
 		drawInfo.indices = indices;
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
