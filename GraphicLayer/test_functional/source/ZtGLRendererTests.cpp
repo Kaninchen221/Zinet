@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 #include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+#include "Zinet/GraphicLayer/ZtGLSprite.h"
 
 #include "Zinet/Core/ZtClock.h"
 
@@ -29,45 +30,6 @@ namespace zt::gl::tests
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
 		Renderer renderer;
-
-		// TODO Refactor this class to Drawable Object, Sprite
-		struct Sprite : public DrawableObject
-		{
-			Sprite() = delete;
-			Sprite(const Sprite& other) = delete;
-			Sprite(Sprite&& other) = default;
-			Sprite& operator = (const Sprite& other) = delete;
-			Sprite& operator = (Sprite& other) = default;
-			~Sprite() noexcept;
-			Sprite(Renderer& rendererRef) : renderer(rendererRef) {}
-
-			std::vector<DrawInfo::Descriptor> descriptors;
-			VertexBuffer vertexBuffer;
-			std::vector<Vertex> vertices;
-			IndexBuffer indexBuffer;
-			std::vector<std::uint16_t> indices;
-			std::vector<UniformBuffer> uniformBuffers;
-
-			std::vector<DrawInfo::Image> imageDrawInfos;
-
-			MVP mvp;
-			Renderer& renderer;
-
-			void createDescriptors();
-			void createVertexBuffer();
-			void createIndexBuffer();
-			void createUniformBuffers();
-			void createImageDrawInfos(const Texture& texture, const Sampler& sampler);
-
-			void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
-
-			void rotateImage();
-			void rotateImage2();
-
-			const DrawInfo& getDrawInfo() const override { return drawInfo; }
-
-			DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
-		};
 
 		void createShaders();
 		void createSTBImage();
@@ -103,7 +65,8 @@ namespace zt::gl::tests
 		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
 		{
-			auto sprite = sprites.emplace(renderer);
+			auto sprite = sprites.emplace();
+			sprite->create(renderer);
 			sprite->createDrawInfo(shaders, texture, sampler);
 		}
 
@@ -117,13 +80,13 @@ namespace zt::gl::tests
 
 			//Logger->info("Draw 0");
 			auto sprite = sprites.begin();
-			sprite->rotateImage();
+			sprite->rotate();
 			renderer.draw(sprite->getDrawInfo());
 
 			//Logger->info("Draw 1");
 			sprite = sprites.begin();
 			sprite++;
-			sprite->rotateImage2();
+			sprite->rotate2();
 			renderer.draw(sprite->getDrawInfo());
 
 			glfwPollEvents();
@@ -142,14 +105,12 @@ namespace zt::gl::tests
 		renderer.getDevice()->waitIdle();
 	}
 
-	RendererTests::Sprite::~Sprite() noexcept
+	void RendererTests::createSTBImage()
 	{
-		descriptors.clear();
-		vertexBuffer.~VertexBuffer();
-		indexBuffer.~IndexBuffer();
-		uniformBuffers.clear();
-
-		imageDrawInfos.clear();
+		if (!stbImage.load((ContentPath / "texture.png").string()))
+		{
+			FAIL() << "Can't load texture image";
+		}
 	}
 
 	void RendererTests::createShaders()
@@ -163,136 +124,6 @@ namespace zt::gl::tests
 		shaders[1].setType(ShaderType::Fragment);
 		shaders[1].loadFromFile((ContentPath / "shader.frag").string());
 		shaders[1].compile();
-	}
-
-	void RendererTests::Sprite::createDescriptors()
-	{
-		DrawInfo::Descriptor descriptor;
-		descriptor.binding = 0;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
-		descriptor.binding = 1;
-		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Fragment;
-		descriptors.push_back(descriptor);
-	}
-
-	void RendererTests::Sprite::createVertexBuffer()
-	{
-		Vertex vertex;
-		vertex.setPosition({ -0.5f, -0.5f, 0.f });
-		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 0.0f });
-		vertices.push_back(vertex);
-
-		vertex.setPosition({ 0.5f, -0.5f, 0.f });
-		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 0.0f });
-		vertices.push_back(vertex);
-
-		vertex.setPosition({ 0.5f, 0.5f, 0.f });
-		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 1.0f });
-		vertices.push_back(vertex);
-
-		vertex.setPosition({ -0.5f, 0.5f, 0.f });
-		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 1.0f });
-		vertices.push_back(vertex);
-
-		BufferCreateInfo bufferCreateInfo{
-			renderer.getDevice(),
-			renderer.getVma(),
-			vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
-			vertexBuffer.createVmaAllocationCreateInfo(false, true)
-		};
-
-		vertexBuffer.create(bufferCreateInfo);
-		vertexBuffer.fillWithStdContainer(vertices);
-	}
-
-	void RendererTests::Sprite::createIndexBuffer()
-	{
-		indices = { 0, 1, 2, 2, 3, 0 };
-		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
-
-		BufferCreateInfo bufferCreateInfo{
-			renderer.getDevice(),
-			renderer.getVma(),
-			indexBuffer.createCreateInfo(size),
-			indexBuffer.createVmaAllocationCreateInfo(false, true)
-		};
-
-		indexBuffer.create(bufferCreateInfo);
-		indexBuffer.fillWithStdContainer(indices);
-	}
-
-	void RendererTests::Sprite::createUniformBuffers()
-	{
-		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
-			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(decltype(mvp))),
-			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
-		};
-		uniformBuffer.create(bufferCreateInfo);
-		uniformBuffer.fillWithObject(mvp);
-	}
-
-	void RendererTests::createSTBImage()
-	{
-		if (!stbImage.load((ContentPath / "texture.png").string()))
-		{
-			FAIL() << "Can't load texture image";
-		}
-	}
-
-	void RendererTests::Sprite::createImageDrawInfos(const Texture& texture, const Sampler& sampler)
-	{
-		imageDrawInfos.push_back(texture.createImageDrawInfo(sampler));
-	}
-
-	void RendererTests::Sprite::createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler)
-	{
-		createDescriptors();
-		createVertexBuffer();
-		createIndexBuffer();
-		createUniformBuffers();
-		createImageDrawInfos(texture, sampler);
-
-		drawInfo.indices = indices;
-		drawInfo.shaders = shaders;
-		drawInfo.descriptors = descriptors;
-		drawInfo.uniformBuffers = uniformBuffers;
-		drawInfo.images = imageDrawInfos;
-	}
-
-	void RendererTests::Sprite::rotateImage()
-	{
-		float time = static_cast<float>(glfwGetTime());
-		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, -1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
-		mvp.proj[1][1] *= -1;
-
-		uniformBuffers[0].fillWithObject(mvp);
-	}
-
-	void RendererTests::Sprite::rotateImage2()
-	{
-		float time = -1.f;
-		time *= static_cast<float>(glfwGetTime());
-		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
-		mvp.proj[1][1] *= -1;
-
-		uniformBuffers[0].fillWithObject(mvp);
 	}
 
 }

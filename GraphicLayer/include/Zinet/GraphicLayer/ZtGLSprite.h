@@ -36,7 +36,11 @@ namespace zt::gl
 
 		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
 
-		std::vector<UniformBuffer>& getUniformBuffers();
+		// TODO: Replace them with Transform class
+		std::vector<UniformBuffer>& getUniformBuffers() { return uniformBuffers; };
+		MVP& getMVP() { return mvp; }
+		void rotate();
+		void rotate2();
 
 	protected:
 

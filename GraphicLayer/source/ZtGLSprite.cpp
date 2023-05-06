@@ -1,5 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLTexture.h"
 
 namespace zt::gl
 {
@@ -12,8 +13,10 @@ namespace zt::gl
 		return drawInfo;
 	}
 
-	void Sprite::createDrawInfo([[maybe_unused]] std::span<Shader> shaders, [[maybe_unused]] const Texture& texture, [[maybe_unused]] const Sampler& sampler)
+	void Sprite::createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler)
 	{
+		imageDrawInfos.push_back(texture.createImageDrawInfo(sampler));
+
 		drawInfo.indices = indices;
 		drawInfo.shaders = shaders;
 		drawInfo.descriptors = descriptors;
@@ -108,9 +111,27 @@ namespace zt::gl
 		uniformBuffer.fillWithObject(mvp);
 	}
 
-	std::vector<zt::gl::UniformBuffer>& Sprite::getUniformBuffers()
+	void Sprite::rotate()
 	{
-		return uniformBuffers;
+		float time = static_cast<float>(glfwGetTime());
+		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, -1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
+		mvp.proj[1][1] *= -1;
+
+		uniformBuffers[0].fillWithObject(mvp);
+	}
+
+	void Sprite::rotate2()
+	{
+		float time = -1.f;
+		time *= static_cast<float>(glfwGetTime());
+		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
+		mvp.proj[1][1] *= -1;
+
+		uniformBuffers[0].fillWithObject(mvp);
 	}
 
 }
