@@ -12,14 +12,16 @@ namespace zt::tests
 
 		Logger logger;
 
+		static_assert(std::is_base_of_v<std::shared_ptr<spdlog::logger>, ConsoleLogger>);
+		static_assert(std::is_base_of_v<Logger, ConsoleLogger>);
 	};
 
-	TEST_F(LoggerTests, CreateSimpleLoggerTest)
+	TEST_F(LoggerTests, CreateConsoleLoggerTest)
 	{
 		std::string name = "ZtLoggerTests";
-		Logger::SimpleConsoleLogger SimpleConsoleLogger = Logger::CreateSimpleConsoleLogger(name);
+		ConsoleLogger consoleLogger = ConsoleLogger::Create(name);
 
-		ASSERT_TRUE(SimpleConsoleLogger);
+		ASSERT_TRUE(consoleLogger);
 	}
 
 }

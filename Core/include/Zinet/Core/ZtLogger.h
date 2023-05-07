@@ -1,28 +1,28 @@
 #pragma once
 
+#include "Zinet/Core/ZtCore.h"
+
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks-inl.h>
 
 namespace zt
 {
+	class SimpleConsoleLogger;
 
-	class Logger
+	class ZINET_CORE_API Logger
 	{
-
 	public:
-
-		using SimpleConsoleLogger = std::shared_ptr<spdlog::logger>;
-
-		inline static SimpleConsoleLogger CreateSimpleConsoleLogger(std::string name);
 
 		// TODO: Error and Warning should fail tests
 
 	};
 
-	inline Logger::SimpleConsoleLogger Logger::CreateSimpleConsoleLogger(std::string name)
+	class ZINET_CORE_API ConsoleLogger : public std::shared_ptr<spdlog::logger>, public Logger
 	{
-		SimpleConsoleLogger logger = spdlog::stdout_color_mt(name);
-		return logger;
-	}
+	public:
 
+		inline static ConsoleLogger Create(std::string name);
+
+
+	};
 }
