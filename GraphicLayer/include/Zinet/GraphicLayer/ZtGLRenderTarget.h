@@ -29,7 +29,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("RenderTarget");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderTarget");
 
 	public:
 

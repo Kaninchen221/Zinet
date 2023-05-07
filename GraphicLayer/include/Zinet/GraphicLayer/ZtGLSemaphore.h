@@ -14,7 +14,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Semaphore");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("Semaphore");
 
 	public:
 

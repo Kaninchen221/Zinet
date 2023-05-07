@@ -25,7 +25,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("RendererTests");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("RendererTests");
 
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 

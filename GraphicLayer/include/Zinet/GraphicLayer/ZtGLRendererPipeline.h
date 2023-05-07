@@ -34,7 +34,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("RendererPipeline");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("RendererPipeline");
 
 	public:
 

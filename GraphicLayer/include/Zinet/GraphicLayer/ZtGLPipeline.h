@@ -16,7 +16,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Pipeline");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("Pipeline");
 
 	public:
 

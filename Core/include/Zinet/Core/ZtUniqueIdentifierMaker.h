@@ -12,7 +12,7 @@ namespace zt
 
     class ZINET_CORE_API UniqueIdentifierMaker
     {
-        static inline Logger::SimpleConsoleLogger Logger = Logger::CreateSimpleConsoleLogger("UniqueIdentifierMaker");
+        static inline ConsoleLogger Logger = ConsoleLogger::Create("UniqueIdentifierMaker");
 
     public:
 

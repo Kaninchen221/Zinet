@@ -12,7 +12,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Context");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("Context");
 
 	public:
 

@@ -56,7 +56,7 @@ namespace zt::gl::tests
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("RendererBuilder");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("RendererBuilder");
 
 	public:
 

@@ -13,7 +13,7 @@ namespace zt
 	{
 	protected:
 
-		inline static Logger::SimpleConsoleLogger Logger = Logger::CreateSimpleConsoleLogger("Fil Finder");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("Fil Finder");
 
 	public:
 

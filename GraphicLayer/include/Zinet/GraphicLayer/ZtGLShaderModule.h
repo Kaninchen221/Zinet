@@ -18,7 +18,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("ShaderModule");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("ShaderModule");
 
 	public:
 

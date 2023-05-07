@@ -6,7 +6,7 @@ namespace zt::gl
 
     Window::~Window() noexcept
     {
-        WindowLogger->info(__FUNCTION__);
+        Logger->info(__FUNCTION__);
 
         if (internalWindow != nullptr)
         {
@@ -16,12 +16,12 @@ namespace zt::gl
 
     void Window::create()
     {
-        WindowLogger->info(__FUNCTION__);
+        Logger->info(__FUNCTION__);
 
         internalWindow = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
         if (internalWindow == nullptr)
         {
-            WindowLogger->error("Can't create window");
+            Logger->error("Can't create window");
             glfwTerminate();
             return;
         }

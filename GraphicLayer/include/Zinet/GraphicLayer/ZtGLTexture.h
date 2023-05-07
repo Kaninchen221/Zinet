@@ -20,7 +20,7 @@ namespace zt::gl
 
 	protected:
 
-		static inline zt::Logger::SimpleConsoleLogger Logger = zt::Logger::CreateSimpleConsoleLogger("Texture");
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("Texture");
 
 	public:
 
