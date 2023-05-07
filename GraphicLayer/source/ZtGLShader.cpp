@@ -17,17 +17,18 @@ namespace zt::gl
 		source = newSource;
 	}
 
-	void Shader::loadFromFile(const std::string& path)
+	bool Shader::loadFromFile(const std::string& path)
 	{
 		File file;
 		file.open(path, FileOpenMode::In);
 		if (!file.isOpen())
 		{
 			Logger->error("Can't open file: {}", path);
-			return;
+			return false;
 		}
 
 		source = file.readAll();
+		return true;
 	}
 
 	ShaderType Shader::getType() const

@@ -14,7 +14,6 @@ namespace glslang
 
 namespace zt::gl
 {
-	// TODO: LoadFrom... should return bool
 	class ZINET_GRAPHIC_LAYER_API Shader
 	{
 		inline static ConsoleLogger Logger = ConsoleLogger::Create("Shader");
@@ -34,7 +33,7 @@ namespace zt::gl
 
 		void loadFromCString(const char* newSource);
 
-		void loadFromFile(const std::string& path);
+		bool loadFromFile(const std::string& path);
 
 		ShaderType getType() const;
 
