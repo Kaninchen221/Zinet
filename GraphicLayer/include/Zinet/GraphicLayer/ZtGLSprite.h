@@ -55,6 +55,9 @@ namespace zt::gl
 		void createDescriptors();
 		void createTextureRegionUniformBuffer(Renderer& renderer);
 
+		// TODO Refactor this
+		Vector4f rawTextureRegionToShaderTextureRegion(const Vector2f& textureSize) const;
+
 		DrawInfo drawInfo;
 
 		VertexBuffer vertexBuffer;
@@ -65,7 +68,8 @@ namespace zt::gl
 		std::vector<UniformBuffer> uniformBuffers;
 		std::vector<DrawInfo::Image> imageDrawInfos;
 		MVP mvp; // TODO: Create Transform class
-		Vector4f textureRegion;
+		// TODO: Refactor textureRegion to more readable structure TextureRegion { size and offset }
+		Vector4f textureRegion{ 1.f, 1.f, 1.f, 1.f };
 	};
 
 }

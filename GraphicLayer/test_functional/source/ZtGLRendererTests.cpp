@@ -68,17 +68,23 @@ namespace zt::gl::tests
 		{
 			auto sprite = sprites.emplace();
 			sprite->create(renderer);
+			sprite->setTextureRegion({ 512.f, 512.f, 512.f * i, 0.f });
 			sprite->createDrawInfo(shaders, texture, sampler);
+
 		}
 
 		zt::Clock clock;
-		clock.start();
+		std::once_flag clockOnceFlag;
 
 		auto sprite = sprites.begin();
 		sprite->rotate();
+		sprite++;
+		sprite->rotate2();
 
 		while (!renderer.getWindow().shouldBeClosed())
 		{
+			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
+
 			//Logger->info("preDraw");
 			renderer.preDraw();
 
@@ -98,7 +104,7 @@ namespace zt::gl::tests
 			//Logger->info("postDraw");
 			renderer.postDraw();
 
-			if (clock.getElapsedTime().getAsSeconds() > 4)
+			if (clock.getElapsedTime().getAsSeconds() > 40)
 			{
 				renderer.getWindow().requestCloseWindow();
 			}

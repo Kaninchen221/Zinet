@@ -23,6 +23,11 @@ namespace zt::gl
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
+
+		// TODO Refactor this
+		Vector2f textureSize = { texture.getImage().getWidth(), texture.getImage().getHeight() };
+		Vector4f shaderTextureRegion = rawTextureRegionToShaderTextureRegion(textureSize);
+		uniformBuffers[1].fillWithObject(shaderTextureRegion);
 	}
 
 	void Sprite::create(Renderer& renderer)
@@ -45,11 +50,11 @@ namespace zt::gl
 		descriptors.push_back(descriptor);
 
 		// TextureRegion
-		//descriptor.binding = 0;
-		//descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		//descriptor.count = 1;
-		//descriptor.shaderType = ShaderType::Vertex;
-		//descriptors.push_back(descriptor);
+		descriptor.binding = 2;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
 
 		// Texture
 		descriptor.binding = 1;
@@ -125,7 +130,7 @@ namespace zt::gl
 		uniformBuffer.fillWithObject(mvp);
 		uniformBuffer.setBinding(0u);
 
-		//createTextureRegionUniformBuffer(renderer);
+		createTextureRegionUniformBuffer(renderer);
 	}
 
 	void Sprite::rotate()
@@ -161,8 +166,20 @@ namespace zt::gl
 			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
 		};
 		uniformBuffer.create(bufferCreateInfo);
-		uniformBuffer.fillWithObject(textureRegion);
-		uniformBuffer.setBinding(1u);
+		uniformBuffer.setBinding(2u);
+	}
+
+	Vector4f Sprite::rawTextureRegionToShaderTextureRegion(const Vector2f& textureSize) const
+	{
+		// x, y = size
+		// z, w = offset
+		Vector4f result;
+		result.x = textureRegion.x / textureSize.x;
+		result.y = textureRegion.y / textureSize.y;
+		result.z = textureRegion.z / textureSize.x;
+		result.w = textureRegion.w / textureSize.y;
+
+		return result;
 	}
 
 }

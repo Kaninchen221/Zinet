@@ -5,8 +5,11 @@
 namespace zt::gl
 {
 
-	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t width, std::uint32_t height, vk::Format format)
+	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, vk::Format format)
 	{
+		width = newWidth;
+		height = newHeight;
+
 		vk::ImageCreateInfo createInfo{};
 		createInfo.imageType = vk::ImageType::e2D;
 		createInfo.extent.width = width;

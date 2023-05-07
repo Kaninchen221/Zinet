@@ -341,6 +341,8 @@ namespace zt::gl
 
 	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
 	{
+		// TODO Handle window resize. Now after resize we get crash
+
 		while (window.isMinimized())
 		{
 			glfwWaitEvents();
