@@ -6,22 +6,30 @@
 namespace zt::tests
 {
 
-	class LoggerTests : public ::testing::Test
+	class ConsoleLoggerTests : public ::testing::Test
 	{
 	protected:
 
-		Logger logger;
+		static inline ConsoleLogger logger = ConsoleLogger::Create("LoggerTests");
 
-		static_assert(std::is_base_of_v<std::shared_ptr<spdlog::logger>, ConsoleLogger>);
 		static_assert(std::is_base_of_v<Logger, ConsoleLogger>);
+
 	};
 
-	TEST_F(LoggerTests, CreateConsoleLoggerTest)
+	TEST_F(ConsoleLoggerTests, Create)
 	{
-		std::string name = "ZtLoggerTests";
-		ConsoleLogger consoleLogger = ConsoleLogger::Create(name);
-
-		ASSERT_TRUE(consoleLogger);
+		ASSERT_TRUE(logger);
 	}
 
+	TEST_F(ConsoleLoggerTests, TurnOffOn)
+	{
+		auto level = logger->level();
+		ASSERT_EQ(level, spdlog::level::info);
+
+		logger.turnOff();
+		ASSERT_EQ(logger->level(), spdlog::level::off);
+
+		logger.turnOn();
+		ASSERT_EQ(logger->level(), level);
+	}
 }
