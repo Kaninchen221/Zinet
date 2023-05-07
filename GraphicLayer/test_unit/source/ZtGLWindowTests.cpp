@@ -53,8 +53,7 @@ namespace zt::gl::tests
 		bool isOpen = window.isOpen();
 		ASSERT_TRUE(isOpen);
 	
-		GLFWwindow* glfwWindow = window.getInternal();
-		glfwSetWindowShouldClose(glfwWindow, true);
+		window.requestCloseWindow();
 	
 		isOpen = window.isOpen();
 		ASSERT_FALSE(isOpen);

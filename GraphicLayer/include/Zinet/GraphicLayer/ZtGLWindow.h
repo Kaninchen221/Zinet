@@ -51,6 +51,8 @@ namespace zt::gl
 
 		bool isMinimized() const;
 
+		void requestCloseWindow();
+
 	protected:
 
 		GLFWwindow* internalWindow = nullptr;

@@ -91,4 +91,9 @@ namespace zt::gl
         return windowSize.x == 0 && windowSize.y == 0;
 	}
 
+	void Window::requestCloseWindow()
+	{
+        glfwSetWindowShouldClose(internalWindow, true);
+	}
+
 }

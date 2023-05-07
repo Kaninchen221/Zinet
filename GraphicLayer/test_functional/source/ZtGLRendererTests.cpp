@@ -96,8 +96,7 @@ namespace zt::gl::tests
 
 			if (clock.getElapsedTime().getAsSeconds() > 4)
 			{
-				// TODO Add close window function to Window class
-				glfwSetWindowShouldClose(renderer.getWindow().getInternal(), true);
+				renderer.getWindow().requestCloseWindow();
 			}
 		}
 
