@@ -265,6 +265,7 @@ namespace zt::gl::tests
 		drawInfo.images = imageDrawInfos;
 		renderer.preDraw();
 		renderer.draw(drawInfo);
+		renderer.postDraw();
 
 		// Resolve runtime errors
 		renderer.getQueue()->waitIdle();
@@ -356,6 +357,7 @@ namespace zt::gl::tests
 			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
 		};
 		uniformBuffer.create(bufferCreateInfo);
+		uniformBuffer.setBinding(0u);
 	}
 
 	void RendererTests::createImageDrawInfos()
@@ -395,7 +397,8 @@ namespace zt::gl::tests
 		view.create(renderer.getDevice(), imageViewCreateInfo);
 
 		vk::ImageLayout imageLayout = imageLayouts.emplace_back(vk::ImageLayout::eShaderReadOnlyOptimal);
-		[[maybe_unused]] DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(imageBuffer, sampler, view, imageLayout);
+		DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(imageBuffer, sampler, view, imageLayout);
+		imageDrawInfo.binding = 1u;
 
 	}
 

@@ -449,10 +449,10 @@ namespace zt::gl::tests
     void RendererBuilder::updateDescriptorSets()
     {
         vk::DescriptorBufferInfo uniformDescriptorBufferInfo = uniformBuffer.createDescriptorBufferInfo();
-        vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, uniformDescriptorBufferInfo);
+        vk::WriteDescriptorSet uniformWriteDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, uniformDescriptorBufferInfo, 0u);
 
         vk::DescriptorImageInfo imageDescriptorBufferInfo = imageBuffer.createDescriptorImageInfo(sampler, textureImageView, vk::ImageLayout::eShaderReadOnlyOptimal);
-        vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, imageDescriptorBufferInfo);
+        vk::WriteDescriptorSet imageWriteDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, imageDescriptorBufferInfo, 1u);
 
         writeDescriptorSets = std::array<vk::WriteDescriptorSet, 2>{ uniformWriteDescriptorSet, imageWriteDescriptorSet };
 

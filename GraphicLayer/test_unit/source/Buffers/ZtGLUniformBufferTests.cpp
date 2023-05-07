@@ -69,5 +69,7 @@ namespace zt::gl::tests
 		std::uint32_t expectedBinding = 3u;
 		uniformBuffer.setBinding(expectedBinding);
 		std::uint32_t actualBinding = uniformBuffer.getBinding();
+
+		ASSERT_EQ(expectedBinding, actualBinding);
 	}
 }

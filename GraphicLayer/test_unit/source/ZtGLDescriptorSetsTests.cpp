@@ -83,12 +83,12 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetsTests, CreateBufferWriteDescriptorSet)
 	{
-		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorBufferInfo&);
+		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorBufferInfo&, std::uint32_t);
 		using FunctionDeclaration = decltype(&DescriptorSets::createBufferWriteDescriptorSet);
 
 		vk::DescriptorBufferInfo bufferInfo;
 		size_t expectedIndex = 0u;
-		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(expectedIndex, bufferInfo);
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(expectedIndex, bufferInfo, 0u);
 		
 		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
 		ASSERT_EQ(writeDescriptorSet.dstBinding, 0);
@@ -102,12 +102,12 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetsTests, CreateImageWriteDescriptorSet)
 	{
-		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorImageInfo&);
+		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorImageInfo&, std::uint32_t);
 		using FunctionDeclaration = decltype(&DescriptorSets::createImageWriteDescriptorSet);
 
 		vk::DescriptorImageInfo imageInfo;
 		size_t expectedIndex = 0u;
-		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(expectedIndex, imageInfo);
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(expectedIndex, imageInfo, 1u);
 	
 		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
 		ASSERT_EQ(writeDescriptorSet.dstBinding, 1);
