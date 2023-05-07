@@ -48,6 +48,7 @@ namespace zt::gl
 			const Sampler& sampler;
 			const ImageView& view;
 			vk::ImageLayout layout;
+			std::uint32_t binding;
 		};
 
 		std::span<Shader> shaders;

@@ -10,11 +10,11 @@ namespace zt::gl
 
 	}
 
-	vk::WriteDescriptorSet DescriptorSets::createBufferWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorBufferInfo& descriptorBufferInfo)
+	vk::WriteDescriptorSet DescriptorSets::createBufferWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorBufferInfo& descriptorBufferInfo, std::uint32_t binding)
 	{
 		vk::WriteDescriptorSet writeDescriptorSet;
 		writeDescriptorSet.dstSet = *operator[](descriptorSetIndex);
-		writeDescriptorSet.dstBinding = 0;
+		writeDescriptorSet.dstBinding = binding;
 		writeDescriptorSet.dstArrayElement = 0;
 		writeDescriptorSet.descriptorType = vk::DescriptorType::eUniformBuffer;
 		writeDescriptorSet.descriptorCount = 1;
@@ -25,11 +25,11 @@ namespace zt::gl
 		return writeDescriptorSet;
 	}
 
-	vk::WriteDescriptorSet DescriptorSets::createImageWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorImageInfo& descriptorImageInfo)
+	vk::WriteDescriptorSet DescriptorSets::createImageWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorImageInfo& descriptorImageInfo, std::uint32_t binding)
 	{
 		vk::WriteDescriptorSet writeDescriptorSet;
 		writeDescriptorSet.dstSet = *operator[](descriptorSetIndex);
-		writeDescriptorSet.dstBinding = 1;
+		writeDescriptorSet.dstBinding = binding;
 		writeDescriptorSet.dstArrayElement = 0;
 		writeDescriptorSet.descriptorType = vk::DescriptorType::eCombinedImageSampler;
 		writeDescriptorSet.descriptorCount = 1;

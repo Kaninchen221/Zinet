@@ -211,7 +211,7 @@ namespace zt::gl
 		for (const UniformBuffer& uniformBuffer : uniformBuffers)
 		{
 			vk::DescriptorBufferInfo& descriptorBufferInfo = descriptorBufferInfos.emplace_back(uniformBuffer.createDescriptorBufferInfo());
-			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, descriptorBufferInfo);
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, descriptorBufferInfo, uniformBuffer.getBinding());
 			writeDescriptorSets.push_back(writeDescriptorSet);
 		}
 	}
@@ -226,7 +226,7 @@ namespace zt::gl
 			const ImageView& imageView = images[index].view;
 			vk::ImageLayout imageLayout = images[index].layout;
 			vk::DescriptorImageInfo& descriptorImageInfo = descriptorImageInfos.emplace_back(imageBuffer.createDescriptorImageInfo(sampler, imageView, imageLayout));
-			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, descriptorImageInfo);
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createImageWriteDescriptorSet(0u, descriptorImageInfo, images[index].binding);
 			writeDescriptorSets.push_back(writeDescriptorSet);
 		}
 	}

@@ -24,6 +24,13 @@ namespace zt::gl
 
 		vk::DescriptorBufferInfo createDescriptorBufferInfo() const;
 
+		void setBinding(std::uint32_t newBinding) { binding = newBinding; }
+		std::uint32_t getBinding() const { return binding; }
+
+	protected:
+
+		std::uint32_t binding{};
+
 	};
 
 }

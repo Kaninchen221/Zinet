@@ -57,4 +57,17 @@ namespace zt::gl::tests
 		ASSERT_NE(*uniformBuffer.getInternal(), *vk::raii::Buffer{ std::nullptr_t{} });
 	}
 
+	class UniformBufferSimpleTests : public ::testing::Test
+	{
+	protected:
+
+		UniformBuffer uniformBuffer;
+	};
+
+	TEST_F(UniformBufferSimpleTests, Binding)
+	{
+		std::uint32_t expectedBinding = 3u;
+		uniformBuffer.setBinding(expectedBinding);
+		std::uint32_t actualBinding = uniformBuffer.getBinding();
+	}
 }

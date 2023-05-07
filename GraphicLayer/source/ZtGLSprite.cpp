@@ -15,7 +15,8 @@ namespace zt::gl
 
 	void Sprite::createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler)
 	{
-		imageDrawInfos.push_back(texture.createImageDrawInfo(sampler));
+		DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(texture.createImageDrawInfo(sampler));
+		imageDrawInfo.binding = 1;
 
 		drawInfo.indices = indices;
 		drawInfo.shaders = shaders;
@@ -122,6 +123,7 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.fillWithObject(mvp);
+		uniformBuffer.setBinding(0u);
 
 		//createTextureRegionUniformBuffer(renderer);
 	}
@@ -160,6 +162,7 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.fillWithObject(textureRegion);
+		uniformBuffer.setBinding(1u);
 	}
 
 }
