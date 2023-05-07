@@ -25,7 +25,7 @@ namespace zt::gl
 		template<typename... Args>
 		static void Log(fmt::format_string<Args...> format, [[maybe_unused]] Args &&...args) // TODO use args
 		{
-			std::call_once(onceFlag, []() { Logger.turnOff(); }); // TODO Refactor to: turnOn/Off (logger) functions 
+			std::call_once(onceFlag, []() { Logger.turnOff(); });
 
 			Logger->info(format);
 		}
