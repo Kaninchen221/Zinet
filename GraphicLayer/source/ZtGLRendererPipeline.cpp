@@ -206,6 +206,8 @@ namespace zt::gl
 	void RendererPipeline::createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers)
 	{
 		descriptorBufferInfos.clear();
+		writeDescriptorSets.reserve(uniformBuffers.size());
+		descriptorBufferInfos.reserve(uniformBuffers.size());
 		for (const UniformBuffer& uniformBuffer : uniformBuffers)
 		{
 			vk::DescriptorBufferInfo& descriptorBufferInfo = descriptorBufferInfos.emplace_back(uniformBuffer.createDescriptorBufferInfo());

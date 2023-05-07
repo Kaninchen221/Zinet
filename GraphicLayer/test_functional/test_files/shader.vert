@@ -13,9 +13,14 @@ layout(binding = 0) uniform MVP {
     mat4 proj;
 } mvp;
 
+//layout(binding = 1) uniform TextureRegion {
+//    vec4 value;
+//} textureRegion;
+
 void main() {
     gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPosition, 1.0);
     //gl_Position = vec4(inPosition, 1.0);
     fragColor = inColor;
     fragTexCoords = inTexCoords;
+	fragTexCoords = vec2(inTexCoords.x / 2.0 + 0.25, inTexCoords.y / 2.0 + 0.25);
 }

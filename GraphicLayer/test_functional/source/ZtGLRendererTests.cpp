@@ -38,6 +38,7 @@ namespace zt::gl::tests
 		Sampler sampler;
 		STBImage stbImage;
 		Texture texture;
+
 	};
 
 	TEST_F(RendererTests, Draw)
@@ -73,20 +74,23 @@ namespace zt::gl::tests
 		zt::Clock clock;
 		clock.start();
 
+		auto sprite = sprites.begin();
+		sprite->rotate();
+
 		while (!renderer.getWindow().shouldBeClosed())
 		{
 			//Logger->info("preDraw");
 			renderer.preDraw();
 
 			//Logger->info("Draw 0");
-			auto sprite = sprites.begin();
-			sprite->rotate();
+			sprite = sprites.begin();
+			//sprite->rotate();
 			renderer.draw(sprite->getDrawInfo());
 
 			//Logger->info("Draw 1");
 			sprite = sprites.begin();
 			sprite++;
-			sprite->rotate2();
+			//sprite->rotate2();
 			renderer.draw(sprite->getDrawInfo());
 
 			glfwPollEvents();
@@ -106,7 +110,7 @@ namespace zt::gl::tests
 
 	void RendererTests::createSTBImage()
 	{
-		if (!stbImage.load((ContentPath / "texture.png").string()))
+		if (!stbImage.load((ContentPath / "test_texture.png").string()))
 		{
 			FAIL() << "Can't load texture image";
 		}

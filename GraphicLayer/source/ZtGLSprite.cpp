@@ -35,12 +35,22 @@ namespace zt::gl
 	void Sprite::createDescriptors()
 	{
 		DrawInfo::Descriptor descriptor;
+		
+		// MVP
 		descriptor.binding = 0;
 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
 		descriptor.count = 1;
 		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
 
+		// TextureRegion
+		//descriptor.binding = 0;
+		//descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		//descriptor.count = 1;
+		//descriptor.shaderType = ShaderType::Vertex;
+		//descriptors.push_back(descriptor);
+
+		// Texture
 		descriptor.binding = 1;
 		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
 		descriptor.count = 1;
@@ -100,6 +110,9 @@ namespace zt::gl
 
 	void Sprite::createUniformBuffers(Renderer& renderer)
 	{
+		uniformBuffers.reserve(2u);
+
+		// MVP
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
 		BufferCreateInfo bufferCreateInfo{
 			.device = renderer.getDevice(),
@@ -109,6 +122,8 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.fillWithObject(mvp);
+
+		//createTextureRegionUniformBuffer(renderer);
 	}
 
 	void Sprite::rotate()
@@ -132,6 +147,19 @@ namespace zt::gl
 		mvp.proj[1][1] *= -1;
 
 		uniformBuffers[0].fillWithObject(mvp);
+	}
+
+	void Sprite::createTextureRegionUniformBuffer(Renderer& renderer)
+	{
+		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
+		BufferCreateInfo bufferCreateInfo{
+			.device = renderer.getDevice(),
+			.vma = renderer.getVma(),
+			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(decltype(textureRegion))),
+			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
+		};
+		uniformBuffer.create(bufferCreateInfo);
+		uniformBuffer.fillWithObject(textureRegion);
 	}
 
 }
