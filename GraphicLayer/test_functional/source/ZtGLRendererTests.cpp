@@ -61,7 +61,7 @@ namespace zt::gl::tests
 		// Create texture
 		texture.create(stbImage, renderer);
 
-		int count = 2;
+		int count = 3;
 		plf::colony<Sprite> sprites;
 		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
@@ -76,32 +76,34 @@ namespace zt::gl::tests
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
 
-		auto sprite = sprites.begin();
-		sprite->rotate();
-		sprite++;
-		sprite->rotate2();
+		//auto sprite = sprites.begin();
+		//sprite->rotate();
+		//sprite++;
+		//sprite->rotate2();
 
 		while (!renderer.getWindow().shouldBeClosed())
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
 
-			//Logger->info("preDraw");
 			renderer.preDraw();
+			
+			//sprite = sprites.begin();
+			//renderer.draw(sprite->getDrawInfo());
+			//
+			//sprite = sprites.begin();
+			//sprite++;
+			//renderer.draw(sprite->getDrawInfo());
 
-			//Logger->info("Draw 0");
-			sprite = sprites.begin();
-			//sprite->rotate();
-			renderer.draw(sprite->getDrawInfo());
-
-			//Logger->info("Draw 1");
-			sprite = sprites.begin();
-			sprite++;
-			//sprite->rotate2();
-			renderer.draw(sprite->getDrawInfo());
+			float mod = 1.f;
+			for (Sprite& sprite : sprites)
+			{
+				sprite.rotate2(mod / sprites.size());
+				renderer.draw(sprite.getDrawInfo());
+				mod += 1.f;
+			}
 
 			glfwPollEvents();
 
-			//Logger->info("postDraw");
 			renderer.postDraw();
 
 			if (clock.getElapsedTime().getAsSeconds() > 40)

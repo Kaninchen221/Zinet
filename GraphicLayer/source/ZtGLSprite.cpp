@@ -144,11 +144,16 @@ namespace zt::gl
 		uniformBuffers[0].fillWithObject(mvp);
 	}
 
-	void Sprite::rotate2()
+	void Sprite::rotate2(float mod)
 	{
 		float time = -1.f;
 		time *= static_cast<float>(glfwGetTime());
-		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		float radians = glm::radians(360.f) * mod;
+		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f) + radians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::vec3 modelCenterOffset(1.0f, 0.0f, 0.0f);
+		mvp.model = glm::translate(mvp.model, modelCenterOffset);
+
 		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		mvp.proj = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
 		mvp.proj[1][1] *= -1;

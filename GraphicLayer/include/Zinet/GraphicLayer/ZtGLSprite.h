@@ -41,7 +41,7 @@ namespace zt::gl
 		std::vector<UniformBuffer>& getUniformBuffers() { return uniformBuffers; };
 		MVP& getMVP() { return mvp; }
 		void rotate();
-		void rotate2();
+		void rotate2(float mod);
 
 		void setTextureRegion(const Vector4f& newTextureRegion) { textureRegion = newTextureRegion; }
 		const Vector4f& getTextureRegion() const { return textureRegion; }
