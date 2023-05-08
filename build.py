@@ -5,7 +5,7 @@ import sys
 
 parser = argparse.ArgumentParser(description='CMake Build')
 
-parser.add_argument('--BuildType', type=str, help='Debug or Release')
+parser.add_argument('--BuildType', type=str, help='Debug or Release', default='Debug')
 
 args = parser.parse_args()
 
