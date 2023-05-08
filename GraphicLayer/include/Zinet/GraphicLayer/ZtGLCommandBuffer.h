@@ -25,6 +25,16 @@ namespace zt::gl
 	class ZINET_GRAPHIC_LAYER_API CommandBuffer : public VulkanObject<vk::raii::CommandBuffer>
 	{
 
+	public:
+
+		struct ZINET_GRAPHIC_LAYER_API BeginRenderPassInfo
+		{
+			RenderPass& renderPass;
+			Framebuffer& framebuffer;
+			const vk::Rect2D& renderArea;
+			const vk::ClearValue& clearValue;
+		};
+
 	protected:
 
 		inline static ConsoleLogger Logger = ConsoleLogger::Create("CommandBuffer");
@@ -48,8 +58,7 @@ namespace zt::gl
 
 		void end();
 
-		// TODO Refactor params to one struct
-		void beginRenderPass(RenderPass& renderPass, Framebuffer& framebuffer, const vk::Rect2D& renderArea, const vk::ClearValue& clearValue);
+		void beginRenderPass(BeginRenderPassInfo& info);
 
 		void endRenderPass();
 

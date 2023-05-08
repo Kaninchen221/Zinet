@@ -149,7 +149,15 @@ namespace zt::gl::tests
 		vk::ClearValue clearValue;
 
 		commandBuffer.begin();
-		commandBuffer.beginRenderPass(renderPass, framebuffer, renderArea, clearValue);
+
+		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
+		{
+			.renderPass = renderPass,
+			.framebuffer = framebuffer,
+			.renderArea = renderArea,
+			.clearValue = clearValue
+		};
+		commandBuffer.beginRenderPass(beginRenderPassInfo);
 		commandBuffer.endRenderPass();
 	}
 

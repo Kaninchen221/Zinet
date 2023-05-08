@@ -276,7 +276,14 @@ namespace zt::gl
 		renderArea.offset = vk::Offset2D{ 0, 0 };
 		renderArea.extent = swapExtent;
 		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
-		commandBuffer.beginRenderPass(renderPass, framebuffers[nextImageToDraw.second], renderArea, clearColor);
+		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
+		{
+			.renderPass = renderPass,
+			.framebuffer = framebuffers[nextImageToDraw.second],
+			.renderArea = renderArea,
+			.clearValue = clearColor
+		};
+		commandBuffer.beginRenderPass(beginRenderPassInfo);
 	}
 
 	void Renderer::draw(const DrawInfo& drawInfo)

@@ -51,14 +51,14 @@ namespace zt::gl
 		internal.end();
 	}
 
-	void CommandBuffer::beginRenderPass(RenderPass& renderPass, Framebuffer& framebuffer, const vk::Rect2D& renderArea, const vk::ClearValue& clearValue)
+	void CommandBuffer::beginRenderPass(BeginRenderPassInfo& info)
 	{
 		vk::RenderPassBeginInfo renderPassInfo{};
-		renderPassInfo.renderPass = *renderPass.getInternal();
-		renderPassInfo.framebuffer = *framebuffer.getInternal(); 
-		renderPassInfo.renderArea = renderArea;
+		renderPassInfo.renderPass = *info.renderPass.getInternal();
+		renderPassInfo.framebuffer = *info.framebuffer.getInternal();
+		renderPassInfo.renderArea = info.renderArea;
 		renderPassInfo.clearValueCount = 1;
-		renderPassInfo.pClearValues = &clearValue;
+		renderPassInfo.pClearValues = &info.clearValue;
 
 		internal.beginRenderPass(renderPassInfo, {});
 	}

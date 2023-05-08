@@ -492,7 +492,14 @@ namespace zt::gl::tests
 
 		vk::ClearValue clearValue;
 
-        commandBuffer.beginRenderPass(renderPass, framebuffers[nextImage.second], renderArea, clearValue);
+		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
+		{
+			.renderPass = renderPass,
+			.framebuffer = framebuffers[nextImage.second],
+			.renderArea = renderArea,
+			.clearValue = clearValue
+		};
+        commandBuffer.beginRenderPass(beginRenderPassInfo);
         commandBuffer.bindPipeline(pipeline);
         commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
         commandBuffer.bindIndexBuffer(indexBuffer, vk::DeviceSize{ 0 }, vk::IndexType::eUint16);
