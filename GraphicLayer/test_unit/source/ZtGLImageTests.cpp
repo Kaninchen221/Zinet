@@ -72,7 +72,9 @@ namespace zt::gl::tests
 
 		image.create(imageCreateInfo);
 
-		ASSERT_NE(*image.getInternal(), *vk::raii::Image{ std::nullptr_t{} });
+		ASSERT_TRUE(image.isValid());
+		ASSERT_EQ(image.getWidth(), expectedWidth);
+		ASSERT_EQ(image.getHeight(), expectedHeight);
 	}
 
 }

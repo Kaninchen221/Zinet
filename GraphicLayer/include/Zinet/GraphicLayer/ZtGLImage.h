@@ -46,10 +46,7 @@ namespace zt::gl
 
 		void create(const CreateInfo& imageCreateInfo);
 
-		// TODO Add test
 		std::uint32_t getWidth() const { return width; }
-
-		// TODO Add test
 		std::uint32_t getHeight() const { return height; }
 
 	protected:

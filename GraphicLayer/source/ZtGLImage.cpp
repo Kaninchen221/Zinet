@@ -7,13 +7,10 @@ namespace zt::gl
 
 	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, vk::Format format)
 	{
-		width = newWidth;
-		height = newHeight;
-
 		vk::ImageCreateInfo createInfo{};
 		createInfo.imageType = vk::ImageType::e2D;
-		createInfo.extent.width = width;
-		createInfo.extent.height = height;
+		createInfo.extent.width = newWidth;
+		createInfo.extent.height = newHeight;
 		createInfo.extent.depth = 1;
 		createInfo.mipLevels = 1;
 		createInfo.arrayLayers = 1;
@@ -46,6 +43,8 @@ namespace zt::gl
 		if (result == VK_SUCCESS)
 		{
 			internal = std::move(vk::raii::Image{ imageCreateInfo.device.getInternal(), image });
+			width = imageCreateInfo.vkImageCreateInfo.extent.width;
+			height = imageCreateInfo.vkImageCreateInfo.extent.height;
 		}
 		else
 		{
