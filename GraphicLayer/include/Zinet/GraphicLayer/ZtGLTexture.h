@@ -14,7 +14,6 @@ namespace zt::gl
 {
 	class Renderer;
 
-	// TODO We need possibility to use part of the texture. One bigger texture is better than a lot of smaller textures. 
 	class ZINET_GRAPHIC_LAYER_API Texture
 	{
 
