@@ -161,6 +161,8 @@ namespace zt::gl
 		std::array<Semaphore*, 1> presentWaitSemaphores = { &renderingFinishedSemaphore };
 		std::array<SwapChain*, 1> presentSwapChains = { &swapChain };
 		vk::PresentInfoKHR presentInfo;
+
+		bool invalidCommandBuffer = false;
 	};
 
 }

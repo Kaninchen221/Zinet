@@ -306,6 +306,14 @@ namespace zt::gl
 
 	void Renderer::postDraw()
 	{
+		if (invalidCommandBuffer)
+		{
+			commandBuffer.clear();
+			commandBuffer.allocateCommandBuffer(device, commandPool);
+			invalidCommandBuffer = false;
+			return;
+		}
+
 		commandBuffer.endRenderPass();
 		commandBuffer.end();
 
@@ -348,18 +356,26 @@ namespace zt::gl
 
 	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
 	{
-		// TODO Handle window resize. Now after resize we get crash
-
 		while (window.isMinimized())
 		{
 			glfwWaitEvents();
 		}
 
 		device->waitIdle();
+		drawFence.clear();
+		drawFence.createSignaled(device);
+
+		imageAvailableSemaphore.clear();
+		imageAvailableSemaphore.create(device);
+
+		renderingFinishedSemaphore.clear();
+		renderingFinishedSemaphore.create(device);
 
 		framebuffers.clear();
 		imageViews.clear();
 		swapChain.clear();
+
+		invalidCommandBuffer = true;
 
 		updateSwapChainSupportDetails();
 

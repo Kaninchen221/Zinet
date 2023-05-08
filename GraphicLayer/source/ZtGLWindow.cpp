@@ -30,6 +30,9 @@ namespace zt::gl
 
         glfwSetWindowUserPointer(internalWindow, this);
 
+        // Window must be always at least bigger as 1 x 1 because of the swap chain
+        glfwSetWindowSizeLimits(internalWindow, 1, 1, GLFW_DONT_CARE, GLFW_DONT_CARE);
+
 		bindFramebufferSizeCallback();
 
         event.setWindow(this);
