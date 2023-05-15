@@ -15,7 +15,8 @@ layout(binding = 0) uniform MVP {
 
 // TODO Refactor this
 layout(binding = 2) uniform TextureRegion {
-	vec4 value;
+	vec2 offset;
+	vec2 size;
 } textureRegion;
 
 void main() {
@@ -24,5 +25,5 @@ void main() {
     //fragColor = inColor;
 	fragColor = vec4(1.0, 1.0, 1.0, 1.0);
     //fragTexCoords = inTexCoords;
-	fragTexCoords = vec2(inTexCoords.x * textureRegion.value.x + textureRegion.value.z, inTexCoords.y * textureRegion.value.y + textureRegion.value.w);
+	fragTexCoords = vec2(inTexCoords.x * textureRegion.size.x + textureRegion.offset.x, inTexCoords.y * textureRegion.size.y + textureRegion.offset.y);
 }

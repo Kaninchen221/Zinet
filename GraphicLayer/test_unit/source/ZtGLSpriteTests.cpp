@@ -83,15 +83,15 @@ namespace zt::gl::tests
 		[[maybe_unused]] std::vector<UniformBuffer>& uniformBuffers = sprite.getUniformBuffers();
 	}
 
-	TEST_F(SpriteSimpleTests, TextureRegion)
+	TEST_F(SpriteSimpleTests, TextureRegionGetSet)
 	{
-		typedef const glm::vec4& (Sprite::* ExpectedFunctionDeclaration)() const;
+		typedef const TextureRegion& (Sprite::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Sprite::getTextureRegion);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
-		Vector4f expected = { 1.23f, 0.f, 0.f, 0.4232f };
+		TextureRegion expected = { { 1.23f, 0.f }, { 0.f, 0.4232f } };
 		sprite.setTextureRegion(expected);
-		const Vector4f& actual = sprite.getTextureRegion();
+		const TextureRegion& actual = sprite.getTextureRegion();
 
 		ASSERT_EQ(expected, actual);
 	}

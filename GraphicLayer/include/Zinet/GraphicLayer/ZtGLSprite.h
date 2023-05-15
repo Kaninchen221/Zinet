@@ -5,7 +5,7 @@
 #include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
-#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+#include "Zinet/GraphicLayer/ZtGLTextureRegion.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -43,8 +43,8 @@ namespace zt::gl
 		void rotate();
 		void rotate2(float mod);
 
-		void setTextureRegion(const Vector4f& newTextureRegion) { textureRegion = newTextureRegion; }
-		const Vector4f& getTextureRegion() const { return textureRegion; }
+		void setTextureRegion(const TextureRegion& newTextureRegion) { textureRegion = newTextureRegion; }
+		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
 	protected:
 
@@ -54,9 +54,6 @@ namespace zt::gl
 		void createVertexBuffer(Renderer& renderer);
 		void createDescriptors();
 		void createTextureRegionUniformBuffer(Renderer& renderer);
-
-		// TODO Refactor this
-		Vector4f rawTextureRegionToShaderTextureRegion(const Vector2f& textureSize) const;
 
 		DrawInfo drawInfo;
 
@@ -68,8 +65,7 @@ namespace zt::gl
 		std::vector<UniformBuffer> uniformBuffers;
 		std::vector<DrawInfo::Image> imageDrawInfos;
 		MVP mvp; // TODO: Create Transform class
-		// TODO: Refactor textureRegion to more readable structure TextureRegion { size and offset }
-		Vector4f textureRegion{ 1.f, 1.f, 1.f, 1.f };
+		TextureRegion textureRegion;
 	};
 
 }

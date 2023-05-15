@@ -24,9 +24,8 @@ namespace zt::gl
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
 
-		// TODO Refactor this
 		Vector2f textureSize = { texture.getImage().getWidth(), texture.getImage().getHeight() };
-		Vector4f shaderTextureRegion = rawTextureRegionToShaderTextureRegion(textureSize);
+		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
 		uniformBuffers[1].fillWithObject(shaderTextureRegion);
 	}
 
@@ -172,19 +171,6 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.setBinding(2u);
-	}
-
-	Vector4f Sprite::rawTextureRegionToShaderTextureRegion(const Vector2f& textureSize) const
-	{
-		// x, y = size
-		// z, w = offset
-		Vector4f result;
-		result.x = textureRegion.x / textureSize.x;
-		result.y = textureRegion.y / textureSize.y;
-		result.z = textureRegion.z / textureSize.x;
-		result.w = textureRegion.w / textureSize.y;
-
-		return result;
 	}
 
 }

@@ -14,7 +14,12 @@ namespace zt::gl
 		Vector2f offset;
 		Vector2f size;
 
-		TextureRegion toShaderTextureRegion([[maybe_unused]] const Vector2f& textureSize) const;
+		TextureRegion toShaderTextureRegion(const Vector2f& textureSize) const;
+
 	};
 
+	ZINET_GRAPHIC_LAYER_API inline bool operator == (const TextureRegion& first, const TextureRegion& second)
+	{
+		return first.offset == second.offset && first.size == second.size;
+	}
 }

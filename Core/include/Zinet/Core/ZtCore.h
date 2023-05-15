@@ -23,7 +23,7 @@
 
 #endif
 
-/// Temporary for future compability
+/// Temporary for future compatibility
 #define ZINET_CORE_API
 
 /// Turn On/Off Debug UI
@@ -34,3 +34,11 @@
 #endif
 
 #include "Zinet/Core/ZtDebug.h"
+
+// TODO Move it
+#include <type_traits>
+template<typename FirstFunctionPointer, typename SecondFunctionPointer>
+constexpr const bool IsFunctionEqual(const SecondFunctionPointer& secondFunctionPointer)
+{
+	return std::is_same<FirstFunctionPointer, SecondFunctionPointer>::value;
+}

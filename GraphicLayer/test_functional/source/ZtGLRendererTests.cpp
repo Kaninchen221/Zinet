@@ -68,7 +68,10 @@ namespace zt::gl::tests
 		{
 			auto sprite = sprites.emplace();
 			sprite->create(renderer);
-			sprite->setTextureRegion({ 512.f, 512.f, 512.f * i, 0.f });
+			TextureRegion textureRegion;
+			textureRegion.size = Vector2f{ 512.f, 512.f };
+			textureRegion.offset = Vector2f{ 512.f * i, 0.f };
+			sprite->setTextureRegion(textureRegion);
 			sprite->createDrawInfo(shaders, texture, sampler);
 
 		}
