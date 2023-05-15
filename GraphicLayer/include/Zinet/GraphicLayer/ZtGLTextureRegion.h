@@ -1,0 +1,20 @@
+#pragma once
+
+#include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+
+#include "Zinet/Core/ZtLogger.h"
+
+namespace zt::gl
+{
+
+	struct ZINET_GRAPHIC_LAYER_API TextureRegion
+	{
+		Vector2f offset;
+		Vector2f size;
+
+		TextureRegion toShaderTextureRegion([[maybe_unused]] const Vector2f& textureSize) const;
+	};
+
+}
