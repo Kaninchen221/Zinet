@@ -1,2 +1,3 @@
 - See code TODOs
 - Migrate to Conan 2.0
+- Change tests libs names from "Unit" to "Automatic" and "Functional" to "Manual"
