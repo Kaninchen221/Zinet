@@ -38,13 +38,11 @@ namespace zt::gl
 		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
 
 		const Transform& getTransform() const override { return transform; }
-		void setTransform(const Transform& newTransform) { transform = newTransform; }
+		void setTransform(const Transform& newTransform);
 
-		// TODO: Replace them with Transform class
+		UniformBuffer* getMVPUniformBuffer() override;
+
 		std::vector<UniformBuffer>& getUniformBuffers() { return uniformBuffers; };
-		MVP& getMVP() { return mvp; }
-		void rotate();
-		void rotate2(float mod);
 
 		void setTextureRegion(const TextureRegion& newTextureRegion) { textureRegion = newTextureRegion; }
 		const TextureRegion& getTextureRegion() const { return textureRegion; }

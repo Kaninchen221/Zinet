@@ -1,5 +1,10 @@
 #include "Zinet/GraphicLayer/ZtGLTransform.h"
 
+#include <glm/fwd.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+
 namespace zt::gl
 {
 
@@ -13,6 +18,13 @@ namespace zt::gl
 		result = glm::translate(result, translation);
 
 		return result;
+	}
+
+	void Transform::combine(const Transform& other)
+	{
+		rotation += other.getRotation();
+		scale *= other.getScale();
+		translation += other.getTranslation();
 	}
 
 }

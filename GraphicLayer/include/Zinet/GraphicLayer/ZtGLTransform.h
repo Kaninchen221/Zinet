@@ -34,6 +34,8 @@ namespace zt::gl
 
 		Matrix4f toMatrix() const;
 
+		void combine(const Transform& other);
+
 	protected:
 
 		// TODO Vector3f or Vector4f?

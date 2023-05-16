@@ -30,6 +30,8 @@ namespace zt::gl
 		virtual void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) = 0;
 
 		virtual const Transform& getTransform() const = 0;
+
+		virtual UniformBuffer* getMVPUniformBuffer() = 0;
 	};
 
 }

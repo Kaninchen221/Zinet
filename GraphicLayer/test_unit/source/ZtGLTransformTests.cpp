@@ -100,4 +100,27 @@ namespace zt::gl::tests
 
 		ASSERT_NE(first, second);
 	}
+
+	TEST_F(TransformTests, Combine)
+	{
+		Vector3f rotation = { 1.f, 5.f, 3.f };
+		Vector3f translation = { 2.f, 3.f, 4.f };
+		Vector3f scale = { 2.4f, 5.2f, 0.25f };
+
+		Transform first;
+		first.setTranslation(translation);
+		first.setScale(scale);
+		first.setRotation(rotation);
+
+		Transform second;
+		second.setTranslation(translation);
+		second.setScale(scale);
+		second.setRotation(rotation);
+
+		first.combine(second);
+		ASSERT_EQ(first.getRotation(), rotation + rotation);
+		ASSERT_EQ(first.getTranslation(), translation + translation);
+		ASSERT_EQ(first.getScale(), scale * scale);
+	}
+
 }

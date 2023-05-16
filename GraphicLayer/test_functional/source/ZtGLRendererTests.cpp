@@ -44,7 +44,7 @@ namespace zt::gl::tests
 	TEST_F(RendererTests, Draw)
 	{
 		zt::gl::GLFW::UnhideWindow();
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&);
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&);
 		using FunctionDeclaration = decltype(&Renderer::draw);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
@@ -79,6 +79,8 @@ namespace zt::gl::tests
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
 
+		float counter = 1.f;
+
 		//auto sprite = sprites.begin();
 		//sprite->rotate();
 		//sprite++;
@@ -98,10 +100,15 @@ namespace zt::gl::tests
 			//renderer.draw(sprite->getDrawInfo());
 
 			float index = 1.f;
+			float time = static_cast<float>(glfwGetTime());
 			for (Sprite& sprite : sprites)
 			{
-				sprite.rotate2(index / sprites.size());
 				renderer.draw(sprite);
+				Transform transform = sprite.getTransform();
+				float rotation = 360.f / sprites.size() * index * time;
+				transform.setRotation({ 0.f, 0.f, rotation });
+				sprite.setTransform(transform);
+				counter += 1.f;
 				index += 1.f;
 			}
 

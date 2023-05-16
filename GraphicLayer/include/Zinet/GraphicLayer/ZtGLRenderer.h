@@ -97,7 +97,7 @@ namespace zt::gl
 
 		void preDraw();
 
-		void draw(const DrawableObject& drawableObject);
+		void draw(DrawableObject& drawableObject);
 
 		void postDraw();
 
@@ -166,8 +166,9 @@ namespace zt::gl
 
 		bool invalidCommandBuffer = false;
 
-		Matrix4f ViewMatrix;
-		Matrix4f ProjectionMatrix;
+		// TODO refactor this
+		Matrix4f viewMatrix;
+		Matrix4f projectionMatrix;
 	};
 
 }

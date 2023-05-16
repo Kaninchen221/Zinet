@@ -9,6 +9,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
 
 #include <span>
 #include <vector>
@@ -58,6 +59,7 @@ namespace zt::gl
 		std::vector<std::uint16_t> indices;
 		std::span<UniformBuffer> uniformBuffers;
 		std::span<Image> images;
+		Matrix4f modelMatrix;
 
 	};
 

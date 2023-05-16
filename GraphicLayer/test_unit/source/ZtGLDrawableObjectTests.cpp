@@ -31,9 +31,12 @@ namespace zt::gl::tests
 
 			const Transform& getTransform() const override { return transform; }
 
+			UniformBuffer* getMVPUniformBuffer() override { return &uniformBuffer; }
+
 		private:
 
 			Transform transform;
+			UniformBuffer uniformBuffer;
 
 		};
 
