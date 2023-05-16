@@ -95,4 +95,19 @@ namespace zt::gl::tests
 
 		ASSERT_EQ(expected, actual);
 	}
+
+	TEST_F(SpriteSimpleTests, GetSetTransform)
+	{
+		typedef const Transform& (Sprite::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&Sprite::getTransform));
+
+		Transform expected;
+		expected.setTranslation({ 12.4f, 3.f, 1.f });
+		expected.setScale({ 112.4f, 3.42f, 11.f });
+		expected.setRotation({ 1.41f, 0.412f, 1.212f });
+		sprite.setTransform(expected);
+
+		const Transform& actual = sprite.getTransform();
+		ASSERT_EQ(expected, actual);
+	}
 }

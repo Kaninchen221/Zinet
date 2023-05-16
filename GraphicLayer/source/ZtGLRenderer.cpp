@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
 
 #include <map>
 
@@ -286,8 +287,9 @@ namespace zt::gl
 		commandBuffer.beginRenderPass(beginRenderPassInfo);
 	}
 
-	void Renderer::draw(const DrawInfo& drawInfo)
+	void Renderer::draw(const DrawableObject& drawableObject)
 	{
+		const DrawInfo& drawInfo = drawableObject.getDrawInfo();
 		createRendererPipeline(drawInfo);
 
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());

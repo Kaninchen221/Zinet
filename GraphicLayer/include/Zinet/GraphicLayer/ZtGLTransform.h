@@ -23,24 +23,33 @@ namespace zt::gl
 
 		~Transform() noexcept = default;
 
-		void setRotation(const Vector4f& newRotation) { rotation = newRotation; }
-		const Vector4f& getRotation() const { return rotation; }
+		void setRotation(const Vector3f& newRotation) { rotation = newRotation; }
+		const Vector3f& getRotation() const { return rotation; }
 
-		void setTranslation(const Vector4f& newTranslation) { translation = newTranslation; }
-		const Vector4f& getTranslation() const { return translation; }
+		void setTranslation(const Vector3f& newTranslation) { translation = newTranslation; }
+		const Vector3f& getTranslation() const { return translation; }
 
-		void setScale(const Vector4f& newScale) { scale = newScale; }
-		const Vector4f& getScale() const { return scale; }
+		void setScale(const Vector3f& newScale) { scale = newScale; }
+		const Vector3f& getScale() const { return scale; }
 
 		Matrix4f toMatrix() const;
 
 	protected:
 
-		// TODO This properties should be perhaps Vector3f
-		Vector4f rotation = { 0.f, 0.f, 0.f, 1.f }; // In degrees
-		Vector4f translation = { 0.f, 0.f, 0.f, 0.f };
-		Vector4f scale = { 1.f, 1.f, 1.f, 0.f };
+		// TODO Vector3f or Vector4f?
+		Vector3f rotation = { 0.f, 0.f, 0.f }; // In degrees
+		Vector3f translation = { 0.f, 0.f, 0.f };
+		Vector3f scale = { 1.f, 1.f, 1.f };
 
 	};
+
+	inline bool operator == (const Transform& first, const Transform& second)
+	{
+		bool isRotationEqual = first.getRotation() == second.getRotation();
+		bool isScaleEqual = first.getScale() == second.getScale();
+		bool isTranslationEqual = first.getTranslation() == second.getTranslation();
+
+		return isRotationEqual && isScaleEqual && isTranslationEqual;
+	}
 
 }

@@ -241,36 +241,6 @@ namespace zt::gl::tests
 		renderer.preDraw();
 	}
 
-	TEST_F(RendererTests, Draw)
-	{
-		zt::gl::GLFW::UnhideWindow();
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
-		using FunctionDeclaration = decltype(&Renderer::draw);
-
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		renderer.initialize();
-
-		createShaders();
-		createDescriptors();
-		createVertexBuffer();
-		createIndexBuffer();
-		createUniformBuffers();
-		createImageDrawInfos();
-
-		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
-		drawInfo.shaders = shaders;
-		drawInfo.descriptors = descriptors;
-		drawInfo.uniformBuffers = uniformBuffers;
-		drawInfo.images = imageDrawInfos;
-		renderer.preDraw();
-		renderer.draw(drawInfo);
-		renderer.postDraw();
-
-		// Resolve runtime errors
-		renderer.getQueue()->waitIdle();
-	}
-
 	void RendererTests::createShaders()
 	{
 		shaders.emplace_back();

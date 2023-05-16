@@ -17,57 +17,87 @@ namespace zt::gl::tests
 
 	TEST_F(TransformTests, SetGetRotation)
 	{
-		typedef const Vector4f& (Transform::* ExpectedFunction)() const;
+		typedef const Vector3f& (Transform::* ExpectedFunction)() const;
 		static_assert(IsFunctionEqual<ExpectedFunction>(&Transform::getRotation));
 
-		Vector4f expected = { 5.f, 230.f, 1.f, 0.232f };
+		Vector3f expected = { 5.f, 230.f, 1.f };
 		transform.setRotation(expected);
-		const Vector4f& actual = transform.getRotation();
+		const Vector3f& actual = transform.getRotation();
 
 		ASSERT_EQ(expected, actual);
 	}
 
 	TEST_F(TransformTests, SetGetTranslation)
 	{
-		typedef const Vector4f& (Transform::* ExpectedFunction)() const;
+		typedef const Vector3f& (Transform::* ExpectedFunction)() const;
 		static_assert(IsFunctionEqual<ExpectedFunction>(&Transform::getTranslation));
 
-		Vector4f expected = { 5.f, 230.f, 1.f, 0.232f };
+		Vector3f expected = { 5.f, 230.f, 1.f };
 		transform.setTranslation(expected);
-		const Vector4f& actual = transform.getTranslation();
+		const Vector3f& actual = transform.getTranslation();
 
 		ASSERT_EQ(expected, actual);
 	}
 
 	TEST_F(TransformTests, SetGetScale)
 	{
-		typedef const Vector4f& (Transform::* ExpectedFunction)() const;
+		typedef const Vector3f& (Transform::* ExpectedFunction)() const;
 		static_assert(IsFunctionEqual<ExpectedFunction>(&Transform::getScale));
 
-		Vector4f expected = { 5.f, 230.f, 1.f, 0.232f };
+		Vector3f expected = { 5.f, 230.f, 1.f };
 		transform.setScale(expected);
-		const Vector4f& actual = transform.getScale();
+		const Vector3f& actual = transform.getScale();
 
 		ASSERT_EQ(expected, actual);
 	}
 
 	TEST_F(TransformTests, DefaultValues)
 	{
-		const Vector4f& rotation = transform.getRotation();
-		Vector4f expectedRotation = { 0.f, 0.f, 0.f, 1.f };
+		const Vector3f& rotation = transform.getRotation();
+		Vector3f expectedRotation = { 0.f, 0.f, 0.f };
 		ASSERT_EQ(rotation, expectedRotation);
 
-		const Vector4f& translation = transform.getTranslation();
-		Vector4f expectedTranslation = { 0.f, 0.f, 0.f, 0.f };
+		const Vector3f& translation = transform.getTranslation();
+		Vector3f expectedTranslation = { 0.f, 0.f, 0.f };
 		ASSERT_EQ(translation, expectedTranslation);
 
-		const Vector4f& scale = transform.getScale();
-		Vector4f expectedScale = { 1.f, 1.f, 1.f, 0.f };
+		const Vector3f& scale = transform.getScale();
+		Vector3f expectedScale = { 1.f, 1.f, 1.f };
 		ASSERT_EQ(scale, expectedScale);
 	}
 
 	TEST_F(TransformTests, ToMatrix)
 	{
 		Matrix4f matrix = transform.toMatrix();
+	}
+
+	TEST_F(TransformTests, EqualTest)
+	{
+		Transform first;
+		first.setTranslation({ 12.4f, 3.f, 1.f });
+		first.setScale({ 112.4f, 3.42f, 11.f });
+		first.setRotation({ 1.41f, 0.412f, 1.212f });
+
+		Transform second;
+		second.setTranslation({ 12.4f, 3.f, 1.f });
+		second.setScale({ 112.4f, 3.42f, 11.f });
+		second.setRotation({ 1.41f, 0.412f, 1.212f });
+
+		ASSERT_EQ(first, second);
+	}
+
+	TEST_F(TransformTests, NotEqualTest)
+	{
+		Transform first;
+		first.setTranslation({ 11.4f, 3.f, 1.f });
+		first.setScale({ 112.4f, 3.44f, 11.f });
+		first.setRotation({ 1.41f, 0.412f, 1.242f });
+
+		Transform second;
+		second.setTranslation({ 12.4f, 3.f, 1.f });
+		second.setScale({ 112.4f, 3.42f, 11.f });
+		second.setRotation({ 1.41f, 0.412f, 1.212f });
+
+		ASSERT_NE(first, second);
 	}
 }

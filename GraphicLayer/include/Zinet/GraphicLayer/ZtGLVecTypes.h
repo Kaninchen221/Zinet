@@ -18,6 +18,8 @@ namespace zt::gl
 	using Vector2i = glm::vec<2, int, glm::defaultp>;
 	using Vector2ui = glm::vec<2, unsigned int, glm::defaultp>;
 
+	using Vector3f = glm::vec3;
+
 	using Vector4f = glm::vec4;
 
 	using Matrix4f = glm::mat4;

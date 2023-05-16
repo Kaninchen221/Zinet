@@ -37,6 +37,9 @@ namespace zt::gl
 
 		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
 
+		const Transform& getTransform() const override { return transform; }
+		void setTransform(const Transform& newTransform) { transform = newTransform; }
+
 		// TODO: Replace them with Transform class
 		std::vector<UniformBuffer>& getUniformBuffers() { return uniformBuffers; };
 		MVP& getMVP() { return mvp; }
@@ -66,6 +69,7 @@ namespace zt::gl
 		std::vector<DrawInfo::Image> imageDrawInfos;
 		MVP mvp; // TODO: Create Transform class
 		TextureRegion textureRegion;
+		Transform transform;
 	};
 
 }

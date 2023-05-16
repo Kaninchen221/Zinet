@@ -36,6 +36,8 @@
 
 namespace zt::gl
 {
+	class DrawableObject;
+
 	// TODO Instanced rendering/
 	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
 	class ZINET_GRAPHIC_LAYER_API Renderer
@@ -95,7 +97,7 @@ namespace zt::gl
 
 		void preDraw();
 
-		void draw(const DrawInfo& drawInfo);
+		void draw(const DrawableObject& drawableObject);
 
 		void postDraw();
 
@@ -163,6 +165,9 @@ namespace zt::gl
 		vk::PresentInfoKHR presentInfo;
 
 		bool invalidCommandBuffer = false;
+
+		Matrix4f ViewMatrix;
+		Matrix4f ProjectionMatrix;
 	};
 
 }

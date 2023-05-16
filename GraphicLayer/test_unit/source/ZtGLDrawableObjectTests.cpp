@@ -29,6 +29,12 @@ namespace zt::gl::tests
 
 			void createDrawInfo([[maybe_unused]] std::span<Shader> shaders, [[maybe_unused]] const Texture& texture, [[maybe_unused]] const Sampler& sampler) override {}
 
+			const Transform& getTransform() const override { return transform; }
+
+		private:
+
+			Transform transform;
+
 		};
 
 		TestObject testObject;

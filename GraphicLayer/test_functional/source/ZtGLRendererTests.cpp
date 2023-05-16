@@ -44,7 +44,7 @@ namespace zt::gl::tests
 	TEST_F(RendererTests, Draw)
 	{
 		zt::gl::GLFW::UnhideWindow();
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawInfo&);
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&);
 		using FunctionDeclaration = decltype(&Renderer::draw);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
@@ -97,12 +97,12 @@ namespace zt::gl::tests
 			//sprite++;
 			//renderer.draw(sprite->getDrawInfo());
 
-			float mod = 1.f;
+			float index = 1.f;
 			for (Sprite& sprite : sprites)
 			{
-				sprite.rotate2(mod / sprites.size());
-				renderer.draw(sprite.getDrawInfo());
-				mod += 1.f;
+				sprite.rotate2(index / sprites.size());
+				renderer.draw(sprite);
+				index += 1.f;
 			}
 
 			glfwPollEvents();

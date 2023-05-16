@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+#include "Zinet/GraphicLayer/ZtGLTransform.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -27,6 +28,8 @@ namespace zt::gl
 		virtual const DrawInfo& getDrawInfo() const = 0;
 
 		virtual void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) = 0;
+
+		virtual const Transform& getTransform() const = 0;
 	};
 
 }
