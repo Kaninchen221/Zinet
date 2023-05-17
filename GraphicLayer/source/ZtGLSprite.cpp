@@ -117,17 +117,7 @@ namespace zt::gl
 	{
 		uniformBuffers.reserve(2u);
 
-		// TODO Refactor to function
-		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
-			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
-			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
-		};
-		uniformBuffer.create(bufferCreateInfo);
-		uniformBuffer.setBinding(0u);
-
+		createMVPUniformBuffer(renderer);
 		createTextureRegionUniformBuffer(renderer);
 	}
 
@@ -159,6 +149,19 @@ namespace zt::gl
 	{
 		transform = newTransform;
 		drawInfo.modelMatrix = transform.toMatrix();
+	}
+
+	void Sprite::createMVPUniformBuffer(Renderer& renderer)
+	{
+		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
+		BufferCreateInfo bufferCreateInfo{
+			.device = renderer.getDevice(),
+			.vma = renderer.getVma(),
+			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
+			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
+		};
+		uniformBuffer.create(bufferCreateInfo);
+		uniformBuffer.setBinding(0u);
 	}
 
 }

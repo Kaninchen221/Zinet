@@ -38,7 +38,6 @@ namespace zt::gl
 
 	protected:
 
-		// TODO Vector3f or Vector4f?
 		Vector3f rotation = { 0.f, 0.f, 0.f }; // In degrees
 		Vector3f translation = { 0.f, 0.f, 0.f };
 		Vector3f scale = { 1.f, 1.f, 1.f };

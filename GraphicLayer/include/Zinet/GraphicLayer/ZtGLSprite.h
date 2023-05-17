@@ -49,11 +49,11 @@ namespace zt::gl
 
 	protected:
 
-		void createUniformBuffers(Renderer& renderer);
-
 		void createIndexBuffer(Renderer& renderer);
 		void createVertexBuffer(Renderer& renderer);
 		void createDescriptors();
+		void createUniformBuffers(Renderer& renderer);
+		void createMVPUniformBuffer(Renderer& renderer);
 		void createTextureRegionUniformBuffer(Renderer& renderer);
 
 		DrawInfo drawInfo;
@@ -65,7 +65,6 @@ namespace zt::gl
 		std::vector<DrawInfo::Descriptor> descriptors;
 		std::vector<UniformBuffer> uniformBuffers;
 		std::vector<DrawInfo::Image> imageDrawInfos;
-		MVP mvp; // TODO: Create Transform class
 		TextureRegion textureRegion;
 		Transform transform;
 	};

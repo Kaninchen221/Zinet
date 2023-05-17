@@ -297,16 +297,7 @@ namespace zt::gl
 		const DrawInfo& drawInfo = drawableObject.getDrawInfo();
 		createRendererPipeline(drawInfo);
 
-		// TODO refactor. Update MVP uniform buffer
-		UniformBuffer* MVPUniformBuffer = drawableObject.getMVPUniformBuffer();
-		if (MVPUniformBuffer != nullptr)
-		{
-			MVP mvp;
-			mvp.model = drawableObject.getDrawInfo().modelMatrix;
-			mvp.view = viewMatrix;
-			mvp.proj = projectionMatrix;
-			MVPUniformBuffer->fillWithObject(mvp);
-		}
+		updateMVPUniformBuffer(drawableObject);
 
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
@@ -422,6 +413,19 @@ namespace zt::gl
 		newRendererPipeline.create(rendererPipelineCreateInfo);
 
 		newRendererPipeline.updateDescriptorSets(device);
+	}
+
+	void Renderer::updateMVPUniformBuffer(DrawableObject& drawableObject)
+	{
+		UniformBuffer* MVPUniformBuffer = drawableObject.getMVPUniformBuffer();
+		if (MVPUniformBuffer != nullptr)
+		{
+			MVP mvp;
+			mvp.model = drawableObject.getDrawInfo().modelMatrix;
+			mvp.view = viewMatrix;
+			mvp.proj = projectionMatrix;
+			MVPUniformBuffer->fillWithObject(mvp);
+		}
 	}
 
 }

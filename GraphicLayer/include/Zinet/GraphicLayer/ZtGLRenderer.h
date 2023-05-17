@@ -126,6 +126,8 @@ namespace zt::gl
 
 		void createRendererPipeline(const DrawInfo & drawInfo);
 
+		void updateMVPUniformBuffer(DrawableObject& drawableObject);
+
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;
@@ -166,7 +168,7 @@ namespace zt::gl
 
 		bool invalidCommandBuffer = false;
 
-		// TODO refactor this
+		// TODO refactor viewMatrix to camera and projectionMatrix to... I don't know 
 		Matrix4f viewMatrix;
 		Matrix4f projectionMatrix;
 	};
