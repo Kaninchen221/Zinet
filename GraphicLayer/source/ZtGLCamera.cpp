@@ -22,7 +22,7 @@ namespace zt::gl
 	{
 		Matrix4f matrix;
 		matrix = glm::perspective(glm::radians(fov), aspect, near, far);
-		matrix[1][1] *= -1;
+		matrix[1][1] *= -1; // Reversal Y axis
 
 		return matrix;
 	}

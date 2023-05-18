@@ -28,6 +28,7 @@
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLRenderTarget.h"
+#include "Zinet/GraphicLayer/ZtGLCamera.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -97,7 +98,7 @@ namespace zt::gl
 
 		void preDraw();
 
-		void draw(DrawableObject& drawableObject);
+		void draw(DrawableObject& drawableObject, const Camera& camera);
 
 		void postDraw();
 
@@ -126,7 +127,7 @@ namespace zt::gl
 
 		void createRendererPipeline(const DrawInfo & drawInfo);
 
-		void updateMVPUniformBuffer(DrawableObject& drawableObject);
+		void updateMVPUniformBuffer(DrawableObject& drawableObject, const Camera& camera);
 
 		Context context;
 		Instance instance;
@@ -167,10 +168,6 @@ namespace zt::gl
 		vk::PresentInfoKHR presentInfo;
 
 		bool invalidCommandBuffer = false;
-
-		// TODO refactor viewMatrix to camera and projectionMatrix to... I don't know 
-		Matrix4f viewMatrix;
-		Matrix4f projectionMatrix;
 	};
 
 }

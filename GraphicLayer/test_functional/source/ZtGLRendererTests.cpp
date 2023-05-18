@@ -38,16 +38,19 @@ namespace zt::gl::tests
 		Sampler sampler;
 		STBImage stbImage;
 		Texture texture;
+		Camera camera;
 
 	};
 
 	TEST_F(RendererTests, Draw)
 	{
 		zt::gl::GLFW::UnhideWindow();
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&);
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&, const Camera&);
 		using FunctionDeclaration = decltype(&Renderer::draw);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		camera.setPosition({ 2.0f, 2.0f, 2.0f });
 
 		renderer.initialize();
 
@@ -103,7 +106,7 @@ namespace zt::gl::tests
 			float time = static_cast<float>(glfwGetTime());
 			for (Sprite& sprite : sprites)
 			{
-				renderer.draw(sprite);
+				renderer.draw(sprite, camera);
 				Transform transform = sprite.getTransform();
 				float rotation = 360.f / sprites.size() * index * time;
 				transform.setRotation({ 0.f, 0.f, rotation });

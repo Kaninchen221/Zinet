@@ -14,10 +14,6 @@ namespace zt::gl
 		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() }
 	{
 		GLFW::Init();
-
-		viewMatrix = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, -1.f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		projectionMatrix = glm::perspective(glm::radians(45.0f), 800.f / 400.f, 0.1f, 10.0f);
-		projectionMatrix[1][1] *= -1;
 	}
 
 	Renderer::~Renderer() noexcept
@@ -292,12 +288,12 @@ namespace zt::gl
 		commandBuffer.beginRenderPass(beginRenderPassInfo);
 	}
 
-	void Renderer::draw(DrawableObject& drawableObject)
+	void Renderer::draw(DrawableObject& drawableObject, const Camera& camera)
 	{
 		const DrawInfo& drawInfo = drawableObject.getDrawInfo();
 		createRendererPipeline(drawInfo);
 
-		updateMVPUniformBuffer(drawableObject);
+		updateMVPUniformBuffer(drawableObject, camera);
 
 		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
@@ -415,15 +411,15 @@ namespace zt::gl
 		newRendererPipeline.updateDescriptorSets(device);
 	}
 
-	void Renderer::updateMVPUniformBuffer(DrawableObject& drawableObject)
+	void Renderer::updateMVPUniformBuffer(DrawableObject& drawableObject, const Camera& camera)
 	{
 		UniformBuffer* MVPUniformBuffer = drawableObject.getMVPUniformBuffer();
 		if (MVPUniformBuffer != nullptr)
 		{
 			MVP mvp;
 			mvp.model = drawableObject.getDrawInfo().modelMatrix;
-			mvp.view = viewMatrix;
-			mvp.proj = projectionMatrix;
+			mvp.view = camera.viewMatrix();
+			mvp.proj = camera.projectionMatrix();
 			MVPUniformBuffer->fillWithObject(mvp);
 		}
 	}
