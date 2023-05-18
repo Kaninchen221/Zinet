@@ -77,12 +77,11 @@ namespace zt::gl::tests
 
 	TEST_F(SpriteSimpleTests, GetUniformBuffers)
 	{
-		// TODO: It's temporary (or not) and should be replaced with Transform class
-		typedef std::vector<UniformBuffer>&(Sprite::* ExpectedFunctionDeclaration)();
+		typedef const std::vector<UniformBuffer>&(Sprite::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Sprite::getUniformBuffers);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
-		[[maybe_unused]] std::vector<UniformBuffer>& uniformBuffers = sprite.getUniformBuffers();
+		[[maybe_unused]] const std::vector<UniformBuffer>& uniformBuffers = sprite.getUniformBuffers();
 	}
 
 	TEST_F(SpriteSimpleTests, TextureRegionGetSet)

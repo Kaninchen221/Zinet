@@ -42,7 +42,7 @@ namespace zt::gl
 
 		UniformBuffer* getMVPUniformBuffer() override;
 
-		std::vector<UniformBuffer>& getUniformBuffers() { return uniformBuffers; };
+		const std::vector<UniformBuffer>& getUniformBuffers() const { return uniformBuffers; };
 
 		void setTextureRegion(const TextureRegion& newTextureRegion) { textureRegion = newTextureRegion; }
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
