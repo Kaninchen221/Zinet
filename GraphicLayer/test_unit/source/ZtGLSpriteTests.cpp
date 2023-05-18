@@ -8,6 +8,8 @@
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLShader.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 #include <filesystem>

@@ -2,6 +2,8 @@
 
 #include "Zinet/GraphicLayer/ZtGLTransform.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
