@@ -16,6 +16,8 @@ namespace zt::gl::tests
 		Renderer renderer;
 		VertexBuffer vertexBuffer;
 
+		static_assert(std::derived_from<VertexBuffer, Buffer>);
+
 		void SetUp() override
 		{
 			renderer.initialize();
@@ -27,11 +29,6 @@ namespace zt::gl::tests
 			vertexBuffer.create(vertexBufferCreateInfo);
 		}
 	};
-
-	TEST(VertexBuffer, DerivedFromBuffer)
-	{
-		static_assert(std::derived_from<VertexBuffer, Buffer>);
-	}
 
 	TEST(VertexBuffer, CreateCreateInfo)
 	{
