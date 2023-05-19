@@ -38,34 +38,49 @@ namespace zt::gl::tests
 		{
 			GLFW::Init(false);
 			renderer.initialize();
+
+			shaders.emplace_back();
+			shaders[0].setType(ShaderType::Vertex);
+			shaders[0].loadFromFile((ContentPath / "shader.vert").string());
+			shaders[0].compile();
+
+			shaders.emplace_back();
+			shaders[1].setType(ShaderType::Fragment);
+			shaders[1].loadFromFile((ContentPath / "shader.frag").string());
+			shaders[1].compile();
+
+			vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
+			sampler.create(renderer.getDevice(), samplerCreateInfo);
+
+			if (!stbImage.load((ContentPath / "texture.jpg").string()))
+			{
+				FAIL() << "Can't load texture image";
+			}
+
+			texture.create(stbImage, renderer);
+
+			sprite.create(renderer);
+		}
+
+		void TearDown() override
+		{
 			GLFW::Deinit();
 		}
 	};
 
 	TEST_F(SpriteTests, CreateDrawInfo)
 	{
-		shaders.emplace_back();
-		shaders[0].setType(ShaderType::Vertex);
-		shaders[0].loadFromFile((ContentPath / "shader.vert").string());
-		shaders[0].compile();
-
-		shaders.emplace_back();
-		shaders[1].setType(ShaderType::Fragment);
-		shaders[1].loadFromFile((ContentPath / "shader.frag").string());
-		shaders[1].compile();
-
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(renderer.getDevice(), samplerCreateInfo);
-
-		if (!stbImage.load((ContentPath / "texture.jpg").string()))
-		{
-			FAIL() << "Can't load texture image";
-		}
-
-		texture.create(stbImage, renderer);
-
-		sprite.create(renderer);
 		sprite.createDrawInfo(shaders, texture, sampler);
+	}
+
+	TEST_F(SpriteTests, CopyFrom)
+	{
+		sprite.createDrawInfo(shaders, texture, sampler);
+		Sprite copy;
+		copy.copyFrom(sprite, renderer);
+
+		ASSERT_EQ(sprite.getTransform(), copy.getTransform());
+		ASSERT_EQ(sprite.getTextureRegion(), copy.getTextureRegion());
 	}
 
 	class SpriteSimpleTests : public ::testing::Test

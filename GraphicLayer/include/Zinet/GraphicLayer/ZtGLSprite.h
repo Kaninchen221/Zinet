@@ -33,6 +33,8 @@ namespace zt::gl
 
 		void create(Renderer& renderer);
 
+		void copyFrom(const Sprite& other, Renderer& renderer);
+
 		const DrawInfo& getDrawInfo() const override;
 
 		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;

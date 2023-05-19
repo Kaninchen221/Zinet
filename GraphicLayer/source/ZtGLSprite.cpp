@@ -164,4 +164,11 @@ namespace zt::gl
 		uniformBuffer.setBinding(0u);
 	}
 
+	void Sprite::copyFrom(const Sprite& other, Renderer& renderer)
+	{
+		create(renderer);
+		transform = other.getTransform();
+		textureRegion = other.getTextureRegion();
+	}
+
 }
