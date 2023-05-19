@@ -34,7 +34,8 @@ namespace zt::gl
 
 		bool isValid() const { return *internal != *InternalType{ std::nullptr_t{} }; }
 
-		// TODO: Add access operator that return "vk::ClassName" not "vk::raii::ClassName"
+		// TODO: Test it
+		InternalType::CType getVk() { return *internal; }
 
 	protected:
 

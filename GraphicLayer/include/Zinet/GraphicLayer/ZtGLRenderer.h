@@ -41,6 +41,8 @@ namespace zt::gl
 
 	// TODO Instanced rendering/
 	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
+	// TODO Add RendererContext a structure that will hold mainly data
+	// TODO Cleanup getters. They should be in .h or .cpp
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -64,6 +66,7 @@ namespace zt::gl
 		const Context& getContext() const;
 
 		const Instance& getInstance() const;
+		Instance& getInstance() { return instance; }
 
 		const DebugUtilsMessenger& getDebugUtilsMessenger() const;
 
@@ -71,14 +74,18 @@ namespace zt::gl
 		Window& getWindow() { return window; }
 
 		const Surface& getSurface() const;
+		Surface& getSurface() { return surface; }
 
 		const PhysicalDevice& getPhysicalDevice() const;
+		PhysicalDevice& getPhysicalDevice() { return physicalDevice; }
 
 		const Device& getDevice() const;
+		Device& getDevice() { return device; }
 
 		std::uint32_t getQueueFamilyIndex() const;
 
 		const Queue& getQueue() const;
+		Queue& getQueue() { return queue; }
 
 		const SwapChainSupportDetails& getSwapChainSupportDetails() const;
 
@@ -89,12 +96,16 @@ namespace zt::gl
 		const vk::Extent2D& getSwapExtent() const;
 
 		const RenderPass& getRenderPass() const;
+		RenderPass& getRenderPass() { return renderPass; }
 
 		const std::vector<Framebuffer>& getFramebuffers() const;
 
 		const Vma& getVma() const;
 
 		const CommandPool& getCommandPool() const;
+
+		// TODO Refactor it. Remove it after imgui will be inside renderer.
+		CommandBuffer& getCommandBuffer() { return commandBuffer; }
 
 		void preDraw();
 
@@ -153,7 +164,7 @@ namespace zt::gl
 		CommandPool commandPool;
 
 		std::vector<RendererPipeline> rendererPipelines;
-		CommandBuffer commandBuffer;
+		CommandBuffer commandBuffer; // TODO Rename it to drawCommandBuffer
 
 		// Submit info
 		std::array<Semaphore*, 1> submitWaitSemaphores;

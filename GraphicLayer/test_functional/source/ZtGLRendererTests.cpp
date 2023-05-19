@@ -9,6 +9,7 @@
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 #include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
+#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 
 #include "Zinet/Core/ZtClock.h"
 
@@ -17,6 +18,10 @@
 #include <filesystem>
 #include <vector>
 #include <chrono>
+
+// TODO Remove it after refactor
+#include <imgui_impl_vulkan.h>
+#include <imgui_impl_glfw.h>
 
 namespace zt::gl::tests
 {
@@ -39,6 +44,7 @@ namespace zt::gl::tests
 		STBImage stbImage;
 		Texture texture;
 		Camera camera;
+		Imgui imgui; // TODO Refactor it. Probably move it to renderer
 
 	};
 
@@ -53,6 +59,8 @@ namespace zt::gl::tests
 		camera.setPosition({ 2.0f, 2.0f, 2.0f });
 
 		renderer.initialize();
+
+		imgui.init(renderer); // TODO Refactor it
 
 		createShaders();
 		createSTBImage();
@@ -84,23 +92,23 @@ namespace zt::gl::tests
 
 		float counter = 1.f;
 
-		//auto sprite = sprites.begin();
-		//sprite->rotate();
-		//sprite++;
-		//sprite->rotate2();
-
 		while (!renderer.getWindow().shouldBeClosed())
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
 
+			// TODO Refactor it
+			ImGui_ImplVulkan_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow();
+
+			ImGui::EndFrame();
+
+			ImGui::Render();
+
 			renderer.preDraw();
-			
-			//sprite = sprites.begin();
-			//renderer.draw(sprite->getDrawInfo());
-			//
-			//sprite = sprites.begin();
-			//sprite++;
-			//renderer.draw(sprite->getDrawInfo());
 
 			float index = 1.f;
 			float time = static_cast<float>(glfwGetTime());
@@ -116,6 +124,9 @@ namespace zt::gl::tests
 			}
 
 			glfwPollEvents();
+
+			// TODO Refactor it
+			ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderer.getCommandBuffer().getVk());
 
 			renderer.postDraw();
 
