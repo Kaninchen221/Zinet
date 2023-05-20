@@ -19,6 +19,8 @@
 #include <vector>
 #include <chrono>
 
+#include <glm/gtc/type_ptr.hpp>
+
 // TODO Remove it after refactor
 #include <imgui_impl_vulkan.h>
 #include <imgui_impl_glfw.h>
@@ -45,6 +47,7 @@ namespace zt::gl::tests
 		Texture texture;
 		Camera camera;
 		Imgui imgui;
+		plf::colony<Sprite> sprites;
 
 	};
 
@@ -74,7 +77,6 @@ namespace zt::gl::tests
 		texture.create(stbImage, renderer);
 
 		int count = 3;
-		plf::colony<Sprite> sprites;
 		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
 		{
@@ -91,34 +93,68 @@ namespace zt::gl::tests
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
 
-		float counter = 1.f;
 		while (!renderer.getWindow().shouldBeClosed())
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
 
 			imgui.update();
 
+			// Imgui
 			ImGui::NewFrame();
 
 			ImGui::ShowDemoWindow();
+			if(!ImGui::Begin("Main"))
+				ImGui::End();
+
+			{
+				float index = 1.f;
+				for (Sprite& sprite : sprites)
+				{
+					Transform transform = sprite.getTransform();
+					Vector3f position = transform.getTranslation();
+					Vector3f rotation = transform.getRotation();
+					Vector3f scale = transform.getScale();
+
+					float rawPosition[3];
+					Math::FromVector3fToCArray(position, rawPosition);
+					std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
+					ImGui::SliderFloat3(positionName.c_str(), rawPosition, -1.0f, 1.0f);
+					
+					float rawRotation[3];
+					Math::FromVector3fToCArray(rotation, rawRotation);
+					std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
+					ImGui::SliderFloat3(rotationName.c_str(), rawRotation, 0.f, 360.0f);
+
+					float rawScale[3];
+					Math::FromVector3fToCArray(scale, rawScale);
+					std::string scaleName = std::string{ "Sprite scale " } + std::to_string(static_cast<int>(index));
+					ImGui::SliderFloat3(scaleName.c_str(), rawScale, 0.01f, 10.0f);
+
+					ImGui::Spacing();
+
+					position = Math::FromCArrayToVector3f(rawPosition);
+					rotation = Math::FromCArrayToVector3f(rawRotation);
+					scale = Math::FromCArrayToVector3f(rawScale);
+					transform.setTranslation(position);
+					transform.setRotation(rotation);
+					transform.setScale(scale);
+					sprite.setTransform(transform);
+					index += 1.f;
+				}
+			}
+
+			ImGui::End();
 
 			ImGui::EndFrame();
+			// End Imgui
 
 			ImGui::Render();
 
 			renderer.preDraw();
 
-			float index = 1.f;
-			float time = static_cast<float>(glfwGetTime());
 			for (Sprite& sprite : sprites)
 			{
 				renderer.draw(sprite, camera);
-				Transform transform = sprite.getTransform();
-				float rotation = 360.f / sprites.size() * index * time;
-				transform.setRotation({ 0.f, 0.f, rotation });
-				sprite.setTransform(transform);
-				counter += 1.f;
-				index += 1.f;
 			}
 
 			glfwPollEvents();
