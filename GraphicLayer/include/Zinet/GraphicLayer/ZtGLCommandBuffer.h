@@ -81,7 +81,6 @@ namespace zt::gl
 			const DescriptorSets& descriptorSets,
 			const vk::ArrayProxy<const uint32_t>& dynamicOffsets);
 
-		// TODO Add test
 		void setIsCommandBufferInvalid(bool value) { isCommandBufferInvalid = value; }
 		bool getIsCommandBufferInvalid() const { return isCommandBufferInvalid; }
 

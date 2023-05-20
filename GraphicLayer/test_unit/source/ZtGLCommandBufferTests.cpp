@@ -31,6 +31,160 @@
 
 namespace zt::gl::tests
 {
+	class CommandBufferSimpleTests : public ::testing::Test
+	{
+		static_assert(std::derived_from<CommandBuffer, VulkanObject<vk::raii::CommandBuffer>>);
+	};
+
+	TEST_F(CommandBufferSimpleTests, CreateCommandBufferAllocateInfoTest)
+	{
+		typedef vk::CommandBufferAllocateInfo(CommandBuffer::* ExpectedFunctionDeclaration)(const CommandPool&) const;
+		using FunctionDeclaration = decltype(&CommandBuffer::createCommandBufferAllocateInfo);
+		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+
+		CommandBuffer commandBuffer;
+		CommandPool commandPool;
+		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
+
+		ASSERT_NE(allocateInfo, vk::CommandBufferAllocateInfo{});
+	}
+
+	TEST_F(CommandBufferSimpleTests, ArrowOperatorTest)
+	{
+		CommandBuffer commandBuffer;
+		vk::raii::CommandBuffer* internal = commandBuffer.operator->();
+
+		ASSERT_EQ(**internal, *vk::raii::CommandBuffer{ std::nullptr_t{} });
+	}
+
+	TEST_F(CommandBufferSimpleTests, IsCommandBufferInvalid)
+	{
+		CommandBuffer commandBuffer;
+		bool isInvalid = commandBuffer.getIsCommandBufferInvalid();
+		ASSERT_FALSE(isInvalid);
+
+		commandBuffer.setIsCommandBufferInvalid(true);
+		isInvalid = commandBuffer.getIsCommandBufferInvalid();
+		ASSERT_TRUE(isInvalid);
+	}
+
+	TEST_F(CommandBufferSimpleTests, CopyBufferToImage)
+	{
+		Renderer renderer;
+		renderer.initialize();
+
+		StagingBuffer stagingBuffer;
+
+		BufferCreateInfo stagingBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		stagingBufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
+		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
+
+		stagingBuffer.create(stagingBufferCreateInfo);
+
+		std::uint32_t expectedWidth = 1u;
+		std::uint32_t expectedHeight = 1u;
+
+		Image image;
+		Image::CreateInfo imageCreateInfo{
+			.device = renderer.getDevice(),
+			.vma = renderer.getVma(),
+			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+			.allocationCreateInfo = image.createAllocationCreateInfo()
+		};
+
+		image.create(imageCreateInfo);
+
+		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+
+		vk::BufferImageCopy imageRegion{};
+		imageRegion.bufferOffset = 0;
+		imageRegion.bufferRowLength = 0;
+		imageRegion.bufferImageHeight = 0;
+
+		imageRegion.imageSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
+		imageRegion.imageSubresource.mipLevel = 0;
+		imageRegion.imageSubresource.baseArrayLayer = 0;
+		imageRegion.imageSubresource.layerCount = 1;
+
+		imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
+		imageRegion.imageExtent = vk::Extent3D{
+			1, // width
+			1, // height
+			1
+		};
+
+		ImageBuffer imageBuffer;
+
+		BufferCreateInfo imageBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		imageBufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(1u);
+		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false);
+
+		imageBuffer.create(imageBufferCreateInfo);
+
+		uint32_t queueFamilyIndex = renderer.getPhysicalDevice().pickQueueFamilyIndex(renderer.getSurface());
+		CommandPool commandPool;
+		commandPool.create(renderer.getDevice(), queueFamilyIndex);
+
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(renderer.getDevice(), commandPool);
+
+		commandBuffer.begin();
+		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
+	}
+
+	TEST_F(CommandBufferSimpleTests, BindVertexBuffer)
+	{
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+
+		VertexBuffer vertexBuffer;
+		vk::BufferCreateInfo vkBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
+		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
+		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
+
+		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
+		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
+		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
+
+		vertexBuffer.create(bufferCreateInfo);
+
+		rendererBuilder.commandBuffer.begin();
+		rendererBuilder.commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
+	}
+
+	TEST_F(CommandBufferSimpleTests, BindIndexBuffer)
+	{
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+
+		IndexBuffer indexBuffer;
+		vk::BufferCreateInfo vkBufferCreateInfo = indexBuffer.createCreateInfo(1u);
+		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eIndexBuffer;
+		VmaAllocationCreateInfo allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
+
+		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
+		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
+		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
+
+		indexBuffer.create(bufferCreateInfo);
+
+		rendererBuilder.commandBuffer.begin();
+		vk::DeviceSize offset = 0u;
+		vk::IndexType indexType = vk::IndexType::eUint16;
+		rendererBuilder.commandBuffer.bindIndexBuffer(indexBuffer, offset, indexType);
+	}
+
+	TEST_F(CommandBufferSimpleTests, BindDescriptorSets)
+	{
+		RendererBuilder rendererBuilder;
+		rendererBuilder.createAll();
+
+		vk::PipelineBindPoint bindPoint = vk::PipelineBindPoint::eGraphics;
+		std::uint32_t firstSet = 0u;
+		std::array<std::uint32_t, 0> dynamicOffsets;
+		rendererBuilder.commandBuffer.begin();
+		rendererBuilder.commandBuffer.bindDescriptorSets(bindPoint, rendererBuilder.pipelineLayout, firstSet, *rendererBuilder.descriptorSets, dynamicOffsets);
+	}
 
 	class CommandBufferTests : public ::testing::Test
 	{
@@ -72,32 +226,6 @@ namespace zt::gl::tests
 			GLFW::Deinit();
 		}
 	};
-
-	TEST(CommandBuffer, DerivedFromVulkanObject)
-	{
-		static_assert(std::derived_from<CommandBuffer, VulkanObject<vk::raii::CommandBuffer>>);
-	}
-
-	TEST(CommandBuffer, CreateCommandBufferAllocateInfoTest)
-	{
-		typedef vk::CommandBufferAllocateInfo(CommandBuffer::* ExpectedFunctionDeclaration)(const CommandPool&) const;
-		using FunctionDeclaration = decltype(&CommandBuffer::createCommandBufferAllocateInfo);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		CommandBuffer commandBuffer;
-		CommandPool commandPool;
-		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-
-		ASSERT_NE(allocateInfo, vk::CommandBufferAllocateInfo{});
-	}
-
-	TEST(CommandBuffer, ArrowOperatorTest)
-	{
-		CommandBuffer commandBuffer;
-		vk::raii::CommandBuffer* internal = commandBuffer.operator->();
-
-		ASSERT_EQ(**internal, *vk::raii::CommandBuffer{ std::nullptr_t{} });
-	}
 
 	TEST_F(CommandBufferTests, AllocateCommandBufferTest)
 	{
@@ -215,7 +343,7 @@ namespace zt::gl::tests
 		commandBuffer.reset();
 	}
 
-	TEST(CommandBuffer, CreateImageMemoryBarrier)
+	TEST_F(CommandBufferSimpleTests, CreateImageMemoryBarrier)
 	{
 		CommandBuffer commandBuffer;
 		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
@@ -235,123 +363,5 @@ namespace zt::gl::tests
 		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
 		ASSERT_EQ(barrier.srcAccessMask, vk::AccessFlagBits{});
 		ASSERT_EQ(barrier.dstAccessMask, vk::AccessFlagBits{});
-	}
-
-	TEST(CommandBuffer, CopyBufferToImage)
-	{
-		Renderer renderer;
-		renderer.initialize();
-
-		StagingBuffer stagingBuffer;
-
-		BufferCreateInfo stagingBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
-		stagingBufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
-		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
-
-		stagingBuffer.create(stagingBufferCreateInfo);
-		
-		std::uint32_t expectedWidth = 1u;
-		std::uint32_t expectedHeight = 1u;
-
-		Image image;
-		Image::CreateInfo imageCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
-			.allocationCreateInfo = image.createAllocationCreateInfo()
-		};
-
-		image.create(imageCreateInfo);
-
-		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-
-		vk::BufferImageCopy imageRegion{};
-		imageRegion.bufferOffset = 0;
-		imageRegion.bufferRowLength = 0;
-		imageRegion.bufferImageHeight = 0;
-
-		imageRegion.imageSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
-		imageRegion.imageSubresource.mipLevel = 0;
-		imageRegion.imageSubresource.baseArrayLayer = 0;
-		imageRegion.imageSubresource.layerCount = 1;
-
-		imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
-		imageRegion.imageExtent = vk::Extent3D{
-			1, // width
-			1, // height
-			1
-		};
-
-		ImageBuffer imageBuffer;
-
-		BufferCreateInfo imageBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
-		imageBufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(1u);
-		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false);
-
-		imageBuffer.create(imageBufferCreateInfo);
-
-		uint32_t queueFamilyIndex = renderer.getPhysicalDevice().pickQueueFamilyIndex(renderer.getSurface());
-		CommandPool commandPool;
-		commandPool.create(renderer.getDevice(), queueFamilyIndex);
-
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), commandPool);
-
-		commandBuffer.begin();
-		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
-	}
-
-	TEST(CommandBuffer, BindVertexBuffer)
-	{
-		RendererBuilder rendererBuilder;
-		rendererBuilder.createAll();
-
-		VertexBuffer vertexBuffer;
-		vk::BufferCreateInfo vkBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
-		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
-		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
-
-		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
-		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
-		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
-
-		vertexBuffer.create(bufferCreateInfo);
-
-		rendererBuilder.commandBuffer.begin();
-		rendererBuilder.commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
-	}
-
-	TEST(CommandBuffer, BindIndexBuffer)
-	{
-		RendererBuilder rendererBuilder;
-		rendererBuilder.createAll();
-
-		IndexBuffer indexBuffer;
-		vk::BufferCreateInfo vkBufferCreateInfo = indexBuffer.createCreateInfo(1u);
-		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eIndexBuffer;
-		VmaAllocationCreateInfo allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
-
-		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
-		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
-		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
-
-		indexBuffer.create(bufferCreateInfo);
-
-		rendererBuilder.commandBuffer.begin();
-		vk::DeviceSize offset = 0u;
-		vk::IndexType indexType = vk::IndexType::eUint16;
-		rendererBuilder.commandBuffer.bindIndexBuffer(indexBuffer, offset, indexType);
-	}
-
-	TEST(CommandBuffer, BindDescriptorSets)
-	{
-		RendererBuilder rendererBuilder;
-		rendererBuilder.createAll();
-
-		vk::PipelineBindPoint bindPoint = vk::PipelineBindPoint::eGraphics;
-		std::uint32_t firstSet = 0u;
-		std::array<std::uint32_t, 0> dynamicOffsets;
-		rendererBuilder.commandBuffer.begin();
-		rendererBuilder.commandBuffer.bindDescriptorSets(bindPoint, rendererBuilder.pipelineLayout, firstSet, *rendererBuilder.descriptorSets, dynamicOffsets);
 	}
 }
