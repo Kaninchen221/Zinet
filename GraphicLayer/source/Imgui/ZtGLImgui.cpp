@@ -1,5 +1,6 @@
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
 #include "Zinet/Core/ZtDebug.h"
 
@@ -91,6 +92,17 @@ namespace zt::gl
 			Logger->error("Imgui error {}", error);
 			Ensure(false);
 		}
+	}
+
+	void Imgui::update()
+	{
+		ImGui_ImplVulkan_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+	}
+
+	void Imgui::draw(CommandBuffer& drawCommandBuffer)
+	{
+		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), drawCommandBuffer.getVk());
 	}
 
 }

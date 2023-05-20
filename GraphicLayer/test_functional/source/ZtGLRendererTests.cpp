@@ -60,7 +60,7 @@ namespace zt::gl::tests
 
 		renderer.initialize();
 
-		imgui.init(renderer); // TODO Refactor it
+		imgui.init(renderer);
 
 		createShaders();
 		createSTBImage();
@@ -96,9 +96,7 @@ namespace zt::gl::tests
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
 
-			// TODO Refactor it
-			ImGui_ImplVulkan_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
+			imgui.update();
 
 			ImGui::NewFrame();
 
@@ -125,8 +123,7 @@ namespace zt::gl::tests
 
 			glfwPollEvents();
 
-			// TODO Refactor it
-			ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), renderer.getCommandBuffer().getVk());
+			imgui.draw(renderer.getCommandBuffer());
 
 			renderer.postDraw();
 

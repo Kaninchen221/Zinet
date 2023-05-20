@@ -8,6 +8,7 @@
 namespace zt::gl
 {
 	class Renderer;
+	class CommandBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API Imgui
 	{
@@ -27,6 +28,10 @@ namespace zt::gl
 		~Imgui() noexcept;
 
 		void init(Renderer& renderer);
+
+		void update();
+		
+		void draw(CommandBuffer& drawCommandBuffer);
 
 		const DescriptorPool& getDescriptorPool() const { return descriptorPool; }
 
