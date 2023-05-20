@@ -387,6 +387,8 @@ namespace zt::gl
 		createSwapChain();
 		createImageViews();
 		createFramebuffers();
+
+		// TODO Fix: Imgui throw errors
 	}
 
 	void Renderer::updateSwapChainSupportDetails()
