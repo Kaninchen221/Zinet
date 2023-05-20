@@ -1,6 +1,8 @@
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
+#include "Zinet/Core/ZtDebug.h"
+
 #include <imgui.h>
 #include <imgui_impl_vulkan.h>
 #include <imgui_impl_glfw.h>
@@ -34,7 +36,7 @@ namespace zt::gl
 		initInfo.Allocator = nullptr;
 		initInfo.MinImageCount = 3;
 		initInfo.ImageCount = 3;
-		//initInfo.CheckVkResultFn = check_vk_result; // TODO Add handling errors
+		initInfo.CheckVkResultFn = LogImgui;
 		initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 		isInitialized = ImGui_ImplVulkan_Init(&initInfo, renderer.getRenderPass().getVk());
 
@@ -79,6 +81,16 @@ namespace zt::gl
 	{
 		if (isInitialized)
 			ImGui_ImplVulkan_Shutdown();
+	}
+
+	void Imgui::LogImgui(VkResult error)
+	{
+		vk::Result result{ error };
+		if (result != vk::Result::eSuccess)
+		{
+			Logger->error("Imgui error {}", error);
+			Ensure(false);
+		}
 	}
 
 }

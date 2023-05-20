@@ -13,6 +13,8 @@ namespace zt::gl
 	{
 		inline static ConsoleLogger Logger = ConsoleLogger::Create("Imgui");
 
+		static void LogImgui(VkResult error);
+
 	public:
 
 		Imgui() = default;
