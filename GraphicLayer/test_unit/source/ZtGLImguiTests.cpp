@@ -32,6 +32,7 @@ namespace zt::gl::tests
 
 	TEST_F(ImguiTests, Init)
 	{
+		imgui.preinit(renderer);
 		imgui.init(renderer);
 
 		const DescriptorPool& descriptorPool = imgui.getDescriptorPool();
