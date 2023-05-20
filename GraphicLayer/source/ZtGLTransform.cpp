@@ -7,7 +7,6 @@
 
 namespace zt::gl
 {
-	// TODO The order of s r t is wrong
 	Matrix4f Transform::toMatrix() const
 	{
 		glm::mat4 result = glm::mat4(1.0f);
