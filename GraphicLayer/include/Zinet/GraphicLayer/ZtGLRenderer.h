@@ -39,7 +39,7 @@ namespace zt::gl
 {
 	class DrawableObject;
 
-	// TODO Instanced rendering/
+	// TODO Instanced rendering
 	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
 	// TODO Add RendererContext a structure that will hold mainly data
 	// TODO Cleanup getters. They should be in .h or .cpp
@@ -104,7 +104,7 @@ namespace zt::gl
 
 		const CommandPool& getCommandPool() const;
 
-		// TODO Refactor it. Remove it after imgui will be inside renderer.
+		// TODO Refactor it. Rename it after imgui will be inside renderer.
 		CommandBuffer& getCommandBuffer() { return commandBuffer; }
 
 		void preDraw();

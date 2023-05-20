@@ -11,7 +11,6 @@ namespace zt::gl
 	{
 		createDescriptorPool(renderer);
 
-
 		#ifdef ZINET_DEBUG
 		IMGUI_CHECKVERSION();
 		#endif // ZINET_DEBUG
@@ -35,7 +34,7 @@ namespace zt::gl
 		initInfo.Allocator = nullptr;
 		initInfo.MinImageCount = 3;
 		initInfo.ImageCount = 3;
-		//initInfo.CheckVkResultFn = check_vk_result;
+		//initInfo.CheckVkResultFn = check_vk_result; // TODO Add handling errors
 		initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 		isInitialized = ImGui_ImplVulkan_Init(&initInfo, renderer.getRenderPass().getVk());
 
