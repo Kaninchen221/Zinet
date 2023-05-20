@@ -21,7 +21,6 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-// TODO Remove it after refactor
 #include <imgui_impl_vulkan.h>
 #include <imgui_impl_glfw.h>
 
