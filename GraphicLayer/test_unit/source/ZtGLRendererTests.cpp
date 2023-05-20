@@ -229,6 +229,14 @@ namespace zt::gl::tests
 		[[maybe_unused]] const CommandPool& commandPool = renderer.getCommandPool();
 	}
 
+	TEST(Renderer, SetInformAboutWindowResize)
+	{
+		Renderer renderer;
+
+		auto function = []([[maybe_unused]] int width, [[maybe_unused]] int height) {};
+		renderer.setInformAboutWindowResizeCallback(function);
+	}
+
 	TEST_F(RendererTests, preDraw)
 	{
 		renderer.initialize();

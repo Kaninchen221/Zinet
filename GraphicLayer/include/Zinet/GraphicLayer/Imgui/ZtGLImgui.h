@@ -27,7 +27,12 @@ namespace zt::gl
 
 		~Imgui() noexcept;
 
+		// Call once for the entire program
+		void preinit(Renderer& renderer);
+
 		void init(Renderer& renderer);
+
+		void deinit();
 
 		void update();
 		

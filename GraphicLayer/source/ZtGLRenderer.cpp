@@ -311,11 +311,11 @@ namespace zt::gl
 
 	void Renderer::postDraw()
 	{
-		if (invalidCommandBuffer)
+		if (drawCommandBuffer.getIsCommandBufferInvalid())
 		{
 			drawCommandBuffer.clear();
 			drawCommandBuffer.allocateCommandBuffer(device, commandPool);
-			invalidCommandBuffer = false;
+			drawCommandBuffer.setIsCommandBufferInvalid(false);
 			return;
 		}
 
@@ -380,7 +380,7 @@ namespace zt::gl
 		imageViews.clear();
 		swapChain.clear();
 
-		invalidCommandBuffer = true;
+		drawCommandBuffer.setIsCommandBufferInvalid(true);
 
 		updateSwapChainSupportDetails();
 
@@ -388,7 +388,8 @@ namespace zt::gl
 		createImageViews();
 		createFramebuffers();
 
-		// TODO Fix: Imgui throw errors
+		if (informAboutWindowResizeCallback != nullptr)
+			std::invoke(informAboutWindowResizeCallback, width, height);
 	}
 
 	void Renderer::updateSwapChainSupportDetails()
@@ -432,6 +433,14 @@ namespace zt::gl
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 
 		queue.submitWaitIdle(commandBuffer, function);
+	}
+
+	void Renderer::setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback)
+	{
+		if (callback != nullptr)
+		{
+			informAboutWindowResizeCallback = callback;
+		}
 	}
 
 }

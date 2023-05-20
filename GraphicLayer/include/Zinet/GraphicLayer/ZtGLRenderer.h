@@ -104,8 +104,7 @@ namespace zt::gl
 
 		const CommandPool& getCommandPool() const;
 
-		// TODO Refactor it. Rename it after imgui will be inside renderer.
-		CommandBuffer& getCommandBuffer() { return drawCommandBuffer; }
+		CommandBuffer& getDrawCommandBuffer() { return drawCommandBuffer; }
 
 		void preDraw();
 
@@ -114,6 +113,9 @@ namespace zt::gl
 		void postDraw();
 
 		void informAboutWindowResize(int width, int height);
+
+		typedef void (*InformAboutWindowResizeCallback)(int width, int height);
+		void setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback);
 
 		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
 		void submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function);
@@ -181,7 +183,7 @@ namespace zt::gl
 		std::array<SwapChain*, 1> presentSwapChains = { &swapChain };
 		vk::PresentInfoKHR presentInfo;
 
-		bool invalidCommandBuffer = false;
+		InformAboutWindowResizeCallback informAboutWindowResizeCallback = nullptr;
 	};
 
 }

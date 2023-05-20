@@ -10,10 +10,8 @@
 
 namespace zt::gl
 {
-	void Imgui::init(Renderer& renderer)
+	void Imgui::preinit(Renderer& renderer)
 	{
-		createDescriptorPool(renderer);
-
 		#ifdef ZINET_DEBUG
 		IMGUI_CHECKVERSION();
 		#endif // ZINET_DEBUG
@@ -25,6 +23,11 @@ namespace zt::gl
 		ImGui::StyleColorsDark();
 
 		ImGui_ImplGlfw_InitForVulkan(renderer.getWindow().getInternal(), true);
+	}
+
+	void Imgui::init(Renderer& renderer)
+	{
+		createDescriptorPool(renderer);
 		
 		ImGui_ImplVulkan_InitInfo initInfo = {};
 		initInfo.Instance = renderer.getInstance().getVk();
@@ -81,7 +84,7 @@ namespace zt::gl
 	Imgui::~Imgui() noexcept
 	{
 		if (isInitialized)
-			ImGui_ImplVulkan_Shutdown();
+			deinit();
 	}
 
 	void Imgui::LogImgui(VkResult error)
@@ -102,7 +105,13 @@ namespace zt::gl
 
 	void Imgui::draw(CommandBuffer& drawCommandBuffer)
 	{
-		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), drawCommandBuffer.getVk());
+		if (!drawCommandBuffer.getIsCommandBufferInvalid())
+			ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), drawCommandBuffer.getVk());
+	}
+
+	void Imgui::deinit()
+	{
+		ImGui_ImplVulkan_Shutdown();
 	}
 
 }

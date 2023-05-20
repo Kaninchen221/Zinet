@@ -44,7 +44,7 @@ namespace zt::gl::tests
 		STBImage stbImage;
 		Texture texture;
 		Camera camera;
-		Imgui imgui; // TODO Refactor it. Probably move it to renderer
+		Imgui imgui;
 
 	};
 
@@ -60,6 +60,7 @@ namespace zt::gl::tests
 
 		renderer.initialize();
 
+		imgui.preinit(renderer);
 		imgui.init(renderer);
 
 		createShaders();
@@ -91,7 +92,6 @@ namespace zt::gl::tests
 		std::once_flag clockOnceFlag;
 
 		float counter = 1.f;
-
 		while (!renderer.getWindow().shouldBeClosed())
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
@@ -123,7 +123,7 @@ namespace zt::gl::tests
 
 			glfwPollEvents();
 
-			imgui.draw(renderer.getCommandBuffer());
+			imgui.draw(renderer.getDrawCommandBuffer());
 
 			renderer.postDraw();
 
