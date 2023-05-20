@@ -38,20 +38,12 @@ namespace zt::gl
 		initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 		isInitialized = ImGui_ImplVulkan_Init(&initInfo, renderer.getRenderPass().getVk());
 
-		{ // TODO Refactor it
-			CommandBuffer commandBuffer;
-			commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
-			commandBuffer.begin();
-			ImGui_ImplVulkan_CreateFontsTexture(commandBuffer.getVk());
-			commandBuffer.end();
-
-			vk::SubmitInfo submitInfo{};
-			submitInfo.commandBufferCount = 1;
-			submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
-
-			renderer.getQueue().submit(submitInfo);
-			renderer.getQueue()->waitIdle();
-		}
+		auto function = [](CommandBuffer& commandBuffer) 
+		{ 
+			ImGui_ImplVulkan_CreateFontsTexture(commandBuffer.getVk()); 
+		};
+		
+		renderer.submitCommandsWaitIdle(function);
 
 		ImGui_ImplVulkan_DestroyFontUploadObjects();
 	}

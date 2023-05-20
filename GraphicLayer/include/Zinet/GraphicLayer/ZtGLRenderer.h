@@ -105,7 +105,7 @@ namespace zt::gl
 		const CommandPool& getCommandPool() const;
 
 		// TODO Refactor it. Rename it after imgui will be inside renderer.
-		CommandBuffer& getCommandBuffer() { return commandBuffer; }
+		CommandBuffer& getCommandBuffer() { return drawCommandBuffer; }
 
 		void preDraw();
 
@@ -114,6 +114,9 @@ namespace zt::gl
 		void postDraw();
 
 		void informAboutWindowResize(int width, int height);
+
+		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
+		void submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function);
 
 	protected:
 
@@ -164,7 +167,7 @@ namespace zt::gl
 		CommandPool commandPool;
 
 		std::vector<RendererPipeline> rendererPipelines;
-		CommandBuffer commandBuffer; // TODO Rename it to drawCommandBuffer
+		CommandBuffer drawCommandBuffer;
 
 		// Submit info
 		std::array<Semaphore*, 1> submitWaitSemaphores;

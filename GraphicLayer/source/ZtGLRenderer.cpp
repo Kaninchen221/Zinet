@@ -63,7 +63,7 @@ namespace zt::gl
 
 		drawFence.createSignaled(device);
 		
-		commandBuffer.allocateCommandBuffer(device, commandPool);
+		drawCommandBuffer.allocateCommandBuffer(device, commandPool);
 	}
 
 	const Context& Renderer::getContext() const
@@ -271,8 +271,8 @@ namespace zt::gl
 		rendererPipelines.clear();
 		submitCommandBuffers.clear();
 
-		commandBuffer.reset();
-		commandBuffer.begin();
+		drawCommandBuffer.reset();
+		drawCommandBuffer.begin();
 
 		vk::Rect2D renderArea;
 		renderArea.offset = vk::Offset2D{ 0, 0 };
@@ -285,7 +285,7 @@ namespace zt::gl
 			.renderArea = renderArea,
 			.clearValue = clearColor
 		};
-		commandBuffer.beginRenderPass(beginRenderPassInfo);
+		drawCommandBuffer.beginRenderPass(beginRenderPassInfo);
 	}
 
 	void Renderer::draw(DrawableObject& drawableObject, const Camera& camera)
@@ -295,32 +295,32 @@ namespace zt::gl
 
 		updateMVPUniformBuffer(drawableObject, camera);
 
-		commandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
-		commandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
+		drawCommandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
+		drawCommandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
 
 		vk::DeviceSize indexBufferOffset{ 0 };
-		commandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
+		drawCommandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
 
 		if (rendererPipelines.back().getDescriptorSets().has_value())
 		{
-			commandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, rendererPipelines.back().getDescriptorSets().value(), {});
+			drawCommandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, rendererPipelines.back().getDescriptorSets().value(), {});
 		}
 
-		commandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
+		drawCommandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
 	}
 
 	void Renderer::postDraw()
 	{
 		if (invalidCommandBuffer)
 		{
-			commandBuffer.clear();
-			commandBuffer.allocateCommandBuffer(device, commandPool);
+			drawCommandBuffer.clear();
+			drawCommandBuffer.allocateCommandBuffer(device, commandPool);
 			invalidCommandBuffer = false;
 			return;
 		}
 
-		commandBuffer.endRenderPass();
-		commandBuffer.end();
+		drawCommandBuffer.endRenderPass();
+		drawCommandBuffer.end();
 
 		submit();
 		present(nextImageToDraw.second);
@@ -328,7 +328,7 @@ namespace zt::gl
 
 	void Renderer::submit()
 	{
-		submitCommandBuffers.push_back(*commandBuffer.getInternal());
+		submitCommandBuffers.push_back(*drawCommandBuffer.getInternal());
 
 		submitWaitSemaphores = { &imageAvailableSemaphore };
 		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
@@ -422,6 +422,14 @@ namespace zt::gl
 			mvp.proj = camera.projectionMatrix();
 			MVPUniformBuffer->fillWithObject(mvp);
 		}
+	}
+
+	void Renderer::submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function)
+	{
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+
+		queue.submitWaitIdle(commandBuffer, function);
 	}
 
 }

@@ -56,6 +56,10 @@ namespace zt::gl
 		void present(vk::PresentInfoKHR& presentInfo) const;
 
 		void copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer) const;
+	
+		typedef void (*SubmitWaitIdleFunction)(CommandBuffer& commandBuffer);
+		void submitWaitIdle(CommandBuffer& commandBuffer, SubmitWaitIdleFunction function);
+	
 	};
 
 }

@@ -90,4 +90,21 @@ namespace zt::gl
         submit(submitInfo);
         internal.waitIdle();
     }
+
+	void Queue::submitWaitIdle(CommandBuffer& commandBuffer, SubmitWaitIdleFunction function)
+	{
+		commandBuffer.begin();
+
+        std::invoke(function, commandBuffer);
+
+		commandBuffer.end();
+
+		vk::SubmitInfo submitInfo{};
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+		submit(submitInfo);
+		internal.waitIdle();
+	}
+
 }
