@@ -78,6 +78,11 @@ namespace zt::gl::tests
 		ASSERT_EQ(testObject, testObject2);
 	}
 
+	TEST_F(VulkanObjectTests, getVk)
+	{
+		vk::Instance vkInstance = testObject.getVk();
+	}
+
 	TEST(VulkanObject, IsValid)
 	{
 		Instance instance;

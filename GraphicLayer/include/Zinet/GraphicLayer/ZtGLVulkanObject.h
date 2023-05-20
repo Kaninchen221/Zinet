@@ -34,7 +34,6 @@ namespace zt::gl
 
 		bool isValid() const { return *internal != *InternalType{ std::nullptr_t{} }; }
 
-		// TODO: Test it
 		InternalType::CType getVk() { return *internal; }
 
 	protected:
