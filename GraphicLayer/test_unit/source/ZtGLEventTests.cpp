@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLEvent.h"
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -18,12 +19,16 @@ namespace zt::gl::tests
 
 	TEST_F(EventTests, SetWindow)
 	{
+		GLFW::Init();
+
 		Window expectedWindow;
 		expectedWindow.create();
 		event.setWindow(&expectedWindow);
 		const Window* actualWindow = event.getWindow();
 
 		ASSERT_EQ(&expectedWindow, actualWindow);
+
+		GLFW::Deinit();
 	}
 
 	TEST_F(EventTests, GetWindow)

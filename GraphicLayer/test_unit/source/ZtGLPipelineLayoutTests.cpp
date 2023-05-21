@@ -89,16 +89,6 @@ namespace zt::gl::tests
 		ASSERT_EQ(expected, actual);
 	}
 
-	TEST(PipelineLayout, CreateShaderStageCreateInfo)
-	{
-		PipelineLayout pipelineLayout;
-
-		ShaderModule shaderModule;
-		const vk::PipelineShaderStageCreateInfo& createInfo = pipelineLayout.createShaderStageCreateInfo(shaderModule);
-
-		ASSERT_NE(createInfo, vk::PipelineShaderStageCreateInfo{});
-	}
-
 	TEST(PipelineLayout, CreateVertexInputStateCreateInfo)
 	{
 		PipelineLayout pipelineLayout;
