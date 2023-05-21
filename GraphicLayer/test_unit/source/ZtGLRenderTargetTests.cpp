@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
+#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
 
 #include <gtest/gtest.h>
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
@@ -58,6 +59,7 @@ namespace zt::gl::tests
 
 		Context context;
 		Instance instance;
+		DebugUtilsMessenger debugUtilsMessenger;
 		PhysicalDevice physicalDevice;
 		Device device;
 		RenderPass renderPass;
@@ -77,6 +79,8 @@ namespace zt::gl::tests
 			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 			instance.create(context, instanceCreateInfo);
 			
+			debugUtilsMessenger.create(instance);
+
 			physicalDevice.create(instance);
 
 			window.create();
@@ -87,6 +91,10 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
+			renderPass.createAttachmentDescription(vk::Format::eR8G8B8A8Srgb);
+			renderPass.createAttachmentReference();
+			renderPass.createSubpassDescription();
+			renderPass.createSubpassDependency();
 			renderPass.create(device);
 
 			VmaAllocatorCreateInfo vmaCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
@@ -101,27 +109,25 @@ namespace zt::gl::tests
 
 	TEST_F(RenderTargetTests, Create)
 	{
-		// TODO: Fix this test
+		RenderTarget::CreateInfo renderTargetCreateInfo
+		{
+			.device = device,
+			.vma = vma,
+			.renderPass = renderPass,
+			.width = 400u,
+			.height = 400u,
+			.format = vk::Format::eR8G8B8A8Srgb
+		};
 		
-		//RenderTarget::CreateInfo renderTargetCreateInfo
-		//{
-		//	.device = device,
-		//	.vma = vma,
-		//	.renderPass = renderPass,
-		//	.width = 400u,
-		//	.height = 400u,
-		//	.format = vk::Format::eR8G8B8A8Srgb
-		//};
-		//
-		//renderTarget.create(renderTargetCreateInfo);
-		//
-		//const Image& image = renderTarget.getImage();
-		//ASSERT_NE(image, nullptr);
-		//
-		//const ImageView& imageView = renderTarget.getImageView();
-		//ASSERT_NE(imageView, nullptr);
-		//
-		//const Framebuffer& framebuffer = renderTarget.getFramebuffer();
-		//ASSERT_NE(framebuffer, nullptr);
+		renderTarget.create(renderTargetCreateInfo);
+		
+		const Image& image = renderTarget.getImage();
+		ASSERT_NE(image, nullptr);
+		
+		const ImageView& imageView = renderTarget.getImageView();
+		ASSERT_NE(imageView, nullptr);
+		
+		const Framebuffer& framebuffer = renderTarget.getFramebuffer();
+		ASSERT_NE(framebuffer, nullptr);
 	}
 }
