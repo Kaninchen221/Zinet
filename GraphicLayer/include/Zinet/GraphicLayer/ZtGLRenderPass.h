@@ -9,6 +9,7 @@ namespace zt::gl
 {
 	class Device;
 
+	// TODO: Refactor the create... functions to create and getter functions
 	class ZINET_GRAPHIC_LAYER_API RenderPass : public VulkanObject<vk::raii::RenderPass>
 	{
 
