@@ -53,6 +53,6 @@ namespace zt::gl
 
 	};
 
-	// TODO Move it perhaps to an Queue class
+	// TODO (Mid) Move it perhaps to an Queue class
 	void CopyImageBufferToImage(Image& image, ImageBuffer& imageBuffer, const Renderer& renderer, std::uint32_t width, std::uint32_t height);
 }

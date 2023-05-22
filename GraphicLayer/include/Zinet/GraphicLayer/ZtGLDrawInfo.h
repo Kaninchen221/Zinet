@@ -16,7 +16,7 @@
 
 namespace zt::gl
 {
-	// TODO: Write own DescriptorType enum
+	// TODO (Low) Write own DescriptorType enum
 	using DescriptorType = vk::DescriptorType;
 
 	inline vk::DescriptorType DescriptorTypeToVkDescriptorType(DescriptorType descriptorType) { return descriptorType; }

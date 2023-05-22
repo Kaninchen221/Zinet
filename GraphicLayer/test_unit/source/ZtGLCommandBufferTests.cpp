@@ -353,8 +353,8 @@ namespace zt::gl::tests
 
 		ASSERT_EQ(barrier.oldLayout, oldLayout);
 		ASSERT_EQ(barrier.newLayout, newLayout);
-		ASSERT_EQ(barrier.srcQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO Fix it
-		ASSERT_EQ(barrier.dstQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO Fix it
+		ASSERT_EQ(barrier.srcQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO (Low) Fix it
+		ASSERT_EQ(barrier.dstQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO (Low) Fix it
 		ASSERT_EQ(barrier.image, *image.getInternal());
 		ASSERT_EQ(barrier.subresourceRange.aspectMask, vk::ImageAspectFlagBits::eColor);
 		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, 0);

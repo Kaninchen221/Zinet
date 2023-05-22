@@ -24,7 +24,7 @@ namespace zt::gl
 
 	using Matrix4f = glm::mat4;
 
-	// TODO Move it to another file and test it
+	// TODO (Mid) Move it to another file and test it
 	class ZINET_GRAPHIC_LAYER_API Math
 	{
 	public:

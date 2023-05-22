@@ -122,7 +122,7 @@ namespace zt::gl::tests
 					float rawRotation[3];
 					Math::FromVector3fToCArray(rotation, rawRotation);
 					std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(rotationName.c_str(), rawRotation, 0.f, 360.0f);
+					ImGui::SliderFloat3(rotationName.c_str(), rawRotation, 0.f, 560.0f);
 
 					float rawScale[3];
 					Math::FromVector3fToCArray(scale, rawScale);
@@ -162,7 +162,7 @@ namespace zt::gl::tests
 
 			renderer.postDraw();
 
-			if (clock.getElapsedTime().getAsSeconds() > 40)
+			if (clock.getElapsedTime().getAsSeconds() > 4000)
 			{
 				renderer.getWindow().requestCloseWindow();
 			}

@@ -39,10 +39,10 @@ namespace zt::gl
 {
 	class DrawableObject;
 
-	// TODO Instanced rendering
-	// TODO Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
-	// TODO Add RendererContext a structure that will hold mainly data
-	// TODO Cleanup getters. They should be in .h or .cpp
+	// TODO (Mid) Instanced rendering
+	// TODO (Mid) Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
+	// TODO (Mid) Add RendererContext a structure that will hold mainly data
+	// TODO (Low) Cleanup getters. They should be in .h or .cpp
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 

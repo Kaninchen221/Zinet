@@ -21,7 +21,7 @@ namespace zt::gl
 		VmaAllocationCreateInfo allocationCreateInfo;
 	};
 
-	// TODO Flush Vma allocator after unmap operation if mapped memory is not HOST_COHERENT
+	// TODO (Low) Flush Vma allocator after unmap operation if mapped memory is not HOST_COHERENT
 	class ZINET_GRAPHIC_LAYER_API Buffer : public VulkanObject<vk::raii::Buffer>
 	{
 
