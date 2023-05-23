@@ -55,178 +55,53 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
+		RendererContext& rendererContext = renderer.getRendererContext();
 
-		const Instance& instance = renderer.getInstance();
+		const Instance& instance = rendererContext.getInstance();
 		ASSERT_NE(instance, vk::raii::Instance(std::nullptr_t{}));
 
-		const DebugUtilsMessenger& debugUtilsMessenger = renderer.getDebugUtilsMessenger();
+		const DebugUtilsMessenger& debugUtilsMessenger = rendererContext.getDebugUtilsMessenger();
 		ASSERT_NE(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
 
-		const Window& window = renderer.getWindow();
+		const Window& window = rendererContext.getWindow();
 		const GLFWwindow* internalWindow = window.getInternal();
 		ASSERT_NE(internalWindow, nullptr);
 
-		const Surface& surface = renderer.getSurface();
+		const Surface& surface = rendererContext.getSurface();
 		ASSERT_NE(surface, nullptr);
 
-		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
+		const PhysicalDevice& physicalDevice = rendererContext.getPhysicalDevice();
 		ASSERT_NE(physicalDevice, nullptr);
 
-		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
+		std::uint32_t queueFamilyIndex = rendererContext.getQueueFamilyIndex();
 		ASSERT_NE(queueFamilyIndex, std::numeric_limits<uint32_t>::max());
 
-		const Device& device = renderer.getDevice();
+		const Device& device = rendererContext.getDevice();
 		ASSERT_NE(device, nullptr);
 
-		const Queue& queue = renderer.getQueue();
+		const Queue& queue = rendererContext.getQueue();
 		ASSERT_NE(queue, nullptr);
 
-		const SwapChain& swapChain = renderer.getSwapChain();
+		const SwapChain& swapChain = rendererContext.getSwapChain();
 		ASSERT_NE(swapChain, nullptr);
 
-		const std::vector<ImageView>& imageViews = renderer.getImageViews();
+		const std::vector<ImageView>& imageViews = rendererContext.getImageViews();
 		ASSERT_FALSE(imageViews.empty());
 
-		const vk::Extent2D& swapExtent = renderer.getSwapExtent();
+		const vk::Extent2D& swapExtent = rendererContext.getSwapExtent();
 		ASSERT_NE(swapExtent, vk::Extent2D{});
 
-		const RenderPass& renderPass = renderer.getRenderPass();
+		const RenderPass& renderPass = rendererContext.getRenderPass();
 		ASSERT_NE(renderPass, nullptr);
 
-		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
+		const std::vector<Framebuffer>& framebuffers = rendererContext.getFramebuffers();
 		ASSERT_FALSE(framebuffers.empty());
 
-		const Vma& vma = renderer.getVma();
+		const Vma& vma = rendererContext.getVma();
 		ASSERT_NE(vma.getInternal(), nullptr);
 
-		const CommandPool& commandPool = renderer.getCommandPool();
+		const CommandPool& commandPool = rendererContext.getCommandPool();
 		ASSERT_NE(commandPool, nullptr);
-	}
-
-	TEST(Renderer, GetContext)
-	{
-		Renderer renderer;
-		[[maybe_unused]] const Context& context = renderer.getContext();
-	}
-
-	TEST(Renderer, GetInstance)
-	{
-		Renderer renderer;
-		const Instance& instance = renderer.getInstance();
-		ASSERT_EQ(instance, vk::raii::Instance(std::nullptr_t{}));
-	}
-
-	TEST(Renderer, GetDebugUtilsMessenger)
-	{
-		Renderer renderer;
-		const DebugUtilsMessenger& debugUtilsMessenger = renderer.getDebugUtilsMessenger();
-		ASSERT_EQ(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
-	}
-
-	TEST(Renderer, GetWindow)
-	{
-		Renderer renderer;
-		const Window& window = renderer.getWindow();
-		const GLFWwindow* internalWindow = window.getInternal();
-
-		ASSERT_EQ(internalWindow, nullptr);
-	}
-
-	TEST(Renderer, GetSurface)
-	{
-		Renderer renderer;
-		const Surface& surface = renderer.getSurface();
-		ASSERT_EQ(surface, nullptr);
-	}
-
-	TEST(Renderer, GetPhysicalDevice)
-	{
-		Renderer renderer;
-		const PhysicalDevice& physicalDevice = renderer.getPhysicalDevice();
-		ASSERT_EQ(physicalDevice, nullptr);
-	}
-
-	TEST(Renderer, GetQueueFamilyIndex)
-	{
-		Renderer renderer;
-		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
-		ASSERT_EQ(queueFamilyIndex, std::numeric_limits<uint32_t>::max());
-	}
-
-	TEST(Renderer, GetDevice)
-	{
-		Renderer renderer;
-		const Device& device = renderer.getDevice();
-		ASSERT_EQ(device, nullptr);
-	}
-
-	TEST(Renderer, GetQueue)
-	{
-		Renderer renderer;
-		const Queue& queue = renderer.getQueue();
-		ASSERT_EQ(queue, nullptr);
-	}
-
-	TEST(Renderer, GetSwapChainSupportDetails)
-	{
-		Renderer renderer;
-		[[maybe_unused]] const SwapChainSupportDetails& swapChainSupportDetails = renderer.getSwapChainSupportDetails();
-	}
-
-	TEST(Renderer, GetSwapChain)
-	{
-		Renderer renderer;
-		const SwapChain& swapChain = renderer.getSwapChain();
-		ASSERT_EQ(swapChain, nullptr);
-	}
-
-	TEST(Renderer, GetImageViews)
-	{
-		Renderer renderer;
-		const std::vector<ImageView>& imageViews = renderer.getImageViews();
-		ASSERT_TRUE(imageViews.empty());
-	}
-
-	TEST(Renderer, GetSwapExtent)
-	{
-		Renderer renderer;
-		const vk::Extent2D& swapExtent = renderer.getSwapExtent();
-		ASSERT_EQ(swapExtent, vk::Extent2D{});
-	}
-
-	TEST(Renderer, GetRenderPass)
-	{
-		Renderer renderer;
-		const RenderPass& renderPass = renderer.getRenderPass();
-		ASSERT_EQ(renderPass, nullptr);
-	}
-
-	TEST(Renderer, GetFramebuffers)
-	{
-		Renderer renderer;
-		const std::vector<Framebuffer>& framebuffers = renderer.getFramebuffers();
-		ASSERT_TRUE(framebuffers.empty());
-	}
-
-	TEST(Renderer, GetVma)
-	{
-		typedef const Vma&(Renderer::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Renderer::getVma);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		Renderer renderer;
-		const Vma& vma = renderer.getVma();
-		ASSERT_EQ(vma.getInternal(), nullptr);
-	}
-
-	TEST(Renderer, GetCommandPool)
-	{
-		typedef const CommandPool& (Renderer::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Renderer::getCommandPool);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		Renderer renderer;
-		[[maybe_unused]] const CommandPool& commandPool = renderer.getCommandPool();
 	}
 
 	TEST(Renderer, SetInformAboutWindowResize)
@@ -301,9 +176,10 @@ namespace zt::gl::tests
 		vertex.setTextureCoordinates({ 1.0f, 1.0f });
 		vertices.push_back(vertex);
 
+		RendererContext& rendererContext = renderer.getRendererContext();
 		BufferCreateInfo bufferCreateInfo{
-			renderer.getDevice(),
-			renderer.getVma(),
+			rendererContext.getDevice(),
+			rendererContext.getVma(),
 			vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
 			vertexBuffer.createVmaAllocationCreateInfo(false, true)
 		};
@@ -313,11 +189,12 @@ namespace zt::gl::tests
 
 	void RendererTests::createIndexBuffer()
 	{
+		RendererContext& rendererContext = renderer.getRendererContext();
 		indices = { 0, 1, 2, 2, 3, 0 };
 
 		BufferCreateInfo bufferCreateInfo{
-			renderer.getDevice(),
-			renderer.getVma(),
+			rendererContext.getDevice(),
+			rendererContext.getVma(),
 			indexBuffer.createCreateInfo(indices.size() * sizeof(std::uint16_t)),
 			indexBuffer.createVmaAllocationCreateInfo(false, true)
 		};
@@ -327,10 +204,12 @@ namespace zt::gl::tests
 
 	void RendererTests::createUniformBuffers()
 	{
+		RendererContext& rendererContext = renderer.getRendererContext();
+
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
 		BufferCreateInfo bufferCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
 			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
 		};
@@ -340,6 +219,8 @@ namespace zt::gl::tests
 
 	void RendererTests::createImageDrawInfos()
 	{
+		RendererContext& rendererContext = renderer.getRendererContext();
+
 		if (!stbImage.load((ContentPath / "texture.jpg").string()))
 		{
 			FAIL() << "Can't load texture image";
@@ -348,8 +229,8 @@ namespace zt::gl::tests
 
 		Image& image = images.emplace_back();
 		Image::CreateInfo imageCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight()),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
@@ -357,8 +238,8 @@ namespace zt::gl::tests
 
 		ImageBuffer& imageBuffer = imageBuffers.emplace_back();
 		BufferCreateInfo bufferCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = imageBuffer.createCreateInfo(stbImage.sizeBytes()),
 			.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, true)
 		};
@@ -368,11 +249,11 @@ namespace zt::gl::tests
 
 		Sampler& sampler = samplers.emplace_back();
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(renderer.getDevice(), samplerCreateInfo);
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 		ImageView& view = imageViews.emplace_back();
 		vk::ImageViewCreateInfo imageViewCreateInfo = view.createCreateInfo(*image.getInternal(), vk::Format::eR8G8B8A8Srgb);
-		view.create(renderer.getDevice(), imageViewCreateInfo);
+		view.create(rendererContext.getDevice(), imageViewCreateInfo);
 
 		vk::ImageLayout imageLayout = imageLayouts.emplace_back(vk::ImageLayout::eShaderReadOnlyOptimal);
 		DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(imageBuffer, sampler, view, imageLayout);
@@ -382,9 +263,11 @@ namespace zt::gl::tests
 
 	void RendererTests::copyImageBufferToImage(Image& image, ImageBuffer& imageBuffer)
 	{
+		RendererContext& rendererContext = renderer.getRendererContext();
+
 		CommandBuffer commandBuffer;
 		//vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		// Barrier
 		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
@@ -411,8 +294,8 @@ namespace zt::gl::tests
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		renderer.getQueue().submit(submitInfo);
-		renderer.getQueue()->waitIdle();
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 
 		// BufferImageCopy
 		vk::BufferImageCopy imageRegion{};
@@ -432,7 +315,7 @@ namespace zt::gl::tests
 			1
 		};
 
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		commandBuffer.begin();
 
@@ -443,11 +326,11 @@ namespace zt::gl::tests
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		renderer.getQueue().submit(submitInfo);
-		renderer.getQueue()->waitIdle();
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 
 		// Barrier after copy
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		commandBuffer.begin();
 
@@ -471,7 +354,7 @@ namespace zt::gl::tests
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		renderer.getQueue().submit(submitInfo);
-		renderer.getQueue()->waitIdle();
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 	}
 }

@@ -77,7 +77,6 @@ namespace zt::gl
 	void RendererContext::createWindow()
 	{
 		window.create();
-		window.setRendererContext(*this);
 	}
 
 	bool RendererContext::createSurface()
@@ -162,13 +161,6 @@ namespace zt::gl
 
 	void RendererContext::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
 	{
-		while (window.isMinimized())
-		{
-			glfwWaitEvents();
-		}
-
-		device->waitIdle();
-
 		framebuffers.clear();
 		imageViews.clear();
 		swapChain.clear();
@@ -178,9 +170,6 @@ namespace zt::gl
 		createSwapChain();
 		createImageViews();
 		createFramebuffers();
-
-		if (informAboutWindowResizeCallback != nullptr)
-			std::invoke(informAboutWindowResizeCallback, width, height);
 	}
 
 	void RendererContext::updateSwapChainSupportDetails()
@@ -195,14 +184,6 @@ namespace zt::gl
 		commandBuffer.allocateCommandBuffer(device, commandPool);
 
 		queue.submitWaitIdle(commandBuffer, function);
-	}
-
-	void RendererContext::setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback)
-	{
-		if (callback != nullptr)
-		{
-			informAboutWindowResizeCallback = callback;
-		}
 	}
 
 }

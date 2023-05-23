@@ -37,7 +37,6 @@
 
 namespace zt::gl
 {
-	// TODO (Low) Cleanup getters. They should be in .h or .cpp
 	class ZINET_GRAPHIC_LAYER_API RendererContext
 	{
 
@@ -107,9 +106,6 @@ namespace zt::gl
 
 		void informAboutWindowResize(int width, int height);
 
-		typedef void (*InformAboutWindowResizeCallback)(int width, int height);
-		void setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback);
-
 		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
 		void submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function);
 
@@ -147,8 +143,6 @@ namespace zt::gl
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;
 		CommandPool commandPool;
-
-		InformAboutWindowResizeCallback informAboutWindowResizeCallback = nullptr;
 	};
 
 }

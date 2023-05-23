@@ -11,7 +11,7 @@
 
 namespace zt::gl
 {
-	class Renderer;
+	class RendererContext;
 
 	class ZINET_GRAPHIC_LAYER_API Sprite : public DrawableObject
 	{
@@ -31,9 +31,9 @@ namespace zt::gl
 
 		~Sprite() noexcept = default;
 
-		void create(Renderer& renderer);
+		void create(RendererContext& rendererContext);
 
-		void copyFrom(const Sprite& other, Renderer& renderer);
+		void copyFrom(const Sprite& other, RendererContext& rendererContext);
 
 		const DrawInfo& getDrawInfo() const override;
 
@@ -51,12 +51,12 @@ namespace zt::gl
 
 	protected:
 
-		void createIndexBuffer(Renderer& renderer);
-		void createVertexBuffer(Renderer& renderer);
+		void createIndexBuffer(RendererContext& rendererContext);
+		void createVertexBuffer(RendererContext& rendererContext);
 		void createDescriptors();
-		void createUniformBuffers(Renderer& renderer);
-		void createMVPUniformBuffer(Renderer& renderer);
-		void createTextureRegionUniformBuffer(Renderer& renderer);
+		void createUniformBuffers(RendererContext& rendererContext);
+		void createMVPUniformBuffer(RendererContext& rendererContext);
+		void createTextureRegionUniformBuffer(RendererContext& rendererContext);
 
 		DrawInfo drawInfo;
 

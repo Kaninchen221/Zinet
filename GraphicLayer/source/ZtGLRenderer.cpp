@@ -11,16 +11,17 @@ namespace zt::gl
 {
 
 	Renderer::Renderer()
-		: queueFamilyIndex{ std::numeric_limits<uint32_t>::max() }
 	{
 		GLFW::Init();
 	}
 
 	Renderer::~Renderer() noexcept
 	{
+		Queue& queue = rendererContext.getQueue();
 		if (queue != nullptr)
 			queue->waitIdle();
 
+		Device& device = rendererContext.getDevice();
 		if (device != nullptr)
 			device->waitIdle();
 
@@ -33,238 +34,27 @@ namespace zt::gl
 
 	void Renderer::initialize()
 	{
-		createInstance();
-		createDebugUtilsMessenger();
-		createWindow();
+		rendererContext.initialize();
+		rendererContext.getWindow().setRenderer(*this);
 
-		if (!createSurface())
-			return;
-
-		if (!createPhysicalDevice())
-			return;
-
-		queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-
-		createDevice();
-		createVma();
-		createQueue();
-
-		updateSwapChainSupportDetails();
-
-		createSwapChain();
-		createImageViews();
-
-		createRenderPass();
-		createFramebuffers();
-		
-		commandPool.create(device, queueFamilyIndex);
+		Device& device = rendererContext.getDevice();
 		imageAvailableSemaphore.create(device);
 		renderingFinishedSemaphore.create(device);
 
 		drawFence.createSignaled(device);
 		
-		drawCommandBuffer.allocateCommandBuffer(device, commandPool);
-	}
-
-	const Context& Renderer::getContext() const
-	{
-		return context;
-	}
-
-	const Instance& Renderer::getInstance() const
-	{
-		return instance;
-	}
-
-	const DebugUtilsMessenger& Renderer::getDebugUtilsMessenger() const
-	{
-		return debugUtilsMessenger;
-	}
-
-	const Window& Renderer::getWindow() const
-	{
-		return window;
-	}
-
-	const Surface& Renderer::getSurface() const
-	{
-		return surface;
-	}
-
-	const PhysicalDevice& Renderer::getPhysicalDevice() const
-	{
-		return physicalDevice;
-	}
-
-	const Device& Renderer::getDevice() const
-	{
-		return device;
-	}
-
-	std::uint32_t Renderer::getQueueFamilyIndex() const
-	{
-		return queueFamilyIndex;
-	}
-
-	const Queue& Renderer::getQueue() const
-	{
-		return queue;
-	}
-
-	const SwapChainSupportDetails& Renderer::getSwapChainSupportDetails() const
-	{
-		return swapChainSupportDetails;
-	}
-
-	const SwapChain& Renderer::getSwapChain() const
-	{
-		return swapChain;
-	}
-
-	const std::vector<ImageView>& Renderer::getImageViews() const
-	{
-		return imageViews;
-	}
-
-	const vk::Extent2D& Renderer::getSwapExtent() const
-	{
-		return swapExtent;
-	}
-
-	const RenderPass& Renderer::getRenderPass() const
-	{
-		return renderPass;
-	}
-
-	const std::vector<Framebuffer>& Renderer::getFramebuffers() const
-	{
-		return framebuffers;
-	}
-
-	const Vma& Renderer::getVma() const
-	{
-		return vma;
-	}
-
-	const CommandPool& Renderer::getCommandPool() const
-	{
-		return commandPool;
-	}
-
-	void Renderer::createInstance()
-	{
-		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.populateRequiredExtensions();
-		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-		instance.create(context, instanceCreateInfo);
-	}
-
-	void Renderer::createDebugUtilsMessenger()
-	{
-		bool canCreateDebugUtilsMessenger = Instance::GetEnabledValidationLayers();
-		if (!canCreateDebugUtilsMessenger)
-		{
-			Logger->error("Can't create debug utils messenger");
-			return;
-		}
-
-		debugUtilsMessenger.create(instance);
-	}
-
-	void Renderer::createWindow()
-	{
-		window.create();
-		window.setRenderer(*this);
-	}
-
-	bool Renderer::createSurface()
-	{
-		bool createSurfaceResult = surface.create(instance, window);
-		if (!createSurfaceResult)
-		{
-			Logger->error("Can't create surface");
-		}
-
-		return createSurfaceResult;
-	}
-
-	bool Renderer::createPhysicalDevice()
-	{
-		bool createPhysicalDeviceResult = physicalDevice.create(instance);
-		if (!createPhysicalDeviceResult)
-		{
-			Logger->error("Can't create physical device");
-		}
-
-		return createPhysicalDeviceResult;
-	}
-
-	void Renderer::createDevice()
-	{
-		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-		device.create(physicalDevice, deviceCreateInfo);
-	}
-
-	void Renderer::createQueue()
-	{
-		queue.create(device, queueFamilyIndex);
-	}
-
-	void Renderer::createSwapChain()
-	{
-		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
-		swapChain.create(device, creatInfo);
-	}
-
-	void Renderer::createImageViews()
-	{
-		std::vector<vk::Image> swapChainImages = swapChain.getImages();
-		imageViews.reserve(swapChainImages.size());
-		for (vk::Image swapChainImage : swapChainImages)
-		{
-			ImageView imageView;
-			vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(swapChainImage, swapChainSupportDetails.pickFormat().format);
-			imageView.create(device, imageViewCreateInfo);
-			imageViews.push_back(std::move(imageView));
-		}
-	}
-
-	void Renderer::createRenderPass()
-	{
-		renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
-		renderPass.createAttachmentReference();
-		renderPass.createSubpassDescription();
-		renderPass.createSubpassDependency();
-
-		renderPass.create(device);
-	}
-
-	void Renderer::createFramebuffers()
-	{
-		for (ImageView& imageView : imageViews)
-		{
-			Framebuffer framebuffer;
-			vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, swapExtent);
-			framebuffer.create(device, framebufferCreateInfo);
-			framebuffers.push_back(std::move(framebuffer));
-		}
-	}
-
-	void Renderer::createVma()
-	{
-		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
-		vma.create(allocatorCreateInfo);
+		drawCommandBuffer.allocateCommandBuffer(device, rendererContext.getCommandPool());
 	}
 
 	void Renderer::preDraw()
 	{
+		Device& device = rendererContext.getDevice();
 		device.waitForFence(drawFence);
 		device.resetFence(drawFence);
 
 		std::uint16_t nextImageTimeout = std::numeric_limits<std::uint16_t>::max();
 		Fence acquireNextImageFence;
-		nextImageToDraw = swapChain.acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
+		nextImageToDraw = rendererContext.getSwapChain().acquireNextImage(nextImageTimeout, imageAvailableSemaphore, acquireNextImageFence);
 		if (nextImageToDraw.first != vk::Result::eSuccess)
 			Logger->error("Failed to acquire next image from swap chain");
 
@@ -276,12 +66,12 @@ namespace zt::gl
 
 		vk::Rect2D renderArea;
 		renderArea.offset = vk::Offset2D{ 0, 0 };
-		renderArea.extent = swapExtent;
+		renderArea.extent = rendererContext.getSwapExtent();
 		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
 		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
 		{
-			.renderPass = renderPass,
-			.framebuffer = framebuffers[nextImageToDraw.second],
+			.renderPass = rendererContext.getRenderPass(),
+			.framebuffer = rendererContext.getFramebuffers()[nextImageToDraw.second],
 			.renderArea = renderArea,
 			.clearValue = clearColor
 		};
@@ -314,7 +104,7 @@ namespace zt::gl
 		if (drawCommandBuffer.getIsCommandBufferInvalid())
 		{
 			drawCommandBuffer.clear();
-			drawCommandBuffer.allocateCommandBuffer(device, commandPool);
+			drawCommandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 			drawCommandBuffer.setIsCommandBufferInvalid(false);
 			return;
 		}
@@ -334,68 +124,54 @@ namespace zt::gl
 		submitWaitPipelineStageFlags = vk::PipelineStageFlagBits::eColorAttachmentOutput;
 		submitSignalSemaphores = { &renderingFinishedSemaphore };
 
-		submitInfo = queue.createSubmitInfo(
+		submitInfo = rendererContext.getQueue().createSubmitInfo(
 			submitWaitSemaphores,
 			submitWaitPipelineStageFlags,
 			submitCommandBuffers,
 			submitSignalSemaphores);
 
-		queue.submitWithFence(submitInfo, drawFence);
+		rendererContext.getQueue().submitWithFence(submitInfo, drawFence);
 	}
 
 	void Renderer::present(uint32_t& image)
 	{
 		vk::Result results[1];
 		presentWaitSemaphores = { &renderingFinishedSemaphore };
-		presentSwapChains = { &swapChain };
-		presentInfo = queue.createPresentInfo(
+		presentSwapChains = { &rendererContext.getSwapChain() };
+		presentInfo = rendererContext.getQueue().createPresentInfo(
 			presentWaitSemaphores,
 			presentSwapChains,
 			image);
 		presentInfo.pResults = results;
 
-		queue.present(presentInfo);
+		rendererContext.getQueue().present(presentInfo);
 		if (results[0] != vk::Result::eSuccess)
 			Logger->error("present return non success vk::Result");
 	}
 
 	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
 	{
-		while (window.isMinimized())
+		drawCommandBuffer.setIsCommandBufferInvalid(true);
+
+		while (rendererContext.getWindow().isMinimized())
 		{
 			glfwWaitEvents();
 		}
 
-		device->waitIdle();
+		rendererContext.getDevice()->waitIdle();
 		drawFence.clear();
-		drawFence.createSignaled(device);
+		drawFence.createSignaled(rendererContext.getDevice());
 
 		imageAvailableSemaphore.clear();
-		imageAvailableSemaphore.create(device);
+		imageAvailableSemaphore.create(rendererContext.getDevice());
 
 		renderingFinishedSemaphore.clear();
-		renderingFinishedSemaphore.create(device);
+		renderingFinishedSemaphore.create(rendererContext.getDevice());
 
-		framebuffers.clear();
-		imageViews.clear();
-		swapChain.clear();
-
-		drawCommandBuffer.setIsCommandBufferInvalid(true);
-
-		updateSwapChainSupportDetails();
-
-		createSwapChain();
-		createImageViews();
-		createFramebuffers();
+		rendererContext.informAboutWindowResize(width, height);
 
 		if (informAboutWindowResizeCallback != nullptr)
 			std::invoke(informAboutWindowResizeCallback, width, height);
-	}
-
-	void Renderer::updateSwapChainSupportDetails()
-	{
-		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 	}
 
 	void Renderer::createRendererPipeline(const DrawInfo& drawInfo)
@@ -404,14 +180,14 @@ namespace zt::gl
 		RendererPipeline::CreateInfo rendererPipelineCreateInfo
 		{
 			.drawInfo = drawInfo,
-			.device = device,
-			.renderPass = renderPass,
-			.commandPool = commandPool,
-			.swapExtent = swapExtent
+			.device = rendererContext.getDevice(),
+			.renderPass = rendererContext.getRenderPass(),
+			.commandPool = rendererContext.getCommandPool(),
+			.swapExtent = rendererContext.getSwapExtent()
 		};
 		newRendererPipeline.create(rendererPipelineCreateInfo);
 
-		newRendererPipeline.updateDescriptorSets(device);
+		newRendererPipeline.updateDescriptorSets(rendererContext.getDevice());
 	}
 
 	void Renderer::updateMVPUniformBuffer(DrawableObject& drawableObject, const Camera& camera)
@@ -430,9 +206,9 @@ namespace zt::gl
 	void Renderer::submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function)
 	{
 		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(device, commandPool);
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
-		queue.submitWaitIdle(commandBuffer, function);
+		rendererContext.getQueue().submitWaitIdle(commandBuffer, function);
 	}
 
 	void Renderer::setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback)

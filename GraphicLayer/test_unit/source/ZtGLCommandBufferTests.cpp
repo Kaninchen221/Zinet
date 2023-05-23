@@ -72,10 +72,11 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
+		RendererContext& rendererContext = renderer.getRendererContext();
 
 		StagingBuffer stagingBuffer;
 
-		BufferCreateInfo stagingBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		BufferCreateInfo stagingBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		stagingBufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
 		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
 
@@ -86,8 +87,8 @@ namespace zt::gl::tests
 
 		Image image;
 		Image::CreateInfo imageCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
@@ -115,18 +116,18 @@ namespace zt::gl::tests
 
 		ImageBuffer imageBuffer;
 
-		BufferCreateInfo imageBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		BufferCreateInfo imageBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		imageBufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(1u);
 		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false);
 
 		imageBuffer.create(imageBufferCreateInfo);
 
-		uint32_t queueFamilyIndex = renderer.getPhysicalDevice().pickQueueFamilyIndex(renderer.getSurface());
+		uint32_t queueFamilyIndex = rendererContext.getPhysicalDevice().pickQueueFamilyIndex(rendererContext.getSurface());
 		CommandPool commandPool;
-		commandPool.create(renderer.getDevice(), queueFamilyIndex);
+		commandPool.create(rendererContext.getDevice(), queueFamilyIndex);
 
 		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), commandPool);
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), commandPool);
 
 		commandBuffer.begin();
 		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);

@@ -168,6 +168,7 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
+		RendererContext& rendererContext = renderer.getRendererContext();
 		
 		std::vector<Vertex> vertices{ {}, {} };
 		
@@ -175,7 +176,7 @@ namespace zt::gl::tests
 		StagingBuffer sourceBuffer;
 
 		std::uint64_t size = sizeof(Vertex) * vertices.size();
-		BufferCreateInfo sourceBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		BufferCreateInfo sourceBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		sourceBufferCreateInfo.vkBufferCreateInfo = sourceBuffer.createCreateInfo(size);
 		sourceBufferCreateInfo.allocationCreateInfo = sourceBuffer.createVmaAllocationCreateInfo(false, true);
 
@@ -185,7 +186,7 @@ namespace zt::gl::tests
 		// Vertex Buffer 
 		VertexBuffer destinationBuffer;
 
-		BufferCreateInfo destinationBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+		BufferCreateInfo destinationBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		destinationBufferCreateInfo.vkBufferCreateInfo = destinationBuffer.createCreateInfo(size);
 		destinationBufferCreateInfo.allocationCreateInfo = destinationBuffer.createVmaAllocationCreateInfo(false, false);
 
@@ -193,15 +194,15 @@ namespace zt::gl::tests
 		destinationBuffer.fillWithStdContainer(vertices);
 
 		// Copying
-		const Queue& queue = renderer.getQueue(); 
-		std::uint32_t queueFamilyIndex = renderer.getQueueFamilyIndex();
+		const Queue& queue = rendererContext.getQueue();
+		std::uint32_t queueFamilyIndex = rendererContext.getQueueFamilyIndex();
 
 		CommandPool commandPool;
-		commandPool.create(renderer.getDevice(), queueFamilyIndex);
+		commandPool.create(rendererContext.getDevice(), queueFamilyIndex);
 		
 		CommandBuffer commandBuffer;
 		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), commandPool);
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), commandPool);
 		
 		queue.copyBufferToBufferWaitIdle(commandBuffer, sourceBuffer, destinationBuffer);
 		

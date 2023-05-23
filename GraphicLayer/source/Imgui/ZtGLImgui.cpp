@@ -1,5 +1,5 @@
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
 #include "Zinet/Core/ZtDebug.h"
@@ -10,7 +10,7 @@
 
 namespace zt::gl
 {
-	void Imgui::preinit(Renderer& renderer)
+	void Imgui::preinit(RendererContext& rendererContext)
 	{
 		#ifdef ZINET_DEBUG
 		IMGUI_CHECKVERSION();
@@ -22,19 +22,19 @@ namespace zt::gl
 
 		ImGui::StyleColorsDark();
 
-		ImGui_ImplGlfw_InitForVulkan(renderer.getWindow().getInternal(), true);
+		ImGui_ImplGlfw_InitForVulkan(rendererContext.getWindow().getInternal(), true);
 	}
 
-	void Imgui::init(Renderer& renderer)
+	void Imgui::init(RendererContext& rendererContext)
 	{
-		createDescriptorPool(renderer);
+		createDescriptorPool(rendererContext);
 		
 		ImGui_ImplVulkan_InitInfo initInfo = {};
-		initInfo.Instance = renderer.getInstance().getVk();
-		initInfo.PhysicalDevice = renderer.getPhysicalDevice().getVk();
-		initInfo.Device = renderer.getDevice().getVk();
-		initInfo.QueueFamily = renderer.getQueueFamilyIndex();
-		initInfo.Queue = renderer.getQueue().getVk();
+		initInfo.Instance = rendererContext.getInstance().getVk();
+		initInfo.PhysicalDevice = rendererContext.getPhysicalDevice().getVk();
+		initInfo.Device = rendererContext.getDevice().getVk();
+		initInfo.QueueFamily = rendererContext.getQueueFamilyIndex();
+		initInfo.Queue = rendererContext.getQueue().getVk();
 		//initInfo.PipelineCache = g_PipelineCache; // TODO (Low) Add PipelineCache to project
 		initInfo.DescriptorPool = descriptorPool.getVk();
 		initInfo.Allocator = nullptr;
@@ -42,19 +42,19 @@ namespace zt::gl
 		initInfo.ImageCount = 3;
 		initInfo.CheckVkResultFn = LogImgui;
 		initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
-		isInitialized = ImGui_ImplVulkan_Init(&initInfo, renderer.getRenderPass().getVk());
+		isInitialized = ImGui_ImplVulkan_Init(&initInfo, rendererContext.getRenderPass().getVk());
 
 		auto function = [](CommandBuffer& commandBuffer) 
 		{ 
 			ImGui_ImplVulkan_CreateFontsTexture(commandBuffer.getVk()); 
 		};
 		
-		renderer.submitCommandsWaitIdle(function);
+		rendererContext.submitCommandsWaitIdle(function);
 
 		ImGui_ImplVulkan_DestroyFontUploadObjects();
 	}
 
-	void Imgui::createDescriptorPool(Renderer& renderer)
+	void Imgui::createDescriptorPool(RendererContext& rendererContext)
 	{
 		// It's copied from imgui demo
 		std::array<vk::DescriptorPoolSize, 11> descriptorPoolSizes =
@@ -78,7 +78,7 @@ namespace zt::gl
 		createInfo.poolSizeCount = static_cast<std::uint32_t>(descriptorPoolSizes.size());
 		createInfo.pPoolSizes = descriptorPoolSizes.data();
 
-		descriptorPool.create(renderer.getDevice(), createInfo);
+		descriptorPool.create(rendererContext.getDevice(), createInfo);
 	}
 
 	Imgui::~Imgui() noexcept

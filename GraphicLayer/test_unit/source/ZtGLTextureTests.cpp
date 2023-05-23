@@ -84,6 +84,7 @@ namespace zt::gl::tests
 		GLFW::Init(true);
 
 		renderer.initialize();
+		RendererContext& rendererContext = renderer.getRendererContext();
 
 		if (!stbImage.load((ContentPath / "texture.jpg").string()))
 		{
@@ -92,9 +93,9 @@ namespace zt::gl::tests
 		}
 
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(renderer.getDevice(), samplerCreateInfo);
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
-		texture.create(stbImage, renderer);
+		texture.create(stbImage, rendererContext);
 
 		const Image& image = texture.getImage();
 		ASSERT_TRUE(image.isValid());

@@ -1,32 +1,32 @@
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 
 namespace zt::gl
 {
-	void Texture::create(const STBImage& stbImage, const Renderer& renderer)
+	void Texture::create(const STBImage& stbImage, const RendererContext& rendererContext)
 	{
 		Image::CreateInfo imageCreateInfo{
-			   .device = renderer.getDevice(),
-			   .vma = renderer.getVma(),
+			   .device = rendererContext.getDevice(),
+			   .vma = rendererContext.getVma(),
 			   .vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight(), vk::Format::eR8G8B8A8Srgb),
 			   .allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);
 
 		BufferCreateInfo bufferCreateInfo{
-			.device = renderer.getDevice(),
-			.vma = renderer.getVma(),
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = imageBuffer.createCreateInfo(stbImage.sizeBytes()),
 			.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, true)
 		};
 		imageBuffer.create(bufferCreateInfo);
 		imageBuffer.fillWithCArray(stbImage.get());
 
-		CopyImageBufferToImage(image, imageBuffer, renderer, stbImage.getWidth(), stbImage.getHeight());
+		CopyImageBufferToImage(image, imageBuffer, rendererContext, stbImage.getWidth(), stbImage.getHeight());
 
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), vk::Format::eR8G8B8A8Srgb);
-		imageView.create(renderer.getDevice(), imageViewCreateInfo);
+		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 
 		vkImageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
 	}
@@ -45,11 +45,11 @@ namespace zt::gl
 		return imageDrawInfo;
 	}
 
-	void CopyImageBufferToImage(Image& image, ImageBuffer& imageBuffer, const Renderer& renderer, std::uint32_t width, std::uint32_t height)
+	void CopyImageBufferToImage(Image& image, ImageBuffer& imageBuffer, const RendererContext& rendererContext, std::uint32_t width, std::uint32_t height)
 	{
 		CommandBuffer commandBuffer;
 		//vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		// Barrier
 		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
@@ -76,8 +76,8 @@ namespace zt::gl
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		renderer.getQueue().submit(submitInfo);
-		renderer.getQueue()->waitIdle();
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 
 		// BufferImageCopy
 		vk::BufferImageCopy imageRegion{};
@@ -97,7 +97,7 @@ namespace zt::gl
 			1
 		};
 
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		commandBuffer.begin();
 
@@ -108,11 +108,11 @@ namespace zt::gl
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		renderer.getQueue().submit(submitInfo);
-		renderer.getQueue()->waitIdle();
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 
 		// Barrier after copy
-		commandBuffer.allocateCommandBuffer(renderer.getDevice(), renderer.getCommandPool());
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		commandBuffer.begin();
 
@@ -136,8 +136,8 @@ namespace zt::gl
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
-		renderer.getQueue().submit(submitInfo);
-		renderer.getQueue()->waitIdle();
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 	}
 
 }

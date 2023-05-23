@@ -38,6 +38,7 @@ namespace zt::gl::tests
 		{
 			GLFW::Init(false);
 			renderer.initialize();
+			RendererContext& rendererContext = renderer.getRendererContext();
 
 			shaders.emplace_back();
 			shaders[0].setType(ShaderType::Vertex);
@@ -50,16 +51,16 @@ namespace zt::gl::tests
 			shaders[1].compile();
 
 			vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-			sampler.create(renderer.getDevice(), samplerCreateInfo);
+			sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 			if (!stbImage.load((ContentPath / "texture.jpg").string()))
 			{
 				FAIL() << "Can't load texture image";
 			}
 
-			texture.create(stbImage, renderer);
+			texture.create(stbImage, rendererContext);
 
-			sprite.create(renderer);
+			sprite.create(rendererContext);
 		}
 
 		void TearDown() override
@@ -75,9 +76,10 @@ namespace zt::gl::tests
 
 	TEST_F(SpriteTests, CopyFrom)
 	{
+		RendererContext& rendererContext = renderer.getRendererContext();
 		sprite.createDrawInfo(shaders, texture, sampler);
 		Sprite copy;
-		copy.copyFrom(sprite, renderer);
+		copy.copyFrom(sprite, rendererContext);
 
 		ASSERT_EQ(sprite.getTransform(), copy.getTransform());
 		ASSERT_EQ(sprite.getTextureRegion(), copy.getTextureRegion());

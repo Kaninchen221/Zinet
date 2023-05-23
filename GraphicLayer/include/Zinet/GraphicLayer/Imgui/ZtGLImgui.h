@@ -7,7 +7,7 @@
 
 namespace zt::gl
 {
-	class Renderer;
+	class RendererContext;
 	class CommandBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API Imgui
@@ -28,9 +28,9 @@ namespace zt::gl
 		~Imgui() noexcept;
 
 		// Call once for the entire program
-		void preinit(Renderer& renderer);
+		void preinit(RendererContext& rendererContext);
 
-		void init(Renderer& renderer);
+		void init(RendererContext& rendererContext);
 
 		void deinit();
 
@@ -42,7 +42,7 @@ namespace zt::gl
 
 	private:
 
-		void createDescriptorPool(Renderer& renderer);
+		void createDescriptorPool(RendererContext& rendererContext);
 
 		DescriptorPool descriptorPool;
 		bool isInitialized = false;

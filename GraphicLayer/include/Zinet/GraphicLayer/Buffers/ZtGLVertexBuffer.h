@@ -7,9 +7,6 @@
 
 namespace zt::gl
 {
-	class Renderer;
-	class Vma;
-
 	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public Buffer
 	{
 

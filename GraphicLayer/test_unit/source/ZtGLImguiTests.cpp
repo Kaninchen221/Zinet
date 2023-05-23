@@ -32,8 +32,9 @@ namespace zt::gl::tests
 
 	TEST_F(ImguiTests, Init)
 	{
-		imgui.preinit(renderer);
-		imgui.init(renderer);
+		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
 
 		const DescriptorPool& descriptorPool = imgui.getDescriptorPool();
 		ASSERT_TRUE(descriptorPool.isValid());

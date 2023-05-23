@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -26,6 +27,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererContextTests, Initialize)
 	{
+		GLFW::Init();
 		rendererContext.initialize();
 
 		const Instance& instance = rendererContext.getInstance();
@@ -73,6 +75,8 @@ namespace zt::gl::tests
 
 		const CommandPool& commandPool = rendererContext.getCommandPool();
 		ASSERT_NE(commandPool, nullptr);
+
+		GLFW::Deinit();
 	}
 
 	class RendererContextSimpleTests : public ::testing::Test
@@ -180,12 +184,6 @@ namespace zt::gl::tests
 	TEST_F(RendererContextSimpleTests, GetCommandPool)
 	{
 		[[maybe_unused]] const CommandPool& commandPool = rendererContext.getCommandPool();
-	}
-
-	TEST_F(RendererContextSimpleTests, SetInformAboutWindowResize)
-	{
-		auto function = []([[maybe_unused]] int width, [[maybe_unused]] int height) {};
-		rendererContext.setInformAboutWindowResizeCallback(function);
 	}
 
 }

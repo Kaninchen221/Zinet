@@ -21,8 +21,9 @@ namespace zt::gl::tests
 		void SetUp() override
 		{
 			renderer.initialize();
+			RendererContext& rendererContext = renderer.getRendererContext();
 
-			BufferCreateInfo vertexBufferCreateInfo{ .device = renderer.getDevice(), .vma = renderer.getVma() };
+			BufferCreateInfo vertexBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 			vertexBufferCreateInfo.vkBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 			vertexBufferCreateInfo.allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
 

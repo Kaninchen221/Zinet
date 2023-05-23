@@ -1,5 +1,4 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 namespace zt::gl
 {

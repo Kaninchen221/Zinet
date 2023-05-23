@@ -25,12 +25,15 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
-		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(renderer.getInstance(), renderer.getDevice(), renderer.getPhysicalDevice());
+		RendererContext& rendererContext = renderer.getRendererContext();
 
-		const Instance& instance = renderer.getInstance();
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(
+			rendererContext.getInstance(), rendererContext.getDevice(), rendererContext.getPhysicalDevice());
+
+		const Instance& instance = rendererContext.getInstance();
 		ASSERT_EQ(*instance.getInternal(), vk::Instance(allocatorCreateInfo.instance));
-		ASSERT_EQ(*renderer.getDevice().getInternal(), vk::Device(allocatorCreateInfo.device));
-		ASSERT_EQ(*renderer.getPhysicalDevice().getInternal(), vk::PhysicalDevice(allocatorCreateInfo.physicalDevice));
+		ASSERT_EQ(*rendererContext.getDevice().getInternal(), vk::Device(allocatorCreateInfo.device));
+		ASSERT_EQ(*rendererContext.getPhysicalDevice().getInternal(), vk::PhysicalDevice(allocatorCreateInfo.physicalDevice));
 
 		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
 		ASSERT_EQ(applicationInfo.apiVersion, allocatorCreateInfo.vulkanApiVersion);
@@ -40,7 +43,10 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 		renderer.initialize();
-		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(renderer.getInstance(), renderer.getDevice(), renderer.getPhysicalDevice());
+		RendererContext& rendererContext = renderer.getRendererContext();
+
+		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(
+			rendererContext.getInstance(), rendererContext.getDevice(), rendererContext.getPhysicalDevice());
 		vma.create(allocatorCreateInfo);
 
 		const VmaAllocator vmaAllocator = vma.getInternal();

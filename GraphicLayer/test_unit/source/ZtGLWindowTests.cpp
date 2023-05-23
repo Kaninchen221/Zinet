@@ -88,6 +88,7 @@ namespace zt::gl::tests
 
 	TEST_F(WindowTests, SetRenderer)
 	{
+		// TODO Change it to static function
 		typedef void(Window::* ExpectedFunctionDeclaration)(Renderer&);
 		using FunctionDeclaration = decltype(&Window::setRenderer);
 

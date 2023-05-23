@@ -1,26 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLContext.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLQueue.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
-#include "Zinet/GraphicLayer/ZtGLImageView.h"
-#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
-#include "Zinet/GraphicLayer/ZtGLRenderPass.h"
-#include "Zinet/GraphicLayer/ZtGLPipeline.h"
-#include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
-#include "Zinet/GraphicLayer/ZtGLCommandPool.h"
-#include "Zinet/GraphicLayer/ZtGLVma.h"
-#include "Zinet/GraphicLayer/ZtGLShaderModule.h"
-#include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
-#include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
@@ -41,8 +21,6 @@ namespace zt::gl
 
 	// TODO (Mid) Instanced rendering
 	// TODO (Mid) Fix memory leak: The problem is probably Pipeline, PipelineLayout or/and validation layers. We should compile Vulkan API/Validation layers by the hand
-	// TODO (Mid) Add RendererContext a structure that will hold mainly data
-	// TODO (Low) Cleanup getters. They should be in .h or .cpp
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 
@@ -61,50 +39,13 @@ namespace zt::gl
 
 		~Renderer() noexcept;
 
-		void initialize();
-
-		const Context& getContext() const;
-
-		const Instance& getInstance() const;
-		Instance& getInstance() { return instance; }
-
-		const DebugUtilsMessenger& getDebugUtilsMessenger() const;
-
-		const Window& getWindow() const;
-		Window& getWindow() { return window; }
-
-		const Surface& getSurface() const;
-		Surface& getSurface() { return surface; }
-
-		const PhysicalDevice& getPhysicalDevice() const;
-		PhysicalDevice& getPhysicalDevice() { return physicalDevice; }
-
-		const Device& getDevice() const;
-		Device& getDevice() { return device; }
-
-		std::uint32_t getQueueFamilyIndex() const;
-
-		const Queue& getQueue() const;
-		Queue& getQueue() { return queue; }
-
-		const SwapChainSupportDetails& getSwapChainSupportDetails() const;
-
-		const SwapChain& getSwapChain() const;
-
-		const std::vector<ImageView>& getImageViews() const;
-
-		const vk::Extent2D& getSwapExtent() const;
-
-		const RenderPass& getRenderPass() const;
-		RenderPass& getRenderPass() { return renderPass; }
-
-		const std::vector<Framebuffer>& getFramebuffers() const;
-
-		const Vma& getVma() const;
-
-		const CommandPool& getCommandPool() const;
+		RendererContext& getRendererContext() { return rendererContext; }
+		const RendererContext& getRendererContext() const { return rendererContext; }
 
 		CommandBuffer& getDrawCommandBuffer() { return drawCommandBuffer; }
+		const CommandBuffer& getDrawCommandBuffer() const { return drawCommandBuffer; }
+
+		void initialize();
 
 		void preDraw();
 
@@ -122,22 +63,6 @@ namespace zt::gl
 
 	protected:
 
-		void createInstance();
-		void createDebugUtilsMessenger();
-		void createWindow();
-		bool createSurface();
-		bool createPhysicalDevice();
-		void createDevice();
-		void createQueue();
-		void createSwapChain();
-		void createImageViews();
-		void createPipelineLayout();
-		void createRenderPass();
-		void createFramebuffers();
-		void createVma();
-
-		void updateSwapChainSupportDetails();
-
 		void submit();
 		void present(uint32_t& image);
 
@@ -145,28 +70,13 @@ namespace zt::gl
 
 		void updateMVPUniformBuffer(DrawableObject& drawableObject, const Camera& camera);
 
-		Context context;
-		Instance instance;
-		DebugUtilsMessenger debugUtilsMessenger;
-		Window window;
-		Surface surface;
-		PhysicalDevice physicalDevice;
-		std::uint32_t queueFamilyIndex;
-		Device device;
-		Queue queue;
-		SwapChainSupportDetails swapChainSupportDetails;
-		SwapChain swapChain;
-		std::vector<ImageView> imageViews;
-		vk::Extent2D swapExtent;
-		RenderPass renderPass;
-		std::vector<Framebuffer> framebuffers;
-		Vma vma;
+		RendererContext rendererContext;
+
 		std::pair<vk::Result, uint32_t> nextImageToDraw;
 
 		Semaphore imageAvailableSemaphore;
 		Semaphore renderingFinishedSemaphore;
 		Fence drawFence;
-		CommandPool commandPool;
 
 		std::vector<RendererPipeline> rendererPipelines;
 		CommandBuffer drawCommandBuffer;
@@ -180,7 +90,7 @@ namespace zt::gl
 
 		// Present info
 		std::array<Semaphore*, 1> presentWaitSemaphores = { &renderingFinishedSemaphore };
-		std::array<SwapChain*, 1> presentSwapChains = { &swapChain };
+		std::array<SwapChain*, 1> presentSwapChains = { &rendererContext.getSwapChain() };
 		vk::PresentInfoKHR presentInfo;
 
 		InformAboutWindowResizeCallback informAboutWindowResizeCallback = nullptr;

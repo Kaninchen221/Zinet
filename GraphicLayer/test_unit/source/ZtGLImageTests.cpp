@@ -60,12 +60,14 @@ namespace zt::gl::tests
 
 	TEST_F(ImageTests, Create)
 	{
+		RendererContext& rendererContext = renderer.getRendererContext();
+
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
 	
 		Image::CreateInfo imageCreateInfo { 
-			.device = renderer.getDevice(), 
-			.vma = renderer.getVma(),
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};

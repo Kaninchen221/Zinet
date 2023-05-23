@@ -62,25 +62,26 @@ namespace zt::gl::tests
 
 		renderer.initialize();
 
-		imgui.preinit(renderer);
-		imgui.init(renderer);
+		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
 
 		createShaders();
 		createSTBImage();
 
 		// Create Sampler
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(renderer.getDevice(), samplerCreateInfo);
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 		// Create texture
-		texture.create(stbImage, renderer);
+		texture.create(stbImage, rendererContext);
 
 		int count = 3;
 		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
 		{
 			auto sprite = sprites.emplace();
-			sprite->create(renderer);
+			sprite->create(rendererContext);
 			TextureRegion textureRegion;
 			textureRegion.size = Vector2f{ 512.f, 512.f };
 			textureRegion.offset = Vector2f{ 512.f * i, 0.f };
@@ -92,7 +93,7 @@ namespace zt::gl::tests
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
 
-		while (!renderer.getWindow().shouldBeClosed())
+		while (!rendererContext.getWindow().shouldBeClosed())
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
 
@@ -164,12 +165,12 @@ namespace zt::gl::tests
 
 			if (clock.getElapsedTime().getAsSeconds() > 4000)
 			{
-				renderer.getWindow().requestCloseWindow();
+				rendererContext.getWindow().requestCloseWindow();
 			}
 		}
 
-		renderer.getQueue()->waitIdle();
-		renderer.getDevice()->waitIdle();
+		rendererContext.getQueue()->waitIdle();
+		rendererContext.getDevice()->waitIdle();
 	}
 
 	void RendererTests::createSTBImage()
