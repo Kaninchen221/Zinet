@@ -6,7 +6,9 @@ namespace zt::gl
 {
 	Sprite::Sprite()
 		: drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer }
-	{}
+	{
+		drawInfo.modelMatrix = transform.toMatrix();
+	}
 
 	const DrawInfo& Sprite::getDrawInfo() const
 	{
