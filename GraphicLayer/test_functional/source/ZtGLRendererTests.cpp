@@ -10,8 +10,10 @@
 #include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
+#include "Zinet/GraphicLayer/ZtGLTileMap.h"
 
 #include "Zinet/Core/ZtClock.h"
+#include "Zinet/Core/ZtTypeTraits.h"
 
 #include <gtest/gtest.h>
 
@@ -46,19 +48,18 @@ namespace zt::gl::tests
 		Texture texture;
 		Camera camera;
 		Imgui imgui;
-		plf::colony<Sprite> sprites;
 
 	};
 
-	TEST_F(RendererTests, Draw)
+	
+	TEST_F(RendererTests, DrawSprite)
 	{
-		zt::gl::GLFW::UnhideWindow();
 		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&, const Camera&);
-		using FunctionDeclaration = decltype(&Renderer::draw);
+		IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw);
 
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+		zt::gl::GLFW::UnhideWindow();
 
-		camera.setPosition({ 2.0f, 2.0f, 2.0f });
+		camera.setPosition({ 0.0f, 0.0f, -4.0f });
 
 		renderer.initialize();
 
@@ -77,6 +78,7 @@ namespace zt::gl::tests
 		texture.create(stbImage, rendererContext);
 
 		int count = 3;
+		plf::colony<Sprite> sprites;
 		sprites.reserve(count);
 		for (size_t i = 0u; i < count; ++i)
 		{
@@ -141,6 +143,26 @@ namespace zt::gl::tests
 					sprite.setTransform(transform);
 					index += 1.f;
 				}
+
+				Vector3f cameraPos = camera.getPosition();
+				float rawCameraPos[3];
+				Math::FromVector3fToCArray(cameraPos, rawCameraPos);
+				std::string posName = std::string{ "Camera pos " };
+				ImGui::SliderFloat3(posName.c_str(), rawCameraPos, -10.00f, 10.0f);
+				cameraPos = Math::FromCArrayToVector3f(rawCameraPos);
+				camera.setPosition(cameraPos);
+
+				Vector3f cameraTarget = camera.getTarget();
+				float rawCameraTarget[3];
+				Math::FromVector3fToCArray(cameraTarget, rawCameraTarget);
+				std::string targetName = std::string{ "Camera target " };
+				ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget, -5.00f, 5.0f);
+				cameraTarget = Math::FromCArrayToVector3f(rawCameraTarget);
+				camera.setTarget(cameraTarget);
+
+				//cameraTarget = cameraPos;
+				//cameraTarget.z = 0;
+				//camera.setTarget(cameraTarget);
 			}
 
 			ImGui::End();
@@ -160,6 +182,72 @@ namespace zt::gl::tests
 			glfwPollEvents();
 
 			imgui.draw(renderer.getDrawCommandBuffer());
+
+			renderer.postDraw();
+
+			if (clock.getElapsedTime().getAsSeconds() > 10000)
+			{
+				rendererContext.getWindow().requestCloseWindow();
+			}
+		}
+
+		rendererContext.getQueue()->waitIdle();
+		rendererContext.getDevice()->waitIdle();
+	}
+
+	TEST_F(RendererTests, DrawTileMap)
+	{
+		zt::gl::GLFW::UnhideWindow();
+
+		camera.setPosition({ 0.0f, 0.0f, -5.0f });
+
+		renderer.initialize();
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+
+		createShaders();
+		createSTBImage();
+
+		// Create Sampler
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
+
+		// Create texture
+		texture.create(stbImage, rendererContext);
+
+		TileMap tileMap;
+		tileMap.create(rendererContext);
+		TextureRegion textureRegion;
+		textureRegion.size = Vector2f{ 512.f, 512.f };
+		textureRegion.offset = Vector2f{ 0.f, 0.f };
+		tileMap.setTextureRegion(textureRegion);
+		tileMap.createDrawInfo(shaders, texture, sampler);
+
+		Transform transform = tileMap.getTransform();
+		camera.setTarget(transform.getTranslation());
+
+		zt::Clock clock;
+		std::once_flag clockOnceFlag;
+
+		while (!rendererContext.getWindow().shouldBeClosed())
+		{
+			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
+
+			renderer.preDraw();
+
+			//Transform transform = tileMap.getTransform();
+			//Vector3f position = transform.getTranslation();
+			//Vector3f rotation = transform.getRotation();
+			//Vector3f scale = transform.getScale();
+			//
+			//transform.setTranslation(position);
+			//transform.setRotation(rotation);
+			//transform.setScale(scale);
+			//tileMap.setTransform(transform);
+
+			renderer.draw(tileMap, camera);
+
+			glfwPollEvents();
 
 			renderer.postDraw();
 
