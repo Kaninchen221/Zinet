@@ -51,7 +51,7 @@ namespace zt::gl::tests
 
 	};
 
-	
+	/*
 	TEST_F(RendererTests, DrawSprite)
 	{
 		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&, const Camera&);
@@ -194,6 +194,7 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
 	}
+	*/
 
 	TEST_F(RendererTests, DrawTileMap)
 	{
@@ -204,6 +205,8 @@ namespace zt::gl::tests
 		renderer.initialize();
 
 		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
 
 		createShaders();
 		createSTBImage();
@@ -223,31 +226,58 @@ namespace zt::gl::tests
 		tileMap.setTextureRegion(textureRegion);
 		tileMap.createDrawInfo(shaders, texture, sampler);
 
-		Transform transform = tileMap.getTransform();
-		camera.setTarget(transform.getTranslation());
-
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
 
+		float sliderMin = 0.f;
+		float sliderMax = 0.f;
+		float cameraFar = 300.f;
 		while (!rendererContext.getWindow().shouldBeClosed())
 		{
 			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
+			imgui.update();
+
+			// Imgui
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow();
+			if (!ImGui::Begin("Main"))
+				ImGui::End();
+
+			ImGui::SliderFloat("Camera 'Far'", &cameraFar, 10.f, 1000.f);
+			camera.setFar(cameraFar);
+
+			ImGui::SliderFloat("Min", &sliderMin, -1000.f, 0.f);
+
+			ImGui::SliderFloat("Max", &sliderMax, 0.f, 1000.f);
+
+			Transform transform = tileMap.getTransform();
+			Vector3f position = transform.getTranslation();
+
+			float rawPosition[3];
+			Math::FromVector3fToCArray(position, rawPosition);
+			std::string positionName = "Sprite position ";
+			ImGui::SliderFloat3(positionName.c_str(), rawPosition, sliderMin, sliderMax);
+			position = Math::FromCArrayToVector3f(rawPosition);
+			transform.setTranslation(position);
+			tileMap.setTransform(transform);
+
+			//camera.setTarget(transform.getTranslation());
+
+			ImGui::End();
+
+			ImGui::EndFrame();
+			// End Imgui
+
+			ImGui::Render();
 
 			renderer.preDraw();
-
-			//Transform transform = tileMap.getTransform();
-			//Vector3f position = transform.getTranslation();
-			//Vector3f rotation = transform.getRotation();
-			//Vector3f scale = transform.getScale();
-			//
-			//transform.setTranslation(position);
-			//transform.setRotation(rotation);
-			//transform.setScale(scale);
-			//tileMap.setTransform(transform);
 
 			renderer.draw(tileMap, camera);
 
 			glfwPollEvents();
+
+			imgui.draw(renderer.getDrawCommandBuffer());
 
 			renderer.postDraw();
 

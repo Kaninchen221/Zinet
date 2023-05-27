@@ -67,26 +67,41 @@ namespace zt::gl
 
 	void TileMap::createVertexBuffer(RendererContext& rendererContext)
 	{
-		Vertex vertex;
-		vertex.setPosition({ -0.5f, -0.5f, 0.f });
-		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 0.0f });
-		vertices.push_back(vertex);
+		auto createTile = [&](const Vector3f& positionOffset)
+		{
+			Vertex vertex;
+			vertex.setPosition(Vector3f{ 0.f, 0.f, 0.f } + positionOffset);
+			vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+			vertex.setTextureCoordinates({ 0.0f, 0.0f });
+			vertices.push_back(vertex);
 
-		vertex.setPosition({ 0.5f, -0.5f, 0.f });
-		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 0.0f });
-		vertices.push_back(vertex);
+			vertex.setPosition(Vector3f{ 1.f, 0.f, 0.f } + positionOffset);
+			vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+			vertex.setTextureCoordinates({ 1.0f, 0.0f });
+			vertices.push_back(vertex);
 
-		vertex.setPosition({ 0.5f, 0.5f, 0.f });
-		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 1.0f });
-		vertices.push_back(vertex);
+			vertex.setPosition(Vector3f{ 1.f, 1.f, 0.f } + positionOffset);
+			vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+			vertex.setTextureCoordinates({ 1.0f, 1.0f });
+			vertices.push_back(vertex);
 
-		vertex.setPosition({ -0.5f, 0.5f, 0.f });
-		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 1.0f });
-		vertices.push_back(vertex);
+			vertex.setPosition(Vector3f{ 0.f, 1.f, 0.f } + positionOffset);
+			vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+			vertex.setTextureCoordinates({ 0.0f, 1.0f });
+			vertices.push_back(vertex);
+		};
+
+		float xSize = 20.f;
+		float ySize = 20.f;
+		for (float x = 0.f; x < xSize; x++)
+		{
+			float xOffset = x;
+			for (float y = 0.f; y < ySize; y++)
+			{
+				float yOffset = y;// +xOffset;
+				createTile({ xOffset, yOffset, 0.f });
+			}
+		}
 
 		BufferCreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
@@ -101,7 +116,27 @@ namespace zt::gl
 
 	void TileMap::createIndexBuffer(RendererContext& rendererContext)
 	{
-		indices = { 0, 1, 2, 2, 3, 0 };
+		auto createTile = [&](std::uint16_t offset)
+		{
+			std::initializer_list<std::uint16_t> newIndices =
+			{
+				0u + offset,
+				1u + offset,
+				2u + offset,
+				2u + offset,
+				3u + offset,
+				0u + offset
+			};
+			indices.insert(indices.end(), newIndices);
+		};
+
+		std::uint16_t verticesPerTile = 4u;
+		std::uint16_t count = static_cast<std::uint16_t>( vertices.size() ) / verticesPerTile;
+		for (std::uint16_t index = 0u; index < count; index++)
+		{
+			createTile(index * verticesPerTile);
+		}
+
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 
 		BufferCreateInfo bufferCreateInfo{
