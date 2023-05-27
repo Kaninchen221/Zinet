@@ -42,7 +42,7 @@ namespace zt::gl
 		void setFar(float newFar) { far = newFar; }
 		float getFar() const { return far; }
 
-		Matrix4f projectionMatrix() const;
+		Matrix4f perspectiveMatrix() const;
 
 	protected:
 

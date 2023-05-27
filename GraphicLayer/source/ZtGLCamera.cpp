@@ -23,7 +23,7 @@ namespace zt::gl
 		return glm::lookAt(tempPosition, tempTarget, cameraOrientation);
 	}
 
-	Matrix4f Camera::projectionMatrix() const
+	Matrix4f Camera::perspectiveMatrix() const
 	{
 		Matrix4f matrix;
 		matrix = glm::perspective(glm::radians(fov), aspect, near, far);
