@@ -198,7 +198,7 @@ namespace zt::gl
 			MVP mvp;
 			mvp.model = drawableObject.getDrawInfo().modelMatrix;
 			mvp.view = camera.viewMatrix();
-			mvp.proj = camera.projectionMatrix();
+			mvp.proj = camera.perspectiveMatrix();
 			MVPUniformBuffer->fillWithObject(mvp);
 		}
 	}

@@ -143,9 +143,9 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, ProjectionMatrix)
 	{
 		typedef Matrix4f(Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::projectionMatrix));
+		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::perspectiveMatrix));
 
-		Matrix4f actual = camera.projectionMatrix();
+		Matrix4f actual = camera.perspectiveMatrix();
 		Matrix4f expected = glm::perspective(glm::radians(camera.getFov()), camera.getAspect(), camera.getNear(), camera.getFar());
 		expected[1][1] *= -1;
 
