@@ -78,14 +78,14 @@ namespace zt::gl
 		vertex.setTextureCoordinates({ 0.0f, 0.0f });
 		vertices.push_back(vertex);
 
-		vertex.setPosition({ 0.5f, 0.5f, 0.f });
+		vertex.setPosition({ -0.5f, 0.5f, 0.f });
 		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 1.0f });
+		vertex.setTextureCoordinates({ 1.0f, 1.0f });
 		vertices.push_back(vertex);
 
-		vertex.setPosition({ -0.5f, 0.5f, 0.f });
+		vertex.setPosition({ 0.5f, 0.5f, 0.f });
 		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 1.0f });
+		vertex.setTextureCoordinates({ 0.0f, 1.0f });
 		vertices.push_back(vertex);
 
 		BufferCreateInfo bufferCreateInfo{
@@ -101,7 +101,7 @@ namespace zt::gl
 
 	void Sprite::createIndexBuffer(RendererContext& rendererContext)
 	{
-		indices = { 0, 1, 2, 2, 3, 0 };
+		indices = { 0, 1, 3, 3, 2, 0 };
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 
 		BufferCreateInfo bufferCreateInfo{
