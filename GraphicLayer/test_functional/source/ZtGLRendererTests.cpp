@@ -102,10 +102,13 @@ namespace zt::gl::tests
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
 
-		bool drawTileMap = false;
+		bool drawSprites = true;
 		float sliderMin = -30.f;
 		float sliderMax = 30.f;
 		float cameraFar = 300.f;
+		std::string drawSpritesText = "Sprites";
+		std::string drawTileMapText = "Tilemap";
+		std::string ToggleButtonText = drawSpritesText;
 
 		while (!rendererContext.getWindow().shouldBeClosed())
 		{
@@ -120,12 +123,16 @@ namespace zt::gl::tests
 			if(!ImGui::Begin("Main"))
 				ImGui::End();
 
-			if (ImGui::Button("Toggle draw sprite or tilemap"))
+			if (ImGui::Button(ToggleButtonText.c_str()))
 			{
-				drawTileMap = !drawTileMap;
+				drawSprites = !drawSprites;
+				if (drawSprites)
+					ToggleButtonText = drawSpritesText;
+				else
+					ToggleButtonText = drawTileMapText;
 			}
 
-			if (!drawTileMap)
+			if (drawSprites)
 			{
 				float index = 1.f;
 				for (Sprite& sprite : sprites)
@@ -209,7 +216,7 @@ namespace zt::gl::tests
 
 			renderer.preDraw();
 
-			if (!drawTileMap)
+			if (drawSprites)
 			{
 				for (Sprite& sprite : sprites)
 				{
