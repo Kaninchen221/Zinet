@@ -50,7 +50,7 @@ namespace zt::gl
 		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
 
-		// TextureRegion
+		// TextureRegions
 		descriptor.binding = 2;
 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
 		descriptor.count = 1;
@@ -128,11 +128,10 @@ namespace zt::gl
 			indices.insert(indices.end(), newIndices);
 		};
 
-		std::uint16_t verticesPerTile = 4u;
-		std::uint16_t count = static_cast<std::uint16_t>( vertices.size() ) / verticesPerTile;
+		std::uint16_t count = static_cast<std::uint16_t>( vertices.size() ) / VerticesPerTile;
 		for (std::uint16_t index = 0u; index < count; index++)
 		{
-			createTile(index * verticesPerTile);
+			createTile(index * VerticesPerTile);
 		}
 
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();

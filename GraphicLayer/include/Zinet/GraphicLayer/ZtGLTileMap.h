@@ -22,6 +22,8 @@ namespace zt::gl
 
 	public:
 
+		const inline static std::uint16_t VerticesPerTile = 4u;
+
 		TileMap();
 		TileMap(const TileMap& other) = default;
 		TileMap(TileMap&& other) = default;
