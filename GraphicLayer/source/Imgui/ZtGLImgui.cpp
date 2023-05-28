@@ -112,6 +112,7 @@ namespace zt::gl
 	void Imgui::deinit()
 	{
 		ImGui_ImplVulkan_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
 	}
 
 }
