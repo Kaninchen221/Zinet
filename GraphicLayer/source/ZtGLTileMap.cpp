@@ -80,25 +80,23 @@ namespace zt::gl
 			vertex.setTextureCoordinates({ 1.0f, 0.0f });
 			vertices.push_back(vertex);
 
-			vertex.setPosition(Vector3f{ 1.f, 1.f, 0.f } + positionOffset);
+			vertex.setPosition(Vector3f{ 1.f, -1.f, 0.f } + positionOffset);
 			vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
 			vertex.setTextureCoordinates({ 1.0f, 1.0f });
 			vertices.push_back(vertex);
 
-			vertex.setPosition(Vector3f{ 0.f, 1.f, 0.f } + positionOffset);
+			vertex.setPosition(Vector3f{ 0.f, -1.f, 0.f } + positionOffset);
 			vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 			vertex.setTextureCoordinates({ 0.0f, 1.0f });
 			vertices.push_back(vertex);
 		};
 
-		float xSize = 20.f;
-		float ySize = 20.f;
-		for (float x = 0.f; x < xSize; x++)
+		for (float x = 0.f; x < tilesCount.x; x++)
 		{
 			float xOffset = x;
-			for (float y = 0.f; y < ySize; y++)
+			for (float y = 0.f; y < tilesCount.y; y++)
 			{
-				float yOffset = y;// +xOffset;
+				float yOffset = y;
 				createTile({ xOffset, yOffset, 0.f });
 			}
 		}

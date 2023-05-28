@@ -49,6 +49,9 @@ namespace zt::gl
 		void setTextureRegion(const TextureRegion& newTextureRegion) { textureRegion = newTextureRegion; }
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
+		void setTilesCount(const Vector2ui& count) { tilesCount = count; }
+		const Vector2ui& getTilesCount() const { return tilesCount; }
+
 	protected:
 
 		void createIndexBuffer(RendererContext& rendererContext);
@@ -69,6 +72,7 @@ namespace zt::gl
 		std::vector<DrawInfo::Image> imageDrawInfos;
 		TextureRegion textureRegion;
 		Transform transform;
+		Vector2ui tilesCount{ 1u, 1u };
 	};
 
 }

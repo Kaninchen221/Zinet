@@ -92,6 +92,13 @@ namespace zt::gl::tests
 		TileMap tileMap;
 	};
 
+	TEST_F(TileMapSimpleTests, GetDefaultValues)
+	{
+		const Vector2ui& actualTilesCount = tileMap.getTilesCount();
+		Vector2ui expectedTilesCount = Vector2ui{ 1u, 1u };
+		ASSERT_EQ(expectedTilesCount, actualTilesCount);
+	}
+
 	TEST_F(TileMapSimpleTests, GetUniformBuffers)
 	{
 		typedef const std::vector<UniformBuffer>&(TileMap::* ExpectedFunctionDeclaration)() const;
@@ -127,5 +134,17 @@ namespace zt::gl::tests
 
 		const Transform& actual = tileMap.getTransform();
 		ASSERT_EQ(expected, actual);
+	}
+
+	TEST_F(TileMapSimpleTests, GetSetTilesCount)
+	{
+		typedef const Vector2ui& (TileMap::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&TileMap::getTilesCount));
+
+		Vector2ui expectedCount = { 4u, 5u };
+		tileMap.setTilesCount(expectedCount);
+		const Vector2ui& actualCount = tileMap.getTilesCount();
+
+		ASSERT_EQ(expectedCount, actualCount);
 	}
 }

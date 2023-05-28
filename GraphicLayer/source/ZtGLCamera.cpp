@@ -15,10 +15,11 @@ namespace zt::gl
 
 	Matrix4f Camera::viewMatrix() const
 	{
-		Vector3f tempTarget = target * -1.f;
+		Vector3f tempTarget = target;// *-1.f;
 
 		Vector3f tempPosition = position;
-		tempPosition.z *= -1.f;
+		tempPosition.x *= -1.f;
+		tempPosition.y *= -1.f;
 
 		return glm::lookAt(tempPosition, tempTarget, cameraOrientation);
 	}
@@ -27,7 +28,8 @@ namespace zt::gl
 	{
 		Matrix4f matrix;
 		matrix = glm::perspective(glm::radians(fov), aspect, near, far);
-		matrix[1][1] *= -1.f; // Reversal Y axis
+		//matrix[0][0] *= -1.f; // Reversal X axis
+		//matrix[1][1] *= -1.f; // Reversal Y axis
 		//matrix[2][2] *= -1.f; // Reversal Z axis
 
 		return matrix;

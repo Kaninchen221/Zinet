@@ -49,14 +49,12 @@ namespace zt::gl::tests
 		Camera camera;
 		Imgui imgui;
 
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&, const Camera&);
+		static_assert(IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
 	};
 
-	/*
 	TEST_F(RendererTests, DrawSprite)
 	{
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&, const Camera&);
-		IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw);
-
 		zt::gl::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -4.0f });
@@ -194,7 +192,6 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
 	}
-	*/
 
 	TEST_F(RendererTests, DrawTileMap)
 	{
@@ -219,6 +216,7 @@ namespace zt::gl::tests
 		texture.create(stbImage, rendererContext);
 
 		TileMap tileMap;
+		tileMap.setTilesCount({ 5, 4 });
 		tileMap.create(rendererContext);
 		TextureRegion textureRegion;
 		textureRegion.size = Vector2f{ 512.f, 512.f };
@@ -260,9 +258,37 @@ namespace zt::gl::tests
 			ImGui::SliderFloat3(positionName.c_str(), rawPosition, sliderMin, sliderMax);
 			position = Math::FromCArrayToVector3f(rawPosition);
 			transform.setTranslation(position);
-			tileMap.setTransform(transform);
+			//tileMap.setTransform(transform);
 
-			//camera.setTarget(transform.getTranslation());
+			//
+			Vector3f rotation = transform.getRotation();
+			Vector3f scale = transform.getScale();
+
+			//float rawPosition[3];
+			//Math::FromVector3fToCArray(position, rawPosition);
+			//std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
+			//ImGui::SliderFloat3(positionName.c_str(), rawPosition, -1.0f, 1.0f);
+
+			float rawRotation[3];
+			Math::FromVector3fToCArray(rotation, rawRotation);
+			std::string rotationName = std::string{ "Sprite rotation" };
+			ImGui::SliderFloat3(rotationName.c_str(), rawRotation, 0.f, 560.0f);
+
+			float rawScale[3];
+			Math::FromVector3fToCArray(scale, rawScale);
+			std::string scaleName = std::string{ "Sprite scale" };
+			ImGui::SliderFloat3(scaleName.c_str(), rawScale, 0.01f, 10.0f);
+
+			ImGui::Spacing();
+
+			position = Math::FromCArrayToVector3f(rawPosition);
+			rotation = Math::FromCArrayToVector3f(rawRotation);
+			scale = Math::FromCArrayToVector3f(rawScale);
+			transform.setTranslation(position);
+			transform.setRotation(rotation);
+			transform.setScale(scale);
+			tileMap.setTransform(transform);
+			//
 
 			ImGui::End();
 
