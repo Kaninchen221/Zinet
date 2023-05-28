@@ -53,7 +53,7 @@ namespace zt::gl::tests
 		static_assert(IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
 	};
 
-	TEST_F(RendererTests, DrawSprite)
+	TEST_F(RendererTests, Draw)
 	{
 		zt::gl::GLFW::UnhideWindow();
 
@@ -90,8 +90,22 @@ namespace zt::gl::tests
 
 		}
 
+		TileMap tileMap;
+		tileMap.setTilesCount({ 5, 4 });
+		tileMap.create(rendererContext);
+		TextureRegion textureRegion;
+		textureRegion.size = Vector2f{ 512.f, 512.f };
+		textureRegion.offset = Vector2f{ 0.f, 0.f };
+		tileMap.setTextureRegion(textureRegion);
+		tileMap.createDrawInfo(shaders, texture, sampler);
+
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
+
+		bool drawTileMap = false;
+		float sliderMin = -30.f;
+		float sliderMax = 30.f;
+		float cameraFar = 300.f;
 
 		while (!rendererContext.getWindow().shouldBeClosed())
 		{
@@ -106,6 +120,12 @@ namespace zt::gl::tests
 			if(!ImGui::Begin("Main"))
 				ImGui::End();
 
+			if (ImGui::Button("Toggle draw sprite or tilemap"))
+			{
+				drawTileMap = !drawTileMap;
+			}
+
+			if (!drawTileMap)
 			{
 				float index = 1.f;
 				for (Sprite& sprite : sprites)
@@ -141,27 +161,44 @@ namespace zt::gl::tests
 					sprite.setTransform(transform);
 					index += 1.f;
 				}
-
-				Vector3f cameraPos = camera.getPosition();
-				float rawCameraPos[3];
-				Math::FromVector3fToCArray(cameraPos, rawCameraPos);
-				std::string posName = std::string{ "Camera pos " };
-				ImGui::SliderFloat3(posName.c_str(), rawCameraPos, -10.00f, 10.0f);
-				cameraPos = Math::FromCArrayToVector3f(rawCameraPos);
-				camera.setPosition(cameraPos);
-
-				Vector3f cameraTarget = camera.getTarget();
-				float rawCameraTarget[3];
-				Math::FromVector3fToCArray(cameraTarget, rawCameraTarget);
-				std::string targetName = std::string{ "Camera target " };
-				ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget, -5.00f, 5.0f);
-				cameraTarget = Math::FromCArrayToVector3f(rawCameraTarget);
-				camera.setTarget(cameraTarget);
-
-				//cameraTarget = cameraPos;
-				//cameraTarget.z = 0;
-				//camera.setTarget(cameraTarget);
 			}
+			else // Tilemap
+			{
+				ImGui::SliderFloat("Camera 'Far'", &cameraFar, 10.f, 1000.f);
+				camera.setFar(cameraFar);
+
+				ImGui::SliderFloat("Min", &sliderMin, -1000.f, 0.f);
+
+				ImGui::SliderFloat("Max", &sliderMax, 0.f, 1000.f);
+
+				Transform transform = tileMap.getTransform();
+				Vector3f position = transform.getTranslation();
+
+				float rawPosition[3];
+				Math::FromVector3fToCArray(position, rawPosition);
+				std::string positionName = "Sprite position ";
+				ImGui::SliderFloat3(positionName.c_str(), rawPosition, sliderMin, sliderMax);
+				position = Math::FromCArrayToVector3f(rawPosition);
+				transform.setTranslation(position);
+				tileMap.setTransform(transform);
+			}
+
+			// Camera
+			Vector3f cameraPos = camera.getPosition();
+			float rawCameraPos[3];
+			Math::FromVector3fToCArray(cameraPos, rawCameraPos);
+			std::string posName = std::string{ "Camera pos " };
+			ImGui::SliderFloat3(posName.c_str(), rawCameraPos, -10.00f, 10.0f);
+			cameraPos = Math::FromCArrayToVector3f(rawCameraPos);
+			camera.setPosition(cameraPos);
+
+			Vector3f cameraTarget = camera.getTarget();
+			float rawCameraTarget[3];
+			Math::FromVector3fToCArray(cameraTarget, rawCameraTarget);
+			std::string targetName = std::string{ "Camera target " };
+			ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget, -5.00f, 5.0f);
+			cameraTarget = Math::FromCArrayToVector3f(rawCameraTarget);
+			camera.setTarget(cameraTarget);
 
 			ImGui::End();
 
@@ -172,10 +209,18 @@ namespace zt::gl::tests
 
 			renderer.preDraw();
 
-			for (Sprite& sprite : sprites)
+			if (!drawTileMap)
 			{
-				renderer.draw(sprite, camera);
+				for (Sprite& sprite : sprites)
+				{
+					renderer.draw(sprite, camera);
+				}
 			}
+			else
+			{
+				renderer.draw(tileMap, camera);
+			}
+
 
 			glfwPollEvents();
 
@@ -184,130 +229,6 @@ namespace zt::gl::tests
 			renderer.postDraw();
 
 			if (clock.getElapsedTime().getAsSeconds() > 10000)
-			{
-				rendererContext.getWindow().requestCloseWindow();
-			}
-		}
-
-		rendererContext.getQueue()->waitIdle();
-		rendererContext.getDevice()->waitIdle();
-	}
-
-	TEST_F(RendererTests, DrawTileMap)
-	{
-		zt::gl::GLFW::UnhideWindow();
-
-		camera.setPosition({ 0.0f, 0.0f, -5.0f });
-
-		renderer.initialize();
-
-		RendererContext& rendererContext = renderer.getRendererContext();
-		imgui.preinit(rendererContext);
-		imgui.init(rendererContext);
-
-		createShaders();
-		createSTBImage();
-
-		// Create Sampler
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
-
-		// Create texture
-		texture.create(stbImage, rendererContext);
-
-		TileMap tileMap;
-		tileMap.setTilesCount({ 5, 4 });
-		tileMap.create(rendererContext);
-		TextureRegion textureRegion;
-		textureRegion.size = Vector2f{ 512.f, 512.f };
-		textureRegion.offset = Vector2f{ 0.f, 0.f };
-		tileMap.setTextureRegion(textureRegion);
-		tileMap.createDrawInfo(shaders, texture, sampler);
-
-		zt::Clock clock;
-		std::once_flag clockOnceFlag;
-
-		float sliderMin = 0.f;
-		float sliderMax = 0.f;
-		float cameraFar = 300.f;
-		while (!rendererContext.getWindow().shouldBeClosed())
-		{
-			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
-			imgui.update();
-
-			// Imgui
-			ImGui::NewFrame();
-
-			ImGui::ShowDemoWindow();
-			if (!ImGui::Begin("Main"))
-				ImGui::End();
-
-			ImGui::SliderFloat("Camera 'Far'", &cameraFar, 10.f, 1000.f);
-			camera.setFar(cameraFar);
-
-			ImGui::SliderFloat("Min", &sliderMin, -1000.f, 0.f);
-
-			ImGui::SliderFloat("Max", &sliderMax, 0.f, 1000.f);
-
-			Transform transform = tileMap.getTransform();
-			Vector3f position = transform.getTranslation();
-
-			float rawPosition[3];
-			Math::FromVector3fToCArray(position, rawPosition);
-			std::string positionName = "Sprite position ";
-			ImGui::SliderFloat3(positionName.c_str(), rawPosition, sliderMin, sliderMax);
-			position = Math::FromCArrayToVector3f(rawPosition);
-			transform.setTranslation(position);
-			//tileMap.setTransform(transform);
-
-			//
-			Vector3f rotation = transform.getRotation();
-			Vector3f scale = transform.getScale();
-
-			//float rawPosition[3];
-			//Math::FromVector3fToCArray(position, rawPosition);
-			//std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
-			//ImGui::SliderFloat3(positionName.c_str(), rawPosition, -1.0f, 1.0f);
-
-			float rawRotation[3];
-			Math::FromVector3fToCArray(rotation, rawRotation);
-			std::string rotationName = std::string{ "Sprite rotation" };
-			ImGui::SliderFloat3(rotationName.c_str(), rawRotation, 0.f, 560.0f);
-
-			float rawScale[3];
-			Math::FromVector3fToCArray(scale, rawScale);
-			std::string scaleName = std::string{ "Sprite scale" };
-			ImGui::SliderFloat3(scaleName.c_str(), rawScale, 0.01f, 10.0f);
-
-			ImGui::Spacing();
-
-			position = Math::FromCArrayToVector3f(rawPosition);
-			rotation = Math::FromCArrayToVector3f(rawRotation);
-			scale = Math::FromCArrayToVector3f(rawScale);
-			transform.setTranslation(position);
-			transform.setRotation(rotation);
-			transform.setScale(scale);
-			tileMap.setTransform(transform);
-			//
-
-			ImGui::End();
-
-			ImGui::EndFrame();
-			// End Imgui
-
-			ImGui::Render();
-
-			renderer.preDraw();
-
-			renderer.draw(tileMap, camera);
-
-			glfwPollEvents();
-
-			imgui.draw(renderer.getDrawCommandBuffer());
-
-			renderer.postDraw();
-
-			if (clock.getElapsedTime().getAsSeconds() > 4000)
 			{
 				rendererContext.getWindow().requestCloseWindow();
 			}
