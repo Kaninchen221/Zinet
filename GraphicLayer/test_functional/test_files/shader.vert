@@ -13,7 +13,6 @@ layout(binding = 0) uniform MVP {
     mat4 proj;
 } mvp;
 
-// TODO Refactor this
 layout(binding = 2) uniform TextureRegion {
 	vec2 offset;
 	vec2 size;
@@ -21,9 +20,6 @@ layout(binding = 2) uniform TextureRegion {
 
 void main() {
     gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPosition, 1.0);
-    //gl_Position = vec4(inPosition, 1.0);
-    //fragColor = inColor;
 	fragColor = vec4(1.0, 1.0, 1.0, 1.0);
-    //fragTexCoords = inTexCoords;
 	fragTexCoords = vec2(inTexCoords.x * textureRegion.size.x + textureRegion.offset.x, inTexCoords.y * textureRegion.size.y + textureRegion.offset.y);
 }
