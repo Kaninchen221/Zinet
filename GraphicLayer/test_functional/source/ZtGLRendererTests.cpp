@@ -81,22 +81,22 @@ namespace zt::gl::tests
 		for (size_t i = 0u; i < count; ++i)
 		{
 			auto sprite = sprites.emplace();
-			sprite->create(rendererContext);
 			TextureRegion textureRegion;
 			textureRegion.size = Vector2f{ 512.f, 512.f };
 			textureRegion.offset = Vector2f{ 512.f * i, 0.f };
 			sprite->setTextureRegion(textureRegion);
+			sprite->create(rendererContext, texture.getSize());
 			sprite->createDrawInfo(shaders, texture, sampler);
 
 		}
 
 		TileMap tileMap;
 		tileMap.setTilesCount({ 5, 4 });
-		tileMap.create(rendererContext);
 		TextureRegion textureRegion;
 		textureRegion.size = Vector2f{ 512.f, 512.f };
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
 		tileMap.setTextureRegion(textureRegion);
+		tileMap.create(rendererContext);
 		tileMap.createDrawInfo(shaders, texture, sampler);
 
 		zt::Clock clock;

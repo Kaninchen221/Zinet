@@ -25,16 +25,12 @@ namespace zt::gl
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
-
-		Vector2f textureSize = { texture.getImage().getWidth(), texture.getImage().getHeight() };
-		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
-		uniformBuffers[1].fillWithObject(shaderTextureRegion);
 	}
 
-	void Sprite::create(RendererContext& rendererContext)
+	void Sprite::create(RendererContext& rendererContext, const Vector2f& textureSize)
 	{
 		createDescriptors();
-		createVertexBuffer(rendererContext);
+		createVertexBuffer(rendererContext, textureSize);
 		createIndexBuffer(rendererContext);
 		createUniformBuffers(rendererContext);
 	}
@@ -50,13 +46,6 @@ namespace zt::gl
 		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
 
-		// TextureRegion
-		descriptor.binding = 2;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
 		// Texture
 		descriptor.binding = 1;
 		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
@@ -65,27 +54,35 @@ namespace zt::gl
 		descriptors.push_back(descriptor);
 	}
 
-	void Sprite::createVertexBuffer(RendererContext& rendererContext)
+	void Sprite::createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize)
 	{
+		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
+		Vector2f UV = shaderTextureRegion.offset;
+
 		Vertex vertex;
 		vertex.setPosition({ -0.5f, 0.5f, 0.f });
 		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 0.0f });
+		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
 		vertex.setPosition({ 0.5f, 0.5f, 0.f });
 		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 0.0f });
+		UV.x += shaderTextureRegion.size.x;
+		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
 		vertex.setPosition({ 0.5f, -0.5f, 0.f });
 		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 1.0f, 1.0f });
+		UV = shaderTextureRegion.offset;
+		UV += shaderTextureRegion.size;
+		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
 		vertex.setPosition({ -0.5f, -0.5f, 0.f });
 		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		vertex.setTextureCoordinates({ 0.0f, 1.0f });
+		UV = shaderTextureRegion.offset;
+		UV.y += shaderTextureRegion.size.y;
+		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
 		BufferCreateInfo bufferCreateInfo{
@@ -120,20 +117,6 @@ namespace zt::gl
 		uniformBuffers.reserve(2u);
 
 		createMVPUniformBuffer(rendererContext);
-		createTextureRegionUniformBuffer(rendererContext);
-	}
-
-	void Sprite::createTextureRegionUniformBuffer(RendererContext& rendererContext)
-	{
-		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
-			.device = rendererContext.getDevice(),
-			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(decltype(textureRegion))),
-			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
-		};
-		uniformBuffer.create(bufferCreateInfo);
-		uniformBuffer.setBinding(2u);
 	}
 
 	UniformBuffer* Sprite::getMVPUniformBuffer()
@@ -168,7 +151,7 @@ namespace zt::gl
 
 	void Sprite::copyFrom(const Sprite& other, RendererContext& rendererContext)
 	{
-		create(rendererContext);
+		create(rendererContext, {}); // TODO Fix this
 		transform = other.getTransform();
 		textureRegion = other.getTextureRegion();
 	}

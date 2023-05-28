@@ -31,7 +31,7 @@ namespace zt::gl
 
 		~Sprite() noexcept = default;
 
-		void create(RendererContext& rendererContext);
+		void create(RendererContext& rendererContext, const Vector2f& textureSize);
 
 		void copyFrom(const Sprite& other, RendererContext& rendererContext);
 
@@ -52,11 +52,10 @@ namespace zt::gl
 	protected:
 
 		void createIndexBuffer(RendererContext& rendererContext);
-		void createVertexBuffer(RendererContext& rendererContext);
+		void createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize);
 		void createDescriptors();
 		void createUniformBuffers(RendererContext& rendererContext);
 		void createMVPUniformBuffer(RendererContext& rendererContext);
-		void createTextureRegionUniformBuffer(RendererContext& rendererContext);
 
 		DrawInfo drawInfo;
 

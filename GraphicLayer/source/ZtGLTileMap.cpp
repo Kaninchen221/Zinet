@@ -28,7 +28,7 @@ namespace zt::gl
 
 		Vector2f textureSize = { texture.getImage().getWidth(), texture.getImage().getHeight() };
 		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
-		uniformBuffers[1].fillWithObject(shaderTextureRegion);
+		//uniformBuffers[1].fillWithObject(shaderTextureRegion);
 	}
 
 	void TileMap::create(RendererContext& rendererContext)

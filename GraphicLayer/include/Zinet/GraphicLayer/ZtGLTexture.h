@@ -44,6 +44,9 @@ namespace zt::gl
 
 		DrawInfo::Image createImageDrawInfo(const Sampler& sampler) const;
 
+		// TODO Test it
+		Vector2f getSize() const { return Vector2f{ image.getWidth(), image.getHeight() }; }
+
 	protected:
 
 		Image image;
