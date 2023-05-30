@@ -19,32 +19,32 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, DefaultValues)
 	{
 		Vector3f actualPosition = camera.getPosition();
-		Vector3f expectedPosition = { 0.f, 0.f, 10.f };
-		ASSERT_EQ(actualPosition, expectedPosition);
+		Vector3f expectedPosition = { 0.f, 0.f, 5.f };
+		EXPECT_EQ(actualPosition, expectedPosition);
 
 		Vector3f actualTarget = camera.getTarget();
 		Vector3f expectedTarget = { 0.f, 0.f, 0.f };
-		ASSERT_EQ(actualTarget, expectedTarget);
+		EXPECT_EQ(actualTarget, expectedTarget);
 
 		Vector3f actualCameraOrientation = camera.getCameraOrientation();
-		Vector3f expectedCameraOrientation = { 0.f, 0.f, 1.f };
-		ASSERT_EQ(actualCameraOrientation, expectedCameraOrientation);
+		Vector3f expectedCameraOrientation = { 0.f, -1.f, 0.f };
+		EXPECT_EQ(actualCameraOrientation, expectedCameraOrientation);
 
 		float actualFov = camera.getFov();
 		float expectedFov = 45.f;
-		ASSERT_EQ(actualFov, expectedFov);
+		EXPECT_EQ(actualFov, expectedFov);
 
 		float actualAspect = camera.getAspect();
 		float expectedAspect = 800.f / 400.f;
-		ASSERT_EQ(actualAspect, expectedAspect);
+		EXPECT_EQ(actualAspect, expectedAspect);
 
 		float actualNear = camera.getNear();
-		float expectedNear = 0.1f;
-		ASSERT_EQ(actualNear, expectedNear);
+		float expectedNear = 0.01f;
+		EXPECT_EQ(actualNear, expectedNear);
 
 		float actualFar = camera.getFar();
 		float expectedFar = 10.0f;
-		ASSERT_EQ(actualFar, expectedFar);
+		EXPECT_EQ(actualFar, expectedFar);
 	}
 
 	TEST_F(CameraTests, SetGetPosition)
@@ -147,7 +147,6 @@ namespace zt::gl::tests
 
 		Matrix4f actual = camera.perspectiveMatrix();
 		Matrix4f expected = glm::perspective(glm::radians(camera.getFov()), camera.getAspect(), camera.getNear(), camera.getFar());
-		expected[1][1] *= -1;
 
 		ASSERT_EQ(actual, expected);
 	}
