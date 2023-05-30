@@ -25,16 +25,12 @@ namespace zt::gl
 		drawInfo.descriptors = descriptors;
 		drawInfo.uniformBuffers = uniformBuffers;
 		drawInfo.images = imageDrawInfos;
-
-		Vector2f textureSize = { texture.getImage().getWidth(), texture.getImage().getHeight() };
-		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
-		//uniformBuffers[1].fillWithObject(shaderTextureRegion);
 	}
 
-	void TileMap::create(RendererContext& rendererContext)
+	void TileMap::create(RendererContext& rendererContext, const Vector2f& textureSize, const std::vector<TextureRegion>& textureRegions)
 	{
 		createDescriptors();
-		createVertexBuffer(rendererContext);
+		createVertexBuffer(rendererContext, textureSize, textureRegions);
 		createIndexBuffer(rendererContext);
 		createUniformBuffers(rendererContext);
 	}
@@ -65,29 +61,37 @@ namespace zt::gl
 		descriptors.push_back(descriptor);
 	}
 
-	void TileMap::createVertexBuffer(RendererContext& rendererContext)
+	void TileMap::createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize, [[maybe_unused]] const std::vector<TextureRegion>& textureRegions)
 	{
+		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
+
 		auto createTile = [&](const Vector3f& positionOffset)
 		{
 			Vertex vertex;
 			vertex.setPosition(Vector3f{ 0.f, 0.f, 0.f } + positionOffset);
 			vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-			vertex.setTextureCoordinates({ 0.0f, 0.0f });
+			Vector2f UV = shaderTextureRegion.offset;
+			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
 
 			vertex.setPosition(Vector3f{ 1.f, 0.f, 0.f } + positionOffset);
 			vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-			vertex.setTextureCoordinates({ 1.0f, 0.0f });
+			UV.x += shaderTextureRegion.size.x;
+			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
 
 			vertex.setPosition(Vector3f{ 1.f, -1.f, 0.f } + positionOffset);
 			vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-			vertex.setTextureCoordinates({ 1.0f, 1.0f });
+			UV = shaderTextureRegion.offset;
+			UV += shaderTextureRegion.size;
+			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
 
 			vertex.setPosition(Vector3f{ 0.f, -1.f, 0.f } + positionOffset);
 			vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-			vertex.setTextureCoordinates({ 0.0f, 1.0f });
+			UV = shaderTextureRegion.offset;
+			UV.y += shaderTextureRegion.size.y;
+			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
 		};
 
@@ -97,7 +101,7 @@ namespace zt::gl
 			for (float y = 0.f; y < tilesCount.y; y++)
 			{
 				float yOffset = y;
-				createTile({ xOffset, yOffset, 0.f });
+				createTile({ xOffset, -yOffset, 0.f });
 			}
 		}
 
@@ -200,7 +204,7 @@ namespace zt::gl
 
 	void TileMap::copyFrom(const TileMap& other, RendererContext& rendererContext)
 	{
-		create(rendererContext);
+		create(rendererContext, {}, {}); // TODO Fix this
 		transform = other.getTransform();
 		textureRegion = other.getTextureRegion();
 	}

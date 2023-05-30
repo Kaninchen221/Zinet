@@ -60,7 +60,7 @@ namespace zt::gl::tests
 
 			texture.create(stbImage, rendererContext);
 
-			tileMap.create(rendererContext);
+			tileMap.create(rendererContext, texture.getSize(), {});
 		}
 
 		void TearDown() override

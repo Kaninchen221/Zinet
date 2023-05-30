@@ -96,7 +96,7 @@ namespace zt::gl::tests
 		textureRegion.size = Vector2f{ 512.f, 512.f };
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
 		tileMap.setTextureRegion(textureRegion);
-		tileMap.create(rendererContext);
+		tileMap.create(rendererContext, texture.getSize(), {});
 		tileMap.createDrawInfo(shaders, texture, sampler);
 
 		zt::Clock clock;

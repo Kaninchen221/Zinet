@@ -33,7 +33,7 @@ namespace zt::gl
 
 		~TileMap() noexcept = default;
 
-		void create(RendererContext& rendererContext);
+		void create(RendererContext& rendererContext, const Vector2f& textureSize, const std::vector<TextureRegion>& textureRegions);
 
 		void copyFrom(const TileMap& other, RendererContext& rendererContext);
 
@@ -57,7 +57,7 @@ namespace zt::gl
 	protected:
 
 		void createIndexBuffer(RendererContext& rendererContext);
-		void createVertexBuffer(RendererContext& rendererContext);
+		void createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize, const std::vector<TextureRegion>& textureRegions);
 		void createDescriptors();
 		void createUniformBuffers(RendererContext& rendererContext);
 		void createMVPUniformBuffer(RendererContext& rendererContext);

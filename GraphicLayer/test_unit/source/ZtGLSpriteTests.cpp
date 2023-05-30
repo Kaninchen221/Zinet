@@ -60,7 +60,7 @@ namespace zt::gl::tests
 
 			texture.create(stbImage, rendererContext);
 
-			sprite.create(rendererContext);
+			sprite.create(rendererContext, texture.getSize());
 		}
 
 		void TearDown() override
