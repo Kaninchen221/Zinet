@@ -149,9 +149,10 @@ namespace zt::gl
 		uniformBuffer.setBinding(0u);
 	}
 
+	// TODO (Low) Remove this after refactor
 	void Sprite::copyFrom(const Sprite& other, RendererContext& rendererContext)
 	{
-		create(rendererContext, {}); // TODO Fix this
+		create(rendererContext, {});
 		transform = other.getTransform();
 		textureRegion = other.getTextureRegion();
 	}

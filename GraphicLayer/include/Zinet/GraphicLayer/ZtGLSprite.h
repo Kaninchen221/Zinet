@@ -13,7 +13,7 @@ namespace zt::gl
 {
 	class RendererContext;
 
-	// TODO
+	// TODO (Mid)
 	// Refactor Sprite
 	// The class should contains only info that is need to create DrawInfo
 	// The class shouldn't contains data that is already in DrawInfo
@@ -39,7 +39,7 @@ namespace zt::gl
 
 		void copyFrom(const Sprite& other, RendererContext& rendererContext);
 
-		// TODO Remove this
+		// TODO (Low) Remove this after refactor
 		const DrawInfo& getDrawInfo() const override;
 
 		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
