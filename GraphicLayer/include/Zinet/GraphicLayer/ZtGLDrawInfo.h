@@ -21,6 +21,7 @@ namespace zt::gl
 
 	inline vk::DescriptorType DescriptorTypeToVkDescriptorType(DescriptorType descriptorType) { return descriptorType; }
 
+	// TODO The classes shouldn't contains references but data itself
 	struct ZINET_GRAPHIC_LAYER_API DrawInfo
 	{
 		struct ZINET_GRAPHIC_LAYER_API Descriptor

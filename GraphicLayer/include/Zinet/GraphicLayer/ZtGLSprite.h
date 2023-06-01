@@ -13,6 +13,10 @@ namespace zt::gl
 {
 	class RendererContext;
 
+	// TODO
+	// Refactor Sprite
+	// The class should contains only info that is need to create DrawInfo
+	// The class shouldn't contains data that is already in DrawInfo
 	class ZINET_GRAPHIC_LAYER_API Sprite : public DrawableObject
 	{
 
@@ -35,6 +39,7 @@ namespace zt::gl
 
 		void copyFrom(const Sprite& other, RendererContext& rendererContext);
 
+		// TODO Remove this
 		const DrawInfo& getDrawInfo() const override;
 
 		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
