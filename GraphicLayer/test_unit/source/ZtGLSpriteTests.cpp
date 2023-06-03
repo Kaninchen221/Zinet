@@ -32,7 +32,14 @@ namespace zt::gl::tests
 
 		static_assert(std::is_base_of_v<DrawableObject, Sprite>);
 		static_assert(std::is_default_constructible_v<Sprite>);
-		// TODO (Mid) Sprite must be a copyable and movable
+
+		static_assert(std::is_copy_constructible_v<Sprite>);
+		static_assert(std::is_copy_assignable_v<Sprite>);
+
+		static_assert(std::is_move_constructible_v<Sprite>);
+		static_assert(std::is_move_assignable_v<Sprite>);
+
+		// TODO (Low) Sprite test copy and move
 
 		void SetUp() override
 		{
