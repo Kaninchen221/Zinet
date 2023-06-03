@@ -35,42 +35,20 @@ namespace zt::gl
 
 		~Sprite() noexcept = default;
 
-		void create(RendererContext& rendererContext, const Vector2f& textureSize);
-
-		void copyFrom(const Sprite& other, RendererContext& rendererContext);
-
-		// TODO (Low) Remove this after refactor
-		const DrawInfo& getDrawInfo() const override;
-
-		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
+		DrawInfo createDrawInfo(RendererContext& rendererContext) const override;
 
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform);
 
-		UniformBuffer* getMVPUniformBuffer() override;
-
-		const std::vector<UniformBuffer>& getUniformBuffers() const { return uniformBuffers; };
-
-		void setTextureRegion(const TextureRegion& newTextureRegion) { textureRegion = newTextureRegion; }
+		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
 	protected:
 
-		void createIndexBuffer(RendererContext& rendererContext);
-		void createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize);
-		void createDescriptors();
-		void createUniformBuffers(RendererContext& rendererContext);
-		void createMVPUniformBuffer(RendererContext& rendererContext);
+		void createIndexBuffer(IndexBuffer& indexBuffer, RendererContext& rendererContext) const;
+		void createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const;
+		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 
-		DrawInfo drawInfo;
-
-		VertexBuffer vertexBuffer;
-		std::vector<Vertex> vertices;
-		IndexBuffer indexBuffer;
-		std::vector<std::uint16_t> indices;
-		std::vector<DrawInfo::Descriptor> descriptors;
-		std::vector<UniformBuffer> uniformBuffers;
-		std::vector<DrawInfo::Image> imageDrawInfos;
 		TextureRegion textureRegion;
 		Transform transform;
 	};

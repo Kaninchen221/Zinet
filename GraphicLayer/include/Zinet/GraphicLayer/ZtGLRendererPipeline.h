@@ -25,6 +25,7 @@ namespace zt::gl
 
 		struct ZINET_GRAPHIC_LAYER_API CreateInfo
 		{
+			const RenderStates& renderStates;
 			const DrawInfo& drawInfo;
 			Device& device;
 			RenderPass& renderPass;
@@ -79,15 +80,15 @@ namespace zt::gl
 		void createPipeline(const CreateInfo& createInfo);
 		void createShadersModules(const std::span<Shader>& shaders, Device& device);
 		void createShadersStages();
-		void createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors, Device& device);
+		void createDescriptorSetLayouts(const std::span<RenderStates::Descriptor>& descriptors, Device& device);
 		void createPipelineLayout(Device& device, const vk::Extent2D& swapExtent);
 
 		void createDescriptors(const CreateInfo& createInfo);
-		void createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors, Device& device);
+		void createDescriptorPool(const std::span<RenderStates::Descriptor>& descriptors, Device& device);
 		void createDescriptorSets(Device& device);
-		void createWriteDescriptorSets(const DrawInfo& drawInfo);
-		void createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers);
-		void createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images);
+		void createWriteDescriptorSets(const RenderStates& renderStates, const DrawInfo& drawInfo);
+		void createBufferWriteDescriptorSets(const std::span<const UniformBuffer> uniformBuffers);
+		void createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images);
 
 		std::vector<ShaderModule> shadersModules;
 		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;

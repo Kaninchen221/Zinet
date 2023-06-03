@@ -32,11 +32,11 @@ namespace zt::gl
 	public:
 
 		Buffer() = default;
-		Buffer(const Buffer& other) = default;
-		Buffer(Buffer&& other) = default;
+		Buffer(const Buffer& other) = delete;
+		Buffer(Buffer&& other);
 
-		Buffer& operator = (const Buffer& other) = default;
-		Buffer& operator = (Buffer&& other) = default;
+		Buffer& operator = (const Buffer& other) = delete;
+		Buffer& operator = (Buffer&& other);
 
 		virtual ~Buffer() noexcept;
 

@@ -49,7 +49,7 @@ namespace zt::gl
 
 		void preDraw();
 
-		void draw(DrawableObject& drawableObject, const Camera& camera);
+		void draw(const DrawableObject& drawableObject, RenderStates& renderStates);
 
 		void postDraw();
 
@@ -66,9 +66,9 @@ namespace zt::gl
 		void submit();
 		void present(uint32_t& image);
 
-		void createRendererPipeline(const DrawInfo & drawInfo);
+		void createRendererPipeline(const RenderStates& renderStates, const DrawInfo& drawInfo);
 
-		void updateMVPUniformBuffer(DrawableObject& drawableObject, const Camera& camera);
+		void updateMVPUniformBuffer(RenderStates& renderStates, DrawInfo& drawInfo);
 
 		RendererContext rendererContext;
 
@@ -94,6 +94,8 @@ namespace zt::gl
 		vk::PresentInfoKHR presentInfo;
 
 		InformAboutWindowResizeCallback informAboutWindowResizeCallback = nullptr;
+
+		std::vector<DrawInfo> drawInfos;
 	};
 
 }

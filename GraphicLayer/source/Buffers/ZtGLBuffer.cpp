@@ -4,6 +4,22 @@
 
 namespace zt::gl
 {
+	Buffer::Buffer(Buffer&& other)
+	{
+		*this = std::move(other);
+	}
+
+	Buffer& Buffer::operator=(Buffer&& other)
+	{
+		this->VulkanObject<vk::raii::Buffer>::operator=(std::move(other));
+		vmaAllocator = std::move(other.vmaAllocator);
+		allocation = std::move(other.allocation);
+		other.vmaAllocator = nullptr;
+		other.allocation = nullptr;
+
+		return *this;
+	}
+
 	Buffer::~Buffer()
 	{
 		if (allocation != nullptr)
@@ -98,4 +114,5 @@ namespace zt::gl
 
 		return allocationCreateInfo;
 	}
+
 }

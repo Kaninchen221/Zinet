@@ -33,22 +33,14 @@ namespace zt::gl
 
 		~TileMap() noexcept = default;
 
-		void create(RendererContext& rendererContext, const Vector2f& textureSize, const std::vector<TextureRegion>& textureRegions);
-
-		void copyFrom(const TileMap& other, RendererContext& rendererContext);
-
-		const DrawInfo& getDrawInfo() const override;
-
-		void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) override;
+		DrawInfo createDrawInfo(RendererContext& rendererContext) const override;
 
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform);
 
-		UniformBuffer* getMVPUniformBuffer() override;
-
 		const std::vector<UniformBuffer>& getUniformBuffers() const { return uniformBuffers; };
 
-		void setTextureRegion(const TextureRegion& newTextureRegion) { textureRegion = newTextureRegion; }
+		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
 		void setTilesCount(const Vector2ui& count) { tilesCount = count; }
@@ -57,21 +49,17 @@ namespace zt::gl
 	protected:
 
 		void createIndexBuffer(RendererContext& rendererContext);
-		void createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize, const std::vector<TextureRegion>& textureRegions);
+		VertexBuffer createVertexBuffer(RendererContext& rendererContext) const;
 		void createDescriptors();
 		void createUniformBuffers(RendererContext& rendererContext);
 		void createMVPUniformBuffer(RendererContext& rendererContext);
 		void createTextureRegionUniformBuffer(RendererContext& rendererContext);
 
-		DrawInfo drawInfo;
-
-		VertexBuffer vertexBuffer;
-		std::vector<Vertex> vertices;
 		IndexBuffer indexBuffer;
 		std::vector<std::uint16_t> indices;
-		std::vector<DrawInfo::Descriptor> descriptors;
+		std::vector<RenderStates::Descriptor> descriptors;
 		std::vector<UniformBuffer> uniformBuffers;
-		std::vector<DrawInfo::Image> imageDrawInfos;
+		std::vector<RenderStates::Image> imageDrawInfos;
 		TextureRegion textureRegion;
 		Transform transform;
 		Vector2ui tilesCount{ 1u, 1u };

@@ -78,9 +78,9 @@ namespace zt::gl
 
 	void RendererPipeline::createPipeline(const CreateInfo& createInfo)
 	{
-		createShadersModules(createInfo.drawInfo.shaders, createInfo.device);
+		createShadersModules(createInfo.renderStates.shaders, createInfo.device);
 		createShadersStages();
-		createDescriptorSetLayouts(createInfo.drawInfo.descriptors, createInfo.device);
+		createDescriptorSetLayouts(createInfo.renderStates.descriptors, createInfo.device);
 		createPipelineLayout(createInfo.device, createInfo.swapExtent);
 
 		vk::GraphicsPipelineCreateInfo graphicsPipelineCreateInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, createInfo.renderPass, shadersStages);
@@ -109,14 +109,14 @@ namespace zt::gl
 		}
 	}
 
-	void RendererPipeline::createDescriptorSetLayouts(const std::span<DrawInfo::Descriptor>& descriptors, Device& device)
+	void RendererPipeline::createDescriptorSetLayouts(const std::span<RenderStates::Descriptor>& descriptors, Device& device)
 	{
 		if (descriptors.empty())
 			return;
 
 		bindings.clear();
 		bindings.reserve(descriptors.size());
-		for (const DrawInfo::Descriptor& descriptor : descriptors)
+		for (const RenderStates::Descriptor& descriptor : descriptors)
 		{
 			vk::DescriptorSetLayoutBinding vkBinding = descriptor.toVkDescriptorSetLayoutBinding();
 			bindings.push_back(vkBinding);
@@ -147,19 +147,19 @@ namespace zt::gl
 
 	void RendererPipeline::createDescriptors(const CreateInfo& createInfo)
 	{
-		createDescriptorPool(createInfo.drawInfo.descriptors, createInfo.device);
+		createDescriptorPool(createInfo.renderStates.descriptors, createInfo.device);
 		createDescriptorSets(createInfo.device);
-		createWriteDescriptorSets(createInfo.drawInfo);
+		createWriteDescriptorSets(createInfo.renderStates, createInfo.drawInfo);
 	}
 
-	void RendererPipeline::createDescriptorPool(const std::span<DrawInfo::Descriptor>& descriptors, Device& device)
+	void RendererPipeline::createDescriptorPool(const std::span<RenderStates::Descriptor>& descriptors, Device& device)
 	{
 		if (descriptors.empty())
 			return;
 
 		// Create descriptor pool sizes
 		std::map<DescriptorType, std::uint32_t> descriptorTypes;
-		for (const DrawInfo::Descriptor descriptor : descriptors)
+		for (const RenderStates::Descriptor descriptor : descriptors)
 		{
 			std::uint32_t& poolSize = descriptorTypes[descriptor.descriptorType];
 			poolSize++;
@@ -195,15 +195,15 @@ namespace zt::gl
 		descriptorSets = DescriptorSets{ device, descriptorsSetsAllocateInfo };
 	}
 
-	void RendererPipeline::createWriteDescriptorSets(const DrawInfo& drawInfo)
+	void RendererPipeline::createWriteDescriptorSets(const RenderStates& renderStates, const DrawInfo& drawInfo)
 	{
 		writeDescriptorSets.clear();
-		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + drawInfo.images.size());
+		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + renderStates.images.size());
 		createBufferWriteDescriptorSets(drawInfo.uniformBuffers);
-		createImageWriteDescriptorSets(drawInfo.images);
+		createImageWriteDescriptorSets(renderStates.images);
 	}
 
-	void RendererPipeline::createBufferWriteDescriptorSets(const std::span<UniformBuffer>& uniformBuffers)
+	void RendererPipeline::createBufferWriteDescriptorSets(const std::span<const UniformBuffer> uniformBuffers)
 	{
 		descriptorBufferInfos.clear();
 		writeDescriptorSets.reserve(uniformBuffers.size());
@@ -216,7 +216,7 @@ namespace zt::gl
 		}
 	}
 
-	void RendererPipeline::createImageWriteDescriptorSets(const std::span<DrawInfo::Image>& images)
+	void RendererPipeline::createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images)
 	{
 		descriptorImageInfos.clear();
 		for (std::size_t index = 0u; index < images.size(); ++index)

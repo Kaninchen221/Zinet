@@ -16,14 +16,24 @@
 
 namespace zt::gl
 {
+	class Camera;
+
 	// TODO (Low) Write own DescriptorType enum
 	using DescriptorType = vk::DescriptorType;
 
 	inline vk::DescriptorType DescriptorTypeToVkDescriptorType(DescriptorType descriptorType) { return descriptorType; }
 
-	// TODO (Mid) The classes shouldn't contains references but data itself
-	struct ZINET_GRAPHIC_LAYER_API DrawInfo
+	struct ZINET_GRAPHIC_LAYER_API RenderStates
 	{
+		struct ZINET_GRAPHIC_LAYER_API Image
+		{
+			const ImageBuffer& buffer;
+			const Sampler& sampler;
+			const ImageView& view;
+			vk::ImageLayout layout;
+			std::uint32_t binding;
+		};
+
 		struct ZINET_GRAPHIC_LAYER_API Descriptor
 		{
 			std::uint32_t binding = 0u;
@@ -44,24 +54,28 @@ namespace zt::gl
 			}
 		};
 
-		struct ZINET_GRAPHIC_LAYER_API Image
-		{
-			const ImageBuffer& buffer;
-			const Sampler& sampler;
-			const ImageView& view;
-			vk::ImageLayout layout;
-			std::uint32_t binding;
-		};
-
 		std::span<Shader> shaders;
 		std::span<Descriptor> descriptors;
-		VertexBuffer& vertexBuffer;
-		IndexBuffer& indexBuffer;
-		std::vector<std::uint16_t> indices;
-		std::span<UniformBuffer> uniformBuffers;
 		std::span<Image> images;
+		const Camera& camera;
 		Matrix4f modelMatrix;
+	};
 
+	struct ZINET_GRAPHIC_LAYER_API DrawInfo
+	{
+		DrawInfo() = default;
+		DrawInfo(const DrawInfo& other) = delete;
+		DrawInfo(DrawInfo&& other) = default;
+
+		DrawInfo& operator = (const DrawInfo& other) = delete;
+		DrawInfo& operator = (DrawInfo&& other) = default;
+
+		virtual ~DrawInfo() noexcept = default;
+
+		VertexBuffer vertexBuffer;
+		IndexBuffer indexBuffer;
+		std::vector<std::uint16_t> indices;
+		std::vector<UniformBuffer> uniformBuffers;
 	};
 
 }

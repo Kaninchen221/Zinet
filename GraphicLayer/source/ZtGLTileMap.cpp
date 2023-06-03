@@ -5,39 +5,22 @@
 namespace zt::gl
 {
 	TileMap::TileMap()
-		: drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer }
 	{
-		drawInfo.modelMatrix = transform.toMatrix();
 	}
 
-	const DrawInfo& TileMap::getDrawInfo() const
+	DrawInfo TileMap::createDrawInfo(RendererContext& rendererContext) const
 	{
-		return drawInfo;
-	}
+		// TODO Create draw info properties
+		DrawInfo drawInfo;
+		drawInfo.indices = { 0, 1, 2, 2, 3, 0 };
+		drawInfo.vertexBuffer = createVertexBuffer(rendererContext);
 
-	void TileMap::createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler)
-	{
-		DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(texture.createImageDrawInfo(sampler));
-		imageDrawInfo.binding = 1;
-
-		drawInfo.indices = indices;
-		drawInfo.shaders = shaders;
-		drawInfo.descriptors = descriptors;
-		drawInfo.uniformBuffers = uniformBuffers;
-		drawInfo.images = imageDrawInfos;
-	}
-
-	void TileMap::create(RendererContext& rendererContext, const Vector2f& textureSize, const std::vector<TextureRegion>& textureRegions)
-	{
-		createDescriptors();
-		createVertexBuffer(rendererContext, textureSize, textureRegions);
-		createIndexBuffer(rendererContext);
-		createUniformBuffers(rendererContext);
+		return std::move(drawInfo);
 	}
 
 	void TileMap::createDescriptors()
 	{
-		DrawInfo::Descriptor descriptor;
+		RenderStates::Descriptor descriptor;
 		
 		// MVP
 		descriptor.binding = 0;
@@ -61,40 +44,40 @@ namespace zt::gl
 		descriptors.push_back(descriptor);
 	}
 
-	void TileMap::createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize, [[maybe_unused]] const std::vector<TextureRegion>& textureRegions)
+	VertexBuffer TileMap::createVertexBuffer(RendererContext& rendererContext) const
 	{
-		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
-
+		std::vector<Vertex> vertices;
+		
 		auto createTile = [&](const Vector3f& positionOffset)
 		{
 			Vertex vertex;
 			vertex.setPosition(Vector3f{ 0.f, 0.f, 0.f } + positionOffset);
 			vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-			Vector2f UV = shaderTextureRegion.offset;
+			Vector2f UV = textureRegion.offset;
 			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
-
+		
 			vertex.setPosition(Vector3f{ 1.f, 0.f, 0.f } + positionOffset);
 			vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-			UV.x += shaderTextureRegion.size.x;
+			UV.x += textureRegion.size.x;
 			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
-
+		
 			vertex.setPosition(Vector3f{ 1.f, -1.f, 0.f } + positionOffset);
 			vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-			UV = shaderTextureRegion.offset;
-			UV += shaderTextureRegion.size;
+			UV = textureRegion.offset;
+			UV += textureRegion.size;
 			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
-
+		
 			vertex.setPosition(Vector3f{ 0.f, -1.f, 0.f } + positionOffset);
 			vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-			UV = shaderTextureRegion.offset;
-			UV.y += shaderTextureRegion.size.y;
+			UV = textureRegion.offset;
+			UV.y += textureRegion.size.y;
 			vertex.setTextureCoordinates(UV);
 			vertices.push_back(vertex);
 		};
-
+		
 		for (float x = 0.f; x < tilesCount.x; x++)
 		{
 			float xOffset = x;
@@ -104,7 +87,8 @@ namespace zt::gl
 				createTile({ xOffset, -yOffset, 0.f });
 			}
 		}
-
+		
+		VertexBuffer vertexBuffer;
 		BufferCreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 			rendererContext.getVma(),
@@ -114,41 +98,43 @@ namespace zt::gl
 
 		vertexBuffer.create(bufferCreateInfo);
 		vertexBuffer.fillWithStdContainer(vertices);
+
+		return vertexBuffer;
 	}
 
-	void TileMap::createIndexBuffer(RendererContext& rendererContext)
+	void TileMap::createIndexBuffer([[maybe_unused]] RendererContext& rendererContext)
 	{
-		auto createTile = [&](std::uint16_t offset)
-		{
-			std::initializer_list<std::uint16_t> newIndices =
-			{
-				0u + offset,
-				1u + offset,
-				2u + offset,
-				2u + offset,
-				3u + offset,
-				0u + offset
-			};
-			indices.insert(indices.end(), newIndices);
-		};
-
-		std::uint16_t count = static_cast<std::uint16_t>( vertices.size() ) / VerticesPerTile;
-		for (std::uint16_t index = 0u; index < count; index++)
-		{
-			createTile(index * VerticesPerTile);
-		}
-
-		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
-
-		BufferCreateInfo bufferCreateInfo{
-			rendererContext.getDevice(),
-			rendererContext.getVma(),
-			indexBuffer.createCreateInfo(size),
-			indexBuffer.createVmaAllocationCreateInfo(false, true)
-		};
-
-		indexBuffer.create(bufferCreateInfo);
-		indexBuffer.fillWithStdContainer(indices);
+		//auto createTile = [&](std::uint16_t offset)
+		//{
+		//	std::initializer_list<std::uint16_t> newIndices =
+		//	{
+		//		0u + offset,
+		//		1u + offset,
+		//		2u + offset,
+		//		2u + offset,
+		//		3u + offset,
+		//		0u + offset
+		//	};
+		//	indices.insert(indices.end(), newIndices);
+		//};
+		//
+		//std::uint16_t count = static_cast<std::uint16_t>( vertices.size() ) / VerticesPerTile;
+		//for (std::uint16_t index = 0u; index < count; index++)
+		//{
+		//	createTile(index * VerticesPerTile);
+		//}
+		//
+		//std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
+		//
+		//BufferCreateInfo bufferCreateInfo{
+		//	rendererContext.getDevice(),
+		//	rendererContext.getVma(),
+		//	indexBuffer.createCreateInfo(size),
+		//	indexBuffer.createVmaAllocationCreateInfo(false, true)
+		//};
+		//
+		//indexBuffer.create(bufferCreateInfo);
+		//indexBuffer.fillWithStdContainer(indices);
 	}
 
 	void TileMap::createUniformBuffers(RendererContext& rendererContext)
@@ -172,21 +158,9 @@ namespace zt::gl
 		uniformBuffer.setBinding(2u);
 	}
 
-	UniformBuffer* TileMap::getMVPUniformBuffer()
-	{
-		if (uniformBuffers.size() < 1)
-		{
-			Logger->error("Uniform buffers are not created");
-			return nullptr;
-		}
-
-		return &uniformBuffers[0];
-	}
-
 	void TileMap::setTransform(const Transform& newTransform)
 	{
 		transform = newTransform;
-		drawInfo.modelMatrix = transform.toMatrix();
 	}
 
 	void TileMap::createMVPUniformBuffer(RendererContext& rendererContext)
@@ -202,12 +176,9 @@ namespace zt::gl
 		uniformBuffer.setBinding(0u);
 	}
 
-	// TODO (Low) Remove this after refactor
-	void TileMap::copyFrom(const TileMap& other, RendererContext& rendererContext)
+	void TileMap::setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
 	{
-		create(rendererContext, {}, {});
-		transform = other.getTransform();
-		textureRegion = other.getTextureRegion();
+		textureRegion = newTextureRegion.toShaderTextureRegion(textureSize);
 	}
 
 }

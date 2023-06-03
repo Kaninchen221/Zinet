@@ -76,14 +76,16 @@ namespace zt::gl
 			.clearValue = clearColor
 		};
 		drawCommandBuffer.beginRenderPass(beginRenderPassInfo);
+
+		drawInfos.clear();
 	}
 
-	void Renderer::draw(DrawableObject& drawableObject, const Camera& camera)
+	void Renderer::draw(const DrawableObject& drawableObject, RenderStates& renderStates)
 	{
-		const DrawInfo& drawInfo = drawableObject.getDrawInfo();
-		createRendererPipeline(drawInfo);
+		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(drawableObject.createDrawInfo(rendererContext)));
+		createRendererPipeline(renderStates, drawInfo);
 
-		updateMVPUniformBuffer(drawableObject, camera);
+		updateMVPUniformBuffer(renderStates, drawInfo);
 
 		drawCommandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
 		drawCommandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
@@ -174,11 +176,12 @@ namespace zt::gl
 			std::invoke(informAboutWindowResizeCallback, width, height);
 	}
 
-	void Renderer::createRendererPipeline(const DrawInfo& drawInfo)
+	void Renderer::createRendererPipeline(const RenderStates& renderStates, const DrawInfo& drawInfo)
 	{
 		RendererPipeline& newRendererPipeline = rendererPipelines.emplace_back();
 		RendererPipeline::CreateInfo rendererPipelineCreateInfo
 		{
+			.renderStates = renderStates,
 			.drawInfo = drawInfo,
 			.device = rendererContext.getDevice(),
 			.renderPass = rendererContext.getRenderPass(),
@@ -190,16 +193,19 @@ namespace zt::gl
 		newRendererPipeline.updateDescriptorSets(rendererContext.getDevice());
 	}
 
-	void Renderer::updateMVPUniformBuffer(DrawableObject& drawableObject, const Camera& camera)
+	void Renderer::updateMVPUniformBuffer(RenderStates& renderStates, DrawInfo& drawInfo)
 	{
-		UniformBuffer* MVPUniformBuffer = drawableObject.getMVPUniformBuffer();
+		if (drawInfo.uniformBuffers.size() == 0)
+			return;
+
+		UniformBuffer& MVPUniformBuffer = drawInfo.uniformBuffers[0]; // TODO (Mid) DrawInfo should tell us what uniform is the MVP
 		if (MVPUniformBuffer != nullptr)
 		{
 			MVP mvp;
-			mvp.model = drawableObject.getDrawInfo().modelMatrix;
-			mvp.view = camera.viewMatrix();
-			mvp.proj = camera.perspectiveMatrix();
-			MVPUniformBuffer->fillWithObject(mvp);
+			mvp.model = renderStates.modelMatrix;
+			mvp.view = renderStates.camera.viewMatrix();
+			mvp.proj = renderStates.camera.perspectiveMatrix();
+			MVPUniformBuffer.fillWithObject(mvp);
 		}
 	}
 

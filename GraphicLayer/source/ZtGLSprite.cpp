@@ -5,60 +5,25 @@
 namespace zt::gl
 {
 	Sprite::Sprite()
-		: drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer }
 	{
-		drawInfo.modelMatrix = transform.toMatrix();
 	}
 
-	const DrawInfo& Sprite::getDrawInfo() const
+	DrawInfo Sprite::createDrawInfo(RendererContext& rendererContext) const
 	{
-		return drawInfo;
+		DrawInfo drawInfo;
+		drawInfo.indices = { 0, 1, 2, 2, 3, 0 };
+		createVertexBuffer(drawInfo.vertexBuffer, rendererContext);
+		createIndexBuffer(drawInfo.indexBuffer, rendererContext);
+		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
+
+		return std::move(drawInfo);
 	}
 
-	void Sprite::createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler)
+	void Sprite::createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const
 	{
-		DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(texture.createImageDrawInfo(sampler));
-		imageDrawInfo.binding = 1;
+		Vector2f UV = textureRegion.offset;
 
-		drawInfo.indices = indices;
-		drawInfo.shaders = shaders;
-		drawInfo.descriptors = descriptors;
-		drawInfo.uniformBuffers = uniformBuffers;
-		drawInfo.images = imageDrawInfos;
-	}
-
-	void Sprite::create(RendererContext& rendererContext, const Vector2f& textureSize)
-	{
-		createDescriptors();
-		createVertexBuffer(rendererContext, textureSize);
-		createIndexBuffer(rendererContext);
-		createUniformBuffers(rendererContext);
-	}
-
-	void Sprite::createDescriptors()
-	{
-		DrawInfo::Descriptor descriptor;
-		
-		// MVP
-		descriptor.binding = 0;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
-		// Texture
-		descriptor.binding = 1;
-		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Fragment;
-		descriptors.push_back(descriptor);
-	}
-
-	void Sprite::createVertexBuffer(RendererContext& rendererContext, const Vector2f& textureSize)
-	{
-		TextureRegion shaderTextureRegion = textureRegion.toShaderTextureRegion(textureSize);
-		Vector2f UV = shaderTextureRegion.offset;
-
+		std::vector<Vertex> vertices;
 		Vertex vertex;
 		vertex.setPosition({ -0.5f, 0.5f, 0.f });
 		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
@@ -67,21 +32,21 @@ namespace zt::gl
 
 		vertex.setPosition({ 0.5f, 0.5f, 0.f });
 		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		UV.x += shaderTextureRegion.size.x;
+		UV.x += textureRegion.size.x;
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
 		vertex.setPosition({ 0.5f, -0.5f, 0.f });
 		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		UV = shaderTextureRegion.offset;
-		UV += shaderTextureRegion.size;
+		UV = textureRegion.offset;
+		UV += textureRegion.size;
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
 		vertex.setPosition({ -0.5f, -0.5f, 0.f });
 		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		UV = shaderTextureRegion.offset;
-		UV.y += shaderTextureRegion.size.y;
+		UV = textureRegion.offset;
+		UV.y += textureRegion.size.y;
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
@@ -96,8 +61,9 @@ namespace zt::gl
 		vertexBuffer.fillWithStdContainer(vertices);
 	}
 
-	void Sprite::createIndexBuffer(RendererContext& rendererContext)
+	void Sprite::createIndexBuffer(IndexBuffer& indexBuffer, RendererContext& rendererContext) const
 	{
+		std::vector<std::uint16_t> indices;
 		indices = { 0, 1, 2, 2, 3, 0 };
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 
@@ -112,31 +78,17 @@ namespace zt::gl
 		indexBuffer.fillWithStdContainer(indices);
 	}
 
-	void Sprite::createUniformBuffers(RendererContext& rendererContext)
-	{
-		uniformBuffers.reserve(2u);
-
-		createMVPUniformBuffer(rendererContext);
-	}
-
-	UniformBuffer* Sprite::getMVPUniformBuffer()
-	{
-		if (uniformBuffers.size() < 1)
-		{
-			Logger->error("Uniform buffers are not created");
-			return nullptr;
-		}
-
-		return &uniformBuffers[0];
-	}
-
 	void Sprite::setTransform(const Transform& newTransform)
 	{
 		transform = newTransform;
-		drawInfo.modelMatrix = transform.toMatrix();
 	}
 
-	void Sprite::createMVPUniformBuffer(RendererContext& rendererContext)
+	void Sprite::setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
+	{
+		textureRegion = newTextureRegion.toShaderTextureRegion(textureSize);
+	}
+
+	void Sprite::createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const
 	{
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
 		BufferCreateInfo bufferCreateInfo{
@@ -147,14 +99,6 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.setBinding(0u);
-	}
-
-	// TODO (Low) Remove this after refactor
-	void Sprite::copyFrom(const Sprite& other, RendererContext& rendererContext)
-	{
-		create(rendererContext, {});
-		transform = other.getTransform();
-		textureRegion = other.getTextureRegion();
 	}
 
 }

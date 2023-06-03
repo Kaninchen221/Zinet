@@ -8,8 +8,7 @@
 
 namespace zt::gl
 {
-	class Texture;
-	class Sampler;
+	class RendererContext;
 
 	class ZINET_GRAPHIC_LAYER_API DrawableObject
 	{
@@ -25,13 +24,9 @@ namespace zt::gl
 
 		virtual ~DrawableObject() noexcept = default;
 
-		virtual const DrawInfo& getDrawInfo() const = 0;
-
-		virtual void createDrawInfo(std::span<Shader> shaders, const Texture& texture, const Sampler& sampler) = 0;
+		virtual DrawInfo createDrawInfo(RendererContext& rendererContext) const = 0;
 
 		virtual const Transform& getTransform() const = 0;
-
-		virtual UniformBuffer* getMVPUniformBuffer() = 0;
 	};
 
 }
