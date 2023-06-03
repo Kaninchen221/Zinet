@@ -15,6 +15,7 @@ namespace zt::gl
 		createVertexBuffer(drawInfo.vertexBuffer, rendererContext);
 		createIndexBuffer(drawInfo.indexBuffer, rendererContext);
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
+		drawInfo.MVPBufferIndex = 0u;
 
 		return std::move(drawInfo);
 	}

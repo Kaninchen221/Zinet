@@ -29,6 +29,7 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer>);
 		static_assert(std::is_same_v<decltype(drawInfo.indices), std::vector<std::uint16_t>>);
 		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::vector<UniformBuffer>>);
+		static_assert(std::is_same_v<decltype(drawInfo.MVPBufferIndex), size_t>);
 	};
 
 	class DescriptorInfoTests : public ::testing::Test

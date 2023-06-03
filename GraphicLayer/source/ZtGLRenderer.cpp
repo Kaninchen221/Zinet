@@ -198,7 +198,7 @@ namespace zt::gl
 		if (drawInfo.uniformBuffers.size() == 0)
 			return;
 
-		UniformBuffer& MVPUniformBuffer = drawInfo.uniformBuffers[0]; // TODO (Mid) DrawInfo should tell us what uniform is the MVP
+		UniformBuffer& MVPUniformBuffer = drawInfo.uniformBuffers[drawInfo.MVPBufferIndex];
 		if (MVPUniformBuffer != nullptr)
 		{
 			MVP mvp;

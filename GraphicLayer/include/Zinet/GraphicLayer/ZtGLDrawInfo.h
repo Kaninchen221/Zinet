@@ -76,6 +76,7 @@ namespace zt::gl
 		IndexBuffer indexBuffer;
 		std::vector<std::uint16_t> indices;
 		std::vector<UniformBuffer> uniformBuffers;
+		size_t MVPBufferIndex;
 	};
 
 }
