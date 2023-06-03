@@ -13,10 +13,6 @@ namespace zt::gl
 {
 	class RendererContext;
 
-	// TODO (Mid)
-	// Refactor Sprite
-	// The class should contains only info that is need to create DrawInfo
-	// The class shouldn't contains data that is already in DrawInfo
 	class ZINET_GRAPHIC_LAYER_API Sprite : public DrawableObject
 	{
 
