@@ -43,6 +43,8 @@ namespace zt::gl
 		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
+		std::vector<std::uint16_t> getIndices() const;
+
 	protected:
 
 		void createIndexBuffer(IndexBuffer& indexBuffer, RendererContext& rendererContext) const;

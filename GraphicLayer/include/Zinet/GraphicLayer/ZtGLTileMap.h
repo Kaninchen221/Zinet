@@ -13,6 +13,7 @@ namespace zt::gl
 {
 	class RendererContext;
 
+	// TODO (Low) Fix it after DrawInfo refactor
 	class ZINET_GRAPHIC_LAYER_API TileMap : public DrawableObject
 	{
 

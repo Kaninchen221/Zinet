@@ -11,7 +11,7 @@ namespace zt::gl
 	DrawInfo Sprite::createDrawInfo(RendererContext& rendererContext) const
 	{
 		DrawInfo drawInfo;
-		drawInfo.indices = { 0, 1, 2, 2, 3, 0 };
+		drawInfo.indices = getIndices();
 		createVertexBuffer(drawInfo.vertexBuffer, rendererContext);
 		createIndexBuffer(drawInfo.indexBuffer, rendererContext);
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
@@ -63,8 +63,7 @@ namespace zt::gl
 
 	void Sprite::createIndexBuffer(IndexBuffer& indexBuffer, RendererContext& rendererContext) const
 	{
-		std::vector<std::uint16_t> indices;
-		indices = { 0, 1, 2, 2, 3, 0 };
+		std::vector<std::uint16_t> indices = getIndices();
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 
 		BufferCreateInfo bufferCreateInfo{
@@ -99,6 +98,11 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.setBinding(0u);
+	}
+
+	std::vector<std::uint16_t> Sprite::getIndices() const
+	{
+		return { 0, 1, 2, 2, 3, 0 };
 	}
 
 }
