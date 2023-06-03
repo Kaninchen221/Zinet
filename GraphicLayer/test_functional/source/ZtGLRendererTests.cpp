@@ -49,7 +49,7 @@ namespace zt::gl::tests
 		Camera camera;
 		Imgui imgui;
 
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(DrawableObject&, const Camera&);
+		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&, RenderStates&);
 		static_assert(IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
 	};
 
@@ -84,20 +84,46 @@ namespace zt::gl::tests
 			TextureRegion textureRegion;
 			textureRegion.size = Vector2f{ 512.f, 512.f };
 			textureRegion.offset = Vector2f{ 512.f * i, 0.f };
-			sprite->setTextureRegion(textureRegion);
-			sprite->create(rendererContext, texture.getSize());
-			sprite->createDrawInfo(shaders, texture, sampler);
+			sprite->setTextureRegion(textureRegion, texture.getSize());
 
 		}
+
+		// RenderStates
+		std::vector<RenderStates::Descriptor> descriptors;
+		RenderStates::Descriptor descriptor;
+		// MVP
+		descriptor.binding = 0;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 1;
+		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		std::vector<RenderStates::Image> images;
+		RenderStates::Image& imageRenderState = images.emplace_back(texture.createImageDrawInfo(sampler));
+		imageRenderState.binding = 1;
+
+		RenderStates renderStates
+		{
+			.shaders = shaders,
+			.descriptors = descriptors,
+			.images = images,
+			.camera = camera,
+
+		};
 
 		TileMap tileMap;
 		tileMap.setTilesCount({ 5, 4 });
 		TextureRegion textureRegion;
 		textureRegion.size = Vector2f{ 512.f, 512.f };
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
-		tileMap.setTextureRegion(textureRegion);
-		tileMap.create(rendererContext, texture.getSize(), {});
-		tileMap.createDrawInfo(shaders, texture, sampler);
+		tileMap.setTextureRegion(textureRegion, texture.getSize());
 
 		zt::Clock clock;
 		std::once_flag clockOnceFlag;
@@ -218,16 +244,18 @@ namespace zt::gl::tests
 
 			if (drawSprites)
 			{
+				int counter = 0;
 				for (Sprite& sprite : sprites)
 				{
-					renderer.draw(sprite, camera);
+					renderStates.modelMatrix = sprite.getTransform().toMatrix();
+					renderer.draw(sprite, renderStates);
+					counter++;
 				}
 			}
 			else
 			{
-				renderer.draw(tileMap, camera);
+				renderer.draw(tileMap, renderStates);
 			}
-
 
 			glfwPollEvents();
 

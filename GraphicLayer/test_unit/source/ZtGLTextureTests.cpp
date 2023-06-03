@@ -59,12 +59,12 @@ namespace zt::gl::tests
 
 	TEST_F(TextureSimpleTests, CreateImageDrawInfo)
 	{
-		typedef DrawInfo::Image (Texture::* ExpectedFunctionDeclaration)(const Sampler&) const;
+		typedef RenderStates::Image (Texture::* ExpectedFunctionDeclaration)(const Sampler&) const;
 		using FunctionDeclaration = decltype(&Texture::createImageDrawInfo);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
 		Sampler sampler;
-		DrawInfo::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
+		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
 	}
 
 	class TextureTests : public ::testing::Test
@@ -109,7 +109,7 @@ namespace zt::gl::tests
 		vk::ImageLayout vkImageLayout = texture.getVkImageLayout();
 		ASSERT_EQ(vkImageLayout, vk::ImageLayout::eShaderReadOnlyOptimal);
 
-		DrawInfo::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
+		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
 		ASSERT_EQ(imageDrawInfo.buffer, imageBuffer);
 		ASSERT_EQ(imageDrawInfo.sampler, sampler);
 		ASSERT_EQ(imageDrawInfo.view, imageView);

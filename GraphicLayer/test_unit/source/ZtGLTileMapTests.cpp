@@ -60,7 +60,7 @@ namespace zt::gl::tests
 
 			texture.create(stbImage, rendererContext);
 
-			tileMap.create(rendererContext, texture.getSize(), {});
+			tileMap.createDrawInfo(rendererContext);
 		}
 
 		void TearDown() override
@@ -71,18 +71,7 @@ namespace zt::gl::tests
 
 	TEST_F(TileMapTests, CreateDrawInfo)
 	{
-		tileMap.createDrawInfo(shaders, texture, sampler);
-	}
-
-	TEST_F(TileMapTests, CopyFrom)
-	{
-		RendererContext& rendererContext = renderer.getRendererContext();
-		tileMap.createDrawInfo(shaders, texture, sampler);
-		TileMap copy;
-		copy.copyFrom(tileMap, rendererContext);
-
-		ASSERT_EQ(tileMap.getTransform(), copy.getTransform());
-		ASSERT_EQ(tileMap.getTextureRegion(), copy.getTextureRegion());
+		// TODO (Mid) Test it
 	}
 
 	class TileMapSimpleTests : public ::testing::Test
@@ -115,10 +104,11 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
 		TextureRegion expected = { { 1.23f, 0.f }, { 0.f, 0.4232f } };
-		tileMap.setTextureRegion(expected);
+		Vector2f textureSize = { 1.f, 1.f };
+		tileMap.setTextureRegion(expected, textureSize);
 		const TextureRegion& actual = tileMap.getTextureRegion();
 
-		ASSERT_EQ(expected, actual);
+		ASSERT_EQ(expected.toShaderTextureRegion(textureSize), actual);
 	}
 
 	TEST_F(TileMapSimpleTests, GetSetTransform)

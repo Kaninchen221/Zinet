@@ -60,7 +60,7 @@ namespace zt::gl::tests
 
 			texture.create(stbImage, rendererContext);
 
-			sprite.create(rendererContext, texture.getSize());
+			sprite.createDrawInfo(rendererContext);
 		}
 
 		void TearDown() override
@@ -71,18 +71,7 @@ namespace zt::gl::tests
 
 	TEST_F(SpriteTests, CreateDrawInfo)
 	{
-		sprite.createDrawInfo(shaders, texture, sampler);
-	}
-
-	TEST_F(SpriteTests, CopyFrom)
-	{
-		RendererContext& rendererContext = renderer.getRendererContext();
-		sprite.createDrawInfo(shaders, texture, sampler);
-		Sprite copy;
-		copy.copyFrom(sprite, rendererContext);
-
-		ASSERT_EQ(sprite.getTransform(), copy.getTransform());
-		ASSERT_EQ(sprite.getTextureRegion(), copy.getTextureRegion());
+		// TODO (Mid) Test it
 	}
 
 	class SpriteSimpleTests : public ::testing::Test
@@ -92,15 +81,6 @@ namespace zt::gl::tests
 		Sprite sprite;
 	};
 
-	TEST_F(SpriteSimpleTests, GetUniformBuffers)
-	{
-		typedef const std::vector<UniformBuffer>&(Sprite::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Sprite::getUniformBuffers);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		[[maybe_unused]] const std::vector<UniformBuffer>& uniformBuffers = sprite.getUniformBuffers();
-	}
-
 	TEST_F(SpriteSimpleTests, TextureRegionGetSet)
 	{
 		typedef const TextureRegion& (Sprite::* ExpectedFunctionDeclaration)() const;
@@ -108,10 +88,11 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
 		TextureRegion expected = { { 1.23f, 0.f }, { 0.f, 0.4232f } };
-		sprite.setTextureRegion(expected);
+		Vector2f textureSize = { 1.f, 1.f };
+		sprite.setTextureRegion(expected, textureSize);
 		const TextureRegion& actual = sprite.getTextureRegion();
 
-		ASSERT_EQ(expected, actual);
+		ASSERT_EQ(expected.toShaderTextureRegion(textureSize), actual);
 	}
 
 	TEST_F(SpriteSimpleTests, GetSetTransform)

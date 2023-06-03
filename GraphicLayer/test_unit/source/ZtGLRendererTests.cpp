@@ -22,14 +22,14 @@ namespace zt::gl::tests
 
 		Renderer renderer;
 		std::vector<Shader> shaders;
-		std::vector<DrawInfo::Descriptor> descriptors;
+		std::vector<RenderStates::Descriptor> descriptors;
 		VertexBuffer vertexBuffer;
 		std::vector<Vertex> vertices;
 		IndexBuffer indexBuffer;
 		std::vector<std::uint16_t> indices;
 		std::vector<UniformBuffer> uniformBuffers;
 		
-		std::vector<DrawInfo::Image> imageDrawInfos;
+		std::vector<RenderStates::Image> imageRenderStates;
 		std::vector<Image> images;
 		std::vector<ImageBuffer> imageBuffers;
 		std::vector<Sampler> samplers;
@@ -139,7 +139,7 @@ namespace zt::gl::tests
 
 	void RendererTests::createDescriptors()
 	{
-		DrawInfo::Descriptor descriptor;
+		RenderStates::Descriptor descriptor;
 		descriptor.binding = 0;
 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
 		descriptor.count = 1;
@@ -256,8 +256,8 @@ namespace zt::gl::tests
 		view.create(rendererContext.getDevice(), imageViewCreateInfo);
 
 		vk::ImageLayout imageLayout = imageLayouts.emplace_back(vk::ImageLayout::eShaderReadOnlyOptimal);
-		DrawInfo::Image& imageDrawInfo = imageDrawInfos.emplace_back(imageBuffer, sampler, view, imageLayout);
-		imageDrawInfo.binding = 1u;
+		RenderStates::Image& imageRenderState = imageRenderStates.emplace_back(imageBuffer, sampler, view, imageLayout);
+		imageRenderState.binding = 1u;
 
 	}
 

@@ -6,40 +6,45 @@
 
 namespace zt::gl::tests
 {
+	class RenderStatesTests : public ::testing::Test
+	{
+	protected:
+
+		RenderStates renderStates;
+
+		static_assert(std::is_same_v<decltype(renderStates.shaders), std::span<Shader>>);
+		static_assert(std::is_same_v<decltype(renderStates.descriptors), std::span<RenderStates::Descriptor>>);
+		static_assert(std::is_same_v<decltype(renderStates.images), std::span<RenderStates::Image>>);
+		static_assert(std::is_same_v<decltype(renderStates.modelMatrix), Matrix4f>);
+		static_assert(std::is_same_v<decltype(renderStates.camera), const Camera&>);
+	};
 
 	class DrawInfoTests : public ::testing::Test
 	{
 	protected:
 
-		VertexBuffer vertexBuffer;
-		IndexBuffer indexBuffer;
-		DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
+		DrawInfo drawInfo;
 
-		static_assert(std::is_same_v<decltype(drawInfo.shaders), std::span<Shader>>);
-		static_assert(std::is_same_v<decltype(drawInfo.descriptors), std::span<DrawInfo::Descriptor>>);
-		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer&>);
-		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer&>);
+		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer>);
+		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer>);
 		static_assert(std::is_same_v<decltype(drawInfo.indices), std::vector<std::uint16_t>>);
-		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::span<UniformBuffer>>);
-		static_assert(std::is_same_v<decltype(drawInfo.images), std::span<DrawInfo::Image>>);
-		static_assert(std::is_same_v<decltype(drawInfo.modelMatrix), Matrix4f>);
+		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::vector<UniformBuffer>>);
 	};
 
 	class DescriptorInfoTests : public ::testing::Test
 	{
 	protected:
 
-		DrawInfo::Descriptor descriptor;
+		RenderStates::Descriptor descriptor;
 
-	};
-
-	TEST_F(DescriptorInfoTests, Properties)
-	{
 		static_assert(std::is_same_v<decltype(descriptor.binding), std::uint32_t>);
 		static_assert(std::is_same_v<decltype(descriptor.descriptorType), DescriptorType>);
 		static_assert(std::is_same_v<decltype(descriptor.count), std::uint32_t>);
 		static_assert(std::is_same_v<decltype(descriptor.shaderType), ShaderType>);
+	};
 
+	TEST_F(DescriptorInfoTests, Properties)
+	{
 		ASSERT_EQ(descriptor.binding, 0u);
 		ASSERT_EQ(descriptor.count, 0u);
 	}
@@ -66,7 +71,7 @@ namespace zt::gl::tests
 		ImageBuffer buffer;
 		Sampler sampler;
 		ImageView imageView;
-		DrawInfo::Image image{ buffer, sampler, imageView, vk::ImageLayout{} };
+		RenderStates::Image image{ buffer, sampler, imageView, vk::ImageLayout{} };
 
 	};
 

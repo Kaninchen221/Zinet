@@ -20,18 +20,9 @@ namespace zt::gl::tests
 
 		class TestObject : public DrawableObject
 		{
-			VertexBuffer vertexBuffer;
-			IndexBuffer indexBuffer;
-
-			DrawInfo drawInfo{ .vertexBuffer = vertexBuffer, .indexBuffer = indexBuffer };
-
-			const DrawInfo& getDrawInfo() const override { return drawInfo; }
-
-			void createDrawInfo([[maybe_unused]] std::span<Shader> shaders, [[maybe_unused]] const Texture& texture, [[maybe_unused]] const Sampler& sampler) override {}
+			DrawInfo createDrawInfo([[maybe_unused]] RendererContext& rendererContext) const override { return {}; }
 
 			const Transform& getTransform() const override { return transform; }
-
-			UniformBuffer* getMVPUniformBuffer() override { return &uniformBuffer; }
 
 		private:
 
