@@ -78,7 +78,12 @@ namespace zt::gl::tests
 
 	TEST_F(SpriteTests, CreateDrawInfo)
 	{
-		// TODO (Mid) Test it
+		DrawInfo drawInfo = std::move(sprite.createDrawInfo(renderer.getRendererContext()));
+
+		EXPECT_TRUE(drawInfo.vertexBuffer.isValid());
+		EXPECT_TRUE(drawInfo.indexBuffer.isValid());
+		EXPECT_FALSE(drawInfo.indices.empty());
+		EXPECT_FALSE(drawInfo.uniformBuffers.empty());
 	}
 
 	class SpriteSimpleTests : public ::testing::Test
