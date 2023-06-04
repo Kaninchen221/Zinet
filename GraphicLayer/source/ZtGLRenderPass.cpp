@@ -4,7 +4,7 @@
 namespace zt::gl
 {
 
-	const vk::AttachmentDescription& RenderPass::createAttachmentDescription(vk::Format format)
+	void RenderPass::createAttachmentDescription(vk::Format format)
 	{
 		attachmentDescription.format = format;
 		attachmentDescription.samples = vk::SampleCountFlagBits::e1;
@@ -14,28 +14,22 @@ namespace zt::gl
 		attachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
 		attachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
 		attachmentDescription.finalLayout = vk::ImageLayout::ePresentSrcKHR;
-
-		return attachmentDescription;
 	}
 
-	const vk::AttachmentReference& RenderPass::createAttachmentReference()
+	void RenderPass::createAttachmentReference()
 	{
 		attachmentReference.attachment = 0;
 		attachmentReference.layout = vk::ImageLayout::eColorAttachmentOptimal;
-
-		return attachmentReference;
 	}
 
-	const vk::SubpassDescription& RenderPass::createSubpassDescription()
+	void RenderPass::createSubpassDescription()
 	{
 		subpassDescription.pipelineBindPoint = vk::PipelineBindPoint::eGraphics;
 		subpassDescription.colorAttachmentCount = 1;
 		subpassDescription.pColorAttachments = &attachmentReference;
-
-		return subpassDescription;
 	}
 
-	const vk::SubpassDependency& RenderPass::createSubpassDependency()
+	void RenderPass::createSubpassDependency()
 	{
 		subpassDependency.srcSubpass = VK_SUBPASS_EXTERNAL;
 		subpassDependency.dstSubpass = 0;
@@ -44,8 +38,6 @@ namespace zt::gl
 		subpassDependency.dstStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
 		subpassDependency.dstAccessMask = vk::AccessFlagBits::eColorAttachmentWrite;
 		subpassDependency.dependencyFlags = vk::DependencyFlagBits::eByRegion;
-
-		return subpassDependency;
 	}
 
 	vk::RenderPassCreateInfo RenderPass::createRenderPassCreateInfo() const

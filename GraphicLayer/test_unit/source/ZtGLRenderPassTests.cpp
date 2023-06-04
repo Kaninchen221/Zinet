@@ -9,6 +9,8 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
@@ -18,7 +20,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		std::unique_ptr<RenderPass> renderPass = std::make_unique<RenderPass>();
+		RenderPass renderPass;
 
 	};
 
@@ -27,38 +29,54 @@ namespace zt::gl::tests
 		static_assert(std::derived_from<RenderPass, VulkanObject<vk::raii::RenderPass>>);
 	}
 
-	TEST_F(RenderPassTests, CreateAttachmentDescriptionTest)
+	TEST_F(RenderPassTests, AttachmentDescriptions)
 	{
+		typedef const vk::AttachmentDescription& (RenderPass::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentDescription));
+
 		vk::Format swapChainFormat{};
-		const vk::AttachmentDescription& attachmentDescription = renderPass->createAttachmentDescription(swapChainFormat);
+		renderPass.createAttachmentDescription(swapChainFormat);
+		const vk::AttachmentDescription& attachmentDescription = renderPass.getAttachmentDescription();
 
 		ASSERT_NE(attachmentDescription, vk::AttachmentDescription{});
 	}
 
-	TEST_F(RenderPassTests, CreateAttachmentReferenceTest)
+	TEST_F(RenderPassTests, AttachmentReferenceTest)
 	{
-		const vk::AttachmentReference& attachmentReference = renderPass->createAttachmentReference();
+		typedef const vk::AttachmentReference& (RenderPass::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentReference));
+
+		renderPass.createAttachmentReference();
+		const vk::AttachmentReference& attachmentReference = renderPass.getAttachmentReference();
 
 		ASSERT_NE(attachmentReference, vk::AttachmentReference{});
 	}
 
-	TEST_F(RenderPassTests, CreateSubpassDescriptionTest)
+	TEST_F(RenderPassTests, SubpassDescriptionTest)
 	{
-		const vk::SubpassDescription& subpassDescription = renderPass->createSubpassDescription();
+		typedef const vk::SubpassDescription& (RenderPass::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getSubpassDescription));
+
+		renderPass.createSubpassDescription();
+		const vk::SubpassDescription& subpassDescription = renderPass.getSubpassDescription();
 
 		ASSERT_NE(subpassDescription, vk::SubpassDescription{});
 	}
 
 	TEST_F(RenderPassTests, CreateRenderPassCreateInfoTest)
 	{
-		const vk::RenderPassCreateInfo& createInfo = renderPass->createRenderPassCreateInfo();
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
 
 		ASSERT_NE(createInfo, vk::RenderPassCreateInfo{});
 	}
 
-	TEST_F(RenderPassTests, CreateSubpassDependencyTest)
+	TEST_F(RenderPassTests, SubpassDependencyTest)
 	{
-		const vk::SubpassDependency& subpassDependency = renderPass->createSubpassDependency();
+		typedef const vk::SubpassDependency& (RenderPass::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getSubpassDependency));
+
+		renderPass.createSubpassDependency();
+		const vk::SubpassDependency& subpassDependency = renderPass.getSubpassDependency();
 
 		ASSERT_NE(subpassDependency, vk::SubpassDependency{});
 	}
@@ -88,17 +106,17 @@ namespace zt::gl::tests
 		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
 
-		renderPass->createAttachmentDescription(vk::Format::eR8G8Unorm);
-		renderPass->createAttachmentReference();
-		renderPass->createSubpassDescription();
-		renderPass->createSubpassDependency();
+		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
+		renderPass.createAttachmentReference();
+		renderPass.createSubpassDescription();
+		renderPass.createSubpassDependency();
 
-		renderPass->create(device);
-		vk::raii::RenderPass& internal = renderPass->getInternal();
+		renderPass.create(device);
+		vk::raii::RenderPass& internal = renderPass.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::RenderPass{ std::nullptr_t{} });
 
-		renderPass.reset();
+		renderPass.~RenderPass();
 
 		GLFW::Deinit();
 	}

@@ -9,7 +9,6 @@ namespace zt::gl
 {
 	class Device;
 
-	// TODO (Low) Refactor the create... functions to create and getter functions
 	class ZINET_GRAPHIC_LAYER_API RenderPass : public VulkanObject<vk::raii::RenderPass>
 	{
 
@@ -28,13 +27,17 @@ namespace zt::gl
 
 		~RenderPass() noexcept = default;
 
-		const vk::AttachmentDescription& createAttachmentDescription(vk::Format format);
+		void createAttachmentDescription(vk::Format format);
+		const vk::AttachmentDescription& getAttachmentDescription() const { return attachmentDescription; }
 
-		const vk::AttachmentReference& createAttachmentReference();
+		void createAttachmentReference();
+		const vk::AttachmentReference& getAttachmentReference() const { return attachmentReference; }
 
-		const vk::SubpassDescription& createSubpassDescription();
+		void createSubpassDescription();
+		const vk::SubpassDescription& getSubpassDescription() const { return subpassDescription; }
 
-		const vk::SubpassDependency& createSubpassDependency();
+		void createSubpassDependency();
+		const vk::SubpassDependency& getSubpassDependency() const { return subpassDependency; }
 
 		vk::RenderPassCreateInfo createRenderPassCreateInfo() const;
 
