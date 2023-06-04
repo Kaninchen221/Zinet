@@ -8,6 +8,21 @@ namespace zt::gl
 	{
 	}
 
+	Sprite::Sprite(Sprite&& other)
+	{
+		*this = std::move(other);
+	}
+
+	Sprite& Sprite::operator=(Sprite&& other)
+	{
+		textureRegion = std::move(other.textureRegion);
+		transform = std::move(other.transform);
+		other.textureRegion = TextureRegion{};
+		other.transform = Transform{};
+		
+		return *this;
+	}
+
 	DrawInfo Sprite::createDrawInfo(RendererContext& rendererContext) const
 	{
 		DrawInfo drawInfo;

@@ -24,10 +24,10 @@ namespace zt::gl
 
 		Sprite();
 		Sprite(const Sprite& other) = default;
-		Sprite(Sprite&& other) = default;
+		Sprite(Sprite&& other);
 
 		Sprite& operator = (const Sprite& other) = default;
-		Sprite& operator = (Sprite&& other) = default;
+		Sprite& operator = (Sprite&& other);
 
 		~Sprite() noexcept = default;
 

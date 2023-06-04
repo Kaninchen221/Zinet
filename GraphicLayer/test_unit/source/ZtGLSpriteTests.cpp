@@ -39,8 +39,6 @@ namespace zt::gl::tests
 		static_assert(std::is_move_constructible_v<Sprite>);
 		static_assert(std::is_move_assignable_v<Sprite>);
 
-		// TODO (Low) Sprite test copy and move
-
 		void SetUp() override
 		{
 			GLFW::Init(false);
@@ -120,5 +118,73 @@ namespace zt::gl::tests
 
 		const Transform& actual = sprite.getTransform();
 		ASSERT_EQ(expected, actual);
+	}
+
+	TEST_F(SpriteSimpleTests, Copy)
+	{
+		TextureRegion textureRegion;
+		textureRegion.offset = { 233.f, 12.f };
+		textureRegion.size = { 55.f, 16.f };
+
+		Vector2f textureSize;
+		textureSize.x = 10.f;
+		textureSize.y = 20.f;
+
+		sprite.setTextureRegion(textureRegion, textureSize);
+
+		Transform transform;
+		transform.setRotation({ 2.f, 1.f, 5.f });
+		transform.setScale({ 1.f, 7.f, 2.f });
+		transform.setTranslation({ 4.f, 6.f, 6.f });
+
+		sprite.setTransform(transform);
+
+		Sprite secondSprite;
+		secondSprite = sprite;
+
+		EXPECT_EQ(sprite.getTextureRegion(), secondSprite.getTextureRegion());
+		EXPECT_EQ(sprite.getTransform(), secondSprite.getTransform());
+
+		Sprite thirdSprite{ sprite };
+
+		EXPECT_EQ(sprite.getTextureRegion(), thirdSprite.getTextureRegion());
+		EXPECT_EQ(sprite.getTransform(), thirdSprite.getTransform());
+	}
+
+	TEST_F(SpriteSimpleTests, Move)
+	{
+		TextureRegion textureRegion;
+		textureRegion.offset = { 233.f, 12.f };
+		textureRegion.size = { 55.f, 16.f };
+
+		Vector2f textureSize;
+		textureSize.x = 10.f;
+		textureSize.y = 20.f;
+
+		sprite.setTextureRegion(textureRegion, textureSize);
+
+		Transform transform;
+		transform.setRotation({ 2.f, 1.f, 5.f });
+		transform.setScale({ 1.f, 7.f, 2.f });
+		transform.setTranslation({ 4.f, 6.f, 6.f });
+
+		sprite.setTransform(transform);
+
+		Sprite secondSprite;
+		secondSprite = std::move(sprite);
+
+		EXPECT_EQ(secondSprite.getTextureRegion(), textureRegion.toShaderTextureRegion(textureSize));
+		EXPECT_EQ(secondSprite.getTransform(), transform);
+
+		EXPECT_EQ(sprite.getTextureRegion(), TextureRegion{});
+		EXPECT_EQ(sprite.getTransform(), Transform{});
+
+		Sprite thirdSprite{ std::move(secondSprite) };
+
+		EXPECT_EQ(thirdSprite.getTextureRegion(), textureRegion.toShaderTextureRegion(textureSize));
+		EXPECT_EQ(thirdSprite.getTransform(), transform);
+
+		EXPECT_EQ(secondSprite.getTextureRegion(), TextureRegion{});
+		EXPECT_EQ(secondSprite.getTransform(), Transform{});
 	}
 }
