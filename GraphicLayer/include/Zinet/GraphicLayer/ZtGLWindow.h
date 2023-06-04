@@ -43,9 +43,9 @@ namespace zt::gl
 
 		Event* getEvent();
 
-		void setRenderer(Renderer& newRenderer) { RendererReference = &newRenderer; }
+		static void SetRenderer(Renderer& newRenderer) { RendererReference = &newRenderer; }
 
-		Renderer* getRenderer() { return RendererReference; }
+		static Renderer* GetRenderer() { return RendererReference; }
 
 		Vector2i getSize() const;
 

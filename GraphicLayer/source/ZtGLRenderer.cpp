@@ -35,7 +35,7 @@ namespace zt::gl
 	void Renderer::initialize()
 	{
 		rendererContext.initialize();
-		rendererContext.getWindow().setRenderer(*this);
+		Window::SetRenderer(*this);
 
 		Device& device = rendererContext.getDevice();
 		imageAvailableSemaphore.create(device);

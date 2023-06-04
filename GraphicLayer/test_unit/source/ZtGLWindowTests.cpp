@@ -80,23 +80,22 @@ namespace zt::gl::tests
 
 	TEST_F(WindowTests, GetRenderer)
 	{
-		typedef Renderer* (Window::* ExpectedFunctionDeclaration)();
-		using FunctionDeclaration = decltype(&Window::getRenderer);
+		typedef Renderer* (*ExpectedFunctionDeclaration)();
+		using FunctionDeclaration = decltype(&Window::GetRenderer);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 	}
 
 	TEST_F(WindowTests, SetRenderer)
 	{
-		// TODO (Low) Change it to static function
-		typedef void(Window::* ExpectedFunctionDeclaration)(Renderer&);
-		using FunctionDeclaration = decltype(&Window::setRenderer);
+		typedef void(*ExpectedFunctionDeclaration)(Renderer&);
+		using FunctionDeclaration = decltype(&Window::SetRenderer);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
 		Renderer expectedRenderer;
-		window.setRenderer(expectedRenderer);
-		Renderer* actualRenderer = window.getRenderer();
+		Window::SetRenderer(expectedRenderer);
+		Renderer* actualRenderer = Window::GetRenderer();
 
 		ASSERT_EQ(&expectedRenderer, actualRenderer);
 	}
