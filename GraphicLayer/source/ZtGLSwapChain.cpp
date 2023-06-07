@@ -59,16 +59,17 @@ namespace zt::gl
 
 	std::vector<vk::Image> SwapChain::getImages()
 	{
-		std::vector<VkImage> rawImages = internal.getImages();
-		std::vector<vk::Image> result;
-		result.reserve(rawImages.size());
-
-		for (VkImage& rawImage : rawImages)
-		{
-			result.push_back({ rawImage });
-		}
-
-		return result;
+		return internal.getImages();
+		//std::vector<VkImage> rawImages = internal.getImages();
+		//std::vector<vk::Image> result;
+		//result.reserve(rawImages.size());
+		//
+		//for (VkImage& rawImage : rawImages)
+		//{
+		//	result.push_back({ rawImage });
+		//}
+		//
+		//return result;
 	}
 
 	std::pair<vk::Result, uint32_t> SwapChain::acquireNextImage(uint64_t timeout, Semaphore& semaphore, Fence& fence)

@@ -85,7 +85,7 @@ namespace zt::gl::tests
 		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
 		swapChain.create(device, creatInfo);
 		std::vector<vk::Image> images = swapChain.getImages();
-		std::vector<VkImage> rawImages = swapChain.getInternal().getImages();
+		std::vector<vk::Image> rawImages = swapChain.getInternal().getImages();
 
 		ASSERT_EQ(images.size(), rawImages.size());
 		for (const vk::Image& image : images)
