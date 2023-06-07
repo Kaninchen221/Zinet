@@ -4,6 +4,7 @@
 README is in TODO state
 
 ## Step by step first config
+  + Install Conan 1.X the 2.X versions are not supported
   + Install Vulkan SDK
   + Install Python 3.X
   + Install min Visual Studio 2019
