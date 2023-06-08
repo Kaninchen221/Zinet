@@ -5,3 +5,4 @@
 - In CI run only Automatic tests
 - ImGui is now in graphic layer lib it shouldn't be like that
 - Depth buffer
+- Utility application? (Creating new class, new lib)
