@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
+#include "Zinet/GraphicLayer/ZtGLImageView.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -28,9 +29,14 @@ namespace zt::gl
 
 		const Image& getImage() const { return image; }
 
+		const ImageView& getImageView() const { return imageView; }
+
+		vk::Format findSupportedFormat(const std::vector<vk::Format>& candidates, vk::ImageTiling imageTiling, vk::FormatFeatureFlags formatFeatureFlags) const;
+
 	protected:
 
 		Image image;
+		ImageView imageView;
 
 	};
 
