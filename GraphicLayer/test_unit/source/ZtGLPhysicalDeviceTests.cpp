@@ -7,107 +7,110 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
 
-	class PhysicalDeviceTests : public ::testing::Test
+	class PhysicalDeviceSimpleTests : public ::testing::Test
 	{
 	protected:
 
 		PhysicalDevice physicalDevice;
 
+		static_assert(std::derived_from<PhysicalDevice, VulkanObject<vk::raii::PhysicalDevice>>);
 	};
 
-	TEST(PhysicalDevice, DerivedFromVulkanObject)
+	TEST_F(PhysicalDeviceSimpleTests, GetFeaturesTest)
 	{
-		static_assert(std::derived_from<PhysicalDevice, VulkanObject<vk::raii::PhysicalDevice>>);
-	}
-
-	TEST(PhysicalDevice, GetFeaturesTest)
-	{
-		PhysicalDevice physicalDevice;
 		[[maybe_unused]] const vk::PhysicalDeviceFeatures& physicalDeviceFeatures = physicalDevice.getFeatures();
 	}
 
-	TEST(PhysicalDevice, PhysicalDeviceExtensions)
+	TEST_F(PhysicalDeviceSimpleTests, PhysicalDeviceExtensions)
 	{
-		PhysicalDevice physicalDevice;
 		const std::vector<const char*>& physicalDeviceExtensions = physicalDevice.getPhysicalDeviceExtensions();
 
 		ASSERT_FALSE(physicalDeviceExtensions.empty());
 	}
 
-	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)
+	class PhysicalDeviceTests : public ::testing::Test
 	{
-		GLFW::Init();
+	protected:
 
 		Window window;
-		window.create();
-
 		Context context;
-
 		Instance instance;
-		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.populateRequiredExtensions();
-		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-		instance.create(context, instanceCreateInfo);
-
 		Surface surface;
-		surface.create(instance, window);
+		PhysicalDevice physicalDevice;
 
-		physicalDevice.create(instance);
+		void SetUp() override
+		{
+			GLFW::Init();
+
+			window.create();
+
+			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
+			instance.populateRequiredExtensions();
+			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
+			instance.create(context, instanceCreateInfo);
+
+			surface.create(instance, window);
+
+			bool createResult = physicalDevice.create(instance);
+
+			ASSERT_TRUE(createResult);
+		}
+
+		void TearDown() override
+		{
+			GLFW::Deinit();
+		}
+	};
+
+	TEST_F(PhysicalDeviceTests, PickQueueFamilyIndexTest)
+	{
 		uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
 		constexpr uint32_t notExpectedIndex = std::numeric_limits<uint32_t>::max();
 
 		ASSERT_NE(queueFamilyIndex, notExpectedIndex);
 	}
 
-	TEST_F(PhysicalDeviceTests, Create)
-	{
-		Context context;
-		Instance instance;
-		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.populateRequiredExtensions();
-		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-		instance.create(context, instanceCreateInfo);
-		bool result = physicalDevice.create(instance);
-
-		ASSERT_TRUE(result);
-	}
-
 	TEST_F(PhysicalDeviceTests, GetSwaptChainSupportDetailsTest)
     {
-		GLFW::Init();
-
-		Window window;
-		window.create();
-
-		Context context;
-		Instance instance;
-		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.populateRequiredExtensions();
-		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-		instance.create(context, instanceCreateInfo);
-
-		Surface surface;
-		surface.create(instance, window);
-
-		physicalDevice.create(instance);
-
 		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 
 		ASSERT_NE(swapChainSupportDetails.surfaceCapabilities, vk::SurfaceCapabilitiesKHR());
 		ASSERT_FALSE(swapChainSupportDetails.surfaceFormats.empty());
 		ASSERT_FALSE(swapChainSupportDetails.presentModes.empty());
-
-		GLFW::Deinit();
     }
 
 	TEST_F(PhysicalDeviceTests, AssignValueOperator)
 	{
 		PhysicalDevice other;
 		physicalDevice = other;
+	}
+
+	TEST_F(PhysicalDeviceTests, FindSupportedFormat)
+	{
+		typedef bool (PhysicalDevice::* ExpectedFunction)(const PhysicalDevice::FindSupportedFormatInput&, vk::Format& supportedFormat) const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&PhysicalDevice::findSupportedFormat));
+
+		std::vector<vk::Format> candidates = { /*vk::Format::eD32Sfloat,*/ vk::Format::eD32SfloatS8Uint, vk::Format::eD24UnormS8Uint};
+		vk::ImageTiling imageTiling = vk::ImageTiling::eOptimal;
+		vk::FormatFeatureFlags formatFeatureFlags = vk::FormatFeatureFlagBits::eDepthStencilAttachment;
+
+		PhysicalDevice::FindSupportedFormatInput input
+		{
+			.candidates = candidates,
+			.imageTiling = imageTiling,
+			.formatFeatureFlags = formatFeatureFlags
+		};
+
+		vk::Format supportedFormat{};
+		bool supportAnyFormat = physicalDevice.findSupportedFormat(input, supportedFormat);
+
+		EXPECT_TRUE(supportAnyFormat);
 	}
 }

@@ -41,6 +41,15 @@ namespace zt::gl
 
 		SwapChainSupportDetails getSwapChainSupportDetails(const Surface& surface) const;
 
+		struct FindSupportedFormatInput
+		{
+			const std::vector<vk::Format>& candidates;
+			vk::ImageTiling imageTiling;
+			vk::FormatFeatureFlags formatFeatureFlags;
+		};
+
+		bool findSupportedFormat(const FindSupportedFormatInput& input, vk::Format& supportedFormat) const;
+
 	protected:
 		
 		vk::PhysicalDeviceFeatures features;

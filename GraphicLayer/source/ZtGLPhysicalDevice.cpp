@@ -92,5 +92,34 @@ namespace zt::gl
         swapChainSupportDetails.presentModes = internal.getSurfacePresentModesKHR(*surface.getInternal());
         
         return swapChainSupportDetails;
-    }
+	}
+
+	bool PhysicalDevice::findSupportedFormat(const FindSupportedFormatInput& input, vk::Format& supportedFormat) const
+	{
+		for (vk::Format candidateFormat : input.candidates)
+		{
+			vk::FormatProperties formatProperties = internal.getFormatProperties(candidateFormat);
+
+			switch (input.imageTiling)
+			{
+			case vk::ImageTiling::eLinear:
+				if ((formatProperties.linearTilingFeatures & input.formatFeatureFlags) == input.formatFeatureFlags)
+				{
+					supportedFormat = candidateFormat;
+					return true;
+				}
+				break;
+			case vk::ImageTiling::eOptimal:
+				if ((formatProperties.optimalTilingFeatures & input.formatFeatureFlags) == input.formatFeatureFlags)
+				{
+					supportedFormat = candidateFormat;
+					return true;
+				}
+				break;
+			}
+		}
+
+		supportedFormat = vk::Format{};
+		return false;
+	}
 }

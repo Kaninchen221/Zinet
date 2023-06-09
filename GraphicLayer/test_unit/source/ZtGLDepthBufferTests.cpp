@@ -2,6 +2,8 @@
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLDepthBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -25,9 +27,14 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST_F(DepthBufferTests, Pass)
+	TEST_F(DepthBufferTests, FindDepthFormat)
 	{
+		const PhysicalDevice& physicalDevice = renderer.getRendererContext().getPhysicalDevice();
+		
+		vk::Format format{};
+		bool found = depthBuffer.findDepthFormat(physicalDevice, format);
 
+		ASSERT_TRUE(found);
 	}
 
 	class DepthBufferSimpleTests : public ::testing::Test
@@ -54,15 +61,4 @@ namespace zt::gl::tests
 		EXPECT_FALSE(depthBuffer.getImageView().isValid());
 	}
 
-	TEST_F(DepthBufferSimpleTests, FindSupportedFormat)
-	{
-		typedef vk::Format (DepthBuffer::* ExpectedFunction)(const std::vector<vk::Format>&, vk::ImageTiling, vk::FormatFeatureFlags) const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&DepthBuffer::findSupportedFormat));
-
-		std::vector<vk::Format> candidates;
-		vk::ImageTiling imageTiling{};
-		vk::FormatFeatureFlags formatFeatureFlags{};
-		
-		[[maybe_unused]] vk::Format result = depthBuffer.findSupportedFormat(candidates, imageTiling, formatFeatureFlags);
-	}
 }
