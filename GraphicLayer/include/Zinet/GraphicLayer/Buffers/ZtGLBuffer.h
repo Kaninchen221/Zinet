@@ -55,7 +55,8 @@ namespace zt::gl
 		void fillWithStdContainer(const T& container);
 
 		void fillWithCArray(const void* firstElement);
-
+		
+		// TODO (High) Return unique_ptr with custom deleter func
 		std::pair<void*, std::uint64_t> getData();
 
 	private:
