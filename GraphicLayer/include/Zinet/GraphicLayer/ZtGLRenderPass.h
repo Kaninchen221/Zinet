@@ -51,6 +51,7 @@ namespace zt::gl
 
 	protected:
 
+		// TODO (mid) colorAtachmentDesc and colorAtachmentRef
 		vk::AttachmentDescription attachmentDescription;
 		vk::AttachmentDescription depthAttachmentDescription;
 		vk::AttachmentReference attachmentReference;
