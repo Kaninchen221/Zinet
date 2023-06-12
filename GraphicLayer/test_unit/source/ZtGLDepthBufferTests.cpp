@@ -37,6 +37,20 @@ namespace zt::gl::tests
 		ASSERT_TRUE(found);
 	}
 
+	TEST_F(DepthBufferTests, Create)
+	{
+		const RendererContext& rendererContext = renderer.getRendererContext();
+
+		vk::Format format;
+		bool foundFormat = depthBuffer.findDepthFormat(rendererContext.getPhysicalDevice(), format);
+		ASSERT_TRUE(foundFormat);
+		
+		depthBuffer.create(rendererContext, format);
+
+		ASSERT_TRUE(depthBuffer.getImage().isValid());
+		ASSERT_TRUE(depthBuffer.getImageView().isValid());
+	}
+
 	class DepthBufferSimpleTests : public ::testing::Test
 	{
 	protected:

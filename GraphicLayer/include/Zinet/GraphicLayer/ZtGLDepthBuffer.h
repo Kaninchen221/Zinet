@@ -9,6 +9,7 @@
 namespace zt::gl
 {
 	class PhysicalDevice;
+	class RendererContext;
 
 	class ZINET_GRAPHIC_LAYER_API DepthBuffer
 	{
@@ -33,6 +34,8 @@ namespace zt::gl
 		const ImageView& getImageView() const { return imageView; }
 
 		bool findDepthFormat(const PhysicalDevice& physicalDevice, vk::Format& supportedFormat) const;
+
+		void create(const RendererContext& rendererContext, vk::Format format);
 
 	protected:
 

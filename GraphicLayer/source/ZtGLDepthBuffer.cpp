@@ -1,5 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLDepthBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 
 #include <vulkan/vulkan_enums.hpp>
 
@@ -21,6 +22,27 @@ namespace zt::gl
 		bool supportAnyFormat = physicalDevice.findSupportedFormat(input, supportedFormat);
 
 		return supportAnyFormat;
+	}
+
+	void DepthBuffer::create(const RendererContext& rendererContext, vk::Format format)
+	{
+		vk::Extent2D extent = rendererContext.getSwapExtent();
+		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(extent.width, extent.height, format);
+		vkImageCreateInfo.tiling = vk::ImageTiling::eOptimal;
+		vkImageCreateInfo.usage = vk::ImageUsageFlagBits::eDepthStencilAttachment;
+
+		Image::CreateInfo imageCreateInfo
+		{
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
+			.vkImageCreateInfo = vkImageCreateInfo,
+			.allocationCreateInfo = image.createAllocationCreateInfo()
+		};
+		image.create(imageCreateInfo);
+
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), format);
+		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
+		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 	}
 
 }
