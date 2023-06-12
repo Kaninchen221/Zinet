@@ -6,28 +6,30 @@ namespace zt::gl
 
 	void RenderPass::createAttachmentDescription(vk::Format format)
 	{
-		attachmentDescription.format = format;
-		attachmentDescription.samples = vk::SampleCountFlagBits::e1;
-		attachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
-		attachmentDescription.storeOp = vk::AttachmentStoreOp::eStore;
-		attachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
-		attachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
-		attachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
-		attachmentDescription.finalLayout = vk::ImageLayout::ePresentSrcKHR;
+		vk::AttachmentDescription& colorAttachmentDescription = attachmentDescriptions[0];
+		colorAttachmentDescription.format = format;
+		colorAttachmentDescription.samples = vk::SampleCountFlagBits::e1;
+		colorAttachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
+		colorAttachmentDescription.storeOp = vk::AttachmentStoreOp::eStore;
+		colorAttachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
+		colorAttachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
+		colorAttachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
+		colorAttachmentDescription.finalLayout = vk::ImageLayout::ePresentSrcKHR;
 	}
 
 	void RenderPass::createAttachmentReference()
 	{
-		attachmentReference.attachment = 0;
-		attachmentReference.layout = vk::ImageLayout::eColorAttachmentOptimal;
+		vk::AttachmentReference& colorAttachmentReference = attachmentReferences[0];
+		colorAttachmentReference.attachment = 0;
+		colorAttachmentReference.layout = vk::ImageLayout::eColorAttachmentOptimal;
 	}
 
 	void RenderPass::createSubpassDescription()
 	{
 		subpassDescription.pipelineBindPoint = vk::PipelineBindPoint::eGraphics;
 		subpassDescription.colorAttachmentCount = 1;
-		subpassDescription.pColorAttachments = &attachmentReference;
-		subpassDescription.pDepthStencilAttachment = &depthAttachmentReference;
+		subpassDescription.pColorAttachments = &getAttachmentReference();
+		subpassDescription.pDepthStencilAttachment = &getDepthAttachmentReference();
 	}
 
 	void RenderPass::createSubpassDependency()
@@ -44,8 +46,8 @@ namespace zt::gl
 	vk::RenderPassCreateInfo RenderPass::createRenderPassCreateInfo() const
 	{
 		vk::RenderPassCreateInfo createInfo;
-		createInfo.attachmentCount = 2;
-		createInfo.pAttachments = &attachmentDescription;
+		createInfo.attachmentCount = static_cast<std::uint32_t>(getAttachmentDescriptions().size());
+		createInfo.pAttachments = getAttachmentDescriptions().data();
 		createInfo.subpassCount = 1;
 		createInfo.pSubpasses = &subpassDescription;
 		createInfo.dependencyCount = 1;
@@ -62,20 +64,22 @@ namespace zt::gl
 
 	void RenderPass::createDepthAttachmentDescription(vk::Format format)
 	{
-		attachmentDescription.format = format;
-		attachmentDescription.samples = vk::SampleCountFlagBits::e1;
-		attachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
-		attachmentDescription.storeOp = vk::AttachmentStoreOp::eDontCare;
-		attachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
-		attachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
-		attachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
-		attachmentDescription.finalLayout = vk::ImageLayout::eStencilAttachmentOptimal;
+		vk::AttachmentDescription& depthAttachmentDescription = attachmentDescriptions[1];
+		depthAttachmentDescription.format = format;
+		depthAttachmentDescription.samples = vk::SampleCountFlagBits::e1;
+		depthAttachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
+		depthAttachmentDescription.storeOp = vk::AttachmentStoreOp::eDontCare;
+		depthAttachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
+		depthAttachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
+		depthAttachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
+		depthAttachmentDescription.finalLayout = vk::ImageLayout::eStencilAttachmentOptimal;
 	}
 
 	void RenderPass::createDepthAttachmentReference()
 	{
-		attachmentReference.attachment = 1;
-		attachmentReference.layout = vk::ImageLayout::eDepthStencilAttachmentOptimal;
+		vk::AttachmentReference& depthAttachmentReference = attachmentReferences[1];
+		depthAttachmentReference.attachment = 1;
+		depthAttachmentReference.layout = vk::ImageLayout::eDepthStencilAttachmentOptimal;
 	}
 
 }

@@ -27,11 +27,16 @@ namespace zt::gl
 
 		~RenderPass() noexcept = default;
 
+		const std::array<vk::AttachmentDescription, 2u>& getAttachmentDescriptions() const { return attachmentDescriptions; }
+
+		const std::array<vk::AttachmentReference, 2u>& getAttachmentReferences() const { return attachmentReferences; }
+
+		// TODO (mid) update names
 		void createAttachmentDescription(vk::Format format);
-		const vk::AttachmentDescription& getAttachmentDescription() const { return attachmentDescription; }
+		const vk::AttachmentDescription& getAttachmentDescription() const { return attachmentDescriptions[0]; }
 
 		void createAttachmentReference();
-		const vk::AttachmentReference& getAttachmentReference() const { return attachmentReference; }
+		const vk::AttachmentReference& getAttachmentReference() const { return attachmentReferences[0]; }
 
 		void createSubpassDescription();
 		const vk::SubpassDescription& getSubpassDescription() const { return subpassDescription; }
@@ -40,10 +45,10 @@ namespace zt::gl
 		const vk::SubpassDependency& getSubpassDependency() const { return subpassDependency; }
 
 		void createDepthAttachmentDescription(vk::Format format);
-		const vk::AttachmentDescription& getDepthAttachmentDescription() const { return depthAttachmentDescription; }
+		const vk::AttachmentDescription& getDepthAttachmentDescription() const { return attachmentDescriptions[1]; }
 
 		void createDepthAttachmentReference();
-		const vk::AttachmentReference& getDepthAttachmentReference() const { return depthAttachmentReference; }
+		const vk::AttachmentReference& getDepthAttachmentReference() const { return attachmentReferences[1]; }
 
 		vk::RenderPassCreateInfo createRenderPassCreateInfo() const;
 
@@ -51,11 +56,8 @@ namespace zt::gl
 
 	protected:
 
-		// TODO (mid) colorAtachmentDesc and colorAtachmentRef
-		vk::AttachmentDescription attachmentDescription;
-		vk::AttachmentDescription depthAttachmentDescription;
-		vk::AttachmentReference attachmentReference;
-		vk::AttachmentReference depthAttachmentReference;
+		std::array<vk::AttachmentDescription, 2u> attachmentDescriptions;
+		std::array<vk::AttachmentReference, 2u> attachmentReferences;
 		vk::SubpassDescription subpassDescription;
 		vk::SubpassDependency subpassDependency;
 
