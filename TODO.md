@@ -4,5 +4,5 @@
 - Change tests libs names from "Unit" to "Automatic" and "Functional" to "Manual"
 - In CI run only Automatic tests
 - ImGui is now in graphic layer lib it shouldn't be like that
-- Depth buffer
 - Utility application? (Creating new class, new lib)
+- Test explorer in VS doesn't work correctly
