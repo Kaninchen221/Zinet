@@ -8,6 +8,7 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -81,37 +82,44 @@ namespace zt::gl::tests
 		ASSERT_NE(subpassDependency, vk::SubpassDependency{});
 	}
 
+	TEST_F(RenderPassTests, DepthAttachmentDescriptions)
+	{
+		typedef const vk::AttachmentDescription& (RenderPass::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getDepthAttachmentDescription));
+
+		vk::Format format{};
+		renderPass.createDepthAttachmentDescription(format);
+		const vk::AttachmentDescription& attachmentDescription = renderPass.getDepthAttachmentDescription();
+
+		ASSERT_NE(attachmentDescription, vk::AttachmentDescription{});
+	}
+
+	TEST_F(RenderPassTests, DepthAttachmentReferenceTest)
+	{
+		typedef const vk::AttachmentReference& (RenderPass::* ExpectedFunction)() const;
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getDepthAttachmentReference));
+
+		renderPass.createDepthAttachmentReference();
+		const vk::AttachmentReference& attachmentReference = renderPass.getDepthAttachmentReference();
+
+		ASSERT_NE(attachmentReference, vk::AttachmentReference{});
+	}
+
 	TEST_F(RenderPassTests, CreateTest)
 	{
 		GLFW::Init();
 
-		Context context;
-		Instance instance;
-		vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-		instance.populateRequiredExtensions();
-		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-		instance.create(context, instanceCreateInfo);
-
-		Window window;
-		window.create();
-
-		Surface surface;
-		surface.create(instance, window);
-
-		PhysicalDevice physicalDevice;
-		physicalDevice.create(instance);
-
-		Device device;
-		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-		device.create(physicalDevice, deviceCreateInfo);
+		RendererContext rendererContext;
+		rendererContext.initialize();
 
 		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
 		renderPass.createAttachmentReference();
+		renderPass.createDepthAttachmentDescription(rendererContext.getDepthBufferFormat());
+		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 
-		renderPass.create(device);
+		renderPass.create(rendererContext.getDevice());
 		vk::raii::RenderPass& internal = renderPass.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::RenderPass{ std::nullptr_t{} });

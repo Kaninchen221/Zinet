@@ -64,6 +64,10 @@ namespace zt::gl::tests
 		const vk::Extent2D& swapExtent = rendererContext.getSwapExtent();
 		ASSERT_NE(swapExtent, vk::Extent2D{});
 
+		const DepthBuffer& depthBuffer = rendererContext.getDepthBuffer();
+		ASSERT_TRUE(depthBuffer.getImage().isValid());
+		ASSERT_TRUE(depthBuffer.getImageView().isValid());
+
 		const RenderPass& renderPass = rendererContext.getRenderPass();
 		ASSERT_NE(renderPass, nullptr);
 
@@ -186,4 +190,13 @@ namespace zt::gl::tests
 		[[maybe_unused]] const CommandPool& commandPool = rendererContext.getCommandPool();
 	}
 
+	TEST_F(RendererContextSimpleTests, GetDepthBuffer)
+	{
+		[[maybe_unused]] const DepthBuffer& depthBuffer = rendererContext.getDepthBuffer();
+	}
+
+	TEST_F(RendererContextSimpleTests, GetDepthBufferFormat)
+	{
+		[[maybe_unused]] const vk::Format& depthBufferFormat = rendererContext.getDepthBufferFormat();
+	}
 }

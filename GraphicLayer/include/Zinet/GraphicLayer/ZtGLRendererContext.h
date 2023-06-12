@@ -21,6 +21,7 @@
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
+#include "Zinet/GraphicLayer/ZtGLDepthBuffer.h"
 
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
@@ -92,6 +93,11 @@ namespace zt::gl
 
 		const vk::Extent2D& getSwapExtent() const { return swapExtent; }
 
+		const DepthBuffer& getDepthBuffer() const { return depthBuffer; }
+		DepthBuffer& getDepthBuffer() { return depthBuffer; }
+
+		vk::Format getDepthBufferFormat() { return depthBufferFormat; }
+
 		const RenderPass& getRenderPass() const { return renderPass; }
 		RenderPass& getRenderPass() { return renderPass; }
 
@@ -120,6 +126,7 @@ namespace zt::gl
 		void createQueue();
 		void createSwapChain();
 		void createImageViews();
+		void createDepthBuffer();
 		void createRenderPass();
 		void createFramebuffers();
 		void createVma();
@@ -139,6 +146,8 @@ namespace zt::gl
 		SwapChain swapChain;
 		std::vector<ImageView> imageViews;
 		vk::Extent2D swapExtent;
+		DepthBuffer depthBuffer;
+		vk::Format depthBufferFormat{};
 		RenderPass renderPass;
 		std::vector<Framebuffer> framebuffers;
 		Vma vma;

@@ -39,6 +39,12 @@ namespace zt::gl
 		void createSubpassDependency();
 		const vk::SubpassDependency& getSubpassDependency() const { return subpassDependency; }
 
+		void createDepthAttachmentDescription(vk::Format format);
+		const vk::AttachmentDescription& getDepthAttachmentDescription() const { return depthAttachmentDescription; }
+
+		void createDepthAttachmentReference();
+		const vk::AttachmentReference& getDepthAttachmentReference() const { return depthAttachmentReference; }
+
 		vk::RenderPassCreateInfo createRenderPassCreateInfo() const;
 
 		void create(Device& device);
@@ -46,7 +52,9 @@ namespace zt::gl
 	protected:
 
 		vk::AttachmentDescription attachmentDescription;
+		vk::AttachmentDescription depthAttachmentDescription;
 		vk::AttachmentReference attachmentReference;
+		vk::AttachmentReference depthAttachmentReference;
 		vk::SubpassDescription subpassDescription;
 		vk::SubpassDependency subpassDependency;
 

@@ -48,6 +48,7 @@ namespace zt::gl
 		createSwapChain();
 		createImageViews();
 
+		createDepthBuffer();
 		createRenderPass();
 		createFramebuffers();
 		
@@ -132,10 +133,24 @@ namespace zt::gl
 		}
 	}
 
+	void RendererContext::createDepthBuffer()
+	{
+		bool foundFormat = depthBuffer.findDepthFormat(physicalDevice, depthBufferFormat);
+		if (!foundFormat)
+		{
+			Logger->critical("findDepthFormat return false - can't create depth buffer");
+			return;
+		}
+
+		depthBuffer.create(*this, depthBufferFormat);
+	}
+
 	void RendererContext::createRenderPass()
 	{
 		renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
 		renderPass.createAttachmentReference();
+		renderPass.createDepthAttachmentDescription(depthBufferFormat);
+		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 
