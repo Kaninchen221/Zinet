@@ -6,3 +6,4 @@
 - ImGui is now in graphic layer lib it shouldn't be like that
 - Utility application? (Creating new class, new lib)
 - Test explorer in VS doesn't work correctly
+- Use reference_wrapper instead of just T& t
