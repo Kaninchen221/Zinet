@@ -149,7 +149,7 @@ namespace zt::gl
 		DepthBuffer depthBuffer;
 		vk::Format depthBufferFormat{};
 		RenderPass renderPass;
-		std::vector<Framebuffer> framebuffers;
+		std::vector<Framebuffer> framebuffers; // TODO (mid) Refactor it to render targets
 		Vma vma;
 		CommandPool commandPool;
 	};
