@@ -19,11 +19,9 @@ namespace zt::gl
 		~VulkanObject() noexcept = default;
 
 		InternalType& getInternal();
-
 		const InternalType& getInternal() const;
 
 		InternalType* operator->();
-
 		const InternalType* operator->() const;
 
 		bool operator == (const InternalType& other) const;
@@ -35,6 +33,7 @@ namespace zt::gl
 		bool isValid() const { return *internal != *InternalType{ std::nullptr_t{} }; }
 
 		InternalType::CType getVk() { return *internal; }
+		const typename InternalType::CType getVk() const { return *internal; }
 
 	protected:
 
