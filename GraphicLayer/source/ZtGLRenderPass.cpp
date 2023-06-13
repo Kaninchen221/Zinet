@@ -46,8 +46,8 @@ namespace zt::gl
 	vk::RenderPassCreateInfo RenderPass::createRenderPassCreateInfo() const
 	{
 		vk::RenderPassCreateInfo createInfo;
-		createInfo.attachmentCount = static_cast<std::uint32_t>(getAttachmentDescriptions().size());
-		createInfo.pAttachments = getAttachmentDescriptions().data();
+		createInfo.attachmentCount = static_cast<std::uint32_t>(attachmentDescriptions.size());
+		createInfo.pAttachments = attachmentDescriptions.data();
 		createInfo.subpassCount = 1;
 		createInfo.pSubpasses = &subpassDescription;
 		createInfo.dependencyCount = 1;
@@ -72,7 +72,7 @@ namespace zt::gl
 		depthAttachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
 		depthAttachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
 		depthAttachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
-		depthAttachmentDescription.finalLayout = vk::ImageLayout::eStencilAttachmentOptimal;
+		depthAttachmentDescription.finalLayout = vk::ImageLayout::eDepthStencilAttachmentOptimal;
 	}
 
 	void RenderPass::createDepthAttachmentReference()

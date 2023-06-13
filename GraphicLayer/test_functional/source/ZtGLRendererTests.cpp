@@ -263,7 +263,7 @@ namespace zt::gl::tests
 
 			renderer.postDraw();
 
-			if (clock.getElapsedTime().getAsSeconds() > 10)
+			if (clock.getElapsedTime().getAsSeconds() > 10000)
 			{
 				rendererContext.getWindow().requestCloseWindow();
 			}

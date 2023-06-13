@@ -142,6 +142,7 @@ namespace zt::gl
 		std::uint32_t queueFamilyIndex;
 		Device device;
 		Queue queue;
+		Vma vma;
 		SwapChainSupportDetails swapChainSupportDetails;
 		SwapChain swapChain;
 		std::vector<ImageView> imageViews;
@@ -150,7 +151,6 @@ namespace zt::gl
 		vk::Format depthBufferFormat{};
 		RenderPass renderPass;
 		std::vector<Framebuffer> framebuffers; // TODO (mid) Refactor it to render targets
-		Vma vma;
 		CommandPool commandPool;
 	};
 

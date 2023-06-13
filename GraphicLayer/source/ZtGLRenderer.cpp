@@ -67,16 +67,19 @@ namespace zt::gl
 		vk::Rect2D renderArea;
 		renderArea.offset = vk::Offset2D{ 0, 0 };
 		renderArea.extent = rendererContext.getSwapExtent();
+
 		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
 		vk::ClearValue depthBufferClearColor;
+		depthBufferClearColor.color = vk::ClearColorValue{ 1.f, 1.f, 1.f, 1.f };
 		depthBufferClearColor.depthStencil = vk::ClearDepthStencilValue{ 1.0f, 0u };
+		std::array<vk::ClearValue, 2u> clearColors{clearColor, depthBufferClearColor};
+
 		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
 		{
 			.renderPass = rendererContext.getRenderPass(),
 			.framebuffer = rendererContext.getFramebuffers()[nextImageToDraw.second],
 			.renderArea = renderArea,
-			.colorClearValue = clearColor,
-			.depthBufferClearValue = depthBufferClearColor
+			.clearValues = clearColors
 		};
 		drawCommandBuffer.beginRenderPass(beginRenderPassInfo);
 

@@ -32,8 +32,7 @@ namespace zt::gl
 			RenderPass& renderPass;
 			Framebuffer& framebuffer;
 			const vk::Rect2D& renderArea;
-			const vk::ClearValue& colorClearValue;
-			const vk::ClearValue& depthBufferClearValue;
+			const std::array<vk::ClearValue, 2u>& clearValues;
 		};
 
 	protected:

@@ -53,6 +53,8 @@ namespace zt::gl
 
 		const vk::PipelineColorBlendStateCreateInfo& createColorBlendStateCreateInfo();
 
+		const vk::PipelineDepthStencilStateCreateInfo& createDepthStencilStateCreateInfo();
+
 		vk::PipelineLayoutCreateInfo createPipelineLayoutCreateInfo();
 
 		void create(Device& device, const vk::PipelineLayoutCreateInfo& createInfo);
@@ -76,6 +78,7 @@ namespace zt::gl
 		vk::PipelineMultisampleStateCreateInfo multisampleStateCreateInfo;
 		vk::PipelineColorBlendAttachmentState colorBlendAttachmentState;
 		vk::PipelineColorBlendStateCreateInfo colorBlendStateCreateInfo;
+		vk::PipelineDepthStencilStateCreateInfo depthStencilStateCreateInfo;
 
 		std::vector<vk::DescriptorSetLayout> vkDescriptorSetLayouts;
 	};

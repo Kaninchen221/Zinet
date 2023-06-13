@@ -140,6 +140,21 @@ namespace zt::gl
 		return colorBlendStateCreateInfo;
 	}
 
+	const vk::PipelineDepthStencilStateCreateInfo& PipelineLayout::createDepthStencilStateCreateInfo()
+	{
+		depthStencilStateCreateInfo.depthTestEnable = VK_TRUE;
+		depthStencilStateCreateInfo.depthWriteEnable = VK_TRUE;
+		depthStencilStateCreateInfo.depthCompareOp = vk::CompareOp::eLess;
+		depthStencilStateCreateInfo.depthBoundsTestEnable = VK_FALSE;
+		depthStencilStateCreateInfo.minDepthBounds = 0.f;
+		depthStencilStateCreateInfo.maxDepthBounds = 1.f;
+		depthStencilStateCreateInfo.stencilTestEnable = VK_FALSE;
+		depthStencilStateCreateInfo.front = vk::StencilOpState{};
+		depthStencilStateCreateInfo.back = vk::StencilOpState{};
+
+		return depthStencilStateCreateInfo;
+	}
+
 	vk::PipelineLayoutCreateInfo PipelineLayout::createPipelineLayoutCreateInfo()
 	{
 		vk::PipelineLayoutCreateInfo layoutCreateInfo;

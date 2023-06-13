@@ -192,6 +192,15 @@ namespace zt::gl::tests
 		ASSERT_NE(createInfo, vk::PipelineColorBlendStateCreateInfo{});
 	}
 
+	TEST(PipelineLayout, CreateDepthStencilStateCreateInfo)
+	{
+		PipelineLayout pipelineLayout;
+
+		const vk::PipelineDepthStencilStateCreateInfo& createInfo = pipelineLayout.createDepthStencilStateCreateInfo();
+
+		ASSERT_NE(createInfo, vk::PipelineDepthStencilStateCreateInfo{});
+	}
+
 	TEST(PipelineLayout, CreatePipelineLayoutCreateInfo)
 	{
 		PipelineLayout pipelineLayout;

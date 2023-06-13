@@ -32,6 +32,7 @@ namespace zt::gl
 		graphicsPipelineCreateInfo.subpass = 0;
 		graphicsPipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 		graphicsPipelineCreateInfo.basePipelineIndex = -1;
+		graphicsPipelineCreateInfo.pDepthStencilState = &pipelineLayout.createDepthStencilStateCreateInfo();
 
 		return graphicsPipelineCreateInfo;
 	}
