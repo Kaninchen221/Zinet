@@ -490,14 +490,14 @@ namespace zt::gl::tests
         renderArea.offset = vk::Offset2D{ 0, 0 };
         renderArea.extent = swapExtent;
 
-		vk::ClearValue clearValue;
+		vk::ClearValue colorClearValue;
 
 		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
 		{
 			.renderPass = renderPass,
 			.framebuffer = framebuffers[nextImage.second],
 			.renderArea = renderArea,
-			.clearValue = clearValue
+			.colorClearValue = colorClearValue
 		};
         commandBuffer.beginRenderPass(beginRenderPassInfo);
         commandBuffer.bindPipeline(pipeline);

@@ -275,7 +275,8 @@ namespace zt::gl::tests
 		framebuffer.create(device, framebufferCreateInfo);
 
 		vk::Rect2D renderArea;
-		vk::ClearValue clearValue;
+		vk::ClearValue colorClearValue;
+		vk::ClearValue depthBufferClearValue;
 
 		commandBuffer.begin();
 
@@ -284,7 +285,8 @@ namespace zt::gl::tests
 			.renderPass = renderPass,
 			.framebuffer = framebuffer,
 			.renderArea = renderArea,
-			.clearValue = clearValue
+			.colorClearValue = colorClearValue,
+			.depthBufferClearValue = depthBufferClearValue
 		};
 		commandBuffer.beginRenderPass(beginRenderPassInfo);
 		commandBuffer.endRenderPass();

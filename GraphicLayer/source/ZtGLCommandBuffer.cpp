@@ -57,8 +57,8 @@ namespace zt::gl
 		renderPassInfo.renderPass = *info.renderPass.getInternal();
 		renderPassInfo.framebuffer = *info.framebuffer.getInternal();
 		renderPassInfo.renderArea = info.renderArea;
-		renderPassInfo.clearValueCount = 1;
-		renderPassInfo.pClearValues = &info.clearValue;
+		renderPassInfo.clearValueCount = 2;
+		renderPassInfo.pClearValues = &info.colorClearValue;
 
 		internal.beginRenderPass(renderPassInfo, {});
 	}
