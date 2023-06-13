@@ -46,9 +46,9 @@ namespace zt::gl
 		updateSwapChainSupportDetails();
 
 		createSwapChain();
-		createImageViews();
 
 		createDepthBuffer();
+		createImageViews();
 		createRenderPass();
 		createFramebuffers();
 		
@@ -161,8 +161,13 @@ namespace zt::gl
 	{
 		for (ImageView& imageView : imageViews)
 		{
+			std::array<vk::ImageView, 2u> attachments{ imageView.getVk(), depthBuffer.getImageView().getVk() };
+
 			Framebuffer framebuffer;
 			vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, swapExtent);
+			framebufferCreateInfo.attachmentCount = static_cast<std::uint32_t>(attachments.size());
+			framebufferCreateInfo.pAttachments = attachments.data();
+
 			framebuffer.create(device, framebufferCreateInfo);
 			framebuffers.push_back(std::move(framebuffer));
 		}
