@@ -205,16 +205,12 @@ namespace zt::gl::tests
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), commandPool);
 		
 		queue.copyBufferToBufferWaitIdle(commandBuffer, sourceBuffer, destinationBuffer);
-		
-		std::pair<void*, std::uint64_t> data = destinationBuffer.getData();
+
+		std::unique_ptr<void, decltype(LambdaFree)> data = destinationBuffer.getData();
 		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
 		
-		ASSERT_EQ(data.second, expectedSize);
-		
-		int result = std::memcmp(data.first, vertices.data(), expectedSize);
+		int result = std::memcmp(data.get(), vertices.data(), expectedSize);
 		
 		ASSERT_EQ(result, 0);
-		
-		std::free(data.first);
 	}
 }

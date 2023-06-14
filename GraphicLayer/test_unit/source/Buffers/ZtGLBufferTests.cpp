@@ -7,6 +7,8 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 namespace zt::gl::tests
 {
 
@@ -110,15 +112,11 @@ namespace zt::gl::tests
 
 		bufferTest.fillWithObject<MVPFake>(object);
 
-		std::pair<void*, std::uint64_t> data = bufferTest.getData();
-		
-		ASSERT_EQ(data.second, expectedSize);
+		std::unique_ptr<void, decltype(LambdaFree)> data = bufferTest.getData();
 
-		int result = std::memcmp(data.first, &object, expectedSize);
+		int result = std::memcmp(data.get(), &object, expectedSize);
 		
 		ASSERT_EQ(result, 0);
-
-		std::free(data.first);
 	}
 
 	TEST_F(BufferTests, FillWithDataContainer)
@@ -126,15 +124,11 @@ namespace zt::gl::tests
 		std::vector<int> container{ 34, 753345345 };
 		bufferTest.fillWithStdContainer<std::vector<int>>(container);
 
-		std::pair<void*, std::uint64_t> data = bufferTest.getData();
+		std::unique_ptr<void, decltype(LambdaFree)> data = bufferTest.getData();
 
-		ASSERT_EQ(data.second, expectedSize);
-
-		int result = std::memcmp(data.first, container.data(), expectedSize);
+		int result = std::memcmp(data.get(), container.data(), expectedSize);
 
 		ASSERT_EQ(result, 0);
-
-		std::free(data.first);
 	}
 
 	TEST_F(BufferTests, FillWithCArray)
@@ -144,15 +138,11 @@ namespace zt::gl::tests
 		array[1] = 123;
 		bufferTest.fillWithCArray(array);
 
-		std::pair<void*, std::uint64_t> data = bufferTest.getData();
+		std::unique_ptr<void, decltype(LambdaFree)> data = bufferTest.getData();
 		
-		ASSERT_EQ(data.second, bufferTest.getSize());
-		
-		int result = std::memcmp(data.first, array, bufferTest.getSize());
+		int result = std::memcmp(data.get(), array, bufferTest.getSize());
 		
 		ASSERT_EQ(result, 0);
-		
-		std::free(data.first);
 	}
 
 }

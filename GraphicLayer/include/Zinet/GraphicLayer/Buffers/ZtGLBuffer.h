@@ -5,6 +5,7 @@
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 
 #include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtTypeTraits.h"
 
 #include <vk_mem_alloc.h>
 
@@ -55,9 +56,8 @@ namespace zt::gl
 		void fillWithStdContainer(const T& container);
 
 		void fillWithCArray(const void* firstElement);
-		
-		// TODO (High) Return unique_ptr with custom deleter func
-		std::pair<void*, std::uint64_t> getData();
+
+		std::unique_ptr<void, decltype(LambdaFree)> getData();
 
 	private:
 
