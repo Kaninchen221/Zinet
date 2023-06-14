@@ -1,27 +1,7 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLCommandPool.h"
-#include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
-#include "Zinet/GraphicLayer/ZtGLRenderPass.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLImageView.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLPipeline.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLRenderPass.h"
-#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
-#include "Zinet/GraphicLayer/ZtGLShaderModule.h"
-#include "Zinet/GraphicLayer/ZtGLShader.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLQueue.h"
-#include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "ZtGLRendererBuilder.h"
 
@@ -31,11 +11,13 @@
 
 namespace zt::gl::tests
 {
-	// TODO (high) Fix it by using RendererContext
-	/*
 	class CommandBufferSimpleTests : public ::testing::Test
 	{
 		static_assert(std::derived_from<CommandBuffer, VulkanObject<vk::raii::CommandBuffer>>);
+
+	protected:
+
+		CommandBuffer commandBuffer;
 	};
 
 	TEST_F(CommandBufferSimpleTests, CreateCommandBufferAllocateInfoTest)
@@ -44,24 +26,14 @@ namespace zt::gl::tests
 		using FunctionDeclaration = decltype(&CommandBuffer::createCommandBufferAllocateInfo);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
-		CommandBuffer commandBuffer;
 		CommandPool commandPool;
 		vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
 
 		ASSERT_NE(allocateInfo, vk::CommandBufferAllocateInfo{});
 	}
 
-	TEST_F(CommandBufferSimpleTests, ArrowOperatorTest)
-	{
-		CommandBuffer commandBuffer;
-		vk::raii::CommandBuffer* internal = commandBuffer.operator->();
-
-		ASSERT_EQ(**internal, *vk::raii::CommandBuffer{ std::nullptr_t{} });
-	}
-
 	TEST_F(CommandBufferSimpleTests, IsCommandBufferInvalid)
 	{
-		CommandBuffer commandBuffer;
 		bool isInvalid = commandBuffer.getIsCommandBufferInvalid();
 		ASSERT_FALSE(isInvalid);
 
@@ -70,12 +42,52 @@ namespace zt::gl::tests
 		ASSERT_TRUE(isInvalid);
 	}
 
-	TEST_F(CommandBufferSimpleTests, CopyBufferToImage)
+	TEST_F(CommandBufferSimpleTests, CreateImageMemoryBarrier)
 	{
-		Renderer renderer;
-		renderer.initialize();
-		RendererContext& rendererContext = renderer.getRendererContext();
+		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
+		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
+		Image image;
+		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
 
+		ASSERT_EQ(barrier.oldLayout, oldLayout);
+		ASSERT_EQ(barrier.newLayout, newLayout);
+		ASSERT_EQ(barrier.srcQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO (Low) Fix it
+		ASSERT_EQ(barrier.dstQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO (Low) Fix it
+		ASSERT_EQ(barrier.image, *image.getInternal());
+		ASSERT_EQ(barrier.subresourceRange.aspectMask, vk::ImageAspectFlagBits::eColor);
+		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, 0);
+		ASSERT_EQ(barrier.subresourceRange.levelCount, 1);
+		ASSERT_EQ(barrier.subresourceRange.baseArrayLayer, 0);
+		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
+		ASSERT_EQ(barrier.srcAccessMask, vk::AccessFlagBits{});
+		ASSERT_EQ(barrier.dstAccessMask, vk::AccessFlagBits{});
+	}
+
+	class CommandBufferTests : public ::testing::Test
+	{
+	protected:
+
+		RendererContext rendererContext;
+		CommandBuffer commandBuffer;
+
+		void SetUp() override
+		{
+			GLFW::Init();
+
+			rendererContext.initialize();
+
+			commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+			ASSERT_TRUE(commandBuffer.isValid());
+		}
+
+		void TearDown() override
+		{
+			GLFW::Deinit();
+		}
+	};
+
+	TEST_F(CommandBufferTests, CopyBufferToImage)
+	{
 		StagingBuffer stagingBuffer;
 
 		BufferCreateInfo stagingBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
@@ -90,9 +102,9 @@ namespace zt::gl::tests
 		Image image;
 		Image::CreateInfo imageCreateInfo{
 			.device = rendererContext.getDevice(),
-			.vma = rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
-			.allocationCreateInfo = image.createAllocationCreateInfo()
+				.vma = rendererContext.getVma(),
+				.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+				.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 
 		image.create(imageCreateInfo);
@@ -128,153 +140,75 @@ namespace zt::gl::tests
 		CommandPool commandPool;
 		commandPool.create(rendererContext.getDevice(), queueFamilyIndex);
 
-		CommandBuffer commandBuffer;
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), commandPool);
 
 		commandBuffer.begin();
 		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
+
+		commandBuffer.~CommandBuffer();
 	}
 
-	TEST_F(CommandBufferSimpleTests, BindVertexBuffer)
+	TEST_F(CommandBufferTests, BindVertexBuffer)
 	{
-		RendererBuilder rendererBuilder;
-		rendererBuilder.createAll();
-
 		VertexBuffer vertexBuffer;
 		vk::BufferCreateInfo vkBufferCreateInfo = vertexBuffer.createCreateInfo(1u);
 		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
 		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
 
-		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
+		BufferCreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma()};
 		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
 		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
 
 		vertexBuffer.create(bufferCreateInfo);
 
-		rendererBuilder.commandBuffer.begin();
-		rendererBuilder.commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
+		commandBuffer.begin();
+		commandBuffer.bindVertexBuffer(0u, vertexBuffer, vk::DeviceSize{ 0 });
 	}
 
-	TEST_F(CommandBufferSimpleTests, BindIndexBuffer)
+	TEST_F(CommandBufferTests, BindIndexBuffer)
 	{
-		RendererBuilder rendererBuilder;
-		rendererBuilder.createAll();
-
 		IndexBuffer indexBuffer;
 		vk::BufferCreateInfo vkBufferCreateInfo = indexBuffer.createCreateInfo(1u);
 		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eIndexBuffer;
 		VmaAllocationCreateInfo allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
 
-		BufferCreateInfo bufferCreateInfo{ .device = rendererBuilder.device, .vma = rendererBuilder.vma };
+		BufferCreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
 		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
 
 		indexBuffer.create(bufferCreateInfo);
 
-		rendererBuilder.commandBuffer.begin();
+		commandBuffer.begin();
 		vk::DeviceSize offset = 0u;
 		vk::IndexType indexType = vk::IndexType::eUint16;
-		rendererBuilder.commandBuffer.bindIndexBuffer(indexBuffer, offset, indexType);
-	}
-
-	TEST_F(CommandBufferSimpleTests, BindDescriptorSets)
-	{
-		RendererBuilder rendererBuilder;
-		rendererBuilder.createAll();
-
-		vk::PipelineBindPoint bindPoint = vk::PipelineBindPoint::eGraphics;
-		std::uint32_t firstSet = 0u;
-		std::array<std::uint32_t, 0> dynamicOffsets;
-		rendererBuilder.commandBuffer.begin();
-		rendererBuilder.commandBuffer.bindDescriptorSets(bindPoint, rendererBuilder.pipelineLayout, firstSet, *rendererBuilder.descriptorSets, dynamicOffsets);
-	}
-
-	class CommandBufferTests : public ::testing::Test
-	{
-	protected:
-
-		Context context;
-		Instance instance;
-		Window window;
-		Surface surface;
-		PhysicalDevice physicalDevice;
-		Device device;
-		CommandPool commandPool;
-		CommandBuffer commandBuffer;
-
-		void SetUp() override
-		{
-			GLFW::Init();
-
-			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.populateRequiredExtensions();
-			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-			instance.create(context, instanceCreateInfo);
-			window.create();
-			surface.create(instance, window);
-			physicalDevice.create(instance);
-
-			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-			device.create(physicalDevice, deviceCreateInfo);
-
-			uint32_t queueFamilyIndex = physicalDevice.pickQueueFamilyIndex(surface);
-			commandPool.create(device, queueFamilyIndex);
-
-			commandBuffer.allocateCommandBuffer(device, commandPool);
-		}
-
-		void TearDown() override
-		{
-			GLFW::Deinit();
-		}
-	};
-
-	TEST_F(CommandBufferTests, AllocateCommandBufferTest)
-	{
-		typedef void(CommandBuffer::* ExpectedFunctionDeclaration)(const Device&, const CommandPool&);
-		using FunctionDeclaration = decltype(&CommandBuffer::allocateCommandBuffer);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		ASSERT_NE(*commandBuffer.getInternal(), *vk::raii::CommandBuffer{ std::nullptr_t{} });
-	}
-
-	TEST_F(CommandBufferTests, BeginTest)
-	{
-		commandBuffer.begin();
-	}
-
-	TEST_F(CommandBufferTests, EndTest)
-	{
-		commandBuffer.begin();
-		commandBuffer.end();
+		commandBuffer.bindIndexBuffer(indexBuffer, offset, indexType);
 	}
 
 	TEST_F(CommandBufferTests, RenderPassTest)
 	{
-		SwapChainSupportDetails swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
-		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
-
-		SwapChain swapChain;
-		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
-		swapChain.create(device, creatInfo);
-
 		ImageView imageView;
-		std::vector<vk::Image> images = swapChain.getImages();
-		vk::SurfaceFormatKHR surfaceFormat = swapChainSupportDetails.pickFormat();
+		std::vector<vk::Image> images = rendererContext.getSwapChain().getImages();
+		vk::SurfaceFormatKHR surfaceFormat = rendererContext.getSwapChainSupportDetails().pickFormat();
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], surfaceFormat.format);
-		imageView.create(device, imageViewCreateInfo);
+		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 
 		RenderPass renderPass;
 		renderPass.createColorAttachmentDescription(surfaceFormat.format);
 		renderPass.createColorAttachmentReference();
+		renderPass.createDepthAttachmentDescription(rendererContext.getDepthBufferFormat());
+		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
-		renderPass.create(device);
+		renderPass.create(rendererContext.getDevice());
 
 		Framebuffer framebuffer;
-		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, swapExtent);
-		framebuffer.create(device, framebufferCreateInfo);
+		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, rendererContext.getSwapExtent());
+		
+		std::array<vk::ImageView, 2u> framebufferAttachments = { imageView.getVk(), rendererContext.getDepthBuffer().getImageView().getVk() };
+		framebufferCreateInfo.pAttachments = framebufferAttachments.data();
+		framebufferCreateInfo.attachmentCount = static_cast<std::uint32_t>(framebufferAttachments.size());
+		
+		framebuffer.create(rendererContext.getDevice(), framebufferCreateInfo);
 
 		vk::Rect2D renderArea;
 		vk::ClearValue colorClearValue;
@@ -294,81 +228,5 @@ namespace zt::gl::tests
 		commandBuffer.beginRenderPass(beginRenderPassInfo);
 		commandBuffer.endRenderPass();
 	}
-
-	TEST_F(CommandBufferTests, PipelineTest)
-	{
-		RenderPass renderPass;
-		renderPass.createColorAttachmentDescription(vk::Format::eR8G8Unorm);
-		renderPass.createColorAttachmentReference();
-		renderPass.createSubpassDescription();
-		renderPass.createSubpassDependency();
-		renderPass.create(device);
-
-		PipelineLayout pipelineLayout;
-		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();
-		pipelineLayout.create(device, pipelineLayoutCreateInfo);
-
-		Shader vertexShader;
-		vertexShader.setType(ShaderType::Vertex);
-		vertexShader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shaderStaticVertices.vert");
-		vertexShader.compile();
-
-		Shader fragmentShader;
-		fragmentShader.setType(ShaderType::Fragment);
-		fragmentShader.loadFromFile(ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files/shaderStaticVertices.frag");
-		fragmentShader.compile();
-
-		ShaderModule vertexShaderModule;
-		vk::ShaderModuleCreateInfo vertexShaderCreateInfo = vertexShaderModule.createShaderModuleCreateInfo(vertexShader);
-		vertexShaderModule.create(device, ShaderType::Vertex, vertexShaderCreateInfo);
-
-		ShaderModule fragmentShaderModule;
-		vk::ShaderModuleCreateInfo fragmentShaderCreateInfo = fragmentShaderModule.createShaderModuleCreateInfo(fragmentShader);
-		fragmentShaderModule.create(device, ShaderType::Fragment, fragmentShaderCreateInfo);
-
-		vk::PipelineShaderStageCreateInfo vertexShaderStage = pipelineLayout.createShaderStageCreateInfo(vertexShaderModule);
-		vk::PipelineShaderStageCreateInfo fragmentShaderStage = pipelineLayout.createShaderStageCreateInfo(fragmentShaderModule);
-
-		std::vector<vk::PipelineShaderStageCreateInfo> stages = { vertexShaderStage, fragmentShaderStage };
-
-		Pipeline pipeline;
-		vk::GraphicsPipelineCreateInfo createInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, renderPass, stages);
-		pipeline.create(device, createInfo);
-
-		commandBuffer.begin();
-		commandBuffer.bindPipeline(pipeline);
-	}
-
-	TEST_F(CommandBufferTests, Reset)
-	{
-		commandBuffer.reset();
-	}
-
-	TEST_F(CommandBufferTests, RecordCommandBuffer)
-	{
-		commandBuffer.reset();
-	}
-
-	TEST_F(CommandBufferSimpleTests, CreateImageMemoryBarrier)
-	{
-		CommandBuffer commandBuffer;
-		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
-		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-		Image image;
-		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
-
-		ASSERT_EQ(barrier.oldLayout, oldLayout);
-		ASSERT_EQ(barrier.newLayout, newLayout);
-		ASSERT_EQ(barrier.srcQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO (Low) Fix it
-		ASSERT_EQ(barrier.dstQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);  // TODO (Low) Fix it
-		ASSERT_EQ(barrier.image, *image.getInternal());
-		ASSERT_EQ(barrier.subresourceRange.aspectMask, vk::ImageAspectFlagBits::eColor);
-		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, 0);
-		ASSERT_EQ(barrier.subresourceRange.levelCount, 1);
-		ASSERT_EQ(barrier.subresourceRange.baseArrayLayer, 0);
-		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
-		ASSERT_EQ(barrier.srcAccessMask, vk::AccessFlagBits{});
-		ASSERT_EQ(barrier.dstAccessMask, vk::AccessFlagBits{});
-	}
-	*/
+	
 }

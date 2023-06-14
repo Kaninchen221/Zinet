@@ -190,6 +190,8 @@ namespace zt::gl
 		createSwapChain();
 		createImageViews();
 		createFramebuffers();
+
+		// TODO (High) fix resizing
 	}
 
 	void RendererContext::updateSwapChainSupportDetails()
