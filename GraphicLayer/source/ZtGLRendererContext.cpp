@@ -147,8 +147,8 @@ namespace zt::gl
 
 	void RendererContext::createRenderPass()
 	{
-		renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
-		renderPass.createAttachmentReference();
+		renderPass.createColorAttachmentDescription(swapChainSupportDetails.pickFormat().format);
+		renderPass.createColorAttachmentReference();
 		renderPass.createDepthAttachmentDescription(depthBufferFormat);
 		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();

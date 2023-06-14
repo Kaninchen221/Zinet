@@ -67,8 +67,8 @@ namespace zt::gl::tests
 		device.create(physicalDevice, deviceCreateInfo);
 
 		RenderPass renderPass;
-		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
-		renderPass.createAttachmentReference();
+		renderPass.createColorAttachmentDescription(vk::Format::eR8G8Unorm);
+		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 		renderPass.create(device);

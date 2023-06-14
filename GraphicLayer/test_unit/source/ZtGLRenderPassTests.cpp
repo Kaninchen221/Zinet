@@ -45,11 +45,11 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, AttachmentDescriptions)
 	{
 		typedef const vk::AttachmentDescription& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentDescription));
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getColorAttachmentDescription));
 
 		vk::Format swapChainFormat{};
-		renderPass.createAttachmentDescription(swapChainFormat);
-		const vk::AttachmentDescription& attachmentDescription = renderPass.getAttachmentDescription();
+		renderPass.createColorAttachmentDescription(swapChainFormat);
+		const vk::AttachmentDescription& attachmentDescription = renderPass.getColorAttachmentDescription();
 
 		ASSERT_NE(attachmentDescription, vk::AttachmentDescription{});
 	}
@@ -57,10 +57,10 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, AttachmentReferenceTest)
 	{
 		typedef const vk::AttachmentReference& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentReference));
+		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getColorAttachmentReference));
 
-		renderPass.createAttachmentReference();
-		const vk::AttachmentReference& attachmentReference = renderPass.getAttachmentReference();
+		renderPass.createColorAttachmentReference();
+		const vk::AttachmentReference& attachmentReference = renderPass.getColorAttachmentReference();
 
 		ASSERT_NE(attachmentReference, vk::AttachmentReference{});
 	}
@@ -124,8 +124,8 @@ namespace zt::gl::tests
 		RendererContext rendererContext;
 		rendererContext.initialize();
 
-		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
-		renderPass.createAttachmentReference();
+		renderPass.createColorAttachmentDescription(vk::Format::eR8G8Unorm);
+		renderPass.createColorAttachmentReference();
 		renderPass.createDepthAttachmentDescription(rendererContext.getDepthBufferFormat());
 		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();

@@ -4,7 +4,7 @@
 namespace zt::gl
 {
 
-	void RenderPass::createAttachmentDescription(vk::Format format)
+	void RenderPass::createColorAttachmentDescription(vk::Format format)
 	{
 		vk::AttachmentDescription& colorAttachmentDescription = attachmentDescriptions[0];
 		colorAttachmentDescription.format = format;
@@ -17,7 +17,7 @@ namespace zt::gl
 		colorAttachmentDescription.finalLayout = vk::ImageLayout::ePresentSrcKHR;
 	}
 
-	void RenderPass::createAttachmentReference()
+	void RenderPass::createColorAttachmentReference()
 	{
 		vk::AttachmentReference& colorAttachmentReference = attachmentReferences[0];
 		colorAttachmentReference.attachment = 0;
@@ -28,7 +28,7 @@ namespace zt::gl
 	{
 		subpassDescription.pipelineBindPoint = vk::PipelineBindPoint::eGraphics;
 		subpassDescription.colorAttachmentCount = 1;
-		subpassDescription.pColorAttachments = &getAttachmentReference();
+		subpassDescription.pColorAttachments = &getColorAttachmentReference();
 		subpassDescription.pDepthStencilAttachment = &getDepthAttachmentReference();
 	}
 

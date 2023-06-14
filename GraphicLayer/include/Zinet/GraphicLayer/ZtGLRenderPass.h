@@ -31,12 +31,11 @@ namespace zt::gl
 
 		const std::array<vk::AttachmentReference, 2u>& getAttachmentReferences() const { return attachmentReferences; }
 
-		// TODO (mid) update names
-		void createAttachmentDescription(vk::Format format);
-		const vk::AttachmentDescription& getAttachmentDescription() const { return attachmentDescriptions[0]; }
+		void createColorAttachmentDescription(vk::Format format);
+		const vk::AttachmentDescription& getColorAttachmentDescription() const { return attachmentDescriptions[0]; }
 
-		void createAttachmentReference();
-		const vk::AttachmentReference& getAttachmentReference() const { return attachmentReferences[0]; }
+		void createColorAttachmentReference();
+		const vk::AttachmentReference& getColorAttachmentReference() const { return attachmentReferences[0]; }
 
 		void createSubpassDescription();
 		const vk::SubpassDescription& getSubpassDescription() const { return subpassDescription; }

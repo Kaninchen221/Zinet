@@ -194,8 +194,8 @@ namespace zt::gl::tests
 
     void RendererBuilder::createRenderPass()
     {
-        renderPass.createAttachmentDescription(swapChainSupportDetails.pickFormat().format);
-        renderPass.createAttachmentReference();
+        renderPass.createColorAttachmentDescription(swapChainSupportDetails.pickFormat().format);
+        renderPass.createColorAttachmentReference();
         renderPass.createSubpassDescription();
         renderPass.createSubpassDependency();
 

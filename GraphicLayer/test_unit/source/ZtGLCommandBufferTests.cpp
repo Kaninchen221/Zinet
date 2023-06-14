@@ -266,8 +266,8 @@ namespace zt::gl::tests
 		imageView.create(device, imageViewCreateInfo);
 
 		RenderPass renderPass;
-		renderPass.createAttachmentDescription(surfaceFormat.format);
-		renderPass.createAttachmentReference();
+		renderPass.createColorAttachmentDescription(surfaceFormat.format);
+		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 		renderPass.create(device);
@@ -298,8 +298,8 @@ namespace zt::gl::tests
 	TEST_F(CommandBufferTests, PipelineTest)
 	{
 		RenderPass renderPass;
-		renderPass.createAttachmentDescription(vk::Format::eR8G8Unorm);
-		renderPass.createAttachmentReference();
+		renderPass.createColorAttachmentDescription(vk::Format::eR8G8Unorm);
+		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 		renderPass.create(device);

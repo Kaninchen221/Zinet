@@ -75,8 +75,8 @@ namespace zt::gl::tests
 		device.create(physicalDevice, deviceCreateInfo);
 
 		RenderPass renderPass;
-		renderPass.createAttachmentDescription(surfaceFormat.format);
-		renderPass.createAttachmentReference();
+		renderPass.createColorAttachmentDescription(surfaceFormat.format);
+		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 		renderPass.create(device);

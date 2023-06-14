@@ -93,8 +93,8 @@ namespace zt::gl::tests
 			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
 			device.create(physicalDevice, deviceCreateInfo);
 
-			renderPass.createAttachmentDescription(vk::Format::eR8G8B8A8Srgb);
-			renderPass.createAttachmentReference();
+			renderPass.createColorAttachmentDescription(vk::Format::eR8G8B8A8Srgb);
+			renderPass.createColorAttachmentReference();
 			renderPass.createDepthAttachmentDescription()
 			renderPass.createSubpassDescription();
 			renderPass.createSubpassDependency();
