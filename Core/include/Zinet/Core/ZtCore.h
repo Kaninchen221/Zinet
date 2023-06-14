@@ -1,9 +1,6 @@
 #pragma once
 
-// TODO Check this two warnings
-// TODO Suppress 2220
-#pragma warning(disable:26812)
-#pragma warning(disable:4820)
+#pragma warning(disable:4100)
 
 #ifndef ZINET_STATIC
 
