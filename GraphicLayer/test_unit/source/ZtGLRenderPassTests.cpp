@@ -32,13 +32,13 @@ namespace zt::gl::tests
 
 	TEST_F(RenderPassTests, GetAttachmentDescriptions)
 	{
-		typedef const std::array<vk::AttachmentDescription, 2u>& (RenderPass::* ExpectedFunction)() const;
+		typedef const std::vector<vk::AttachmentDescription>& (RenderPass::* ExpectedFunction)() const;
 		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentDescriptions));
 	}
 
 	TEST_F(RenderPassTests, GetAttachmentReferences)
 	{
-		typedef const std::array<vk::AttachmentReference, 2u>& (RenderPass::* ExpectedFunction)() const;
+		typedef const std::vector<vk::AttachmentReference>& (RenderPass::* ExpectedFunction)() const;
 		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentReferences));
 	}
 

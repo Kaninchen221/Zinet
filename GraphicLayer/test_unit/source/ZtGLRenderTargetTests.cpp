@@ -9,9 +9,10 @@
 #include "Zinet/GraphicLayer/ZtGLVma.h"
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include <gtest/gtest.h>
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 namespace zt::gl::tests
 {
@@ -53,55 +54,17 @@ namespace zt::gl::tests
 		ASSERT_EQ(framebuffer, nullptr);
 	}
 
-	// TODO (High) Fix this by adding option to turn off the depth buffer
-	/*
 	class RenderTargetTests : public ::testing::Test
 	{
 	protected:
 
-		Context context;
-		Instance instance;
-		DebugUtilsMessenger debugUtilsMessenger;
-		PhysicalDevice physicalDevice;
-		Device device;
-		Vma vma;
-		RenderPass renderPass;
-		Window window;
-		Surface surface;
-
-
+		RendererContext rendererContext;
 		RenderTarget renderTarget;
 
 		void SetUp() override
 		{
 			GLFW::Init();
-
-			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
-			instance.populateRequiredExtensions();
-			vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
-			instance.create(context, instanceCreateInfo);
-			
-			debugUtilsMessenger.create(instance);
-
-			physicalDevice.create(instance);
-
-			window.create();
-
-			surface.create(instance, window);
-
-			vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-			vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
-			device.create(physicalDevice, deviceCreateInfo);
-
-			renderPass.createColorAttachmentDescription(vk::Format::eR8G8B8A8Srgb);
-			renderPass.createColorAttachmentReference();
-			renderPass.createDepthAttachmentDescription()
-			renderPass.createSubpassDescription();
-			renderPass.createSubpassDependency();
-			renderPass.create(device);
-
-			VmaAllocatorCreateInfo vmaCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
-			vma.create(vmaCreateInfo);
+			rendererContext.initialize();
 		}
 
 		void TearDown() override
@@ -112,10 +75,18 @@ namespace zt::gl::tests
 
 	TEST_F(RenderTargetTests, Create)
 	{
+		RenderPass renderPass;
+		renderPass.createColorAttachmentDescription(vk::Format::eR8G8B8A8Srgb);
+		renderPass.createColorAttachmentReference();
+		renderPass.createSubpassDependency();
+		renderPass.createSubpassDescription();
+		//vk::RenderPassCreateInfo renderPassCreateInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(rendererContext.getDevice());
+
 		RenderTarget::CreateInfo renderTargetCreateInfo
 		{
-			.device = device,
-			.vma = vma,
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
 			.renderPass = renderPass,
 			.width = 400u,
 			.height = 400u,
@@ -134,5 +105,4 @@ namespace zt::gl::tests
 		ASSERT_NE(framebuffer, nullptr);
 	}
 
-	*/
 }
