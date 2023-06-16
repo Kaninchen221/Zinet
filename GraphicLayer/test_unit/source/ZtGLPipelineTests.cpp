@@ -71,7 +71,9 @@ namespace zt::gl::tests
 		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
-		renderPass.create(device);
+
+		vk::RenderPassCreateInfo renderPassCreateInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(device, renderPassCreateInfo);
 
 		PipelineLayout pipelineLayout;
 		vk::PipelineLayoutCreateInfo pipelineLayoutCreateInfo = pipelineLayout.createPipelineLayoutCreateInfo();

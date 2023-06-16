@@ -131,7 +131,8 @@ namespace zt::gl::tests
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 
-		renderPass.create(rendererContext.getDevice());
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(rendererContext.getDevice(), createInfo);
 		vk::raii::RenderPass& internal = renderPass.getInternal();
 
 		ASSERT_NE(*internal, *vk::raii::RenderPass{ std::nullptr_t{} });

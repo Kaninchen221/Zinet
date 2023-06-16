@@ -154,7 +154,8 @@ namespace zt::gl
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 
-		renderPass.create(device);
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(device, createInfo);
 	}
 
 	void RendererContext::createFramebuffers()

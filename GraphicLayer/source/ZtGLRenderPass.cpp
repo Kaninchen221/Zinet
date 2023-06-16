@@ -68,10 +68,8 @@ namespace zt::gl
 		return createInfo;
 	}
 
-	void RenderPass::create(Device& device)
+	void RenderPass::create(const Device& device, const vk::RenderPassCreateInfo& createInfo)
 	{
-		// TODO (Low) CreateInfo as function param
-		vk::RenderPassCreateInfo createInfo = createRenderPassCreateInfo();
 		internal = std::move(vk::raii::RenderPass{ device.getInternal(), createInfo });
 	}
 

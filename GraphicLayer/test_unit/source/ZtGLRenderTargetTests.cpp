@@ -80,8 +80,9 @@ namespace zt::gl::tests
 		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDependency();
 		renderPass.createSubpassDescription();
-		//vk::RenderPassCreateInfo renderPassCreateInfo = renderPass.createRenderPassCreateInfo();
-		renderPass.create(rendererContext.getDevice());
+
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(rendererContext.getDevice(), createInfo);
 
 		RenderTarget::CreateInfo renderTargetCreateInfo
 		{

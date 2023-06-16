@@ -199,7 +199,8 @@ namespace zt::gl::tests
         renderPass.createSubpassDescription();
         renderPass.createSubpassDependency();
 
-        renderPass.create(device);
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
+        renderPass.create(device, createInfo);
     }
 
     void RendererBuilder::createPipeline()

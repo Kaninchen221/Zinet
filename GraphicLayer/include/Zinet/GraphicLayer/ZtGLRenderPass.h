@@ -56,7 +56,7 @@ namespace zt::gl
 
 		vk::RenderPassCreateInfo createRenderPassCreateInfo() const;
 
-		void create(Device& device);
+		void create(const Device& device, const vk::RenderPassCreateInfo& createInfo);
 
 	protected:
 

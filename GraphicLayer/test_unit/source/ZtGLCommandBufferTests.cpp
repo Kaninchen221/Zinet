@@ -199,7 +199,9 @@ namespace zt::gl::tests
 		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
-		renderPass.create(rendererContext.getDevice());
+
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(rendererContext.getDevice(), createInfo);
 
 		Framebuffer framebuffer;
 		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, rendererContext.getSwapExtent());

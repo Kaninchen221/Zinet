@@ -79,7 +79,9 @@ namespace zt::gl::tests
 		renderPass.createColorAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
-		renderPass.create(device);
+
+		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
+		renderPass.create(device, createInfo);
 
 		std::unique_ptr<SwapChain> swapChain = std::make_unique<SwapChain>();
 		vk::SwapchainCreateInfoKHR creatInfo = swapChain->createCreateInfo(swapChainSupportDetails, surface, window);
