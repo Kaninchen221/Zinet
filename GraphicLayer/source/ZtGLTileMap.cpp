@@ -10,7 +10,6 @@ namespace zt::gl
 
 	DrawInfo TileMap::createDrawInfo(RendererContext& rendererContext) const
 	{
-		// TODO (Low) Create draw info properties
 		DrawInfo drawInfo;
 		drawInfo.indices = { 0, 1, 2, 2, 3, 0 };
 		drawInfo.vertexBuffer = createVertexBuffer(rendererContext);
