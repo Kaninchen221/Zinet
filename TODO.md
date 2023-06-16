@@ -1,6 +1,5 @@
 - See code TODOs
-- Migrate to Conan 2.0
-- Create list of third party libs that are have package for Conan 2.0
+- Migrate to Conan 2.0, create branch for that
 - Change tests libs names from "Unit" to "Automatic" and "Functional" to "Manual"
 - In CI run only Automatic tests
 - ImGui is now in graphic layer lib it shouldn't be like that
