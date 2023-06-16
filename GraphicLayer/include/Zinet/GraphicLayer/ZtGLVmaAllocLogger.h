@@ -19,11 +19,14 @@ namespace zt::gl
 		~VmaAllocLogger() noexcept = delete;
 
 		template<typename... Args>
-		static void Log(fmt::format_string<Args...> format, [[maybe_unused]] Args &&...args) // TODO (Low) use args
+		static void Log(const std::string& format, Args &&...args)
 		{
 			std::call_once(onceFlag, []() { Logger.turnOff(); });
 
-			Logger->info(format);
+			char buffer[1024];
+			sprintf_s(buffer, sizeof(buffer), format.c_str(), args...); // MSVC only
+
+			Logger->info(buffer);
 		}
 
 	};
