@@ -20,7 +20,6 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
-#include "ZtGLRendererBuilder.h"
 
 #include <gtest/gtest.h>
 

@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
-#include "ZtGLRendererBuilder.h"
+#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include <gtest/gtest.h>
 
