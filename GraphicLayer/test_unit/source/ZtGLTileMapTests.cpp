@@ -16,7 +16,7 @@
 
 namespace zt::gl::tests
 {
-
+	// TODO (Low) Refactor TileMap and Sprite to one parent class and two children classes
 	class TileMapTests : public ::testing::Test
 	{
 	protected:
@@ -32,7 +32,6 @@ namespace zt::gl::tests
 
 		static_assert(std::is_base_of_v<DrawableObject, TileMap>);
 		static_assert(std::is_default_constructible_v<TileMap>);
-		// TODO (Mid) TileMap must be a copyable and movable
 
 		void SetUp() override
 		{
@@ -71,7 +70,7 @@ namespace zt::gl::tests
 
 	TEST_F(TileMapTests, CreateDrawInfo)
 	{
-		// TODO (Mid) Test it
+
 	}
 
 	class TileMapSimpleTests : public ::testing::Test
