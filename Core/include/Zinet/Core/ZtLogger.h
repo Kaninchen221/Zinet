@@ -8,8 +8,6 @@
 
 namespace zt
 {
-	class SimpleConsoleLogger;
-
 	template<typename Mutex = std::mutex>
 	class CustomSink : public spdlog::sinks::base_sink<Mutex>
 	{
