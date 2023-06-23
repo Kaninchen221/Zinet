@@ -13,14 +13,14 @@ namespace zt::gl
 	vk::FramebufferCreateInfo Framebuffer::createCreateInfo(
 		ImageView& imageView,
 		RenderPass& renderPass,
-		const vk::Extent2D& swapChainExtent) const
+		const vk::Extent2D& extent) const
 	{
 		vk::FramebufferCreateInfo createInfo{}; 
 		createInfo.renderPass = *renderPass.getInternal();
 		createInfo.attachmentCount = 1;
 		createInfo.pAttachments = &*imageView.getInternal();
-		createInfo.width = swapChainExtent.width;
-		createInfo.height = swapChainExtent.height;
+		createInfo.width = extent.width;
+		createInfo.height = extent.height;
 		createInfo.layers = 1;
 
 		return createInfo;

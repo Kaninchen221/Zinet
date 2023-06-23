@@ -41,4 +41,35 @@ namespace zt::gl
 		framebuffer.create(createInfo.device, framebufferCreateInfo);
 	}
 
+	void RenderTargetDisplay::create(const CreateInfo& createInfo)
+	{
+		createImageView(createInfo);
+		createFramebuffer(createInfo);
+	}
+
+	void RenderTargetDisplay::createImageView(const CreateInfo& createInfo)
+	{
+		swapChainImage = createInfo.swapChainImage;
+
+		vk::ImageViewCreateInfo imageViewCreateInfo = swapChainImageView.createCreateInfo(swapChainImage, createInfo.format);
+		swapChainImageView.create(createInfo.device, imageViewCreateInfo);
+	}
+
+	void RenderTargetDisplay::createFramebuffer(const CreateInfo& createInfo)
+	{
+		std::vector<vk::ImageView> attachments;
+
+		if (createInfo.depthBufferImageView)
+			attachments = { swapChainImageView.getVk(), createInfo.depthBufferImageView };
+		else
+			attachments = { swapChainImageView.getVk() };
+
+		vk::Extent2D extent{ createInfo.width, createInfo.height };
+		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(swapChainImageView, createInfo.renderPass, extent);
+		framebufferCreateInfo.attachmentCount = static_cast<std::uint32_t>(attachments.size());
+		framebufferCreateInfo.pAttachments = attachments.data();
+
+		framebuffer.create(createInfo.device, framebufferCreateInfo);
+	}
+
 }

@@ -12,10 +12,42 @@ namespace zt::gl
 {
 	class RenderPass;
 
-	class ZINET_GRAPHIC_LAYER_API RenderTarget
+	class ZINET_GRAPHIC_LAYER_API RenderTargetBase
 	{
 
 	public:
+
+		RenderTargetBase() = default;
+		RenderTargetBase(const RenderTargetBase& other) = default;
+		RenderTargetBase(RenderTargetBase&& other) = default;
+
+		RenderTargetBase& operator = (const RenderTargetBase& other) = default;
+		RenderTargetBase& operator = (RenderTargetBase&& other) = default;
+
+		~RenderTargetBase() noexcept = default;
+
+		Framebuffer& getFramebuffer() { return framebuffer; }
+
+	protected:
+
+		Framebuffer framebuffer;
+	};
+
+	class ZINET_GRAPHIC_LAYER_API RenderTarget : public RenderTargetBase
+	{
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderTarget");
+
+	public:
+
+
+		RenderTarget() = default;
+		RenderTarget(const RenderTarget& other) = default;
+		RenderTarget(RenderTarget&& other) = default;
+
+		RenderTarget& operator = (const RenderTarget& other) = default;
+		RenderTarget& operator = (RenderTarget&& other) = default;
+
+		~RenderTarget() noexcept = default;
 
 		struct ZINET_GRAPHIC_LAYER_API CreateInfo
 		{
@@ -27,28 +59,11 @@ namespace zt::gl
 			vk::Format format;
 		};
 
-	protected:
-
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderTarget");
-
-	public:
-
-		RenderTarget() = default;
-		RenderTarget(const RenderTarget& other) = default;
-		RenderTarget(RenderTarget&& other) = default;
-
-		RenderTarget& operator = (const RenderTarget& other) = default;
-		RenderTarget& operator = (RenderTarget&& other) = default;
-
-		~RenderTarget() noexcept = default;
+		void create(const CreateInfo& createInfo);
 
 		const Image& getImage() const { return image; }
 
 		const ImageView& getImageView() const { return imageView; }
-
-		Framebuffer& getFramebuffer() { return framebuffer; }
-
-		void create(const CreateInfo& createInfo);
 
 	protected:
 
@@ -58,8 +73,50 @@ namespace zt::gl
 
 		Image image;
 		ImageView imageView;
-		Framebuffer framebuffer;
 
 	};
 
+	class ZINET_GRAPHIC_LAYER_API RenderTargetDisplay : public RenderTargetBase
+	{
+		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderTargetDisplay");
+
+	public:
+
+		RenderTargetDisplay() = default;
+		RenderTargetDisplay(const RenderTargetDisplay& other) = default;
+		RenderTargetDisplay(RenderTargetDisplay&& other) = default;
+
+		RenderTargetDisplay& operator = (const RenderTargetDisplay& other) = default;
+		RenderTargetDisplay& operator = (RenderTargetDisplay&& other) = default;
+
+		~RenderTargetDisplay() noexcept = default;
+
+		struct ZINET_GRAPHIC_LAYER_API CreateInfo
+		{
+			const Device& device;
+			const Vma& vma;
+			RenderPass& renderPass;
+			std::uint32_t width;
+			std::uint32_t height;
+			vk::Format format;
+			vk::Image swapChainImage;
+			vk::ImageView depthBufferImageView;
+		};
+
+		void create(const CreateInfo& createInfo);
+
+		vk::Image getSwapChainImage() const { return swapChainImage; }
+
+		const ImageView& getSwapChainImageView() const { return swapChainImageView; }
+		ImageView& getSwapChainImageView() { return swapChainImageView; }
+
+	protected:
+
+		void createImageView(const CreateInfo& createInfo);
+		void createFramebuffer(const CreateInfo& createInfo);
+
+		vk::Image swapChainImage;
+		ImageView swapChainImageView;
+
+	};
 }

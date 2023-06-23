@@ -32,7 +32,7 @@ namespace zt::gl
 		vk::FramebufferCreateInfo createCreateInfo(
 			ImageView& imageView,
 			RenderPass& renderPass,
-			const vk::Extent2D& swapChainExtent) const;
+			const vk::Extent2D& extent) const;
 
 		void create(const Device& device, vk::FramebufferCreateInfo& framebufferCreateInfo);
 
