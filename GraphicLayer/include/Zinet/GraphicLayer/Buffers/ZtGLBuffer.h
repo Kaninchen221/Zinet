@@ -14,14 +14,6 @@ namespace zt::gl
 	class Vma;
 	class Device;
 
-	struct BufferCreateInfo
-	{
-		const Device& device;
-		const Vma& vma;
-		VkBufferCreateInfo vkBufferCreateInfo;
-		VmaAllocationCreateInfo allocationCreateInfo;
-	};
-
 	// TODO (Low) Flush Vma allocator after unmap operation if mapped memory is not HOST_COHERENT
 	class ZINET_GRAPHIC_LAYER_API Buffer : public VulkanObject<vk::raii::Buffer>
 	{
@@ -45,7 +37,15 @@ namespace zt::gl
 
 		virtual VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess, bool useCPUMemory) const;
 
-		void create(const BufferCreateInfo& bufferCreateInfo);
+		struct CreateInfo
+		{
+			const Device& device;
+			const Vma& vma;
+			VkBufferCreateInfo vkBufferCreateInfo;
+			VmaAllocationCreateInfo allocationCreateInfo;
+		};
+
+		void create(const CreateInfo& bufferCreateInfo);
 
 		std::uint64_t getSize() const;
 

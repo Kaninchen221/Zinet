@@ -175,7 +175,7 @@ namespace zt::gl::tests
 		StagingBuffer sourceBuffer;
 
 		std::uint64_t size = sizeof(Vertex) * vertices.size();
-		BufferCreateInfo sourceBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+		Buffer::CreateInfo sourceBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		sourceBufferCreateInfo.vkBufferCreateInfo = sourceBuffer.createCreateInfo(size);
 		sourceBufferCreateInfo.allocationCreateInfo = sourceBuffer.createVmaAllocationCreateInfo(false, true);
 
@@ -185,7 +185,7 @@ namespace zt::gl::tests
 		// Vertex Buffer 
 		VertexBuffer destinationBuffer;
 
-		BufferCreateInfo destinationBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+		Buffer::CreateInfo destinationBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		destinationBufferCreateInfo.vkBufferCreateInfo = destinationBuffer.createCreateInfo(size);
 		destinationBufferCreateInfo.allocationCreateInfo = destinationBuffer.createVmaAllocationCreateInfo(false, false);
 

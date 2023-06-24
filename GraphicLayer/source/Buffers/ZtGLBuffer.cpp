@@ -61,7 +61,7 @@ namespace zt::gl
 		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 	}
 
-	void Buffer::create(const BufferCreateInfo& bufferCreateInfo)
+	void Buffer::create(const CreateInfo& bufferCreateInfo)
 	{
 		VkBuffer buffer;
 		vmaAllocator = bufferCreateInfo.vma.getInternal();

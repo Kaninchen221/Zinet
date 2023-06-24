@@ -174,7 +174,7 @@ namespace zt::gl::tests
 		vertices.push_back(vertex);
 
 		RendererContext& rendererContext = renderer.getRendererContext();
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 			rendererContext.getVma(),
 			vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
@@ -189,7 +189,7 @@ namespace zt::gl::tests
 		RendererContext& rendererContext = renderer.getRendererContext();
 		indices = { 0, 1, 2, 2, 3, 0 };
 
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 			rendererContext.getVma(),
 			indexBuffer.createCreateInfo(indices.size() * sizeof(std::uint16_t)),
@@ -204,7 +204,7 @@ namespace zt::gl::tests
 		RendererContext& rendererContext = renderer.getRendererContext();
 
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
@@ -234,7 +234,7 @@ namespace zt::gl::tests
 		image.create(imageCreateInfo);
 
 		ImageBuffer& imageBuffer = imageBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = imageBuffer.createCreateInfo(stbImage.sizeBytes()),

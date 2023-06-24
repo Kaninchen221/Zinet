@@ -20,7 +20,7 @@ namespace zt::gl::tests
 			renderer.initialize();
 			RendererContext& rendererContext = renderer.getRendererContext();
 
-			BufferCreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+			Buffer::CreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 			bufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(1u);
 			bufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
 

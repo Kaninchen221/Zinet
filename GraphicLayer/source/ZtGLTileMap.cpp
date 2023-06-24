@@ -88,7 +88,7 @@ namespace zt::gl
 		}
 		
 		VertexBuffer vertexBuffer;
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 			rendererContext.getVma(),
 			vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
@@ -147,7 +147,7 @@ namespace zt::gl
 	void TileMap::createTextureRegionUniformBuffer(RendererContext& rendererContext)
 	{
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(decltype(textureRegion))),
@@ -165,7 +165,7 @@ namespace zt::gl
 	void TileMap::createMVPUniformBuffer(RendererContext& rendererContext)
 	{
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),

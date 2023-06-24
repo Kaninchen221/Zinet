@@ -14,7 +14,7 @@ namespace zt::gl
 		};
 		image.create(imageCreateInfo);
 
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = imageBuffer.createCreateInfo(stbImage.sizeBytes()),

@@ -55,7 +55,7 @@ namespace zt::gl::tests
 			VmaAllocationCreateInfo allocationCreateInfo = bufferTest.createVmaAllocationCreateInfo(false, true);
 
 			RendererContext& rendererContext = renderer.getRendererContext();
-			BufferCreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+			Buffer::CreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 			bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
 			bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
 

@@ -66,7 +66,7 @@ namespace zt::gl
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 			rendererContext.getVma(),
 			vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
@@ -82,7 +82,7 @@ namespace zt::gl
 		std::vector<std::uint16_t> indices = getIndices();
 		std::uint64_t size = sizeof(decltype(indices)::value_type) * indices.size();
 
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 			rendererContext.getVma(),
 			indexBuffer.createCreateInfo(size),
@@ -106,7 +106,7 @@ namespace zt::gl
 	void Sprite::createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const
 	{
 		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		BufferCreateInfo bufferCreateInfo{
+		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),

@@ -90,7 +90,7 @@ namespace zt::gl::tests
 	{
 		StagingBuffer stagingBuffer;
 
-		BufferCreateInfo stagingBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+		Buffer::CreateInfo stagingBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		stagingBufferCreateInfo.vkBufferCreateInfo = stagingBuffer.createCreateInfo(8u);
 		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
 
@@ -130,7 +130,7 @@ namespace zt::gl::tests
 
 		ImageBuffer imageBuffer;
 
-		BufferCreateInfo imageBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+		Buffer::CreateInfo imageBufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		imageBufferCreateInfo.vkBufferCreateInfo = imageBuffer.createCreateInfo(1u);
 		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false);
 
@@ -155,7 +155,7 @@ namespace zt::gl::tests
 		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eVertexBuffer;
 		VmaAllocationCreateInfo allocationCreateInfo = vertexBuffer.createVmaAllocationCreateInfo(false, true);
 
-		BufferCreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma()};
+		Buffer::CreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma()};
 		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
 		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
 
@@ -172,7 +172,7 @@ namespace zt::gl::tests
 		vkBufferCreateInfo.usage = vk::BufferUsageFlagBits::eIndexBuffer;
 		VmaAllocationCreateInfo allocationCreateInfo = indexBuffer.createVmaAllocationCreateInfo(false, true);
 
-		BufferCreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
+		Buffer::CreateInfo bufferCreateInfo{ .device = rendererContext.getDevice(), .vma = rendererContext.getVma() };
 		bufferCreateInfo.vkBufferCreateInfo = vkBufferCreateInfo;
 		bufferCreateInfo.allocationCreateInfo = allocationCreateInfo;
 
