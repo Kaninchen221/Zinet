@@ -74,6 +74,7 @@ namespace zt::gl
 
 		void bindIndexBuffer(const IndexBuffer& indexBuffer, vk::DeviceSize deviceSize, vk::IndexType indexType);
 
+		// TODO (Low) Create structure for the function params
 		void bindDescriptorSets(
 			vk::PipelineBindPoint bindPoint,
 			const PipelineLayout& pipelineLayout,

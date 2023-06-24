@@ -15,13 +15,11 @@ namespace zt::gl
 
 	Matrix4f Camera::viewMatrix() const
 	{
-		Vector3f tempTarget = target;// *-1.f;
-
 		Vector3f tempPosition = position;
 		tempPosition.x *= -1.f;
 		tempPosition.y *= -1.f;
 
-		return glm::lookAt(tempPosition, tempTarget, cameraOrientation);
+		return glm::lookAt(tempPosition, target, cameraOrientation);
 	}
 
 	Matrix4f Camera::perspectiveMatrix() const

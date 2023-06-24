@@ -13,6 +13,14 @@ namespace zt::gl
 
 	class ZINET_GRAPHIC_LAYER_API PhysicalDevice : public VulkanObject<vk::raii::PhysicalDevice>
 	{
+	public:
+
+		struct FindSupportedFormatInput
+		{
+			const std::vector<vk::Format>& candidates;
+			vk::ImageTiling imageTiling;
+			vk::FormatFeatureFlags formatFeatureFlags;
+		};
 
 	protected:
 
@@ -40,13 +48,6 @@ namespace zt::gl
 		bool isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
 
 		SwapChainSupportDetails getSwapChainSupportDetails(const Surface& surface) const;
-
-		struct FindSupportedFormatInput
-		{
-			const std::vector<vk::Format>& candidates;
-			vk::ImageTiling imageTiling;
-			vk::FormatFeatureFlags formatFeatureFlags;
-		};
 
 		bool findSupportedFormat(const FindSupportedFormatInput& input, vk::Format& supportedFormat) const;
 

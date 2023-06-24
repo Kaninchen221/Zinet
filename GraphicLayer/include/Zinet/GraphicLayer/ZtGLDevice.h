@@ -28,7 +28,7 @@ namespace zt::gl
 		Device& operator = (const Device& other) = default;
 		Device& operator = (Device&& other) = default;
 
-		~Device() noexcept;
+		~Device() noexcept = default;
 
 		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface);
 
