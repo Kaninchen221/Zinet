@@ -77,7 +77,7 @@ namespace zt::gl
 		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
 		{
 			.renderPass = rendererContext.getRenderPass(),
-			.framebuffer = rendererContext.getFramebuffers()[nextImageToDraw.second],
+			.framebuffer = rendererContext.getRenderTargets()[nextImageToDraw.second].getFramebuffer(),
 			.renderArea = renderArea,
 			.clearValues = clearColors
 		};

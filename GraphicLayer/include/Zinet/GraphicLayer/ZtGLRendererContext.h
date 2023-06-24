@@ -88,9 +88,6 @@ namespace zt::gl
 		const SwapChain& getSwapChain() const { return swapChain; }
 		SwapChain& getSwapChain() { return swapChain; }
 
-		const std::vector<ImageView>& getImageViews() const { return imageViews; }
-		std::vector<ImageView>& getImageViews() { return imageViews; }
-
 		const vk::Extent2D& getSwapExtent() const { return swapExtent; }
 
 		const DepthBuffer& getDepthBuffer() const { return depthBuffer; }
@@ -101,8 +98,8 @@ namespace zt::gl
 		const RenderPass& getRenderPass() const { return renderPass; }
 		RenderPass& getRenderPass() { return renderPass; }
 
-		const std::vector<Framebuffer>& getFramebuffers() const { return framebuffers; }
-		std::vector<Framebuffer>& getFramebuffers() { return framebuffers; }
+		const std::vector<RenderTargetDisplay>& getRenderTargets() const { return renderTargets; }
+		std::vector<RenderTargetDisplay>& getRenderTargets() { return renderTargets; }
 
 		const Vma& getVma() const { return vma; }
 		Vma& getVma() { return vma; }
@@ -125,10 +122,9 @@ namespace zt::gl
 		void createDevice();
 		void createQueue();
 		void createSwapChain();
-		void createImageViews();
 		void createDepthBuffer();
 		void createRenderPass();
-		void createFramebuffers();
+		void createRenderTargets();
 		void createVma();
 
 		void updateSwapChainSupportDetails();
@@ -145,12 +141,12 @@ namespace zt::gl
 		Vma vma;
 		SwapChainSupportDetails swapChainSupportDetails;
 		SwapChain swapChain;
-		std::vector<ImageView> imageViews;
 		vk::Extent2D swapExtent;
+		vk::Format swapFormat;
 		DepthBuffer depthBuffer;
 		vk::Format depthBufferFormat{};
 		RenderPass renderPass;
-		std::vector<Framebuffer> framebuffers; // TODO (mid) Refactor it to render targets
+		std::vector<RenderTargetDisplay> renderTargets;
 		CommandPool commandPool;
 	};
 

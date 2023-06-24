@@ -85,17 +85,14 @@ namespace zt::gl::tests
 		const SwapChain& swapChain = rendererContext.getSwapChain();
 		ASSERT_NE(swapChain, nullptr);
 
-		const std::vector<ImageView>& imageViews = rendererContext.getImageViews();
-		ASSERT_FALSE(imageViews.empty());
-
 		const vk::Extent2D& swapExtent = rendererContext.getSwapExtent();
 		ASSERT_NE(swapExtent, vk::Extent2D{});
 
 		const RenderPass& renderPass = rendererContext.getRenderPass();
 		ASSERT_NE(renderPass, nullptr);
 
-		const std::vector<Framebuffer>& framebuffers = rendererContext.getFramebuffers();
-		ASSERT_FALSE(framebuffers.empty());
+		const std::vector<RenderTargetDisplay>& renderTargets = rendererContext.getRenderTargets();
+		ASSERT_FALSE(renderTargets.empty());
 
 		const Vma& vma = rendererContext.getVma();
 		ASSERT_NE(vma.getInternal(), nullptr);

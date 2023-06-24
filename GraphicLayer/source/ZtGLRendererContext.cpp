@@ -48,9 +48,8 @@ namespace zt::gl
 		createSwapChain();
 
 		createDepthBuffer();
-		createImageViews();
 		createRenderPass();
-		createFramebuffers();
+		createRenderTargets();
 		
 		commandPool.create(device, queueFamilyIndex);
 	}
@@ -120,19 +119,6 @@ namespace zt::gl
 		swapChain.create(device, creatInfo);
 	}
 
-	void RendererContext::createImageViews()
-	{
-		std::vector<vk::Image> swapChainImages = swapChain.getImages();
-		imageViews.reserve(swapChainImages.size());
-		for (vk::Image swapChainImage : swapChainImages)
-		{
-			ImageView imageView;
-			vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(swapChainImage, swapChainSupportDetails.pickFormat().format);
-			imageView.create(device, imageViewCreateInfo);
-			imageViews.push_back(std::move(imageView));
-		}
-	}
-
 	void RendererContext::createDepthBuffer()
 	{
 		bool foundFormat = depthBuffer.findDepthFormat(physicalDevice, depthBufferFormat);
@@ -158,19 +144,26 @@ namespace zt::gl
 		renderPass.create(device, createInfo);
 	}
 
-	void RendererContext::createFramebuffers()
+	void RendererContext::createRenderTargets()
 	{
-		for (ImageView& imageView : imageViews)
+		std::vector<vk::Image> swapChainImages = swapChain.getImages();
+		renderTargets.reserve(swapChainImages.size());
+		for (vk::Image swapChainImage : swapChainImages)
 		{
-			std::array<vk::ImageView, 2u> attachments{ imageView.getVk(), depthBuffer.getImageView().getVk() };
+			RenderTargetDisplay& renderTarget = renderTargets.emplace_back();
 
-			Framebuffer framebuffer;
-			vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, swapExtent);
-			framebufferCreateInfo.attachmentCount = static_cast<std::uint32_t>(attachments.size());
-			framebufferCreateInfo.pAttachments = attachments.data();
-
-			framebuffer.create(device, framebufferCreateInfo);
-			framebuffers.push_back(std::move(framebuffer));
+			RenderTargetDisplay::CreateInfo renderTargetCreateInfo
+			{
+				.device = device,
+				.vma = vma,
+				.renderPass = renderPass,
+				.width = swapExtent.width,
+				.height = swapExtent.height,
+				.format = swapFormat,
+				.swapChainImage = swapChainImage,
+				.depthBufferImageView = depthBuffer.getImageView().getVk()
+			};
+			renderTarget.create(renderTargetCreateInfo);
 		}
 	}
 
@@ -183,22 +176,21 @@ namespace zt::gl
 	void RendererContext::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
 	{
 		depthBuffer.~DepthBuffer();
-		framebuffers.clear();
-		imageViews.clear();
+		renderTargets.clear();
 		swapChain.clear();
 
 		updateSwapChainSupportDetails();
 
 		createSwapChain();
-		createImageViews();
 		createDepthBuffer();
-		createFramebuffers();
+		createRenderTargets();
 	}
 
 	void RendererContext::updateSwapChainSupportDetails()
 	{
 		swapChainSupportDetails = physicalDevice.getSwapChainSupportDetails(surface);
 		swapExtent = swapChainSupportDetails.pickSwapExtent(window);
+		swapFormat = swapChainSupportDetails.pickFormat().format;
 	}
 
 	void RendererContext::submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function)
