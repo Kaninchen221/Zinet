@@ -142,7 +142,7 @@ namespace zt::gl
 		SwapChainSupportDetails swapChainSupportDetails;
 		SwapChain swapChain;
 		vk::Extent2D swapExtent;
-		vk::Format swapFormat;
+		vk::Format swapFormat{};
 		DepthBuffer depthBuffer;
 		vk::Format depthBufferFormat{};
 		RenderPass renderPass;
