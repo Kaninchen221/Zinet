@@ -64,10 +64,4 @@ namespace zt::gl
         internal.resetFences({ *fence.getInternal() });
     }
 
-	Device::~Device() noexcept
-	{
-        [[maybe_unused]] int i = 1 + 1;
-	}
-
-
 }
