@@ -26,10 +26,3 @@ target_link_libraries({argument_target_name} PUBLIC {argument_link_libraries})
 target_compile_definitions({argument_target_name} PRIVATE {argument_compile_definitions})
 
 add_test(NAME {argument_target_name} WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin COMMAND {argument_target_name})
-
-include(GoogleTest)
-gtest_discover_tests({argument_target_name})
-
-set_property(TARGET {argument_target_name} PROPERTY VS_GLOBAL_RunTests_TargetType "Application")
-set_property(TARGET {argument_target_name} PROPERTY VS_GLOBAL_RunTests_IncludeDependencies "true")
-set_property(TARGET {argument_target_name} PROPERTY VS_GLOBAL_RunTests_Command "{argument_target_name}")
