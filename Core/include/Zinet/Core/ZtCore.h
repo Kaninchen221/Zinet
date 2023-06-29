@@ -22,10 +22,10 @@
 
 #endif
 
-/// Temporary for future compatibility
+// Temporary for future compatibility
 #define ZINET_CORE_API
 
-/// Turn On/Off Debug UI
+// Turn On/Off Debug UI
 #define ZINET_DEBUG_UI
 
 #ifdef _DEBUG
