@@ -35,6 +35,15 @@ namespace zt::gl
 			const std::array<vk::ClearValue, 2u>& clearValues;
 		};
 
+		struct ZINET_GRAPHIC_LAYER_API BindDescriptorSetsInfo
+		{
+			vk::PipelineBindPoint bindPoint;
+			const PipelineLayout& pipelineLayout;
+			std::uint32_t firstSet;
+			const DescriptorSets& descriptorSets;
+			const vk::ArrayProxy<const uint32_t>& dynamicOffsets;
+		};
+
 	protected:
 
 		inline static ConsoleLogger Logger = ConsoleLogger::Create("CommandBuffer");
@@ -74,13 +83,7 @@ namespace zt::gl
 
 		void bindIndexBuffer(const IndexBuffer& indexBuffer, vk::DeviceSize deviceSize, vk::IndexType indexType);
 
-		// TODO (Low) Create structure for the function params
-		void bindDescriptorSets(
-			vk::PipelineBindPoint bindPoint,
-			const PipelineLayout& pipelineLayout,
-			std::uint32_t firstSet,
-			const DescriptorSets& descriptorSets,
-			const vk::ArrayProxy<const uint32_t>& dynamicOffsets);
+		void bindDescriptorSets(const BindDescriptorSetsInfo& info);
 
 		void setIsCommandBufferInvalid(bool value) { isCommandBufferInvalid = value; }
 		bool getIsCommandBufferInvalid() const { return isCommandBufferInvalid; }

@@ -101,7 +101,17 @@ namespace zt::gl
 
 		if (rendererPipelines.back().getDescriptorSets().has_value())
 		{
-			drawCommandBuffer.bindDescriptorSets(vk::PipelineBindPoint::eGraphics, rendererPipelines.back().getPipelineLayout(), 0, rendererPipelines.back().getDescriptorSets().value(), {});
+			RendererPipeline& rendererPipeline = rendererPipelines.back();
+			CommandBuffer::BindDescriptorSetsInfo bindDescriptorSetsInfo
+			{
+				.bindPoint = vk::PipelineBindPoint::eGraphics,
+				.pipelineLayout = rendererPipeline.getPipelineLayout(),
+				.firstSet = 0,
+				.descriptorSets = rendererPipeline.getDescriptorSets().value(),
+				.dynamicOffsets = {}
+			};
+
+			drawCommandBuffer.bindDescriptorSets(bindDescriptorSetsInfo);
 		}
 
 		drawCommandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);

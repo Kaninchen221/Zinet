@@ -115,20 +115,15 @@ namespace zt::gl
 		internal.bindIndexBuffer(*indexBuffer.getInternal(), deviceSize, indexType);
 	}
 
-	void CommandBuffer::bindDescriptorSets(
-		vk::PipelineBindPoint bindPoint, 
-		const PipelineLayout& pipelineLayout, 
-		std::uint32_t firstSet, 
-		const DescriptorSets& descriptorSets,
-		const vk::ArrayProxy<const uint32_t>& dynamicOffsets)
+	void CommandBuffer::bindDescriptorSets(const BindDescriptorSetsInfo& info)
 	{
 		vkDescriptorSets.clear();
-		for (auto& set : descriptorSets)
+		for (auto& set : info.descriptorSets)
 		{
 			vkDescriptorSets.push_back(*set);
 		}
 
-		internal.bindDescriptorSets(bindPoint, *pipelineLayout.getInternal(), firstSet, vkDescriptorSets, dynamicOffsets);
+		internal.bindDescriptorSets(info.bindPoint, *info.pipelineLayout.getInternal(), info.firstSet, vkDescriptorSets, info.dynamicOffsets);
 	}
 
 }
