@@ -4,7 +4,7 @@
 #include "Zinet/Core/ZtBeginPlayReason.h"
 #include "Zinet/Core/ZtEndPlayReason.h"
 
-namespace zt
+namespace zt::core
 {
 
     class ZINET_CORE_API Object

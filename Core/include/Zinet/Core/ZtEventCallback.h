@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace zt
+namespace zt::core
 {
 
 	struct ZINET_CORE_API EventCallback

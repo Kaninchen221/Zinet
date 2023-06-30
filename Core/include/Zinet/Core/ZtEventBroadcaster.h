@@ -8,7 +8,7 @@
 
 #include <plf_colony.h>
 
-namespace zt
+namespace zt::core
 {
 
 	class ZINET_CORE_API EventBroadcaster

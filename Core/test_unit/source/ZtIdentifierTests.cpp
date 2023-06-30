@@ -6,7 +6,7 @@
 
 #include <type_traits>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
     class IdentifierTests : public ::testing::Test

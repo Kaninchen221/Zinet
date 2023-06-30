@@ -7,7 +7,7 @@
 
 #include <tuple>
 
-namespace zt
+namespace zt::core
 {
 
 	template<typename ClassType, typename MemberPropertiesTupleType = std::tuple<>, typename MemberFunctionsTupleType = std::tuple<>>

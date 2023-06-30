@@ -4,7 +4,7 @@
 
 #include "Zinet/Core/ZtFile.h"
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	class FileTests : public ::testing::Test

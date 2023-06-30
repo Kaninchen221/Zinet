@@ -1,6 +1,6 @@
 #include "Zinet/Core/ZtLogger.h"
 
-namespace zt
+namespace zt::core
 {
 
 	void ConsoleLogger::turnOff()

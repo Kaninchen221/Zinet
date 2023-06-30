@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include "Zinet/Core/ZtLogger.h"
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	class ConsoleLoggerTests : public ::testing::Test

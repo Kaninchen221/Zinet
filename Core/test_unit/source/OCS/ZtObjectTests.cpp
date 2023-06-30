@@ -4,14 +4,14 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
     class ObjectTests : public ::testing::Test
     {
     protected:
 
-        zt::Object object;
+        zt::core::Object object;
 
     };
 

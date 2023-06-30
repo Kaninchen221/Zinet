@@ -6,7 +6,7 @@
 #include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtLogger.h"
 
-namespace zt
+namespace zt::core
 {
 
 	class ZINET_CORE_API FileFinder

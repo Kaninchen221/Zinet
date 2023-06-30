@@ -1,6 +1,6 @@
 #include "Zinet/Core/ZtFileFinder.h"
 
-namespace zt
+namespace zt::core
 {
 
 	void FileFinder::printDebugInfo() const

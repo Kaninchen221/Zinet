@@ -6,7 +6,7 @@
 #include <spdlog/sinks/stdout_color_sinks-inl.h>
 #include <spdlog/sinks/base_sink.h>
 
-namespace zt
+namespace zt::core
 {
 	template<typename Mutex = std::mutex>
 	class CustomSink : public spdlog::sinks::base_sink<Mutex>

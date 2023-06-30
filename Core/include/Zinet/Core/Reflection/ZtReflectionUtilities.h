@@ -3,7 +3,7 @@
 #include <tuple>
 #include <utility>
 
-namespace zt
+namespace zt::core
 {
 
     template<typename MemberPointerType>

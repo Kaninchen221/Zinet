@@ -1,6 +1,6 @@
 #include "Zinet/Core/OCS/ZtObject.h"
 
-namespace zt
+namespace zt::core
 {
 
     void Object::beginPlay([[maybe_unused]] BeginPlayReason reason)

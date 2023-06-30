@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	struct SimpleTestStruct

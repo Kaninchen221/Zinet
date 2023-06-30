@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
     class TimeTests : public ::testing::Test
@@ -88,7 +88,7 @@ namespace zt::tests
     TEST_F(TimeTests, FromNanoseconds)
     {
         Time::NumericType expectedNanoseconds = 100.f;
-        zt::Time actualTime = Time::FromNanoseconds(expectedNanoseconds);
+        Time actualTime = Time::FromNanoseconds(expectedNanoseconds);
         Time::NumericType actualNanoseconds = actualTime.getAsNanoseconds();
     
         ASSERT_FLOAT_EQ(expectedNanoseconds, actualNanoseconds);
@@ -97,7 +97,7 @@ namespace zt::tests
     TEST_F(TimeTests, FromMicroseconds)
     {
         Time::NumericType expectedMicroseconds = 100.f;
-        zt::Time actualTime = Time::FromMicroseconds(expectedMicroseconds);
+        Time actualTime = Time::FromMicroseconds(expectedMicroseconds);
         Time::NumericType actualMicroseconds = actualTime.getAsMicroseconds();
     
         ASSERT_FLOAT_EQ(expectedMicroseconds, actualMicroseconds);
@@ -106,7 +106,7 @@ namespace zt::tests
     TEST_F(TimeTests, FromMilliseconds)
     {
         Time::NumericType expectedMilliseconds = 100.f;
-        zt::Time actualTime = Time::FromMilliseconds(expectedMilliseconds);
+        Time actualTime = Time::FromMilliseconds(expectedMilliseconds);
         Time::NumericType actualMilliseconds = actualTime.getAsMilliseconds();
     
         ASSERT_FLOAT_EQ(expectedMilliseconds, actualMilliseconds);
@@ -115,7 +115,7 @@ namespace zt::tests
     TEST_F(TimeTests, FromSeconds)
     {
         Time::NumericType expectedSeconds = 100.f;
-        zt::Time actualTime = Time::FromSeconds(expectedSeconds);
+        Time actualTime = Time::FromSeconds(expectedSeconds);
         Time::NumericType actualSeconds = actualTime.getAsSeconds();
     
         ASSERT_FLOAT_EQ(expectedSeconds, actualSeconds);
@@ -124,7 +124,7 @@ namespace zt::tests
     TEST_F(TimeTests, FromMinutes)
     {
         Time::NumericType expectedMinutes = 100.f;
-        zt::Time actualTime = Time::FromMinutes(expectedMinutes);
+        Time actualTime = Time::FromMinutes(expectedMinutes);
         Time::NumericType actualMinutes = actualTime.getAsMinutes();
     
         ASSERT_FLOAT_EQ(expectedMinutes, actualMinutes);
@@ -133,7 +133,7 @@ namespace zt::tests
     TEST_F(TimeTests, FromHours)
     {
         Time::NumericType expectedHours = 100.f;
-        zt::Time actualTime = Time::FromHours(expectedHours);
+        Time actualTime = Time::FromHours(expectedHours);
         Time::NumericType actualHours = actualTime.getAsHours();
     
         ASSERT_FLOAT_EQ(expectedHours, actualHours);

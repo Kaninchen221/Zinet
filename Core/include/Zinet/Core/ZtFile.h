@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-namespace zt
+namespace zt::core
 {
 
 	class ZINET_CORE_API File

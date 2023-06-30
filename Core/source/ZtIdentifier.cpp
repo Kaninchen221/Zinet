@@ -1,6 +1,6 @@
 #include "Zinet/Core/ZtIdentifier.h"
 
-namespace zt
+namespace zt::core
 {
 
     Identifier::Identifier(size_t identifier)

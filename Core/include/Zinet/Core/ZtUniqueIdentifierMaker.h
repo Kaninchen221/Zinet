@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace zt
+namespace zt::core
 {
 
     class ZINET_CORE_API UniqueIdentifierMaker

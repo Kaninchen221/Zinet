@@ -4,7 +4,7 @@
 
 #include "ZtReflectionUtilities.h"
 
-namespace zt
+namespace zt::core
 {
 
     template<typename TupleType, typename CallableType>

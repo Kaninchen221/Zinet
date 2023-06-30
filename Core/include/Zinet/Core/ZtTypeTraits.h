@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-namespace zt
+namespace zt::core
 {
 
 	template<typename FirstFunctionPointer, typename SecondFunctionPointer>

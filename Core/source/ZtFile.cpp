@@ -1,6 +1,6 @@
 #include "Zinet/Core/ZtFile.h"
 
-namespace zt
+namespace zt::core
 {
 
 	File::~File() noexcept

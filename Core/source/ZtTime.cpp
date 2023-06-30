@@ -1,6 +1,6 @@
 #include "Zinet/Core/ZtTime.h"
 
-namespace zt
+namespace zt::core
 {
 
 	Time::Time()

@@ -1,6 +1,6 @@
 #include "Zinet/Core/Reflection/ZtReflectedMemberFunction.h"
 
-namespace zt
+namespace zt::core
 {
 
 }

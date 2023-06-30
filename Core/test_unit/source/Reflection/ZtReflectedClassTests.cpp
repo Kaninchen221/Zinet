@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	class ReflectedClassTests : public ::testing::Test

@@ -1,7 +1,7 @@
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtTime.h"
 
-namespace zt
+namespace zt::core
 {
 
 	void Clock::start()

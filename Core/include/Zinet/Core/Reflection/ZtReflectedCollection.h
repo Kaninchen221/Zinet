@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/Reflection/ZtReflectionUtilities.h"
 
-namespace zt
+namespace zt::core
 {
 
     template<typename ReflectedClassesTupleType = std::tuple<>>

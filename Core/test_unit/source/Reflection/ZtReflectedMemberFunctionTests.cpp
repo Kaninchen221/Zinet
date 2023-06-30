@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	class ReflectedMemberFunctionTests : public ::testing::Test

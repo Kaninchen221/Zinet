@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtMacroUtilities.h"
 
-namespace zt
+namespace zt::core
 {
 
 	struct ZINET_CORE_API Functor

@@ -2,8 +2,10 @@
 
 #include "Zinet/Core/ZtCore.h"
 
+// TODO (medium) Refactor this file
+
 /// Breakpoint from code
-#define ZINET_BREAKPOINT __debugbreak
+#define ZINET_BREAKPOINT __debugbreak 
 
 #define ZINET_ALWAYS_BREAK ZT_BREAKPOINT
 

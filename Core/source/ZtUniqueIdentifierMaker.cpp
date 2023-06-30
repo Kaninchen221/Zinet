@@ -1,6 +1,6 @@
 #include "Zinet/Core/ZtUniqueIdentifierMaker.h"
 
-namespace zt
+namespace zt::core
 {
 
     Identifier UniqueIdentifierMaker::reserve()

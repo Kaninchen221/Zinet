@@ -1,7 +1,7 @@
 #pragma once
 
 #include <intrin.h>
-namespace zt
+namespace zt::core
 {
 
 #ifdef ZINET_DEBUG

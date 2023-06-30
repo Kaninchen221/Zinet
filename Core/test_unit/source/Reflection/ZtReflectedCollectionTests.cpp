@@ -9,7 +9,7 @@
 
 #include <tuple>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	class ReflectedCollectionTests : public ::testing::Test

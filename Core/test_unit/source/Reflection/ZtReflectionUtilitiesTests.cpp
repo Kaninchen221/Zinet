@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
     class ReflectionUtilitiesTests : public ::testing::Test

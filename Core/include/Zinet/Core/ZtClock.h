@@ -5,7 +5,7 @@
 #include "Zinet/Core/ZtCore.h"
 #include "Zinet/Core/ZtTime.h"
 
-namespace zt
+namespace zt::core
 {
 
 	class ZINET_CORE_API Clock {

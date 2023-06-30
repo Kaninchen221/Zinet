@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include "Zinet/Core/ZtFileFinder.h"
 
-namespace zt::tests
+namespace zt::core::tests
 {
 
 	class FileFinderTests : public ::testing::Test

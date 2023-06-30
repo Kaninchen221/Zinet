@@ -1,6 +1,6 @@
 #include "Zinet/Core/OCS/ZtComponent.h"
 
-namespace zt
+namespace zt::core
 {
 
 }

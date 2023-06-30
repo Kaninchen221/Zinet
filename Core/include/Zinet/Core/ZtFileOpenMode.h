@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtCore.h"
 
-namespace zt
+namespace zt::core
 {
 
 	enum class ZINET_CORE_API FileOpenMode
