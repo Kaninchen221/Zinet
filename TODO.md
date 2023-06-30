@@ -7,3 +7,4 @@
 - Test explorer in VS doesn't work correctly
 - Use reference_wrapper instead of just T& t
 - Migrate CI server from old pc to new one
+- Refactor zinet core lib
