@@ -1,10 +1,10 @@
 - See code TODOs
-- Migrate to Conan 2.0, create branch for that
-- Change tests libs names from "Unit" to "Automatic" and "Functional" to "Manual"
-- In CI run only Automatic tests
-- ImGui is now in graphic layer lib it shouldn't be like that
-- Utility application? (Creating new class, new lib)
-- Test explorer in VS doesn't work correctly
-- Use reference_wrapper instead of just T& t
-- Migrate CI server from old pc to new one
-- Refactor zinet core lib
+- Migrate to Conan 2.0, create branch for that (low)
+- Change tests libs names from "Unit" to "Automatic" and "Functional" to "Manual" (mid)
+- ImGui is now in graphic layer lib it shouldn't be like that (low)
+- Utility application? (Creating new class, new lib) (low)
+- Test explorer in VS doesn't work correctly (low)
+- Use reference_wrapper instead of just T& t (low)
+- Migrate CI server from old pc to new one (mid)
+- In CI run only Automatic tests (mid)
+- Refactor zinet core lib (mid)
