@@ -14,7 +14,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderPass");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RenderPass");
 
 		const constexpr inline static vk::AttachmentDescription defaultAttachmentDescription{};
 		const constexpr inline static vk::AttachmentReference defaultAttachmentReference{};

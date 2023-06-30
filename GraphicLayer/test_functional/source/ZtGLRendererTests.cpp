@@ -33,7 +33,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("RendererTests");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RendererTests");
 
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
@@ -50,7 +50,7 @@ namespace zt::gl::tests
 		Imgui imgui;
 
 		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&, RenderStates&);
-		static_assert(IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
 	};
 
 	TEST_F(RendererTests, Draw)
@@ -125,7 +125,7 @@ namespace zt::gl::tests
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
 		tileMap.setTextureRegion(textureRegion, texture.getSize());
 
-		zt::Clock clock;
+		zt::core::Clock clock;
 		std::once_flag clockOnceFlag;
 
 		bool drawSprites = true;

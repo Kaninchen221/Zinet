@@ -113,7 +113,7 @@ namespace zt::gl::tests
 	TEST_F(TileMapSimpleTests, GetSetTransform)
 	{
 		typedef const Transform& (TileMap::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&TileMap::getTransform));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&TileMap::getTransform));
 
 		Transform expected;
 		expected.setTranslation({ 12.4f, 3.f, 1.f });
@@ -128,7 +128,7 @@ namespace zt::gl::tests
 	TEST_F(TileMapSimpleTests, GetSetTilesCount)
 	{
 		typedef const Vector2ui& (TileMap::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&TileMap::getTilesCount));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&TileMap::getTilesCount));
 
 		Vector2ui expectedCount = { 4u, 5u };
 		tileMap.setTilesCount(expectedCount);

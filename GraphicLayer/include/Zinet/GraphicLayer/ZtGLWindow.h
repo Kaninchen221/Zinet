@@ -13,7 +13,7 @@ namespace zt::gl
 
 	class ZINET_GRAPHIC_LAYER_API Window
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Window");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Window");
 		static inline Renderer* RendererReference = nullptr;
 
 	public:

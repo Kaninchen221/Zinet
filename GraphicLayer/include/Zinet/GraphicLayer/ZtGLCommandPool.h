@@ -14,7 +14,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("CommandPool");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("CommandPool");
 
 	public:
 

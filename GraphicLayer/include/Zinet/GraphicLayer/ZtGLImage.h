@@ -27,7 +27,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Image");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Image");
 
 	public:
 

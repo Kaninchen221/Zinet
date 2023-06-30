@@ -29,7 +29,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Buffer");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Buffer");
 
 	public:
 
@@ -58,7 +58,7 @@ namespace zt::gl
 
 		void fillWithCArray(const void* firstElement);
 
-		std::unique_ptr<void, decltype(LambdaFree)> getData();
+		std::unique_ptr<void, decltype(zt::core::LambdaFree)> getData();
 
 	private:
 

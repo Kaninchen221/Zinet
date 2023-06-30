@@ -112,7 +112,7 @@ namespace zt::gl::tests
 
 		bufferTest.fillWithObject<MVPFake>(object);
 
-		std::unique_ptr<void, decltype(LambdaFree)> data = bufferTest.getData();
+		std::unique_ptr<void, decltype(zt::core::LambdaFree)> data = bufferTest.getData();
 
 		int result = std::memcmp(data.get(), &object, expectedSize);
 		
@@ -124,7 +124,7 @@ namespace zt::gl::tests
 		std::vector<int> container{ 34, 753345345 };
 		bufferTest.fillWithStdContainer<std::vector<int>>(container);
 
-		std::unique_ptr<void, decltype(LambdaFree)> data = bufferTest.getData();
+		std::unique_ptr<void, decltype(zt::core::LambdaFree)> data = bufferTest.getData();
 
 		int result = std::memcmp(data.get(), container.data(), expectedSize);
 
@@ -138,7 +138,7 @@ namespace zt::gl::tests
 		array[1] = 123;
 		bufferTest.fillWithCArray(array);
 
-		std::unique_ptr<void, decltype(LambdaFree)> data = bufferTest.getData();
+		std::unique_ptr<void, decltype(zt::core::LambdaFree)> data = bufferTest.getData();
 		
 		int result = std::memcmp(data.get(), array, bufferTest.getSize());
 		

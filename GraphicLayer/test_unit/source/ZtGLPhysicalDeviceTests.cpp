@@ -95,7 +95,7 @@ namespace zt::gl::tests
 	TEST_F(PhysicalDeviceTests, FindSupportedFormat)
 	{
 		typedef bool (PhysicalDevice::* ExpectedFunction)(const PhysicalDevice::FindSupportedFormatInput&, vk::Format& supportedFormat) const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&PhysicalDevice::findSupportedFormat));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&PhysicalDevice::findSupportedFormat));
 
 		std::vector<vk::Format> candidates = { /*vk::Format::eD32Sfloat,*/ vk::Format::eD32SfloatS8Uint, vk::Format::eD24UnormS8Uint};
 		vk::ImageTiling imageTiling = vk::ImageTiling::eOptimal;

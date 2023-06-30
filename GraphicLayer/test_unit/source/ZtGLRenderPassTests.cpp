@@ -33,19 +33,19 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, GetAttachmentDescriptions)
 	{
 		typedef const std::vector<vk::AttachmentDescription>& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentDescriptions));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentDescriptions));
 	}
 
 	TEST_F(RenderPassTests, GetAttachmentReferences)
 	{
 		typedef const std::vector<vk::AttachmentReference>& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentReferences));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getAttachmentReferences));
 	}
 
 	TEST_F(RenderPassTests, AttachmentDescriptions)
 	{
 		typedef const vk::AttachmentDescription& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getColorAttachmentDescription));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getColorAttachmentDescription));
 
 		vk::Format swapChainFormat{};
 		renderPass.createColorAttachmentDescription(swapChainFormat);
@@ -57,7 +57,7 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, AttachmentReferenceTest)
 	{
 		typedef const vk::AttachmentReference& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getColorAttachmentReference));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getColorAttachmentReference));
 
 		renderPass.createColorAttachmentReference();
 		const vk::AttachmentReference& attachmentReference = renderPass.getColorAttachmentReference();
@@ -68,7 +68,7 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, SubpassDescriptionTest)
 	{
 		typedef const vk::SubpassDescription& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getSubpassDescription));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getSubpassDescription));
 
 		renderPass.createSubpassDescription();
 		const vk::SubpassDescription& subpassDescription = renderPass.getSubpassDescription();
@@ -86,7 +86,7 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, SubpassDependencyTest)
 	{
 		typedef const vk::SubpassDependency& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getSubpassDependency));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getSubpassDependency));
 
 		renderPass.createSubpassDependency();
 		const vk::SubpassDependency& subpassDependency = renderPass.getSubpassDependency();
@@ -97,7 +97,7 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, DepthAttachmentDescriptions)
 	{
 		typedef const vk::AttachmentDescription& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getDepthAttachmentDescription));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getDepthAttachmentDescription));
 
 		vk::Format format{};
 		renderPass.createDepthAttachmentDescription(format);
@@ -109,7 +109,7 @@ namespace zt::gl::tests
 	TEST_F(RenderPassTests, DepthAttachmentReferenceTest)
 	{
 		typedef const vk::AttachmentReference& (RenderPass::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&RenderPass::getDepthAttachmentReference));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&RenderPass::getDepthAttachmentReference));
 
 		renderPass.createDepthAttachmentReference();
 		const vk::AttachmentReference& attachmentReference = renderPass.getDepthAttachmentReference();

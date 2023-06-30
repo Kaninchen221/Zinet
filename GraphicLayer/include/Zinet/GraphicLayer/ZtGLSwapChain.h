@@ -19,7 +19,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("SwapChain");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("SwapChain");
 
 	public:
 

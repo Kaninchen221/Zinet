@@ -16,7 +16,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Framebuffer");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Framebuffer");
 
 	public:
 

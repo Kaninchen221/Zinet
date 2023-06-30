@@ -16,7 +16,7 @@ namespace zt::gl
 {
 	class ZINET_GRAPHIC_LAYER_API Shader
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Shader");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Shader");
 
 	public:
 

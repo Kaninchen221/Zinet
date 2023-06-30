@@ -19,8 +19,8 @@ namespace zt::gl
 
 	bool Shader::loadFromFile(const std::string& path)
 	{
-		File file;
-		file.open(path, FileOpenMode::In);
+		zt::core::File file;
+		file.open(path, zt::core::FileOpenMode::In);
 		if (!file.isOpen())
 		{
 			Logger->error("Can't open file: {}", path);

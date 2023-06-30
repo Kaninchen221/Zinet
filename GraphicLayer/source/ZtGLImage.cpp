@@ -49,7 +49,7 @@ namespace zt::gl
 		else
 		{
 			Logger->error("Failed to create Image");
-			Ensure(false);
+			zt::core::Ensure(false);
 		}
 	}
 

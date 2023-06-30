@@ -20,7 +20,7 @@ namespace zt::gl::tests
 	TEST_F(TransformTests, SetGetRotation)
 	{
 		typedef const Vector3f& (Transform::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Transform::getRotation));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Transform::getRotation));
 
 		Vector3f expected = { 5.f, 230.f, 1.f };
 		transform.setRotation(expected);
@@ -32,7 +32,7 @@ namespace zt::gl::tests
 	TEST_F(TransformTests, SetGetTranslation)
 	{
 		typedef const Vector3f& (Transform::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Transform::getTranslation));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Transform::getTranslation));
 
 		Vector3f expected = { 5.f, 230.f, 1.f };
 		transform.setTranslation(expected);
@@ -44,7 +44,7 @@ namespace zt::gl::tests
 	TEST_F(TransformTests, SetGetScale)
 	{
 		typedef const Vector3f& (Transform::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Transform::getScale));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Transform::getScale));
 
 		Vector3f expected = { 5.f, 230.f, 1.f };
 		transform.setScale(expected);

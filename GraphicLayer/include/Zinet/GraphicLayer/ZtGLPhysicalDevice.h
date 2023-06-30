@@ -24,7 +24,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("PhysicalDevice");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("PhysicalDevice");
 
 	public:
 

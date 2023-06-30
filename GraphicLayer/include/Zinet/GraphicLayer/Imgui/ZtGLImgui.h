@@ -12,7 +12,7 @@ namespace zt::gl
 
 	class ZINET_GRAPHIC_LAYER_API Imgui
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Imgui");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Imgui");
 
 		static void LogImgui(VkResult error);
 

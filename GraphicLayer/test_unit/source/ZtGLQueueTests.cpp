@@ -205,7 +205,7 @@ namespace zt::gl::tests
 		
 		queue.copyBufferToBufferWaitIdle(commandBuffer, sourceBuffer, destinationBuffer);
 
-		std::unique_ptr<void, decltype(LambdaFree)> data = destinationBuffer.getData();
+		std::unique_ptr<void, decltype(zt::core::LambdaFree)> data = destinationBuffer.getData();
 		std::size_t expectedSize = sizeof(Vertex) * vertices.size();
 		
 		int result = std::memcmp(data.get(), vertices.data(), expectedSize);

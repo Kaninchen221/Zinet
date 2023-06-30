@@ -50,7 +50,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetPosition)
 	{
 		typedef const Vector3f& (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getPosition));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getPosition));
 
 		Vector3f expected = { 1.3f, 213.f, 0.213f };
 		camera.setPosition(expected);
@@ -62,7 +62,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetTarget)
 	{
 		typedef const Vector3f& (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getTarget));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getTarget));
 
 		Vector3f expected = { 1.3f, 213.f, 0.213f };
 		camera.setTarget(expected);
@@ -74,7 +74,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetCameraOrientation)
 	{
 		typedef const Vector3f& (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getCameraOrientation));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getCameraOrientation));
 
 		Vector3f expected = { 1.3f, 213.f, 0.213f };
 		camera.setCameraOrientation(expected);
@@ -86,7 +86,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, ViewMatrix)
 	{
 		typedef Matrix4f (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::viewMatrix));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::viewMatrix));
 
 		Matrix4f actual = camera.viewMatrix();
 		Matrix4f expected = glm::lookAt(camera.getPosition(), camera.getTarget(), camera.getCameraOrientation());
@@ -95,7 +95,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetFov)
 	{
 		typedef float (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getFov));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getFov));
 	
 		float expected = 90.f;
 		camera.setFov(expected);
@@ -107,7 +107,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetAspect)
 	{
 		typedef float (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getAspect));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getAspect));
 
 		float expected = 400.f / 800.f;
 		camera.setAspect(expected);
@@ -119,7 +119,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetNear)
 	{
 		typedef float (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getNear));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getNear));
 
 		float expected = 0.2f;
 		camera.setNear(expected);
@@ -131,7 +131,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, SetGetFar)
 	{
 		typedef float (Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::getFar));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getFar));
 
 		float expected = 20.f;
 		camera.setFar(expected);
@@ -143,7 +143,7 @@ namespace zt::gl::tests
 	TEST_F(CameraTests, ProjectionMatrix)
 	{
 		typedef Matrix4f(Camera::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Camera::perspectiveMatrix));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::perspectiveMatrix));
 
 		Matrix4f actual = camera.perspectiveMatrix();
 		Matrix4f expected = glm::perspective(glm::radians(camera.getFov()), camera.getAspect(), camera.getNear(), camera.getFar());

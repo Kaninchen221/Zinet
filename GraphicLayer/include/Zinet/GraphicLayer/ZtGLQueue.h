@@ -23,7 +23,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Queue");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Queue");
 
 	public:
 

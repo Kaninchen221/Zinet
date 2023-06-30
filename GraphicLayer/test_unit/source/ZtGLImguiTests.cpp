@@ -51,7 +51,7 @@ namespace zt::gl::tests
 	TEST_F(ImguiSimpleTests, GetDescriptorPool)
 	{
 		typedef const DescriptorPool& (Imgui::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Imgui::getDescriptorPool));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Imgui::getDescriptorPool));
 
 		[[maybe_unused]] const DescriptorPool& descriptorPool = imgui.getDescriptorPool();
 	}

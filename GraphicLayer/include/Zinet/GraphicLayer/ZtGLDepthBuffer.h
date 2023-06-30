@@ -16,7 +16,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("DepthBuffer");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("DepthBuffer");
 
 	public:
 

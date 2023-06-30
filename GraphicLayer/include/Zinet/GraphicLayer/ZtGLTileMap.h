@@ -19,7 +19,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("TileMap");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("TileMap");
 
 	public:
 

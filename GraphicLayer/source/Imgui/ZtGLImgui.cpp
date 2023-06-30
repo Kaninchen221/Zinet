@@ -93,7 +93,7 @@ namespace zt::gl
 		if (result != vk::Result::eSuccess)
 		{
 			Logger->error("Imgui error {}", error);
-			Ensure(false);
+			zt::core::Ensure(false);
 		}
 	}
 

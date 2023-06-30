@@ -4,7 +4,7 @@ namespace zt::gl
 {
 	class ZINET_GRAPHIC_LAYER_API VmaAllocLogger
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Vma_alloc");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Vma_alloc");
 		static inline std::once_flag onceFlag = {};
 
 	public:

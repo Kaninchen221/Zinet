@@ -35,7 +35,7 @@ namespace zt::gl
 
 	class ZINET_GRAPHIC_LAYER_API RenderTarget : public RenderTargetBase
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderTarget");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RenderTarget");
 
 	public:
 
@@ -78,7 +78,7 @@ namespace zt::gl
 
 	class ZINET_GRAPHIC_LAYER_API RenderTargetDisplay : public RenderTargetBase
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("RenderTargetDisplay");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RenderTargetDisplay");
 
 	public:
 

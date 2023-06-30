@@ -37,7 +37,7 @@ namespace zt::gl::tests
 	TEST_F(RenderTargetBaseSimpleTests, GetFramebuffer)
 	{
 		typedef Framebuffer& (RenderTargetBase::* ExpectedFunctionDeclaration)();
-		static_assert(IsFunctionEqual<ExpectedFunctionDeclaration>(&RenderTargetBase::getFramebuffer));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&RenderTargetBase::getFramebuffer));
 
 		Framebuffer& framebuffer = testClass.getFramebuffer();
 		ASSERT_FALSE(framebuffer.isValid());
@@ -136,7 +136,7 @@ namespace zt::gl::tests
 	TEST_F(RenderTargetDisplaySimpleTests, Getters)
 	{
 		typedef vk::Image (RenderTargetDisplay::* ExpectedFunctionDeclaration)() const;
-		static_assert(IsFunctionEqual<ExpectedFunctionDeclaration>(&RenderTargetDisplay::getSwapChainImage));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&RenderTargetDisplay::getSwapChainImage));
 
 		vk::Image vkSwapChainImage = renderTargetDisplay.getSwapChainImage();
 		EXPECT_FALSE(vkSwapChainImage);

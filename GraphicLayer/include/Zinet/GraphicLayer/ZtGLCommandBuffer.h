@@ -46,7 +46,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("CommandBuffer");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("CommandBuffer");
 
 	public:
 

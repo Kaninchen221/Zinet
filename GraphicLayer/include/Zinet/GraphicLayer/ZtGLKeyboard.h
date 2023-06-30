@@ -14,7 +14,7 @@ namespace zt::gl
 
 	class ZINET_GRAPHIC_LAYER_API Keyboard
 	{
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Keyboard");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Keyboard");
 
 	public:
 

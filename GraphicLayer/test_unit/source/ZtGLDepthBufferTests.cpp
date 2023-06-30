@@ -62,7 +62,7 @@ namespace zt::gl::tests
 	TEST_F(DepthBufferSimpleTests, GetImage)
 	{
 		typedef const Image& (DepthBuffer::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&DepthBuffer::getImage));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&DepthBuffer::getImage));
 
 		EXPECT_FALSE(depthBuffer.getImage().isValid());
 	}
@@ -70,7 +70,7 @@ namespace zt::gl::tests
 	TEST_F(DepthBufferSimpleTests, GetImageView)
 	{
 		typedef const ImageView& (DepthBuffer::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&DepthBuffer::getImageView));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&DepthBuffer::getImageView));
 
 		EXPECT_FALSE(depthBuffer.getImageView().isValid());
 	}

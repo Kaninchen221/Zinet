@@ -43,7 +43,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("RendererContext");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RendererContext");
 
 	public:
 

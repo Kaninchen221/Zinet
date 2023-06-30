@@ -108,7 +108,7 @@ namespace zt::gl::tests
 	TEST_F(SpriteSimpleTests, GetSetTransform)
 	{
 		typedef const Transform& (Sprite::* ExpectedFunction)() const;
-		static_assert(IsFunctionEqual<ExpectedFunction>(&Sprite::getTransform));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Sprite::getTransform));
 
 		Transform expected;
 		expected.setTranslation({ 12.4f, 3.f, 1.f });

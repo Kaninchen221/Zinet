@@ -34,7 +34,7 @@ namespace zt::gl
 		return size;
 	}
 
-	std::unique_ptr<void, decltype(LambdaFree)> Buffer::getData()
+	std::unique_ptr<void, decltype(zt::core::LambdaFree)> Buffer::getData()
 	{
 		void* mappedData;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
@@ -46,7 +46,7 @@ namespace zt::gl
 		vmaUnmapMemory(vmaAllocator, allocation);
 		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 
-		return std::unique_ptr<void, decltype(LambdaFree)>{ data };
+		return std::unique_ptr<void, decltype(zt::core::LambdaFree)>{ data };
 	}
 
 	void Buffer::fillWithCArray(const void* firstElement)
@@ -81,7 +81,7 @@ namespace zt::gl
 		else
 		{
 			Logger->error("Failed to create Buffer");
-			Ensure(false);
+			zt::core::Ensure(false);
 		}
 
 	}

@@ -19,7 +19,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Texture");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Texture");
 
 	public:
 
