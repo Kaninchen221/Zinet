@@ -1,6 +1,3 @@
-#define ZINET_COLLECT_ALLOCATION_DEBUG_DATA
-#include "Zinet/Core/ZtAllocationDebugStatistics.h"
-
 #include <gtest/gtest.h>
 
 #include "Zinet/Core/ZtLogger.h"
