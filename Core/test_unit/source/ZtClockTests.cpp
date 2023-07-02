@@ -33,11 +33,13 @@ namespace zt::core::tests
 
     TEST_F(ClockTests, StartTest)
     {
-
         Time::NumericType greaterThan = 0u;
         Time::NumericType lessThan = 1000u;
 
-        clock.start();
+		clock.start();
+
+		while (clock.getElapsedTime().getAsMicroseconds() == 0) {}
+
         Time time = clock.getElapsedTime();
         Time::NumericType microseconds = time.getAsMicroseconds();
 
@@ -47,11 +49,12 @@ namespace zt::core::tests
 
     TEST_F(ClockTests, RestartTest)
     {
+		clock.start();
 
-        clock.start();
+		Time::NumericType greaterThan = 0u;
+		Time::NumericType lessThan = 1000u;
 
-        Time::NumericType greaterThan = 0u;
-        Time::NumericType lessThan = 1000u;
+        while (clock.getElapsedTime().getAsMicroseconds() == 0) {}
 
         Time time = clock.restart();
         Time::NumericType microseconds = time.getAsMicroseconds();
