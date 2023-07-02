@@ -11,6 +11,7 @@
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 #include "Zinet/GraphicLayer/ZtGLTileMap.h"
+#include "Zinet/GraphicLayer/ZtGLMath.h"
 
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtTypeTraits.h"
