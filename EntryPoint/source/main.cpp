@@ -7,6 +7,7 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 #include "Zinet/GraphicLayer/ZtGLTileMap.h"
+#include "Zinet/GraphicLayer/ZtGLMath.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 #include "Zinet/Core/ZtLogger.h"
@@ -25,7 +26,7 @@ class RendererTest
 {
 protected:
 
-	inline static zt::ConsoleLogger Logger = zt::ConsoleLogger::Create("RendererTests");
+	inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RendererTests");
 
 	const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
@@ -142,7 +143,7 @@ void RendererTest::run()
 	textureRegion.offset = zt::gl::Vector2f{ 0.f, 0.f };
 	tileMap.setTextureRegion(textureRegion, texture.getSize());
 
-	zt::Clock clock;
+	zt::core::Clock clock;
 	std::once_flag clockOnceFlag;
 
 	bool drawSprites = true;
