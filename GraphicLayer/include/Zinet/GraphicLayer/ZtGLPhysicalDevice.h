@@ -43,9 +43,11 @@ namespace zt::gl
 
 		bool create(Instance& instance);
 
-		const std::vector<const char*>& getPhysicalDeviceExtensions() const;
+		std::int16_t ratePhysicalDevice(const vk::raii::PhysicalDevice& physicalDevice);
 
-		bool isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
+		bool hasRequiredExtensions(const vk::raii::PhysicalDevice& physicalDevice) const;
+
+		const std::vector<const char*>& getPhysicalDeviceExtensions() const;
 
 		SwapChainSupportDetails getSwapChainSupportDetails(const Surface& surface) const;
 

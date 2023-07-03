@@ -38,31 +38,6 @@ namespace zt::gl
         return physicalDeviceExtensions;
     }
 
-    bool PhysicalDevice::isDeviceHasNeededExtensions(const vk::raii::PhysicalDevice& physicalDevice) const
-    {
-        std::vector<vk::ExtensionProperties> availableExtensionProperties = physicalDevice.enumerateDeviceExtensionProperties();
-        for (const char* neededExtension : physicalDeviceExtensions)
-        {
-            auto predicate = [neededExtension](const vk::ExtensionProperties& extension) -> bool
-            {
-                std::string_view extensionAsStringView(extension.extensionName.data());
-                return extensionAsStringView == neededExtension;
-            };
-
-            std::vector<vk::ExtensionProperties>::iterator result = std::find_if(
-                availableExtensionProperties.begin(),
-                availableExtensionProperties.end(),
-                predicate);
-
-            if (result == availableExtensionProperties.end())
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     bool PhysicalDevice::create(Instance& instance)
     {
         vk::raii::PhysicalDevices physicalDevices = instance.enumeratePhysicalDevices();
@@ -72,17 +47,72 @@ namespace zt::gl
             return false;
         }
 
-        for (vk::raii::PhysicalDevice& physicalDevice : physicalDevices)
+        std::vector<std::int16_t> ratings;
+		ratings.reserve(physicalDevices.size());
+
+		size_t preferredDeviceIndex = 0;
+		std::int16_t highestRating = std::numeric_limits<std::int16_t>::min();
+
+        for (size_t index = 0u; vk::raii::PhysicalDevice& physicalDevice : physicalDevices)
         {
-            if (isDeviceHasNeededExtensions(physicalDevice))
-            {
-                internal = vk::raii::PhysicalDevice(std::move(physicalDevice));
-                return true;
-            }
+			ratings.push_back(ratePhysicalDevice(physicalDevice));
+
+			if (highestRating < ratings[index])
+			{
+				highestRating = ratings[index];
+				preferredDeviceIndex = index;
+			}
+
+			++index;
         }
 
-        return false;
-    }
+		internal = vk::raii::PhysicalDevice{ std::move(physicalDevices[preferredDeviceIndex]) };
+
+        return highestRating >= 0;
+	}
+
+    std::int16_t PhysicalDevice::ratePhysicalDevice(const vk::raii::PhysicalDevice& physicalDevice)
+	{
+		std::int16_t rating = 0;
+
+		if (!hasRequiredExtensions(physicalDevice))
+			rating -= 100;
+		else
+			rating += 100;
+
+		vk::PhysicalDeviceProperties deviceProperties = physicalDevice.getProperties();
+		if (deviceProperties.deviceType == vk::PhysicalDeviceType::eIntegratedGpu)
+			rating -= 1;
+		else
+			rating += 1;
+
+		return rating;
+	}
+
+	bool PhysicalDevice::hasRequiredExtensions(const vk::raii::PhysicalDevice& physicalDevice) const
+	{
+		std::vector<vk::ExtensionProperties> availableExtensionProperties = physicalDevice.enumerateDeviceExtensionProperties();
+		for (const char* neededExtension : physicalDeviceExtensions)
+		{
+			auto predicate = [neededExtension](const vk::ExtensionProperties& extension) -> bool
+			{
+				std::string_view extensionAsStringView(extension.extensionName.data());
+				return extensionAsStringView == neededExtension;
+			};
+
+			std::vector<vk::ExtensionProperties>::iterator result = std::find_if(
+				availableExtensionProperties.begin(),
+				availableExtensionProperties.end(),
+				predicate);
+
+			if (result == availableExtensionProperties.end())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 
     SwapChainSupportDetails PhysicalDevice::getSwapChainSupportDetails(const Surface& surface) const
     {
@@ -122,4 +152,5 @@ namespace zt::gl
 		supportedFormat = vk::Format{};
 		return false;
 	}
+
 }
