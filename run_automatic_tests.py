@@ -5,7 +5,7 @@ import sys
 os.chdir("build/bin")
 
 for file in os.listdir():
-    if file.endswith(".exe") and file.find("Unit") != -1:
+    if file.endswith(".exe") and file.find("Automatic") != -1:
         process = subprocess.run(file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, universal_newlines=True)
         print(process.stdout)
         print(process.stderr)

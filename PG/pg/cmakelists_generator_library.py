@@ -25,4 +25,4 @@ class CMakeListsGeneratorLibrary(CMakeListsGeneratorTarget):
         
     libraryType = "STATIC"
     shouldAddTests = "TRUE"
-    testsSubfoldersPrefix = "test_"
+    testsSubfoldersPrefix = "tests_"

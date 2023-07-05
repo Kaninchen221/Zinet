@@ -1,8 +1,8 @@
 from pg.cmakelists_generator_test import CMakeListsGeneratorTest
 
 test = CMakeListsGeneratorTest()
-test.targetName = "ZinetGraphicLayerUnitTests"
-test.targetPrettyName = "Zinet Graphic Layer Unit Tests"
+test.targetName = "ZinetGraphicLayerAutomaticTests"
+test.targetPrettyName = "Zinet Graphic Layer Automatic Tests"
 test.compileDefinitions = """
     ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}"
     """
