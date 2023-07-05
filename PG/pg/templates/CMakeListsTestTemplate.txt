@@ -1,4 +1,4 @@
-message(STATUS "*** Create Zinet {argument_target_pretty_name} test ***")
+message(STATUS "*** Create {argument_target_pretty_name} ***")
 
 add_executable({argument_target_name}
 	main.cpp
