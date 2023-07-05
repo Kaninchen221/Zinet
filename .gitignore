@@ -33,3 +33,4 @@ PG/dist/
 
 # Other
 .html
+Scripts/outputs/*.temp
