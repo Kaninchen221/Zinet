@@ -3,5 +3,5 @@
 - ImGui is now in graphic layer lib it shouldn't be like that (low)
 - Utility application? (Creating new class, new lib) (low)
 - Test explorer in VS doesn't work correctly (low)
-- Use reference_wrapper instead of just T& t (low)
+- Use reference_wrapper instead of just T& t (refactor) (low)
 - Refactor zinet core lib (mid)
