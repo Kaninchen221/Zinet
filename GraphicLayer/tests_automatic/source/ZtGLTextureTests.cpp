@@ -100,6 +100,12 @@ namespace zt::gl::tests
 		const Image& image = texture.getImage();
 		ASSERT_TRUE(image.isValid());
 
+		std::uint32_t imageHeight = image.getHeight();
+		std::uint32_t imageWidth = image.getWidth();
+		Vector2f textureSize = texture.getSize();
+		EXPECT_EQ(textureSize.x, imageWidth);
+		EXPECT_EQ(textureSize.y, imageHeight);
+
 		const ImageBuffer& imageBuffer = texture.getImageBuffer();
 		ASSERT_TRUE(imageBuffer.isValid());
 
@@ -114,5 +120,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(imageDrawInfo.sampler, sampler);
 		ASSERT_EQ(imageDrawInfo.view, imageView);
 		ASSERT_EQ(imageDrawInfo.layout, vkImageLayout);
+
+		GLFW::Deinit();
 	}
 }
