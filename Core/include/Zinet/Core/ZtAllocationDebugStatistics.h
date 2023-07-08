@@ -14,7 +14,7 @@ template<typename Operation>
 concept MustBePlusOrMinus = std::same_as<std::plus<>, Operation> || std::same_as<std::minus<>, Operation>;
 
 // TODO (Low) Improve it, collect more data, print some useful info
-// If you want to use it then include it in main.cpp file before any include
+// If you want to use it then include it in main.cpp file before any include and define ZINET_COLLECT_ALLOCATION_DEBUG_DATA
 class ZinetCollectAllocationDebugData
 {
 public:
