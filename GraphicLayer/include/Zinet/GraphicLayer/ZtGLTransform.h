@@ -8,7 +8,7 @@
 
 namespace zt::gl
 {
-	// TODO (Low) Use quaternion for rotation
+	// TODO (Very Low) Use quaternion for rotation
 	class ZINET_GRAPHIC_LAYER_API Transform
 	{
 
