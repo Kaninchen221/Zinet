@@ -2,11 +2,18 @@
 
 #include "Zinet/GraphicLayer/ZtGLVecTypes.h"
 
+#include "Zinet/Core/ZtLogger.h"
+
+#include <type_traits>
+#include <array>
+
 namespace zt::gl
 {
 	class ZINET_GRAPHIC_LAYER_API Math
 	{
 	public:
+
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Math");
 
 		Math() = delete;
 		Math(const Math& other) = delete;
@@ -17,21 +24,30 @@ namespace zt::gl
 
 		~Math() noexcept = delete;
 
-		static Vector3f FromCArrayToVector3f(float array[3])
+		template<typename VectorType, typename ArrayType = std::array<typename VectorType::value_type, VectorType::length()>>
+		static ArrayType FromVectorToArray(const VectorType& vector)
 		{
-			Vector3f result;
-			result.x = array[0];
-			result.y = array[1];
-			result.z = array[2];
+			ArrayType result{};
+
+			for (int index = 0; index < VectorType::length(); ++index)
+			{
+				result[index] = vector[index];
+			}
 
 			return result;
 		}
 
-		static void FromVector3fToCArray(const Vector3f& vector, float array[3])
+		template<typename ArrayType, typename VectorType = glm::vec<std::tuple_size_v<ArrayType>, typename ArrayType::value_type, glm::defaultp>>
+		static VectorType FromArrayToVector(const ArrayType& array)
 		{
-			array[0] = vector.x;
-			array[1] = vector.y;
-			array[2] = vector.z;
+			VectorType result{};
+
+			for (int index = 0; index < VectorType::length(); ++index)
+			{
+				result[index] = array[index];
+			}
+
+			return result;
 		}
 	};
 }

@@ -169,26 +169,26 @@ namespace zt::gl::tests
 					Vector3f rotation = transform.getRotation();
 					Vector3f scale = transform.getScale();
 
-					float rawPosition[3];
-					Math::FromVector3fToCArray(position, rawPosition);
+					std::array<float, 3> rawPosition;
+					rawPosition = Math::FromVectorToArray(position);
 					std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(positionName.c_str(), rawPosition, -1.0f, 1.0f);
-					
-					float rawRotation[3];
-					Math::FromVector3fToCArray(rotation, rawRotation);
-					std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(rotationName.c_str(), rawRotation, 0.f, 560.0f);
+					ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
 
-					float rawScale[3];
-					Math::FromVector3fToCArray(scale, rawScale);
+					std::array<float, 3> rawRotation;
+					rawRotation = Math::FromVectorToArray(rotation);
+					std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
+					ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
+
+					std::array<float, 3> rawScale;
+					rawScale = Math::FromVectorToArray(scale);
 					std::string scaleName = std::string{ "Sprite scale " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(scaleName.c_str(), rawScale, 0.01f, 10.0f);
+					ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
 
 					ImGui::Spacing();
 
-					position = Math::FromCArrayToVector3f(rawPosition);
-					rotation = Math::FromCArrayToVector3f(rawRotation);
-					scale = Math::FromCArrayToVector3f(rawScale);
+					position = Math::FromArrayToVector(rawPosition);
+					rotation = Math::FromArrayToVector(rawRotation);
+					scale = Math::FromArrayToVector(rawScale);
 					transform.setTranslation(position);
 					transform.setRotation(rotation);
 					transform.setScale(scale);
@@ -208,30 +208,30 @@ namespace zt::gl::tests
 				Transform transform = tileMap.getTransform();
 				Vector3f position = transform.getTranslation();
 
-				float rawPosition[3];
-				Math::FromVector3fToCArray(position, rawPosition);
+				std::array<float, 3> rawPosition;
+				rawPosition = Math::FromVectorToArray(position);
 				std::string positionName = "Sprite position ";
-				ImGui::SliderFloat3(positionName.c_str(), rawPosition, sliderMin, sliderMax);
-				position = Math::FromCArrayToVector3f(rawPosition);
+				ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), sliderMin, sliderMax);
+				position = Math::FromArrayToVector(rawPosition);
 				transform.setTranslation(position);
 				tileMap.setTransform(transform);
 			}
 
 			// Camera
 			Vector3f cameraPos = camera.getPosition();
-			float rawCameraPos[3];
-			Math::FromVector3fToCArray(cameraPos, rawCameraPos);
+			std::array<float, 3> rawCameraPosition;
+			rawCameraPosition = Math::FromVectorToArray(cameraPos);
 			std::string posName = std::string{ "Camera pos " };
-			ImGui::SliderFloat3(posName.c_str(), rawCameraPos, -10.00f, 10.0f);
-			cameraPos = Math::FromCArrayToVector3f(rawCameraPos);
+			ImGui::SliderFloat3(posName.c_str(), rawCameraPosition.data(), -10.00f, 10.0f);
+			cameraPos = Math::FromArrayToVector(rawCameraPosition);
 			camera.setPosition(cameraPos);
 
 			Vector3f cameraTarget = camera.getTarget();
-			float rawCameraTarget[3];
-			Math::FromVector3fToCArray(cameraTarget, rawCameraTarget);
+			std::array<float, 3> rawCameraTarget;
+			rawCameraTarget = Math::FromVectorToArray(cameraTarget);
 			std::string targetName = std::string{ "Camera target " };
-			ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget, -5.00f, 5.0f);
-			cameraTarget = Math::FromCArrayToVector3f(rawCameraTarget);
+			ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget.data(), -5.00f, 5.0f);
+			cameraTarget = Math::FromArrayToVector(rawCameraTarget);
 			camera.setTarget(cameraTarget);
 
 			ImGui::End();
