@@ -1,12 +1,14 @@
 #include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
+#include "Zinet/Core/ZtDebug.h"
+
 namespace zt::gl
 {
 
     Window::~Window() noexcept
     {
-        Logger->info(__FUNCTION__);
+        Logger->info(zt::core::CurrentFunctionName());
 
         if (internalWindow != nullptr)
         {
@@ -16,7 +18,7 @@ namespace zt::gl
 
     void Window::create()
     {
-        Logger->info(__FUNCTION__);
+        Logger->info(zt::core::CurrentFunctionName());
 
         internalWindow = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
         if (internalWindow == nullptr)

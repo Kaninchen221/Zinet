@@ -1,7 +1,5 @@
 #include "Zinet/Core/ZtFileFinder.h"
 
-// TODO (mid) Use std::source_location instead of __FUNCTION__
-
 namespace zt::core
 {
 
@@ -32,7 +30,7 @@ namespace zt::core
 		}
 		catch (const std::exception& exception)
 		{
-			Logger->error("{} throw exception: {}", __FUNCTION__, exception.what());
+			Logger->error("{} throw exception: {}", CurrentFunctionName(), exception.what());
 		}
 
 		return files;
@@ -61,7 +59,7 @@ namespace zt::core
 		}
 		catch (const std::exception& exception)
 		{
-			Logger->error("{} throw exception: {}", __FUNCTION__, exception.what());
+			Logger->error("{} throw exception: {}", CurrentFunctionName(), exception.what());
 		}
 
 		return files;
