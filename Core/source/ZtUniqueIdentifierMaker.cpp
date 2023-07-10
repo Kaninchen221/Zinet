@@ -17,30 +17,6 @@ namespace zt::core
 
     std::optional<Identifier> UniqueIdentifierMaker::tryReserveReleasedIdentifier()
     {
-        //if (numbers.empty())
-        //    return {};
-
-		//for (size_t index = 0; index < numbers.size(); ++index)
-		//{
-		//    if (!numbers[index])
-		//    {
-		//        numbers[index] = true;
-		//        return Identifier{ index };
-		//    }
-		//}
-
-        //size_t index = 0;
-        //while (true)
-		//{
-		//	if (!numbers[index])
-		//	{
-		//		numbers[index] = true;
-		//		return Identifier{ index };
-		//	}
-        //
-        //    ++index;
-        //}
-
 		size_t index = 0;
         for (std::vector<bool>::iterator iterator = numbers.begin(); iterator != numbers.end(); ++iterator)
 		{

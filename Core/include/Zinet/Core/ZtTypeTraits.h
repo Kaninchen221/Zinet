@@ -11,6 +11,7 @@ namespace zt::core
 		return std::is_same<FirstFunctionPointer, SecondFunctionPointer>::value;
 	}
 
+	// TODO (mid) convert it to free function
 	inline constexpr const auto LambdaFree = [](void* pointer)
 	{
 		std::free(pointer);
