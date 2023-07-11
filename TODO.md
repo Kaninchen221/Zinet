@@ -5,3 +5,4 @@
 - Test explorer in VS doesn't work correctly (low)
 - Use reference_wrapper instead of just T& t (refactor) (low)
 - Refactor zinet core lib (mid)
+- Implement mipmap (mid)
