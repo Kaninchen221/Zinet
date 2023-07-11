@@ -13,7 +13,6 @@ namespace zt::gl
 {
 	class RendererContext;
 
-	// TODO (Low) Fix it after DrawInfo refactor
 	class ZINET_GRAPHIC_LAYER_API TileMap : public DrawableObject
 	{
 
@@ -25,7 +24,7 @@ namespace zt::gl
 
 		const inline static std::uint16_t VerticesPerTile = 4u;
 
-		TileMap();
+		TileMap() = default;
 		TileMap(const TileMap& other) = default;
 		TileMap(TileMap&& other) = default;
 
@@ -39,31 +38,28 @@ namespace zt::gl
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform);
 
-		const std::vector<UniformBuffer>& getUniformBuffers() const { return uniformBuffers; };
-
-		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
-		const TextureRegion& getTextureRegion() const { return textureRegion; }
+		void setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
+		const TextureRegion& getDefaultShaderTextureRegion() const { return defaultShaderTextureRegion; }
 
 		void setTilesCount(const Vector2ui& count) { tilesCount = count; }
 		const Vector2ui& getTilesCount() const { return tilesCount; }
 
+		std::vector<std::uint16_t> getIndices() const;
+
+		void setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const Vector2f& textureSize);
+		const std::vector<TextureRegion>& getTilesTextureRegions() const { return tilesTextureRegions; }
+		void clearTilesTextureRegions() { tilesTextureRegions.clear(); }
+
 	protected:
 
-		void createIndexBuffer(RendererContext& rendererContext);
-		VertexBuffer createVertexBuffer(RendererContext& rendererContext) const;
-		void createDescriptors();
-		void createUniformBuffers(RendererContext& rendererContext);
-		void createMVPUniformBuffer(RendererContext& rendererContext);
-		void createTextureRegionUniformBuffer(RendererContext& rendererContext);
+		void createIndexBuffer(IndexBuffer& indexBuffer, std::vector<std::uint16_t>& indices, RendererContext& rendererContext) const;
+		void createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const;
+		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 
-		IndexBuffer indexBuffer;
-		std::vector<std::uint16_t> indices;
-		std::vector<RenderStates::Descriptor> descriptors;
-		std::vector<UniformBuffer> uniformBuffers;
-		std::vector<RenderStates::Image> imageDrawInfos;
-		TextureRegion textureRegion;
+		TextureRegion defaultShaderTextureRegion;
 		Transform transform;
 		Vector2ui tilesCount{ 1u, 1u };
+		std::vector<TextureRegion> tilesTextureRegions;
 	};
 
 }

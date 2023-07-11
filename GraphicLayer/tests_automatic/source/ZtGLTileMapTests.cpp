@@ -16,7 +16,7 @@
 
 namespace zt::gl::tests
 {
-	// TODO (Low) Refactor TileMap and Sprite to one parent class and two children classes
+	// TODO (Low) Refactor TileMap and Sprite to one parent class and two child classes
 	class TileMapTests : public ::testing::Test
 	{
 	protected:
@@ -70,7 +70,13 @@ namespace zt::gl::tests
 
 	TEST_F(TileMapTests, CreateDrawInfo)
 	{
+		DrawInfo drawInfo = std::move(tileMap.createDrawInfo(renderer.getRendererContext()));
 
+		EXPECT_TRUE(drawInfo.vertexBuffer.isValid());
+		EXPECT_TRUE(drawInfo.indexBuffer.isValid());
+		EXPECT_FALSE(drawInfo.indices.empty());
+		EXPECT_FALSE(drawInfo.uniformBuffers.empty());
+		EXPECT_NE(drawInfo.MVPBufferIndex, std::numeric_limits<size_t>::max());
 	}
 
 	class TileMapSimpleTests : public ::testing::Test
@@ -87,25 +93,16 @@ namespace zt::gl::tests
 		ASSERT_EQ(expectedTilesCount, actualTilesCount);
 	}
 
-	TEST_F(TileMapSimpleTests, GetUniformBuffers)
-	{
-		typedef const std::vector<UniformBuffer>&(TileMap::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&TileMap::getUniformBuffers);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		[[maybe_unused]] const std::vector<UniformBuffer>& uniformBuffers = tileMap.getUniformBuffers();
-	}
-
-	TEST_F(TileMapSimpleTests, TextureRegionGetSet)
+	TEST_F(TileMapSimpleTests, GetSetDefaultShaderTextureRegion)
 	{
 		typedef const TextureRegion& (TileMap::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&TileMap::getTextureRegion);
+		using FunctionDeclaration = decltype(&TileMap::getDefaultShaderTextureRegion);
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
 
 		TextureRegion expected = { { 1.23f, 0.f }, { 0.f, 0.4232f } };
 		Vector2f textureSize = { 1.f, 1.f };
-		tileMap.setTextureRegion(expected, textureSize);
-		const TextureRegion& actual = tileMap.getTextureRegion();
+		tileMap.setDefaultShaderTextureRegion(expected, textureSize);
+		const TextureRegion& actual = tileMap.getDefaultShaderTextureRegion();
 
 		ASSERT_EQ(expected.toShaderTextureRegion(textureSize), actual);
 	}
@@ -135,5 +132,28 @@ namespace zt::gl::tests
 		const Vector2ui& actualCount = tileMap.getTilesCount();
 
 		ASSERT_EQ(expectedCount, actualCount);
+	}
+
+	TEST_F(TileMapSimpleTests, GetSetClearTilesTextureRegions)
+	{
+		typedef const std::vector<TextureRegion>& (TileMap::* ExpectedFunction)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&TileMap::getTilesTextureRegions));
+
+		Vector2f textureSize = { 100.f, 100.f };
+
+		std::vector<TextureRegion> expectedTilesTextureRegions = 
+		{ 
+			TextureRegion{ Vector2f{ 23.f}, Vector2f{ 5.45f } },
+			TextureRegion{ Vector2f{ 433.2f}, Vector2f{ 0.45f } },
+			TextureRegion{ Vector2f{ 23.21f}, Vector2f{ 5.35f } }
+		};
+		tileMap.setTilesTextureRegions(expectedTilesTextureRegions, textureSize);
+
+		std::vector<TextureRegion> actualTilesTextureRegions = tileMap.getTilesTextureRegions();
+		EXPECT_NE(expectedTilesTextureRegions, actualTilesTextureRegions);
+
+		tileMap.clearTilesTextureRegions();
+		actualTilesTextureRegions = tileMap.getTilesTextureRegions();
+		EXPECT_TRUE(actualTilesTextureRegions.empty());
 	}
 }

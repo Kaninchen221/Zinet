@@ -120,11 +120,11 @@ namespace zt::gl::tests
 		};
 
 		TileMap tileMap;
-		tileMap.setTilesCount({ 5, 4 });
-		TextureRegion textureRegion;
-		textureRegion.size = Vector2f{ 512.f, 512.f };
-		textureRegion.offset = Vector2f{ 0.f, 0.f };
-		tileMap.setTextureRegion(textureRegion, texture.getSize());
+		tileMap.setTilesCount({ 8, 8 });
+		TextureRegion defaultTextureRegion;
+		defaultTextureRegion.size = Vector2f{ 512.f, 512.f };
+		defaultTextureRegion.offset = Vector2f{ 0.f, 0.f };
+		tileMap.setDefaultShaderTextureRegion(defaultTextureRegion, texture.getSize());
 
 		zt::core::Clock clock;
 		std::once_flag clockOnceFlag;
@@ -198,6 +198,24 @@ namespace zt::gl::tests
 			}
 			else // Tilemap
 			{
+				std::array<int, 2> rawTilesCount = Math::FromVectorToArray(Vector2i{ tileMap.getTilesCount() });
+				ImGui::SliderInt2("Tiles Count", rawTilesCount.data(), 1, 100);
+				tileMap.setTilesCount(Math::FromArrayToVector(rawTilesCount));
+
+				std::vector<TextureRegion> tilesTextureRegions;
+				Vector2ui index{ 0u, 0u };
+				for (index.y = 0u; index.y < tileMap.getTilesCount().y; ++index.y)
+				{
+					for (index.x = 0u; index.x < tileMap.getTilesCount().x; ++index.x)
+					{
+						TextureRegion textureRegion;
+						textureRegion.offset = { index.x * 512.f, index.y * 512.f };
+						textureRegion.size = { 512.f, 512.f };
+						tilesTextureRegions.push_back(textureRegion);
+					}
+				}
+				tileMap.setTilesTextureRegions(tilesTextureRegions, texture.getSize());
+
 				ImGui::SliderFloat("Camera 'Far'", &cameraFar, 10.f, 1000.f);
 				camera.setFar(cameraFar);
 
