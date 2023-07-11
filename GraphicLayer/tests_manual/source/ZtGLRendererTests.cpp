@@ -228,7 +228,7 @@ namespace zt::gl::tests
 
 				std::array<float, 3> rawPosition;
 				rawPosition = Math::FromVectorToArray(position);
-				std::string positionName = "Sprite position ";
+				std::string positionName = "Tile Map position ";
 				ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), sliderMin, sliderMax);
 				position = Math::FromArrayToVector(rawPosition);
 				transform.setTranslation(position);
@@ -240,7 +240,7 @@ namespace zt::gl::tests
 			std::array<float, 3> rawCameraPosition;
 			rawCameraPosition = Math::FromVectorToArray(cameraPos);
 			std::string posName = std::string{ "Camera pos " };
-			ImGui::SliderFloat3(posName.c_str(), rawCameraPosition.data(), -10.00f, 10.0f);
+			ImGui::SliderFloat3(posName.c_str(), rawCameraPosition.data(), -30.00f, 30.0f);
 			cameraPos = Math::FromArrayToVector(rawCameraPosition);
 			camera.setPosition(cameraPos);
 
@@ -273,6 +273,7 @@ namespace zt::gl::tests
 			}
 			else
 			{
+				renderStates.modelMatrix = tileMap.getTransform().toMatrix();
 				renderer.draw(tileMap, renderStates);
 			}
 
