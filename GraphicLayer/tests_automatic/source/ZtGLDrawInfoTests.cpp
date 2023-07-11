@@ -32,6 +32,11 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<decltype(drawInfo.MVPBufferIndex), size_t>);
 	};
 
+	TEST_F(DrawInfoTests, DefaultValues)
+	{
+		ASSERT_EQ(drawInfo.MVPBufferIndex, std::numeric_limits<size_t>::max());
+	}
+
 	class DescriptorInfoTests : public ::testing::Test
 	{
 	protected:
