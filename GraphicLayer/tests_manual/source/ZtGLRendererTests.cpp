@@ -74,7 +74,18 @@ namespace zt::gl::tests
 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 		// Create texture
-		texture.create(stbImage, rendererContext);
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+		commandBuffer.begin();
+		texture.create(commandBuffer, stbImage, rendererContext);
+		commandBuffer.end();
+
+		vk::SubmitInfo submitInfo{};
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
 
 		int count = 3;
 		plf::colony<Sprite> sprites;

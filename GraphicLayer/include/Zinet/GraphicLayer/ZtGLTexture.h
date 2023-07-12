@@ -13,6 +13,7 @@
 namespace zt::gl
 {
 	class RendererContext;
+	class CommandBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API Texture
 	{
@@ -40,7 +41,7 @@ namespace zt::gl
 
 		const vk::ImageLayout& getVkImageLayout() const { return vkImageLayout; }
 
-		void create(const STBImage& stbImage, const RendererContext& rendererContext);
+		void create(CommandBuffer& commandBuffer, const STBImage& stbImage, const RendererContext& rendererContext);
 
 		RenderStates::Image createImageDrawInfo(const Sampler& sampler) const;
 
@@ -54,7 +55,4 @@ namespace zt::gl
 		vk::ImageLayout vkImageLayout;
 
 	};
-
-	// TODO (Mid) Move it perhaps to an Queue class
-	void CopyImageBufferToImage(Image& image, ImageBuffer& imageBuffer, const RendererContext& rendererContext, std::uint32_t width, std::uint32_t height);
 }

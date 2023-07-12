@@ -63,7 +63,18 @@ namespace zt::gl::tests
 				FAIL() << "Can't load texture image";
 			}
 
-			texture.create(stbImage, rendererContext);
+			CommandBuffer commandBuffer;
+			commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+			commandBuffer.begin();
+			texture.create(commandBuffer, stbImage, rendererContext);
+			commandBuffer.end();
+
+			vk::SubmitInfo submitInfo{};
+			submitInfo.commandBufferCount = 1;
+			submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+			rendererContext.getQueue().submit(submitInfo);
+			rendererContext.getQueue()->waitIdle();
 
 			sprite.createDrawInfo(rendererContext);
 		}
