@@ -16,7 +16,6 @@
 
 namespace zt::gl::tests
 {
-	// TODO (Low) Refactor TileMap and Sprite to one parent class and two child classes
 	class TileMapTests : public ::testing::Test
 	{
 	protected:
@@ -32,6 +31,12 @@ namespace zt::gl::tests
 
 		static_assert(std::is_base_of_v<DrawableObject, TileMap>);
 		static_assert(std::is_default_constructible_v<TileMap>);
+
+		static_assert(std::is_copy_constructible_v<TileMap>);
+		static_assert(std::is_copy_assignable_v<TileMap>);
+
+		static_assert(std::is_move_constructible_v<TileMap>);
+		static_assert(std::is_move_assignable_v<TileMap>);
 
 		void SetUp() override
 		{
@@ -70,7 +75,7 @@ namespace zt::gl::tests
 
 	TEST_F(TileMapTests, CreateDrawInfo)
 	{
-		DrawInfo drawInfo = std::move(tileMap.createDrawInfo(renderer.getRendererContext()));
+		DrawInfo drawInfo = tileMap.createDrawInfo(renderer.getRendererContext());
 
 		EXPECT_TRUE(drawInfo.vertexBuffer.isValid());
 		EXPECT_TRUE(drawInfo.indexBuffer.isValid());
@@ -91,6 +96,21 @@ namespace zt::gl::tests
 		const Vector2ui& actualTilesCount = tileMap.getTilesCount();
 		Vector2ui expectedTilesCount = Vector2ui{ 1u, 1u };
 		ASSERT_EQ(expectedTilesCount, actualTilesCount);
+
+		std::vector<TextureRegion> actualTilesTextureRegions = tileMap.getTilesTextureRegions();
+		EXPECT_TRUE(actualTilesTextureRegions.empty());
+	}
+
+	TEST_F(TileMapSimpleTests, GetAbsoluteSize)
+	{
+		typedef Vector2ui(TileMap::* ExpectedFunction)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&TileMap::getAbsoluteSize));
+
+		tileMap.setTilesCount(Vector2ui{ 2u, 3u });
+
+		Vector2ui actualAbsoluteSize = tileMap.getAbsoluteSize();
+		const Vector2ui& expectedAboluteSize = tileMap.getTilesCount();
+		ASSERT_EQ(actualAbsoluteSize, expectedAboluteSize);
 	}
 
 	TEST_F(TileMapSimpleTests, GetSetDefaultShaderTextureRegion)

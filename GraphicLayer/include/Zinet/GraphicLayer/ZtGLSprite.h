@@ -22,7 +22,7 @@ namespace zt::gl
 
 	public:
 
-		Sprite();
+		Sprite() = default;
 		Sprite(const Sprite& other) = default;
 		Sprite(Sprite&& other);
 
@@ -36,6 +36,8 @@ namespace zt::gl
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform);
 
+		Vector2ui getAbsoluteSize() const override { return Vector2ui{ 1.f, 1.f }; }
+
 		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
@@ -47,8 +49,8 @@ namespace zt::gl
 		void createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const;
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 
-		TextureRegion textureRegion;
 		Transform transform;
+		TextureRegion textureRegion;
 	};
 
 }

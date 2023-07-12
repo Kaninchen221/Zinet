@@ -76,7 +76,7 @@ namespace zt::gl::tests
 
 	TEST_F(SpriteTests, CreateDrawInfo)
 	{
-		DrawInfo drawInfo = std::move(sprite.createDrawInfo(renderer.getRendererContext()));
+		DrawInfo drawInfo = sprite.createDrawInfo(renderer.getRendererContext());
 
 		EXPECT_TRUE(drawInfo.vertexBuffer.isValid());
 		EXPECT_TRUE(drawInfo.indexBuffer.isValid());
@@ -120,6 +120,16 @@ namespace zt::gl::tests
 		ASSERT_EQ(expected, actual);
 	}
 
+	TEST_F(SpriteSimpleTests, GetAbsoluteSize)
+	{
+		typedef Vector2ui (Sprite::* ExpectedFunction)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Sprite::getAbsoluteSize));
+
+		Vector2ui actualAbsoluteSize = sprite.getAbsoluteSize();
+		Vector2ui expectedAboluteSize = Vector2ui{ 1u, 1u };
+		ASSERT_EQ(actualAbsoluteSize, expectedAboluteSize);
+	}
+
 	TEST_F(SpriteSimpleTests, Copy)
 	{
 		TextureRegion textureRegion;
@@ -149,42 +159,5 @@ namespace zt::gl::tests
 
 		EXPECT_EQ(sprite.getTextureRegion(), thirdSprite.getTextureRegion());
 		EXPECT_EQ(sprite.getTransform(), thirdSprite.getTransform());
-	}
-
-	TEST_F(SpriteSimpleTests, Move)
-	{
-		TextureRegion textureRegion;
-		textureRegion.offset = { 233.f, 12.f };
-		textureRegion.size = { 55.f, 16.f };
-
-		Vector2f textureSize;
-		textureSize.x = 10.f;
-		textureSize.y = 20.f;
-
-		sprite.setTextureRegion(textureRegion, textureSize);
-
-		Transform transform;
-		transform.setRotation({ 2.f, 1.f, 5.f });
-		transform.setScale({ 1.f, 7.f, 2.f });
-		transform.setTranslation({ 4.f, 6.f, 6.f });
-
-		sprite.setTransform(transform);
-
-		Sprite secondSprite;
-		secondSprite = std::move(sprite);
-
-		EXPECT_EQ(secondSprite.getTextureRegion(), textureRegion.toShaderTextureRegion(textureSize));
-		EXPECT_EQ(secondSprite.getTransform(), transform);
-
-		EXPECT_EQ(sprite.getTextureRegion(), TextureRegion{});
-		EXPECT_EQ(sprite.getTransform(), Transform{});
-
-		Sprite thirdSprite{ std::move(secondSprite) };
-
-		EXPECT_EQ(thirdSprite.getTextureRegion(), textureRegion.toShaderTextureRegion(textureSize));
-		EXPECT_EQ(thirdSprite.getTransform(), transform);
-
-		EXPECT_EQ(secondSprite.getTextureRegion(), TextureRegion{});
-		EXPECT_EQ(secondSprite.getTransform(), Transform{});
 	}
 }

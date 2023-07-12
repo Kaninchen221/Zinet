@@ -27,6 +27,8 @@ namespace zt::gl
 		virtual DrawInfo createDrawInfo(RendererContext& rendererContext) const = 0;
 
 		virtual const Transform& getTransform() const = 0;
+
+		virtual Vector2ui getAbsoluteSize() const = 0;
 	};
 
 }

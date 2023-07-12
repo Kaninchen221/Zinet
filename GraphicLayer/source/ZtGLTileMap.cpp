@@ -44,8 +44,8 @@ namespace zt::gl
 			indices.insert(indices.end(), indicesPerTile);
 		};
 
-		std::uint16_t verticesPerTile = 4u;
-		std::uint16_t count = static_cast<std::uint16_t>(tilesCount.x * tilesCount.y);
+		const std::uint16_t verticesPerTile = 4u;
+		const std::uint16_t count = static_cast<std::uint16_t>(tilesCount.x * tilesCount.y);
 		indices.reserve(verticesPerTile * count);
 		for (std::uint16_t index = 0; index < count; ++index)
 		{
