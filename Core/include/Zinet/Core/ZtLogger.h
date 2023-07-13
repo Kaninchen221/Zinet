@@ -72,7 +72,7 @@ namespace zt::core
 	protected:
 
 		std::shared_ptr<spdlog::logger> internal;
-		spdlog::level::level_enum lastLevel;
+		spdlog::level::level_enum lastLevel = spdlog::level::info;
 
 	};
 

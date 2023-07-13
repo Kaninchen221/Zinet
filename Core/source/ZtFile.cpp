@@ -57,10 +57,9 @@ namespace zt::core
 
 		case FileOpenMode::Ate:
 			return std::ios_base::ate;
-
-		default:
-			return std::ios_base::in;
 		}
+
+		return std::ios_base::in;
 	}
 
 	void File::close()
