@@ -4,6 +4,5 @@
 - Utility application? (Creating new class, new lib) (low)
 - Test explorer in VS doesn't work correctly (low)
 - Use reference_wrapper instead of just T& t (refactor) (low)
-- Refactor zinet core lib (mid)
 - Implement mipmap (mid)
 - Add option to use the zinet libs as dynamic libs (only static is supported now) (low)
