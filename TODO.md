@@ -6,3 +6,4 @@
 - Use reference_wrapper instead of just T& t (refactor) (low)
 - Implement mipmap (mid)
 - Add option to use the zinet libs as dynamic libs (only static is supported now) (low)
+- Remove [[maybe_unused]] from code (low)
