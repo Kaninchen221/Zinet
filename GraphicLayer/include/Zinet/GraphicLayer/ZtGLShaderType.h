@@ -6,12 +6,14 @@
 
 namespace zt::gl
 {
-	// TODO (Low) Support other types
+	// TODO (Very Low) Support other types
 	enum class ZINET_GRAPHIC_LAYER_API ShaderType
 	{
 		Invalid,
 		Vertex,
-		Fragment
+		Fragment,
+		Compute,
+		Geometry
 	};
 
 	shaderc_shader_kind ZINET_GRAPHIC_LAYER_API ShaderTypeToShaderc(ShaderType shaderType);
