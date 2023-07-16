@@ -53,6 +53,8 @@ namespace zt::gl
 
 		bool findSupportedFormat(const FindSupportedFormatInput& input, vk::Format& supportedFormat) const;
 
+		bool isFormatSupportingGeneratingMipmaps(vk::Format format) const;
+
 	protected:
 		
 		vk::PhysicalDeviceFeatures features;

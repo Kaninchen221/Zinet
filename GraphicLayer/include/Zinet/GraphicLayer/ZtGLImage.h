@@ -40,7 +40,7 @@ namespace zt::gl
 
 		~Image() noexcept;
 
-		vk::ImageCreateInfo createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, vk::Format format = vk::Format::eR8G8B8A8Srgb);
+		vk::ImageCreateInfo createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, std::uint32_t newMipmapLevels = 1u, vk::Format format = vk::Format::eR8G8B8A8Srgb);
 
 		VmaAllocationCreateInfo createAllocationCreateInfo() const;
 
@@ -49,13 +49,15 @@ namespace zt::gl
 		std::uint32_t getWidth() const { return width; }
 		std::uint32_t getHeight() const { return height; }
 
+		std::uint32_t getMipmapLevels() const { return mipmapLevels; }
+
 	protected:
 
 		VmaAllocator vmaAllocator{};
 		VmaAllocation allocation{};
 		std::uint32_t width{};
 		std::uint32_t height{};
-
+		std::uint32_t mipmapLevels = 0u;
 	};
 
 }

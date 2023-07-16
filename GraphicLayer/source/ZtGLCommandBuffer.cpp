@@ -80,7 +80,7 @@ namespace zt::gl
 		internal.reset(flags);
 	}
 
-	vk::ImageMemoryBarrier CommandBuffer::createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout)
+	vk::ImageMemoryBarrier CommandBuffer::createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout, std::uint32_t mipmapLevels)
 	{
 		vk::ImageMemoryBarrier barrier;
 
@@ -91,7 +91,7 @@ namespace zt::gl
 		barrier.image = *image.getInternal();
 		barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
 		barrier.subresourceRange.baseMipLevel = 0;
-		barrier.subresourceRange.levelCount = 1;
+		barrier.subresourceRange.levelCount = mipmapLevels;
 		barrier.subresourceRange.baseArrayLayer = 0;
 		barrier.subresourceRange.layerCount = 1;
 		barrier.srcAccessMask = vk::AccessFlagBits{};

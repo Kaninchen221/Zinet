@@ -66,7 +66,11 @@ namespace zt::gl::tests
 			CommandBuffer commandBuffer;
 			commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 			commandBuffer.begin();
-			texture.create(commandBuffer, stbImage, rendererContext);
+			Texture::CreateInfo createInfo
+			{
+				commandBuffer, stbImage, rendererContext
+			};
+			texture.create(createInfo);
 			commandBuffer.end();
 
 			vk::SubmitInfo submitInfo{};

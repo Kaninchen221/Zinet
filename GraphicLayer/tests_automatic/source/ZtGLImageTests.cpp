@@ -4,30 +4,20 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
 {
-
-	class ImageTests : public ::testing::Test
+	class ImageSimpleTests : public ::testing::Test
 	{
 	protected:
 
-		Renderer renderer;
-		Image image;
-
-		void SetUp() override
-		{
-			renderer.initialize();
-		}
+		static_assert(std::derived_from<Image, VulkanObject<vk::raii::Image>>);
 	};
 
-	TEST(Image, DerivedFromVulkanObject)
-	{
-		static_assert(std::derived_from<Image, VulkanObject<vk::raii::Image>>);
-	}
-
-	TEST(Image, CreateCreateInfo)
+	TEST_F(ImageSimpleTests, CreateCreateInfo)
 	{
 		Image image;
 		std::uint32_t expectedWidth = 0u;
@@ -48,7 +38,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(createInfo.samples, vk::SampleCountFlagBits::e1);
 	}
 
-	TEST(Image, CreateVmaAllocationCreateInfo)
+	TEST_F(ImageSimpleTests, CreateVmaAllocationCreateInfo)
 	{
 		Image image;
 		VmaAllocationCreateInfo allocationCreateInfo = image.createAllocationCreateInfo();
@@ -58,25 +48,50 @@ namespace zt::gl::tests
 		ASSERT_EQ(allocationCreateInfo.priority, 1.f);
 	}
 
+	TEST_F(ImageSimpleTests, GetMipmapLevels)
+	{
+		typedef std::uint32_t (Image::* ExpectedFunctionDeclaration)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&Image::getMipmapLevels));
+
+		Image image;
+		std::uint32_t mipmapLevels = image.getMipmapLevels();
+		EXPECT_EQ(mipmapLevels, 0u);
+	}
+
+	class ImageTests : public ::testing::Test
+	{
+	protected:
+
+		Renderer renderer;
+		Image image;
+
+		void SetUp() override
+		{
+			renderer.initialize();
+		}
+	};
+
 	TEST_F(ImageTests, Create)
 	{
 		RendererContext& rendererContext = renderer.getRendererContext();
 
 		std::uint32_t expectedWidth = 1u;
 		std::uint32_t expectedHeight = 1u;
+		std::uint32_t mipmapLevels = 1u;
 	
 		Image::CreateInfo imageCreateInfo { 
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight, mipmapLevels),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 
 		image.create(imageCreateInfo);
 
 		ASSERT_TRUE(image.isValid());
-		ASSERT_EQ(image.getWidth(), expectedWidth);
-		ASSERT_EQ(image.getHeight(), expectedHeight);
+		EXPECT_EQ(image.getWidth(), expectedWidth);
+		EXPECT_EQ(image.getHeight(), expectedHeight);
+		EXPECT_EQ(image.getMipmapLevels(), mipmapLevels);
 	}
 
 }

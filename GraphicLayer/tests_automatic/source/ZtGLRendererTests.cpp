@@ -249,7 +249,8 @@ namespace zt::gl::tests
 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 		ImageView& view = imageViews.emplace_back();
-		vk::ImageViewCreateInfo imageViewCreateInfo = view.createCreateInfo(*image.getInternal(), vk::Format::eR8G8B8A8Srgb);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageViewCreateInfo imageViewCreateInfo = view.createCreateInfo(*image.getInternal(), mipmapLevels, vk::Format::eR8G8B8A8Srgb);
 		view.create(rendererContext.getDevice(), imageViewCreateInfo);
 
 		vk::ImageLayout imageLayout = imageLayouts.emplace_back(vk::ImageLayout::eShaderReadOnlyOptimal);

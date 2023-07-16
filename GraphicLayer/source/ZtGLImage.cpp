@@ -4,15 +4,15 @@
 
 namespace zt::gl
 {
-
-	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, vk::Format format)
+	// TODO (Low) Use Vector2ui instead of 2 params
+	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, std::uint32_t newMipmapLevels, vk::Format format)
 	{
 		vk::ImageCreateInfo createInfo{};
 		createInfo.imageType = vk::ImageType::e2D;
 		createInfo.extent.width = newWidth;
 		createInfo.extent.height = newHeight;
 		createInfo.extent.depth = 1;
-		createInfo.mipLevels = 1;
+		createInfo.mipLevels = newMipmapLevels;
 		createInfo.arrayLayers = 1;
 		createInfo.format = format;
 		createInfo.tiling = vk::ImageTiling::eOptimal;
@@ -45,6 +45,7 @@ namespace zt::gl
 			internal = std::move(vk::raii::Image{ imageCreateInfo.device.getInternal(), image });
 			width = imageCreateInfo.vkImageCreateInfo.extent.width;
 			height = imageCreateInfo.vkImageCreateInfo.extent.height;
+			mipmapLevels = imageCreateInfo.vkImageCreateInfo.mipLevels;
 		}
 		else
 		{

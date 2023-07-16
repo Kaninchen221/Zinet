@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLTexture.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -25,6 +26,13 @@ namespace zt::gl
 			std::uint32_t height;
 		};
 
+		struct ZINET_GRAPHIC_LAYER_API GenerateMipmapTextureInfo
+		{
+			Texture& texture;
+			CommandBuffer& commandBuffer;
+			RendererContext& rendererContext;
+		};
+
 	protected:
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Utilities");
@@ -41,6 +49,9 @@ namespace zt::gl
 		~Utilities() noexcept = delete;
 
 		static void CopyImageBufferToImage(const CopyImageBufferToImageInfo& info);
+
+		static void GenerateMipmapTexture(const GenerateMipmapTextureInfo& info, Texture& result);
+
 	};
 
 }

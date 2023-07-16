@@ -153,4 +153,14 @@ namespace zt::gl
 		return false;
 	}
 
+	bool PhysicalDevice::isFormatSupportingGeneratingMipmaps(vk::Format format) const
+	{
+		vk::FormatProperties formatProperties = internal.getFormatProperties(format);
+
+		bool isSupporting = 
+			(formatProperties.optimalTilingFeatures & vk::FormatFeatureFlagBits::eSampledImageFilterLinear).operator bool();
+
+		return isSupporting;
+	}
+
 }

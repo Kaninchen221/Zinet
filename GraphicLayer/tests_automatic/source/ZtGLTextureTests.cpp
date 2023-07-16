@@ -67,6 +67,19 @@ namespace zt::gl::tests
 		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
 	}
 
+	TEST_F(TextureSimpleTests, CreateInfoDefaultValues)
+	{
+		CommandBuffer commandBuffer;
+		STBImage stbImage;
+		RendererContext rendererContext;
+
+		Texture::CreateInfo createInfo
+		{
+			commandBuffer, stbImage, rendererContext
+		};
+		EXPECT_FALSE(createInfo.mipmaps);
+	}
+
 	class TextureTests : public ::testing::Test
 	{
 	protected:
@@ -98,7 +111,11 @@ namespace zt::gl::tests
 		CommandBuffer commandBuffer;
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 		commandBuffer.begin();
-		texture.create(commandBuffer, stbImage, rendererContext);
+		Texture::CreateInfo createInfo
+		{
+			commandBuffer, stbImage, rendererContext
+		};
+		texture.create(createInfo);
 		commandBuffer.end();
 
 		vk::SubmitInfo submitInfo{};

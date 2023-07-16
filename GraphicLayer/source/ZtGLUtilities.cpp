@@ -62,4 +62,18 @@ namespace zt::gl
 			{},
 			barrierAfterCopy);
 	}
+
+	void Utilities::GenerateMipmapTexture(const GenerateMipmapTextureInfo& info, Texture& result)
+	{
+		Vector2ui size{ info.texture.getSize() };
+		Vector4f color{ 1.f, 1.f, 1.f, 1.f };
+		Texture::CreateBlankTextureInfo textureCreateInfo
+		{
+			info.commandBuffer, size, color, info.rendererContext
+		};
+		result.createBlankTextureForMipmap(textureCreateInfo);
+
+
+	}
+
 }

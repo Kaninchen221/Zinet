@@ -77,7 +77,9 @@ namespace zt::gl::tests
 		CommandBuffer commandBuffer;
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 		commandBuffer.begin();
-		texture.create(commandBuffer, stbImage, rendererContext);
+		bool textureUseMipmaps = false;
+		texture.create({ commandBuffer, stbImage, rendererContext, textureUseMipmaps });
+
 		commandBuffer.end();
 
 		vk::SubmitInfo submitInfo{};

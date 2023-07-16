@@ -27,10 +27,15 @@ namespace zt::gl
 
 		~ImageView() noexcept = default;
 
-		vk::ImageViewCreateInfo createCreateInfo(vk::Image image, const vk::Format& format) const;
+		vk::ImageViewCreateInfo createCreateInfo(vk::Image image, std::uint32_t newMipmapLevels = 1u, const vk::Format& format = vk::Format::eR8G8B8A8Srgb) const;
 
 		void create(const Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo);
 
+		std::uint32_t getMipmapLevels() const { return mipmapLevels; }
+
+	protected:
+
+		std::uint32_t mipmapLevels = 0u;
 	};
 
 }

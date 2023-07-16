@@ -5,7 +5,7 @@
 namespace zt::gl
 {
 
-	vk::ImageViewCreateInfo ImageView::createCreateInfo(vk::Image image, const vk::Format& format) const
+	vk::ImageViewCreateInfo ImageView::createCreateInfo(vk::Image image, std::uint32_t newMipmapLevels, const vk::Format& format) const
 	{
 		vk::ImageViewCreateInfo imageViewCreateInfo;
 		imageViewCreateInfo.image = image; 
@@ -20,6 +20,7 @@ namespace zt::gl
 		imageViewCreateInfo.subresourceRange.levelCount = 1;
 		imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
 		imageViewCreateInfo.subresourceRange.layerCount = 1;
+		imageViewCreateInfo.subresourceRange.levelCount = newMipmapLevels;
 
 		return imageViewCreateInfo;
 	}
@@ -27,5 +28,9 @@ namespace zt::gl
 	void ImageView::create(const Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo)
 	{
 		internal = std::move(vk::raii::ImageView(device.getInternal(), imageViewCreateInfo));
+		if (isValid())
+		{
+			mipmapLevels = imageViewCreateInfo.subresourceRange.levelCount;
+		}
 	}
 }

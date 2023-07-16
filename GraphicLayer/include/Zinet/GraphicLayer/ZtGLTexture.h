@@ -18,6 +18,24 @@ namespace zt::gl
 	class ZINET_GRAPHIC_LAYER_API Texture
 	{
 
+	public:
+
+		struct ZINET_GRAPHIC_LAYER_API CreateInfo
+		{
+			CommandBuffer& commandBuffer;
+			const STBImage& stbImage;
+			const RendererContext& rendererContext;
+			bool mipmaps = false;
+		};
+
+		struct ZINET_GRAPHIC_LAYER_API CreateBlankTextureInfo
+		{
+			CommandBuffer& commandBuffer;
+			const Vector2ui& size;
+			const Vector4f& color;
+			const RendererContext& rendererContext;
+		};
+
 	protected:
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Texture");
@@ -41,7 +59,10 @@ namespace zt::gl
 
 		const vk::ImageLayout& getVkImageLayout() const { return vkImageLayout; }
 
-		void create(CommandBuffer& commandBuffer, const STBImage& stbImage, const RendererContext& rendererContext);
+		void create(const CreateInfo& createInfo);
+
+		// TODO (low) test it
+		void createBlankTextureForMipmap(const CreateBlankTextureInfo& createInfo);
 
 		RenderStates::Image createImageDrawInfo(const Sampler& sampler) const;
 

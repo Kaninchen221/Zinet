@@ -12,9 +12,9 @@ namespace zt::gl
 
 	void RenderTarget::createImage(const CreateInfo& createInfo)
 	{
-		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(createInfo.width, createInfo.height, createInfo.format);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(createInfo.width, createInfo.height, mipmapLevels, createInfo.format);
 		vkImageCreateInfo.usage = vk::ImageUsageFlagBits::eColorAttachment;
-		//vkImageCreateInfo.initialLayout = vk::ImageLayout::ePresentSrcKHR;
 		VmaAllocationCreateInfo imageAllocationCreateInfo = image.createAllocationCreateInfo();
 		Image::CreateInfo imageCreateInfo
 		{
@@ -28,7 +28,8 @@ namespace zt::gl
 
 	void RenderTarget::createImageView(const CreateInfo& createInfo)
 	{
-		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), createInfo.format);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), mipmapLevels, createInfo.format);
 		imageView.create(createInfo.device, imageViewCreateInfo);
 	}
 
@@ -51,7 +52,8 @@ namespace zt::gl
 	{
 		swapChainImage = createInfo.swapChainImage;
 
-		vk::ImageViewCreateInfo imageViewCreateInfo = swapChainImageView.createCreateInfo(swapChainImage, createInfo.format);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageViewCreateInfo imageViewCreateInfo = swapChainImageView.createCreateInfo(swapChainImage, mipmapLevels, createInfo.format);
 		swapChainImageView.create(createInfo.device, imageViewCreateInfo);
 	}
 

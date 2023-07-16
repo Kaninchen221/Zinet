@@ -44,10 +44,11 @@ namespace zt::gl::tests
 
 	TEST_F(CommandBufferSimpleTests, CreateImageMemoryBarrier)
 	{
+		Image image;
 		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
 		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-		Image image;
-		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout, mipmapLevels);
 
 		ASSERT_EQ(barrier.oldLayout, oldLayout);
 		ASSERT_EQ(barrier.newLayout, newLayout);
@@ -56,7 +57,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(barrier.image, *image.getInternal());
 		ASSERT_EQ(barrier.subresourceRange.aspectMask, vk::ImageAspectFlagBits::eColor);
 		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, 0);
-		ASSERT_EQ(barrier.subresourceRange.levelCount, 1);
+		ASSERT_EQ(barrier.subresourceRange.levelCount, mipmapLevels);
 		ASSERT_EQ(barrier.subresourceRange.baseArrayLayer, 0);
 		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
 		ASSERT_EQ(barrier.srcAccessMask, vk::AccessFlagBits{});
@@ -102,9 +103,9 @@ namespace zt::gl::tests
 		Image image;
 		Image::CreateInfo imageCreateInfo{
 			.device = rendererContext.getDevice(),
-				.vma = rendererContext.getVma(),
-				.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
-				.allocationCreateInfo = image.createAllocationCreateInfo()
+			.vma = rendererContext.getVma(),
+			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 
 		image.create(imageCreateInfo);
@@ -188,8 +189,9 @@ namespace zt::gl::tests
 	{
 		ImageView imageView;
 		std::vector<vk::Image> images = rendererContext.getSwapChain().getImages();
+		std::uint32_t mipmapLevels = 1u;
 		vk::SurfaceFormatKHR surfaceFormat = rendererContext.getSwapChainSupportDetails().pickFormat();
-		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], surfaceFormat.format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], mipmapLevels, surfaceFormat.format);
 		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 
 		RenderPass renderPass;

@@ -27,7 +27,8 @@ namespace zt::gl
 	void DepthBuffer::create(const RendererContext& rendererContext, vk::Format format)
 	{
 		vk::Extent2D extent = rendererContext.getSwapExtent();
-		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(extent.width, extent.height, format);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(extent.width, extent.height, mipmapLevels, format);
 		vkImageCreateInfo.tiling = vk::ImageTiling::eOptimal;
 		vkImageCreateInfo.usage = vk::ImageUsageFlagBits::eDepthStencilAttachment;
 
@@ -40,7 +41,7 @@ namespace zt::gl
 		};
 		image.create(imageCreateInfo);
 
-		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), format);
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), mipmapLevels, format);
 		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
 		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 	}

@@ -113,4 +113,11 @@ namespace zt::gl::tests
 
 		EXPECT_TRUE(supportAnyFormat);
 	}
+
+	TEST_F(PhysicalDeviceTests, IsFormatSupportingGeneratingMipmaps)
+	{
+		vk::Format format = vk::Format::eR8G8B8A8Srgb;
+		bool isSupporitng = physicalDevice.isFormatSupportingGeneratingMipmaps(format);
+		ASSERT_TRUE(isSupporitng);
+	}
 }

@@ -89,7 +89,8 @@ namespace zt::gl::tests
 
 		ImageView imageView;
 		std::vector<vk::Image> images = swapChain->getImages();
-		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], surfaceFormat.format);
+		std::uint32_t mipmapLevels = 1u;
+		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(images[0], mipmapLevels, surfaceFormat.format);
 		imageView.create(device, imageViewCreateInfo);
 
 		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer->createCreateInfo(imageView, renderPass, swapChainExtent);
