@@ -50,7 +50,7 @@ namespace zt::gl
 
 		static void CopyImageBufferToImage(const CopyImageBufferToImageInfo& info);
 
-		static void GenerateMipmapTexture(const GenerateMipmapTextureInfo& info, Texture& result);
+		static void GenerateMipmapTexture(const GenerateMipmapTextureInfo& info, Texture& mipmapTexture);
 
 	};
 

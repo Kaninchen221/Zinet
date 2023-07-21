@@ -27,6 +27,11 @@
 #include <imgui_impl_vulkan.h>
 #include <imgui_impl_glfw.h>
 
+//
+#include "Zinet/GraphicLayer/ZtGLUtilities.h"
+
+//
+
 namespace zt::gl::tests
 {
 
@@ -47,6 +52,7 @@ namespace zt::gl::tests
 		Sampler sampler;
 		STBImage stbImage;
 		Texture texture;
+		Texture mipmapTexture;
 		Camera camera;
 		Imgui imgui;
 
@@ -80,6 +86,8 @@ namespace zt::gl::tests
 		bool textureUseMipmaps = false;
 		texture.create({ commandBuffer, stbImage, rendererContext, textureUseMipmaps });
 
+		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+
 		commandBuffer.end();
 
 		vk::SubmitInfo submitInfo{};
@@ -89,6 +97,39 @@ namespace zt::gl::tests
 		rendererContext.getQueue().submit(submitInfo);
 		rendererContext.getQueue()->waitIdle();
 
+		// Create mipmap texture
+		commandBuffer.begin();
+		Utilities::GenerateMipmapTextureInfo generateMipmapTextureInfo
+		{
+			texture, commandBuffer, rendererContext
+		};
+		Utilities::GenerateMipmapTexture(generateMipmapTextureInfo, mipmapTexture);
+
+		commandBuffer.end();
+
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
+
+		commandBuffer.begin();
+		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		for (std::uint32_t mipmapLevel = 1u; mipmapLevel < mipmapTexture.getImage().getMipmapLevels(); mipmapLevel++)
+		{
+			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(mipmapTexture.getImage(), vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal, 1, mipmapLevel);
+			commandBuffer->pipelineBarrier(
+				vk::PipelineStageFlagBits::eTransfer,
+				vk::PipelineStageFlagBits::eFragmentShader,
+				vk::DependencyFlags{},
+				{},
+				{},
+				barrier);
+		}
+		commandBuffer.end();
+
+		rendererContext.getQueue().submit(submitInfo);
+		rendererContext.getQueue()->waitIdle();
+
+		//
+
 		int count = 3;
 		plf::colony<Sprite> sprites;
 		sprites.reserve(count);
@@ -96,8 +137,10 @@ namespace zt::gl::tests
 		{
 			auto sprite = sprites.emplace();
 			TextureRegion textureRegion;
-			textureRegion.size = Vector2f{ 512.f, 512.f };
-			textureRegion.offset = Vector2f{ 512.f * i, 0.f };
+			//textureRegion.size = Vector2f{ 512.f, 512.f };
+			//textureRegion.offset = Vector2f{ 512.f * i, 0.f };
+			textureRegion.size = mipmapTexture.getSize();
+			textureRegion.offset = Vector2f{ 0.f, 0.f };
 			sprite->setTextureRegion(textureRegion, texture.getSize());
 
 		}
@@ -120,7 +163,8 @@ namespace zt::gl::tests
 		descriptors.push_back(descriptor);
 
 		std::vector<RenderStates::Image> images;
-		RenderStates::Image& imageRenderState = images.emplace_back(texture.createImageDrawInfo(sampler));
+		//RenderStates::Image& imageRenderState = images.emplace_back(texture.createImageDrawInfo(sampler));
+		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
 		imageRenderState.binding = 1;
 
 		RenderStates renderStates
@@ -308,7 +352,8 @@ namespace zt::gl::tests
 
 	void RendererTests::createSTBImage()
 	{
-		if (!stbImage.load((ContentPath / "test_texture.png").string()))
+		//if (!stbImage.load((ContentPath / "test_texture.png").string()))
+		if (!stbImage.load((ContentPath / "texture.jpg").string()))
 		{
 			FAIL() << "Can't load texture image";
 		}

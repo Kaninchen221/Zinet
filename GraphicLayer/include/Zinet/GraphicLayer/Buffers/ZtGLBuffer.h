@@ -78,7 +78,7 @@ namespace zt::gl
 
 		std::memcpy(mappedData, &object, size);
 		vmaUnmapMemory(vmaAllocator, allocation);
-		//vmaFlushAllocation(vmaAllocator, allocation, 0, size);
+		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
 	}
 
 	template<typename T>

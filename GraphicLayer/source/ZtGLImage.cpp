@@ -1,6 +1,7 @@
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
 namespace zt::gl
 {
@@ -17,7 +18,7 @@ namespace zt::gl
 		createInfo.format = format;
 		createInfo.tiling = vk::ImageTiling::eOptimal;
 		createInfo.initialLayout = vk::ImageLayout::eUndefined;
-		createInfo.usage = vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled;
+		createInfo.usage = vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled | vk::ImageUsageFlagBits::eTransferSrc; // TODO 
 		createInfo.sharingMode = vk::SharingMode::eExclusive;
 		createInfo.samples = vk::SampleCountFlagBits::e1;
 
@@ -60,6 +61,22 @@ namespace zt::gl
 		{
 			vmaDestroyImage(vmaAllocator, nullptr, allocation);
 		}
+	}
+
+	void Image::changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags, std::uint32_t mipmapLevel)
+	{
+		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(*this, currentImageLayout, newLayout, mipmapLevels, mipmapLevel);
+
+		commandBuffer->pipelineBarrier(
+			currentPipelineStageFlags,
+			newPipelineStageFlags,
+			vk::DependencyFlags{},
+			{},
+			{},
+			barrier);
+
+		currentImageLayout = newLayout;
+		currentPipelineStageFlags = newPipelineStageFlags;
 	}
 
 }

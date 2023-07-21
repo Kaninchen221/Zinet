@@ -11,6 +11,7 @@ namespace zt::gl
 {
 	class Device;
 	class Vma;
+	class CommandBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API Image : public VulkanObject<vk::raii::Image>
 	{
@@ -51,6 +52,12 @@ namespace zt::gl
 
 		std::uint32_t getMipmapLevels() const { return mipmapLevels; }
 
+		vk::ImageLayout getCurrentImageLayout() const { return currentImageLayout; }
+		vk::PipelineStageFlags getCurrentPipelineStageFlags() const { return currentPipelineStageFlags; }
+
+		// TODO Test it
+		void changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags, std::uint32_t mipmapLevel = 0u);
+
 	protected:
 
 		VmaAllocator vmaAllocator{};
@@ -58,6 +65,8 @@ namespace zt::gl
 		std::uint32_t width{};
 		std::uint32_t height{};
 		std::uint32_t mipmapLevels = 0u;
+		vk::ImageLayout currentImageLayout = vk::ImageLayout::eUndefined; // TODO Test it
+		vk::PipelineStageFlags currentPipelineStageFlags = vk::PipelineStageFlagBits::eTopOfPipe; // TODO Test it
 	};
 
 }

@@ -44,26 +44,27 @@ namespace zt::gl
 		};
 		Utilities::CopyImageBufferToImage(copyImageBufferToImageInfo);
 
+		image.changeLayout(createInfo.commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), mipmapLevels, vk::Format::eR8G8B8A8Srgb);
 		imageView.create(createInfo.rendererContext.getDevice(), imageViewCreateInfo);
-
-		vkImageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
 	}
 
 	void Texture::createBlankTextureForMipmap(const CreateBlankTextureInfo& createInfo)
 	{
-		std::uint32_t mipmapLevels = 1u;
-		std::vector<Vector4f> colors{ createInfo.size.x * createInfo.size.y, createInfo.color }; // TODO (Low) Optimize this
+		//Vector2ui textureSize = { createInfo.originalTextureSize.x + (createInfo.originalTextureSize.x / 2u), createInfo.originalTextureSize.y };
+		Vector2ui textureSize = { createInfo.originalTextureSize.x, createInfo.originalTextureSize.y };
+		std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO Refactor this
 
 		Image::CreateInfo imageCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(createInfo.size.x, createInfo.size.y, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
+			.vkImageCreateInfo = image.createCreateInfo(textureSize.x, textureSize.y, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);
 
-		size_t bufferSize = colors.size() * sizeof(Vector4f);
+		size_t bufferSize = textureSize.x * textureSize.y * sizeof(Vector4<std::uint8_t>);
 		Buffer::CreateInfo bufferCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
@@ -72,22 +73,18 @@ namespace zt::gl
 		};
 		imageBuffer.create(bufferCreateInfo);
 
-		imageBuffer.fillWithStdContainer(colors);
-
 		Utilities::CopyImageBufferToImageInfo copyImageBufferToImageInfo
 		{
 			.commandBuffer = createInfo.commandBuffer,
 			.image = image,
 			.imageBuffer = imageBuffer,
-			.width = createInfo.size.x,
-			.height = createInfo.size.y
+			.width = textureSize.x,
+			.height = textureSize.y
 		};
 		Utilities::CopyImageBufferToImage(copyImageBufferToImageInfo);
 
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), mipmapLevels, vk::Format::eR8G8B8A8Srgb);
 		imageView.create(createInfo.rendererContext.getDevice(), imageViewCreateInfo);
-
-		vkImageLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
 	}
 
 	RenderStates::Image Texture::createImageDrawInfo(const Sampler& sampler) const
@@ -97,8 +94,7 @@ namespace zt::gl
 			.buffer = imageBuffer,
 			.sampler = sampler,
 			.view = imageView,
-			.layout = vkImageLayout
-
+			.layout = image.getCurrentImageLayout()
 		};
 
 		return imageDrawInfo;

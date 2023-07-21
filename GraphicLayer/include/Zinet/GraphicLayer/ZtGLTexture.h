@@ -31,8 +31,8 @@ namespace zt::gl
 		struct ZINET_GRAPHIC_LAYER_API CreateBlankTextureInfo
 		{
 			CommandBuffer& commandBuffer;
-			const Vector2ui& size;
-			const Vector4f& color;
+			const Vector2ui& originalTextureSize;
+			const Vector4<std::uint8_t>& color;
 			const RendererContext& rendererContext;
 		};
 
@@ -52,12 +52,13 @@ namespace zt::gl
 		~Texture() noexcept = default;
 
 		const Image& getImage() const { return image; }
+		Image& getImage() { return image; }
 
 		const ImageBuffer& getImageBuffer() const { return imageBuffer; }
+		ImageBuffer& getImageBuffer() { return imageBuffer; }
 
 		const ImageView& getImageView() const { return imageView; }
-
-		const vk::ImageLayout& getVkImageLayout() const { return vkImageLayout; }
+		ImageView& getImageView() { return imageView; }
 
 		void create(const CreateInfo& createInfo);
 
@@ -73,7 +74,6 @@ namespace zt::gl
 		Image image;
 		ImageBuffer imageBuffer;
 		ImageView imageView;
-		vk::ImageLayout vkImageLayout;
 
 	};
 }

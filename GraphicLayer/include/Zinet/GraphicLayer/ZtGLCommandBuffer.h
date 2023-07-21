@@ -76,7 +76,7 @@ namespace zt::gl
 		void reset();
 
 		// TODO (Low) Pack the params to one struct
-		vk::ImageMemoryBarrier createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout, std::uint32_t mipmapLevels = 1u);
+		vk::ImageMemoryBarrier createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout, std::uint32_t mipmapLevels = 0u, std::uint32_t mipmapLevel = 0u);
 		
 		void copyBufferToImage(const Buffer& buffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion);
 
