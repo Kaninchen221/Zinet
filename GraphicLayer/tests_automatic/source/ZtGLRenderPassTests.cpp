@@ -137,7 +137,7 @@ namespace zt::gl::tests
 
 		ASSERT_NE(*internal, *vk::raii::RenderPass{ std::nullptr_t{} });
 
-		renderPass.~RenderPass();
+		renderPass.clear();
 
 		GLFW::Deinit();
 	}

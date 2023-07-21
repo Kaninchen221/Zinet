@@ -146,7 +146,7 @@ namespace zt::gl::tests
 		commandBuffer.begin();
 		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
 
-		commandBuffer.~CommandBuffer();
+		commandBuffer.clear();
 	}
 
 	TEST_F(CommandBufferTests, BindVertexBuffer)

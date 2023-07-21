@@ -175,7 +175,7 @@ namespace zt::gl
 
 	void RendererContext::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
 	{
-		depthBuffer.~DepthBuffer();
+		depthBuffer.clear();
 		renderTargets.clear();
 		swapChain.clear();
 

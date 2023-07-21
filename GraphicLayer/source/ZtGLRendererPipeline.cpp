@@ -238,12 +238,12 @@ namespace zt::gl
 		bindings.clear();
 		descriptorSetLayouts.clear();
 		descriptorSets.reset();
-		descriptorPool.~DescriptorPool();
+		descriptorPool.clear();
 		descriptorBufferInfos.clear();
 		descriptorImageInfos.clear();
 		writeDescriptorSets.clear();
-		pipelineLayout.~PipelineLayout();
-		pipeline.~Pipeline();
+		pipelineLayout.clear();
+		pipeline.clear();
 	}
 
 }

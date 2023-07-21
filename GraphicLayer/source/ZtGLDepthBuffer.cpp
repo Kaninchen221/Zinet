@@ -46,4 +46,10 @@ namespace zt::gl
 		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 	}
 
+	void DepthBuffer::clear()
+	{
+		imageView.clear();
+		image.clear();
+	}
+
 }

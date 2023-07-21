@@ -37,6 +37,8 @@ namespace zt::gl
 
 		void create(const RendererContext& rendererContext, vk::Format format);
 
+		void clear();
+
 	protected:
 
 		Image image;
