@@ -16,4 +16,18 @@ namespace zt::core
 		std::free(pointer);
 	};
 
+	template <class ReturnType, class ClassType>
+	using NonConstSimpleGetter = ReturnType & (ClassType::*)();
+
+	template <class ReturnType, class ClassType>
+	using ConstSimpleGetter = const ReturnType& (ClassType::*)() const;
+
+	template<class ReturnType, class ClassType>
+	[[nodiscard]] bool TestGetters(NonConstSimpleGetter<ReturnType, ClassType> nonConstPointer, ConstSimpleGetter<ReturnType, ClassType> constPointer, ClassType& object)
+	{
+		auto& nonConstObject = std::invoke(nonConstPointer, object);
+		auto& constObject = std::invoke(constPointer, object);
+
+		return &nonConstObject == &constObject;
+	}
 }

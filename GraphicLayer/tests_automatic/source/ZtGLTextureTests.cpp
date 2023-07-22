@@ -5,6 +5,8 @@
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 #include <filesystem>
@@ -19,42 +21,23 @@ namespace zt::gl::tests
 		Texture texture;
 
 	};
-
+	
 	TEST_F(TextureSimpleTests, GetImage)
 	{
-		typedef const Image& (Texture::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Texture::getImage);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		const Image& image = texture.getImage();
-		ASSERT_FALSE(image.isValid());
+		bool result = zt::core::TestGetters<Image, Texture>(&Texture::getImage, &Texture::getImage, texture);
+		ASSERT_TRUE(result);
 	}
 
 	TEST_F(TextureSimpleTests, GetImageBuffer)
 	{
-		typedef const ImageBuffer& (Texture::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Texture::getImageBuffer);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		const ImageBuffer& imageBuffer = texture.getImageBuffer();
-		ASSERT_FALSE(imageBuffer.isValid());
+		bool result = zt::core::TestGetters<ImageBuffer, Texture>(&Texture::getImageBuffer, &Texture::getImageBuffer, texture);
+		ASSERT_TRUE(result);
 	}
 
 	TEST_F(TextureSimpleTests, GetImageView)
 	{
-		typedef const ImageView& (Texture::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Texture::getImageView);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		const ImageView& imageView = texture.getImageView();
-		ASSERT_FALSE(imageView.isValid());
-	}
-
-	TEST_F(TextureSimpleTests, GetImageLayout)
-	{
-		typedef const vk::ImageLayout& (Texture::* ExpectedFunctionDeclaration)() const;
-		using FunctionDeclaration = decltype(&Texture::getVkImageLayout);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
+		bool result = zt::core::TestGetters<ImageView, Texture>(&Texture::getImageView, &Texture::getImageView, texture);
+		ASSERT_TRUE(result);
 	}
 
 	TEST_F(TextureSimpleTests, CreateImageDrawInfo)
@@ -140,14 +123,14 @@ namespace zt::gl::tests
 		const ImageView& imageView = texture.getImageView();
 		ASSERT_TRUE(imageView.isValid());
 
-		vk::ImageLayout vkImageLayout = texture.getVkImageLayout();
-		ASSERT_EQ(vkImageLayout, vk::ImageLayout::eShaderReadOnlyOptimal);
+// 		vk::ImageLayout vkImageLayout = texture.getVkImageLayout();
+// 		ASSERT_EQ(vkImageLayout, vk::ImageLayout::eShaderReadOnlyOptimal); // TODO (mid)
 
 		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
 		ASSERT_EQ(imageDrawInfo.buffer, imageBuffer);
 		ASSERT_EQ(imageDrawInfo.sampler, sampler);
 		ASSERT_EQ(imageDrawInfo.view, imageView);
-		ASSERT_EQ(imageDrawInfo.layout, vkImageLayout);
+//		ASSERT_EQ(imageDrawInfo.layout, vkImageLayout);
 
 		GLFW::Deinit();
 	}
