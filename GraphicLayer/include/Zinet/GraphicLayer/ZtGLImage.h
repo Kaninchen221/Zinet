@@ -65,8 +65,8 @@ namespace zt::gl
 		std::uint32_t width{};
 		std::uint32_t height{};
 		std::uint32_t mipmapLevels = 0u;
-		vk::ImageLayout currentImageLayout = vk::ImageLayout::eUndefined; // TODO Test it
-		vk::PipelineStageFlags currentPipelineStageFlags = vk::PipelineStageFlagBits::eTopOfPipe; // TODO Test it
+		vk::ImageLayout currentImageLayout = vk::ImageLayout::eUndefined; // TODO (mid) Test it
+		vk::PipelineStageFlags currentPipelineStageFlags = vk::PipelineStageFlagBits::eTopOfPipe; // TODO (mid) Test it
 	};
 
 }

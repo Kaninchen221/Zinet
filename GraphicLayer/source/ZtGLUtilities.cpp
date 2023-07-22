@@ -60,7 +60,7 @@ namespace zt::gl
 		Vector2ui mipmapTextureSize{ mipmapTexture.getSize() };
 
 		////////////////////////
-		size_t mipmapLevels = static_cast<size_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO Refactor this
+		size_t mipmapLevels = static_cast<size_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO (mid) Refactor this
 
 		for (std::uint32_t mipmapLevel = 0u; mipmapLevel < mipmapLevels; mipmapLevel++)
 		{

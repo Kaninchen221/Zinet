@@ -18,7 +18,7 @@ namespace zt::gl
 		createInfo.format = format;
 		createInfo.tiling = vk::ImageTiling::eOptimal;
 		createInfo.initialLayout = vk::ImageLayout::eUndefined;
-		createInfo.usage = vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled | vk::ImageUsageFlagBits::eTransferSrc; // TODO 
+		createInfo.usage = vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled | vk::ImageUsageFlagBits::eTransferSrc;
 		createInfo.sharingMode = vk::SharingMode::eExclusive;
 		createInfo.samples = vk::SampleCountFlagBits::e1;
 

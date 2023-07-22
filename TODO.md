@@ -7,4 +7,5 @@
 - Implement mipmap (mid)
 - Add option to use the zinet libs as dynamic libs (only static is supported now) (low)
 - Remove [[maybe_unused]] from code (low)
-- Refactor testing getters, use zt::core::TestGetters
+- Refactor testing getters, use zt::core::TestGetters (mid)
+- Use some program to tracking issues like jira instead of using TODO comments (mid)

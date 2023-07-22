@@ -54,7 +54,7 @@ namespace zt::gl
 	{
 		//Vector2ui textureSize = { createInfo.originalTextureSize.x + (createInfo.originalTextureSize.x / 2u), createInfo.originalTextureSize.y };
 		Vector2ui textureSize = { createInfo.originalTextureSize.x, createInfo.originalTextureSize.y };
-		std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO Refactor this
+		std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO (mid) Refactor this
 
 		Image::CreateInfo imageCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),

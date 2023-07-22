@@ -33,7 +33,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(createInfo.format, vk::Format::eR8G8B8A8Srgb);
 		ASSERT_EQ(createInfo.tiling, vk::ImageTiling::eOptimal);
 		ASSERT_EQ(createInfo.initialLayout, vk::ImageLayout::eUndefined);
-		ASSERT_EQ(createInfo.usage, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled);
+		ASSERT_EQ(createInfo.usage, vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled | vk::ImageUsageFlagBits::eTransferSrc); // TODO (low)
 		ASSERT_EQ(createInfo.sharingMode, vk::SharingMode::eExclusive);
 		ASSERT_EQ(createInfo.samples, vk::SampleCountFlagBits::e1);
 	}
