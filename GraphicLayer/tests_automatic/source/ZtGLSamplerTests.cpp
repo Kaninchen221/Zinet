@@ -58,13 +58,15 @@ namespace zt::gl::tests
 	TEST(Sampler, CreateCreateInfo)
 	{
 		Sampler sampler;
-		vk::SamplerCreateInfo createInfo = sampler.createCreateInfo();
+
+		std::uint32_t expectedMaxLod = 0u;
+		vk::SamplerCreateInfo createInfo = sampler.createCreateInfo(expectedMaxLod);
 
 		ASSERT_EQ(createInfo.magFilter, vk::Filter::eLinear);
 		ASSERT_EQ(createInfo.minFilter, vk::Filter::eLinear);
-		ASSERT_EQ(createInfo.addressModeU, vk::SamplerAddressMode::eRepeat);
-		ASSERT_EQ(createInfo.addressModeV, vk::SamplerAddressMode::eRepeat);
-		ASSERT_EQ(createInfo.addressModeW, vk::SamplerAddressMode::eRepeat);
+		ASSERT_EQ(createInfo.addressModeU, vk::SamplerAddressMode::eClampToBorder);
+		ASSERT_EQ(createInfo.addressModeV, vk::SamplerAddressMode::eClampToBorder);
+		ASSERT_EQ(createInfo.addressModeW, vk::SamplerAddressMode::eClampToBorder);
 		ASSERT_EQ(createInfo.anisotropyEnable, VK_FALSE);
 		ASSERT_EQ(createInfo.borderColor, vk::BorderColor::eIntOpaqueBlack);
 		ASSERT_EQ(createInfo.unnormalizedCoordinates, VK_FALSE); 
@@ -73,7 +75,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(createInfo.mipmapMode, vk::SamplerMipmapMode::eLinear);
 		ASSERT_EQ(createInfo.mipLodBias, 0.0f);
 		ASSERT_EQ(createInfo.minLod, 0.0f);
-		ASSERT_EQ(createInfo.maxLod, 0.0f);
+		ASSERT_EQ(createInfo.maxLod, expectedMaxLod);
 	}
 
 	TEST_F(SamplerTests, Create)
