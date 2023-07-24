@@ -113,7 +113,7 @@ namespace zt::gl
 			vk::ImageLayout sourceImageLayout = vk::ImageLayout::eTransferSrcOptimal;
 			const Image& destinyImage = mipmapTexture.getImage();
 			vk::ImageLayout destinyImageLayout = vk::ImageLayout::eTransferDstOptimal;
-			vk::Filter filter = vk::Filter::eLinear;
+			vk::Filter filter = vk::Filter::eNearest;
 			commandBuffer->blitImage(sourceImage.getVk(), sourceImageLayout, destinyImage.getVk(), destinyImageLayout, imageBlit, filter);
 		}
 	}

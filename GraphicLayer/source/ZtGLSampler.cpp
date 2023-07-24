@@ -5,14 +5,14 @@
 namespace zt::gl
 {
 
-	vk::SamplerCreateInfo Sampler::createCreateInfo()
+	vk::SamplerCreateInfo Sampler::createCreateInfo(std::uint32_t maxLod)
 	{
 		vk::SamplerCreateInfo samplerInfo;
 		samplerInfo.magFilter = vk::Filter::eLinear;
 		samplerInfo.minFilter = vk::Filter::eLinear;
-		samplerInfo.addressModeU = vk::SamplerAddressMode::eRepeat;
-		samplerInfo.addressModeV = vk::SamplerAddressMode::eRepeat;
-		samplerInfo.addressModeW = vk::SamplerAddressMode::eRepeat;
+		samplerInfo.addressModeU = vk::SamplerAddressMode::eClampToBorder;
+		samplerInfo.addressModeV = vk::SamplerAddressMode::eClampToBorder;
+		samplerInfo.addressModeW = vk::SamplerAddressMode::eClampToBorder;
 		samplerInfo.anisotropyEnable = VK_FALSE;
 		samplerInfo.borderColor = vk::BorderColor::eIntOpaqueBlack;
 		samplerInfo.unnormalizedCoordinates = VK_FALSE;
@@ -21,7 +21,7 @@ namespace zt::gl
 		samplerInfo.mipmapMode = vk::SamplerMipmapMode::eLinear;
 		samplerInfo.mipLodBias = 0.0f;
 		samplerInfo.minLod = 0.0f;
-		samplerInfo.maxLod = 0.0f;
+		samplerInfo.maxLod = static_cast<float>(maxLod);
 
 		return samplerInfo;
 	}

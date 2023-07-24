@@ -75,10 +75,6 @@ namespace zt::gl::tests
 		createShaders();
 		createSTBImage();
 
-		// Create Sampler
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
-
 		// Create texture
 		CommandBuffer commandBuffer;
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
@@ -129,6 +125,10 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 
 		//
+
+		// Create Sampler
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 		int count = 3;
 		plf::colony<Sprite> sprites;
@@ -352,8 +352,8 @@ namespace zt::gl::tests
 
 	void RendererTests::createSTBImage()
 	{
-		//if (!stbImage.load((ContentPath / "test_texture.png").string()))
-		if (!stbImage.load((ContentPath / "texture.jpg").string()))
+		if (!stbImage.load((ContentPath / "test_texture.png").string()))
+		//if (!stbImage.load((ContentPath / "texture.jpg").string()))
 		{
 			FAIL() << "Can't load texture image";
 		}

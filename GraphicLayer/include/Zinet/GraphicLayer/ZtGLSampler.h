@@ -21,7 +21,7 @@ namespace zt::gl
 
 		~Sampler() noexcept = default;
 
-		vk::SamplerCreateInfo createCreateInfo();
+		vk::SamplerCreateInfo createCreateInfo(std::uint32_t maxLod = 0.f);
 
 		void create(const Device& device, const vk::SamplerCreateInfo& createInfo);
 	};
