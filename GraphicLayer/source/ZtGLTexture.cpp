@@ -20,7 +20,7 @@ namespace zt::gl
 		Image::CreateInfo imageCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(width, height, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
+				.vkImageCreateInfo = image.createCreateInfo({ width, height }, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);
@@ -59,7 +59,7 @@ namespace zt::gl
 		Image::CreateInfo imageCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(textureSize.x, textureSize.y, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
+			.vkImageCreateInfo = image.createCreateInfo(textureSize, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);
@@ -89,12 +89,18 @@ namespace zt::gl
 
 	RenderStates::Image Texture::createImageDrawInfo(const Sampler& sampler) const
 	{
+		vk::ImageLayout imageLayout = vk::ImageLayout::eGeneral;
+		if (!image.getImageLayouts().empty())
+		{
+			imageLayout = image.getImageLayouts().front();
+		}
+
 		RenderStates::Image imageDrawInfo
 		{
 			.buffer = imageBuffer,
 			.sampler = sampler,
 			.view = imageView,
-			.layout = image.getCurrentImageLayout()
+			.layout = imageLayout
 		};
 
 		return imageDrawInfo;

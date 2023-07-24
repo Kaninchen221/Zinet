@@ -14,19 +14,20 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		Vector2<std::uint32_t> expectedSize = { 0u, 0u };
+
 		static_assert(std::derived_from<Image, VulkanObject<vk::raii::Image>>);
+
+		Image image;
 	};
 
 	TEST_F(ImageSimpleTests, CreateCreateInfo)
 	{
-		Image image;
-		std::uint32_t expectedWidth = 0u;
-		std::uint32_t expectedHeight = 0u;
-		vk::ImageCreateInfo createInfo = image.createCreateInfo(expectedWidth, expectedHeight);
+		vk::ImageCreateInfo createInfo = image.createCreateInfo(expectedSize);
 
 		ASSERT_EQ(createInfo.imageType, vk::ImageType::e2D);
-		ASSERT_EQ(createInfo.extent.width, expectedWidth);
-		ASSERT_EQ(createInfo.extent.height, expectedHeight);
+		ASSERT_EQ(createInfo.extent.width, expectedSize.x);
+		ASSERT_EQ(createInfo.extent.height, expectedSize.y);
 		ASSERT_EQ(createInfo.extent.depth, 1);
 		ASSERT_EQ(createInfo.mipLevels, 1);
 		ASSERT_EQ(createInfo.arrayLayers, 1);
@@ -40,7 +41,6 @@ namespace zt::gl::tests
 
 	TEST_F(ImageSimpleTests, CreateVmaAllocationCreateInfo)
 	{
-		Image image;
 		VmaAllocationCreateInfo allocationCreateInfo = image.createAllocationCreateInfo();
 
 		ASSERT_EQ(allocationCreateInfo.usage, VMA_MEMORY_USAGE_AUTO);
@@ -53,14 +53,34 @@ namespace zt::gl::tests
 		typedef std::uint32_t (Image::* ExpectedFunctionDeclaration)() const;
 		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&Image::getMipmapLevels));
 
-		Image image;
 		std::uint32_t mipmapLevels = image.getMipmapLevels();
 		EXPECT_EQ(mipmapLevels, 0u);
+	}
+
+	TEST_F(ImageSimpleTests, GetLayouts)
+	{
+		using ExpectedFunction = const std::vector<vk::ImageLayout>& (Image::*)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Image::getImageLayouts));
+
+		const std::vector<vk::ImageLayout>& imageLayouts = image.getImageLayouts();
+		ASSERT_TRUE(imageLayouts.empty());
+	}
+
+	TEST_F(ImageSimpleTests, GetPipelineStageFlags)
+	{
+		using ExpectedFunction = const std::vector<vk::ImageLayout>& (Image::*)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Image::getImageLayouts));
+
+		const std::vector<vk::PipelineStageFlags>& pipelineStageFlags = image.getPipelineStageFlags();
+		ASSERT_TRUE(pipelineStageFlags.empty());
 	}
 
 	class ImageTests : public ::testing::Test
 	{
 	protected:
+
+		Vector2<std::uint32_t> expectedSize = { 1024u, 1024u };
+		std::uint32_t mipmapLevels = 3u;
 
 		Renderer renderer;
 		Image image;
@@ -68,30 +88,63 @@ namespace zt::gl::tests
 		void SetUp() override
 		{
 			renderer.initialize();
+			RendererContext& rendererContext = renderer.getRendererContext();
+
+			Image::CreateInfo imageCreateInfo {
+				.device = rendererContext.getDevice(),
+				.vma = rendererContext.getVma(),
+				.vkImageCreateInfo = image.createCreateInfo(expectedSize, mipmapLevels),
+				.allocationCreateInfo = image.createAllocationCreateInfo()
+			};
+
+			image.create(imageCreateInfo);
 		}
 	};
 
 	TEST_F(ImageTests, Create)
 	{
-		RendererContext& rendererContext = renderer.getRendererContext();
-
-		std::uint32_t expectedWidth = 1u;
-		std::uint32_t expectedHeight = 1u;
-		std::uint32_t mipmapLevels = 1u;
-	
-		Image::CreateInfo imageCreateInfo { 
-			.device = rendererContext.getDevice(),
-			.vma = rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight, mipmapLevels),
-			.allocationCreateInfo = image.createAllocationCreateInfo()
-		};
-
-		image.create(imageCreateInfo);
-
 		ASSERT_TRUE(image.isValid());
-		EXPECT_EQ(image.getWidth(), expectedWidth);
-		EXPECT_EQ(image.getHeight(), expectedHeight);
+		EXPECT_EQ(image.getSize(), expectedSize);
 		EXPECT_EQ(image.getMipmapLevels(), mipmapLevels);
+
+		EXPECT_EQ(image.getImageLayouts().size(), mipmapLevels);
+		for (vk::ImageLayout imageLayout : image.getImageLayouts())
+		{
+			EXPECT_EQ(imageLayout, vk::ImageLayout::eUndefined);
+		}
+
+		EXPECT_EQ(image.getPipelineStageFlags().size(), mipmapLevels);
+		for (vk::PipelineStageFlags pipelineStageFlags : image.getPipelineStageFlags())
+		{
+			EXPECT_EQ(pipelineStageFlags, vk::PipelineStageFlagBits::eTopOfPipe);
+		}
 	}
 
+	TEST_F(ImageTests, ChangeLayout)
+	{
+		vk::ImageLayout expectedLayout = vk::ImageLayout::eTransferDstOptimal;
+		vk::PipelineStageFlags expectedFlags = vk::PipelineStageFlagBits::eTransfer;
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+
+		commandBuffer.begin();
+		image.changeLayout(commandBuffer, expectedLayout, expectedFlags);
+		commandBuffer.end();
+
+		for (vk::ImageLayout imageLayout : image.getImageLayouts())
+		{
+			EXPECT_EQ(imageLayout, expectedLayout);
+		}
+
+		for (vk::PipelineStageFlags pipelineStageFlags : image.getPipelineStageFlags())
+		{
+			EXPECT_EQ(pipelineStageFlags, expectedFlags);
+		}
+
+		Queue& queue = rendererContext.getQueue();
+		queue.submitWaitIdle(commandBuffer);
+	}
 }

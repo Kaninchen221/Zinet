@@ -224,11 +224,13 @@ namespace zt::gl::tests
 			return;
 		}
 
+		Vector2<std::uint32_t> size = { stbImage.getWidth(), stbImage.getHeight() };
+
 		Image& image = images.emplace_back();
 		Image::CreateInfo imageCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(stbImage.getWidth(), stbImage.getHeight()),
+			.vkImageCreateInfo = image.createCreateInfo(size),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);

@@ -48,6 +48,8 @@ namespace zt::gl
 
 		void submit(const vk::SubmitInfo& submitInfo) const;
 
+		void submit(CommandBuffer& commandBuffer) const;
+
 		static vk::PresentInfoKHR createPresentInfo(
 			std::span<Semaphore*> waitSemaphores,
 			std::span<SwapChain*> swapChains,
@@ -56,7 +58,9 @@ namespace zt::gl
 		void present(vk::PresentInfoKHR& presentInfo) const;
 
 		void copyBufferToBufferWaitIdle(CommandBuffer& commandBuffer, Buffer& sourceBuffer, Buffer& destinationBuffer) const;
-	
+
+		void submitWaitIdle(CommandBuffer& commandBuffer);
+
 		typedef void (*SubmitWaitIdleFunction)(CommandBuffer& commandBuffer);
 		void submitWaitIdle(CommandBuffer& commandBuffer, SubmitWaitIdleFunction function);
 	

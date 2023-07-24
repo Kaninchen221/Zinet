@@ -111,11 +111,9 @@ namespace zt::gl::tests
 		const Image& image = texture.getImage();
 		ASSERT_TRUE(image.isValid());
 
-		std::uint32_t imageHeight = image.getHeight();
-		std::uint32_t imageWidth = image.getWidth();
+		Vector2f imageSize = image.getSize();
 		Vector2f textureSize = texture.getSize();
-		EXPECT_EQ(textureSize.x, imageWidth);
-		EXPECT_EQ(textureSize.y, imageHeight);
+		EXPECT_EQ(textureSize, imageSize);
 
 		const ImageBuffer& imageBuffer = texture.getImageBuffer();
 		ASSERT_TRUE(imageBuffer.isValid());

@@ -67,7 +67,7 @@ namespace zt::gl
 
 		RenderStates::Image createImageDrawInfo(const Sampler& sampler) const;
 
-		Vector2f getSize() const { return Vector2f{ image.getWidth(), image.getHeight() }; }
+		Vector2f getSize() const { return Vector2f{ image.getSize() }; }
 
 	protected:
 

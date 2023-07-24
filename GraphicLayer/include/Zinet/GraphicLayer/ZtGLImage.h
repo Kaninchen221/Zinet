@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -41,22 +42,21 @@ namespace zt::gl
 
 		~Image() noexcept;
 
-		vk::ImageCreateInfo createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, std::uint32_t newMipmapLevels = 1u, vk::Format format = vk::Format::eR8G8B8A8Srgb);
+		vk::ImageCreateInfo createCreateInfo(const Vector2<std::uint32_t>& size, std::uint32_t newMipmapLevels = 1u, vk::Format format = vk::Format::eR8G8B8A8Srgb);
 
 		VmaAllocationCreateInfo createAllocationCreateInfo() const;
 
 		void create(const CreateInfo& imageCreateInfo);
 
-		std::uint32_t getWidth() const { return width; }
-		std::uint32_t getHeight() const { return height; }
+		Vector2<std::uint32_t> getSize() const { return { width, height }; }
 
 		std::uint32_t getMipmapLevels() const { return mipmapLevels; }
 
-		vk::ImageLayout getCurrentImageLayout() const { return currentImageLayout; }
-		vk::PipelineStageFlags getCurrentPipelineStageFlags() const { return currentPipelineStageFlags; }
+		const std::vector<vk::ImageLayout>& getImageLayouts() const { return imageLayouts; }
 
-		// TODO Test it
-		void changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags, std::uint32_t mipmapLevel = 0u);
+		const std::vector<vk::PipelineStageFlags>& getPipelineStageFlags() const { return pipelineStageFlags; }
+
+		void changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags);
 
 	protected:
 
@@ -65,8 +65,8 @@ namespace zt::gl
 		std::uint32_t width{};
 		std::uint32_t height{};
 		std::uint32_t mipmapLevels = 0u;
-		vk::ImageLayout currentImageLayout = vk::ImageLayout::eUndefined; // TODO (mid) Test it
-		vk::PipelineStageFlags currentPipelineStageFlags = vk::PipelineStageFlagBits::eTopOfPipe; // TODO (mid) Test it
+		std::vector<vk::ImageLayout> imageLayouts{};
+		std::vector<vk::PipelineStageFlags> pipelineStageFlags{};
 	};
 
 }

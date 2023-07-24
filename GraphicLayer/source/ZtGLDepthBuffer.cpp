@@ -28,7 +28,7 @@ namespace zt::gl
 	{
 		vk::Extent2D extent = rendererContext.getSwapExtent();
 		std::uint32_t mipmapLevels = 1u;
-		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(extent.width, extent.height, mipmapLevels, format);
+		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo({ extent.width, extent.height }, mipmapLevels, format);
 		vkImageCreateInfo.tiling = vk::ImageTiling::eOptimal;
 		vkImageCreateInfo.usage = vk::ImageUsageFlagBits::eDepthStencilAttachment;
 

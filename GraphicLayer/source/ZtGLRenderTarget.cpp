@@ -13,7 +13,7 @@ namespace zt::gl
 	void RenderTarget::createImage(const CreateInfo& createInfo)
 	{
 		std::uint32_t mipmapLevels = 1u;
-		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo(createInfo.width, createInfo.height, mipmapLevels, createInfo.format);
+		vk::ImageCreateInfo vkImageCreateInfo = image.createCreateInfo({ createInfo.width, createInfo.height }, mipmapLevels, createInfo.format);
 		vkImageCreateInfo.usage = vk::ImageUsageFlagBits::eColorAttachment;
 		VmaAllocationCreateInfo imageAllocationCreateInfo = image.createAllocationCreateInfo();
 		Image::CreateInfo imageCreateInfo

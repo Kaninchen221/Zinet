@@ -5,13 +5,12 @@
 
 namespace zt::gl
 {
-	// TODO (Low) Use Vector2ui instead of 2 params
-	vk::ImageCreateInfo Image::createCreateInfo(std::uint32_t newWidth, std::uint32_t newHeight, std::uint32_t newMipmapLevels, vk::Format format)
+	vk::ImageCreateInfo Image::createCreateInfo(const Vector2<std::uint32_t>& size, std::uint32_t newMipmapLevels, vk::Format format)
 	{
 		vk::ImageCreateInfo createInfo{};
 		createInfo.imageType = vk::ImageType::e2D;
-		createInfo.extent.width = newWidth;
-		createInfo.extent.height = newHeight;
+		createInfo.extent.width = size.x;
+		createInfo.extent.height = size.y;
 		createInfo.extent.depth = 1;
 		createInfo.mipLevels = newMipmapLevels;
 		createInfo.arrayLayers = 1;
@@ -47,6 +46,16 @@ namespace zt::gl
 			width = imageCreateInfo.vkImageCreateInfo.extent.width;
 			height = imageCreateInfo.vkImageCreateInfo.extent.height;
 			mipmapLevels = imageCreateInfo.vkImageCreateInfo.mipLevels;
+
+			imageLayouts.clear();
+			pipelineStageFlags.clear();
+			imageLayouts.reserve(mipmapLevels);
+			pipelineStageFlags.reserve(mipmapLevels);
+			for (std::uint32_t mipmapLevel = 0u; mipmapLevel < mipmapLevels; ++mipmapLevel)
+			{
+				imageLayouts.push_back(vk::ImageLayout::eUndefined);
+				pipelineStageFlags.push_back(vk::PipelineStageFlagBits::eTopOfPipe);
+			}
 		}
 		else
 		{
@@ -60,23 +69,39 @@ namespace zt::gl
 		if (allocation != nullptr)
 		{
 			vmaDestroyImage(vmaAllocator, nullptr, allocation);
+			allocation = nullptr;
 		}
 	}
 
-	void Image::changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags, std::uint32_t mipmapLevel)
+	void Image::changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags)
 	{
-		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(*this, currentImageLayout, newLayout, mipmapLevels, mipmapLevel);
+		std::vector<vk::ImageLayout> tempImageLayouts;
+		std::vector<vk::PipelineStageFlags> tempPipelineStageFlags;
 
-		commandBuffer->pipelineBarrier(
-			currentPipelineStageFlags,
-			newPipelineStageFlags,
-			vk::DependencyFlags{},
-			{},
-			{},
-			barrier);
+		tempImageLayouts.reserve(mipmapLevels);
+		tempPipelineStageFlags.reserve(mipmapLevels);
 
-		currentImageLayout = newLayout;
-		currentPipelineStageFlags = newPipelineStageFlags;
+		for (std::uint32_t mipmapLevel = 0u; mipmapLevel < mipmapLevels; mipmapLevel++)
+		{
+			vk::ImageLayout currentImageLayout = imageLayouts[mipmapLevel];
+			vk::PipelineStageFlags currentPipelineStageFlags = pipelineStageFlags[mipmapLevel];
+
+			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(*this, currentImageLayout, newLayout, mipmapLevels, mipmapLevel);
+
+			commandBuffer->pipelineBarrier(
+				currentPipelineStageFlags,
+				newPipelineStageFlags,
+				vk::DependencyFlags{},
+				{},
+				{},
+				barrier);
+
+			tempImageLayouts.push_back(newLayout);
+			tempPipelineStageFlags.push_back(newPipelineStageFlags);
+		}
+
+		imageLayouts = tempImageLayouts;
+		pipelineStageFlags = tempPipelineStageFlags;
 	}
 
 }

@@ -47,6 +47,15 @@ namespace zt::gl
         internal.submit(submitInfo);
     }
 
+	void Queue::submit(CommandBuffer& commandBuffer) const
+	{
+		vk::SubmitInfo submitInfo{};
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+		submit(submitInfo);
+	}
+
     vk::PresentInfoKHR Queue::createPresentInfo(
         std::span<Semaphore*> waitSemaphores, 
         std::span<SwapChain*> swapChains, 
@@ -89,7 +98,17 @@ namespace zt::gl
 
         submit(submitInfo);
         internal.waitIdle();
-    }
+	}
+
+	void Queue::submitWaitIdle(CommandBuffer& commandBuffer)
+	{
+		vk::SubmitInfo submitInfo{};
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
+
+		submit(submitInfo);
+		internal.waitIdle();
+	}
 
 	void Queue::submitWaitIdle(CommandBuffer& commandBuffer, SubmitWaitIdleFunction function)
 	{

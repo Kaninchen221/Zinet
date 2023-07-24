@@ -83,15 +83,9 @@ namespace zt::gl::tests
 		texture.create({ commandBuffer, stbImage, rendererContext, textureUseMipmaps });
 
 		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-
 		commandBuffer.end();
 
-		vk::SubmitInfo submitInfo{};
-		submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
-
-		rendererContext.getQueue().submit(submitInfo);
-		rendererContext.getQueue()->waitIdle();
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 
 		// Create mipmap texture
 		commandBuffer.begin();
@@ -100,29 +94,15 @@ namespace zt::gl::tests
 			texture, commandBuffer, rendererContext
 		};
 		Utilities::GenerateMipmapTexture(generateMipmapTextureInfo, mipmapTexture);
-
 		commandBuffer.end();
 
-		rendererContext.getQueue().submit(submitInfo);
-		rendererContext.getQueue()->waitIdle();
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 
 		commandBuffer.begin();
 		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-		for (std::uint32_t mipmapLevel = 1u; mipmapLevel < mipmapTexture.getImage().getMipmapLevels(); mipmapLevel++)
-		{
-			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(mipmapTexture.getImage(), vk::ImageLayout::eTransferDstOptimal, vk::ImageLayout::eShaderReadOnlyOptimal, 1, mipmapLevel);
-			commandBuffer->pipelineBarrier(
-				vk::PipelineStageFlagBits::eTransfer,
-				vk::PipelineStageFlagBits::eFragmentShader,
-				vk::DependencyFlags{},
-				{},
-				{},
-				barrier);
-		}
 		commandBuffer.end();
 
-		rendererContext.getQueue().submit(submitInfo);
-		rendererContext.getQueue()->waitIdle();
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 
 		//
 

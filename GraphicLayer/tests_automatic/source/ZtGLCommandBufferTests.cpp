@@ -97,14 +97,13 @@ namespace zt::gl::tests
 
 		stagingBuffer.create(stagingBufferCreateInfo);
 
-		std::uint32_t expectedWidth = 1u;
-		std::uint32_t expectedHeight = 1u;
+		Vector2<std::uint32_t> expectedSize = { 1u, 1u };
 
 		Image image;
 		Image::CreateInfo imageCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(expectedWidth, expectedHeight),
+			.vkImageCreateInfo = image.createCreateInfo(expectedSize),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 
