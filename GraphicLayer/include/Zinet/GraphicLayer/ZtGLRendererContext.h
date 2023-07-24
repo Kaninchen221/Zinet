@@ -120,12 +120,12 @@ namespace zt::gl
 		bool createSurface();
 		bool createPhysicalDevice();
 		void createDevice();
+		void createVma();
 		void createQueue();
 		void createSwapChain();
 		void createDepthBuffer();
 		void createRenderPass();
 		void createRenderTargets();
-		void createVma();
 
 		void updateSwapChainSupportDetails();
 
@@ -137,8 +137,8 @@ namespace zt::gl
 		PhysicalDevice physicalDevice;
 		std::uint32_t queueFamilyIndex;
 		Device device;
-		Queue queue;
 		Vma vma;
+		Queue queue;
 		SwapChainSupportDetails swapChainSupportDetails;
 		SwapChain swapChain;
 		vk::Extent2D swapExtent;
