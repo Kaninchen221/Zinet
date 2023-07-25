@@ -3,10 +3,11 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLMath.h"
 
 namespace zt::gl
 {
-	void Texture::create(const CreateInfo& createInfo)
+	void Texture::createNormalTexture(const CreateInfo& createInfo)
 	{
 		std::uint32_t width = createInfo.stbImage.getWidth();
 		std::uint32_t height = createInfo.stbImage.getHeight();
@@ -14,13 +15,13 @@ namespace zt::gl
 		std::uint32_t mipmapLevels = 1u;
 		if (createInfo.mipmaps)
 		{
-			mipmapLevels = static_cast<uint32_t>(std::floor(std::log2(std::max(width, height)))) + 1;
+			mipmapLevels = Math::GetMaximumMipmapLevelsCount({ width, height });
 		}
 
 		Image::CreateInfo imageCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
-				.vkImageCreateInfo = image.createCreateInfo({ width, height }, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
+			.vkImageCreateInfo = image.createCreateInfo({ width, height }, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);
@@ -38,9 +39,7 @@ namespace zt::gl
 		{
 			.commandBuffer = createInfo.commandBuffer,
 			.image = image,
-			.imageBuffer = imageBuffer,
-			.width = width,
-			.height = height
+			.imageBuffer = imageBuffer
 		};
 		Utilities::CopyImageBufferToImage(copyImageBufferToImageInfo);
 
@@ -52,19 +51,17 @@ namespace zt::gl
 
 	void Texture::createBlankTextureForMipmap(const CreateBlankTextureInfo& createInfo)
 	{
-		//Vector2ui textureSize = { createInfo.originalTextureSize.x + (createInfo.originalTextureSize.x / 2u), createInfo.originalTextureSize.y };
-		Vector2ui textureSize = { createInfo.originalTextureSize.x, createInfo.originalTextureSize.y };
-		std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO (mid) Refactor this
+		std::uint32_t mipmapLevels = Math::GetMaximumMipmapLevelsCount(createInfo.textureSize);
 
 		Image::CreateInfo imageCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
-			.vkImageCreateInfo = image.createCreateInfo(textureSize, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
+			.vkImageCreateInfo = image.createCreateInfo(createInfo.textureSize, mipmapLevels, vk::Format::eR8G8B8A8Srgb),
 			.allocationCreateInfo = image.createAllocationCreateInfo()
 		};
 		image.create(imageCreateInfo);
 
-		size_t bufferSize = textureSize.x * textureSize.y * sizeof(Vector4<std::uint8_t>);
+		size_t bufferSize = createInfo.textureSize.x * createInfo.textureSize.y * sizeof(Vector4<std::uint8_t>);
 		Buffer::CreateInfo bufferCreateInfo{
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
@@ -77,9 +74,7 @@ namespace zt::gl
 		{
 			.commandBuffer = createInfo.commandBuffer,
 			.image = image,
-			.imageBuffer = imageBuffer,
-			.width = textureSize.x,
-			.height = textureSize.y
+			.imageBuffer = imageBuffer
 		};
 		Utilities::CopyImageBufferToImage(copyImageBufferToImageInfo);
 

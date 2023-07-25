@@ -26,10 +26,11 @@ namespace zt::gl
 		imageRegion.imageSubresource.baseArrayLayer = 0;
 		imageRegion.imageSubresource.layerCount = 1;
 
+		const Vector2ui& imageSize = info.image.getSize();
 		imageRegion.imageOffset = vk::Offset3D{ 0, 0, 0 };
 		imageRegion.imageExtent = vk::Extent3D{
-			info.width,
-			info.height,
+			imageSize.x,
+			imageSize.y,
 			1
 		};
 

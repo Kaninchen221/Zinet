@@ -31,7 +31,7 @@ namespace zt::gl
 		struct ZINET_GRAPHIC_LAYER_API CreateBlankTextureInfo
 		{
 			CommandBuffer& commandBuffer;
-			const Vector2ui& originalTextureSize;
+			const Vector2ui& textureSize;
 			const Vector4<std::uint8_t>& color;
 			const RendererContext& rendererContext;
 		};
@@ -60,7 +60,7 @@ namespace zt::gl
 		const ImageView& getImageView() const { return imageView; }
 		ImageView& getImageView() { return imageView; }
 
-		void create(const CreateInfo& createInfo);
+		void createNormalTexture(const CreateInfo& createInfo); // TODO Split this function to create and load from STBImage
 
 		// TODO (low) test it
 		void createBlankTextureForMipmap(const CreateBlankTextureInfo& createInfo);

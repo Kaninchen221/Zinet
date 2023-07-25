@@ -80,7 +80,7 @@ namespace zt::gl::tests
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 		commandBuffer.begin();
 		bool textureUseMipmaps = false;
-		texture.create({ commandBuffer, stbImage, rendererContext, textureUseMipmaps });
+		texture.createNormalTexture({ commandBuffer, stbImage, rendererContext, textureUseMipmaps });
 
 		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
 		commandBuffer.end();

@@ -22,8 +22,6 @@ namespace zt::gl
 			CommandBuffer& commandBuffer;
 			Image& image;
 			ImageBuffer& imageBuffer;
-			std::uint32_t width;
-			std::uint32_t height;
 		};
 
 		struct ZINET_GRAPHIC_LAYER_API GenerateMipmapTextureInfo

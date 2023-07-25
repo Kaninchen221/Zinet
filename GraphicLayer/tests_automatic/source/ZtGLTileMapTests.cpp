@@ -69,7 +69,7 @@ namespace zt::gl::tests
 			{
 				commandBuffer, stbImage, rendererContext
 			};
-			texture.create(createInfo);
+			texture.createNormalTexture(createInfo);
 			commandBuffer.end();
 
 			vk::SubmitInfo submitInfo{};

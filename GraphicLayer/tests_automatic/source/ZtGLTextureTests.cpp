@@ -98,7 +98,7 @@ namespace zt::gl::tests
 		{
 			commandBuffer, stbImage, rendererContext
 		};
-		texture.create(createInfo);
+		texture.createNormalTexture(createInfo);
 		commandBuffer.end();
 
 		vk::SubmitInfo submitInfo{};
@@ -121,14 +121,10 @@ namespace zt::gl::tests
 		const ImageView& imageView = texture.getImageView();
 		ASSERT_TRUE(imageView.isValid());
 
-// 		vk::ImageLayout vkImageLayout = texture.getVkImageLayout();
-// 		ASSERT_EQ(vkImageLayout, vk::ImageLayout::eShaderReadOnlyOptimal); // TODO (mid)
-
 		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
 		ASSERT_EQ(imageDrawInfo.buffer, imageBuffer);
 		ASSERT_EQ(imageDrawInfo.sampler, sampler);
 		ASSERT_EQ(imageDrawInfo.view, imageView);
-//		ASSERT_EQ(imageDrawInfo.layout, vkImageLayout);
 
 		GLFW::Deinit();
 	}

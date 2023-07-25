@@ -49,5 +49,11 @@ namespace zt::gl
 
 			return result;
 		}
+
+		static std::uint32_t GetMaximumMipmapLevelsCount(const Vector2ui& textureSize)
+		{
+			std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1;
+			return mipmapLevels;
+		}
 	};
 }
