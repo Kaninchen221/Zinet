@@ -53,14 +53,15 @@ namespace zt::gl
 		const Vector2i textureSize{ texture.getSize() };
 		const std::uint8_t uint8Max = std::numeric_limits<std::uint8_t>::max();
 		Vector4<std::uint8_t> color{ uint8Max, uint8Max, uint8Max, uint8Max };
-		Texture::CreateBlankTextureInfo textureCreateInfo
+
+		Texture::CreateInfo textureCreateInfo
 		{
-			commandBuffer, textureSize, color, rendererContext
+			rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, textureSize
 		};
-		mipmapTexture.createBlankTextureForMipmap(textureCreateInfo);
-		Vector2ui mipmapTextureSize{ mipmapTexture.getSize() };
+		mipmapTexture.create(textureCreateInfo);
 
 		////////////////////////
+		Vector2ui mipmapTextureSize{ mipmapTexture.getSize() };
 		size_t mipmapLevels = static_cast<size_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO (mid) Refactor this
 
 		for (std::uint32_t mipmapLevel = 0u; mipmapLevel < mipmapLevels; mipmapLevel++)

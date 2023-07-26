@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
 
 namespace zt::gl
 {
@@ -29,6 +30,8 @@ namespace zt::gl
 		int getWidth() const;
 
 		int getHeight() const;
+
+		Vector2ui getSize() const { return Vector2ui{ width, height }; }
 
 		int getChannels() const;
 

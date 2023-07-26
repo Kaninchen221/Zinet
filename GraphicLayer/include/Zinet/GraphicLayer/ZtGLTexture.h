@@ -22,18 +22,11 @@ namespace zt::gl
 
 		struct ZINET_GRAPHIC_LAYER_API CreateInfo
 		{
-			CommandBuffer& commandBuffer;
-			const STBImage& stbImage;
 			const RendererContext& rendererContext;
+			CommandBuffer& commandBuffer;
 			bool mipmaps = false;
-		};
-
-		struct ZINET_GRAPHIC_LAYER_API CreateBlankTextureInfo
-		{
-			CommandBuffer& commandBuffer;
-			const Vector2ui& textureSize;
-			const Vector4<std::uint8_t>& color;
-			const RendererContext& rendererContext;
+			vk::Format format = vk::Format::eR8G8B8A8Srgb;
+			Vector2ui size;
 		};
 
 	protected:
@@ -60,10 +53,9 @@ namespace zt::gl
 		const ImageView& getImageView() const { return imageView; }
 		ImageView& getImageView() { return imageView; }
 
-		void createNormalTexture(const CreateInfo& createInfo); // TODO Split this function to create and load from STBImage
+		void create(const CreateInfo& createInfo);
 
-		// TODO (low) test it
-		void createBlankTextureForMipmap(const CreateBlankTextureInfo& createInfo);
+		void loadFromSTBImage(CommandBuffer& commandBuffer, const STBImage& stbImage);
 
 		RenderStates::Image createImageDrawInfo(const Sampler& sampler) const;
 

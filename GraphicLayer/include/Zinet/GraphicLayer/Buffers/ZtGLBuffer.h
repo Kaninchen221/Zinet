@@ -56,7 +56,7 @@ namespace zt::gl
 		template<typename T>
 		void fillWithStdContainer(const T& container);
 
-		void fillWithCArray(const void* firstElement);
+		void fillWithCArray(const void* cArray, std::uint64_t cArraySize);
 
 		std::unique_ptr<void, decltype(zt::core::LambdaFree)> getData();
 

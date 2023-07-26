@@ -49,16 +49,19 @@ namespace zt::gl
 		return std::unique_ptr<void, decltype(zt::core::LambdaFree)>{ data };
 	}
 
-	void Buffer::fillWithCArray(const void* firstElement)
+	void Buffer::fillWithCArray(const void* cArray, std::uint64_t cArraySize)
 	{
+		if (size < cArraySize)
+			cArraySize = size;
+
 		void* mappedData;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		if (mapMemoryResult != VK_SUCCESS)
 			Logger->error("Failed to map memory");
 
-		std::memcpy(mappedData, firstElement, size);
+		std::memcpy(mappedData, cArray, cArraySize);
 		vmaUnmapMemory(vmaAllocator, allocation);
-		vmaFlushAllocation(vmaAllocator, allocation, 0, size);
+		vmaFlushAllocation(vmaAllocator, allocation, 0, cArraySize);
 	}
 
 	void Buffer::create(const CreateInfo& bufferCreateInfo)

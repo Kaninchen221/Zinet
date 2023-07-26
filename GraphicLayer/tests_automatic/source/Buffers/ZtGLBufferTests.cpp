@@ -136,7 +136,7 @@ namespace zt::gl::tests
 		int array[2];
 		array[0] = 67645;
 		array[1] = 123;
-		bufferTest.fillWithCArray(array);
+		bufferTest.fillWithCArray(array, sizeof(array));
 
 		std::unique_ptr<void, decltype(zt::core::LambdaFree)> data = bufferTest.getData();
 		

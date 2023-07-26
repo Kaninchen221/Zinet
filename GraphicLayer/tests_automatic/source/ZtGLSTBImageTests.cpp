@@ -38,6 +38,14 @@ namespace zt::gl::tests
 		ASSERT_EQ(height, 0);
 	}
 
+	TEST_F(STBImageTests, GetSize)
+	{
+		Vector2ui size = image.getSize();
+
+		ASSERT_EQ(size.x, image.getWidth());
+		ASSERT_EQ(size.y, image.getHeight());
+	}
+
 	TEST_F(STBImageTests, GetChannels)
 	{
 		int channels = image.getChannels();
