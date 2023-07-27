@@ -91,21 +91,17 @@ namespace zt::gl::tests
 
 		// Create mipmap texture
 		commandBuffer.begin();
-		Utilities::GenerateMipmapTextureInfo generateMipmapTextureInfo
+		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
 		{
 			texture, commandBuffer, rendererContext
 		};
-		Utilities::GenerateMipmapTexture(generateMipmapTextureInfo, mipmapTexture);
-		commandBuffer.end();
+		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
 
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-
-		commandBuffer.begin();
 		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
 		commandBuffer.end();
 
 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-
 		//
 
 		// Create Sampler

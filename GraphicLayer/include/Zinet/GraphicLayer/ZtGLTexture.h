@@ -29,6 +29,13 @@ namespace zt::gl
 			Vector2ui size;
 		};
 
+		struct ZINET_GRAPHIC_LAYER_API GenerateMipmapTextureInfo
+		{
+			Texture& texture;
+			CommandBuffer& commandBuffer;
+			RendererContext& rendererContext;
+		};
+
 	protected:
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Texture");
@@ -62,6 +69,8 @@ namespace zt::gl
 		Vector2ui getSize() const { return image.getSize(); }
 
 		void clear();
+
+		void generateMipmapTexture(const GenerateMipmapTextureInfo& info);
 
 	protected:
 

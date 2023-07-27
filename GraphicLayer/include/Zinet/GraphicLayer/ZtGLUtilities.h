@@ -24,13 +24,6 @@ namespace zt::gl
 			ImageBuffer& imageBuffer;
 		};
 
-		struct ZINET_GRAPHIC_LAYER_API GenerateMipmapTextureInfo
-		{
-			Texture& texture;
-			CommandBuffer& commandBuffer;
-			RendererContext& rendererContext;
-		};
-
 	protected:
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Utilities");
@@ -47,8 +40,6 @@ namespace zt::gl
 		~Utilities() noexcept = delete;
 
 		static void CopyImageBufferToImage(const CopyImageBufferToImageInfo& info);
-
-		static void GenerateMipmapTexture(const GenerateMipmapTextureInfo& info, Texture& mipmapTexture);
 
 	};
 
