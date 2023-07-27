@@ -159,4 +159,18 @@ namespace zt::gl::tests
 
 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 	}
+
+	TEST_F(TextureTests, Clear)
+	{
+		texture.clear();
+
+		const Image& image = texture.getImage();
+		ASSERT_FALSE(image.isValid());
+
+		const ImageBuffer& imageBuffer = texture.getImageBuffer();
+		ASSERT_FALSE(imageBuffer.isValid());
+
+		const ImageView& imageView = texture.getImageView();
+		ASSERT_FALSE(imageView.isValid());
+	}
 }

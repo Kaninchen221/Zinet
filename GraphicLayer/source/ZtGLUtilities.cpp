@@ -4,6 +4,7 @@
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLMath.h"
 
 #include <algorithm>
 
@@ -50,9 +51,7 @@ namespace zt::gl
 		CommandBuffer& commandBuffer = info.commandBuffer;
 		RendererContext& rendererContext = info.rendererContext;
 
-		const Vector2i textureSize{ texture.getSize() };
-		const std::uint8_t uint8Max = std::numeric_limits<std::uint8_t>::max();
-		Vector4<std::uint8_t> color{ uint8Max, uint8Max, uint8Max, uint8Max };
+		const Vector2ui textureSize = texture.getSize();
 
 		Texture::CreateInfo textureCreateInfo
 		{
@@ -61,60 +60,40 @@ namespace zt::gl
 		mipmapTexture.create(textureCreateInfo);
 
 		////////////////////////
-		Vector2ui mipmapTextureSize{ mipmapTexture.getSize() };
-		size_t mipmapLevels = static_cast<size_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1; // TODO (mid) Refactor this
+		const std::uint32_t mipmapLevels = Math::GetMaximumMipmapLevelsCount(textureSize);
+
+		const vk::Offset3D srcSize = { 
+			static_cast<std::int32_t>(textureSize.x), 
+			static_cast<std::int32_t>(textureSize.y),
+			1 };
+
+		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferDstOptimal, vk::PipelineStageFlagBits::eTransfer);
 
 		for (std::uint32_t mipmapLevel = 0u; mipmapLevel < mipmapLevels; mipmapLevel++)
 		{
-			//size_t previousMipmapLevel = std::clamp<int>(static_cast<int>(mipmapLevel - 1), 0u, 1000u);
-
-			Vector2i position{ 0, 0 };
-			//position.x = static_cast<int>(std::clamp<size_t>(mipmapLevel, 0u, 1u) * textureSize.x);
-			//position.y = static_cast<int>((std::pow(2, previousMipmapLevel) - 1) / (std::pow(2, previousMipmapLevel)) * textureSize.y);
-
-			Vector2i size{ 0, 0 };
-			size.x = static_cast<int>(textureSize.x / std::pow(2, mipmapLevel));
-			size.y = static_cast<int>(textureSize.y / std::pow(2, mipmapLevel));
-
-			vk::Offset3D mipmapPosition = vk::Offset3D{ 
-				position.x,
-				position.y,
-				0 };
-
 			vk::Offset3D mipmapSize = vk::Offset3D{ 
-				size.x,
-				size.y,
+				static_cast<int>(textureSize.x / std::pow(2, mipmapLevel)),
+				static_cast<int>(textureSize.y / std::pow(2, mipmapLevel)),
 				1 };
-
-			//mipmapTexture.getImage().changeLayout(info.commandBuffer, vk::ImageLayout::eTransferDstOptimal, vk::PipelineStageFlagBits::eTransfer, mipmapLevel - 1u);
-			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(mipmapTexture.getImage(), vk::ImageLayout::eUndefined, vk::ImageLayout::eTransferDstOptimal, 1, mipmapLevel);
-			commandBuffer->pipelineBarrier(
-				vk::PipelineStageFlagBits::eTopOfPipe,
-				vk::PipelineStageFlagBits::eTransfer,
-				vk::DependencyFlags{},
-				{},
-				{},
-				barrier);
 
 			vk::ImageBlit imageBlit{};
 			imageBlit.srcOffsets[0] = vk::Offset3D{ 0, 0, 0 };
-			imageBlit.srcOffsets[1] = vk::Offset3D{ textureSize.x, textureSize.y, 1 };
+			imageBlit.srcOffsets[1] = srcSize;
 			imageBlit.srcSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
 			imageBlit.srcSubresource.mipLevel = 0;
 			imageBlit.srcSubresource.baseArrayLayer = 0;
 			imageBlit.srcSubresource.layerCount = 1;
-			imageBlit.dstOffsets[0] = mipmapPosition;
+			imageBlit.dstOffsets[0] = vk::Offset3D{ 0, 0, 0 };
 			imageBlit.dstOffsets[1] = mipmapSize;
 			imageBlit.dstSubresource.aspectMask = vk::ImageAspectFlagBits::eColor;
 			imageBlit.dstSubresource.mipLevel = mipmapLevel;
-			//imageBlit.dstSubresource.mipLevel = 0;
 			imageBlit.dstSubresource.baseArrayLayer = 0;
 			imageBlit.dstSubresource.layerCount = 1;
 
 			const Image& sourceImage = texture.getImage();
-			vk::ImageLayout sourceImageLayout = vk::ImageLayout::eTransferSrcOptimal;
+			vk::ImageLayout sourceImageLayout = sourceImage.getImageLayouts().front();
 			const Image& destinyImage = mipmapTexture.getImage();
-			vk::ImageLayout destinyImageLayout = vk::ImageLayout::eTransferDstOptimal;
+			vk::ImageLayout destinyImageLayout = destinyImage.getImageLayouts().front();
 			vk::Filter filter = vk::Filter::eNearest;
 			commandBuffer->blitImage(sourceImage.getVk(), sourceImageLayout, destinyImage.getVk(), destinyImageLayout, imageBlit, filter);
 		}

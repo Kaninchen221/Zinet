@@ -119,8 +119,6 @@ namespace zt::gl::tests
 		{
 			auto sprite = sprites.emplace();
 			TextureRegion textureRegion;
-			//textureRegion.size = Vector2f{ 512.f, 512.f };
-			//textureRegion.offset = Vector2f{ 512.f * i, 0.f };
 			textureRegion.size = mipmapTexture.getSize();
 			textureRegion.offset = Vector2f{ 0.f, 0.f };
 			sprite->setTextureRegion(textureRegion, texture.getSize());
@@ -145,7 +143,6 @@ namespace zt::gl::tests
 		descriptors.push_back(descriptor);
 
 		std::vector<RenderStates::Image> images;
-		//RenderStates::Image& imageRenderState = images.emplace_back(texture.createImageDrawInfo(sampler));
 		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
 		imageRenderState.binding = 1;
 
@@ -154,8 +151,7 @@ namespace zt::gl::tests
 			.shaders = shaders,
 			.descriptors = descriptors,
 			.images = images,
-			.camera = camera,
-
+			.camera = camera
 		};
 
 		TileMap tileMap;
@@ -164,9 +160,6 @@ namespace zt::gl::tests
 		defaultTextureRegion.size = Vector2f{ 512.f, 512.f };
 		defaultTextureRegion.offset = Vector2f{ 0.f, 0.f };
 		tileMap.setDefaultShaderTextureRegion(defaultTextureRegion, texture.getSize());
-
-		zt::core::Clock clock;
-		std::once_flag clockOnceFlag;
 
 		bool drawSprites = true;
 		float sliderMin = -30.f;
@@ -178,8 +171,6 @@ namespace zt::gl::tests
 
 		while (!rendererContext.getWindow().shouldBeClosed())
 		{
-			std::call_once(clockOnceFlag, [&clock]() { clock.start(); });
-
 			imgui.update();
 
 			// Imgui
@@ -321,11 +312,6 @@ namespace zt::gl::tests
 			imgui.draw(renderer.getDrawCommandBuffer());
 
 			renderer.postDraw();
-
-			if (clock.getElapsedTime().getAsSeconds() > 10000)
-			{
-				rendererContext.getWindow().requestCloseWindow();
-			}
 		}
 
 		rendererContext.getQueue()->waitIdle();

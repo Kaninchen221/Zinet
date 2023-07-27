@@ -27,7 +27,7 @@ namespace zt::gl
 			.device = createInfo.rendererContext.getDevice(),
 			.vma = createInfo.rendererContext.getVma(),
 			.vkBufferCreateInfo = imageBuffer.createCreateInfo(createInfo.size.x * createInfo.size.y * 4u), // 4u because we only support vk::Format::eR8G8B8A8Srgb format for now
-			.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, true)
+			.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		imageBuffer.create(bufferCreateInfo);
 
@@ -69,5 +69,11 @@ namespace zt::gl
 		return imageDrawInfo;
 	}
 
+	void Texture::clear()
+	{
+		imageView.clear();
+		imageBuffer.clear();
+		image.clear();
+	}
 
 }
