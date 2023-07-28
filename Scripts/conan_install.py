@@ -19,7 +19,7 @@ if args.BuildType == "Debug" or args.BuildType == "Release":
     else:
         profileFile = "conan_profile_windows_vs_release.txt"
 
-    arguments = f'install . --profile Scripts\conan_profiles\{profileFile} --build=missing --install-folder=.'
+    arguments = f'install . --profile Scripts\conan_profiles\{profileFile} --build=missing --install-folder=build'
     
     process = subprocess.run("conan " + arguments, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, universal_newlines=True)
     print(process.stdout)
