@@ -41,7 +41,8 @@ namespace zt::gl
 		imageAvailableSemaphore.create(device);
 		renderingFinishedSemaphore.create(device);
 
-		drawFence.createSignaled(device);
+		vk::FenceCreateInfo fenceCreateInfo = drawFence.createSignaledFenceCreateInfo();
+		drawFence.create(device, fenceCreateInfo);
 		
 		drawCommandBuffer.allocateCommandBuffer(device, rendererContext.getCommandPool());
 	}
@@ -178,7 +179,8 @@ namespace zt::gl
 
 		rendererContext.getDevice()->waitIdle();
 		drawFence.clear();
-		drawFence.createSignaled(rendererContext.getDevice());
+		vk::FenceCreateInfo fenceCreateInfo = drawFence.createSignaledFenceCreateInfo();
+		drawFence.create(rendererContext.getDevice(), fenceCreateInfo);
 
 		imageAvailableSemaphore.clear();
 		imageAvailableSemaphore.create(rendererContext.getDevice());

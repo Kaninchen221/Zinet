@@ -10,8 +10,8 @@ class Menu:
         __menuItems = []
         __menu = ConsoleMenu("Zinet Utilities", "")
 
-        def run_script(self, script_file_name):
-                scriptFilePath = str(Path('.').absolute()) + "/Scripts/" + script_file_name
+        def run_script(self, script_file_name, arguments):
+                scriptFilePath = str(Path('.').absolute()) + "/Scripts/" + script_file_name + ' ' + arguments
                 process = subprocess.run(scriptFilePath, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, universal_newlines=True)
 
                 outputFileName = "output_" + script_file_name + ".temp";
@@ -29,8 +29,10 @@ class Menu:
         def main_menu(self):
                 self.__menuItems = [
                         FunctionItem("Generate Project Files", self.run_script, ["generate_project_files.bat"]),
-                        FunctionItem("Conan Install", self.run_script, ["conan_install.py"]),
-                        FunctionItem("Build Project", self.run_script, ["build.py"]),
+                        FunctionItem("Conan Install Debug", self.run_script, ["conan_install.py", "--BuildType Debug"]),
+                        FunctionItem("Conan Install Release", self.run_script, ["conan_install.py", "--BuildType Release"]),
+                        FunctionItem("Build Project Debug", self.run_script, ["build.py", "--BuildType Debug"]),
+                        FunctionItem("Build Project Release", self.run_script, ["build.py", "--BuildType Release"]),
                         FunctionItem("Compile Project", self.run_script, ["compile.bat"]),
                         FunctionItem("Run Automatic Tests", self.run_script, ["run_automatic_tests.py"]),
                         FunctionItem("Run All Tests", self.run_script, ["run_all_tests.py"]),

@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		Fence();
+		Fence() = default;
 		Fence(const Fence& other) = default;
 		Fence(Fence&& other) = default;
 
@@ -27,11 +27,11 @@ namespace zt::gl
 
 		~Fence() noexcept = default;
 
-		vk::FenceCreateInfo createFenceCreateInfo();
+		vk::FenceCreateInfo createSignaledFenceCreateInfo();
 
-		void createUnsignaled(Device& device);
+		vk::FenceCreateInfo createUnsignaledFenceCreateInfo();
 
-		void createSignaled(Device& device);
+		void create(Device& device, const vk::FenceCreateInfo& createInfo);
 
 		vk::Result getStatus() const;
 	};

@@ -81,7 +81,8 @@ namespace zt::gl::tests
 		device.create(physicalDevice, deviceCreateInfo);
 
 		Fence fence;
-		fence.createSignaled(device);
+		vk::FenceCreateInfo fenceCreateInfo = fence.createSignaledFenceCreateInfo();
+		fence.create(device, fenceCreateInfo);
 
 		uint64_t timeout = 1;
 		[[maybe_unused]] vk::Result result = device.waitForFence(fence, timeout);
@@ -94,7 +95,8 @@ namespace zt::gl::tests
 		device.create(physicalDevice, deviceCreateInfo);
 
 		Fence fence;
-		fence.createSignaled(device);
+		vk::FenceCreateInfo fenceCreateInfo = fence.createSignaledFenceCreateInfo();
+		fence.create(device, fenceCreateInfo);
 
 		device.resetFence(fence);
 	}

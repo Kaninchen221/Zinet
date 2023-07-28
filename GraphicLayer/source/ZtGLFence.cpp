@@ -3,28 +3,24 @@
 
 namespace zt::gl
 {
-	Fence::Fence()
+
+	vk::FenceCreateInfo Fence::createSignaledFenceCreateInfo()
 	{
+		vk::FenceCreateInfo createInfo{};
+		createInfo.flags = vk::FenceCreateFlagBits::eSignaled;
+
+		return createInfo;
 	}
 
-	vk::FenceCreateInfo Fence::createFenceCreateInfo()
+	vk::FenceCreateInfo Fence::createUnsignaledFenceCreateInfo()
 	{
 		vk::FenceCreateInfo createInfo{};
 
 		return createInfo;
 	}
 
-	void Fence::createUnsignaled(Device& device)
+	void Fence::create(Device& device, const vk::FenceCreateInfo& createInfo)
 	{
-		vk::FenceCreateInfo createInfo = createFenceCreateInfo();
-		internal = std::move(vk::raii::Fence{ device.getInternal(), createInfo });
-	}
-
-	void Fence::createSignaled(Device& device)
-	{
-		vk::FenceCreateInfo createInfo = createFenceCreateInfo();
-		createInfo.flags = vk::FenceCreateFlagBits::eSignaled;
-
 		internal = std::move(vk::raii::Fence{ device.getInternal(), createInfo });
 	}
 

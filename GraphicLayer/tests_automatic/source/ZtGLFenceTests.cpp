@@ -18,6 +18,8 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		static_assert(std::derived_from<Fence, VulkanObject<vk::raii::Fence>>);
+
 		Context context;
 		Instance instance;
 		Window window;
@@ -49,36 +51,45 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(Fence, DerivedFromVulkanObject)
-	{
-		static_assert(std::derived_from<Fence, VulkanObject<vk::raii::Fence>>);
-	}
-
-	TEST(Fence, CreateFenceCreateInfoTest)
+	TEST(Fence, CreateSignaledFenceCreateInfo)
 	{
 		Fence fence;
-		vk::FenceCreateInfo createInfo = fence.createFenceCreateInfo();
+		vk::FenceCreateInfo fenceCreateInfo = fence.createSignaledFenceCreateInfo();
+		vk::FenceCreateInfo expectedCreateInfo;
+		expectedCreateInfo.flags = vk::FenceCreateFlagBits::eSignaled;
 
-		ASSERT_EQ(createInfo, vk::FenceCreateInfo{});
+		ASSERT_EQ(fenceCreateInfo, expectedCreateInfo);
 	}
 
-	TEST_F(FenceTests, CreateTest)
+	TEST(Fence, CreateUnsignaledFenceCreateInfo)
 	{
-		fence.createUnsignaled(device);
+		Fence fence;
+		vk::FenceCreateInfo fenceCreateInfo = fence.createUnsignaledFenceCreateInfo();
+		vk::FenceCreateInfo expectedCreateInfo{};
 
-		ASSERT_NE(*fence.getInternal(), *vk::raii::Fence{ std::nullptr_t{} });
+		ASSERT_EQ(fenceCreateInfo, expectedCreateInfo);
+	}
+
+	TEST_F(FenceTests, CreateUnsignaledTest)
+	{
+		vk::FenceCreateInfo fenceCreateInfo = fence.createUnsignaledFenceCreateInfo();
+		fence.create(device, fenceCreateInfo);
+
+		ASSERT_TRUE(fence.isValid());
 	}
 
 	TEST_F(FenceTests, CreateSignaledTest)
 	{
-		fence.createSignaled(device);
+		vk::FenceCreateInfo fenceCreateInfo = fence.createSignaledFenceCreateInfo();
+		fence.create(device, fenceCreateInfo);
 
-		ASSERT_NE(*fence.getInternal(), *vk::raii::Fence{ std::nullptr_t{} });
+		ASSERT_TRUE(fence.isValid());
 	}
 
 	TEST_F(FenceTests, GetStatusTest)
 	{
-		fence.createSignaled(device);
+		vk::FenceCreateInfo fenceCreateInfo = fence.createSignaledFenceCreateInfo();
+		fence.create(device, fenceCreateInfo);
 		vk::Result result = fence.getStatus();
 
 		ASSERT_EQ(result, vk::Result::eSuccess);
