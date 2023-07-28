@@ -29,7 +29,7 @@ class Menu:
         def main_menu(self):
                 self.__menuItems = [
                         FunctionItem("Generate Project Files", self.run_script, ["generate_project_files.bat"]),
-                        FunctionItem("Conan Install", self.run_script, ["conan_install.bat"]),
+                        FunctionItem("Conan Install", self.run_script, ["conan_install.py"]),
                         FunctionItem("Build Project", self.run_script, ["build.py"]),
                         FunctionItem("Compile Project", self.run_script, ["compile.bat"]),
                         FunctionItem("Run Automatic Tests", self.run_script, ["run_automatic_tests.py"]),
