@@ -33,7 +33,8 @@ class Menu:
                         FunctionItem("Conan Install Release", self.run_script, ["conan_install.py", "--BuildType Release"]),
                         FunctionItem("Build Project Debug", self.run_script, ["build.py", "--BuildType Debug"]),
                         FunctionItem("Build Project Release", self.run_script, ["build.py", "--BuildType Release"]),
-                        FunctionItem("Compile Project", self.run_script, ["compile.bat"]),
+                        FunctionItem("Compile Project Debug", self.run_script, ["compile_debug.bat"]),
+                        FunctionItem("Compile Project Release", self.run_script, ["compile_release.bat"]),
                         FunctionItem("Run Automatic Tests", self.run_script, ["run_automatic_tests.py"]),
                         FunctionItem("Run All Tests", self.run_script, ["run_all_tests.py"]),
                         FunctionItem("Clear Build Folder", self.run_script, ["build_clear.bat"])
