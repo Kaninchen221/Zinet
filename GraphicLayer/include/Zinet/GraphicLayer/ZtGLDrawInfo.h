@@ -18,7 +18,6 @@ namespace zt::gl
 {
 	class Camera;
 
-	// TODO (Low) Write own DescriptorType enum
 	using DescriptorType = vk::DescriptorType;
 
 	inline vk::DescriptorType DescriptorTypeToVkDescriptorType(DescriptorType descriptorType) { return descriptorType; }

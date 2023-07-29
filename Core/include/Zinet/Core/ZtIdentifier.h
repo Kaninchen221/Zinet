@@ -6,7 +6,6 @@
 
 namespace zt::core
 {
-    // TODO (Low) Refactor and fix it shouldn't have a copy constructor and assigment operator
     class ZINET_CORE_API Identifier {
     public:
 

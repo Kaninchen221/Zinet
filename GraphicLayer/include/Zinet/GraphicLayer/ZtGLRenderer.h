@@ -19,8 +19,6 @@ namespace zt::gl
 {
 	class DrawableObject;
 
-	// TODO (Mid) Instanced rendering
-	// TODO (Low) Fix memory leak: I'm not sure if there is any memory leak at all
 	class ZINET_GRAPHIC_LAYER_API Renderer
 	{
 

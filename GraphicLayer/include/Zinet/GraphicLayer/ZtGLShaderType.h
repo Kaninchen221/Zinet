@@ -6,7 +6,6 @@
 
 namespace zt::gl
 {
-	// TODO (Very Low) Support other types
 	enum class ZINET_GRAPHIC_LAYER_API ShaderType
 	{
 		Invalid,

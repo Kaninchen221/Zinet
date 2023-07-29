@@ -35,7 +35,7 @@ namespace zt::gl
 		initInfo.Device = rendererContext.getDevice().getVk();
 		initInfo.QueueFamily = rendererContext.getQueueFamilyIndex();
 		initInfo.Queue = rendererContext.getQueue().getVk();
-		//initInfo.PipelineCache = g_PipelineCache; // TODO (Low) Add PipelineCache to project
+		//initInfo.PipelineCache = g_PipelineCache;
 		initInfo.DescriptorPool = descriptorPool.getVk();
 		initInfo.Allocator = nullptr;
 		initInfo.MinImageCount = 3;
