@@ -47,6 +47,9 @@ namespace zt::gl::tests
 		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
+		if (!instance.isValid())
+			FAIL() << "Failed to create instance";
+
 		debugUtilsMessenger.create(instance);
 	}
 

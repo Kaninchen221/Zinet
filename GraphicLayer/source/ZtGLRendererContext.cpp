@@ -60,11 +60,14 @@ namespace zt::gl
 		instance.populateRequiredExtensions();
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
+
+		if (!instance.isValid())
+			Logger->error("Failed to create Instance");
 	}
 
 	void RendererContext::createDebugUtilsMessenger()
 	{
-		bool canCreateDebugUtilsMessenger = Instance::GetEnabledValidationLayers();
+		bool canCreateDebugUtilsMessenger = instance.getEnableValidationLayers();
 		if (!canCreateDebugUtilsMessenger)
 		{
 			Logger->error("Can't create debug utils messenger");
@@ -104,19 +107,28 @@ namespace zt::gl
 	void RendererContext::createDevice()
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
+
+		if (!device.isValid())
+			Logger->error("Failed to create Device");
 	}
 
 	void RendererContext::createQueue()
 	{
 		queue.create(device, queueFamilyIndex);
+
+		if (!queue.isValid())
+			Logger->error("Failed to create Queue");
 	}
 
 	void RendererContext::createSwapChain()
 	{
 		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
 		swapChain.create(device, creatInfo);
+
+		if (!swapChain.isValid())
+			Logger->error("Failed to create SwapChain");
 	}
 
 	void RendererContext::createDepthBuffer()
@@ -129,6 +141,9 @@ namespace zt::gl
 		}
 
 		depthBuffer.create(*this, depthBufferFormat);
+
+		if (!depthBuffer.isValid())
+			Logger->error("Failed to create DepthBuffer");
 	}
 
 	void RendererContext::createRenderPass()
@@ -142,6 +157,9 @@ namespace zt::gl
 
 		vk::RenderPassCreateInfo createInfo = renderPass.createRenderPassCreateInfo();
 		renderPass.create(device, createInfo);
+
+		if (!renderPass.isValid())
+			Logger->error("Failed to create RenderPass");
 	}
 
 	void RendererContext::createRenderTargets()
@@ -171,6 +189,9 @@ namespace zt::gl
 	{
 		VmaAllocatorCreateInfo allocatorCreateInfo = vma.createAllocatorCreateInfo(instance, device, physicalDevice);
 		vma.create(allocatorCreateInfo);
+
+		if (vma.getInternal() == nullptr)
+			Logger->error("Failed to create VMA");
 	}
 
 	void RendererContext::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)

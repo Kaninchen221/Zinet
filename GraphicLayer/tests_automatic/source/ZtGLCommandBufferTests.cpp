@@ -96,6 +96,7 @@ namespace zt::gl::tests
 		stagingBufferCreateInfo.allocationCreateInfo = stagingBuffer.createVmaAllocationCreateInfo(false, true);
 
 		stagingBuffer.create(stagingBufferCreateInfo);
+		ASSERT_TRUE(stagingBuffer.isValid());
 
 		Vector2<std::uint32_t> expectedSize = { 1u, 1u };
 
@@ -108,6 +109,7 @@ namespace zt::gl::tests
 		};
 
 		image.create(imageCreateInfo);
+		ASSERT_TRUE(image.isValid());
 
 		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
 
@@ -135,17 +137,13 @@ namespace zt::gl::tests
 		imageBufferCreateInfo.allocationCreateInfo = imageBuffer.createVmaAllocationCreateInfo(false, false);
 
 		imageBuffer.create(imageBufferCreateInfo);
-
-		uint32_t queueFamilyIndex = rendererContext.getPhysicalDevice().pickQueueFamilyIndex(rendererContext.getSurface());
-		CommandPool commandPool;
-		commandPool.create(rendererContext.getDevice(), queueFamilyIndex);
-
-		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), commandPool);
+		ASSERT_TRUE(imageBuffer.isValid());
 
 		commandBuffer.begin();
 		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
+		commandBuffer.end();
 
-		commandBuffer.clear();
+		//commandBuffer.clear();
 	}
 
 	TEST_F(CommandBufferTests, BindVertexBuffer)

@@ -7,15 +7,15 @@ namespace zt::gl
         vk::ApplicationInfo applicationInfo{};
         applicationInfo.pNext = nullptr;
         applicationInfo.pApplicationName = "Zinet";
-        applicationInfo.applicationVersion = 0;
+        applicationInfo.applicationVersion = 0u;
         applicationInfo.pEngineName = "Zinet Renderer";
-        applicationInfo.engineVersion = 0;
+        applicationInfo.engineVersion = 0u;
         applicationInfo.apiVersion = VK_API_VERSION_1_0;
 
         return applicationInfo;
     }
 
-    vk::InstanceCreateInfo Instance::createInstanceCreateInfo(vk::ApplicationInfo applicationInfo) const
+    vk::InstanceCreateInfo Instance::createInstanceCreateInfo(const vk::ApplicationInfo& applicationInfo) const
     {
         vk::InstanceCreateInfo instanceCreateInfo{};
         instanceCreateInfo.pApplicationInfo = &applicationInfo;
@@ -23,7 +23,7 @@ namespace zt::gl
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
-        if (GetEnabledValidationLayers())
+        if (getEnableValidationLayers())
         {
             instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
             instanceCreateInfo.ppEnabledLayerNames = ValidationLayers.data();
@@ -39,7 +39,7 @@ namespace zt::gl
 
     void Instance::create(Context& context, vk::InstanceCreateInfo createInfo)
     {
-        if (GetEnabledValidationLayers() && !CheckValidationLayerSupport())
+        if (getEnableValidationLayers() && !CheckValidationLayerSupport())
         {
             Logger->error("Validation layers requested, but not available!");
             return;
@@ -100,18 +100,9 @@ namespace zt::gl
 
 		extensions = std::vector<const char*>(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-		if (GetEnabledValidationLayers()) {
+		if (getEnableValidationLayers()) {
 			extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 		}
-    }
-
-    bool Instance::GetEnabledValidationLayers()
-    {
-        #ifdef ZINET_DEBUG
-            return true;
-        #else
-            return false;
-        #endif
     }
 
 }

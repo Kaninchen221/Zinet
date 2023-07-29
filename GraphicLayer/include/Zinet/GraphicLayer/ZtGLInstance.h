@@ -29,7 +29,7 @@ namespace zt::gl
 
 		vk::ApplicationInfo createApplicationInfo() const;
 
-		vk::InstanceCreateInfo createInstanceCreateInfo(vk::ApplicationInfo applicationInfo) const;
+		vk::InstanceCreateInfo createInstanceCreateInfo(const vk::ApplicationInfo& applicationInfo) const;
 
 		void create(Context& context, vk::InstanceCreateInfo createInfo);
 
@@ -43,7 +43,9 @@ namespace zt::gl
 
 		void populateRequiredExtensions();
 
-		static bool GetEnabledValidationLayers();
+		void setEnableValidationLayers(bool enable) { enableValidationLayers = enable; }
+
+		bool getEnableValidationLayers() const { return enableValidationLayers; }
 
 	public:
 
@@ -54,6 +56,7 @@ namespace zt::gl
 			"VK_LAYER_KHRONOS_validation"
 		};
 
+		bool enableValidationLayers = true;
 	};
 
 }

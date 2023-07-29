@@ -7,6 +7,7 @@
 
 namespace zt::gl
 {
+	class Instance;
 	class PhysicalDevice;
 	class Queue;
 	class Surface;
@@ -32,7 +33,7 @@ namespace zt::gl
 
 		vk::DeviceQueueCreateInfo createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface);
 
-		vk::DeviceCreateInfo createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface, vk::DeviceQueueCreateInfo& deviceQueueCreateInfo);
+		vk::DeviceCreateInfo createDeviceCreateInfo(const Instance& instance, PhysicalDevice& physicalDevice, Surface& surface, vk::DeviceQueueCreateInfo& deviceQueueCreateInfo);
 
 		void create(PhysicalDevice& physicalDevice, vk::DeviceCreateInfo& deviceCreateInfo);
 

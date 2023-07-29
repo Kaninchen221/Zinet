@@ -45,10 +45,12 @@ namespace zt::gl::tests
 		bool foundFormat = depthBuffer.findDepthFormat(rendererContext.getPhysicalDevice(), format);
 		ASSERT_TRUE(foundFormat);
 		
+		ASSERT_FALSE(depthBuffer.isValid());
 		depthBuffer.create(rendererContext, format);
 
 		ASSERT_TRUE(depthBuffer.getImage().isValid());
 		ASSERT_TRUE(depthBuffer.getImageView().isValid());
+		ASSERT_TRUE(depthBuffer.isValid());
 	}
 
 	class DepthBufferSimpleTests : public ::testing::Test

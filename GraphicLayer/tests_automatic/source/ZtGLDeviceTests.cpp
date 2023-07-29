@@ -18,6 +18,8 @@ namespace zt::gl::tests
 	{
 	protected:
 
+		static_assert(std::derived_from<Device, VulkanObject<vk::raii::Device>>);
+
 		Context context;
 		Instance instance;
 		Window window;
@@ -44,11 +46,6 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST(Device, DerivedFromVulkanObject)
-	{
-		static_assert(std::derived_from<Device, VulkanObject<vk::raii::Device>>);
-	}
-
 	TEST_F(DeviceTests, CreateQueueCreateInfo)
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
@@ -59,7 +56,7 @@ namespace zt::gl::tests
 	TEST_F(DeviceTests, CreateDeviceCreateInfo)
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
 
 		ASSERT_NE(deviceCreateInfo, vk::DeviceCreateInfo());
 	}
@@ -67,7 +64,7 @@ namespace zt::gl::tests
 	TEST_F(DeviceTests, CreateDevice)
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
 		vk::raii::Device& internal = device.getInternal();
 
@@ -77,7 +74,7 @@ namespace zt::gl::tests
 	TEST_F(DeviceTests, WaitForFence)
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
 
 		Fence fence;
@@ -91,7 +88,7 @@ namespace zt::gl::tests
 	TEST_F(DeviceTests, ResetFence)
 	{
 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(physicalDevice, surface, deviceQueueCreateInfo);
+		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
 		device.create(physicalDevice, deviceCreateInfo);
 
 		Fence fence;

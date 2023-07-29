@@ -83,9 +83,14 @@ namespace zt::gl::tests
 		ASSERT_FALSE(requiredExtensions.empty());
 	}
 
-	TEST_F(InstanceTests, GetEnableValidationLayers)
+	TEST_F(InstanceTests, EnableValidationLayers)
 	{
-		[[maybe_unused]] bool EnabledValidationLayers = Instance::GetEnabledValidationLayers();
+		bool enableValidationLayers = instance.getEnableValidationLayers();
+		EXPECT_TRUE(enableValidationLayers);
+
+		instance.setEnableValidationLayers(false);
+		enableValidationLayers = instance.getEnableValidationLayers();
+		EXPECT_FALSE(enableValidationLayers);
 	}
 
 }

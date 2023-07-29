@@ -31,42 +31,41 @@ namespace zt::gl::tests
 		rendererContext.initialize();
 
 		const Instance& instance = rendererContext.getInstance();
-		ASSERT_NE(instance, vk::raii::Instance(std::nullptr_t{}));
+		ASSERT_TRUE(instance.isValid());
 
 		const DebugUtilsMessenger& debugUtilsMessenger = rendererContext.getDebugUtilsMessenger();
-		ASSERT_NE(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
+		ASSERT_TRUE(debugUtilsMessenger.isValid());
 
 		const Window& window = rendererContext.getWindow();
 		const GLFWwindow* internalWindow = window.getInternal();
 		ASSERT_NE(internalWindow, nullptr);
 
 		const Surface& surface = rendererContext.getSurface();
-		ASSERT_NE(surface, nullptr);
+		ASSERT_TRUE(surface.isValid());
 
 		const PhysicalDevice& physicalDevice = rendererContext.getPhysicalDevice();
-		ASSERT_NE(physicalDevice, nullptr);
+		ASSERT_TRUE(physicalDevice.isValid());
 
 		std::uint32_t queueFamilyIndex = rendererContext.getQueueFamilyIndex();
 		ASSERT_NE(queueFamilyIndex, std::numeric_limits<uint32_t>::max());
 
 		const Device& device = rendererContext.getDevice();
-		ASSERT_NE(device, nullptr);
+		ASSERT_TRUE(device.isValid());
 
 		const Queue& queue = rendererContext.getQueue();
-		ASSERT_NE(queue, nullptr);
+		ASSERT_TRUE(queue.isValid());
 
 		const SwapChain& swapChain = rendererContext.getSwapChain();
-		ASSERT_NE(swapChain, nullptr);
+		ASSERT_TRUE(swapChain.isValid());
 
 		const vk::Extent2D& swapExtent = rendererContext.getSwapExtent();
 		ASSERT_NE(swapExtent, vk::Extent2D{});
 
 		const DepthBuffer& depthBuffer = rendererContext.getDepthBuffer();
-		ASSERT_TRUE(depthBuffer.getImage().isValid());
-		ASSERT_TRUE(depthBuffer.getImageView().isValid());
+		ASSERT_TRUE(depthBuffer.isValid());
 
 		const RenderPass& renderPass = rendererContext.getRenderPass();
-		ASSERT_NE(renderPass, nullptr);
+		ASSERT_TRUE(renderPass.isValid());
 
 		const std::vector<RenderTargetDisplay>& renderTargets = rendererContext.getRenderTargets();
 		ASSERT_FALSE(renderTargets.empty());
@@ -75,7 +74,7 @@ namespace zt::gl::tests
 		ASSERT_NE(vma.getInternal(), nullptr);
 
 		const CommandPool& commandPool = rendererContext.getCommandPool();
-		ASSERT_NE(commandPool, nullptr);
+		ASSERT_TRUE(commandPool.isValid());
 
 		GLFW::Deinit();
 	}

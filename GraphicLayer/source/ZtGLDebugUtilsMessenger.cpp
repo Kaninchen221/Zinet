@@ -73,6 +73,12 @@ namespace zt::gl
 
     void DebugUtilsMessenger::create(Instance& instance)
     {
+        if (!instance.getEnableValidationLayers())
+        {
+            Logger->info("Can't create because validation layers are turned off in the instance");
+            return;
+        }
+
         vk::DebugUtilsMessageSeverityFlagsEXT severityFlags(
             vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose |
             vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo |

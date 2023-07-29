@@ -10,7 +10,7 @@ class Menu:
         __menuItems = []
         __menu = ConsoleMenu("Zinet Utilities", "")
 
-        def run_script(self, script_file_name, arguments):
+        def run_script(self, script_file_name, arguments = ""):
                 scriptFilePath = str(Path('.').absolute()) + "/Scripts/" + script_file_name + ' ' + arguments
                 process = subprocess.run(scriptFilePath, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, universal_newlines=True)
 

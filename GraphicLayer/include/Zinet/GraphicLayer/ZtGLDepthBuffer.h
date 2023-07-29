@@ -39,6 +39,8 @@ namespace zt::gl
 
 		void clear();
 
+		bool isValid() const;
+
 	protected:
 
 		Image image;

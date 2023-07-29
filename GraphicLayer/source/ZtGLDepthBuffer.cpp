@@ -52,4 +52,9 @@ namespace zt::gl
 		image.clear();
 	}
 
+	bool DepthBuffer::isValid() const
+	{
+		return image.isValid() && imageView.isValid();
+	}
+
 }

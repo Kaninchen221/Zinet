@@ -21,7 +21,7 @@ namespace zt::gl
         return deviceQueueCreateInfo;
     }
 
-    vk::DeviceCreateInfo Device::createDeviceCreateInfo(PhysicalDevice& physicalDevice, Surface& surface, vk::DeviceQueueCreateInfo& deviceQueueCreateInfo)
+    vk::DeviceCreateInfo Device::createDeviceCreateInfo(const Instance& instance, PhysicalDevice& physicalDevice, Surface& surface, vk::DeviceQueueCreateInfo& deviceQueueCreateInfo)
     {
         createDeviceQueueCreateInfo(physicalDevice, surface);
 
@@ -33,7 +33,7 @@ namespace zt::gl
         deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(physicalDevice.getPhysicalDeviceExtensions().size());
         deviceCreateInfo.ppEnabledExtensionNames = physicalDevice.getPhysicalDeviceExtensions().data();
 
-        if (Instance::GetEnabledValidationLayers())
+        if (instance.getEnableValidationLayers())
         {
             deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(Instance::ValidationLayers.size());
             deviceCreateInfo.ppEnabledLayerNames = Instance::ValidationLayers.data();
