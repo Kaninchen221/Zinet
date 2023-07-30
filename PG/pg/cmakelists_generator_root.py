@@ -19,6 +19,10 @@ class CMakelistsGeneratorRoot(CMakeListsGenerator):
             argument_global_compile_definitions = self.globalCompileDefinitions,
             argument_subdirectories = subdirectories
             )
+        
+        if self.cmdArgs.AddressSanitizer == "true":
+            arguments["argument_global_compile_options"] += " " + self.globalCompileOptionsForAddressSanitizer
+
         return arguments
 
     def create_argument_subdirectories(subdirectories):
@@ -32,5 +36,6 @@ class CMakelistsGeneratorRoot(CMakeListsGenerator):
     projectVersion = ''
     projectDescription = ''
     globalCompileOptions = ''
+    globalCompileOptionsForAddressSanitizer = ''
     globalCompileDefinitions = ''
     subdirectories = ''

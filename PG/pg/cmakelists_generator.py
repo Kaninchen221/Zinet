@@ -17,3 +17,4 @@ class CMakeListsGenerator:
 
     fileLocation = Path(__file__)
     templatePath = Path()
+    cmdArgs = ''

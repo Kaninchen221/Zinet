@@ -9,6 +9,7 @@ class ProjectGenerator:
         paths = ProjectGenerator.collect_files(path, 'recipe_*.py')
         return paths
 
+
     def execute_recipe(self, path):
         args = {
             "projectGenerator": self
@@ -16,7 +17,8 @@ class ProjectGenerator:
         print("Exec recipt: " + str(path))
         exec(open(path).read(), args)
 
-    def generate_project(self, projectRootPath):
+
+    def generate_project(self, projectRootPath, cmdArgs):
         self._collectedRecipes = self.collect_recipes(projectRootPath)
         print("Collected recipes: ", self._collectedRecipes.size)
 
@@ -27,6 +29,7 @@ class ProjectGenerator:
 
             generator = self._generators[-1]
             generator.fileLocation = recipePath
+            generator.cmdArgs = cmdArgs
             folder = recipePath.parent
             arguments = generator.prepare_arguments()
             cmakelists = generator.generate_cmakelists(arguments)
@@ -34,20 +37,24 @@ class ProjectGenerator:
             file = open(cmakelistsPath, "w")
             file.write(cmakelists)
             file.close()
-        pass
+
 
     def collect_files(path, format):
         paths = path.rglob(format)
         return numpy.fromiter(paths, Path)
 
+
     def add_generator(self, generator):
         self._generators = numpy.append(self._generators, generator)
+
 
     def get_generators(self):
         return self._generators
 
+
     def get_collected_recipes(self):
         return self._collectedRecipes
+
 
     _generators = numpy.empty(0, CMakeListsGenerator)
     _collectedRecipes = numpy.empty(0, Path)

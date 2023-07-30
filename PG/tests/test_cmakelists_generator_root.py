@@ -40,6 +40,7 @@ class TestCmakelistsGeneratorRoot:
         self.generatorRoot.projectVersion = "project version"
         self.generatorRoot.projectDescription = "description"
         self.generatorRoot.globalCompileOptions = "/W4 /WX"
+        self.generatorRoot.globalCompileOptionsForAddressSanitizer = "/AddressSanitizer"
         self.generatorRoot.globalCompileDefinitions = "opt1 opt2 opt3"
         self.generatorRoot.subdirectories = ["Core", "GraphicLayer"]
 
