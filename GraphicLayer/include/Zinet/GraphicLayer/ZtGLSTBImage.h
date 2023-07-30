@@ -22,18 +22,18 @@ namespace zt::gl
 
 		~STBImage() noexcept;
 
-		MemoryPointer* get();
+		MemoryPointer* get() { return data; }
 		const MemoryPointer* get() const { return data; }
 
 		bool load(const std::string& path);
 
-		int getWidth() const;
+		int getWidth() const { return width; }
 
-		int getHeight() const;
+		int getHeight() const { return height; }
 
 		Vector2ui getSize() const { return Vector2ui{ width, height }; }
 
-		int getChannels() const;
+		int getChannels() const { return channels; }
 
 		std::size_t sizeBytes() const;
 

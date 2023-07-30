@@ -7,31 +7,11 @@ namespace zt::gl
 		free();
 	}
 
-	STBImage::MemoryPointer* STBImage::get()
-	{
-		return data;
-	}
-
 	bool STBImage::load(const std::string& path)
 	{
 		data = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
 		
 		return !(data == nullptr);
-	}
-
-	int STBImage::getWidth() const
-	{
-		return width;
-	}
-
-	int STBImage::getHeight() const
-	{
-		return height;
-	}
-
-	int STBImage::getChannels() const
-	{
-		return channels;
 	}
 
 	std::size_t STBImage::sizeBytes() const
