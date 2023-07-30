@@ -194,7 +194,7 @@ namespace zt::gl
 			Logger->error("Failed to create VMA");
 	}
 
-	void RendererContext::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
+	void RendererContext::informAboutWindowResize(int width, int height)
 	{
 		depthBuffer.clear();
 		renderTargets.clear();

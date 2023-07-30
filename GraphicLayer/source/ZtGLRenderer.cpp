@@ -168,7 +168,7 @@ namespace zt::gl
 			Logger->error("present return non success vk::Result");
 	}
 
-	void Renderer::informAboutWindowResize([[maybe_unused]] int width, [[maybe_unused]] int height)
+	void Renderer::informAboutWindowResize(int width, int height)
 	{
 		drawCommandBuffer.setIsCommandBufferInvalid(true);
 

@@ -6,7 +6,7 @@ namespace zt::core
 {
 
 	template<typename FirstFunctionPointer, typename SecondFunctionPointer>
-	constexpr const bool IsFunctionEqual([[maybe_unused]] const SecondFunctionPointer& secondFunctionPointer)
+	constexpr const bool IsFunctionEqual(const SecondFunctionPointer& secondFunctionPointer)
 	{
 		return std::is_same<FirstFunctionPointer, SecondFunctionPointer>::value;
 	}

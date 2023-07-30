@@ -71,7 +71,7 @@ namespace zt::gl
         return glfwWindowShouldClose(internalWindow);
     }
 
-    void Window::FramebufferSizeCallback([[maybe_unused]] GLFWwindow* internalWindow, int width, int height)
+    void Window::FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height)
     {
         if (RendererReference != nullptr)
             RendererReference->informAboutWindowResize(width, height);

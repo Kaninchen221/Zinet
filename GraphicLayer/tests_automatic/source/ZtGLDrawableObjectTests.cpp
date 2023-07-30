@@ -20,7 +20,7 @@ namespace zt::gl::tests
 
 		class TestObject : public DrawableObject
 		{
-			DrawInfo createDrawInfo([[maybe_unused]] RendererContext& rendererContext) const override { return {}; }
+			DrawInfo createDrawInfo(RendererContext& rendererContext) const override { return {}; }
 
 			const Transform& getTransform() const override { return transform; }
 

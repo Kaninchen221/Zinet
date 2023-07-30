@@ -20,7 +20,7 @@ namespace zt::core
 		return Value;
 	}
 #else
-	static inline bool Ensure([[maybe_unused]] bool Value) { return true; }
+	static inline bool Ensure(bool Value) { return true; }
 #endif
 
 	inline const std::string CurrentFunctionName()

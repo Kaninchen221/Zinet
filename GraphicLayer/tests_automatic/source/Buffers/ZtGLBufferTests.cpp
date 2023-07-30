@@ -27,7 +27,7 @@ namespace zt::gl::tests
 				return createInfo;
 			}
 
-			VmaAllocationCreateInfo createVmaAllocationCreateInfo([[maybe_unused]] bool randomAccess, [[maybe_unused]] bool useCPUMemory) const override
+			VmaAllocationCreateInfo createVmaAllocationCreateInfo(bool randomAccess, bool useCPUMemory) const override
 			{
 				VmaAllocationCreateInfo allocationCreateInfo{};
 				allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;

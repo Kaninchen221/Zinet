@@ -35,7 +35,7 @@ namespace zt::gl
 		return buttonsEvents.size();
 	}
 
-	void Mouse::ButtonCallback(GLFWwindow* glfwWindow, int button, int action, [[maybe_unused]] int mods)
+	void Mouse::ButtonCallback(GLFWwindow* glfwWindow, int button, int action, int mods)
 	{
 		void* windowUserPointer = glfwGetWindowUserPointer(glfwWindow);
 		Window* window = static_cast<Window*>(windowUserPointer);

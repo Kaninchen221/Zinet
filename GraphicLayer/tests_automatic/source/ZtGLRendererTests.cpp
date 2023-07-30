@@ -105,7 +105,7 @@ namespace zt::gl::tests
 	{
 		Renderer renderer;
 
-		auto function = []([[maybe_unused]] int width, [[maybe_unused]] int height) {};
+		auto function = [](int width, int height) {};
 		renderer.setInformAboutWindowResizeCallback(function);
 	}
 
