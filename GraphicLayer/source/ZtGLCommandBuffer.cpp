@@ -16,11 +16,6 @@
 
 namespace zt::gl
 {
-	CommandBuffer::CommandBuffer()
-	{
-
-	}
-
 	vk::CommandBufferAllocateInfo CommandBuffer::createCommandBufferAllocateInfo(const CommandPool& commandPool) const
 	{
 		vk::CommandBufferAllocateInfo allocateInfo;
@@ -80,18 +75,18 @@ namespace zt::gl
 		internal.reset(flags);
 	}
 
-	vk::ImageMemoryBarrier CommandBuffer::createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout, std::uint32_t mipmapLevels, std::uint32_t mipmapLevel)
+	vk::ImageMemoryBarrier CommandBuffer::createImageMemoryBarrier(const CreateImageMemoryBarrierInfo& createImageMemoryBarrierInfo)
 	{
 		vk::ImageMemoryBarrier barrier;
 
-		barrier.oldLayout = oldLayout;
-		barrier.newLayout = newLayout;
+		barrier.oldLayout = createImageMemoryBarrierInfo.oldLayout;
+		barrier.newLayout = createImageMemoryBarrierInfo.newLayout;
 		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED; 
-		barrier.image = *image.getInternal();
+		barrier.image = *createImageMemoryBarrierInfo.image.getInternal();
 		barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
-		barrier.subresourceRange.baseMipLevel = mipmapLevel;
-		barrier.subresourceRange.levelCount = 1;
+		barrier.subresourceRange.baseMipLevel = createImageMemoryBarrierInfo.mipmapLevel;
+		barrier.subresourceRange.levelCount = createImageMemoryBarrierInfo.mipmapLevels;
 		barrier.subresourceRange.baseArrayLayer = 0;
 		barrier.subresourceRange.layerCount = 1;
 		barrier.srcAccessMask = vk::AccessFlagBits{};
@@ -100,9 +95,13 @@ namespace zt::gl
 		return barrier;
 	}
 
-	void CommandBuffer::copyBufferToImage(const Buffer& buffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion)
+	void CommandBuffer::copyBufferToImage(const CopyBufferToImageInfo& copyBufferToImageInfo)
 	{
-		internal.copyBufferToImage(*buffer.getInternal(), *image.getInternal(), newLayout, imageRegion);
+		internal.copyBufferToImage(
+			*copyBufferToImageInfo.buffer.getInternal(), 
+			*copyBufferToImageInfo.image.getInternal(), 
+			copyBufferToImageInfo.newLayout, 
+			copyBufferToImageInfo.imageRegion);
 	}
 
 	void CommandBuffer::bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset)

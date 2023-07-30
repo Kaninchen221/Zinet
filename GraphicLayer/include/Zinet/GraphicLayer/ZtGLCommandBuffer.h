@@ -35,6 +35,23 @@ namespace zt::gl
 			const std::array<vk::ClearValue, 2u>& clearValues;
 		};
 
+		struct ZINET_GRAPHIC_LAYER_API CreateImageMemoryBarrierInfo
+		{
+			Image& image;
+			vk::ImageLayout oldLayout;
+			vk::ImageLayout newLayout;
+			std::uint32_t mipmapLevels = 1u;
+			std::uint32_t mipmapLevel = 0u;
+		};
+
+		struct ZINET_GRAPHIC_LAYER_API CopyBufferToImageInfo
+		{
+			const Buffer& buffer;
+			Image& image;
+			vk::ImageLayout newLayout;
+			vk::BufferImageCopy imageRegion;
+		};
+
 		struct ZINET_GRAPHIC_LAYER_API BindDescriptorSetsInfo
 		{
 			vk::PipelineBindPoint bindPoint;
@@ -50,7 +67,7 @@ namespace zt::gl
 
 	public:
 
-		CommandBuffer();
+		CommandBuffer() = default;
 		CommandBuffer(const CommandBuffer& other) = default;
 		CommandBuffer(CommandBuffer&& other) = default;
 
@@ -75,9 +92,9 @@ namespace zt::gl
 
 		void reset();
 
-		vk::ImageMemoryBarrier createImageMemoryBarrier(Image& image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout, std::uint32_t mipmapLevels = 0u, std::uint32_t mipmapLevel = 0u);
+		vk::ImageMemoryBarrier createImageMemoryBarrier(const CreateImageMemoryBarrierInfo& createImageMemoryBarrierInfo);
 		
-		void copyBufferToImage(const Buffer& buffer, Image& image, vk::ImageLayout newLayout, vk::BufferImageCopy imageRegion);
+		void copyBufferToImage(const CopyBufferToImageInfo& copyBufferToImageInfo);
 
 		void bindVertexBuffer(uint32_t firstBinding, const VertexBuffer& vertexBuffer, vk::DeviceSize offset);
 

@@ -36,7 +36,11 @@ namespace zt::gl
 		};
 
 		newLayout = vk::ImageLayout::eTransferDstOptimal;
-		info.commandBuffer.copyBufferToImage(info.imageBuffer, info.image, newLayout, imageRegion);
+		CommandBuffer::CopyBufferToImageInfo copyBufferToImageInfo
+		{
+			info.imageBuffer, info.image, newLayout, imageRegion
+		};
+		info.commandBuffer.copyBufferToImage(copyBufferToImageInfo);
 	}
 
 }

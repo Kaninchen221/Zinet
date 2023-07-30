@@ -86,7 +86,11 @@ namespace zt::gl
 			vk::ImageLayout currentImageLayout = imageLayouts[mipmapLevel];
 			vk::PipelineStageFlags currentPipelineStageFlags = pipelineStageFlags[mipmapLevel];
 
-			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(*this, currentImageLayout, newLayout, mipmapLevels, mipmapLevel);
+			CommandBuffer::CreateImageMemoryBarrierInfo createImageMemoryBarrierInfo
+			{
+				*this, currentImageLayout, newLayout, 1u, mipmapLevel
+			};
+			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(createImageMemoryBarrierInfo);
 
 			commandBuffer->pipelineBarrier(
 				currentPipelineStageFlags,

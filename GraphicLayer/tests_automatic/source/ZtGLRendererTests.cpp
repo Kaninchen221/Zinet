@@ -266,28 +266,14 @@ namespace zt::gl::tests
 		RendererContext& rendererContext = renderer.getRendererContext();
 
 		CommandBuffer commandBuffer;
-		//vk::CommandBufferAllocateInfo allocateInfo = commandBuffer.createCommandBufferAllocateInfo(commandPool);
 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 
 		// Barrier
-		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
 		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
-		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
-
-		vk::PipelineStageFlags sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
-
 		vk::PipelineStageFlags destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
 
 		commandBuffer.begin();
-
-		commandBuffer->pipelineBarrier(
-			sourceStage,
-			destinationStage,
-			vk::DependencyFlags{},
-			{},
-			{},
-			barrier);
-
+		image.changeLayout(commandBuffer, newLayout, destinationStage);
 		commandBuffer.end();
 
 		vk::SubmitInfo submitInfo{};
@@ -320,7 +306,12 @@ namespace zt::gl::tests
 		commandBuffer.begin();
 
 		newLayout = vk::ImageLayout::eTransferDstOptimal;
-		commandBuffer.copyBufferToImage(imageBuffer, image, newLayout, imageRegion);
+		CommandBuffer::CopyBufferToImageInfo copyBufferToImageInfo
+		{
+			imageBuffer, image, newLayout, imageRegion
+		};
+		commandBuffer.copyBufferToImage(copyBufferToImageInfo);
+
 		commandBuffer.end();
 
 		submitInfo.commandBufferCount = 1;
@@ -334,20 +325,9 @@ namespace zt::gl::tests
 
 		commandBuffer.begin();
 
-		oldLayout = vk::ImageLayout::eTransferDstOptimal;
 		newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
-		vk::ImageMemoryBarrier barrierAfterCopy = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout);
-
-		sourceStage = vk::PipelineStageFlagBits::eTransfer;
 		destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
-
-		commandBuffer->pipelineBarrier(
-			sourceStage,
-			destinationStage,
-			vk::DependencyFlags{},
-			{},
-			{},
-			barrierAfterCopy);
+		image.changeLayout(commandBuffer, newLayout, destinationStage);
 
 		commandBuffer.end();
 

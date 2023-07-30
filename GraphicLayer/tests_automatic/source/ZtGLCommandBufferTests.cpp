@@ -48,7 +48,12 @@ namespace zt::gl::tests
 		vk::ImageLayout oldLayout = vk::ImageLayout::eUndefined;
 		vk::ImageLayout newLayout = vk::ImageLayout::eTransferDstOptimal;
 		std::uint32_t mipmapLevels = 1u;
-		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(image, oldLayout, newLayout, mipmapLevels);
+		std::uint32_t mipmapLevel = 0u;
+		CommandBuffer::CreateImageMemoryBarrierInfo createImageMemoryBarrierInfo
+		{
+			image, oldLayout, newLayout
+		};
+		vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(createImageMemoryBarrierInfo);
 
 		ASSERT_EQ(barrier.oldLayout, oldLayout);
 		ASSERT_EQ(barrier.newLayout, newLayout);
@@ -56,7 +61,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(barrier.dstQueueFamilyIndex, VK_QUEUE_FAMILY_IGNORED);
 		ASSERT_EQ(barrier.image, *image.getInternal());
 		ASSERT_EQ(barrier.subresourceRange.aspectMask, vk::ImageAspectFlagBits::eColor);
-		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, 0);
+		ASSERT_EQ(barrier.subresourceRange.baseMipLevel, mipmapLevel);
 		ASSERT_EQ(barrier.subresourceRange.levelCount, mipmapLevels);
 		ASSERT_EQ(barrier.subresourceRange.baseArrayLayer, 0);
 		ASSERT_EQ(barrier.subresourceRange.layerCount, 1);
@@ -140,7 +145,11 @@ namespace zt::gl::tests
 		ASSERT_TRUE(imageBuffer.isValid());
 
 		commandBuffer.begin();
-		commandBuffer.copyBufferToImage(stagingBuffer, image, newLayout, imageRegion);
+		CommandBuffer::CopyBufferToImageInfo copyBufferToImageInfo
+		{
+			stagingBuffer, image, newLayout, imageRegion
+		};
+		commandBuffer.copyBufferToImage(copyBufferToImageInfo);
 		commandBuffer.end();
 
 		//commandBuffer.clear();
