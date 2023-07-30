@@ -113,6 +113,12 @@ namespace zt::gl::tests
 		ASSERT_NE(vertexInputBindingDescription, vk::VertexInputBindingDescription{});
 	}
 
+	TEST_F(VertexTests, GetInputBindingDescriptions)
+	{
+		std::vector<vk::VertexInputBindingDescription> descriptions = Vertex::GetInputBindingDescriptions();
+		ASSERT_FALSE(descriptions.empty());
+	}
+
 	TEST_F(VertexTests, CreatePositionInputAttributeDescription)
 	{
 		vk::VertexInputAttributeDescription description = Vertex::CreatePositionInputAttributeDescription();
@@ -141,6 +147,12 @@ namespace zt::gl::tests
 		ASSERT_EQ(description.location, 2);
 		ASSERT_EQ(description.format, vk::Format::eR32G32Sfloat);
 		ASSERT_EQ(description.offset, sizeof(glm::vec3) + sizeof(glm::vec4));
+	}
+
+	TEST_F(VertexTests, GetInputAttributeDescriptions)
+	{
+		std::vector<vk::VertexInputAttributeDescription> descriptions = Vertex::GetInputAttributeDescriptions();
+		ASSERT_FALSE(descriptions.empty());
 	}
 
 	TEST_F(VertexTests, ComparisonOperator)

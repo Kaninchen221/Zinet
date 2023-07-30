@@ -76,6 +76,7 @@ namespace zt::gl
 		std::vector<std::uint16_t> indices;
 		std::vector<UniformBuffer> uniformBuffers;
 		size_t MVPBufferIndex = std::numeric_limits<size_t>::max();
+		std::uint32_t instanceCount = 1u;
 	};
 
 }

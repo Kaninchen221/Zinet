@@ -3,13 +3,20 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.h"
 
 #include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtTypeTraits.h"
 
 namespace zt::gl
 {
 	class ShaderModule;
 	class Device;
+
+	template <typename T>
+	concept VertexConcept =
+		zt::core::IsFunctionEqual<std::vector<vk::VertexInputBindingDescription>(*)()>(&T::GetInputBindingDescriptions) &&
+		zt::core::IsFunctionEqual<std::vector<vk::VertexInputAttributeDescription>(*)()>(&T::GetInputAttributeDescriptions);
 
 	class ZINET_GRAPHIC_LAYER_API PipelineLayout : public VulkanObject<vk::raii::PipelineLayout>
 	{
@@ -31,6 +38,7 @@ namespace zt::gl
 
 		const vk::PipelineShaderStageCreateInfo& createShaderStageCreateInfo(ShaderModule& shaderModule);
 
+		template<VertexConcept VertexType>
 		const vk::PipelineVertexInputStateCreateInfo& createVertexInputStateCreateInfo();
 
 		const vk::PipelineInputAssemblyStateCreateInfo& createInputAssemblyStateCreateInfo();
@@ -69,7 +77,7 @@ namespace zt::gl
 		vk::Rect2D scissor;
 
 		vk::PipelineShaderStageCreateInfo shaderStageCreateInfo;
-		vk::VertexInputBindingDescription vertexInputBindingDescription;
+		std::vector < vk::VertexInputBindingDescription> vertexInputBindingDescriptions;
 		std::vector<vk::VertexInputAttributeDescription> vertexInputAttributeDescriptions;
 		vk::PipelineVertexInputStateCreateInfo vertexInputStateCreateInfo;
 		vk::PipelineInputAssemblyStateCreateInfo inputAssemblyStateCreateInfo;
@@ -82,5 +90,19 @@ namespace zt::gl
 
 		std::vector<vk::DescriptorSetLayout> vkDescriptorSetLayouts;
 	};
+
+	template<VertexConcept VertexType>
+	const vk::PipelineVertexInputStateCreateInfo& PipelineLayout::createVertexInputStateCreateInfo()
+	{
+		vertexInputBindingDescriptions = Vertex::GetInputBindingDescriptions();
+		vertexInputAttributeDescriptions = Vertex::GetInputAttributeDescriptions();
+	
+		vertexInputStateCreateInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(vertexInputBindingDescriptions.size());
+		vertexInputStateCreateInfo.pVertexBindingDescriptions = vertexInputBindingDescriptions.data();
+		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexInputAttributeDescriptions.size());
+		vertexInputStateCreateInfo.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
+	
+		return vertexInputStateCreateInfo;
+	}
 
 }

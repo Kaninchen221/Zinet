@@ -71,12 +71,14 @@ namespace zt::gl
 		Pipeline& getPipeline();
 		const Pipeline& getPipeline() const;
 
+		template<class VertexType>
 		void create(const CreateInfo& createInfo);
 
 		void updateDescriptorSets(Device& device);
 
 	protected:
 
+		template<class VertexType>
 		void createPipeline(const CreateInfo& createInfo);
 		void createShadersModules(const std::span<Shader>& shaders, Device& device);
 		void createShadersStages();
@@ -103,4 +105,22 @@ namespace zt::gl
 		Pipeline pipeline;
 	};
 
+	template<class VertexType>
+	void RendererPipeline::create(const CreateInfo& createInfo)
+	{
+		createPipeline<VertexType>(createInfo);
+		createDescriptors(createInfo);
+	}
+
+	template<class VertexType>
+	void RendererPipeline::createPipeline(const CreateInfo& createInfo)
+	{
+		createShadersModules(createInfo.renderStates.shaders, createInfo.device);
+		createShadersStages();
+		createDescriptorSetLayouts(createInfo.renderStates.descriptors, createInfo.device);
+		createPipelineLayout(createInfo.device, createInfo.swapExtent);
+
+		vk::GraphicsPipelineCreateInfo graphicsPipelineCreateInfo = pipeline.createGraphicsPipelineCreateInfo<VertexType>(pipelineLayout, createInfo.renderPass, shadersStages);
+		pipeline.create(createInfo.device, graphicsPipelineCreateInfo);
+	}
 }

@@ -46,11 +46,15 @@ namespace zt::gl
 
 		static vk::VertexInputBindingDescription CreateInputBindingDescription();
 
+		static std::vector<vk::VertexInputBindingDescription> GetInputBindingDescriptions();
+
 		static vk::VertexInputAttributeDescription CreatePositionInputAttributeDescription();
 
 		static vk::VertexInputAttributeDescription CreateColorInputAttributeDescription();
 
 		static vk::VertexInputAttributeDescription CreateTextureCoordinatesInputAttributeDescription();
+
+		static std::vector<vk::VertexInputAttributeDescription> GetInputAttributeDescriptions();
 
 	protected:
 

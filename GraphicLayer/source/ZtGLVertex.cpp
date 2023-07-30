@@ -75,6 +75,14 @@ namespace zt::gl
 		return vertexInputBindingDescription;
 	}
 
+	std::vector<vk::VertexInputBindingDescription> Vertex::GetInputBindingDescriptions()
+	{
+		return
+		{
+			CreateInputBindingDescription()
+		};
+	}
+
 	vk::VertexInputAttributeDescription Vertex::CreatePositionInputAttributeDescription()
 	{
 		vk::VertexInputAttributeDescription positionInputAttributeDescription;
@@ -106,6 +114,16 @@ namespace zt::gl
 		textureCoordinatesInputAttributeDescription.offset = sizeof(position) + sizeof(color);
 
 		return textureCoordinatesInputAttributeDescription;
+	}
+
+	std::vector<vk::VertexInputAttributeDescription> Vertex::GetInputAttributeDescriptions()
+	{
+		return
+		{
+			CreatePositionInputAttributeDescription(),
+			CreateColorInputAttributeDescription(),
+			CreateTextureCoordinatesInputAttributeDescription(),
+		};
 	}
 
 }

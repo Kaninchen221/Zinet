@@ -64,27 +64,10 @@ namespace zt::gl
 		return pipeline;
 	}
 
-	void RendererPipeline::create(const CreateInfo& createInfo)
-	{
-		createPipeline(createInfo);
-		createDescriptors(createInfo);
-	}
-
 	void RendererPipeline::updateDescriptorSets(Device& device)
 	{
 		if (!writeDescriptorSets.empty())
 			device->updateDescriptorSets(writeDescriptorSets, {} /* descriptorCopies */);
-	}
-
-	void RendererPipeline::createPipeline(const CreateInfo& createInfo)
-	{
-		createShadersModules(createInfo.renderStates.shaders, createInfo.device);
-		createShadersStages();
-		createDescriptorSetLayouts(createInfo.renderStates.descriptors, createInfo.device);
-		createPipelineLayout(createInfo.device, createInfo.swapExtent);
-
-		vk::GraphicsPipelineCreateInfo graphicsPipelineCreateInfo = pipeline.createGraphicsPipelineCreateInfo(pipelineLayout, createInfo.renderPass, shadersStages);
-		pipeline.create(createInfo.device, graphicsPipelineCreateInfo);
 	}
 
 	void RendererPipeline::createShadersModules(const std::span<Shader>& shaders, Device& device)

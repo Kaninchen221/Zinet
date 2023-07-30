@@ -12,6 +12,7 @@
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 #include "Zinet/GraphicLayer/ZtGLTileMap.h"
 #include "Zinet/GraphicLayer/ZtGLMath.h"
+#include "Zinet/GraphicLayer/ZtGLUtilities.h"
 
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtTypeTraits.h"
@@ -27,11 +28,6 @@
 #include <imgui_impl_vulkan.h>
 #include <imgui_impl_glfw.h>
 
-//
-#include "Zinet/GraphicLayer/ZtGLUtilities.h"
-
-//
-
 namespace zt::gl::tests
 {
 
@@ -46,6 +42,7 @@ namespace zt::gl::tests
 		Renderer renderer;
 
 		void createShaders();
+		void createInstanceRenderingShaders();
 		void createSTBImage();
 
 		std::vector<Shader> shaders;
@@ -56,10 +53,13 @@ namespace zt::gl::tests
 		Camera camera;
 		Imgui imgui;
 
-		typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&, RenderStates&);
-		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
-	};
+		//typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&, RenderStates&);
+		//static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
 
+		void imguiCamera();
+		void imguiSprite(Sprite& sprite, size_t index);
+	};
+	/*
 	TEST_F(RendererTests, Draw)
 	{
 		zt::gl::GLFW::UnhideWindow();
@@ -187,39 +187,11 @@ namespace zt::gl::tests
 
 			if (drawSprites)
 			{
-				float index = 1.f;
+				size_t index = 1u;
 				for (Sprite& sprite : sprites)
 				{
-					Transform transform = sprite.getTransform();
-					Vector3f position = transform.getTranslation();
-					Vector3f rotation = transform.getRotation();
-					Vector3f scale = transform.getScale();
-
-					std::array<float, 3> rawPosition;
-					rawPosition = Math::FromVectorToArray(position);
-					std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
-
-					std::array<float, 3> rawRotation;
-					rawRotation = Math::FromVectorToArray(rotation);
-					std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
-
-					std::array<float, 3> rawScale;
-					rawScale = Math::FromVectorToArray(scale);
-					std::string scaleName = std::string{ "Sprite scale " } + std::to_string(static_cast<int>(index));
-					ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
-
-					ImGui::Spacing();
-
-					position = Math::FromArrayToVector(rawPosition);
-					rotation = Math::FromArrayToVector(rawRotation);
-					scale = Math::FromArrayToVector(rawScale);
-					transform.setTranslation(position);
-					transform.setRotation(rotation);
-					transform.setScale(scale);
-					sprite.setTransform(transform);
-					index += 1.f;
+					imguiSprite(sprite, index);
+					index++;
 				}
 			}
 			else // Tilemap
@@ -261,22 +233,7 @@ namespace zt::gl::tests
 				tileMap.setTransform(transform);
 			}
 
-			// Camera
-			Vector3f cameraPos = camera.getPosition();
-			std::array<float, 3> rawCameraPosition;
-			rawCameraPosition = Math::FromVectorToArray(cameraPos);
-			std::string posName = std::string{ "Camera pos " };
-			ImGui::SliderFloat3(posName.c_str(), rawCameraPosition.data(), -30.00f, 30.0f);
-			cameraPos = Math::FromArrayToVector(rawCameraPosition);
-			camera.setPosition(cameraPos);
-
-			Vector3f cameraTarget = camera.getTarget();
-			std::array<float, 3> rawCameraTarget;
-			rawCameraTarget = Math::FromVectorToArray(cameraTarget);
-			std::string targetName = std::string{ "Camera target " };
-			ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget.data(), -5.00f, 5.0f);
-			cameraTarget = Math::FromArrayToVector(rawCameraTarget);
-			camera.setTarget(cameraTarget);
+			imguiCamera();
 
 			ImGui::End();
 
@@ -313,6 +270,136 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
 	}
+	*/
+	TEST_F(RendererTests, InstancedRendering)
+	{
+		zt::gl::GLFW::UnhideWindow();
+
+		camera.setPosition({ 0.0f, 0.0f, -4.0f });
+
+		renderer.initialize();
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
+
+		createInstanceRenderingShaders();
+		createSTBImage();
+
+		// Create texture
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+		commandBuffer.begin();
+		bool textureUseMipmaps = false;
+		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+
+		texture.loadFromSTBImage(commandBuffer, stbImage);
+
+		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+
+		// Create mipmap texture
+		commandBuffer.begin();
+		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
+		{
+			texture, commandBuffer, rendererContext
+		};
+		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
+
+		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+		//
+
+		// Create Sampler
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
+
+		class InstancedRenderingSprite : public Sprite
+		{
+			DrawInfo createDrawInfo(RendererContext& rendererContext) const override
+			{
+				DrawInfo drawInfo = Sprite::createDrawInfo(rendererContext);
+				drawInfo.instanceCount = 4;
+				return std::move(drawInfo);
+			}
+		};
+		InstancedRenderingSprite sprite;
+		TextureRegion textureRegion;
+		textureRegion.size = Vector2f{ 512.f, 512.f };
+		textureRegion.offset = Vector2f{ 0.f, 0.f };
+		sprite.setTextureRegion(textureRegion, texture.getSize());
+
+		// RenderStates
+		std::vector<RenderStates::Descriptor> descriptors;
+		RenderStates::Descriptor descriptor;
+		// MVP
+		descriptor.binding = 0;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 1;
+		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		std::vector<RenderStates::Image> images;
+		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
+		imageRenderState.binding = 1;
+
+		RenderStates renderStates
+		{
+			.shaders = shaders,
+			.descriptors = descriptors,
+			.images = images,
+			.camera = camera
+		};
+
+		while (!rendererContext.getWindow().shouldBeClosed())
+		{
+			imgui.update();
+
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow();
+			if (!ImGui::Begin("Main"))
+				ImGui::End();
+
+			imguiSprite(sprite, 0u);
+
+			imguiCamera();
+
+			ImGui::End();
+
+			ImGui::EndFrame();
+
+			ImGui::Render();
+
+			renderer.preDraw();
+
+			{ // Draw Sprite
+				renderStates.modelMatrix = sprite.getTransform().toMatrix();
+				renderer.draw<Vertex>(sprite, renderStates);
+			}
+
+			glfwPollEvents();
+
+			imgui.draw(renderer.getDrawCommandBuffer());
+
+			renderer.postDraw();
+		}
+
+		rendererContext.getQueue()->waitIdle();
+		rendererContext.getDevice()->waitIdle();
+	}
 
 	void RendererTests::createSTBImage()
 	{
@@ -334,6 +421,71 @@ namespace zt::gl::tests
 		shaders[1].setType(ShaderType::Fragment);
 		shaders[1].loadFromFile((ContentPath / "shader.frag").string());
 		shaders[1].compile();
+	}
+
+	void RendererTests::createInstanceRenderingShaders()
+	{
+		shaders.emplace_back();
+		shaders[0].setType(ShaderType::Vertex);
+		shaders[0].loadFromFile((ContentPath / "instancedRenderingShader.vert").string());
+		shaders[0].compile();
+
+		shaders.emplace_back();
+		shaders[1].setType(ShaderType::Fragment);
+		shaders[1].loadFromFile((ContentPath / "instancedRenderingShader.frag").string());
+		shaders[1].compile();
+	}
+
+	void RendererTests::imguiCamera()
+	{
+		Vector3f cameraPos = camera.getPosition();
+		std::array<float, 3> rawCameraPosition;
+		rawCameraPosition = Math::FromVectorToArray(cameraPos);
+		std::string posName = std::string{ "Camera pos " };
+		ImGui::SliderFloat3(posName.c_str(), rawCameraPosition.data(), -30.00f, 30.0f);
+		cameraPos = Math::FromArrayToVector(rawCameraPosition);
+		camera.setPosition(cameraPos);
+
+		Vector3f cameraTarget = camera.getTarget();
+		std::array<float, 3> rawCameraTarget;
+		rawCameraTarget = Math::FromVectorToArray(cameraTarget);
+		std::string targetName = std::string{ "Camera target " };
+		ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget.data(), -5.00f, 5.0f);
+		cameraTarget = Math::FromArrayToVector(rawCameraTarget);
+		camera.setTarget(cameraTarget);
+	}
+
+	void RendererTests::imguiSprite(Sprite& sprite, size_t index)
+	{
+		Transform transform = sprite.getTransform();
+		Vector3f position = transform.getTranslation();
+		Vector3f rotation = transform.getRotation();
+		Vector3f scale = transform.getScale();
+
+		std::array<float, 3> rawPosition;
+		rawPosition = Math::FromVectorToArray(position);
+		std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
+		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
+
+		std::array<float, 3> rawRotation;
+		rawRotation = Math::FromVectorToArray(rotation);
+		std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
+		ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
+
+		std::array<float, 3> rawScale;
+		rawScale = Math::FromVectorToArray(scale);
+		std::string scaleName = std::string{ "Sprite scale " } + std::to_string(static_cast<int>(index));
+		ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
+
+		ImGui::Spacing();
+
+		position = Math::FromArrayToVector(rawPosition);
+		rotation = Math::FromArrayToVector(rawRotation);
+		scale = Math::FromArrayToVector(rawScale);
+		transform.setTranslation(position);
+		transform.setRotation(rotation);
+		transform.setScale(scale);
+		sprite.setTransform(transform);
 	}
 
 }

@@ -30,11 +30,13 @@ namespace zt::gl::tests
 		static_assert(std::is_same_v<decltype(drawInfo.indices), std::vector<std::uint16_t>>);
 		static_assert(std::is_same_v<decltype(drawInfo.uniformBuffers), std::vector<UniformBuffer>>);
 		static_assert(std::is_same_v<decltype(drawInfo.MVPBufferIndex), size_t>);
+		static_assert(std::is_same_v<decltype(drawInfo.instanceCount), std::uint32_t>);
 	};
 
 	TEST_F(DrawInfoTests, DefaultValues)
 	{
-		ASSERT_EQ(drawInfo.MVPBufferIndex, std::numeric_limits<size_t>::max());
+		EXPECT_EQ(drawInfo.MVPBufferIndex, std::numeric_limits<size_t>::max());
+		EXPECT_EQ(drawInfo.instanceCount, 1u);
 	}
 
 	class DescriptorInfoTests : public ::testing::Test

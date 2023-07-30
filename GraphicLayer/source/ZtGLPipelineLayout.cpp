@@ -27,22 +27,6 @@ namespace zt::gl
 		return shaderStageCreateInfo;
 	}
 
-	const vk::PipelineVertexInputStateCreateInfo& PipelineLayout::createVertexInputStateCreateInfo()
-	{
-		vertexInputBindingDescription = Vertex::CreateInputBindingDescription();
-
-		vertexInputAttributeDescriptions.push_back(Vertex::CreatePositionInputAttributeDescription());
-		vertexInputAttributeDescriptions.push_back(Vertex::CreateColorInputAttributeDescription());
-		vertexInputAttributeDescriptions.push_back(Vertex::CreateTextureCoordinatesInputAttributeDescription());
-
-		vertexInputStateCreateInfo.vertexBindingDescriptionCount = 1;
-		vertexInputStateCreateInfo.pVertexBindingDescriptions = &vertexInputBindingDescription;
-		vertexInputStateCreateInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexInputAttributeDescriptions.size());
-		vertexInputStateCreateInfo.pVertexAttributeDescriptions = vertexInputAttributeDescriptions.data();
-
-		return vertexInputStateCreateInfo;
-	}
-
 	const vk::PipelineInputAssemblyStateCreateInfo& PipelineLayout::createInputAssemblyStateCreateInfo()
 	{
 		inputAssemblyStateCreateInfo.topology = vk::PrimitiveTopology::eTriangleList;

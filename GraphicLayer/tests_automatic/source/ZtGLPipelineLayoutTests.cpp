@@ -93,7 +93,7 @@ namespace zt::gl::tests
 	{
 		PipelineLayout pipelineLayout;
 
-		const vk::PipelineVertexInputStateCreateInfo& createInfo = pipelineLayout.createVertexInputStateCreateInfo();
+		const vk::PipelineVertexInputStateCreateInfo& createInfo = pipelineLayout.createVertexInputStateCreateInfo<Vertex>();
 
 		ASSERT_NE(createInfo, vk::PipelineVertexInputStateCreateInfo{});
 	}

@@ -2,7 +2,6 @@
 
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 
 #include <map>
@@ -87,37 +86,6 @@ namespace zt::gl
 		drawInfos.clear();
 	}
 
-	void Renderer::draw(const DrawableObject& drawableObject, RenderStates& renderStates)
-	{
-		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(drawableObject.createDrawInfo(rendererContext)));
-		createRendererPipeline(renderStates, drawInfo);
-
-		updateMVPUniformBuffer(renderStates, drawInfo);
-
-		drawCommandBuffer.bindPipeline(rendererPipelines.back().getPipeline());
-		drawCommandBuffer.bindVertexBuffer(0u, drawInfo.vertexBuffer, vk::DeviceSize{ 0 });
-
-		vk::DeviceSize indexBufferOffset{ 0 };
-		drawCommandBuffer.bindIndexBuffer(drawInfo.indexBuffer, indexBufferOffset, vk::IndexType::eUint16);
-
-		if (rendererPipelines.back().getDescriptorSets().has_value())
-		{
-			RendererPipeline& rendererPipeline = rendererPipelines.back();
-			CommandBuffer::BindDescriptorSetsInfo bindDescriptorSetsInfo
-			{
-				.bindPoint = vk::PipelineBindPoint::eGraphics,
-				.pipelineLayout = rendererPipeline.getPipelineLayout(),
-				.firstSet = 0,
-				.descriptorSets = rendererPipeline.getDescriptorSets().value(),
-				.dynamicOffsets = {}
-			};
-
-			drawCommandBuffer.bindDescriptorSets(bindDescriptorSetsInfo);
-		}
-
-		drawCommandBuffer->drawIndexed(static_cast<std::uint32_t>(drawInfo.indices.size()), 1, 0, 0, 0);
-	}
-
 	void Renderer::postDraw()
 	{
 		if (drawCommandBuffer.getIsCommandBufferInvalid())
@@ -192,23 +160,6 @@ namespace zt::gl
 
 		if (informAboutWindowResizeCallback != nullptr)
 			std::invoke(informAboutWindowResizeCallback, width, height);
-	}
-
-	void Renderer::createRendererPipeline(const RenderStates& renderStates, const DrawInfo& drawInfo)
-	{
-		RendererPipeline& newRendererPipeline = rendererPipelines.emplace_back();
-		RendererPipeline::CreateInfo rendererPipelineCreateInfo
-		{
-			.renderStates = renderStates,
-			.drawInfo = drawInfo,
-			.device = rendererContext.getDevice(),
-			.renderPass = rendererContext.getRenderPass(),
-			.commandPool = rendererContext.getCommandPool(),
-			.swapExtent = rendererContext.getSwapExtent()
-		};
-		newRendererPipeline.create(rendererPipelineCreateInfo);
-
-		newRendererPipeline.updateDescriptorSets(rendererContext.getDevice());
 	}
 
 	void Renderer::updateMVPUniformBuffer(RenderStates& renderStates, DrawInfo& drawInfo)
