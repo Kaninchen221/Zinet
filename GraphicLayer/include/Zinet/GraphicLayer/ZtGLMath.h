@@ -25,7 +25,7 @@ namespace zt::gl
 		~Math() noexcept = delete;
 
 		template<typename VectorType, typename ArrayType = std::array<typename VectorType::value_type, VectorType::length()>>
-		static ArrayType FromVectorToArray(const VectorType& vector)
+		constexpr static ArrayType FromVectorToArray(const VectorType& vector)
 		{
 			ArrayType result{};
 
@@ -38,7 +38,7 @@ namespace zt::gl
 		}
 
 		template<typename ArrayType, typename VectorType = glm::vec<std::tuple_size_v<ArrayType>, typename ArrayType::value_type, glm::defaultp>>
-		static VectorType FromArrayToVector(const ArrayType& array)
+		constexpr static VectorType FromArrayToVector(const ArrayType& array)
 		{
 			VectorType result{};
 
@@ -54,6 +54,25 @@ namespace zt::gl
 		{
 			std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1;
 			return mipmapLevels;
+		}
+
+		template<typename Vector>
+		constexpr static Vector FromExtent2DToVector2(const vk::Extent2D& extent)
+		{
+			return Vector
+			{
+				static_cast<Vector::value_type>(extent.width),
+				static_cast<Vector::value_type>(extent.height)
+			};
+		}
+
+		constexpr static vk::Extent2D FromVector2ToExtent2D(auto vector)
+		{
+			return vk::Extent2D
+			{
+				static_cast<std::uint32_t>(vector.x),
+				static_cast<std::uint32_t>(vector.y)
+			};
 		}
 	};
 }
