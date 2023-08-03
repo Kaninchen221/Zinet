@@ -96,6 +96,7 @@ namespace zt::gl::tests
 		EXPECT_TRUE(drawInfo.indexBuffer.isValid());
 		EXPECT_FALSE(drawInfo.indices.empty());
 		EXPECT_FALSE(drawInfo.uniformBuffers.empty());
+		EXPECT_FALSE(drawInfo.storageBuffers.empty());
 		EXPECT_NE(drawInfo.MVPBufferIndex, std::numeric_limits<size_t>::max());
 	}
 
@@ -113,7 +114,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(expectedTilesCount, actualTilesCount);
 
 		std::vector<TextureRegion> actualTilesTextureRegions = tileMap.getTilesTextureRegions();
-		EXPECT_TRUE(actualTilesTextureRegions.empty());
+		EXPECT_FALSE(actualTilesTextureRegions.empty());
 	}
 
 	TEST_F(TileMapSimpleTests, GetAbsoluteSize)

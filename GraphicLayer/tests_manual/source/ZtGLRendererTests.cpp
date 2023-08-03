@@ -58,6 +58,7 @@ namespace zt::gl::tests
 
 		void imguiCamera();
 		void imguiSprite(Sprite& sprite, size_t index);
+		void imguiTileMap(TileMap& tileMap, size_t index);
 	};
 	/*
 	TEST_F(RendererTests, Draw)
@@ -271,6 +272,7 @@ namespace zt::gl::tests
 		rendererContext.getDevice()->waitIdle();
 	}
 	*/
+
 	TEST_F(RendererTests, InstancedRendering)
 	{
 		zt::gl::GLFW::UnhideWindow();
@@ -319,20 +321,12 @@ namespace zt::gl::tests
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
-		class InstancedRenderingSprite : public Sprite
-		{
-			DrawInfo createDrawInfo(RendererContext& rendererContext) const override
-			{
-				DrawInfo drawInfo = Sprite::createDrawInfo(rendererContext);
-				drawInfo.instanceCount = 4;
-				return std::move(drawInfo);
-			}
-		};
-		InstancedRenderingSprite sprite;
+		TileMap tileMap;
 		TextureRegion textureRegion;
 		textureRegion.size = Vector2f{ 512.f, 512.f };
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
-		sprite.setTextureRegion(textureRegion, texture.getSize());
+		tileMap.setDefaultShaderTextureRegion(textureRegion, texture.getSize());
+		tileMap.setTilesTextureRegions({ textureRegion }, texture.getSize());
 
 		// RenderStates
 		std::vector<RenderStates::Descriptor> descriptors;
@@ -349,6 +343,13 @@ namespace zt::gl::tests
 		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
 		descriptor.count = 1;
 		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 2;
+		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
 
 		std::vector<RenderStates::Image> images;
@@ -373,7 +374,7 @@ namespace zt::gl::tests
 			if (!ImGui::Begin("Main"))
 				ImGui::End();
 
-			imguiSprite(sprite, 0u);
+			imguiTileMap(tileMap, 0u);
 
 			imguiCamera();
 
@@ -385,9 +386,9 @@ namespace zt::gl::tests
 
 			renderer.preDraw();
 
-			{ // Draw Sprite
-				renderStates.modelMatrix = sprite.getTransform().toMatrix();
-				renderer.draw<Vertex>(sprite, renderStates);
+			{ // Draw tileMap
+				renderStates.modelMatrix = tileMap.getTransform().toMatrix();
+				renderer.draw<Vertex>(tileMap, renderStates);
 			}
 
 			glfwPollEvents();
@@ -400,7 +401,7 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
 	}
-
+	
 	void RendererTests::createSTBImage()
 	{
 		if (!stbImage.load((ContentPath / "test_texture.png").string()))
@@ -486,6 +487,39 @@ namespace zt::gl::tests
 		transform.setRotation(rotation);
 		transform.setScale(scale);
 		sprite.setTransform(transform);
+	}
+
+	void RendererTests::imguiTileMap(TileMap& tileMap, size_t index)
+	{
+		Transform transform = tileMap.getTransform();
+		Vector3f position = transform.getTranslation();
+		Vector3f rotation = transform.getRotation();
+		Vector3f scale = transform.getScale();
+
+		std::array<float, 3> rawPosition;
+		rawPosition = Math::FromVectorToArray(position);
+		std::string positionName = std::string{ "tileMap position " } + std::to_string(static_cast<int>(index));
+		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
+
+		std::array<float, 3> rawRotation;
+		rawRotation = Math::FromVectorToArray(rotation);
+		std::string rotationName = std::string{ "tileMap rotation " } + std::to_string(static_cast<int>(index));
+		ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
+
+		std::array<float, 3> rawScale;
+		rawScale = Math::FromVectorToArray(scale);
+		std::string scaleName = std::string{ "tileMap scale " } + std::to_string(static_cast<int>(index));
+		ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
+
+		ImGui::Spacing();
+
+		position = Math::FromArrayToVector(rawPosition);
+		rotation = Math::FromArrayToVector(rawRotation);
+		scale = Math::FromArrayToVector(rawScale);
+		transform.setTranslation(position);
+		transform.setRotation(rotation);
+		transform.setScale(scale);
+		tileMap.setTransform(transform);
 	}
 
 }

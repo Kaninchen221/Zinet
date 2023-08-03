@@ -11,6 +11,8 @@
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <gtest/gtest.h>
 
 namespace zt::gl::tests
@@ -83,19 +85,21 @@ namespace zt::gl::tests
 
 	TEST_F(DescriptorSetsTests, CreateBufferWriteDescriptorSet)
 	{
-		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(size_t, const vk::DescriptorBufferInfo&, std::uint32_t);
-		using FunctionDeclaration = decltype(&DescriptorSets::createBufferWriteDescriptorSet);
+		typedef vk::WriteDescriptorSet(DescriptorSets::* ExpectedFunctionDeclaration)(const DescriptorSets::CreateBufferWriteDescriptorSetInfo&);
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&DescriptorSets::createBufferWriteDescriptorSet));
 
-		vk::DescriptorBufferInfo bufferInfo;
-		size_t expectedIndex = 0u;
-		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(expectedIndex, bufferInfo, 0u);
+		DescriptorSets::CreateBufferWriteDescriptorSetInfo info
+		{
+			0u, vk::DescriptorBufferInfo{}, 0u, vk::DescriptorType::eStorageBuffer
+		};
+		vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(info);
 		
-		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[expectedIndex]);
-		ASSERT_EQ(writeDescriptorSet.dstBinding, 0);
+		ASSERT_EQ(writeDescriptorSet.dstSet, *(*descriptorSets)[info.descriptorSetIndex]);
+		ASSERT_EQ(writeDescriptorSet.dstBinding, info.binding);
 		ASSERT_EQ(writeDescriptorSet.dstArrayElement, 0);
-		ASSERT_EQ(writeDescriptorSet.descriptorType, vk::DescriptorType::eUniformBuffer);
+		ASSERT_EQ(writeDescriptorSet.descriptorType, info.descriptorType);
 		ASSERT_EQ(writeDescriptorSet.descriptorCount, 1);
-		ASSERT_EQ(writeDescriptorSet.pBufferInfo, &bufferInfo);
+		ASSERT_EQ(writeDescriptorSet.pBufferInfo, &info.descriptorBufferInfo);
 		ASSERT_EQ(writeDescriptorSet.pImageInfo, nullptr);
 		ASSERT_EQ(writeDescriptorSet.pTexelBufferView, nullptr);
 	}

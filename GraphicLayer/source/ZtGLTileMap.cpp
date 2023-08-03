@@ -11,6 +11,7 @@ namespace zt::gl
 		createIndexBuffer(drawInfo.indexBuffer, drawInfo.indices, rendererContext);
 		createVertexBuffer(drawInfo.vertexBuffer, rendererContext);
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
+		createStorageBuffers(drawInfo.storageBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
 
 		return std::move(drawInfo);
@@ -155,10 +156,23 @@ namespace zt::gl
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
-			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
+			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.setBinding(0u);
+	}
+
+	void TileMap::createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const
+	{
+		StorageBuffer& storageBuffer = storageBuffers.emplace_back();
+		Buffer::CreateInfo bufferCreateInfo{
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
+			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * sizeof(TextureRegion)),
+			.allocationCreateInfo = storageBuffer.createVmaAllocationCreateInfo(false, false)
+		};
+		storageBuffer.create(bufferCreateInfo);
+		storageBuffer.setBinding(2u);
 	}
 
 	void TileMap::setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const Vector2f& textureSize)

@@ -180,23 +180,14 @@ namespace zt::gl
 
 	void RendererPipeline::createWriteDescriptorSets(const RenderStates& renderStates, const DrawInfo& drawInfo)
 	{
-		writeDescriptorSets.clear();
-		writeDescriptorSets.reserve(drawInfo.uniformBuffers.size() + renderStates.images.size());
-		createBufferWriteDescriptorSets(drawInfo.uniformBuffers);
-		createImageWriteDescriptorSets(renderStates.images);
-	}
-
-	void RendererPipeline::createBufferWriteDescriptorSets(const std::span<const UniformBuffer> uniformBuffers)
-	{
 		descriptorBufferInfos.clear();
-		writeDescriptorSets.reserve(uniformBuffers.size());
-		descriptorBufferInfos.reserve(uniformBuffers.size());
-		for (const UniformBuffer& uniformBuffer : uniformBuffers)
-		{
-			vk::DescriptorBufferInfo& descriptorBufferInfo = descriptorBufferInfos.emplace_back(uniformBuffer.createDescriptorBufferInfo());
-			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(0u, descriptorBufferInfo, uniformBuffer.getBinding());
-			writeDescriptorSets.push_back(writeDescriptorSet);
-		}
+		writeDescriptorSets.clear();
+		size_t reserveSize = drawInfo.uniformBuffers.size() + drawInfo.storageBuffers.size() + renderStates.images.size();
+		writeDescriptorSets.reserve(reserveSize);
+		descriptorBufferInfos.reserve(reserveSize);
+		createBufferWriteDescriptorSets<UniformBuffer>(drawInfo.uniformBuffers, vk::DescriptorType::eUniformBuffer);
+		createBufferWriteDescriptorSets<StorageBuffer>(drawInfo.storageBuffers, vk::DescriptorType::eStorageBuffer);
+		createImageWriteDescriptorSets(renderStates.images);
 	}
 
 	void RendererPipeline::createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images)

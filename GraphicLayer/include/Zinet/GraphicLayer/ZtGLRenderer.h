@@ -117,10 +117,10 @@ namespace zt::gl
 			CommandBuffer::BindDescriptorSetsInfo bindDescriptorSetsInfo
 			{
 				.bindPoint = vk::PipelineBindPoint::eGraphics,
-					.pipelineLayout = rendererPipeline.getPipelineLayout(),
-					.firstSet = 0,
-					.descriptorSets = rendererPipeline.getDescriptorSets().value(),
-					.dynamicOffsets = {}
+				.pipelineLayout = rendererPipeline.getPipelineLayout(),
+				.firstSet = 0,
+				.descriptorSets = rendererPipeline.getDescriptorSets().value(),
+				.dynamicOffsets = {}
 			};
 
 			drawCommandBuffer.bindDescriptorSets(bindDescriptorSetsInfo);
@@ -136,11 +136,11 @@ namespace zt::gl
 		RendererPipeline::CreateInfo rendererPipelineCreateInfo
 		{
 			.renderStates = renderStates,
-				.drawInfo = drawInfo,
-				.device = rendererContext.getDevice(),
-				.renderPass = rendererContext.getRenderPass(),
-				.commandPool = rendererContext.getCommandPool(),
-				.swapExtent = rendererContext.getSwapExtent()
+			.drawInfo = drawInfo,
+			.device = rendererContext.getDevice(),
+			.renderPass = rendererContext.getRenderPass(),
+			.commandPool = rendererContext.getCommandPool(),
+			.swapExtent = rendererContext.getSwapExtent()
 		};
 		newRendererPipeline.create<VertexType>(rendererPipelineCreateInfo);
 

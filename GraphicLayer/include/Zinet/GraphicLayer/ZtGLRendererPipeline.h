@@ -89,8 +89,10 @@ namespace zt::gl
 		void createDescriptorPool(const std::span<RenderStates::Descriptor>& descriptors, Device& device);
 		void createDescriptorSets(Device& device);
 		void createWriteDescriptorSets(const RenderStates& renderStates, const DrawInfo& drawInfo);
-		void createBufferWriteDescriptorSets(const std::span<const UniformBuffer> uniformBuffers);
 		void createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images);
+
+		template<class BufferType>
+		void createBufferWriteDescriptorSets(const std::span<const BufferType> buffers, vk::DescriptorType descriptorType);
 
 		std::vector<ShaderModule> shadersModules;
 		std::vector<vk::PipelineShaderStageCreateInfo> shadersStages;
@@ -122,5 +124,21 @@ namespace zt::gl
 
 		vk::GraphicsPipelineCreateInfo graphicsPipelineCreateInfo = pipeline.createGraphicsPipelineCreateInfo<VertexType>(pipelineLayout, createInfo.renderPass, shadersStages);
 		pipeline.create(createInfo.device, graphicsPipelineCreateInfo);
+	}
+
+	template<class BufferType>
+	void zt::gl::RendererPipeline::createBufferWriteDescriptorSets(const std::span<const BufferType> buffers, vk::DescriptorType descriptorType)
+	{
+		for (const BufferType& buffer : buffers)
+		{
+			vk::DescriptorBufferInfo& descriptorBufferInfo = descriptorBufferInfos.emplace_back(buffer.createDescriptorBufferInfo());
+
+			DescriptorSets::CreateBufferWriteDescriptorSetInfo createBufferWriteDescriptorSetInfo
+			{
+				0u, descriptorBufferInfo, buffer.getBinding(), descriptorType
+			};
+			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(createBufferWriteDescriptorSetInfo);
+			writeDescriptorSets.push_back(writeDescriptorSet);
+		}
 	}
 }

@@ -12,6 +12,14 @@ namespace zt::gl
 
 	public:
 
+		struct CreateBufferWriteDescriptorSetInfo
+		{
+			size_t descriptorSetIndex;
+			const vk::DescriptorBufferInfo& descriptorBufferInfo;
+			std::uint32_t binding;
+			vk::DescriptorType descriptorType;
+		};
+
 		DescriptorSets() = default;
 		DescriptorSets(const DescriptorSets& other) = default;
 		DescriptorSets(DescriptorSets&& other) = default;
@@ -23,7 +31,7 @@ namespace zt::gl
 
 		~DescriptorSets() noexcept = default;
 
-		vk::WriteDescriptorSet createBufferWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorBufferInfo& descriptorBufferInfo, std::uint32_t binding);
+		vk::WriteDescriptorSet createBufferWriteDescriptorSet(const CreateBufferWriteDescriptorSetInfo& info);
 
 		vk::WriteDescriptorSet createImageWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorImageInfo& descriptorImageInfo, std::uint32_t binding);
 

@@ -10,15 +10,15 @@ namespace zt::gl
 
 	}
 
-	vk::WriteDescriptorSet DescriptorSets::createBufferWriteDescriptorSet(size_t descriptorSetIndex, const vk::DescriptorBufferInfo& descriptorBufferInfo, std::uint32_t binding)
+	vk::WriteDescriptorSet DescriptorSets::createBufferWriteDescriptorSet(const CreateBufferWriteDescriptorSetInfo& info)
 	{
 		vk::WriteDescriptorSet writeDescriptorSet;
-		writeDescriptorSet.dstSet = *operator[](descriptorSetIndex);
-		writeDescriptorSet.dstBinding = binding;
+		writeDescriptorSet.dstSet = *operator[](info.descriptorSetIndex);
+		writeDescriptorSet.dstBinding = info.binding;
 		writeDescriptorSet.dstArrayElement = 0;
-		writeDescriptorSet.descriptorType = vk::DescriptorType::eUniformBuffer;
+		writeDescriptorSet.descriptorType = info.descriptorType;
 		writeDescriptorSet.descriptorCount = 1;
-		writeDescriptorSet.pBufferInfo = &descriptorBufferInfo;
+		writeDescriptorSet.pBufferInfo = &info.descriptorBufferInfo;
 		writeDescriptorSet.pImageInfo = nullptr;
 		writeDescriptorSet.pTexelBufferView = nullptr;
 

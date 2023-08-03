@@ -7,6 +7,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStorageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
 #include "Zinet/GraphicLayer/ZtGLVecTypes.h"
@@ -75,6 +76,7 @@ namespace zt::gl
 		IndexBuffer indexBuffer;
 		std::vector<std::uint16_t> indices;
 		std::vector<UniformBuffer> uniformBuffers;
+		std::vector<StorageBuffer> storageBuffers;
 		size_t MVPBufferIndex = std::numeric_limits<size_t>::max();
 		std::uint32_t instanceCount = 1u;
 	};

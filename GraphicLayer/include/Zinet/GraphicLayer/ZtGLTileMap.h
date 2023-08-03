@@ -9,6 +9,8 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include <vector>
+
 namespace zt::gl
 {
 	class RendererContext;
@@ -55,11 +57,12 @@ namespace zt::gl
 		void createIndexBuffer(IndexBuffer& indexBuffer, std::vector<std::uint16_t>& indices, RendererContext& rendererContext) const;
 		void createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const;
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
+		void createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const;
 
 		Transform transform;
 		Vector2ui tilesCount{ 1u, 1u };
 		TextureRegion defaultShaderTextureRegion;
-		std::vector<TextureRegion> tilesTextureRegions;
+		std::vector<TextureRegion> tilesTextureRegions = { TextureRegion{} };
 	};
 
 }
