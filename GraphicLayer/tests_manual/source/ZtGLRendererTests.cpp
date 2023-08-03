@@ -277,7 +277,8 @@ namespace zt::gl::tests
 	{
 		zt::gl::GLFW::UnhideWindow();
 
-		camera.setPosition({ 0.0f, 0.0f, -4.0f });
+		camera.setPosition({ 0.0f, 0.0f, -30.0f });
+		camera.setFar(1000.f);
 
 		renderer.initialize();
 
@@ -327,6 +328,7 @@ namespace zt::gl::tests
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
 		tileMap.setDefaultShaderTextureRegion(textureRegion, texture.getSize());
 		tileMap.setTilesTextureRegions({ textureRegion }, texture.getSize());
+		tileMap.setTilesCount({ 8u, 7u });
 
 		// RenderStates
 		std::vector<RenderStates::Descriptor> descriptors;
@@ -345,9 +347,16 @@ namespace zt::gl::tests
 		descriptor.shaderType = ShaderType::Fragment;
 		descriptors.push_back(descriptor);
 
-		// Texture
+		// Texture Regions
 		descriptor.binding = 2;
 		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Tiles count
+		descriptor.binding = 3;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
 		descriptor.count = 1;
 		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
@@ -454,6 +463,10 @@ namespace zt::gl::tests
 		ImGui::SliderFloat3(targetName.c_str(), rawCameraTarget.data(), -5.00f, 5.0f);
 		cameraTarget = Math::FromArrayToVector(rawCameraTarget);
 		camera.setTarget(cameraTarget);
+
+		float cameraFar = camera.getFar();
+		ImGui::SliderFloat("Camera 'Far'", &cameraFar, 10.f, 1000.f);
+		camera.setFar(cameraFar);
 	}
 
 	void RendererTests::imguiSprite(Sprite& sprite, size_t index)
@@ -520,6 +533,25 @@ namespace zt::gl::tests
 		transform.setRotation(rotation);
 		transform.setScale(scale);
 		tileMap.setTransform(transform);
+
+		std::array<int, 2> rawTilesCount = Math::FromVectorToArray(Vector2i{ tileMap.getTilesCount() });
+		ImGui::SliderInt2("Tiles Count", rawTilesCount.data(), 1, 1000);
+		tileMap.setTilesCount(Math::FromArrayToVector(rawTilesCount));
+
+		std::vector<TextureRegion> tilesTextureRegions;
+		Vector2ui tileIndex{ 0u, 0u };
+
+		for (tileIndex.y = 0u; tileIndex.y < tileMap.getTilesCount().y; ++tileIndex.y)
+		{
+			for (tileIndex.x = 0u; tileIndex.x < tileMap.getTilesCount().x; ++tileIndex.x)
+			{
+				TextureRegion textureRegion;
+				textureRegion.offset = { tileIndex.x * 512.f, tileIndex.y * 512.f };
+				textureRegion.size = { 512.f, 512.f };
+				tilesTextureRegions.push_back({ {0.f, 0.f}, {512.f, 512.f} });
+			}
+		}
+		tileMap.setTilesTextureRegions(tilesTextureRegions, texture.getSize());
 	}
 
 }

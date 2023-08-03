@@ -9,8 +9,6 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-#include <vector>
-
 namespace zt::gl
 {
 	class RendererContext;
@@ -21,6 +19,8 @@ namespace zt::gl
 	protected:
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("TileMap");
+
+		const constexpr inline static size_t VerticesPerTile = 4u;
 
 	public:
 
@@ -62,7 +62,7 @@ namespace zt::gl
 		Transform transform;
 		Vector2ui tilesCount{ 1u, 1u };
 		TextureRegion defaultShaderTextureRegion;
-		std::vector<TextureRegion> tilesTextureRegions = { TextureRegion{} };
+		std::vector<TextureRegion> tilesTextureRegions;
 	};
 
 }

@@ -13,6 +13,7 @@ namespace zt::gl
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
 		createStorageBuffers(drawInfo.storageBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
+		drawInfo.instanceCount = tilesCount.x * tilesCount.y;
 
 		return std::move(drawInfo);
 	}
@@ -29,31 +30,15 @@ namespace zt::gl
 
 	std::vector<std::uint16_t> TileMap::getIndices() const
 	{
-		std::vector<std::uint16_t> indices;
-		auto addTile = [&indices](std::uint16_t offset)
+		return 
 		{
-			std::initializer_list<std::uint16_t> indicesPerTile = 
-			{ 
-				0u + offset,
-				1u + offset,
-				2u + offset,
-				2u + offset,
-				3u + offset,
-				0u + offset
-			};
-
-			indices.insert(indices.end(), indicesPerTile);
+			0u,
+			1u,
+			2u,
+			2u,
+			3u,
+			0u
 		};
-
-		const std::uint16_t verticesPerTile = 4u;
-		const std::uint16_t count = static_cast<std::uint16_t>(tilesCount.x * tilesCount.y);
-		indices.reserve(verticesPerTile * count);
-		for (std::uint16_t index = 0; index < count; ++index)
-		{
-			addTile(index * verticesPerTile);
-		}
-
-		return indices;
 	}
 
 	void TileMap::createIndexBuffer(IndexBuffer& indexBuffer, std::vector<std::uint16_t>& indices, RendererContext& rendererContext) const
@@ -64,7 +49,7 @@ namespace zt::gl
 			rendererContext.getDevice(),
 				rendererContext.getVma(),
 				indexBuffer.createCreateInfo(size),
-				indexBuffer.createVmaAllocationCreateInfo(false, true)
+				indexBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 
 		indexBuffer.create(bufferCreateInfo);
@@ -73,76 +58,40 @@ namespace zt::gl
 
 	void TileMap::createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const
 	{
+		Vector2f UV = defaultShaderTextureRegion.offset;
+
 		std::vector<Vertex> vertices;
+		Vertex vertex;
+		vertex.setPosition({ -0.5f, 0.5f, 0.f });
+		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		vertex.setTextureCoordinates(UV);
+		vertices.push_back(vertex);
 
-		auto addTile = [&vertices](const TextureRegion& textureRegion, const Vector3f& offset)
-		{
-			Vector2f UV = textureRegion.offset;
+		vertex.setPosition({ 0.5f, 0.5f, 0.f });
+		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+		UV.x += defaultShaderTextureRegion.size.x;
+		vertex.setTextureCoordinates(UV);
+		vertices.push_back(vertex);
 
-			Vertex vertex;
-			Vector3f position = { 0.f, 0.f, 0.f };
-			position.x += offset.x;
-			position.y -= offset.y;
-			vertex.setPosition(position);
-			vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-			vertex.setTextureCoordinates(UV);
-			vertices.push_back(vertex);
+		vertex.setPosition({ 0.5f, -0.5f, 0.f });
+		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
+		UV = defaultShaderTextureRegion.offset;
+		UV += defaultShaderTextureRegion.size;
+		vertex.setTextureCoordinates(UV);
+		vertices.push_back(vertex);
 
-			position = { 1.f, 0.f, 0.f };
-			position.x += offset.x;
-			position.y -= offset.y;
-			vertex.setPosition(position);
-			vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-			UV.x += textureRegion.size.x;
-			vertex.setTextureCoordinates(UV);
-			vertices.push_back(vertex);
-
-			position = { 1.f, -1.f, 0.f };
-			position.x += offset.x;
-			position.y -= offset.y;
-			vertex.setPosition(position);
-			vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-			UV = textureRegion.offset;
-			UV += textureRegion.size;
-			vertex.setTextureCoordinates(UV);
-			vertices.push_back(vertex);
-
-			position = { 0.f, -1.f, 0.f };
-			position.x += offset.x;
-			position.y -= offset.y;
-			vertex.setPosition(position);
-			vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-			UV = textureRegion.offset;
-			UV.y += textureRegion.size.y;
-			vertex.setTextureCoordinates(UV);
-			vertices.push_back(vertex);
-		};
-
-		vertices.reserve(tilesCount.x * tilesCount.y * 4u);
-		Vector2ui tileIndex = { 0u, 0u };
-		for (tileIndex.y; tileIndex.y < tilesCount.y; ++tileIndex.y)
-		{
-			for (tileIndex.x = 0u; tileIndex.x < tilesCount.x; ++tileIndex.x)
-			{
-				Vector3f positionOffset = { tileIndex.x, tileIndex.y, 0.f };
-				size_t shaderTextureRegionIndex = tilesCount.x * tileIndex.y + tileIndex.x;
-				if (shaderTextureRegionIndex < tilesTextureRegions.size())
-				{
-					const TextureRegion& shaderTextureRegion = tilesTextureRegions[shaderTextureRegionIndex];
-					addTile(shaderTextureRegion, positionOffset);
-				}
-				else
-				{
-					addTile(defaultShaderTextureRegion, positionOffset);
-				}
-			}
-		}
+		vertex.setPosition({ -0.5f, -0.5f, 0.f });
+		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		UV = defaultShaderTextureRegion.offset;
+		UV.y += defaultShaderTextureRegion.size.y;
+		vertex.setTextureCoordinates(UV);
+		vertices.push_back(vertex);
 
 		Buffer::CreateInfo bufferCreateInfo{
 			rendererContext.getDevice(),
 				rendererContext.getVma(),
 				vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
-				vertexBuffer.createVmaAllocationCreateInfo(false, true)
+				vertexBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 
 		vertexBuffer.create(bufferCreateInfo);
@@ -151,15 +100,29 @@ namespace zt::gl
 
 	void TileMap::createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const
 	{
-		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-		Buffer::CreateInfo bufferCreateInfo{
+		uniformBuffers.reserve(2u);
+
+		UniformBuffer& mvpUniformBuffer = uniformBuffers.emplace_back();
+		Buffer::CreateInfo mvpBufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
-			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, false)
+			.vkBufferCreateInfo = mvpUniformBuffer.createCreateInfo(sizeof(MVP)),
+			.allocationCreateInfo = mvpUniformBuffer.createVmaAllocationCreateInfo(false, false)
 		};
-		uniformBuffer.create(bufferCreateInfo);
-		uniformBuffer.setBinding(0u);
+		mvpUniformBuffer.create(mvpBufferCreateInfo);
+		mvpUniformBuffer.setBinding(0u);
+
+		UniformBuffer& tilesCountUniformBuffer = uniformBuffers.emplace_back();
+		Buffer::CreateInfo tilesCountBufferCreateInfo{
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
+			.vkBufferCreateInfo = tilesCountUniformBuffer.createCreateInfo(sizeof(decltype(tilesCount))),
+			.allocationCreateInfo = tilesCountUniformBuffer.createVmaAllocationCreateInfo(false, false)
+		};
+		tilesCountUniformBuffer.create(tilesCountBufferCreateInfo);
+		tilesCountUniformBuffer.setBinding(3u);
+
+		tilesCountUniformBuffer.fillWithObject(Vector2f{tilesCount});
 	}
 
 	void TileMap::createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const
@@ -168,17 +131,38 @@ namespace zt::gl
 		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * sizeof(TextureRegion)),
+			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * VerticesPerTile * sizeof(Vector2f)),
 			.allocationCreateInfo = storageBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		storageBuffer.create(bufferCreateInfo);
 		storageBuffer.setBinding(2u);
+
+		std::vector<Vector2f> uvs;
+		for (const TextureRegion& textureRegion : tilesTextureRegions)
+		{
+			Vector2f UV = textureRegion.offset;
+			uvs.push_back(UV);
+
+			UV.x += textureRegion.size.x;
+			uvs.push_back(UV);
+
+			UV = textureRegion.offset;
+			UV += textureRegion.size;
+			uvs.push_back(UV);
+
+			UV = textureRegion.offset;
+			UV.y += textureRegion.size.y;
+			uvs.push_back(UV);
+		}
+
+		storageBuffer.fillWithStdContainer(uvs);
 	}
 
 	void TileMap::setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const Vector2f& textureSize)
 	{
+		tilesTextureRegions.clear();
 		tilesTextureRegions.reserve(newTilesTextureRegions.size());
-		for (size_t index = 0; index < newTilesTextureRegions.size(); ++index)
+		for (size_t index = 0u; index < newTilesTextureRegions.size(); ++index)
 		{
 			TextureRegion textureRegion = newTilesTextureRegions[index].toShaderTextureRegion(textureSize);
 			tilesTextureRegions.push_back(textureRegion);

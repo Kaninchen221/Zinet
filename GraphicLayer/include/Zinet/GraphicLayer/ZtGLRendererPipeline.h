@@ -129,6 +129,7 @@ namespace zt::gl
 	template<class BufferType>
 	void zt::gl::RendererPipeline::createBufferWriteDescriptorSets(const std::span<const BufferType> buffers, vk::DescriptorType descriptorType)
 	{
+		size_t index = 0u;
 		for (const BufferType& buffer : buffers)
 		{
 			vk::DescriptorBufferInfo& descriptorBufferInfo = descriptorBufferInfos.emplace_back(buffer.createDescriptorBufferInfo());
@@ -139,6 +140,8 @@ namespace zt::gl
 			};
 			vk::WriteDescriptorSet writeDescriptorSet = descriptorSets->createBufferWriteDescriptorSet(createBufferWriteDescriptorSetInfo);
 			writeDescriptorSets.push_back(writeDescriptorSet);
+
+			++index;
 		}
 	}
 }
