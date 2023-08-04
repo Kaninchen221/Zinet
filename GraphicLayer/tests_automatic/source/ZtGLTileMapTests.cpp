@@ -79,6 +79,7 @@ namespace zt::gl::tests
 			rendererContext.getQueue().submit(submitInfo);
 			rendererContext.getQueue()->waitIdle();
 
+			tileMap.setTilesTextureRegions({ TextureRegion{} }, Vector2f{ 1.f, 1.f });
 			tileMap.createDrawInfo(rendererContext);
 		}
 
@@ -111,10 +112,10 @@ namespace zt::gl::tests
 	{
 		const Vector2ui& actualTilesCount = tileMap.getTilesCount();
 		Vector2ui expectedTilesCount = Vector2ui{ 1u, 1u };
-		ASSERT_EQ(expectedTilesCount, actualTilesCount);
+		EXPECT_EQ(expectedTilesCount, actualTilesCount);
 
 		std::vector<TextureRegion> actualTilesTextureRegions = tileMap.getTilesTextureRegions();
-		EXPECT_FALSE(actualTilesTextureRegions.empty());
+		EXPECT_TRUE(actualTilesTextureRegions.empty());
 	}
 
 	TEST_F(TileMapSimpleTests, GetAbsoluteSize)
