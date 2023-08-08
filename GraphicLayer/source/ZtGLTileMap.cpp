@@ -6,12 +6,14 @@ namespace zt::gl
 {
 	DrawInfo TileMap::createDrawInfo(RendererContext& rendererContext) const
 	{
+		auto defaultIndices = getDefaultIndices();
+
 		DrawInfo drawInfo;
-		drawInfo.indices = getIndices();
+		drawInfo.indices = std::vector<std::uint16_t>{ defaultIndices.begin(), defaultIndices.end() };
+		createVertexBuffer(drawInfo.vertexBuffer, defaultShaderTextureRegion, rendererContext);
 		createIndexBuffer(drawInfo.indexBuffer, drawInfo.indices, rendererContext);
-		createVertexBuffer(drawInfo.vertexBuffer, rendererContext);
-		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
 		createStorageBuffers(drawInfo.storageBuffers, rendererContext);
+		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
 		drawInfo.instanceCount = tilesCount.x * tilesCount.y;
 
@@ -26,76 +28,6 @@ namespace zt::gl
 	void TileMap::setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
 	{
 		defaultShaderTextureRegion = newTextureRegion.toShaderTextureRegion(textureSize);
-	}
-
-	std::vector<std::uint16_t> TileMap::getIndices() const
-	{
-		return 
-		{
-			0u,
-			1u,
-			2u,
-			2u,
-			3u,
-			0u
-		};
-	}
-
-	void TileMap::createIndexBuffer(IndexBuffer& indexBuffer, std::vector<std::uint16_t>& indices, RendererContext& rendererContext) const
-	{
-		std::uint64_t size = sizeof(std::uint16_t) * indices.size();
-
-		Buffer::CreateInfo bufferCreateInfo{
-			rendererContext.getDevice(),
-				rendererContext.getVma(),
-				indexBuffer.createCreateInfo(size),
-				indexBuffer.createVmaAllocationCreateInfo(false, false)
-		};
-
-		indexBuffer.create(bufferCreateInfo);
-		indexBuffer.fillWithStdContainer(indices);
-	}
-
-	void TileMap::createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const
-	{
-		Vector2f UV = defaultShaderTextureRegion.offset;
-
-		std::vector<Vertex> vertices;
-		Vertex vertex;
-		vertex.setPosition({ -0.5f, 0.5f, 0.f });
-		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-		vertex.setTextureCoordinates(UV);
-		vertices.push_back(vertex);
-
-		vertex.setPosition({ 0.5f, 0.5f, 0.f });
-		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-		UV.x += defaultShaderTextureRegion.size.x;
-		vertex.setTextureCoordinates(UV);
-		vertices.push_back(vertex);
-
-		vertex.setPosition({ 0.5f, -0.5f, 0.f });
-		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
-		UV = defaultShaderTextureRegion.offset;
-		UV += defaultShaderTextureRegion.size;
-		vertex.setTextureCoordinates(UV);
-		vertices.push_back(vertex);
-
-		vertex.setPosition({ -0.5f, -0.5f, 0.f });
-		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		UV = defaultShaderTextureRegion.offset;
-		UV.y += defaultShaderTextureRegion.size.y;
-		vertex.setTextureCoordinates(UV);
-		vertices.push_back(vertex);
-
-		Buffer::CreateInfo bufferCreateInfo{
-			rendererContext.getDevice(),
-				rendererContext.getVma(),
-				vertexBuffer.createCreateInfo(vertices.size() * sizeof(Vertex)),
-				vertexBuffer.createVmaAllocationCreateInfo(false, false)
-		};
-
-		vertexBuffer.create(bufferCreateInfo);
-		vertexBuffer.fillWithStdContainer(vertices);
 	}
 
 	void TileMap::createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const

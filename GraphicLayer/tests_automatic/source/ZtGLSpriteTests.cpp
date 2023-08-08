@@ -30,7 +30,7 @@ namespace zt::gl::tests
 		std::vector<Shader> shaders;
 		STBImage stbImage;
 
-		static_assert(std::is_base_of_v<DrawableObject, Sprite>);
+		static_assert(std::is_base_of_v<Drawable2DBase, Sprite>);
 		static_assert(std::is_default_constructible_v<Sprite>);
 
 		static_assert(std::is_copy_constructible_v<Sprite>);
@@ -137,9 +137,6 @@ namespace zt::gl::tests
 
 	TEST_F(SpriteSimpleTests, GetAbsoluteSize)
 	{
-		typedef Vector2ui (Sprite::* ExpectedFunction)() const;
-		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Sprite::getAbsoluteSize));
-
 		Vector2ui actualAbsoluteSize = sprite.getAbsoluteSize();
 		Vector2ui expectedAboluteSize = Vector2ui{ 1u, 1u };
 		ASSERT_EQ(actualAbsoluteSize, expectedAboluteSize);

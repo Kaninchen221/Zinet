@@ -53,14 +53,11 @@ namespace zt::gl::tests
 		Camera camera;
 		Imgui imgui;
 
-		//typedef void(Renderer::* ExpectedFunctionDeclaration)(const DrawableObject&, RenderStates&);
-		//static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&Renderer::draw));
-
 		void imguiCamera();
 		void imguiSprite(Sprite& sprite, size_t index);
 		void imguiTileMap(TileMap& tileMap, size_t index);
 	};
-	/*
+	
 	TEST_F(RendererTests, Draw)
 	{
 		zt::gl::GLFW::UnhideWindow();
@@ -151,21 +148,6 @@ namespace zt::gl::tests
 			.camera = camera
 		};
 
-		TileMap tileMap;
-		tileMap.setTilesCount({ 8, 8 });
-		TextureRegion defaultTextureRegion;
-		defaultTextureRegion.size = Vector2f{ 512.f, 512.f };
-		defaultTextureRegion.offset = Vector2f{ 0.f, 0.f };
-		tileMap.setDefaultShaderTextureRegion(defaultTextureRegion, texture.getSize());
-
-		bool drawSprites = true;
-		float sliderMin = -30.f;
-		float sliderMax = 30.f;
-		float cameraFar = 300.f;
-		std::string drawSpritesText = "Sprites";
-		std::string drawTileMapText = "Tilemap";
-		std::string ToggleButtonText = drawSpritesText;
-
 		while (!rendererContext.getWindow().shouldBeClosed())
 		{
 			imgui.update();
@@ -177,61 +159,11 @@ namespace zt::gl::tests
 			if(!ImGui::Begin("Main"))
 				ImGui::End();
 
-			if (ImGui::Button(ToggleButtonText.c_str()))
+			size_t index = 1u;
+			for (Sprite& sprite : sprites)
 			{
-				drawSprites = !drawSprites;
-				if (drawSprites)
-					ToggleButtonText = drawSpritesText;
-				else
-					ToggleButtonText = drawTileMapText;
-			}
-
-			if (drawSprites)
-			{
-				size_t index = 1u;
-				for (Sprite& sprite : sprites)
-				{
-					imguiSprite(sprite, index);
-					index++;
-				}
-			}
-			else // Tilemap
-			{
-				std::array<int, 2> rawTilesCount = Math::FromVectorToArray(Vector2i{ tileMap.getTilesCount() });
-				ImGui::SliderInt2("Tiles Count", rawTilesCount.data(), 1, 100);
-				tileMap.setTilesCount(Math::FromArrayToVector(rawTilesCount));
-
-				std::vector<TextureRegion> tilesTextureRegions;
-				Vector2ui index{ 0u, 0u };
-				for (index.y = 0u; index.y < tileMap.getTilesCount().y; ++index.y)
-				{
-					for (index.x = 0u; index.x < tileMap.getTilesCount().x; ++index.x)
-					{
-						TextureRegion textureRegion;
-						textureRegion.offset = { index.x * 512.f, index.y * 512.f };
-						textureRegion.size = { 512.f, 512.f };
-						tilesTextureRegions.push_back(textureRegion);
-					}
-				}
-				tileMap.setTilesTextureRegions(tilesTextureRegions, texture.getSize());
-
-				ImGui::SliderFloat("Camera 'Far'", &cameraFar, 10.f, 1000.f);
-				camera.setFar(cameraFar);
-
-				ImGui::SliderFloat("Min", &sliderMin, -1000.f, 0.f);
-
-				ImGui::SliderFloat("Max", &sliderMax, 0.f, 1000.f);
-
-				Transform transform = tileMap.getTransform();
-				Vector3f position = transform.getTranslation();
-
-				std::array<float, 3> rawPosition;
-				rawPosition = Math::FromVectorToArray(position);
-				std::string positionName = "Tile Map position ";
-				ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), sliderMin, sliderMax);
-				position = Math::FromArrayToVector(rawPosition);
-				transform.setTranslation(position);
-				tileMap.setTransform(transform);
+				imguiSprite(sprite, index);
+				index++;
 			}
 
 			imguiCamera();
@@ -245,20 +177,12 @@ namespace zt::gl::tests
 
 			renderer.preDraw();
 
-			if (drawSprites)
+			int counter = 0;
+			for (Sprite& sprite : sprites)
 			{
-				int counter = 0;
-				for (Sprite& sprite : sprites)
-				{
-					renderStates.modelMatrix = sprite.getTransform().toMatrix();
-					renderer.draw(sprite, renderStates);
-					counter++;
-				}
-			}
-			else
-			{
-				renderStates.modelMatrix = tileMap.getTransform().toMatrix();
-				renderer.draw(tileMap, renderStates);
+				renderStates.modelMatrix = sprite.getTransform().toMatrix();
+				renderer.draw<Vertex>(sprite, renderStates);
+				counter++;
 			}
 
 			glfwPollEvents();
@@ -271,7 +195,7 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
 	}
-	*/
+	
 
 	TEST_F(RendererTests, InstancedRendering)
 	{

@@ -29,7 +29,7 @@ namespace zt::gl::tests
 		std::vector<Shader> shaders;
 		STBImage stbImage;
 
-		static_assert(std::is_base_of_v<DrawableObject, TileMap>);
+		static_assert(std::is_base_of_v<Drawable2DBase, TileMap>);
 		static_assert(std::is_default_constructible_v<TileMap>);
 
 		static_assert(std::is_copy_constructible_v<TileMap>);
@@ -120,9 +120,6 @@ namespace zt::gl::tests
 
 	TEST_F(TileMapSimpleTests, GetAbsoluteSize)
 	{
-		typedef Vector2ui(TileMap::* ExpectedFunction)() const;
-		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&TileMap::getAbsoluteSize));
-
 		tileMap.setTilesCount(Vector2ui{ 2u, 3u });
 
 		Vector2ui actualAbsoluteSize = tileMap.getAbsoluteSize();

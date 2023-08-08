@@ -6,6 +6,7 @@
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 #include "Zinet/GraphicLayer/ZtGLTextureRegion.h"
+#include "Zinet/GraphicLayer/ZtGLDrawable2DBase.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -13,7 +14,7 @@ namespace zt::gl
 {
 	class RendererContext;
 
-	class ZINET_GRAPHIC_LAYER_API TileMap : public DrawableObject
+	class ZINET_GRAPHIC_LAYER_API TileMap : public Drawable2DBase
 	{
 
 	protected:
@@ -38,12 +39,8 @@ namespace zt::gl
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform);
 
-		Vector2ui getAbsoluteSize() const override { return tilesCount; }
-
 		void setTilesCount(const Vector2ui& count) { tilesCount = count; }
 		const Vector2ui& getTilesCount() const { return tilesCount; }
-
-		std::vector<std::uint16_t> getIndices() const;
 
 		void setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getDefaultShaderTextureRegion() const { return defaultShaderTextureRegion; }
@@ -52,10 +49,10 @@ namespace zt::gl
 		const std::vector<TextureRegion>& getTilesTextureRegions() const { return tilesTextureRegions; }
 		void clearTilesTextureRegions() { tilesTextureRegions.clear(); }
 
+		Vector2ui getAbsoluteSize() const override { return tilesCount; }
+
 	protected:
 
-		void createIndexBuffer(IndexBuffer& indexBuffer, std::vector<std::uint16_t>& indices, RendererContext& rendererContext) const;
-		void createVertexBuffer(VertexBuffer& vertexBuffer, RendererContext& rendererContext) const;
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 		void createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const;
 
