@@ -137,5 +137,34 @@ namespace zt::core::tests
         Time::NumericType actualHours = actualTime.getAsHours();
     
         ASSERT_FLOAT_EQ(expectedHours, actualHours);
-    }
+	}
+
+	TEST_F(TimeTests, CompareOperator)
+	{
+        Time otherTime{ 2323.f };
+        EXPECT_FALSE(time == otherTime);
+
+		otherTime = time;
+		EXPECT_TRUE(time == otherTime);
+	}
+
+	TEST_F(TimeTests, SubtractOperator)
+	{
+        time = Time::FromSeconds(1.f);
+        Time other = Time::FromSeconds(2.f);
+
+        Time actual = other - time;
+        Time expected = Time::FromSeconds(1.f);
+        ASSERT_EQ(actual, expected);
+	}
+
+	TEST_F(TimeTests, AddOperator)
+	{
+		time = Time::FromSeconds(1.f);
+		Time other = Time::FromSeconds(2.f);
+
+		Time actual = other + time;
+		Time expected = Time::FromSeconds(3.f);
+		ASSERT_EQ(actual, expected);
+	}
 }

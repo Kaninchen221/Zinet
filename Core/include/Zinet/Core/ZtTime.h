@@ -14,7 +14,6 @@ namespace zt::core
 		inline static const NumericType NanosecondsInMicrosecond = 1000.f;
 		inline static const NumericType MicrosecondsInMillisecond = 1000.f;
 		inline static const NumericType MillisecondsInSecond = 1000.f;
-		inline static const NumericType MicrosecondsInSecond = MicrosecondsInMillisecond * MillisecondsInSecond;
 		inline static const NumericType SecondsInMinute = 60.f;
 		inline static const NumericType MinutesInHour = 60.f;
 
@@ -43,9 +42,24 @@ namespace zt::core
 		static Time FromMinutes(NumericType minutes);
 		static Time FromHours(NumericType hours);
 
+		auto operator <=> (const Time& other) const = default;
+
+		friend Time operator - (const Time& first, const Time& second);
+
+		friend Time operator + (const Time& first, const Time& second);
+
 	private:
 
 		NumericType timeAsNanoseconds = 0.f;
 	};
 
+	inline Time operator - (const Time& first, const Time& second)
+	{
+		return Time{ first.timeAsNanoseconds - second.timeAsNanoseconds };
+	}
+
+	inline Time operator + (const Time& first, const Time& second)
+	{
+		return Time{ first.timeAsNanoseconds + second.timeAsNanoseconds };
+	}
 }
