@@ -35,7 +35,7 @@ namespace zt::gl
 		DrawInfo createDrawInfo(RendererContext& rendererContext) const override;
 
 		const Transform& getTransform() const override { return transform; }
-		void setTransform(const Transform& newTransform);
+		void setTransform(const Transform& newTransform) override { transform = newTransform; }
 
 		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getTextureRegion() const { return textureRegion; }

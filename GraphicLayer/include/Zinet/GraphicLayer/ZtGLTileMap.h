@@ -37,7 +37,7 @@ namespace zt::gl
 		DrawInfo createDrawInfo(RendererContext& rendererContext) const override;
 
 		const Transform& getTransform() const override { return transform; }
-		void setTransform(const Transform& newTransform);
+		void setTransform(const Transform& newTransform) override { transform = newTransform; }
 
 		void setTilesCount(const Vector2ui& count) { tilesCount = count; }
 		const Vector2ui& getTilesCount() const { return tilesCount; }

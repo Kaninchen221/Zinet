@@ -24,6 +24,8 @@ namespace zt::gl::tests
 
 			const Transform& getTransform() const override { return transform; }
 
+			void setTransform(const Transform& newTransform) override { transform = newTransform; }
+
 			Vector2ui getAbsoluteSize() const override { return Vector2ui{ 1.f, 1.f }; }
 
 		private:

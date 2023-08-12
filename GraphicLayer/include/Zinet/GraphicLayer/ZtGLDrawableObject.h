@@ -28,6 +28,8 @@ namespace zt::gl
 
 		virtual const Transform& getTransform() const = 0;
 
+		virtual void setTransform(const Transform& newTransform) = 0;
+
 		virtual Vector2ui getAbsoluteSize() const = 0;
 	};
 

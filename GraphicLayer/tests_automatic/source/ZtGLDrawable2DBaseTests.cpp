@@ -18,6 +18,8 @@ namespace zt::gl::tests
 		DrawInfo createDrawInfo(RendererContext& rendererContext) const override { return std::move(DrawInfo{}); }
 		const Transform& getTransform() const { return transform; }
 
+		void setTransform(const Transform& newTransform) override { transform = newTransform; }
+
 		Transform transform;
 	};
 

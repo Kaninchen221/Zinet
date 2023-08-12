@@ -20,11 +20,6 @@ namespace zt::gl
 		return std::move(drawInfo);
 	}
 
-	void TileMap::setTransform(const Transform& newTransform)
-	{
-		transform = newTransform;
-	}
-
 	void TileMap::setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
 	{
 		defaultShaderTextureRegion = newTextureRegion.toShaderTextureRegion(textureSize);
