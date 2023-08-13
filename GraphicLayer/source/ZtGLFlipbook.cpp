@@ -10,7 +10,9 @@ namespace zt::gl
 
 		DrawInfo drawInfo;
 		drawInfo.indices = std::vector<std::uint16_t>{ defaultIndices.begin(), defaultIndices.end() };
-		createVertexBuffer(drawInfo.vertexBuffer, TextureRegion{}, rendererContext);
+
+		TextureRegion textureRegion = frames[currentFrameIndex].shaderTextureRegion;
+		createVertexBuffer(drawInfo.vertexBuffer, textureRegion, rendererContext);
 		createIndexBuffer(drawInfo.indexBuffer, drawInfo.indices, rendererContext);
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
@@ -43,7 +45,10 @@ namespace zt::gl
 				.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
 			};
 			uniformBuffer.create(bufferCreateInfo);
-			uniformBuffer.setBinding(1u);
+			uniformBuffer.setBinding(2u);
+
+			if (!frames.empty())
+				uniformBuffer.fillWithObject(frames[currentFrameIndex].shaderTextureRegion);
 		}
 	}
 
@@ -69,14 +74,12 @@ namespace zt::gl
 		zt::core::Time timeElapsed = currentTime - lastTimeUpdated;
 		if (timeElapsed >= currentFrame.time)
 		{
-			lastTimeUpdated = timeElapsed;
+			lastTimeUpdated = currentTime;
 			size_t nextFrameIndex = ++currentFrameIndex;
 			if (nextFrameIndex >= frames.size())
 				nextFrameIndex = 0u;
 
 			currentFrameIndex = nextFrameIndex;
-
-			// Update texture region uniform buffer
 
 			return true;
 		}

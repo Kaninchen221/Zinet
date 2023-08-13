@@ -57,8 +57,6 @@ namespace zt::gl
 		void setFrames(const std::vector<Frame>& newFrames) { frames = newFrames; }
 		const std::vector<Frame>& getFrames() const { return frames; }
 
-		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
-
 		size_t getCurrentFrameIndex() const { return currentFrameIndex; }
 
 		bool update(const zt::core::Time& currentTime);
@@ -76,6 +74,8 @@ namespace zt::gl
 		size_t currentFrameIndex = 0u;
 		Flipbook::State currentState = Flipbook::State::Pause;
 		zt::core::Time lastTimeUpdated{ 0.f };
+
+		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 	};
 
 }
