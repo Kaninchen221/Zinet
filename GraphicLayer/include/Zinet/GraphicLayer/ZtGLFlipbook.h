@@ -76,6 +76,7 @@ namespace zt::gl
 		zt::core::Time lastTimeUpdated{ 0.f };
 
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
+		void createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const;
 	};
 
 }

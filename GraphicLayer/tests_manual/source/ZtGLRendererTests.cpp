@@ -61,284 +61,284 @@ namespace zt::gl::tests
 		void imguiFlipbook(Flipbook& flipbook, size_t index);
 	};
 	
-// 	TEST_F(RendererTests, Sprites)
-// 	{
-// 		zt::gl::GLFW::UnhideWindow();
-// 
-// 		camera.setPosition({ 0.0f, 0.0f, -4.0f });
-// 
-// 		renderer.initialize();
-// 
-// 		RendererContext& rendererContext = renderer.getRendererContext();
-// 		imgui.preinit(rendererContext);
-// 		imgui.init(rendererContext);
-// 
-// 		createShaders();
-// 		createSTBImage();
-// 
-// 		// Create texture
-// 		CommandBuffer commandBuffer;
-// 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
-// 		commandBuffer.begin();
-// 		bool textureUseMipmaps = false;
-// 		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-// 
-// 		texture.loadFromSTBImage(commandBuffer, stbImage);
-// 
-// 		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-// 		commandBuffer.end();
-// 
-// 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-// 
-// 		// Create mipmap texture
-// 		commandBuffer.begin();
-// 		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-// 		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
-// 		{
-// 			texture, commandBuffer, rendererContext
-// 		};
-// 		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
-// 
-// 		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-// 		commandBuffer.end();
-// 
-// 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-// 		//
-// 
-// 		// Create Sampler
-// 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
-// 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
-// 
-// 		int count = 3;
-// 		plf::colony<Sprite> sprites;
-// 		sprites.reserve(count);
-// 		for (size_t i = 0u; i < count; ++i)
-// 		{
-// 			auto sprite = sprites.emplace();
-// 			TextureRegion textureRegion;
-// 			textureRegion.size = mipmapTexture.getSize();
-// 			textureRegion.offset = Vector2f{ 0.f, 0.f };
-// 			sprite->setTextureRegion(textureRegion, texture.getSize());
-// 
-// 		}
-// 
-// 		// RenderStates
-// 		std::vector<RenderStates::Descriptor> descriptors;
-// 		RenderStates::Descriptor descriptor;
-// 		// MVP
-// 		descriptor.binding = 0;
-// 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-// 		descriptor.count = 1;
-// 		descriptor.shaderType = ShaderType::Vertex;
-// 		descriptors.push_back(descriptor);
-// 
-// 		// Texture
-// 		descriptor.binding = 1;
-// 		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-// 		descriptor.count = 1;
-// 		descriptor.shaderType = ShaderType::Fragment;
-// 		descriptors.push_back(descriptor);
-// 
-// 		std::vector<RenderStates::Image> images;
-// 		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
-// 		imageRenderState.binding = 1;
-// 
-// 		RenderStates renderStates
-// 		{
-// 			.shaders = shaders,
-// 			.descriptors = descriptors,
-// 			.images = images,
-// 			.camera = camera
-// 		};
-// 
-// 		while (!rendererContext.getWindow().shouldBeClosed())
-// 		{
-// 			imgui.update();
-// 
-// 			// Imgui
-// 			ImGui::NewFrame();
-// 
-// 			ImGui::ShowDemoWindow();
-// 			if(!ImGui::Begin("Main"))
-// 				ImGui::End();
-// 
-// 			size_t index = 1u;
-// 			for (Sprite& sprite : sprites)
-// 			{
-// 				imguiSprite(sprite, index);
-// 				index++;
-// 			}
-// 
-// 			imguiCamera();
-// 
-// 			ImGui::End();
-// 
-// 			ImGui::EndFrame();
-// 			// End Imgui
-// 
-// 			ImGui::Render();
-// 
-// 			renderer.preDraw();
-// 
-// 			int counter = 0;
-// 			for (Sprite& sprite : sprites)
-// 			{
-// 				renderStates.modelMatrix = sprite.getTransform().toMatrix();
-// 				renderer.draw<Vertex>(sprite, renderStates);
-// 				counter++;
-// 			}
-// 
-// 			glfwPollEvents();
-// 
-// 			imgui.draw(renderer.getDrawCommandBuffer());
-// 
-// 			renderer.postDraw();
-// 		}
-// 
-// 		rendererContext.getQueue()->waitIdle();
-// 		rendererContext.getDevice()->waitIdle();
-// 	}
-// 	
-// 
-// 	TEST_F(RendererTests, InstancedRendering) // Aka DrawTilemap
-// 	{
-// 		zt::gl::GLFW::UnhideWindow();
-// 
-// 		camera.setPosition({ 0.0f, 0.0f, -30.0f });
-// 		camera.setFar(1000.f);
-// 
-// 		renderer.initialize();
-// 
-// 		RendererContext& rendererContext = renderer.getRendererContext();
-// 		imgui.preinit(rendererContext);
-// 		imgui.init(rendererContext);
-// 
-// 		createInstanceRenderingShaders();
-// 		createSTBImage();
-// 
-// 		// Create texture
-// 		CommandBuffer commandBuffer;
-// 		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
-// 		commandBuffer.begin();
-// 		bool textureUseMipmaps = false;
-// 		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-// 
-// 		texture.loadFromSTBImage(commandBuffer, stbImage);
-// 
-// 		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-// 		commandBuffer.end();
-// 
-// 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-// 
-// 		// Create mipmap texture
-// 		commandBuffer.begin();
-// 		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-// 		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
-// 		{
-// 			texture, commandBuffer, rendererContext
-// 		};
-// 		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
-// 
-// 		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-// 		commandBuffer.end();
-// 
-// 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-// 		//
-// 
-// 		// Create Sampler
-// 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
-// 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
-// 
-// 		TileMap tileMap;
-// 		TextureRegion textureRegion;
-// 		textureRegion.size = Vector2f{ 512.f, 512.f };
-// 		textureRegion.offset = Vector2f{ 0.f, 0.f };
-// 		tileMap.setDefaultShaderTextureRegion(textureRegion, texture.getSize());
-// 		tileMap.setTilesTextureRegions({ textureRegion }, texture.getSize());
-// 		tileMap.setTilesCount({ 8u, 7u });
-// 
-// 		// RenderStates
-// 		std::vector<RenderStates::Descriptor> descriptors;
-// 		RenderStates::Descriptor descriptor;
-// 		// MVP
-// 		descriptor.binding = 0;
-// 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-// 		descriptor.count = 1;
-// 		descriptor.shaderType = ShaderType::Vertex;
-// 		descriptors.push_back(descriptor);
-// 
-// 		// Texture
-// 		descriptor.binding = 1;
-// 		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-// 		descriptor.count = 1;
-// 		descriptor.shaderType = ShaderType::Fragment;
-// 		descriptors.push_back(descriptor);
-// 
-// 		// Texture Regions
-// 		descriptor.binding = 2;
-// 		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
-// 		descriptor.count = 1;
-// 		descriptor.shaderType = ShaderType::Vertex;
-// 		descriptors.push_back(descriptor);
-// 
-// 		// Tiles count
-// 		descriptor.binding = 3;
-// 		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-// 		descriptor.count = 1;
-// 		descriptor.shaderType = ShaderType::Vertex;
-// 		descriptors.push_back(descriptor);
-// 
-// 		std::vector<RenderStates::Image> images;
-// 		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
-// 		imageRenderState.binding = 1;
-// 
-// 		RenderStates renderStates
-// 		{
-// 			.shaders = shaders,
-// 			.descriptors = descriptors,
-// 			.images = images,
-// 			.camera = camera
-// 		};
-// 
-// 		while (!rendererContext.getWindow().shouldBeClosed())
-// 		{
-// 			imgui.update();
-// 
-// 			ImGui::NewFrame();
-// 
-// 			ImGui::ShowDemoWindow();
-// 			if (!ImGui::Begin("Main"))
-// 				ImGui::End();
-// 
-// 			imguiTileMap(tileMap, 0u);
-// 
-// 			imguiCamera();
-// 
-// 			ImGui::End();
-// 
-// 			ImGui::EndFrame();
-// 
-// 			ImGui::Render();
-// 
-// 			renderer.preDraw();
-// 
-// 			{ // Draw tileMap
-// 				renderStates.modelMatrix = tileMap.getTransform().toMatrix();
-// 				renderer.draw<Vertex>(tileMap, renderStates);
-// 			}
-// 
-// 			glfwPollEvents();
-// 
-// 			imgui.draw(renderer.getDrawCommandBuffer());
-// 
-// 			renderer.postDraw();
-// 		}
-// 
-// 		rendererContext.getQueue()->waitIdle();
-// 		rendererContext.getDevice()->waitIdle();
-// 	}
+	TEST_F(RendererTests, Sprites)
+	{
+		zt::gl::GLFW::UnhideWindow();
 
-	TEST_F(RendererTests, InstancedRendering) // Aka DrawTilemap
+		camera.setPosition({ 0.0f, 0.0f, -4.0f });
+
+		renderer.initialize();
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
+
+		createShaders();
+		createSTBImage();
+
+		// Create texture
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+		commandBuffer.begin();
+		bool textureUseMipmaps = false;
+		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+
+		texture.loadFromSTBImage(commandBuffer, stbImage);
+
+		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+
+		// Create mipmap texture
+		commandBuffer.begin();
+		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
+		{
+			texture, commandBuffer, rendererContext
+		};
+		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
+
+		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+		//
+
+		// Create Sampler
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
+
+		int count = 3;
+		plf::colony<Sprite> sprites;
+		sprites.reserve(count);
+		for (size_t i = 0u; i < count; ++i)
+		{
+			auto sprite = sprites.emplace();
+			TextureRegion textureRegion;
+			textureRegion.size = mipmapTexture.getSize();
+			textureRegion.offset = Vector2f{ 0.f, 0.f };
+			sprite->setTextureRegion(textureRegion, texture.getSize());
+
+		}
+
+		// RenderStates
+		std::vector<RenderStates::Descriptor> descriptors;
+		RenderStates::Descriptor descriptor;
+		// MVP
+		descriptor.binding = 0;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 1;
+		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		std::vector<RenderStates::Image> images;
+		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
+		imageRenderState.binding = 1;
+
+		RenderStates renderStates
+		{
+			.shaders = shaders,
+			.descriptors = descriptors,
+			.images = images,
+			.camera = camera
+		};
+
+		while (!rendererContext.getWindow().shouldBeClosed())
+		{
+			imgui.update();
+
+			// Imgui
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow();
+			if(!ImGui::Begin("Main"))
+				ImGui::End();
+
+			size_t index = 1u;
+			for (Sprite& sprite : sprites)
+			{
+				imguiSprite(sprite, index);
+				index++;
+			}
+
+			imguiCamera();
+
+			ImGui::End();
+
+			ImGui::EndFrame();
+			// End Imgui
+
+			ImGui::Render();
+
+			renderer.preDraw();
+
+			int counter = 0;
+			for (Sprite& sprite : sprites)
+			{
+				renderStates.modelMatrix = sprite.getTransform().toMatrix();
+				renderer.draw<Vertex>(sprite, renderStates);
+				counter++;
+			}
+
+			glfwPollEvents();
+
+			imgui.draw(renderer.getDrawCommandBuffer());
+
+			renderer.postDraw();
+		}
+
+		rendererContext.getQueue()->waitIdle();
+		rendererContext.getDevice()->waitIdle();
+	}
+	
+
+	TEST_F(RendererTests, InstancedRenderingAkaDrawTilemap)
+	{
+		zt::gl::GLFW::UnhideWindow();
+
+		camera.setPosition({ 0.0f, 0.0f, -30.0f });
+		camera.setFar(1000.f);
+
+		renderer.initialize();
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
+
+		createInstanceRenderingShaders();
+		createSTBImage();
+
+		// Create texture
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+		commandBuffer.begin();
+		bool textureUseMipmaps = false;
+		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+
+		texture.loadFromSTBImage(commandBuffer, stbImage);
+
+		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+
+		// Create mipmap texture
+		commandBuffer.begin();
+		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
+		{
+			texture, commandBuffer, rendererContext
+		};
+		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
+
+		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+		//
+
+		// Create Sampler
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
+
+		TileMap tileMap;
+		TextureRegion textureRegion;
+		textureRegion.size = Vector2f{ 512.f, 512.f };
+		textureRegion.offset = Vector2f{ 0.f, 0.f };
+		tileMap.setDefaultShaderTextureRegion(textureRegion, texture.getSize());
+		tileMap.setTilesTextureRegions({ textureRegion }, texture.getSize());
+		tileMap.setTilesCount({ 8u, 7u });
+
+		// RenderStates
+		std::vector<RenderStates::Descriptor> descriptors;
+		RenderStates::Descriptor descriptor;
+		// MVP
+		descriptor.binding = 0;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 1;
+		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		// Texture Regions
+		descriptor.binding = 2;
+		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Tiles count
+		descriptor.binding = 3;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		std::vector<RenderStates::Image> images;
+		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
+		imageRenderState.binding = 1;
+
+		RenderStates renderStates
+		{
+			.shaders = shaders,
+			.descriptors = descriptors,
+			.images = images,
+			.camera = camera
+		};
+
+		while (!rendererContext.getWindow().shouldBeClosed())
+		{
+			imgui.update();
+
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow();
+			if (!ImGui::Begin("Main"))
+				ImGui::End();
+
+			imguiTileMap(tileMap, 0u);
+
+			imguiCamera();
+
+			ImGui::End();
+
+			ImGui::EndFrame();
+
+			ImGui::Render();
+
+			renderer.preDraw();
+
+			{ // Draw tileMap
+				renderStates.modelMatrix = tileMap.getTransform().toMatrix();
+				renderer.draw<Vertex>(tileMap, renderStates);
+			}
+
+			glfwPollEvents();
+
+			imgui.draw(renderer.getDrawCommandBuffer());
+
+			renderer.postDraw();
+		}
+
+		rendererContext.getQueue()->waitIdle();
+		rendererContext.getDevice()->waitIdle();
+	}
+
+	TEST_F(RendererTests, DrawFlipbook)
 	{
 		zt::gl::GLFW::UnhideWindow();
 
@@ -415,18 +415,18 @@ namespace zt::gl::tests
 		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
 
-		// Texture region
-		descriptor.binding = 2;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
 		// Texture
 		descriptor.binding = 1;
 		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
 		descriptor.count = 1;
 		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		// Texture region
+		descriptor.binding = 2;
+		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
 		descriptors.push_back(descriptor);
 
 		std::vector<RenderStates::Image> images;

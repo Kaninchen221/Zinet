@@ -36,7 +36,7 @@ namespace zt::gl
 
 	std::unique_ptr<void, decltype(zt::core::LambdaFree)> Buffer::getData()
 	{
-		void* mappedData;
+		void* mappedData = nullptr;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		if (mapMemoryResult != VK_SUCCESS)
 			Logger->error("Failed to map memory");
@@ -54,7 +54,7 @@ namespace zt::gl
 		if (size < cArraySize)
 			cArraySize = size;
 
-		void* mappedData;
+		void* mappedData = nullptr;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		if (mapMemoryResult != VK_SUCCESS)
 			Logger->error("Failed to map memory");

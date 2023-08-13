@@ -13,16 +13,14 @@ layout(binding = 0) uniform MVP {
     mat4 proj;
 } mvp;
 
-layout(binding = 2) uniform UV {
-    vec2 offset;
-	vec2 size;
+layout(binding = 2) buffer UV {
+    vec2 values[];
 } uv;
 
-void main() {
+void main() 
+{
 	vec3 position = inPosition;
     gl_Position = mvp.proj * mvp.view * mvp.model * vec4(position, 1.0);
 	fragColor = vec4(1.0, 1.0, 1.0, 1.0);
-	//fragTexCoords.x = fragTexCoords.x + uv.offset.x / uv.size.x;
-	//fragTexCoords.y = fragTexCoords.y + uv.offset.y / uv.size.y;
-	fragTexCoords = inTexCoords;
+	fragTexCoords = uv.values[gl_VertexIndex];
 }

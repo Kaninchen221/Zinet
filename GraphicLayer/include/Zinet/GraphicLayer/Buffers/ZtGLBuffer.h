@@ -70,7 +70,7 @@ namespace zt::gl
 	template<typename T>
 	inline void Buffer::fillWithObject(const T& object)
 	{
-		void* mappedData;
+		void* mappedData = nullptr;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		if (mapMemoryResult != VK_SUCCESS)
 			Logger->error("Failed to map memory");
@@ -83,7 +83,7 @@ namespace zt::gl
 	template<typename T>
 	inline void Buffer::fillWithStdContainer(const T& container)
 	{
-		void* mappedData;
+		void* mappedData = nullptr;
 		VkResult mapMemoryResult = vmaMapMemory(vmaAllocator, allocation, &mappedData);
 		if (mapMemoryResult != VK_SUCCESS)
 			Logger->error("Failed to map memory");

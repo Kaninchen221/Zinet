@@ -11,10 +11,10 @@ namespace zt::gl
 		DrawInfo drawInfo;
 		drawInfo.indices = std::vector<std::uint16_t>{ defaultIndices.begin(), defaultIndices.end() };
 
-		TextureRegion textureRegion = frames[currentFrameIndex].shaderTextureRegion;
-		createVertexBuffer(drawInfo.vertexBuffer, textureRegion, rendererContext);
+		createVertexBuffer(drawInfo.vertexBuffer, TextureRegion{}, rendererContext);
 		createIndexBuffer(drawInfo.indexBuffer, drawInfo.indices, rendererContext);
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
+		createStorageBuffers(drawInfo.storageBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
 
 		return std::move(drawInfo);
@@ -24,31 +24,41 @@ namespace zt::gl
 	{
 		uniformBuffers.reserve(2u);
 
-		{ // Mvp buffer
-			UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-			Buffer::CreateInfo bufferCreateInfo{
-				.device = rendererContext.getDevice(),
-				.vma = rendererContext.getVma(),
-				.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
-				.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
-			};
-			uniformBuffer.create(bufferCreateInfo);
-			uniformBuffer.setBinding(0u);
-		}
+		UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
+		Buffer::CreateInfo bufferCreateInfo{
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
+			.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(MVP)),
+			.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
+		};
+		uniformBuffer.create(bufferCreateInfo);
+		uniformBuffer.setBinding(0u);
+	}
 
-		{ // TextureRegion
-			UniformBuffer& uniformBuffer = uniformBuffers.emplace_back();
-			Buffer::CreateInfo bufferCreateInfo{
-				.device = rendererContext.getDevice(),
-				.vma = rendererContext.getVma(),
-				.vkBufferCreateInfo = uniformBuffer.createCreateInfo(sizeof(TextureRegion)),
-				.allocationCreateInfo = uniformBuffer.createVmaAllocationCreateInfo(false, true)
-			};
-			uniformBuffer.create(bufferCreateInfo);
-			uniformBuffer.setBinding(2u);
+	void Flipbook::createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const
+	{
+		StorageBuffer& storageBuffer = storageBuffers.emplace_back();
+		Buffer::CreateInfo bufferCreateInfo{
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
+			.vkBufferCreateInfo = storageBuffer.createCreateInfo(sizeof(Vector2f) * 4u),
+			.allocationCreateInfo = storageBuffer.createVmaAllocationCreateInfo(false, false)
+		};
+		storageBuffer.create(bufferCreateInfo);
+		storageBuffer.setBinding(2u);
 
-			if (!frames.empty())
-				uniformBuffer.fillWithObject(frames[currentFrameIndex].shaderTextureRegion);
+		if (!frames.empty())
+		{
+			const Frame& frame = frames[currentFrameIndex];
+			const TextureRegion& textureRegion = frame.shaderTextureRegion;
+			std::array<Vector2f, 4u> uv =
+			{
+				textureRegion.offset,
+				Vector2f{ textureRegion.offset.x + textureRegion.size.x, textureRegion.offset.y },
+				textureRegion.offset + textureRegion.size,
+				Vector2f{ textureRegion.offset.x, textureRegion.offset.y + textureRegion.size.y },
+			};
+			storageBuffer.fillWithStdContainer(uv);
 		}
 	}
 

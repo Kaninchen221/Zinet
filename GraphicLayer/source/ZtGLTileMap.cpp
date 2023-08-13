@@ -43,7 +43,7 @@ namespace zt::gl
 		Buffer::CreateInfo tilesCountBufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = tilesCountUniformBuffer.createCreateInfo(sizeof(decltype(tilesCount))),
+			.vkBufferCreateInfo = tilesCountUniformBuffer.createCreateInfo(sizeof(Vector2f)),
 			.allocationCreateInfo = tilesCountUniformBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		tilesCountUniformBuffer.create(tilesCountBufferCreateInfo);
