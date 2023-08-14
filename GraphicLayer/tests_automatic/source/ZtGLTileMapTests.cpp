@@ -190,4 +190,10 @@ namespace zt::gl::tests
 		actualTilesTextureRegions = tileMap.getTilesTextureRegions();
 		EXPECT_TRUE(actualTilesTextureRegions.empty());
 	}
+
+	TEST_F(TileMapSimpleTests, CreateRenderStatesDescriptors)
+	{
+		std::vector<RenderStates::Descriptor> descriptors = tileMap.createRenderStatesDescriptors();
+		ASSERT_FALSE(descriptors.empty());
+	}
 }

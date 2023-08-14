@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::gl
@@ -29,12 +31,23 @@ namespace zt::gl
 			Logger->info(buffer);
 		}
 
+		static void Assert(bool result)
+		{
+			zt::core::Ensure(result);
+			assert(result);
+		}
 	};
 
 }
 
 #define VMA_DEBUG_LOG(format, ...) \
 	zt::gl::VmaAllocLogger::Log(format, __VA_ARGS__);
+
+#ifdef ZINET_DEBUG
+#define VMA_ASSERT(expr) zt::gl::VmaAllocLogger::Assert(expr)
+#else
+#define VMA_ASSERT(expr)
+#endif
 
 #define VMA_VULKAN_VERSION 1002000 // Vulkan 1.2
 #define VMA_IMPLEMENTATION

@@ -40,6 +40,8 @@ namespace zt::gl
 		void setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
 		const TextureRegion& getTextureRegion() const { return textureRegion; }
 
+		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override;
+
 	protected:
 
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;

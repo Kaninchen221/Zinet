@@ -172,4 +172,10 @@ namespace zt::gl::tests
 		EXPECT_EQ(sprite.getTextureRegion(), thirdSprite.getTextureRegion());
 		EXPECT_EQ(sprite.getTransform(), thirdSprite.getTransform());
 	}
+
+	TEST_F(SpriteSimpleTests, CreateRenderStatesDescriptors)
+	{
+		std::vector<RenderStates::Descriptor> descriptors = sprite.createRenderStatesDescriptors();
+		ASSERT_FALSE(descriptors.empty());
+	}
 }

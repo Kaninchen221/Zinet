@@ -33,4 +33,5 @@ namespace zt::gl
 	{
 		vmaCreateAllocator(&allocatorCreateInfo, &vmaAllocator);
 	}
+
 }

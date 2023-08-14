@@ -6,7 +6,7 @@ namespace zt::gl
 {
 	DrawInfo TileMap::createDrawInfo(RendererContext& rendererContext) const
 	{
-		auto defaultIndices = getDefaultIndices();
+		auto defaultIndices = GetDefaultIndices();
 
 		DrawInfo drawInfo;
 		drawInfo.indices = std::vector<std::uint16_t>{ defaultIndices.begin(), defaultIndices.end() };
@@ -58,7 +58,7 @@ namespace zt::gl
 		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * VerticesPerTile * sizeof(Vector2f)),
+			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * GetDefaultVerticesCount() * sizeof(Vector2f)),
 			.allocationCreateInfo = storageBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		storageBuffer.create(bufferCreateInfo);
@@ -94,6 +94,43 @@ namespace zt::gl
 			TextureRegion textureRegion = newTilesTextureRegions[index].toShaderTextureRegion(textureSize);
 			tilesTextureRegions.push_back(textureRegion);
 		}
+	}
+
+	std::vector<RenderStates::Descriptor> TileMap::createRenderStatesDescriptors() const
+	{
+		std::vector<RenderStates::Descriptor> descriptors;
+		descriptors.reserve(2u);
+		RenderStates::Descriptor descriptor;
+
+		// MVP
+		descriptor.binding = 0;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 1;
+		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		// Texture Regions
+		descriptor.binding = 2;
+		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Tiles count
+		descriptor.binding = 3;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		return descriptors;
 	}
 
 }

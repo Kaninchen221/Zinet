@@ -16,14 +16,16 @@ namespace zt::gl::tests
 	class TestDrawable2DBaseClass : public Drawable2DBase
 	{
 		DrawInfo createDrawInfo(RendererContext& rendererContext) const override { return std::move(DrawInfo{}); }
+		
 		const Transform& getTransform() const { return transform; }
-
 		void setTransform(const Transform& newTransform) override { transform = newTransform; }
+
+		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override { return {}; }
 
 		Transform transform;
 	};
 
-	class Drawable2DBaseTests : public ::testing::Test
+	class Drawable2DBaseSimpleTests : public ::testing::Test
 	{
 	protected:
 
@@ -32,15 +34,23 @@ namespace zt::gl::tests
 		TestDrawable2DBaseClass testObject;
 	};
 
-	TEST_F(Drawable2DBaseTests, GetDefaultIndices)
+	TEST_F(Drawable2DBaseSimpleTests, GetDefaultIndices)
 	{
-		std::array<std::uint16_t, 6u> indices = testObject.getDefaultIndices();
+		std::array<std::uint16_t, 6u> actual = Drawable2DBase::GetDefaultIndices();
 		std::array<std::uint16_t, 6u> expected{ 0u, 1u, 2u, 2u, 3u, 0u };
 
-		EXPECT_EQ(indices, expected);
+		EXPECT_EQ(actual, expected);
 	}
 
-	TEST_F(Drawable2DBaseTests, GetAbsoluteSize)
+	TEST_F(Drawable2DBaseSimpleTests, GetDefaultVerticesCount)
+	{
+		size_t actual = Drawable2DBase::GetDefaultVerticesCount();
+		size_t expected = 4u;
+
+		EXPECT_EQ(actual, expected);
+	}
+
+	TEST_F(Drawable2DBaseSimpleTests, GetAbsoluteSize)
 	{
 		Vector2ui absoluteSize = testObject.getAbsoluteSize();
 		Vector2ui expected = Vector2ui{ 1u, 1u };
@@ -48,7 +58,7 @@ namespace zt::gl::tests
 		EXPECT_EQ(absoluteSize, expected);
 	}
 
-	class Drawable2DBaseSimpleTests : public ::testing::Test
+	class Drawable2DBaseTests : public ::testing::Test
 	{
 	protected:
 
@@ -67,7 +77,7 @@ namespace zt::gl::tests
 		}
 	};
 
-	TEST_F(Drawable2DBaseSimpleTests, CreateIndexBuffer)
+	TEST_F(Drawable2DBaseTests, CreateIndexBuffer)
 	{
 		IndexBuffer indexBuffer;
 		std::vector<std::uint16_t> indices{ 1u, 2u };
@@ -76,7 +86,7 @@ namespace zt::gl::tests
 		EXPECT_TRUE(indexBuffer.isValid());
 	}
 
-	TEST_F(Drawable2DBaseSimpleTests, CreateVertexBuffer)
+	TEST_F(Drawable2DBaseTests, CreateVertexBuffer)
 	{
 		VertexBuffer vertexBuffer;
 		TextureRegion textureRegion;

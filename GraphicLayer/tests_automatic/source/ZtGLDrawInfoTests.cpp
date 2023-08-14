@@ -86,9 +86,9 @@ namespace zt::gl::tests
 
 	TEST_F(ImageInfoTests, Properties)
 	{
-		static_assert(std::is_same_v<decltype(image.buffer), const ImageBuffer&>);
-		static_assert(std::is_same_v<decltype(image.sampler), const Sampler&>);
-		static_assert(std::is_same_v<decltype(image.view), const ImageView&>);
+		static_assert(std::is_same_v<decltype(image.buffer), std::reference_wrapper<const ImageBuffer>>);
+		static_assert(std::is_same_v<decltype(image.sampler), std::reference_wrapper<const Sampler>>);
+		static_assert(std::is_same_v<decltype(image.view), std::reference_wrapper<const ImageView>>);
 		static_assert(std::is_same_v<decltype(image.layout), vk::ImageLayout>);
 	}
 }

@@ -3,8 +3,6 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 
-#include <vk_mem_alloc.h>
-
 namespace zt::gl
 {
 	class ZINET_GRAPHIC_LAYER_API VertexBuffer : public Buffer

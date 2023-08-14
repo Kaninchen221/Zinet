@@ -19,19 +19,6 @@ namespace zt::gl
 		indexBuffer.fillWithStdContainer(indices);
 	}
 
-	std::array<std::uint16_t, 6u> Drawable2DBase::getDefaultIndices() const
-	{
-		return
-		{
-			0u,
-			1u,
-			2u,
-			2u,
-			3u,
-			0u
-		};
-	}
-
 	void Drawable2DBase::createVertexBuffer(VertexBuffer& vertexBuffer, const TextureRegion& textureRegion, RendererContext& rendererContext) const
 	{
 		Vector2f UV = textureRegion.offset;

@@ -67,6 +67,8 @@ namespace zt::gl
 
 		void pause();
 
+		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override;
+
 	protected:
 
  		Transform transform;

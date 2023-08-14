@@ -123,31 +123,18 @@ namespace zt::gl::tests
 		}
 
 		// RenderStates
-		std::vector<RenderStates::Descriptor> descriptors;
-		RenderStates::Descriptor descriptor;
-		// MVP
-		descriptor.binding = 0;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
+		std::vector<RenderStates::Descriptor> descriptors = sprites.begin()->createRenderStatesDescriptors();
 
-		// Texture
-		descriptor.binding = 1;
-		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Fragment;
-		descriptors.push_back(descriptor);
-
-		std::vector<RenderStates::Image> images;
-		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
-		imageRenderState.binding = 1;
+		auto textures = { std::cref(mipmapTexture) };
+		auto samplers = { std::cref(sampler) };
+		auto bindings = { 1u };
+		std::vector<RenderStates::Image> images = sprites.begin()->createRenderStatesImages(textures, samplers, bindings);
 
 		RenderStates renderStates
 		{
 			.shaders = shaders,
 			.descriptors = descriptors,
-			.images = images,
+			.images = images,	
 			.camera = camera
 		};
 
@@ -258,39 +245,12 @@ namespace zt::gl::tests
 		tileMap.setTilesCount({ 8u, 7u });
 
 		// RenderStates
-		std::vector<RenderStates::Descriptor> descriptors;
-		RenderStates::Descriptor descriptor;
-		// MVP
-		descriptor.binding = 0;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
+		std::vector<RenderStates::Descriptor> descriptors = tileMap.createRenderStatesDescriptors();
 
-		// Texture
-		descriptor.binding = 1;
-		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Fragment;
-		descriptors.push_back(descriptor);
-
-		// Texture Regions
-		descriptor.binding = 2;
-		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
-		// Tiles count
-		descriptor.binding = 3;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
-		std::vector<RenderStates::Image> images;
-		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
-		imageRenderState.binding = 1;
+		auto textures = { std::cref(mipmapTexture) };
+		auto samplers = { std::cref(sampler) };
+		auto bindings = { 1u };
+		std::vector<RenderStates::Image> images = tileMap.createRenderStatesImages(textures, samplers, bindings);
 
 		RenderStates renderStates
 		{
@@ -405,33 +365,12 @@ namespace zt::gl::tests
 
 		flipbook.setFrames(frames);
 
-		// RenderStates
-		std::vector<RenderStates::Descriptor> descriptors;
-		RenderStates::Descriptor descriptor;
-		// MVP
-		descriptor.binding = 0;
-		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
+		std::vector<RenderStates::Descriptor> descriptors = flipbook.createRenderStatesDescriptors();
 
-		// Texture
-		descriptor.binding = 1;
-		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Fragment;
-		descriptors.push_back(descriptor);
-
-		// Texture region
-		descriptor.binding = 2;
-		descriptor.descriptorType = vk::DescriptorType::eStorageBuffer;
-		descriptor.count = 1;
-		descriptor.shaderType = ShaderType::Vertex;
-		descriptors.push_back(descriptor);
-
-		std::vector<RenderStates::Image> images;
-		RenderStates::Image& imageRenderState = images.emplace_back(mipmapTexture.createImageDrawInfo(sampler));
-		imageRenderState.binding = 1;
+		auto textures = { std::cref(mipmapTexture) };
+		auto samplers = { std::cref(sampler) };
+		auto bindings = { 1u };
+		std::vector<RenderStates::Image> images = flipbook.createRenderStatesImages(textures, samplers, bindings);
 
 		RenderStates renderStates
 		{

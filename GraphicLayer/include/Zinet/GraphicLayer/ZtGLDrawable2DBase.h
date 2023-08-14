@@ -28,12 +28,13 @@ namespace zt::gl
 
 		Vector2ui getAbsoluteSize() const override { return { 1u, 1u }; }
 
-		std::array<std::uint16_t, 6u> getDefaultIndices() const;
+		static constexpr std::array<std::uint16_t, 6u> GetDefaultIndices() { return { 0u, 1u, 2u, 2u, 3u,0u }; }
+
+		static constexpr size_t GetDefaultVerticesCount() { return 4u; }
 
 		void createIndexBuffer(IndexBuffer& indexBuffer, const std::span<std::uint16_t>& indices, RendererContext& rendererContext) const;
 
 		void createVertexBuffer(VertexBuffer& vertexBuffer, const TextureRegion& textureRegion, RendererContext& rendererContext) const;
 
 	};
-
 }

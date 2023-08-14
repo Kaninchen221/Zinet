@@ -14,6 +14,7 @@
 
 #include <span>
 #include <vector>
+#include <type_traits>
 
 namespace zt::gl
 {
@@ -27,9 +28,9 @@ namespace zt::gl
 	{
 		struct ZINET_GRAPHIC_LAYER_API Image
 		{
-			const ImageBuffer& buffer;
-			const Sampler& sampler;
-			const ImageView& view;
+			std::reference_wrapper<const ImageBuffer> buffer;
+			std::reference_wrapper<const Sampler> sampler;
+			std::reference_wrapper<const ImageView> view;
 			vk::ImageLayout layout;
 			std::uint32_t binding;
 		};

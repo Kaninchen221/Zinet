@@ -213,4 +213,10 @@ namespace zt::gl::tests
 		Flipbook::State actualState = flipbook.getCurrentState();
 		ASSERT_EQ(expectedState, actualState);
 	}
+
+	TEST_F(FlipbookSimpleTests, CreateRenderStatesDescriptors)
+	{
+		std::vector<RenderStates::Descriptor> descriptors = flipbook.createRenderStatesDescriptors();
+		ASSERT_FALSE(descriptors.empty());
+	}
 }

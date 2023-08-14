@@ -6,7 +6,7 @@ namespace zt::gl
 {
 	DrawInfo Sprite::createDrawInfo(RendererContext& rendererContext) const
 	{
-		auto defaultIndices = getDefaultIndices();
+		auto defaultIndices = GetDefaultIndices();
 
 		DrawInfo drawInfo;
 		drawInfo.indices = std::vector<std::uint16_t>{ defaultIndices.begin(), defaultIndices.end() };
@@ -34,6 +34,29 @@ namespace zt::gl
 		};
 		uniformBuffer.create(bufferCreateInfo);
 		uniformBuffer.setBinding(0u);
+	}
+
+	std::vector<RenderStates::Descriptor> Sprite::createRenderStatesDescriptors() const
+	{
+		std::vector<RenderStates::Descriptor> descriptors;
+		descriptors.reserve(2u);
+		RenderStates::Descriptor descriptor;
+
+		// MVP
+		descriptor.binding = 0;
+		descriptor.descriptorType = vk::DescriptorType::eUniformBuffer;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Vertex;
+		descriptors.push_back(descriptor);
+
+		// Texture
+		descriptor.binding = 1;
+		descriptor.descriptorType = vk::DescriptorType::eCombinedImageSampler;
+		descriptor.count = 1;
+		descriptor.shaderType = ShaderType::Fragment;
+		descriptors.push_back(descriptor);
+
+		return descriptors;
 	}
 
 }

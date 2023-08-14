@@ -7,8 +7,6 @@
 #include "Zinet/Core/ZtLogger.h"
 #include "Zinet/Core/ZtTypeTraits.h"
 
-#include <vk_mem_alloc.h>
-
 namespace zt::gl
 {
 	class Vma;

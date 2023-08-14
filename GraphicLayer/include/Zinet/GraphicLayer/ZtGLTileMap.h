@@ -21,8 +21,6 @@ namespace zt::gl
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("TileMap");
 
-		const constexpr inline static size_t VerticesPerTile = 4u;
-
 	public:
 
 		TileMap() = default;
@@ -50,6 +48,8 @@ namespace zt::gl
 		void clearTilesTextureRegions() { tilesTextureRegions.clear(); }
 
 		Vector2ui getAbsoluteSize() const override { return tilesCount; }
+
+		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override;
 
 	protected:
 
