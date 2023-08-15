@@ -125,9 +125,9 @@ namespace zt::gl::tests
 		// RenderStates
 		std::vector<RenderStates::Descriptor> descriptors = sprites.begin()->createRenderStatesDescriptors();
 
-		auto textures = { std::cref(mipmapTexture) };
-		auto samplers = { std::cref(sampler) };
-		auto bindings = { 1u };
+		auto textures = std::vector{ std::cref(mipmapTexture) };
+		auto samplers = std::vector{ std::cref(sampler) };
+		auto bindings = std::vector<size_t>{ 1u };
 		std::vector<RenderStates::Image> images = sprites.begin()->createRenderStatesImages(textures, samplers, bindings);
 
 		RenderStates renderStates
@@ -247,9 +247,9 @@ namespace zt::gl::tests
 		// RenderStates
 		std::vector<RenderStates::Descriptor> descriptors = tileMap.createRenderStatesDescriptors();
 
-		auto textures = { std::cref(mipmapTexture) };
-		auto samplers = { std::cref(sampler) };
-		auto bindings = { 1u };
+		auto textures = std::vector{ std::cref(mipmapTexture) };
+		auto samplers = std::vector{ std::cref(sampler) };
+		auto bindings = std::vector<size_t>{ 1u };
 		std::vector<RenderStates::Image> images = tileMap.createRenderStatesImages(textures, samplers, bindings);
 
 		RenderStates renderStates
@@ -367,9 +367,9 @@ namespace zt::gl::tests
 
 		std::vector<RenderStates::Descriptor> descriptors = flipbook.createRenderStatesDescriptors();
 
-		auto textures = { std::cref(mipmapTexture) };
-		auto samplers = { std::cref(sampler) };
-		auto bindings = { 1u };
+		auto textures = std::vector{ std::cref(mipmapTexture) };
+		auto samplers = std::vector{ std::cref(sampler) };
+		auto bindings = std::vector<size_t>{ 1u };
 		std::vector<RenderStates::Image> images = flipbook.createRenderStatesImages(textures, samplers, bindings);
 
 		RenderStates renderStates

@@ -43,41 +43,8 @@ namespace zt::gl
 		virtual std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const { return {}; }
 
 		std::vector<RenderStates::Image> createRenderStatesImages(
-			std::ranges::sized_range auto& textures,
-			std::ranges::sized_range auto& samplers,
-			std::ranges::sized_range auto& bindings) const;
+			std::span<std::reference_wrapper<const Texture>> textures,
+			std::span<std::reference_wrapper<const Sampler>> samplers,
+			std::span<size_t> bindings) const;
 	};
-	
-	std::vector<RenderStates::Image> DrawableObject::createRenderStatesImages(
-		std::ranges::sized_range auto& textures,
-		std::ranges::sized_range auto& samplers,
-		std::ranges::sized_range auto& bindings) const
-	{
-		if (textures.size() != samplers.size() || textures.size() != bindings.size())
-		{
-			Logger->error("All of the containers must have the same size");
-			return {};
-		}
-
-		std::vector<RenderStates::Image> result;
-		result.reserve(textures.size());
-
-		auto samplerIt = samplers.begin();
-		auto bindingIt = bindings.begin();
-		for (const Texture& texture : textures)
-		{
-			result.emplace_back(
-				texture.getImageBuffer(),
-				*samplerIt,
-				texture.getImageView(),
-				texture.getImage().getImageLayouts().front(),
-				static_cast<std::uint32_t>(*bindingIt)
-			);
-
-			++samplerIt;
-			++bindingIt;
-		}
-
-		return result;
-	}
 }
