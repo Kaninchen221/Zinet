@@ -79,6 +79,9 @@ namespace zt::gl
 
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 		void createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const;
+
+		void updateStorageBuffers(std::span<StorageBuffer> storageBuffers) const override;
+
 	};
 
 }

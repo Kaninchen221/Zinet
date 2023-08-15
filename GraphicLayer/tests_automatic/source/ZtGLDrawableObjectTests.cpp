@@ -29,6 +29,9 @@ namespace zt::gl::tests
 
 		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override { return {}; }
 
+		void updateUniformBuffers(std::span<UniformBuffer> uniformBuffers) const override {}
+		void updateStorageBuffers(std::span<StorageBuffer> storageBuffers) const override {}
+
 	private:
 
 		Transform transform;

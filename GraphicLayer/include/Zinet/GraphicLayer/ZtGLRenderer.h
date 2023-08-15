@@ -103,6 +103,9 @@ namespace zt::gl
 		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(drawableObject.createDrawInfo(rendererContext)));
 		createRendererPipeline<VertexType>(renderStates, drawInfo);
 
+		drawableObject.updateUniformBuffers(drawInfo.uniformBuffers);
+		drawableObject.updateStorageBuffers(drawInfo.storageBuffers);
+
 		updateMVPUniformBuffer(renderStates, drawInfo);
 
 		drawCommandBuffer.bindPipeline(rendererPipelines.back().getPipeline());

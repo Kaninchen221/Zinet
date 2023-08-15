@@ -46,20 +46,6 @@ namespace zt::gl
 		};
 		storageBuffer.create(bufferCreateInfo);
 		storageBuffer.setBinding(2u);
-
-		if (!frames.empty())
-		{
-			const Frame& frame = frames[currentFrameIndex];
-			const TextureRegion& textureRegion = frame.shaderTextureRegion;
-			std::array<Vector2f, GetDefaultVerticesCount()> uv =
-			{
-				textureRegion.offset,
-				Vector2f{ textureRegion.offset.x + textureRegion.size.x, textureRegion.offset.y },
-				textureRegion.offset + textureRegion.size,
-				Vector2f{ textureRegion.offset.x, textureRegion.offset.y + textureRegion.size.y },
-			};
-			storageBuffer.fillWithStdContainer(uv);
-		}
 	}
 
 	void Flipbook::play()
@@ -125,6 +111,24 @@ namespace zt::gl
 		descriptors.push_back(descriptor);
 
 		return descriptors;
+	}
+
+	void Flipbook::updateStorageBuffers(std::span<StorageBuffer> storageBuffers) const
+	{
+		if (!frames.empty() && !storageBuffers.empty())
+		{
+			StorageBuffer& storageBuffer = storageBuffers.front();
+			const Frame& frame = frames[currentFrameIndex];
+			const TextureRegion& textureRegion = frame.shaderTextureRegion;
+			std::array<Vector2f, GetDefaultVerticesCount()> uv =
+			{
+				textureRegion.offset,
+				Vector2f{ textureRegion.offset.x + textureRegion.size.x, textureRegion.offset.y },
+				textureRegion.offset + textureRegion.size,
+				Vector2f{ textureRegion.offset.x, textureRegion.offset.y + textureRegion.size.y },
+			};
+			storageBuffer.fillWithStdContainer(uv);
+		}
 	}
 
 }

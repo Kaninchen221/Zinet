@@ -46,5 +46,8 @@ namespace zt::gl
 			std::span<std::reference_wrapper<const Texture>> textures,
 			std::span<std::reference_wrapper<const Sampler>> samplers,
 			std::span<size_t> bindings) const;
+
+		virtual void updateUniformBuffers(std::span<UniformBuffer> uniformBuffers) const {}
+		virtual void updateStorageBuffers(std::span<StorageBuffer> storageBuffers) const {}
 	};
 }

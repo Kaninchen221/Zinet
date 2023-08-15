@@ -24,7 +24,6 @@ layout(binding = 3) uniform TilesCount {
 
 void main() {
 	vec3 position = inPosition;
-	//position.x = position.x + gl_InstanceIndex;
 	position.x = position.x + mod(gl_InstanceIndex, tilesCount.x);
 	position.y = position.y - floor(gl_InstanceIndex / tilesCount.x);
     gl_Position = mvp.proj * mvp.view * mvp.model * vec4(position, 1.0);
