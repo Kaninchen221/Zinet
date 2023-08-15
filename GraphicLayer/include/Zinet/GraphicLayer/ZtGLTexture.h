@@ -64,8 +64,6 @@ namespace zt::gl
 
 		void loadFromSTBImage(CommandBuffer& commandBuffer, const STBImage& stbImage);
 
-		RenderStates::Image createImageDrawInfo(const Sampler& sampler) const;
-
 		Vector2ui getSize() const { return image.getSize(); }
 
 		void clear();

@@ -50,25 +50,6 @@ namespace zt::gl
 		Utilities::CopyImageBufferToImage(copyImageBufferToImageInfo);
 	}
 
-	RenderStates::Image Texture::createImageDrawInfo(const Sampler& sampler) const
-	{
-		vk::ImageLayout imageLayout = vk::ImageLayout::eGeneral;
-		if (!image.getImageLayouts().empty())
-		{
-			imageLayout = image.getImageLayouts().front();
-		}
-
-		RenderStates::Image imageDrawInfo
-		{
-			.buffer = imageBuffer,
-			.sampler = sampler,
-			.view = imageView,
-			.layout = imageLayout
-		};
-
-		return imageDrawInfo;
-	}
-
 	void Texture::clear()
 	{
 		imageView.clear();

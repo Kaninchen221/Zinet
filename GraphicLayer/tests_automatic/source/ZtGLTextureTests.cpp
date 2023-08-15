@@ -40,16 +40,6 @@ namespace zt::gl::tests
 		ASSERT_TRUE(result);
 	}
 
-	TEST_F(TextureSimpleTests, CreateImageDrawInfo)
-	{
-		typedef RenderStates::Image (Texture::* ExpectedFunctionDeclaration)(const Sampler&) const;
-		using FunctionDeclaration = decltype(&Texture::createImageDrawInfo);
-		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-
-		Sampler sampler;
-		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
-	}
-
 	TEST_F(TextureSimpleTests, CreateInfoDefaultValues)
 	{
 		CommandBuffer commandBuffer;
@@ -118,25 +108,6 @@ namespace zt::gl::tests
 
 		const ImageView& imageView = texture.getImageView();
 		ASSERT_TRUE(imageView.isValid());
-	}
-
-	TEST_F(TextureTests, CreateImageDrawInfo)
-	{
-		RendererContext& rendererContext = renderer.getRendererContext();
-
-		Sampler sampler;
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo();
-		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
-
-		const Image& image = texture.getImage();
-		const ImageBuffer& imageBuffer = texture.getImageBuffer();
-		const ImageView& imageView = texture.getImageView();
-
-		RenderStates::Image imageDrawInfo = texture.createImageDrawInfo(sampler);
-		ASSERT_EQ(imageDrawInfo.buffer, imageBuffer);
-		ASSERT_EQ(imageDrawInfo.sampler, sampler);
-		ASSERT_EQ(imageDrawInfo.view, imageView);
-		ASSERT_EQ(imageDrawInfo.layout, image.getImageLayouts().front());
 	}
 
 	TEST_F(TextureTests, LoadFromSTBImage)
