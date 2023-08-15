@@ -34,7 +34,7 @@ namespace zt::gl::tests
 
 	class RendererTests : public ::testing::Test
 	{
-	protected:
+	public:
 
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RendererTests");
 
@@ -62,7 +62,7 @@ namespace zt::gl::tests
 		void imguiSprite(Sprite& sprite, size_t index);
 		void imguiTileMap(TileMap& tileMap, size_t index);
 		void imguiFlipbook(Flipbook& flipbook, size_t index);
-
+		void imguiRecompileShaders(auto callable);
 	};
 	
 	TEST_F(RendererTests, Sprites)
@@ -125,6 +125,8 @@ namespace zt::gl::tests
 			ImGui::ShowDemoWindow();
 			if(!ImGui::Begin("Main"))
 				ImGui::End();
+
+			imguiRecompileShaders(std::bind(&RendererTests::createShaders, this));
 
 			size_t index = 1u;
 			for (Sprite& sprite : sprites)
@@ -220,6 +222,8 @@ namespace zt::gl::tests
 			if (!ImGui::Begin("Main"))
 				ImGui::End();
 
+			imguiRecompileShaders(std::bind(&RendererTests::createInstanceRenderingShaders, this));
+
 			imguiTileMap(tileMap, 0u);
 
 			imguiCamera();
@@ -313,6 +317,8 @@ namespace zt::gl::tests
 			if (!ImGui::Begin("Main"))
 				ImGui::End();
 
+			imguiRecompileShaders(std::bind(&RendererTests::createFlipbookShaders, this));
+
 			imguiFlipbook(flipbook, 0u);
 
 			imguiCamera();
@@ -353,6 +359,8 @@ namespace zt::gl::tests
 
 	void RendererTests::createShaders()
 	{
+		shaders.clear();
+
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
 		shaders[0].loadFromFile((ContentPath / "shader.vert").string());
@@ -366,6 +374,8 @@ namespace zt::gl::tests
 
 	void RendererTests::createFlipbookShaders()
 	{
+		shaders.clear();
+
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
 		shaders[0].loadFromFile((ContentPath / "flipbookShader.vert").string());
@@ -379,6 +389,8 @@ namespace zt::gl::tests
 
 	void RendererTests::createInstanceRenderingShaders()
 	{
+		shaders.clear();
+
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
 		shaders[0].loadFromFile((ContentPath / "instancedRenderingShader.vert").string());
@@ -518,6 +530,14 @@ namespace zt::gl::tests
 
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
+	}
+
+	void RendererTests::imguiRecompileShaders(auto callable)
+	{
+		if (ImGui::Button("Recompile shaders"))
+		{
+			std::invoke(callable);
+		}
 	}
 
 }
