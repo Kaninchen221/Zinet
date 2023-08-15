@@ -25,25 +25,25 @@ namespace zt::gl
 
 		std::vector<Vertex> vertices;
 		Vertex vertex;
-		vertex.setPosition({ -0.5f, 0.5f, 0.f });
+		vertex.setPosition({ 0.0f, 0.0f, 0.f });
 		vertex.setColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
-		vertex.setPosition({ 0.5f, 0.5f, 0.f });
+		vertex.setPosition({ 1.0f, 0.0f, 0.f });
 		vertex.setColor({ 0.0f, 1.0f, 0.0f, 1.0f });
 		UV.x += textureRegion.size.x;
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
-		vertex.setPosition({ 0.5f, -0.5f, 0.f });
+		vertex.setPosition({ 1.0f, -1.0f, 0.f });
 		vertex.setColor({ 0.0f, 0.0f, 1.0f, 1.0f });
 		UV = textureRegion.offset;
 		UV += textureRegion.size;
 		vertex.setTextureCoordinates(UV);
 		vertices.push_back(vertex);
 
-		vertex.setPosition({ -0.5f, -0.5f, 0.f });
+		vertex.setPosition({ 00.f, -1.0f, 0.f });
 		vertex.setColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		UV = textureRegion.offset;
 		UV.y += textureRegion.size.y;

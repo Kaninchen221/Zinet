@@ -24,8 +24,14 @@ layout(binding = 3) uniform TilesCount {
 
 void main() {
 	vec3 position = inPosition;
-	position.x = position.x + mod(gl_InstanceIndex, tilesCount.x);
-	position.y = position.y - floor(gl_InstanceIndex / tilesCount.x);
+	position.x = floor(inPosition.x);
+	position.y = floor(inPosition.y);
+	
+	float instanceIndex = round(gl_InstanceIndex);
+	position.y -= floor((instanceIndex + 0.1) / tilesCount.x);
+	
+	position.x += mod(instanceIndex + 0.1, tilesCount.x);
+	
     gl_Position = mvp.proj * mvp.view * mvp.model * vec4(position, 1.0);
 	fragColor = vec4(1.0, 1.0, 1.0, 1.0);
 	fragTexCoords = uv.values[gl_VertexIndex + (gl_InstanceIndex * 4)];

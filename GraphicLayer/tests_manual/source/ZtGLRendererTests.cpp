@@ -63,10 +63,17 @@ namespace zt::gl::tests
 		void imguiTileMap(TileMap& tileMap, size_t index);
 		void imguiFlipbook(Flipbook& flipbook, size_t index);
 		void imguiRecompileShaders(auto callable);
+
+		const bool skipSprites = false;
+		const bool skipInstancedRendering = false;
+		const bool skipFlipbook = false;
 	};
 	
 	TEST_F(RendererTests, Sprites)
 	{
+		if (skipSprites)
+			return;
+
 		zt::gl::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -4.0f });
@@ -168,6 +175,9 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, InstancedRenderingAkaDrawTilemap)
 	{
+		if (skipInstancedRendering)
+			return;
+
 		zt::gl::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -30.0f });
@@ -194,7 +204,7 @@ namespace zt::gl::tests
 		textureRegion.offset = Vector2f{ 0.f, 0.f };
 		tileMap.setDefaultShaderTextureRegion(textureRegion, texture.getSize());
 		tileMap.setTilesTextureRegions({ textureRegion }, texture.getSize());
-		tileMap.setTilesCount({ 8u, 7u });
+		tileMap.setTilesCount({ 33u, 7u });
 
 		// RenderStates
 		std::vector<RenderStates::Descriptor> descriptors = tileMap.createRenderStatesDescriptors();
@@ -254,6 +264,9 @@ namespace zt::gl::tests
 
 	TEST_F(RendererTests, DrawFlipbook)
 	{
+		if (skipFlipbook)
+			return;
+
 		zt::gl::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -30.0f });
@@ -435,7 +448,7 @@ namespace zt::gl::tests
 		std::array<float, 3> rawPosition;
 		rawPosition = Math::FromVectorToArray(position);
 		std::string positionName = std::string{ "Position " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
+		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -10.0f, 10.0f);
 
 		std::array<float, 3> rawRotation;
 		rawRotation = Math::FromVectorToArray(rotation);
@@ -472,6 +485,7 @@ namespace zt::gl::tests
 		tileMap.setTilesCount(Math::FromArrayToVector(rawTilesCount));
 
 		std::vector<TextureRegion> tilesTextureRegions;
+		tilesTextureRegions.reserve(tileMap.getTilesCount().x * tileMap.getTilesCount().y);
 		Vector2ui tileIndex{ 0u, 0u };
 
 		for (tileIndex.y = 0u; tileIndex.y < tileMap.getTilesCount().y; ++tileIndex.y)
@@ -479,9 +493,9 @@ namespace zt::gl::tests
 			for (tileIndex.x = 0u; tileIndex.x < tileMap.getTilesCount().x; ++tileIndex.x)
 			{
 				TextureRegion textureRegion;
-				textureRegion.offset = { tileIndex.x * 512.f, tileIndex.y * 512.f };
+				textureRegion.offset = { tileIndex.x % 8 * 512.f, tileIndex.y % 8 * 512.f };
 				textureRegion.size = { 512.f, 512.f };
-				tilesTextureRegions.push_back({ {0.f, 0.f}, {512.f, 512.f} });
+				tilesTextureRegions.push_back(textureRegion);
 			}
 		}
 		tileMap.setTilesTextureRegions(tilesTextureRegions, texture.getSize());
