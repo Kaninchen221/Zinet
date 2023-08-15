@@ -147,4 +147,22 @@ namespace zt::gl::tests
 		Queue& queue = rendererContext.getQueue();
 		queue.submitWaitIdle(commandBuffer);
 	}
+
+	TEST_F(ImageTests, Clear)
+	{
+		image.clear();
+
+		ASSERT_FALSE(image.isValid());
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+		Image::CreateInfo imageCreateInfo {
+			.device = rendererContext.getDevice(),
+			.vma = rendererContext.getVma(),
+			.vkImageCreateInfo = image.createCreateInfo(expectedSize, mipmapLevels),
+			.allocationCreateInfo = image.createAllocationCreateInfo()
+		};
+		image.create(imageCreateInfo);
+
+		ASSERT_TRUE(image.isValid());
+	}
 }

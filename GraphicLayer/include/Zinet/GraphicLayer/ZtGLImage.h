@@ -58,6 +58,8 @@ namespace zt::gl
 
 		void changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags);
 
+		void clear();
+
 	protected:
 
 		VmaAllocator vmaAllocator{};

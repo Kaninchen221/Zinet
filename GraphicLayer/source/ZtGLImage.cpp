@@ -66,11 +66,7 @@ namespace zt::gl
 
 	Image::~Image() noexcept
 	{
-		if (allocation != nullptr)
-		{
-			vmaDestroyImage(vmaAllocator, nullptr, allocation);
-			allocation = nullptr;
-		}
+		clear();
 	}
 
 	void Image::changeLayout(CommandBuffer& commandBuffer, vk::ImageLayout newLayout, vk::PipelineStageFlags newPipelineStageFlags)
@@ -106,6 +102,22 @@ namespace zt::gl
 
 		imageLayouts = tempImageLayouts;
 		pipelineStageFlags = tempPipelineStageFlags;
+	}
+
+	void Image::clear()
+	{
+		if (allocation != nullptr && vmaAllocator != nullptr)
+		{
+			vmaDestroyImage(vmaAllocator, *internal, allocation);
+			allocation = nullptr;
+			internal.release();
+		}
+		else
+		{
+			if (allocation != nullptr || isValid())
+				Logger->warn("Didn't call vmaDestroyImage Allocation: {} Allocator: {} IsValid: {}",
+					std::to_address<void>(allocation), std::to_address<void>(vmaAllocator), isValid());
+		}
 	}
 
 }
