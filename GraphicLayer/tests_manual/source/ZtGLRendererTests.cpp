@@ -46,6 +46,8 @@ namespace zt::gl::tests
 		void createFlipbookShaders();
 		void createInstanceRenderingShaders();
 		void createSTBImage();
+		void createTexture();
+		void createSampler();
 
 		std::vector<Shader> shaders;
 		Sampler sampler;
@@ -56,9 +58,11 @@ namespace zt::gl::tests
 		Imgui imgui;
 
 		void imguiCamera();
+		void imguiDrawable2DBase(Drawable2DBase& drawable2D, size_t index);
 		void imguiSprite(Sprite& sprite, size_t index);
 		void imguiTileMap(TileMap& tileMap, size_t index);
 		void imguiFlipbook(Flipbook& flipbook, size_t index);
+
 	};
 	
 	TEST_F(RendererTests, Sprites)
@@ -75,35 +79,8 @@ namespace zt::gl::tests
 
 		createShaders();
 		createSTBImage();
-
-		// Create texture
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
-		commandBuffer.begin();
-		bool textureUseMipmaps = false;
-		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-
-		texture.loadFromSTBImage(commandBuffer, stbImage);
-
-		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-
-		// Create mipmap texture
-		commandBuffer.begin();
-		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
-		{
-			texture, commandBuffer, rendererContext
-		};
-		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
-
-		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-		//
+		createTexture();
+		createSampler();
 
 		// Create Sampler
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
@@ -202,35 +179,8 @@ namespace zt::gl::tests
 
 		createInstanceRenderingShaders();
 		createSTBImage();
-
-		// Create texture
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
-		commandBuffer.begin();
-		bool textureUseMipmaps = false;
-		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-
-		texture.loadFromSTBImage(commandBuffer, stbImage);
-
-		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-
-		// Create mipmap texture
-		commandBuffer.begin();
-		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
-		{
-			texture, commandBuffer, rendererContext
-		};
-		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
-
-		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-		//
+		createTexture();
+		createSampler();
 
 		// Create Sampler
 		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
@@ -313,39 +263,8 @@ namespace zt::gl::tests
 
 		createFlipbookShaders();
 		createSTBImage();
-
-		// Create texture
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
-		commandBuffer.begin();
-		bool textureUseMipmaps = false;
-		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-
-		texture.loadFromSTBImage(commandBuffer, stbImage);
-
-		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-
-		// Create mipmap texture
-		commandBuffer.begin();
-		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
-		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
-		{
-			texture, commandBuffer, rendererContext
-		};
-		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
-
-		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
-		//
-
-		// Create Sampler
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
-		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
+		createTexture();
+		createSampler();
 
 		// Flipbook
 		Flipbook flipbook;
@@ -494,26 +413,26 @@ namespace zt::gl::tests
 		camera.setFar(cameraFar);
 	}
 
-	void RendererTests::imguiSprite(Sprite& sprite, size_t index)
+	void RendererTests::imguiDrawable2DBase(Drawable2DBase& drawable2D, size_t index)
 	{
-		Transform transform = sprite.getTransform();
+		Transform transform = drawable2D.getTransform();
 		Vector3f position = transform.getTranslation();
 		Vector3f rotation = transform.getRotation();
 		Vector3f scale = transform.getScale();
 
 		std::array<float, 3> rawPosition;
 		rawPosition = Math::FromVectorToArray(position);
-		std::string positionName = std::string{ "Sprite position " } + std::to_string(static_cast<int>(index));
+		std::string positionName = std::string{ "Position " } + std::to_string(static_cast<int>(index));
 		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
 
 		std::array<float, 3> rawRotation;
 		rawRotation = Math::FromVectorToArray(rotation);
-		std::string rotationName = std::string{ "Sprite rotation " } + std::to_string(static_cast<int>(index));
+		std::string rotationName = std::string{ "Rotation " } + std::to_string(static_cast<int>(index));
 		ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
 
 		std::array<float, 3> rawScale;
 		rawScale = Math::FromVectorToArray(scale);
-		std::string scaleName = std::string{ "Sprite scale " } + std::to_string(static_cast<int>(index));
+		std::string scaleName = std::string{ "Scale " } + std::to_string(static_cast<int>(index));
 		ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
 
 		ImGui::Spacing();
@@ -524,40 +443,17 @@ namespace zt::gl::tests
 		transform.setTranslation(position);
 		transform.setRotation(rotation);
 		transform.setScale(scale);
-		sprite.setTransform(transform);
+		drawable2D.setTransform(transform);
+	}
+
+	void RendererTests::imguiSprite(Sprite& sprite, size_t index)
+	{
+		imguiDrawable2DBase(sprite, index);
 	}
 
 	void RendererTests::imguiTileMap(TileMap& tileMap, size_t index)
 	{
-		Transform transform = tileMap.getTransform();
-		Vector3f position = transform.getTranslation();
-		Vector3f rotation = transform.getRotation();
-		Vector3f scale = transform.getScale();
-
-		std::array<float, 3> rawPosition;
-		rawPosition = Math::FromVectorToArray(position);
-		std::string positionName = std::string{ "tileMap position " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
-
-		std::array<float, 3> rawRotation;
-		rawRotation = Math::FromVectorToArray(rotation);
-		std::string rotationName = std::string{ "tileMap rotation " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
-
-		std::array<float, 3> rawScale;
-		rawScale = Math::FromVectorToArray(scale);
-		std::string scaleName = std::string{ "tileMap scale " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
-
-		ImGui::Spacing();
-
-		position = Math::FromArrayToVector(rawPosition);
-		rotation = Math::FromArrayToVector(rawRotation);
-		scale = Math::FromArrayToVector(rawScale);
-		transform.setTranslation(position);
-		transform.setRotation(rotation);
-		transform.setScale(scale);
-		tileMap.setTransform(transform);
+		imguiDrawable2DBase(tileMap, index);
 
 		std::array<int, 2> rawTilesCount = Math::FromVectorToArray(Vector2i{ tileMap.getTilesCount() });
 		ImGui::SliderInt2("Tiles Count", rawTilesCount.data(), 1, 1000);
@@ -581,35 +477,47 @@ namespace zt::gl::tests
 
 	void RendererTests::imguiFlipbook(Flipbook& flipbook, size_t index)
 	{
-		Transform transform = flipbook.getTransform();
-		Vector3f position = transform.getTranslation();
-		Vector3f rotation = transform.getRotation();
-		Vector3f scale = transform.getScale();
+		imguiDrawable2DBase(flipbook, index);
+	}
 
-		std::array<float, 3> rawPosition;
-		rawPosition = Math::FromVectorToArray(position);
-		std::string positionName = std::string{ "flipbook position " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(positionName.c_str(), rawPosition.data(), -1.0f, 1.0f);
+	void RendererTests::createTexture()
+	{
+		RendererContext& rendererContext = renderer.getRendererContext();
 
-		std::array<float, 3> rawRotation;
-		rawRotation = Math::FromVectorToArray(rotation);
-		std::string rotationName = std::string{ "flipbook rotation " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(rotationName.c_str(), rawRotation.data(), 0.f, 560.0f);
+		CommandBuffer commandBuffer;
+		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
+		commandBuffer.begin();
+		bool textureUseMipmaps = false;
+		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
 
-		std::array<float, 3> rawScale;
-		rawScale = Math::FromVectorToArray(scale);
-		std::string scaleName = std::string{ "flipbook scale " } + std::to_string(static_cast<int>(index));
-		ImGui::SliderFloat3(scaleName.c_str(), rawScale.data(), 0.01f, 10.0f);
+		texture.loadFromSTBImage(commandBuffer, stbImage);
 
-		ImGui::Spacing();
+		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+		commandBuffer.end();
 
-		position = Math::FromArrayToVector(rawPosition);
-		rotation = Math::FromArrayToVector(rawRotation);
-		scale = Math::FromArrayToVector(rawScale);
-		transform.setTranslation(position);
-		transform.setRotation(rotation);
-		transform.setScale(scale);
-		flipbook.setTransform(transform);
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+
+		// Create mipmap texture
+		commandBuffer.begin();
+		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
+		{
+			texture, commandBuffer, rendererContext
+		};
+		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
+
+		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		commandBuffer.end();
+
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+	}
+
+	void RendererTests::createSampler()
+	{
+		RendererContext& rendererContext = renderer.getRendererContext();
+
+		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
+		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 	}
 
 }
