@@ -42,7 +42,10 @@ namespace zt::gl
 		
 		if (result == VK_SUCCESS)
 		{
-			internal = std::move(vk::raii::Image{ imageCreateInfo.device.getInternal(), image });
+			auto tempImage = vk::raii::Image{ imageCreateInfo.device.getInternal(), image };
+			internal.swap(tempImage);
+			tempImage.release();
+
 			width = imageCreateInfo.vkImageCreateInfo.extent.width;
 			height = imageCreateInfo.vkImageCreateInfo.extent.height;
 			mipmapLevels = imageCreateInfo.vkImageCreateInfo.mipLevels;

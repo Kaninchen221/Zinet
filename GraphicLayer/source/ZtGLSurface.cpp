@@ -9,15 +9,17 @@ namespace zt::gl
 
 	bool Surface::create(Instance& instance, Window& window)
 	{
-		VkSurfaceKHR tempSurface{};
+		VkSurfaceKHR tempVkSurface{};
 		const VkAllocationCallbacks* allocationCallbacks = nullptr;
 		VkResult result = glfwCreateWindowSurface(
 			*instance.getInternal(),
 			window.getInternal(), 
 			allocationCallbacks, 
-			&tempSurface);
+			&tempVkSurface);
 
-		internal = std::move(vk::raii::SurfaceKHR{ instance.getInternal(), std::move(tempSurface) });
+		auto tempSurface = vk::raii::SurfaceKHR{ instance.getInternal(), tempVkSurface };
+		internal.swap(tempSurface);
+		tempSurface.release();
 
 		if (result == VK_SUCCESS)
 		{

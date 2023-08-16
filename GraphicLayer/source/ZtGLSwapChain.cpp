@@ -15,7 +15,9 @@ namespace zt::gl
 		const vk::SwapchainCreateInfoKHR& createInfo
 	)
 	{
-		internal = std::move(vk::raii::SwapchainKHR(device.getInternal(), createInfo));
+		auto swapChain = vk::raii::SwapchainKHR(device.getInternal(), createInfo);
+		internal.swap(swapChain);
+		swapChain.release();
 	}
 
 	vk::SwapchainCreateInfoKHR SwapChain::createCreateInfo(

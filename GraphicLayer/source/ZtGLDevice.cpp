@@ -48,7 +48,9 @@ namespace zt::gl
 
     void Device::create(PhysicalDevice& physicalDevice, vk::DeviceCreateInfo& deviceCreateInfo)
     {
-        internal = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
+        auto tempDevice = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
+        internal.swap(tempDevice);
+        tempDevice.release();
     }
 
     vk::Result Device::waitForFence(Fence& fence, uint64_t timeout) const

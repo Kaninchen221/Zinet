@@ -45,7 +45,9 @@ namespace zt::gl
             return;
         }
 
-        internal = vk::raii::Instance(context.getInternal(), createInfo);
+        auto tempInstance = vk::raii::Instance(context.getInternal(), createInfo);
+        internal.swap(tempInstance);
+        tempInstance.release();
     }
 
     vk::raii::PhysicalDevices Instance::enumeratePhysicalDevices() const

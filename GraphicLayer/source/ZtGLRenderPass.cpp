@@ -70,7 +70,9 @@ namespace zt::gl
 
 	void RenderPass::create(const Device& device, const vk::RenderPassCreateInfo& createInfo)
 	{
-		internal = std::move(vk::raii::RenderPass{ device.getInternal(), createInfo });
+		auto tempInternal = vk::raii::RenderPass{ device.getInternal(), createInfo };
+		internal.swap(tempInternal);
+		tempInternal.release();
 	}
 
 	void RenderPass::createDepthAttachmentDescription(vk::Format format)

@@ -27,7 +27,10 @@ namespace zt::gl
 
 	void ImageView::create(const Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo)
 	{
-		internal = std::move(vk::raii::ImageView(device.getInternal(), imageViewCreateInfo));
+		auto tempImageView = vk::raii::ImageView(device.getInternal(), imageViewCreateInfo);
+		internal.swap(tempImageView);
+		tempImageView.release();
+
 		if (isValid())
 		{
 			mipmapLevels = imageViewCreateInfo.subresourceRange.levelCount;

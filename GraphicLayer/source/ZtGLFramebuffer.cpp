@@ -30,7 +30,9 @@ namespace zt::gl
 		const Device& device,
 		vk::FramebufferCreateInfo& framebufferCreateInfo)
 	{
-		internal = std::move(vk::raii::Framebuffer{ device.getInternal(), framebufferCreateInfo });
+		auto tempFramebuffer = vk::raii::Framebuffer{ device.getInternal(), framebufferCreateInfo };
+		internal.swap(tempFramebuffer);
+		tempFramebuffer.release();
 	}
 
 }

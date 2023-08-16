@@ -92,7 +92,9 @@ namespace zt::gl
 
         vk::DebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfo({}, severityFlags, messageTypeFlags, &DebugCallback);
 
-        internal = vk::raii::DebugUtilsMessengerEXT(instance.getInternal(), debugUtilsMessengerCreateInfo);
+        auto tempInternal = vk::raii::DebugUtilsMessengerEXT(instance.getInternal(), debugUtilsMessengerCreateInfo);
+        internal.swap(tempInternal);
+        tempInternal.release();
     }
 
 }
