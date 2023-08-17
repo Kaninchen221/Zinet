@@ -47,7 +47,7 @@ namespace zt::gl
 
 		static Renderer* GetRenderer() { return RendererReference; }
 
-		Vector2i getSize() const;
+		Vector2ui getSize() const;
 
 		bool isMinimized() const;
 

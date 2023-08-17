@@ -62,8 +62,8 @@ namespace zt::gl::tests
 		std::uint32_t expectedMaxLod = 0u;
 		vk::SamplerCreateInfo createInfo = sampler.createCreateInfo(expectedMaxLod);
 
-		ASSERT_EQ(createInfo.magFilter, vk::Filter::eLinear);
-		ASSERT_EQ(createInfo.minFilter, vk::Filter::eLinear);
+		ASSERT_EQ(createInfo.magFilter, vk::Filter::eNearest);
+		ASSERT_EQ(createInfo.minFilter, vk::Filter::eNearest);
 		ASSERT_EQ(createInfo.addressModeU, vk::SamplerAddressMode::eClampToBorder);
 		ASSERT_EQ(createInfo.addressModeV, vk::SamplerAddressMode::eClampToBorder);
 		ASSERT_EQ(createInfo.addressModeW, vk::SamplerAddressMode::eClampToBorder);
@@ -72,7 +72,7 @@ namespace zt::gl::tests
 		ASSERT_EQ(createInfo.unnormalizedCoordinates, VK_FALSE); 
 		ASSERT_EQ(createInfo.compareEnable, VK_FALSE);
 		ASSERT_EQ(createInfo.compareOp, vk::CompareOp::eAlways);
-		ASSERT_EQ(createInfo.mipmapMode, vk::SamplerMipmapMode::eLinear);
+		ASSERT_EQ(createInfo.mipmapMode, vk::SamplerMipmapMode::eNearest);
 		ASSERT_EQ(createInfo.mipLodBias, 0.0f);
 		ASSERT_EQ(createInfo.minLod, 0.0f);
 		ASSERT_EQ(createInfo.maxLod, expectedMaxLod);

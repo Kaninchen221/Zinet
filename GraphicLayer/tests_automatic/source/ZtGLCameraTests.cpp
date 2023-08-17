@@ -45,6 +45,14 @@ namespace zt::gl::tests
 		float actualFar = camera.getFar();
 		float expectedFar = 10.0f;
 		EXPECT_EQ(actualFar, expectedFar);
+
+		Camera::Type actualType = camera.getType();
+		Camera::Type expectedType = Camera::Type::Perspective;
+		EXPECT_EQ(actualType, expectedType);
+
+		Vector2ui expectedScreenSize = Vector2ui{ 1u, 1u };
+		Vector2ui actualScreenSize = camera.getScreenSize();
+		EXPECT_EQ(expectedScreenSize, actualScreenSize);
 	}
 
 	TEST_F(CameraTests, SetGetPosition)
@@ -140,14 +148,35 @@ namespace zt::gl::tests
 		ASSERT_EQ(expected, actual);
 	}
 
-	TEST_F(CameraTests, ProjectionMatrix)
+	TEST_F(CameraTests, SetGerScreenSize)
+	{
+		typedef const Vector2ui&(Camera::* ExpectedFunction)() const;
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::getScreenSize));
+
+		Vector2ui expected = { 24u, 343u };
+		camera.setScreenSize(expected);
+		Vector2ui actual = camera.getScreenSize();
+
+		ASSERT_EQ(expected, actual);
+	}
+
+	TEST_F(CameraTests, OrthographicMatrix)
 	{
 		typedef Matrix4f(Camera::* ExpectedFunction)() const;
-		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::perspectiveMatrix));
+		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&Camera::orthographicMatrix));
 
-		Matrix4f actual = camera.perspectiveMatrix();
-		Matrix4f expected = glm::perspective(glm::radians(camera.getFov()), camera.getAspect(), camera.getNear(), camera.getFar());
+		Vector2ui screenSize = Vector2ui{ 800, 600 };
+		camera.setScreenSize(screenSize);
+		Matrix4f actual = camera.orthographicMatrix();
+		Matrix4f expected = glm::ortho(screenSize.x / -2.f, screenSize.x / 2.f, screenSize.y / -2.f, screenSize.y / 2.f, camera.getNear(), camera.getFar());
 
 		ASSERT_EQ(actual, expected);
+	}
+
+	TEST_F(CameraTests, SetGetType)
+	{
+		camera.setType(Camera::Type::Ortho);
+		Camera::Type type = camera.getType();
+		ASSERT_EQ(type, Camera::Type::Ortho);
 	}
 }

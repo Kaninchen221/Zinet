@@ -82,7 +82,7 @@ namespace zt::gl
         return &event;
     }
 
-    Vector2i Window::getSize() const
+    Vector2ui Window::getSize() const
 	{
         int width = 0;
         int height = 0;

@@ -10,7 +10,9 @@ namespace zt::gl
 		fov{ 45.f },
 		aspect{ 800.f / 400.f },
 		near{ 0.01f },
-		far{ 10.f }
+		far{ 10.f },
+		screenSize{ 1u, 1u },
+		type{ Type::Perspective }
 	{}
 
 	Matrix4f Camera::viewMatrix() const
@@ -24,13 +26,35 @@ namespace zt::gl
 
 	Matrix4f Camera::perspectiveMatrix() const
 	{
-		Matrix4f matrix;
-		matrix = glm::perspective(glm::radians(fov), aspect, near, far);
+		Matrix4f matrix = glm::perspective(glm::radians(fov), aspect, near, far);
 		//matrix[0][0] *= -1.f; // Reversal X axis
 		//matrix[1][1] *= -1.f; // Reversal Y axis
 		//matrix[2][2] *= -1.f; // Reversal Z axis
 
 		return matrix;
+	}
+
+	zt::gl::Matrix4f Camera::orthographicMatrix() const
+	{
+		float left = static_cast<float>(screenSize.x) / -2.f;
+		float right = static_cast<float>(screenSize.x) / 2.f;
+		float bottom = static_cast<float>(screenSize.y) / -2.f;
+		float top = static_cast<float>(screenSize.y) / 2.f;
+
+		//Matrix4f matrix = glm::ortho(left, right, bottom, top, near, far);
+		Matrix4f matrix = glm::ortho(left, right, bottom, top);
+		return matrix;
+	}
+
+	Matrix4f Camera::projectionMatrix() const
+	{
+		switch (type)
+		{
+		case Type::Perspective: return perspectiveMatrix();
+		case Type::Ortho: return orthographicMatrix();
+		}
+
+		return perspectiveMatrix();
 	}
 
 }

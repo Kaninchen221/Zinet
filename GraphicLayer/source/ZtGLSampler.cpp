@@ -18,7 +18,7 @@ namespace zt::gl
 		samplerInfo.unnormalizedCoordinates = VK_FALSE;
 		samplerInfo.compareEnable = VK_FALSE;
 		samplerInfo.compareOp = vk::CompareOp::eAlways;
-		samplerInfo.mipmapMode = vk::SamplerMipmapMode::eLinear;
+		samplerInfo.mipmapMode = vk::SamplerMipmapMode::eNearest;
 		samplerInfo.mipLodBias = 0.0f;
 		samplerInfo.minLod = 0.0f;
 		samplerInfo.maxLod = static_cast<float>(maxLod);

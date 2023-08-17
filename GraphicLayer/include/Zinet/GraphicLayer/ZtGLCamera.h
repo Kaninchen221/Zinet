@@ -10,6 +10,12 @@ namespace zt::gl
 
 	public:
 
+		enum class Type
+		{
+			Perspective,
+			Ortho
+		};
+
 		Camera();
 		Camera(const Camera& other) = default;
 		Camera(Camera&& other) = default;
@@ -42,7 +48,17 @@ namespace zt::gl
 		void setFar(float newFar) { far = newFar; }
 		float getFar() const { return far; }
 
+		void setScreenSize(const Vector2ui& newScreenSize) { screenSize = newScreenSize; }
+		const Vector2ui& getScreenSize() const { return screenSize; }
+
 		Matrix4f perspectiveMatrix() const;
+
+		Matrix4f orthographicMatrix() const;
+
+		void setType(Type newType) { type = newType; }
+		Type getType() const { return type; }
+
+		Matrix4f projectionMatrix() const;
 
 	protected:
 
@@ -54,7 +70,9 @@ namespace zt::gl
 		float aspect;
 		float near;
 		float far;
+		Vector2ui screenSize;
 
+		Type type;
 	};
 
 }

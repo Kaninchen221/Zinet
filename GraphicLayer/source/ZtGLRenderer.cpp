@@ -173,7 +173,7 @@ namespace zt::gl
 			MVP mvp;
 			mvp.model = renderStates.modelMatrix;
 			mvp.view = renderStates.camera.viewMatrix();
-			mvp.proj = renderStates.camera.perspectiveMatrix();
+			mvp.proj = renderStates.camera.projectionMatrix();
 			MVPUniformBuffer.fillWithObject(mvp);
 		}
 	}
