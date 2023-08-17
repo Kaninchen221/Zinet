@@ -168,7 +168,7 @@ namespace zt::gl::tests
 		Vector2ui screenSize = Vector2ui{ 800, 600 };
 		camera.setScreenSize(screenSize);
 		Matrix4f actual = camera.orthographicMatrix();
-		Matrix4f expected = glm::ortho(screenSize.x / -2.f, screenSize.x / 2.f, screenSize.y / -2.f, screenSize.y / 2.f, camera.getNear(), camera.getFar());
+		Matrix4f expected = glm::ortho(screenSize.x / -2.f, screenSize.x / 2.f, screenSize.y / -2.f, screenSize.y / 2.f);
 
 		ASSERT_EQ(actual, expected);
 	}
