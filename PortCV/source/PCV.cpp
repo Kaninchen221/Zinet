@@ -60,8 +60,7 @@ void PortCV::loop()
 	{
 		.shaders = campfireShaders,
 		.descriptors = descriptors,
-		.images = images,
-		.camera = camera
+		.images = images
 	};
 	// End Campfire RenderStates
 
@@ -76,8 +75,7 @@ void PortCV::loop()
 	{
 		.shaders = characterShaders,
 		.descriptors = characterDescriptors,
-		.images = characterImages,
-		.camera = camera
+		.images = characterImages
 	};
 	// End Character RenderStates
 
@@ -108,12 +106,23 @@ void PortCV::loop()
 		renderer.preDraw();
 
 		{ // Draw
-			campfire.flipbook.update(gameClock.getElapsedTime());
-			campfireRenderStates.modelMatrix = campfire.flipbook.getTransform().toMatrix();
-			renderer.draw<Vertex>(campfire.flipbook, campfireRenderStates);
+			{ // Campfire
+				auto modelMatrix = campfire.flipbook.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				campfireRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
 
- 			characterRenderStates.modelMatrix = character.sprite.getTransform().toMatrix();
- 			renderer.draw<Vertex>(character.sprite, characterRenderStates);
+				campfire.flipbook.update(gameClock.getElapsedTime());
+				renderer.draw<Vertex>(campfire.flipbook, campfireRenderStates);
+			}
+
+			{ // Character
+				auto modelMatrix = character.sprite.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				characterRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
+				renderer.draw<Vertex>(character.sprite, characterRenderStates);
+			}
 		}
 
 		glfwPollEvents();

@@ -118,8 +118,7 @@ namespace zt::gl::tests
 		{
 			.shaders = shaders,
 			.descriptors = descriptors,
-			.images = images,	
-			.camera = camera
+			.images = images
 		};
 
 		while (!rendererContext.getWindow().shouldBeClosed())
@@ -156,7 +155,10 @@ namespace zt::gl::tests
 			int counter = 0;
 			for (Sprite& sprite : sprites)
 			{
-				renderStates.modelMatrix = sprite.getTransform().toMatrix();
+				auto modelMatrix = sprite.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
 				renderer.draw<Vertex>(sprite, renderStates);
 				counter++;
 			}
@@ -218,8 +220,7 @@ namespace zt::gl::tests
 		{
 			.shaders = shaders,
 			.descriptors = descriptors,
-			.images = images,
-			.camera = camera
+			.images = images
 		};
 
 		while (!rendererContext.getWindow().shouldBeClosed())
@@ -247,7 +248,10 @@ namespace zt::gl::tests
 			renderer.preDraw();
 
 			{ // Draw tileMap
-				renderStates.modelMatrix = tileMap.getTransform().toMatrix();
+				auto modelMatrix = tileMap.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
 				renderer.draw<Vertex>(tileMap, renderStates);
 			}
 
@@ -312,8 +316,7 @@ namespace zt::gl::tests
 		{
 			.shaders = shaders,
 			.descriptors = descriptors,
-			.images = images,
-			.camera = camera
+			.images = images
 		};
 
 		zt::core::Clock clock;
@@ -346,7 +349,10 @@ namespace zt::gl::tests
 
 			{ // Draw flipbook
 				flipbook.update(clock.getElapsedTime());
-				renderStates.modelMatrix = flipbook.getTransform().toMatrix();
+				auto modelMatrix = flipbook.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
 				renderer.draw<Vertex>(flipbook, renderStates);
 			}
 

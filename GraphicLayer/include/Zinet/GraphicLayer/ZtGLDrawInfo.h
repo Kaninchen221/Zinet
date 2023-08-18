@@ -11,6 +11,7 @@
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
 #include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+#include "Zinet/GraphicLayer/ZtGLMVP.h"
 
 #include <span>
 #include <vector>
@@ -58,8 +59,7 @@ namespace zt::gl
 		std::span<Shader> shaders;
 		std::span<Descriptor> descriptors;
 		std::span<Image> images;
-		const Camera& camera;
-		Matrix4f modelMatrix;
+		MVP mvp;
 	};
 
 	struct ZINET_GRAPHIC_LAYER_API DrawInfo

@@ -12,11 +12,11 @@ namespace zt::gl::tests
 
 		RenderStates renderStates;
 
+		static_assert(std::is_default_constructible_v<RenderStates>);
 		static_assert(std::is_same_v<decltype(renderStates.shaders), std::span<Shader>>);
 		static_assert(std::is_same_v<decltype(renderStates.descriptors), std::span<RenderStates::Descriptor>>);
 		static_assert(std::is_same_v<decltype(renderStates.images), std::span<RenderStates::Image>>);
-		static_assert(std::is_same_v<decltype(renderStates.modelMatrix), Matrix4f>);
-		static_assert(std::is_same_v<decltype(renderStates.camera), const Camera&>);
+		static_assert(std::is_same_v<decltype(renderStates.mvp), MVP>);
 	};
 
 	class DrawInfoTests : public ::testing::Test

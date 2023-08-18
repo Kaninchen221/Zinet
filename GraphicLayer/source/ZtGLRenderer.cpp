@@ -170,11 +170,7 @@ namespace zt::gl
 		UniformBuffer& MVPUniformBuffer = drawInfo.uniformBuffers[drawInfo.MVPBufferIndex];
 		if (MVPUniformBuffer != nullptr)
 		{
-			MVP mvp;
-			mvp.model = renderStates.modelMatrix;
-			mvp.view = renderStates.camera.viewMatrix();
-			mvp.proj = renderStates.camera.projectionMatrix();
-			MVPUniformBuffer.fillWithObject(mvp);
+			MVPUniformBuffer.fillWithObject(renderStates.mvp);
 		}
 	}
 
