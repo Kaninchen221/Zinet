@@ -98,9 +98,9 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainTests, AcquireNextImage)
 	{
-		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
-		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
-		device.create(physicalDevice, deviceCreateInfo);
+// 		vk::DeviceQueueCreateInfo deviceQueueCreateInfo = device.createDeviceQueueCreateInfo(physicalDevice, surface);
+// 		vk::DeviceCreateInfo deviceCreateInfo = device.createDeviceCreateInfo(instance, physicalDevice, surface, deviceQueueCreateInfo);
+// 		device.create(physicalDevice, deviceCreateInfo);
 
 		vk::SwapchainCreateInfoKHR creatInfo = swapChain.createCreateInfo(swapChainSupportDetails, surface, window);
 		swapChain.create(device, creatInfo);
