@@ -9,7 +9,7 @@
 #include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLRenderTarget.h"
 #include "Zinet/GraphicLayer/ZtGLCamera.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -47,7 +47,7 @@ namespace zt::gl
 		void preDraw();
 
 		template<class VertexType>
-		void draw(const DrawableObject& drawableObject, RenderStates& renderStates);
+		void draw(const DrawableBase& drawableObject, RenderStates& renderStates);
 
 		void postDraw();
 
@@ -98,7 +98,7 @@ namespace zt::gl
 	};
 
 	template<class VertexType>
-	void Renderer::draw(const DrawableObject& drawableObject, RenderStates& renderStates)
+	void Renderer::draw(const DrawableBase& drawableObject, RenderStates& renderStates)
 	{
 		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(drawableObject.createDrawInfo(rendererContext)));
 		createRendererPipeline<VertexType>(renderStates, drawInfo);

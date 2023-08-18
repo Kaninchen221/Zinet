@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -12,7 +12,7 @@ namespace zt::gl
 	class RendererContext;
 	struct TextureRegion;
 
-	class ZINET_GRAPHIC_LAYER_API Drawable2DBase : public DrawableObject
+	class ZINET_GRAPHIC_LAYER_API Drawable2DBase : public DrawableBase
 	{
 
 	public:

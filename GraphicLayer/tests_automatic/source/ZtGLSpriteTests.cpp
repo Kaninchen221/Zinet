@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"

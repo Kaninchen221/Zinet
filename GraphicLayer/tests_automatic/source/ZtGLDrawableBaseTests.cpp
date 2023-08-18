@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
@@ -17,7 +17,7 @@ namespace zt::gl
 
 namespace zt::gl::tests
 {
-	class TestDrawableObjectClass : public DrawableObject
+	class TestDrawableObjectClass : public DrawableBase
 	{
 		DrawInfo createDrawInfo(RendererContext& rendererContext) const override { return {}; }
 
@@ -42,7 +42,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		static_assert(!std::is_default_constructible_v<DrawableObject>);
+		static_assert(!std::is_default_constructible_v<DrawableBase>);
 
 
 		TestDrawableObjectClass testObject;

@@ -1,9 +1,9 @@
-#include "Zinet/GraphicLayer/ZtGLDrawableObject.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 
 namespace zt::gl
 {
-	std::vector<RenderStates::Image> DrawableObject::createRenderStatesImages(
+	std::vector<RenderStates::Image> DrawableBase::createRenderStatesImages(
 		std::span<std::reference_wrapper<const Texture>> textures,
 		std::span<std::reference_wrapper<const Sampler>> samplers,
 		std::span<size_t> bindings) const

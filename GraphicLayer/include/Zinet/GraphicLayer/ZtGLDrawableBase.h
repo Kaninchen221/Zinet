@@ -17,20 +17,20 @@ namespace zt::gl
 	class Texture;
 	class Sampler;
 
-	class ZINET_GRAPHIC_LAYER_API DrawableObject
+	class ZINET_GRAPHIC_LAYER_API DrawableBase
 	{
-		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("DrawableObject");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("DrawableBase");
 
 	public:
 
-		DrawableObject() = default;
-		DrawableObject(const DrawableObject& other) = default;
-		DrawableObject(DrawableObject&& other) = default;
+		DrawableBase() = default;
+		DrawableBase(const DrawableBase& other) = default;
+		DrawableBase(DrawableBase&& other) = default;
 
-		DrawableObject& operator = (const DrawableObject& other) = default;
-		DrawableObject& operator = (DrawableObject&& other) = default;
+		DrawableBase& operator = (const DrawableBase& other) = default;
+		DrawableBase& operator = (DrawableBase&& other) = default;
 
-		virtual ~DrawableObject() noexcept = default;
+		virtual ~DrawableBase() noexcept = default;
 
 		virtual DrawInfo createDrawInfo(RendererContext& rendererContext) const = 0;
 
