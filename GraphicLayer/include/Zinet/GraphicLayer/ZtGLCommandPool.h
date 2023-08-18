@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		CommandPool();
+		CommandPool() = default;
 		CommandPool(const CommandPool& other) = default;
 		CommandPool(CommandPool&& other) = default;
 

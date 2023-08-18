@@ -89,10 +89,6 @@ namespace zt::gl::tests
 		createTexture();
 		createSampler();
 
-		// Create Sampler
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
-		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
-
 		int count = 3;
 		plf::colony<Sprite> sprites;
 		sprites.reserve(count);
@@ -195,10 +191,6 @@ namespace zt::gl::tests
 		createSTBImage();
 		createTexture();
 		createSampler();
-
-		// Create Sampler
-		vk::SamplerCreateInfo samplerCreateInfo = sampler.createCreateInfo(mipmapTexture.getImage().getMipmapLevels());
-		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 
 		TileMap tileMap;
 		TextureRegion textureRegion;

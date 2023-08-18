@@ -45,6 +45,8 @@ namespace zt::gl
 
     void DescriptorPool::create(Device& device, const vk::DescriptorPoolCreateInfo& createInfo)
     {
-        internal = vk::raii::DescriptorPool{ device.getInternal(), createInfo };
+        vk::raii::DescriptorPool tempDescriptorPool{ device.getInternal(), createInfo };
+        internal.swap(tempDescriptorPool);
+        tempDescriptorPool.release();
     }
 }

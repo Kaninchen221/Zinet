@@ -27,7 +27,7 @@ namespace zt::gl
 
 	void ImageView::create(const Device& device, const vk::ImageViewCreateInfo& imageViewCreateInfo)
 	{
-		auto tempImageView = vk::raii::ImageView(device.getInternal(), imageViewCreateInfo);
+		vk::raii::ImageView tempImageView(device.getInternal(), imageViewCreateInfo);
 		internal.swap(tempImageView);
 		tempImageView.release();
 

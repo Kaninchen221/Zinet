@@ -6,10 +6,6 @@
 
 namespace zt::gl
 {
-	Framebuffer::Framebuffer()
-	{
-	}
-
 	vk::FramebufferCreateInfo Framebuffer::createCreateInfo(
 		ImageView& imageView,
 		RenderPass& renderPass,
@@ -30,7 +26,7 @@ namespace zt::gl
 		const Device& device,
 		vk::FramebufferCreateInfo& framebufferCreateInfo)
 	{
-		auto tempFramebuffer = vk::raii::Framebuffer{ device.getInternal(), framebufferCreateInfo };
+		vk::raii::Framebuffer tempFramebuffer{ device.getInternal(), framebufferCreateInfo };
 		internal.swap(tempFramebuffer);
 		tempFramebuffer.release();
 	}

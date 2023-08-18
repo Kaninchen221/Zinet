@@ -66,7 +66,8 @@ namespace zt::gl
 			++index;
         }
 
-		internal = vk::raii::PhysicalDevice{ std::move(physicalDevices[preferredDeviceIndex]) };
+		internal.swap(physicalDevices[preferredDeviceIndex]);
+		physicalDevices[preferredDeviceIndex].release();
 
         return highestRating >= 0;
 	}

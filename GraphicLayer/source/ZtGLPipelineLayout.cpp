@@ -152,7 +152,9 @@ namespace zt::gl
 
 	void PipelineLayout::create(Device& device, const vk::PipelineLayoutCreateInfo& createInfo)
 	{
-		internal = std::move(vk::raii::PipelineLayout{ device.getInternal(), createInfo });
+		vk::raii::PipelineLayout tempPipelineLayout{ device.getInternal(), createInfo };
+		internal.swap(tempPipelineLayout);
+		tempPipelineLayout.release();
 	}
 
 	const std::vector<vk::DescriptorSetLayout>& PipelineLayout::getVkDescriptorSetLayouts() const

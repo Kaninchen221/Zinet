@@ -18,7 +18,7 @@ namespace zt::gl
 
 	public:
 
-		Semaphore();
+		Semaphore() = default;
 		Semaphore(const Semaphore& other) = default;
 		Semaphore(Semaphore&& other) = default;
 

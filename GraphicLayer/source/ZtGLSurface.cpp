@@ -17,7 +17,7 @@ namespace zt::gl
 			allocationCallbacks, 
 			&tempVkSurface);
 
-		auto tempSurface = vk::raii::SurfaceKHR{ instance.getInternal(), tempVkSurface };
+		vk::raii::SurfaceKHR tempSurface{ instance.getInternal(), tempVkSurface };
 		internal.swap(tempSurface);
 		tempSurface.release();
 

@@ -45,7 +45,7 @@ namespace zt::gl
             return;
         }
 
-        auto tempInstance = vk::raii::Instance(context.getInternal(), createInfo);
+        vk::raii::Instance tempInstance{context.getInternal(), createInfo};
         internal.swap(tempInstance);
         tempInstance.release();
     }

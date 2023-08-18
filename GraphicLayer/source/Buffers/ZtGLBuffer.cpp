@@ -79,7 +79,9 @@ namespace zt::gl
 		if (result == VK_SUCCESS)
 		{
 			size = bufferCreateInfo.vkBufferCreateInfo.size;
-			internal = vk::raii::Buffer{ bufferCreateInfo.device.getInternal(), buffer };
+			vk::raii::Buffer tempBuffer{ bufferCreateInfo.device.getInternal(), buffer };
+			internal.swap(tempBuffer);
+			tempBuffer.release();
 		}
 		else
 		{

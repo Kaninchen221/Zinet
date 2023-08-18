@@ -20,7 +20,7 @@ namespace zt::gl
 
 	public:
 
-		Framebuffer();
+		Framebuffer() = default;
 		Framebuffer(const Framebuffer& other) = default;
 		Framebuffer(Framebuffer&& other) = default;
 

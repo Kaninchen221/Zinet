@@ -42,7 +42,7 @@ namespace zt::gl
 		
 		if (result == VK_SUCCESS)
 		{
-			auto tempImage = vk::raii::Image{ imageCreateInfo.device.getInternal(), image };
+			vk::raii::Image tempImage{ imageCreateInfo.device.getInternal(), image };
 			internal.swap(tempImage);
 			tempImage.release();
 

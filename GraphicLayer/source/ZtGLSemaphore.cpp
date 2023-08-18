@@ -3,10 +3,6 @@
 
 namespace zt::gl
 {
-	Semaphore::Semaphore()
-	{
-	}
-
 	vk::SemaphoreCreateInfo Semaphore::createSemaphoreCreateInfo()
 	{
 		return vk::SemaphoreCreateInfo();
@@ -15,7 +11,9 @@ namespace zt::gl
 	void Semaphore::create(Device& device)
 	{
 		vk::SemaphoreCreateInfo createInfo = createSemaphoreCreateInfo();
-		internal = vk::raii::Semaphore{ device.getInternal(), createInfo };
+		vk::raii::Semaphore tempSemaphore{ device.getInternal(), createInfo };
+		internal.swap(tempSemaphore);
+		tempSemaphore.release();
 	}
 
 	uint64_t Semaphore::getCounterValue() const

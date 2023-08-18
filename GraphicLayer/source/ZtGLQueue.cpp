@@ -16,7 +16,9 @@ namespace zt::gl
     {
         // We creating only one queue
         uint32_t queueIndex = 0u;
-        internal = std::move(vk::raii::Queue{ device.getInternal(), queueFamilyIndex, queueIndex });
+        vk::raii::Queue tempQueue{ device.getInternal(), queueFamilyIndex, queueIndex };
+        internal.swap(tempQueue);
+        tempQueue.release();
     }
 
     vk::SubmitInfo Queue::createSubmitInfo(

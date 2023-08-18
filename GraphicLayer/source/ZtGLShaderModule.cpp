@@ -17,7 +17,9 @@ namespace zt::gl
 	void ShaderModule::create(Device& device, ShaderType newShaderType, const vk::ShaderModuleCreateInfo& createInfo)
 	{
 		shaderType = newShaderType;
-		internal = vk::raii::ShaderModule{ device.getInternal(), createInfo, nullptr };
+		vk::raii::ShaderModule tempShaderModule{ device.getInternal(), createInfo, nullptr };
+		internal.swap(tempShaderModule);
+		tempShaderModule.release();
 	}
 
 	ShaderType ShaderModule::getType() const

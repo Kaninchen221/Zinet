@@ -44,7 +44,7 @@ namespace zt::gl
 
     void Device::create(PhysicalDevice& physicalDevice, vk::DeviceCreateInfo& deviceCreateInfo)
     {
-        auto tempDevice = vk::raii::Device(physicalDevice.getInternal(), deviceCreateInfo);
+        vk::raii::Device tempDevice(physicalDevice.getInternal(), deviceCreateInfo);
         internal.swap(tempDevice);
         tempDevice.release();
     }
