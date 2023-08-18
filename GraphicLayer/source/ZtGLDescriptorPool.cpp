@@ -45,6 +45,6 @@ namespace zt::gl
 
     void DescriptorPool::create(Device& device, const vk::DescriptorPoolCreateInfo& createInfo)
     {
-        internal = std::move(vk::raii::DescriptorPool{ device.getInternal(), createInfo });
+        internal = vk::raii::DescriptorPool{ device.getInternal(), createInfo };
     }
 }

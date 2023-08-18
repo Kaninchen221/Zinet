@@ -6,10 +6,6 @@
 
 namespace zt::gl
 {
-    Device::Device()
-    {
-    }
-
     vk::DeviceQueueCreateInfo Device::createDeviceQueueCreateInfo(PhysicalDevice& physicalDevice, Surface& surface)
     {
         vk::DeviceQueueCreateInfo deviceQueueCreateInfo;

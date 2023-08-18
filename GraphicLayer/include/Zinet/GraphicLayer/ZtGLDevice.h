@@ -22,7 +22,7 @@ namespace zt::gl
 
 	public:
 
-		Device();
+		Device() = default;
 		Device(const Device& other) = default;
 		Device(Device&& other) = default;
 

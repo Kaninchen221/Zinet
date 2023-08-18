@@ -39,6 +39,6 @@ namespace zt::gl
 
     void DescriptorSetLayout::create(Device& device, const vk::DescriptorSetLayoutCreateInfo& createInfo)
     {
-        internal = std::move(vk::raii::DescriptorSetLayout{ device.getInternal(), createInfo });
+        internal = vk::raii::DescriptorSetLayout{ device.getInternal(), createInfo };
     }
 }

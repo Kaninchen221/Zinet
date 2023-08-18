@@ -15,7 +15,7 @@ namespace zt::gl
 	void Semaphore::create(Device& device)
 	{
 		vk::SemaphoreCreateInfo createInfo = createSemaphoreCreateInfo();
-		internal = std::move(vk::raii::Semaphore{ device.getInternal(), createInfo });
+		internal = vk::raii::Semaphore{ device.getInternal(), createInfo };
 	}
 
 	uint64_t Semaphore::getCounterValue() const
