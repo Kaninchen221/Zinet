@@ -10,7 +10,7 @@
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vulkan_raii.hpp>
 
-// Needed for future compability
+// Needed for future compatibility
 #define ZINET_GRAPHIC_LAYER_API ZINET_CORE_API
 
 // GLM

@@ -517,12 +517,8 @@ namespace zt::gl::tests
 		texture.loadFromSTBImage(commandBuffer, stbImage);
 
 		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-		commandBuffer.end();
-
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 
 		// Create mipmap texture
-		commandBuffer.begin();
 		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
 		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
 		{
