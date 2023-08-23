@@ -5,8 +5,6 @@ class TestClass
 
 public:
 
-	int sum(int first, int second) const { return first + second; }
-
-	void printInt(int i) {}
+	int sum(int first, int second) { return first + second; }
 
 };
