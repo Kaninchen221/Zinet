@@ -4,11 +4,13 @@
 
 namespace zt::reflection
 {
-
+	template<class FunctionsType = std::tuple<>>
 	class ZINET_REFLECTION_LAYER_API ReflectedClass
 	{
 
 	public:
+
+		using FunctionT = FunctionsType;
 
 		ReflectedClass() = default;
 		ReflectedClass(const ReflectedClass& other) = default;
@@ -23,9 +25,18 @@ namespace zt::reflection
 
 		constexpr std::string_view getName() const { return name; }
 
+		template<class MemberFunctionT>
+		constexpr auto function(MemberFunctionT function, std::string_view name) 
+			-> ReflectedClass<decltype(std::tuple_cat<FunctionT, std::tuple<MemberFunctionT>>({}, {}))>
+		{ 
+			//return std::tuple_cat(functions, std::tuple<MemberFunctionT>{}); 
+			return {};
+		}
+
 	protected:
 
 		std::string_view name;
+		FunctionT functions;
 
 	};
 
