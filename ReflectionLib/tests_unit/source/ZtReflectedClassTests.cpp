@@ -9,20 +9,20 @@
 
 namespace zt::reflection::tests
 {
-	class FunctionTests : public ::testing::Test
+	class FunctionDataTests : public ::testing::Test
 	{
 	protected:
 
-		FunctionData<> function;
+		FunctionData<> functionData;
 	};
 
-	TEST_F(FunctionTests, DefaultValues)
+	TEST_F(FunctionDataTests, DefaultValues)
 	{
-		static_assert(std::is_same_v<decltype(function.address), void(*)()>);
-		static_assert(std::is_same_v<decltype(function.name), std::string_view>);
+		static_assert(std::is_same_v<decltype(functionData.address), void(*)()>);
+		static_assert(std::is_same_v<decltype(functionData.name), std::string_view>);
 
-		EXPECT_EQ(function.address, nullptr);
-		EXPECT_TRUE(function.name.empty());
+		EXPECT_EQ(functionData.address, nullptr);
+		EXPECT_TRUE(functionData.name.empty());
 	}
 
 	class ReflectedClassTests : public ::testing::Test
@@ -30,7 +30,7 @@ namespace zt::reflection::tests
 	protected:
 
 		std::string_view className = "className";
-		ReflectedClass<> reflectedClass{ className };
+		ReflectedClass<> reflectedClass{ className, {} };
 	};
 
 	TEST_F(ReflectedClassTests, GetName)
@@ -58,9 +58,22 @@ namespace zt::reflection::tests
 			classAfterPrintIntReflect = classAfterSumReflect.function(&TestClass::printInt, printIntName);
 	}
 
-	TEST_F(ReflectedClassTests, GetFunction)
+	TEST_F(ReflectedClassTests, GetFunctionByName)
 	{
-// 		typedef std::string_view(ReflectedClass<>::* ExpectedFunction)() const;
-// 		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&ReflectedClass<>::getName));
+		typedef void(*InvalidFunctionAddress)();
+
+		std::string_view sumName = "sumName";
+		auto* invalidResult = reflectedClass.getFunctionByName(sumName);
+		ASSERT_EQ(invalidResult, nullptr);
+
+// 		auto classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
+// 		auto* result = classAfterSumReflect.getFunctionByName(sumName);
+// 		ASSERT_NE(result, nullptr);
+	}
+
+	TEST_F(ReflectedClassTests, GetFunctionByIndex)
+	{
+		auto* invalidResult = reflectedClass.getFunctionByIndex<0>();
+		ASSERT_EQ(invalidResult, nullptr);
 	}
 }
