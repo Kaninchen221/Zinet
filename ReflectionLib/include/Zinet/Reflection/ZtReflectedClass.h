@@ -13,21 +13,19 @@ namespace zt::reflection
 		std::string_view name;
 	};
 
-	template<class Functions = std::tuple<>>
+	template<class FunctionsType = std::tuple<>>
 	class ZINET_REFLECTION_LAYER_API ReflectedClass
 	{
 
 	public:
 
-		using FunctionsT = Functions;
-		typedef void(*FunctionAddressPlaceholder)();
+		using FunctionsT = FunctionsType;
 
 		ReflectedClass() = default;
 		ReflectedClass(const ReflectedClass& other) = default;
 		ReflectedClass(ReflectedClass&& other) = default;
 
-		ReflectedClass(std::string_view newName, const FunctionsT& newFunctions) 
-			: name{ newName }, functions{ newFunctions } {}
+		ReflectedClass(std::string_view newName) : name{newName} {}
 
 		ReflectedClass& operator = (const ReflectedClass& other) = default;
 		ReflectedClass& operator = (ReflectedClass&& other) = default;
@@ -38,22 +36,10 @@ namespace zt::reflection
 
 		template<class MemberFunctionAddress>
 		constexpr auto function(MemberFunctionAddress functionAddress, std::string_view functionName)
+			-> ReflectedClass<decltype(std::tuple_cat<FunctionsT, std::tuple<FunctionData<MemberFunctionAddress>>>({}, {}))>
 		{ 
-			std::tuple<FunctionData<MemberFunctionAddress>> newFunction{{functionAddress, functionName}};
-			auto functionsAfterConcat = std::tuple_cat(functions, newFunction);
-			ReflectedClass<decltype(functionsAfterConcat)> result{name, functionsAfterConcat};
-			return result;
-		}
-
-		constexpr auto* getFunctionByName(std::string_view functionName)
-		{
-			return static_cast<FunctionData<FunctionAddressPlaceholder>*>(nullptr);
-		}
-
-		template<size_t index>
-		constexpr auto* getFunctionByIndex()
-		{
-			return static_cast<FunctionData<FunctionAddressPlaceholder>*>(nullptr);
+			//return std::tuple_cat(functions, std::tuple<MemberFunctionT>{}); 
+			return {};
 		}
 
 	protected:

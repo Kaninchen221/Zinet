@@ -9,20 +9,20 @@
 
 namespace zt::reflection::tests
 {
-	class FunctionDataTests : public ::testing::Test
+	class FunctionTests : public ::testing::Test
 	{
 	protected:
 
-		FunctionData<> functionData;
+		FunctionData<> function;
 	};
 
-	TEST_F(FunctionDataTests, DefaultValues)
+	TEST_F(FunctionTests, DefaultValues)
 	{
-		static_assert(std::is_same_v<decltype(functionData.address), void(*)()>);
-		static_assert(std::is_same_v<decltype(functionData.name), std::string_view>);
+		static_assert(std::is_same_v<decltype(function.address), void(*)()>);
+		static_assert(std::is_same_v<decltype(function.name), std::string_view>);
 
-		EXPECT_EQ(functionData.address, nullptr);
-		EXPECT_TRUE(functionData.name.empty());
+		EXPECT_EQ(function.address, nullptr);
+		EXPECT_TRUE(function.name.empty());
 	}
 
 	class ReflectedClassTests : public ::testing::Test
@@ -30,7 +30,7 @@ namespace zt::reflection::tests
 	protected:
 
 		std::string_view className = "className";
-		ReflectedClass<> reflectedClass{ className, {} };
+		ReflectedClass<> reflectedClass{ className };
 	};
 
 	TEST_F(ReflectedClassTests, GetName)
@@ -58,22 +58,9 @@ namespace zt::reflection::tests
 			classAfterPrintIntReflect = classAfterSumReflect.function(&TestClass::printInt, printIntName);
 	}
 
-	TEST_F(ReflectedClassTests, GetFunctionByName)
+	TEST_F(ReflectedClassTests, GetFunction)
 	{
-		typedef void(*InvalidFunctionAddress)();
-
-		std::string_view sumName = "sumName";
-		auto* invalidResult = reflectedClass.getFunctionByName(sumName);
-		ASSERT_EQ(invalidResult, nullptr);
-
-// 		auto classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
-// 		auto* result = classAfterSumReflect.getFunctionByName(sumName);
-// 		ASSERT_NE(result, nullptr);
-	}
-
-	TEST_F(ReflectedClassTests, GetFunctionByIndex)
-	{
-		auto* invalidResult = reflectedClass.getFunctionByIndex<0>();
-		ASSERT_EQ(invalidResult, nullptr);
+// 		typedef std::string_view(ReflectedClass<>::* ExpectedFunction)() const;
+// 		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&ReflectedClass<>::getName));
 	}
 }
