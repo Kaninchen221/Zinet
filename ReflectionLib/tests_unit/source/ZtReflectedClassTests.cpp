@@ -9,6 +9,21 @@
 
 namespace zt::reflection::tests
 {
+	class FunctionTests : public ::testing::Test
+	{
+	protected:
+
+		FunctionData<> function;
+	};
+
+	TEST_F(FunctionTests, DefaultValues)
+	{
+		static_assert(std::is_same_v<decltype(function.address), void(*)()>);
+		static_assert(std::is_same_v<decltype(function.name), std::string_view>);
+
+		EXPECT_EQ(function.address, nullptr);
+		EXPECT_TRUE(function.name.empty());
+	}
 
 	class ReflectedClassTests : public ::testing::Test
 	{
@@ -33,12 +48,19 @@ namespace zt::reflection::tests
 		static_assert(zt::core::IsFunctionEqual<SumFunction>(&TestClass::sum));
 
 		std::string_view sumName = "sum";
-		ReflectedClass<std::tuple<SumFunction>> classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
+		ReflectedClass<std::tuple<FunctionData<SumFunction>>> classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
 
 		typedef void(TestClass::* PrintIntFunction)(int);
 		static_assert(zt::core::IsFunctionEqual<PrintIntFunction>(&TestClass::printInt));
 
 		std::string_view printIntName = "Print Int";
-		ReflectedClass<std::tuple<SumFunction, PrintIntFunction>> classAfterPrintIntReflect = classAfterSumReflect.function(&TestClass::printInt, printIntName);
+		ReflectedClass<std::tuple<FunctionData<SumFunction>, FunctionData<PrintIntFunction>>>
+			classAfterPrintIntReflect = classAfterSumReflect.function(&TestClass::printInt, printIntName);
+	}
+
+	TEST_F(ReflectedClassTests, GetFunction)
+	{
+// 		typedef std::string_view(ReflectedClass<>::* ExpectedFunction)() const;
+// 		static_assert(zt::core::IsFunctionEqual<ExpectedFunction>(&ReflectedClass<>::getName));
 	}
 }
