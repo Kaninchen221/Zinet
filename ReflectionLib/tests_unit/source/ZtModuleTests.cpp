@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Zinet/Reflection/ZtModule.h"
-#include "Zinet/Reflection/ZtTestClass.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
 #include <gtest/gtest.h>
+
+#include "ZtTestClass.h"
 
 namespace zt::reflection::tests
 {

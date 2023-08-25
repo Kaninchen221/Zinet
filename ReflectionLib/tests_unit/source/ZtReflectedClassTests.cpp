@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Zinet/Reflection/ZtReflectedClass.h"
-#include "Zinet/Reflection/ZtTestClass.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
 #include <gtest/gtest.h>
+
+#include "ZtTestClass.h"
 
 namespace zt::reflection::tests
 {
@@ -66,14 +67,36 @@ namespace zt::reflection::tests
 		auto* invalidResult = reflectedClass.getFunctionByName(sumName);
 		ASSERT_EQ(invalidResult, nullptr);
 
-// 		auto classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
-// 		auto* result = classAfterSumReflect.getFunctionByName(sumName);
-// 		ASSERT_NE(result, nullptr);
+		auto classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
+		auto* result = classAfterSumReflect.getFunctionByName(sumName);
+		ASSERT_NE(result, nullptr);
 	}
 
-	TEST_F(ReflectedClassTests, GetFunctionByIndex)
+	TEST_F(ReflectedClassTests, GetFunctionByIndex_Template)
 	{
-		auto* invalidResult = reflectedClass.getFunctionByIndex<0>();
+		const auto* invalidResult = reflectedClass.getFunctionByIndex<0>();
 		ASSERT_EQ(invalidResult, nullptr);
+
+		std::string_view sumName = "sumName";
+		auto classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
+		const auto* result = classAfterSumReflect.getFunctionByIndex<0>();
+		ASSERT_NE(result, nullptr);
+
+		EXPECT_EQ(result->name, sumName);
+		EXPECT_EQ(result->address, &TestClass::sum);
 	}
+
+// 	TEST_F(ReflectedClassTests, GetFunctionByIndex_Param)
+// 	{
+// 		const auto* invalidResult = reflectedClass.getFunctionByIndex2(0);
+// 		ASSERT_EQ(invalidResult, nullptr);
+// 
+// 		std::string_view sumName = "sumName";
+// 		auto classAfterSumReflect = reflectedClass.function(&TestClass::sum, sumName);
+// 		const auto* result = classAfterSumReflect.getFunctionByIndex2(0);
+//  		ASSERT_NE(result, nullptr);
+//  
+// // 		EXPECT_EQ(result->name, sumName);
+// // 		EXPECT_EQ(result->address, &TestClass::sum);
+// 	}
 }
