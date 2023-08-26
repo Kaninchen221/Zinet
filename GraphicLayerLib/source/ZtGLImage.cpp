@@ -5,7 +5,7 @@
 
 namespace zt::gl
 {
-	vk::ImageCreateInfo Image::createCreateInfo(const Vector2<std::uint32_t>& size, std::uint32_t newMipmapLevels, vk::Format format)
+	vk::ImageCreateInfo Image::createCreateInfo(const zt::Vector2<std::uint32_t>& size, std::uint32_t newMipmapLevels, vk::Format format)
 	{
 		vk::ImageCreateInfo createInfo{};
 		createInfo.imageType = vk::ImageType::e2D;

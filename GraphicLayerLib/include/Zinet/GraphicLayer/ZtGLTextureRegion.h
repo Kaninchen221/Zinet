@@ -2,7 +2,8 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
-#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+
+#include "Zinet/Window/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -11,10 +12,10 @@ namespace zt::gl
 
 	struct ZINET_GRAPHIC_LAYER_API TextureRegion
 	{
-		Vector2f offset;
-		Vector2f size;
+		zt::Vector2f offset;
+		zt::Vector2f size;
 
-		TextureRegion toShaderTextureRegion(const Vector2f& textureSize) const;
+		TextureRegion toShaderTextureRegion(const zt::Vector2f& textureSize) const;
 
 	};
 

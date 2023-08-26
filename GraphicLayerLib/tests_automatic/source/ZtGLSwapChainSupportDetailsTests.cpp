@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
+
+#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindow.h"
 
 #include <gtest/gtest.h>
 
@@ -31,9 +32,9 @@ namespace zt::gl::tests
 
 	TEST_F(SwapChainSupportDetailsTests, PickFormatTest)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 
-		Window window;
+		wd::Window window;
 		window.create();
 
 		Context context;
@@ -55,14 +56,14 @@ namespace zt::gl::tests
 
 		ASSERT_NE(format, vk::SurfaceFormatKHR());
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 
 	TEST_F(SwapChainSupportDetailsTests, PickPresentModeTest)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 
-		Window window;
+		wd::Window window;
 		window.create();
 
 		Context context;
@@ -84,14 +85,14 @@ namespace zt::gl::tests
 
 		ASSERT_NE(presentMode, vk::PresentModeKHR());
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 
 	TEST_F(SwapChainSupportDetailsTests, PickSwapExtentTest)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 
-		Window window;
+		wd::Window window;
 		window.create();
 
 		Context context;
@@ -112,6 +113,6 @@ namespace zt::gl::tests
 		vk::Extent2D swapExtent = swapChainSupportDetails.pickSwapExtent(window);
 		ASSERT_NE(swapExtent, vk::Extent2D());
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 }

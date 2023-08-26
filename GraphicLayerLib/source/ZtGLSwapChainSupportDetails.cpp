@@ -1,6 +1,6 @@
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
+#include "Zinet/Window/ZtWindow.h"
 
 #include <cstdint>
 #include <algorithm>
@@ -35,7 +35,7 @@ namespace zt::gl
 		return vk::PresentModeKHR::eFifo;
 	}
 
-	vk::Extent2D SwapChainSupportDetails::pickSwapExtent(Window& window) const
+	vk::Extent2D SwapChainSupportDetails::pickSwapExtent(wd::Window& window) const
 	{
 		if (surfaceCapabilities.currentExtent.width != UINT32_MAX)
 		{

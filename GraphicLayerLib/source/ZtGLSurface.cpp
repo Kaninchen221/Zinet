@@ -3,11 +3,7 @@
 
 namespace zt::gl
 {
-	Surface::Surface()
-	{
-	}
-
-	bool Surface::create(Instance& instance, Window& window)
+	bool Surface::create(Instance& instance, wd::Window& window)
 	{
 		VkSurfaceKHR tempVkSurface{};
 		const VkAllocationCallbacks* allocationCallbacks = nullptr;
@@ -30,5 +26,4 @@ namespace zt::gl
 			return false;
 		}
 	}
-
 }

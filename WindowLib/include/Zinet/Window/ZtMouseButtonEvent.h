@@ -3,7 +3,7 @@
 #include "Zinet/Window/ZtMouseButton.h"
 #include "Zinet/Window/ZtMouseButtonEventType.h"
 
-namespace zt::window
+namespace zt::wd
 {
 	struct MouseButtonEvent
 	{

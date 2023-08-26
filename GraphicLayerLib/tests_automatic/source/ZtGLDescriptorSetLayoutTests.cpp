@@ -5,8 +5,9 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -19,7 +20,7 @@ namespace zt::gl::tests
 
 		Context context;
 		Instance instance;
-		Window window;
+		wd::Window window;
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		Device device;
@@ -27,7 +28,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 
 			window.create();
 			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
@@ -44,7 +45,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

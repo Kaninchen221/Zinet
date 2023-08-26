@@ -21,7 +21,7 @@ namespace zt::gl
 
 	void Drawable2DBase::createVertexBuffer(VertexBuffer& vertexBuffer, const TextureRegion& textureRegion, RendererContext& rendererContext) const
 	{
-		Vector2f UV = textureRegion.offset;
+		zt::Vector2f UV = textureRegion.offset;
 
 		std::vector<Vertex> vertices;
 		Vertex vertex;

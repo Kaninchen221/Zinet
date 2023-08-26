@@ -5,7 +5,7 @@
 
 #include <vector>
 
-namespace zt::window
+namespace zt::wd
 {
 	class Window;
 

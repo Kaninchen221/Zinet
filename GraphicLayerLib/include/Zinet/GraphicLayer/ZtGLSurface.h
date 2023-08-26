@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
 #include "Zinet/Core/ZtLogger.h"
+
+#include "Zinet/Window/ZtWindow.h"
 
 namespace zt::gl
 {
@@ -19,7 +20,7 @@ namespace zt::gl
 
 	public:
 
-		Surface();
+		Surface() = default;
 		Surface(const Surface& other) = default;
 		Surface(Surface&& other) = default;
 
@@ -28,7 +29,7 @@ namespace zt::gl
 
 		~Surface() noexcept = default;
 
-		bool create(Instance& instance, Window& window);
+		bool create(Instance& instance, wd::Window& window);
 
 	};
 

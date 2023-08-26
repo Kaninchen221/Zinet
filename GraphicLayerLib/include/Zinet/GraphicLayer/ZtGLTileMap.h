@@ -37,17 +37,17 @@ namespace zt::gl
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform) override { transform = newTransform; }
 
-		void setTilesCount(const Vector2ui& count) { tilesCount = count; }
-		const Vector2ui& getTilesCount() const { return tilesCount; }
+		void setTilesCount(const zt::Vector2ui& count) { tilesCount = count; }
+		const zt::Vector2ui& getTilesCount() const { return tilesCount; }
 
-		void setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize);
+		void setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const zt::Vector2f& textureSize);
 		const TextureRegion& getDefaultShaderTextureRegion() const { return defaultShaderTextureRegion; }
 
-		void setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const Vector2f& textureSize);
+		void setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const zt::Vector2f& textureSize);
 		const std::vector<TextureRegion>& getTilesTextureRegions() const { return tilesTextureRegions; }
 		void clearTilesTextureRegions() { tilesTextureRegions.clear(); }
 
-		Vector2ui getAbsoluteSize() const override { return tilesCount; }
+		zt::Vector2ui getAbsoluteSize() const override { return tilesCount; }
 
 		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override;
 
@@ -57,7 +57,7 @@ namespace zt::gl
 		void createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const;
 
 		Transform transform;
-		Vector2ui tilesCount{ 1u, 1u };
+		zt::Vector2ui tilesCount{ 1u, 1u };
 		TextureRegion defaultShaderTextureRegion;
 		std::vector<TextureRegion> tilesTextureRegions;
 	};

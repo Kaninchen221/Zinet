@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Zinet/Window/ZtEvent.h"
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
-namespace zt::window
+namespace zt::wd
 {
 	class Renderer;
 
@@ -39,7 +40,7 @@ namespace zt::window
 
 		Event* getEvent();
 
-		zt::math::Vector2ui getSize() const;
+		zt::Vector2ui getSize() const;
 
 		bool isMinimized() const;
 

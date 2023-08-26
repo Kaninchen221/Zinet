@@ -3,7 +3,7 @@
 #include "Zinet/Window/ZtKeyboard.h"
 #include "Zinet/Window/ZtMouse.h"
 
-namespace zt::window
+namespace zt::wd
 {
 	class Window;
 

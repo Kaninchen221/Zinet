@@ -2,10 +2,13 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-namespace zt::gl
+namespace zt::wd
 {
 	class Window;
+}
 
+namespace zt::gl
+{
 	struct ZINET_GRAPHIC_LAYER_API SwapChainSupportDetails
 	{
 		vk::SurfaceCapabilitiesKHR surfaceCapabilities;
@@ -16,7 +19,7 @@ namespace zt::gl
 
 		vk::PresentModeKHR pickPresentMode() const;
 
-		vk::Extent2D pickSwapExtent(Window& window) const;
+		vk::Extent2D pickSwapExtent(wd::Window& window) const;
 
 	};
 

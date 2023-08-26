@@ -18,7 +18,7 @@ namespace zt::gl
 		return std::move(drawInfo);
 	}
 
-	void Sprite::setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
+	void Sprite::setTextureRegion(const TextureRegion& newTextureRegion, const zt::Vector2f& textureSize)
 	{
 		textureRegion = newTextureRegion.toShaderTextureRegion(textureSize);
 	}

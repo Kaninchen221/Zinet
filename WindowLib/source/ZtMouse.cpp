@@ -4,7 +4,7 @@
 #include "Zinet/Window/ZtMouseButton.h"
 #include "Zinet/Window/ZtMouseButtonEvent.h"
 
-namespace zt::window
+namespace zt::wd
 {
 	Mouse::Mouse()
 	{
@@ -67,7 +67,7 @@ namespace zt::window
 		mouse->positionEvents.pop_back();
 
 		MousePositionEvent positionEvent;
-		positionEvent.position = zt::math::Vector2d(positionX, positionY);
+		positionEvent.position = zt::Vector2d(positionX, positionY);
 		mouse->positionEvents.insert(mouse->positionEvents.begin(), positionEvent);
 	}
 

@@ -26,7 +26,7 @@ namespace zt::gl
 			CommandBuffer& commandBuffer;
 			bool mipmaps = false;
 			vk::Format format = vk::Format::eR8G8B8A8Srgb;
-			Vector2ui size;
+			zt::Vector2ui size;
 		};
 
 		struct ZINET_GRAPHIC_LAYER_API GenerateMipmapTextureInfo
@@ -64,7 +64,7 @@ namespace zt::gl
 
 		void loadFromSTBImage(CommandBuffer& commandBuffer, const STBImage& stbImage);
 
-		Vector2ui getSize() const { return image.getSize(); }
+		zt::Vector2ui getSize() const { return image.getSize(); }
 
 		void clear();
 

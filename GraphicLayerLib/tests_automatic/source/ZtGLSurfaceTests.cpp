@@ -2,8 +2,9 @@
 
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+
+#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindow.h"
 
 #include <gtest/gtest.h>
 
@@ -16,12 +17,12 @@ namespace zt::gl::tests
 
 		Context context;
 		Instance instance;
-		Window window;
+		wd::Window window;
 		Surface surface;
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 
 			window.create();
 			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
@@ -32,7 +33,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 
 	};

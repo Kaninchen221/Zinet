@@ -3,8 +3,9 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -63,7 +64,7 @@ namespace zt::gl::tests
 		const DebugUtilsMessenger& debugUtilsMessenger = rendererContext.getDebugUtilsMessenger();
 		ASSERT_NE(debugUtilsMessenger, vk::raii::DebugUtilsMessengerEXT(std::nullptr_t{}));
 
-		const Window& window = rendererContext.getWindow();
+		const wd::Window& window = rendererContext.getWindow();
 		const GLFWwindow* internalWindow = window.getInternal();
 		ASSERT_NE(internalWindow, nullptr);
 

@@ -26,7 +26,7 @@ namespace zt::gl
 
 		~Drawable2DBase() noexcept = default;
 
-		Vector2ui getAbsoluteSize() const override { return { 1u, 1u }; }
+		zt::Vector2ui getAbsoluteSize() const override { return { 1u, 1u }; }
 
 		static constexpr std::array<std::uint16_t, 6u> GetDefaultIndices() { return { 0u, 1u, 2u, 2u, 3u,0u }; }
 

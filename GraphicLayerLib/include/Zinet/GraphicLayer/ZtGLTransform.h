@@ -2,7 +2,8 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
-#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+
+#include "Zinet/Window/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -22,14 +23,14 @@ namespace zt::gl
 
 		~Transform() noexcept = default;
 
-		void setRotation(const Vector3f& newRotation) { rotation = newRotation; }
-		const Vector3f& getRotation() const { return rotation; }
+		void setRotation(const zt::Vector3f& newRotation) { rotation = newRotation; }
+		const zt::Vector3f& getRotation() const { return rotation; }
 
-		void setTranslation(const Vector3f& newTranslation) { translation = newTranslation; }
-		const Vector3f& getTranslation() const { return translation; }
+		void setTranslation(const zt::Vector3f& newTranslation) { translation = newTranslation; }
+		const zt::Vector3f& getTranslation() const { return translation; }
 
-		void setScale(const Vector3f& newScale) { scale = newScale; }
-		const Vector3f& getScale() const { return scale; }
+		void setScale(const zt::Vector3f& newScale) { scale = newScale; }
+		const zt::Vector3f& getScale() const { return scale; }
 
 		Matrix4f toMatrix() const;
 
@@ -37,9 +38,9 @@ namespace zt::gl
 
 	protected:
 
-		Vector3f rotation = { 0.f, 0.f, 0.f }; // In degrees
-		Vector3f translation = { 0.f, 0.f, 0.f };
-		Vector3f scale = { 1.f, 1.f, 1.f };
+		zt::Vector3f rotation = { 0.f, 0.f, 0.f }; // In degrees
+		zt::Vector3f translation = { 0.f, 0.f, 0.f };
+		zt::Vector3f scale = { 1.f, 1.f, 1.f };
 
 	};
 

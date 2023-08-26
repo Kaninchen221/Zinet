@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -63,14 +64,14 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 			rendererContext.initialize();
 			commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 		}
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

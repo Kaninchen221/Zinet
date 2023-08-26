@@ -1,6 +1,6 @@
 #include "Zinet/Window/ZtMouseScrollEvent.h"
 
-namespace zt::window
+namespace zt::wd
 {
 
 }

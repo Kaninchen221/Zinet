@@ -4,7 +4,6 @@
 #include "Zinet/GraphicLayer/ZtGLImage.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLMath.h"
 
 #include <algorithm>
 
@@ -41,6 +40,15 @@ namespace zt::gl
 			info.imageBuffer, info.image, newLayout, imageRegion
 		};
 		info.commandBuffer.copyBufferToImage(copyBufferToImageInfo);
+	}
+
+	constexpr vk::Extent2D Utilities::FromVector2ToExtent2D(auto vector)
+	{
+		return vk::Extent2D
+		{
+			static_cast<std::uint32_t>(vector.x),
+				static_cast<std::uint32_t>(vector.y)
+		};
 	}
 
 }

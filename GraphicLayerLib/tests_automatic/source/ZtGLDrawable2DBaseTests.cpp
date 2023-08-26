@@ -3,7 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGLDrawable2DBase.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLTextureRegion.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -67,13 +68,13 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 			rendererContext.initialize();
 		}
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

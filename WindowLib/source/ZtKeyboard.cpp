@@ -1,7 +1,7 @@
 #include "Zinet/Window/ZtKeyboard.h"
 #include "Zinet/Window/ZtWindow.h"
 
-namespace zt::window
+namespace zt::wd
 {
 
 	Keyboard::Keyboard()

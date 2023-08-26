@@ -3,7 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -78,7 +79,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 
 			rendererContext.initialize();
 
@@ -88,7 +89,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

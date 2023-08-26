@@ -4,8 +4,9 @@
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -61,7 +62,7 @@ namespace zt::gl::tests
 
 	TEST_F(ShaderModuleTests, CreateTest)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 
 		Context context;
 		Instance instance;
@@ -70,7 +71,7 @@ namespace zt::gl::tests
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 
-		Window window;
+		wd::Window window;
 		window.create();
 
 		Surface surface;
@@ -92,7 +93,7 @@ namespace zt::gl::tests
 		vk::ShaderModuleCreateInfo createInfo = shaderModule->createShaderModuleCreateInfo(shader);
 		shaderModule->create(*device, ShaderType::Vertex, createInfo);
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 
 		shaderModule.reset();
 		device.reset();

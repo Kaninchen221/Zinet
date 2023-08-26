@@ -10,8 +10,9 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLStorageBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
-#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
+
+#include "Zinet/Window/ZtVecTypes.h"
 
 #include <span>
 #include <vector>

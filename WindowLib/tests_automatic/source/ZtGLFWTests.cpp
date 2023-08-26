@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
-namespace zt::gl::tests
+namespace zt::wd
 {
 
 	class GLFWTests : public ::testing::Test

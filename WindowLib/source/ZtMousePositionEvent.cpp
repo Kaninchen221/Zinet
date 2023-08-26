@@ -1,6 +1,6 @@
 #include "Zinet/Window/ZtMousePositionEvent.h"
 
-namespace zt::window
+namespace zt::wd
 {
 
 }

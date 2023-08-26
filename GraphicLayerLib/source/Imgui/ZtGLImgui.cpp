@@ -2,6 +2,8 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
+#include "Zinet/Window/ZtWindow.h"
+
 #include "Zinet/Core/ZtDebug.h"
 
 #include <imgui.h>

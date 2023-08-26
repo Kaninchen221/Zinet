@@ -11,7 +11,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vector_relational.hpp>
 
-namespace zt::window::tests
+namespace zt::wd::tests
 {
 
 	class MouseTests : public ::testing::Test
@@ -88,20 +88,20 @@ namespace zt::window::tests
 
 		Window window;
 		window.create();
-		zt::math::Vector2d expectedPosition{ 34.0, 2.0 };
+		zt::Vector2d expectedPosition{ 34.0, 2.0 };
 		Mouse::PositionCallback(window.getInternal(), expectedPosition.x, expectedPosition.y);
 
 		Event* event = window.getEvent();
 		Mouse* mouse = event->getMouse();
 		const std::vector<MousePositionEvent>& positions = mouse->getPositionEvents();
 		MousePositionEvent positionEvent = positions[0];
-		zt::math::Vector2d actualPosition = positionEvent.position;
+		zt::Vector2d actualPosition = positionEvent.position;
 		ASSERT_EQ(expectedPosition, actualPosition);
 
 		mouse->setMaxRememberedPositionEvents(2u);
-		zt::math::Vector2d expectedSecondPosition{ 67.0, 27.0 };
+		zt::Vector2d expectedSecondPosition{ 67.0, 27.0 };
 		Mouse::PositionCallback(window.getInternal(), expectedSecondPosition.x, expectedSecondPosition.y);
-		zt::math::Vector2d actualSecondPosition = positions[0].position;
+		zt::Vector2d actualSecondPosition = positions[0].position;
 		ASSERT_EQ(expectedSecondPosition, actualSecondPosition);
 
 		GLFW::Deinit();

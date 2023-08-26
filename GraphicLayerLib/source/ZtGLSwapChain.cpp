@@ -3,9 +3,10 @@
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
 #include "Zinet/GraphicLayer/ZtGLFence.h"
+
+#include "Zinet/Window/ZtWindow.h"
 
 namespace zt::gl
 {
@@ -23,7 +24,7 @@ namespace zt::gl
 	vk::SwapchainCreateInfoKHR SwapChain::createCreateInfo(
 		const SwapChainSupportDetails& swapChainSupportDetails,
 		Surface& surface,
-		Window& window
+		wd::Window& window
 	) const
 	{
 		vk::SurfaceCapabilitiesKHR surfaceCapabilities = swapChainSupportDetails.surfaceCapabilities;

@@ -3,10 +3,11 @@
 #include "Zinet/GraphicLayer/ZtGLFlipbook.h"
 #include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 #include "Zinet/GraphicLayer/ZtGLSampler.h"
 #include "Zinet/GraphicLayer/ZtGLShader.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 #include "Zinet/Core/ZtTime.h"
@@ -42,7 +43,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init(false);
+			wd::GLFW::Init(false);
 			renderer.initialize();
 			RendererContext& rendererContext = renderer.getRendererContext();
 
@@ -79,7 +80,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

@@ -1,8 +1,9 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <map>
 
@@ -11,7 +12,7 @@ namespace zt::gl
 
 	Renderer::Renderer()
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 	}
 
 	Renderer::~Renderer() noexcept
@@ -28,13 +29,13 @@ namespace zt::gl
 			device.waitForFence(drawFence);
 
 		rendererPipelines.clear();
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 
 	void Renderer::initialize()
 	{
 		rendererContext.initialize();
-		Window::SetRenderer(*this);
+		//Window::SetRenderer(*this);
 
 		Device& device = rendererContext.getDevice();
 		imageAvailableSemaphore.create(device);

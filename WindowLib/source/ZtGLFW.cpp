@@ -2,7 +2,7 @@
 
 #include <GLFW/glfw3.h>
 
-namespace zt::window
+namespace zt::wd
 {
     bool GLFW::Init(bool hideWindow)
     {

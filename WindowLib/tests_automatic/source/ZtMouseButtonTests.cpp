@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::window::tests
+namespace zt::wd::tests
 {
 
 	class MouseButtonTests : public ::testing::Test

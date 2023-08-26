@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtDebug.h"
 
-namespace zt::window
+namespace zt::wd
 {
 
     Window::~Window() noexcept
@@ -81,7 +81,7 @@ namespace zt::window
         return &event;
     }
 
-    zt::math::Vector2ui Window::getSize() const
+    zt::Vector2ui Window::getSize() const
 	{
         int width = 0;
         int height = 0;
@@ -91,7 +91,7 @@ namespace zt::window
 
 	bool Window::isMinimized() const
 	{
-        zt::math::Vector2i windowSize = getSize();
+        zt::Vector2i windowSize = getSize();
         return windowSize.x == 0 && windowSize.y == 0;
 	}
 

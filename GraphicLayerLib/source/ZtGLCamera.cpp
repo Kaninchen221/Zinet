@@ -17,7 +17,7 @@ namespace zt::gl
 
 	Matrix4f Camera::viewMatrix() const
 	{
-		Vector3f tempPosition = position;
+		zt::Vector3f tempPosition = position;
 		tempPosition.x *= -1.f;
 		tempPosition.y *= -1.f;
 
@@ -34,7 +34,7 @@ namespace zt::gl
 		return matrix;
 	}
 
-	zt::gl::Matrix4f Camera::orthographicMatrix() const
+	zt::Matrix4f Camera::orthographicMatrix() const
 	{
 		float left = static_cast<float>(screenSize.x) / -2.f;
 		float right = static_cast<float>(screenSize.x) / 2.f;

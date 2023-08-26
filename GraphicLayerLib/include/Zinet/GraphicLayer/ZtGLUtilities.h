@@ -41,6 +41,20 @@ namespace zt::gl
 
 		static void CopyImageBufferToImage(const CopyImageBufferToImageInfo& info);
 
+		template<typename Vector>
+		constexpr static Vector FromExtent2DToVector2(const vk::Extent2D& extent);
+
+		constexpr static vk::Extent2D FromVector2ToExtent2D(auto vector);
 	};
+
+	template<typename Vector>
+	constexpr Vector Utilities::FromExtent2DToVector2(const vk::Extent2D& extent)
+	{
+		return Vector
+		{
+			static_cast<Vector::value_type>(extent.width),
+			static_cast<Vector::value_type>(extent.height)
+		};
+	}
 
 }

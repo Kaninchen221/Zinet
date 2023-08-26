@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+
+#include "Zinet/Window/ZtVecTypes.h"
 
 namespace zt::gl
 {

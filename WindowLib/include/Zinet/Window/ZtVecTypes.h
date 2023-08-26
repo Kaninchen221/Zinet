@@ -9,7 +9,7 @@
 #include <glm/matrix.hpp>
 #include <glm/gtx/transform.hpp>
 
-namespace zt::math
+namespace zt
 {
 	template<typename T>
 	using Vector2 = glm::vec<2, T, glm::defaultp>;

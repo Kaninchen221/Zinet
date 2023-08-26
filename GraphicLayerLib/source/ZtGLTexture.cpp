@@ -3,7 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLMath.h"
+
+#include "Zinet/Window/ZtMath.h"
 
 namespace zt::gl
 {

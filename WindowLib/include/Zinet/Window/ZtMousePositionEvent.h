@@ -2,10 +2,10 @@
 
 #include "Zinet/Window/ZtVecTypes.h"
 
-namespace zt::window
+namespace zt::wd
 {
 	struct MousePositionEvent
 	{
-		zt::math::Vector2f position;
+		zt::Vector2f position;
 	};
 }

@@ -1,6 +1,6 @@
 #include "Zinet/Window/ZtEvent.h"
 
-namespace zt::window
+namespace zt::wd
 {
 
 	void Event::setWindow(Window* newWindow)

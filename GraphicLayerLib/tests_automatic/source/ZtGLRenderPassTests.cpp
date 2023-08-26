@@ -3,12 +3,13 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+
+#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -119,7 +120,7 @@ namespace zt::gl::tests
 
 	TEST_F(RenderPassTests, CreateTest)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 
 		RendererContext rendererContext;
 		rendererContext.initialize();
@@ -139,6 +140,6 @@ namespace zt::gl::tests
 
 		renderPass.clear();
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 }

@@ -2,7 +2,7 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
-namespace zt::window
+namespace zt::wd
 {
 	class GLFW
 	{

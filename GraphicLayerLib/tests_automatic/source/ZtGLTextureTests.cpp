@@ -3,7 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -66,7 +67,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init(true);
+			wd::GLFW::Init(true);
 
 			renderer.initialize();
 			RendererContext& rendererContext = renderer.getRendererContext();
@@ -90,7 +91,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

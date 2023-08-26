@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -20,13 +21,13 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init(false);
+			wd::GLFW::Init(false);
 			renderer.initialize();
 		}
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

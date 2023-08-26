@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
-#include "Zinet/GraphicLayer/ZtGLVecTypes.h"
+
+#include "Zinet/Window/ZtVecTypes.h"
 
 namespace zt::gl
 {
@@ -25,14 +26,14 @@ namespace zt::gl
 
 		~Camera() noexcept = default;
 
-		void setPosition(const Vector3f& newPosition) { position = newPosition; }
-		const Vector3f& getPosition() const { return position; }
+		void setPosition(const zt::Vector3f& newPosition) { position = newPosition; }
+		const zt::Vector3f& getPosition() const { return position; }
 
-		void setTarget(const Vector3f& newTarget) { target = newTarget; }
-		const Vector3f& getTarget() const { return target; }
+		void setTarget(const zt::Vector3f& newTarget) { target = newTarget; }
+		const zt::Vector3f& getTarget() const { return target; }
 
-		void setCameraOrientation(const Vector3f& newCameraOrientation) { cameraOrientation = newCameraOrientation; }
-		const Vector3f& getCameraOrientation() const { return cameraOrientation; }
+		void setCameraOrientation(const zt::Vector3f& newCameraOrientation) { cameraOrientation = newCameraOrientation; }
+		const zt::Vector3f& getCameraOrientation() const { return cameraOrientation; }
 
 		Matrix4f viewMatrix() const;
 
@@ -48,8 +49,8 @@ namespace zt::gl
 		void setFar(float newFar) { far = newFar; }
 		float getFar() const { return far; }
 
-		void setScreenSize(const Vector2ui& newScreenSize) { screenSize = newScreenSize; }
-		const Vector2ui& getScreenSize() const { return screenSize; }
+		void setScreenSize(const zt::Vector2ui& newScreenSize) { screenSize = newScreenSize; }
+		const zt::Vector2ui& getScreenSize() const { return screenSize; }
 
 		Matrix4f perspectiveMatrix() const;
 
@@ -62,15 +63,15 @@ namespace zt::gl
 
 	protected:
 
-		Vector3f position;
-		Vector3f target;
-		Vector3f cameraOrientation;
+		zt::Vector3f position;
+		zt::Vector3f target;
+		zt::Vector3f cameraOrientation;
 
 		float fov;
 		float aspect;
 		float near;
 		float far;
-		Vector2ui screenSize;
+		zt::Vector2ui screenSize;
 
 		Type type;
 	};

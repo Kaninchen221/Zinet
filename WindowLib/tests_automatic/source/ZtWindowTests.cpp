@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::window::tests
+namespace zt::wd::tests
 {
 
 	class WindowTests : public ::testing::Test
@@ -101,7 +101,7 @@ namespace zt::window::tests
 
 	TEST_F(WindowTests, GetWindowSize)
 	{
-		typedef zt::math::Vector2ui(Window::* ExpectedFunctionDeclaration)() const;
+		typedef zt::Vector2ui(Window::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Window::getSize);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);

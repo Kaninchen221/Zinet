@@ -3,7 +3,8 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLDepthBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 

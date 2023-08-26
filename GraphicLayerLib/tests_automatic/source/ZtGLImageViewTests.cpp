@@ -1,14 +1,15 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSwapChain.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+
+#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindow.h"
 
 #include <memory>
 
@@ -58,7 +59,7 @@ namespace zt::gl::tests
 		typedef void(ImageView::* ExpectedFunctionDeclaration)(const Device& device, const vk::ImageViewCreateInfo&);
 		static_assert(zt::core::IsFunctionEqual<ExpectedFunctionDeclaration>(&ImageView::create));
 
-		GLFW::Init();
+		wd::GLFW::Init();
 
 		rendererContext.initialize();
 
@@ -70,7 +71,7 @@ namespace zt::gl::tests
 		
 		ASSERT_TRUE(imageView.isValid());
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 
 }

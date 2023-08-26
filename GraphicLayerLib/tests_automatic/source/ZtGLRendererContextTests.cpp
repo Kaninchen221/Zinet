@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -27,7 +28,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererContextTests, Initialize)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 		rendererContext.initialize();
 
 		const Instance& instance = rendererContext.getInstance();
@@ -36,7 +37,7 @@ namespace zt::gl::tests
 		const DebugUtilsMessenger& debugUtilsMessenger = rendererContext.getDebugUtilsMessenger();
 		ASSERT_TRUE(debugUtilsMessenger.isValid());
 
-		const Window& window = rendererContext.getWindow();
+		const wd::Window& window = rendererContext.getWindow();
 		const GLFWwindow* internalWindow = window.getInternal();
 		ASSERT_NE(internalWindow, nullptr);
 
@@ -76,7 +77,7 @@ namespace zt::gl::tests
 		const CommandPool& commandPool = rendererContext.getCommandPool();
 		ASSERT_TRUE(commandPool.isValid());
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 
 	class RendererContextSimpleTests : public ::testing::Test
@@ -104,7 +105,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererContextSimpleTests, GetWindow)
 	{
-		const Window& window = rendererContext.getWindow();
+		const wd::Window& window = rendererContext.getWindow();
 		const GLFWwindow* internalWindow = window.getInternal();
 
 		ASSERT_EQ(internalWindow, nullptr);

@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <array>
 
-namespace zt::math
+namespace zt 
 {
 	class Math
 	{
@@ -55,24 +55,5 @@ namespace zt::math
 			std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1;
 			return mipmapLevels;
 		}
-
-// 		template<typename Vector>
-// 		constexpr static Vector FromExtent2DToVector2(const vk::Extent2D& extent)
-// 		{
-// 			return Vector
-// 			{
-// 				static_cast<Vector::value_type>(extent.width),
-// 				static_cast<Vector::value_type>(extent.height)
-// 			};
-// 		}
-
-// 		constexpr static vk::Extent2D FromVector2ToExtent2D(auto vector)
-// 		{
-// 			return vk::Extent2D
-// 			{
-// 				static_cast<std::uint32_t>(vector.x),
-// 				static_cast<std::uint32_t>(vector.y)
-// 			};
-// 		}
 	};
 }

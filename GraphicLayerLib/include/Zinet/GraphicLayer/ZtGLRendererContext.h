@@ -4,7 +4,6 @@
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 #include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
@@ -32,6 +31,8 @@
 #include "Zinet/GraphicLayer/ZtGLCamera.h"
 
 #include "Zinet/Core/ZtLogger.h"
+
+#include "Zinet/Window/ZtWindow.h"
 
 #include <plf_colony.h>
 #include <memory>
@@ -66,8 +67,8 @@ namespace zt::gl
 		const DebugUtilsMessenger& getDebugUtilsMessenger() const { return debugUtilsMessenger; }
 		DebugUtilsMessenger& getDebugUtilsMessenger() { return debugUtilsMessenger; }
 
-		const Window& getWindow() const { return window; }
-		Window& getWindow() { return window; }
+		const wd::Window& getWindow() const { return window; }
+		wd::Window& getWindow() { return window; }
 
 		const Surface& getSurface() const { return surface; }
 		Surface& getSurface() { return surface; }
@@ -132,7 +133,7 @@ namespace zt::gl
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;
-		Window window;
+		wd::Window window;
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		std::uint32_t queueFamilyIndex;

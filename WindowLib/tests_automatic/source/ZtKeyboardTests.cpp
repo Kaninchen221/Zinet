@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-namespace zt::window::tests
+namespace zt::wd::tests
 {
 
 	class KeyboardTests : public ::testing::Test

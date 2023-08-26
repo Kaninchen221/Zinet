@@ -2,12 +2,13 @@
 
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
+
+#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -39,7 +40,7 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Window window;
+		wd::Window window;
 		Context context;
 		Instance instance;
 		Surface surface;
@@ -47,7 +48,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 
 			window.create();
 
@@ -65,7 +66,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 

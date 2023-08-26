@@ -3,7 +3,7 @@
 #include "Zinet/Window/ZtKeyboardEventType.h"
 #include "Zinet/Window/ZtKeyboardKey.h"
 
-namespace zt::window
+namespace zt::wd
 {
 
 	struct KeyboardEvent

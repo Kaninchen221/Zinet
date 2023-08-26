@@ -5,11 +5,15 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+namespace zt::wd
+{
+	class Window;
+}
+
 namespace zt::gl
 {
 	struct SwapChainSupportDetails;
 	class Surface;
-	class Window;
 	class Device;
 	class Semaphore;
 	class Fence;
@@ -37,7 +41,7 @@ namespace zt::gl
 		vk::SwapchainCreateInfoKHR createCreateInfo(
 			const SwapChainSupportDetails& swapChainSupportDetails,
 			Surface& surface,
-			Window& window
+			wd::Window& window
 		) const;
 
 		// Images (acquired from the swapchain) lifetime are controlled by the implementation

@@ -4,14 +4,15 @@
 #include "Zinet/GraphicLayer/ZtGLRenderPass.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLShader.h"
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
+
+#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>
 
@@ -43,7 +44,7 @@ namespace zt::gl::tests
 
 	TEST_F(PipelineTests, CreateTest)
 	{
-		GLFW::Init();
+		wd::GLFW::Init();
 
 		Context context;
 		Instance instance;
@@ -52,7 +53,7 @@ namespace zt::gl::tests
 		vk::InstanceCreateInfo instanceCreateInfo = instance.createInstanceCreateInfo(applicationInfo);
 		instance.create(context, instanceCreateInfo);
 
-		Window window;
+		wd::Window window;
 		window.create();
 
 		Surface surface;
@@ -107,7 +108,7 @@ namespace zt::gl::tests
 
 		pipeline.reset();
 
-		GLFW::Deinit();
+		wd::GLFW::Deinit();
 	}
 
 }

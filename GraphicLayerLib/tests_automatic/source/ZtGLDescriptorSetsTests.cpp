@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLContext.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLWindow.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDevice.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
+
+#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtGLFW.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -24,7 +25,7 @@ namespace zt::gl::tests
 
 		Context context;
 		Instance instance;
-		Window window;
+		wd::Window window;
 		Surface surface;
 		PhysicalDevice physicalDevice;
 		Device device;
@@ -34,7 +35,7 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			GLFW::Init();
+			wd::GLFW::Init();
 
 			window.create();
 			vk::ApplicationInfo applicationInfo = instance.createApplicationInfo();
@@ -69,7 +70,7 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			GLFW::Deinit();
+			wd::GLFW::Deinit();
 		}
 	};
 
