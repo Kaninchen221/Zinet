@@ -1,0 +1,19 @@
+#pragma once
+
+#include "Zinet/Window/ZtMouseButton.h"
+#include "Zinet/Window/ZtMouseButtonEventType.h"
+
+namespace zt::window
+{
+	struct MouseButtonEvent
+	{
+		MouseButtonEventType type;
+		MouseButton button;
+
+		bool operator == (const MouseButtonEvent& other) const
+		{
+			return type == other.type && button == other.button;
+		}
+	};
+
+}

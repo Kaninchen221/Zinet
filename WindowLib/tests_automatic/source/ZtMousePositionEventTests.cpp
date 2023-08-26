@@ -1,0 +1,23 @@
+#pragma once
+
+#include "Zinet/Window/ZtMousePositionEvent.h"
+
+#include <gtest/gtest.h>
+
+namespace zt::window::tests
+{
+
+	class MousePositionEventTests : public ::testing::Test
+	{
+	protected:
+
+		MousePositionEvent positionEvent;
+
+	};
+
+	TEST_F(MousePositionEventTests, Position)
+	{
+		positionEvent.position = glm::dvec2();
+	}
+
+}

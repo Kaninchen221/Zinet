@@ -1,0 +1,21 @@
+#pragma once
+
+#include "Zinet/Window/ZtKeyboardKey.h"
+
+#include <gtest/gtest.h>
+
+namespace zt::window::tests
+{
+
+	class KeyboardKeyTests : public ::testing::Test
+	{
+	protected:
+
+		KeyboardKey keyboardKey{};
+
+	};
+
+	TEST_F(KeyboardKeyTests, Construct)
+	{}
+
+}
