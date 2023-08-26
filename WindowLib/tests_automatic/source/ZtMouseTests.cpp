@@ -88,23 +88,21 @@ namespace zt::window::tests
 
 		Window window;
 		window.create();
-		glm::dvec2 expectedPosition{ 34.0, 2.4324 };
+		zt::math::Vector2d expectedPosition{ 34.0, 2.0 };
 		Mouse::PositionCallback(window.getInternal(), expectedPosition.x, expectedPosition.y);
 
 		Event* event = window.getEvent();
 		Mouse* mouse = event->getMouse();
 		const std::vector<MousePositionEvent>& positions = mouse->getPositionEvents();
 		MousePositionEvent positionEvent = positions[0];
-		glm::dvec2 actualPosition = positionEvent.position;
-		glm::bvec2 areEqual = glm::equal(expectedPosition, actualPosition);
-		ASSERT_TRUE(glm::all(areEqual));
+		zt::math::Vector2d actualPosition = positionEvent.position;
+		ASSERT_EQ(expectedPosition, actualPosition);
 
 		mouse->setMaxRememberedPositionEvents(2u);
-		glm::dvec2 expectedSecondPosition{ 0.3432, 21.0 };
+		zt::math::Vector2d expectedSecondPosition{ 67.0, 27.0 };
 		Mouse::PositionCallback(window.getInternal(), expectedSecondPosition.x, expectedSecondPosition.y);
-		glm::dvec2 actualSecondPosition = positions[0].position;
-		areEqual = glm::equal(expectedSecondPosition, actualSecondPosition);
-		ASSERT_TRUE(glm::all(areEqual));
+		zt::math::Vector2d actualSecondPosition = positions[0].position;
+		ASSERT_EQ(expectedSecondPosition, actualSecondPosition);
 
 		GLFW::Deinit();
 	}

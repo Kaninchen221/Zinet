@@ -67,7 +67,7 @@ namespace zt::window
 		mouse->positionEvents.pop_back();
 
 		MousePositionEvent positionEvent;
-		positionEvent.position = glm::dvec2(positionX, positionY);
+		positionEvent.position = zt::math::Vector2d(positionX, positionY);
 		mouse->positionEvents.insert(mouse->positionEvents.begin(), positionEvent);
 	}
 
