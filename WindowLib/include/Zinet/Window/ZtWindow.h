@@ -18,8 +18,8 @@ namespace zt::wd
 
 		inline static core::ConsoleLogger Logger = core::ConsoleLogger::Create("Window");
 
-		inline static WindowResizedCallback WindowResizedCallbackPointer = nullptr;
-		inline static void* WindowResizedCallbackUserPointer = nullptr;
+		WindowResizedCallback windowResizedCallbackPointer = nullptr;
+		void* windowResizedCallbackUserPointer = nullptr;
 
 	public:
 
@@ -54,11 +54,11 @@ namespace zt::wd
 
 		void requestCloseWindow();
 
-		static void SetWindowResizedCallback(void* userPointer, WindowResizedCallback callback);
+		void setWindowResizedCallback(void* userPointer, WindowResizedCallback callback);
 
-		static WindowResizedCallback GetWindowResizedCallback() { return WindowResizedCallbackPointer; }
+		WindowResizedCallback getWindowResizedCallback() const { return windowResizedCallbackPointer; }
 
-		static void* GetWindowResizedCallbackUserPointer() { return WindowResizedCallbackUserPointer; }
+		void* getWindowResizedCallbackUserPointer() { return windowResizedCallbackUserPointer; }
 
 	protected:
 
@@ -68,12 +68,12 @@ namespace zt::wd
 		void bindFramebufferSizeCallback();
 	};
 
-	inline void Window::SetWindowResizedCallback(void* userPointer, WindowResizedCallback callback)
+	inline void Window::setWindowResizedCallback(void* userPointer, WindowResizedCallback callback)
 	{
 		if (userPointer && callback)
 		{
-			WindowResizedCallbackPointer = callback;
-			WindowResizedCallbackUserPointer = userPointer;
+			windowResizedCallbackPointer = callback;
+			windowResizedCallbackUserPointer = userPointer;
 		}
 		else
 		{

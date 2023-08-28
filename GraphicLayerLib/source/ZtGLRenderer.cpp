@@ -37,7 +37,7 @@ namespace zt::gl
 	{
 		rendererContext.initialize();
 
- 		wd::Window::SetWindowResizedCallback(this, &Renderer::WindowResizeCallback);
+		rendererContext.getWindow().setWindowResizedCallback(this, &Renderer::WindowResizeCallback);
 
 		Device& device = rendererContext.getDevice();
 		imageAvailableSemaphore.create(device);
@@ -180,6 +180,12 @@ namespace zt::gl
 		renderingFinishedSemaphore.create(rendererContext.getDevice());
 
 		rendererContext.informAboutWindowResize(size);
+	}
+
+	void Renderer::WindowResizeCallback(void* userPointer, const Vector2ui& size)
+	{
+		Renderer* renderer = static_cast<Renderer*>(userPointer);
+		renderer->windowResizeCallback_Internal(size);
 	}
 
 }

@@ -79,13 +79,13 @@ namespace zt::wd::tests
 
 	TEST_F(WindowTests, GetWindowResizedCallback)
 	{
-		auto callback = Window::GetWindowResizedCallback();
+		auto callback = window.getWindowResizedCallback();
 		EXPECT_EQ(callback, nullptr);
 	}
 
 	TEST_F(WindowTests, GetWindowResizedCallbackUserPointer)
 	{
-		void* userPointer = Window::GetWindowResizedCallbackUserPointer();
+		void* userPointer = window.getWindowResizedCallbackUserPointer();
 		EXPECT_EQ(userPointer, nullptr);
 	}
 
@@ -93,12 +93,12 @@ namespace zt::wd::tests
 	{
 		struct S { static void Callback(void* userPointer, const Vector2ui&) { if (!userPointer) FAIL() << "userPointer must be not nullptr"; } };
 		S s;
-		Window::SetWindowResizedCallback(&s, &S::Callback);
+		window.setWindowResizedCallback(&s, &S::Callback);
 
-		auto callback = Window::GetWindowResizedCallback();
+		auto callback = window.getWindowResizedCallback();
 		EXPECT_TRUE(callback);
 
-		void* userPointer = Window::GetWindowResizedCallbackUserPointer();
+		void* userPointer = window.getWindowResizedCallbackUserPointer();
 		EXPECT_EQ(userPointer, &s);
 	}
 

@@ -56,11 +56,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static void WindowResizeCallback(void* userPointer, const Vector2ui& size)
-		{
-			Renderer* renderer = static_cast<Renderer*>(userPointer);
-			renderer->windowResizeCallback_Internal(size);
-		}
+		inline static void WindowResizeCallback(void* userPointer, const Vector2ui& size);
 
 		void windowResizeCallback_Internal(const Vector2ui& size);
 
