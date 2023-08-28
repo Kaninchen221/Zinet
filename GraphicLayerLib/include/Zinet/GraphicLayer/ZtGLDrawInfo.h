@@ -40,9 +40,9 @@ namespace zt::gl
 		struct ZINET_GRAPHIC_LAYER_API Descriptor
 		{
 			std::uint32_t binding = 0u;
-			DescriptorType descriptorType;
+			DescriptorType descriptorType{};
 			std::uint32_t count = 0u;
-			ShaderType shaderType;
+			ShaderType shaderType{};
 
 			vk::DescriptorSetLayoutBinding toVkDescriptorSetLayoutBinding() const
 			{
