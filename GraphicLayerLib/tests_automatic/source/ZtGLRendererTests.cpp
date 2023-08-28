@@ -102,14 +102,6 @@ namespace zt::gl::tests
 		ASSERT_NE(commandPool, nullptr);
 	}
 
-	TEST(Renderer, SetInformAboutWindowResize)
-	{
-		Renderer renderer;
-
-		auto function = [](int width, int height) {};
-		renderer.setInformAboutWindowResizeCallback(function);
-	}
-
 	TEST_F(RendererTests, preDraw)
 	{
 		renderer.initialize();

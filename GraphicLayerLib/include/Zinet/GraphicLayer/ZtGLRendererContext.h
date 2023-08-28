@@ -108,7 +108,7 @@ namespace zt::gl
 		const CommandPool& getCommandPool() const { return commandPool; }
 		CommandPool& getCommandPool() { return commandPool; }
 
-		void informAboutWindowResize(int width, int height);
+		void informAboutWindowResize(const Vector2ui& size);
 
 		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
 		void submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function);

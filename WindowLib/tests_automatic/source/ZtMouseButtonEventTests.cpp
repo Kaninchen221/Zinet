@@ -11,7 +11,7 @@ namespace zt::wd::tests
 	{
 	protected:
 
-		MouseButtonEvent mouseButtonEvent;
+		MouseButtonEvent mouseButtonEvent{};
 
 	};
 

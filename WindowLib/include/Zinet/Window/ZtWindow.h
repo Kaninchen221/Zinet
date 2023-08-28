@@ -2,16 +2,24 @@
 
 #include "Zinet/Window/ZtEvent.h"
 #include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::wd
 {
-	class Renderer;
-
 	class Window
 	{
-		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Window");
+	public:
+
+		using WindowResizedCallback = std::function<void(void*, const Vector2ui&)>;
+
+	private:
+
+		inline static core::ConsoleLogger Logger = core::ConsoleLogger::Create("Window");
+
+		inline static WindowResizedCallback WindowResizedCallbackPointer = nullptr;
+		inline static void* WindowResizedCallbackUserPointer = nullptr;
 
 	public:
 
@@ -46,12 +54,30 @@ namespace zt::wd
 
 		void requestCloseWindow();
 
+		static void SetWindowResizedCallback(void* userPointer, WindowResizedCallback callback);
+
+		static WindowResizedCallback GetWindowResizedCallback() { return WindowResizedCallbackPointer; }
+
+		static void* GetWindowResizedCallbackUserPointer() { return WindowResizedCallbackUserPointer; }
+
 	protected:
 
-		GLFWwindow* internalWindow = nullptr;
+		GLFWwindow* internalWindow{};
 		Event event;
 
 		void bindFramebufferSizeCallback();
 	};
 
+	inline void Window::SetWindowResizedCallback(void* userPointer, WindowResizedCallback callback)
+	{
+		if (userPointer && callback)
+		{
+			WindowResizedCallbackPointer = callback;
+			WindowResizedCallbackUserPointer = userPointer;
+		}
+		else
+		{
+			Logger->error("Can't bind user pointer: {} : Is callback valid: {}", userPointer, callback.operator bool());
+		}
+	}
 }

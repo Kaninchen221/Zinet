@@ -2,6 +2,8 @@
 
 #include "Zinet/Core/ZtDebug.h"
 
+#include <type_traits>
+
 namespace zt::wd
 {
 
@@ -72,8 +74,18 @@ namespace zt::wd
 
     void Window::FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height)
     {
-//         if (RendererReference != nullptr)
-//             RendererReference->informAboutWindowResize(width, height);
+        void* windowUserPointer = glfwGetWindowUserPointer(internalWindow);
+        if (windowUserPointer == nullptr)
+        {
+            Logger->warn("Window::FramebufferSizeCallback: windowUserPointer is nullptr");
+            return;
+        }
+
+		if (WindowResizedCallbackPointer && WindowResizedCallbackUserPointer)
+		{
+            auto callable = std::bind(WindowResizedCallbackPointer, WindowResizedCallbackUserPointer, Vector2ui{width, height});
+			std::invoke(callable);
+		}
     }
 
     Event* Window::getEvent()

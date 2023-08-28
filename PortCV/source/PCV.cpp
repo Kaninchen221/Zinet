@@ -1,6 +1,6 @@
 #include "Zinet/PortCV/PCV.h"
 
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
+#include "Zinet/Window/ZtGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 
@@ -11,13 +11,13 @@
 void PortCV::start()
 {
 	Logger->info("Start");
-	GLFW::Init(false);
+	wd::GLFW::Init(false);
 
 	setup();
 
 	loop();
 
-	GLFW::Deinit();
+	wd::GLFW::Deinit();
 	Logger->info("Stop");
 }
 
@@ -25,7 +25,7 @@ void PortCV::setup()
 {
 	Logger->info("Setup");
 
-	GLFW::UnhideWindow();
+	wd::GLFW::UnhideWindow();
 
 	renderer.initialize();
 

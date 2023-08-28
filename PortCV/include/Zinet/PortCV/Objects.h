@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLFlipbook.h"
-#include "Zinet/GraphicLayer/ZtGLMath.h"
+#include "Zinet/Window/ZtMath.h"
 #include "Zinet/GraphicLayer/ZtGLTransform.h"
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 
@@ -9,13 +9,13 @@
 
 #include "imgui.h"
 
-using namespace zt::gl;
+using namespace zt;
 
 class Object
 {
 public:
 
-	static void ImguiDrawable2DBase(Drawable2DBase& drawable2D, size_t index);
+	static void ImguiDrawable2DBase(gl::Drawable2DBase& drawable2D, size_t index);
 
 	virtual void create() = 0;
 };
@@ -29,13 +29,13 @@ public:
 
 public:
 
-	Sprite sprite;
+	gl::Sprite sprite;
 
 };
 
 inline void Character::create()
 {
-	TextureRegion textureRegion;
+	gl::TextureRegion textureRegion;
 	textureRegion.size = Vector2f{ 16.f, 16.f };
 	textureRegion.offset = Vector2f{ 16.f, 32.f };
 	sprite.setTextureRegion(textureRegion, Vector2f{ 48.f, 80.f });
@@ -50,13 +50,13 @@ public:
 
 public:
 
-	Flipbook flipbook;
+	gl::Flipbook flipbook;
 
 };
 
-inline void Object::ImguiDrawable2DBase(Drawable2DBase& drawable2D, size_t index)
+inline void Object::ImguiDrawable2DBase(gl::Drawable2DBase& drawable2D, size_t index)
 {
-	Transform transform = drawable2D.getTransform();
+	gl::Transform transform = drawable2D.getTransform();
 	Vector3f position = transform.getTranslation();
 	Vector3f rotation = transform.getRotation();
 	Vector3f scale = transform.getScale();
@@ -89,14 +89,14 @@ inline void Object::ImguiDrawable2DBase(Drawable2DBase& drawable2D, size_t index
 
 inline void Campfire::create()
 {
-	TextureRegion textureRegion;
+	gl::TextureRegion textureRegion;
 	textureRegion.size = Vector2f{ 16.f, 32.f };
 	textureRegion.offset = Vector2f{ 0.f, 0.f };
 
-	std::vector<Flipbook::Frame> frames;
+	std::vector<gl::Flipbook::Frame> frames;
 	for (size_t index = 0u; index < 6u; ++index)
 	{
-		Flipbook::Frame frame;
+		gl::Flipbook::Frame frame;
 		frame.time = zt::core::Time::FromSeconds(0.5f);
 		frame.shaderTextureRegion = textureRegion.toShaderTextureRegion(Vector2f{ 96.f, 32.f });
 		frames.push_back(frame);

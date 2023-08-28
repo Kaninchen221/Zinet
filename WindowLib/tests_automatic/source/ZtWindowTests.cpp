@@ -77,31 +77,34 @@ namespace zt::wd::tests
 		window.bindCallbacks();
 	}
 
-// 	TEST_F(WindowTests, GetRenderer)
-// 	{
-// 		typedef Renderer* (*ExpectedFunctionDeclaration)();
-// 		using FunctionDeclaration = decltype(&Window::GetRenderer);
-// 
-// 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-// 	}
-// 
-// 	TEST_F(WindowTests, SetRenderer)
-// 	{
-// 		typedef void(*ExpectedFunctionDeclaration)(Renderer&);
-// 		using FunctionDeclaration = decltype(&Window::SetRenderer);
-// 
-// 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);
-// 
-// 		Renderer expectedRenderer;
-// 		Window::SetRenderer(expectedRenderer);
-// 		Renderer* actualRenderer = Window::GetRenderer();
-// 
-// 		ASSERT_EQ(&expectedRenderer, actualRenderer);
-// 	}
+	TEST_F(WindowTests, GetWindowResizedCallback)
+	{
+		auto callback = Window::GetWindowResizedCallback();
+		EXPECT_EQ(callback, nullptr);
+	}
+
+	TEST_F(WindowTests, GetWindowResizedCallbackUserPointer)
+	{
+		void* userPointer = Window::GetWindowResizedCallbackUserPointer();
+		EXPECT_EQ(userPointer, nullptr);
+	}
+
+	TEST_F(WindowTests, SetWindowResizedCallback)
+	{
+		struct S { static void Callback(void* userPointer, const Vector2ui&) { if (!userPointer) FAIL() << "userPointer must be not nullptr"; } };
+		S s;
+		Window::SetWindowResizedCallback(&s, &S::Callback);
+
+		auto callback = Window::GetWindowResizedCallback();
+		EXPECT_TRUE(callback);
+
+		void* userPointer = Window::GetWindowResizedCallbackUserPointer();
+		EXPECT_EQ(userPointer, &s);
+	}
 
 	TEST_F(WindowTests, GetWindowSize)
 	{
-		typedef zt::Vector2ui(Window::* ExpectedFunctionDeclaration)() const;
+		typedef Vector2ui(Window::* ExpectedFunctionDeclaration)() const;
 		using FunctionDeclaration = decltype(&Window::getSize);
 
 		static_assert(std::is_same_v<ExpectedFunctionDeclaration, FunctionDeclaration>);

@@ -51,15 +51,18 @@ namespace zt::gl
 
 		void postDraw();
 
-		void informAboutWindowResize(int width, int height);
-
-		typedef void (*InformAboutWindowResizeCallback)(int width, int height);
-		void setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback);
-
 		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
 		void submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function);
 
 	protected:
+
+		inline static void WindowResizeCallback(void* userPointer, const Vector2ui& size)
+		{
+			Renderer* renderer = static_cast<Renderer*>(userPointer);
+			renderer->windowResizeCallback_Internal(size);
+		}
+
+		void windowResizeCallback_Internal(const Vector2ui& size);
 
 		void submit();
 		void present(uint32_t& image);
@@ -91,8 +94,6 @@ namespace zt::gl
 		std::array<Semaphore*, 1> presentWaitSemaphores = { &renderingFinishedSemaphore };
 		std::array<SwapChain*, 1> presentSwapChains = { &rendererContext.getSwapChain() };
 		vk::PresentInfoKHR presentInfo;
-
-		InformAboutWindowResizeCallback informAboutWindowResizeCallback = nullptr;
 
 		std::vector<DrawInfo> drawInfos;
 	};
@@ -150,4 +151,9 @@ namespace zt::gl
 		newRendererPipeline.updateDescriptorSets(rendererContext.getDevice());
 	}
 
+// 	inline void Renderer::WindowResizeCallback(void* userPointer, const Vector2ui& size)
+// 	{
+// 		Renderer* renderer = static_cast<Renderer*>(userPointer);
+// 		renderer->windowResizeCallback_Internal(size);
+// 	}
 }

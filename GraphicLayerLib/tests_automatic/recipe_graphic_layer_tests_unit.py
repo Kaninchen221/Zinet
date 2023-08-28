@@ -10,6 +10,7 @@ test.includeDirectories = """
     ${CONAN_INCLUDE_DIRS_GTEST}
     """
 test.linkLibraries =  """
+    ZinetWindow
     ZinetGraphicLayer
     ${CONAN_LIBS_GTEST}
     """

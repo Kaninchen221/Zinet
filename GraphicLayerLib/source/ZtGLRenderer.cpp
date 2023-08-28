@@ -4,6 +4,7 @@
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 
 #include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindow.h"
 
 #include <map>
 
@@ -35,7 +36,8 @@ namespace zt::gl
 	void Renderer::initialize()
 	{
 		rendererContext.initialize();
-		//Window::SetRenderer(*this);
+
+ 		wd::Window::SetWindowResizedCallback(this, &Renderer::WindowResizeCallback);
 
 		Device& device = rendererContext.getDevice();
 		imageAvailableSemaphore.create(device);
@@ -137,32 +139,6 @@ namespace zt::gl
 			Logger->error("present return non success vk::Result");
 	}
 
-	void Renderer::informAboutWindowResize(int width, int height)
-	{
-		drawCommandBuffer.setIsCommandBufferInvalid(true);
-
-		while (rendererContext.getWindow().isMinimized())
-		{
-			glfwWaitEvents();
-		}
-
-		rendererContext.getDevice()->waitIdle();
-		drawFence.clear();
-		vk::FenceCreateInfo fenceCreateInfo = drawFence.createSignaledFenceCreateInfo();
-		drawFence.create(rendererContext.getDevice(), fenceCreateInfo);
-
-		imageAvailableSemaphore.clear();
-		imageAvailableSemaphore.create(rendererContext.getDevice());
-
-		renderingFinishedSemaphore.clear();
-		renderingFinishedSemaphore.create(rendererContext.getDevice());
-
-		rendererContext.informAboutWindowResize(width, height);
-
-		if (informAboutWindowResizeCallback != nullptr)
-			std::invoke(informAboutWindowResizeCallback, width, height);
-	}
-
 	void Renderer::updateMVPUniformBuffer(RenderStates& renderStates, DrawInfo& drawInfo)
 	{
 		if (drawInfo.uniformBuffers.size() == 0)
@@ -183,12 +159,27 @@ namespace zt::gl
 		rendererContext.getQueue().submitWaitIdle(commandBuffer, function);
 	}
 
-	void Renderer::setInformAboutWindowResizeCallback(InformAboutWindowResizeCallback callback)
+	void Renderer::windowResizeCallback_Internal(const Vector2ui& size)
 	{
-		if (callback != nullptr)
+		drawCommandBuffer.setIsCommandBufferInvalid(true);
+
+		while (rendererContext.getWindow().isMinimized())
 		{
-			informAboutWindowResizeCallback = callback;
+			glfwWaitEvents();
 		}
+
+		rendererContext.getDevice()->waitIdle();
+		drawFence.clear();
+		vk::FenceCreateInfo fenceCreateInfo = drawFence.createSignaledFenceCreateInfo();
+		drawFence.create(rendererContext.getDevice(), fenceCreateInfo);
+
+		imageAvailableSemaphore.clear();
+		imageAvailableSemaphore.create(rendererContext.getDevice());
+
+		renderingFinishedSemaphore.clear();
+		renderingFinishedSemaphore.create(rendererContext.getDevice());
+
+		rendererContext.informAboutWindowResize(size);
 	}
 
 }

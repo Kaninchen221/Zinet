@@ -3,7 +3,6 @@
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 #include "Zinet/GraphicLayer/ZtGLVertex.h"
 #include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLGLFW.h"
 #include "Zinet/GraphicLayer/ZtGLSTBImage.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 #include "Zinet/GraphicLayer/ZtGLTexture.h"
@@ -11,12 +10,14 @@
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 #include "Zinet/GraphicLayer/ZtGLTileMap.h"
-#include "Zinet/GraphicLayer/ZtGLMath.h"
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
 #include "Zinet/GraphicLayer/ZtGLFlipbook.h"
 
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtTypeTraits.h"
+
+#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtMath.h"
 
 #include <gtest/gtest.h>
 
@@ -74,7 +75,7 @@ namespace zt::gl::tests
 		if (skipSprites)
 			return;
 
-		zt::gl::GLFW::UnhideWindow();
+		wd::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -4.0f });
 
@@ -176,7 +177,7 @@ namespace zt::gl::tests
 		if (skipInstancedRendering)
 			return;
 
-		zt::gl::GLFW::UnhideWindow();
+		wd::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -30.0f });
 		camera.setFar(1000.f);
@@ -263,7 +264,7 @@ namespace zt::gl::tests
 		if (skipFlipbook)
 			return;
 
-		zt::gl::GLFW::UnhideWindow();
+		wd::GLFW::UnhideWindow();
 
 		camera.setPosition({ 0.0f, 0.0f, -30.0f });
 		camera.setFar(1000.f);
