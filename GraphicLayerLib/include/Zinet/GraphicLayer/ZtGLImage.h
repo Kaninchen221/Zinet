@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
 
-#include "Zinet/Window/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -43,13 +43,13 @@ namespace zt::gl
 
 		~Image() noexcept;
 
-		vk::ImageCreateInfo createCreateInfo(const zt::Vector2<std::uint32_t>& size, std::uint32_t newMipmapLevels = 1u, vk::Format format = vk::Format::eR8G8B8A8Srgb);
+		vk::ImageCreateInfo createCreateInfo(const Vector2<std::uint32_t>& size, std::uint32_t newMipmapLevels = 1u, vk::Format format = vk::Format::eR8G8B8A8Srgb);
 
 		VmaAllocationCreateInfo createAllocationCreateInfo() const;
 
 		void create(const CreateInfo& imageCreateInfo);
 
-		zt::Vector2<std::uint32_t> getSize() const { return { width, height }; }
+		Vector2<std::uint32_t> getSize() const { return { width, height }; }
 
 		std::uint32_t getMipmapLevels() const { return mipmapLevels; }
 

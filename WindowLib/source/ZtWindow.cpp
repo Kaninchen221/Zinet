@@ -94,7 +94,7 @@ namespace zt::wd
         return &event;
     }
 
-    zt::Vector2ui Window::getSize() const
+    Vector2ui Window::getSize() const
 	{
         int width = 0;
         int height = 0;
@@ -104,7 +104,7 @@ namespace zt::wd
 
 	bool Window::isMinimized() const
 	{
-        zt::Vector2i windowSize = getSize();
+        Vector2i windowSize = getSize();
         return windowSize.x == 0 && windowSize.y == 0;
 	}
 

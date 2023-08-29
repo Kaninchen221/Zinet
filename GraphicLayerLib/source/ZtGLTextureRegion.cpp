@@ -3,7 +3,7 @@
 namespace zt::gl
 {
 
-	TextureRegion TextureRegion::toShaderTextureRegion(const zt::Vector2f& textureSize) const
+	TextureRegion TextureRegion::toShaderTextureRegion(const Vector2f& textureSize) const
 	{
 		TextureRegion result = *this;
 		result.offset.x /= textureSize.x;

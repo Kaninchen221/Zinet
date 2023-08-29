@@ -46,4 +46,20 @@ namespace zt::gl::tests
 			FAIL() << "Can't load texture image";
 		}
 	}
+
+	TEST_F(UtilitiesTests, FromExtent2DToVector2)
+	{
+		vk::Extent2D extent{ 234u, 1111u }; //std::uint32_t
+		Vector2ui expected{ extent.width, extent.height };
+		Vector2ui actual = Utilities::FromExtent2DToVector2<Vector2ui>(extent);
+		EXPECT_EQ(expected, actual);
+	}
+
+	TEST_F(UtilitiesTests, FromVector2Extent2DTo)
+	{
+		Vector2ui vector{ 123132u, 212u };
+		vk::Extent2D expected{ vector.x, vector.y }; //std::uint32_t
+		vk::Extent2D actual = Utilities::FromVector2ToExtent2D(vector);
+		EXPECT_EQ(expected, actual);
+	}
 }

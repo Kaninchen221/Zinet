@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/Window/ZtWindow.h"
-#include "Zinet/Window/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.h"
 #include "Zinet/Window/ZtGLFW.h"
 
 #include <gtest/gtest.h>

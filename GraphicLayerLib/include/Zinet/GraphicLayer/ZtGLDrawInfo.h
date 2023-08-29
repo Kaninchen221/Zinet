@@ -12,7 +12,7 @@
 #include "Zinet/GraphicLayer/ZtGLImageView.h"
 #include "Zinet/GraphicLayer/ZtGLMVP.h"
 
-#include "Zinet/Window/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.h"
 
 #include <span>
 #include <vector>

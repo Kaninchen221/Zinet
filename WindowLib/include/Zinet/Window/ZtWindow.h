@@ -2,7 +2,8 @@
 
 #include "Zinet/Window/ZtEvent.h"
 #include "Zinet/Window/ZtGLFW.h"
-#include "Zinet/Window/ZtVecTypes.h"
+
+#include "Zinet/Math/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -48,7 +49,7 @@ namespace zt::wd
 
 		Event* getEvent();
 
-		zt::Vector2ui getSize() const;
+		Vector2ui getSize() const;
 
 		bool isMinimized() const;
 

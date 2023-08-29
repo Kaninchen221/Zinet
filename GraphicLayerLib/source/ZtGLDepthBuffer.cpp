@@ -3,7 +3,7 @@
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
 
-#include "Zinet/Window/ZtMath.h"
+#include "Zinet/Math/ZtMath.h"
 
 #include <vulkan/vulkan_enums.hpp>
 

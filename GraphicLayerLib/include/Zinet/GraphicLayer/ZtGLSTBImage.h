@@ -2,7 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGraphicLayer.h"
 
-#include "Zinet/Window/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.h"
 
 namespace zt::gl
 {

@@ -17,7 +17,7 @@ namespace zt::gl
 
 	Matrix4f Camera::viewMatrix() const
 	{
-		zt::Vector3f tempPosition = position;
+		Vector3f tempPosition = position;
 		tempPosition.x *= -1.f;
 		tempPosition.y *= -1.f;
 

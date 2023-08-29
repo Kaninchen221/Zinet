@@ -19,6 +19,7 @@ graphicLayer.includeDirectories = """
 graphicLayer.linkLibraries = """
     ZinetCore
     ZinetWindow
+    ZinetMath
     ${CONAN_LIBS_SHADERC}
     ${CONAN_LIBS_GLFW}
     ${CONAN_LIBS_GLM}

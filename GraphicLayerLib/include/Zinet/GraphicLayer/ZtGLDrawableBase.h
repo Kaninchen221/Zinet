@@ -38,7 +38,7 @@ namespace zt::gl
 
 		virtual void setTransform(const Transform& newTransform) = 0;
 
-		virtual zt::Vector2ui getAbsoluteSize() const = 0;
+		virtual Vector2ui getAbsoluteSize() const = 0;
 
 		virtual std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const { return {}; }
 

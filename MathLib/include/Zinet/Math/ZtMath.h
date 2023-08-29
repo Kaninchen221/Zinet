@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Window/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -50,10 +50,14 @@ namespace zt
 			return result;
 		}
 
-		static std::uint32_t GetMaximumMipmapLevelsCount(const Vector2ui& textureSize)
-		{
-			std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1;
-			return mipmapLevels;
-		}
+		static std::uint32_t GetMaximumMipmapLevelsCount(const Vector2ui& textureSize);
+
+		void INeedGeneratedLib() const;
 	};
+
+	inline std::uint32_t Math::GetMaximumMipmapLevelsCount(const Vector2ui& textureSize)
+	{
+		std::uint32_t mipmapLevels = static_cast<std::uint32_t>(std::floor(std::log2(std::max(textureSize.x, textureSize.y)))) + 1;
+		return mipmapLevels;
+	}
 }

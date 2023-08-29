@@ -4,7 +4,7 @@
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
 #include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
 
-#include "Zinet/Window/ZtMath.h"
+#include "Zinet/Math/ZtMath.h"
 
 namespace zt::gl
 {

@@ -57,4 +57,13 @@ namespace zt::gl
 		};
 	}
 
+	constexpr vk::Extent2D Utilities::FromVector2ToExtent2D(auto vector)
+	{
+		return vk::Extent2D
+		{
+			static_cast<std::uint32_t>(vector.x),
+				static_cast<std::uint32_t>(vector.y)
+		};
+	}
+
 }

@@ -17,7 +17,7 @@
 #include "Zinet/Core/ZtTypeTraits.h"
 
 #include "Zinet/Window/ZtGLFW.h"
-#include "Zinet/Window/ZtMath.h"
+#include "Zinet/Math/ZtMath.h"
 
 #include <gtest/gtest.h>
 

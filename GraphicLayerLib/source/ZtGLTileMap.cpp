@@ -20,7 +20,7 @@ namespace zt::gl
 		return std::move(drawInfo);
 	}
 
-	void TileMap::setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const zt::Vector2f& textureSize)
+	void TileMap::setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
 	{
 		defaultShaderTextureRegion = newTextureRegion.toShaderTextureRegion(textureSize);
 	}
@@ -43,13 +43,13 @@ namespace zt::gl
 		Buffer::CreateInfo tilesCountBufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = tilesCountUniformBuffer.createCreateInfo(sizeof(zt::Vector2f)),
+			.vkBufferCreateInfo = tilesCountUniformBuffer.createCreateInfo(sizeof(Vector2f)),
 			.allocationCreateInfo = tilesCountUniformBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		tilesCountUniformBuffer.create(tilesCountBufferCreateInfo);
 		tilesCountUniformBuffer.setBinding(3u);
 
-		tilesCountUniformBuffer.fillWithObject(zt::Vector2f{tilesCount});
+		tilesCountUniformBuffer.fillWithObject(Vector2f{tilesCount});
 	}
 
 	void TileMap::createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const
@@ -58,16 +58,16 @@ namespace zt::gl
 		Buffer::CreateInfo bufferCreateInfo{
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
-			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * GetDefaultVerticesCount() * sizeof(zt::Vector2f)),
+			.vkBufferCreateInfo = storageBuffer.createCreateInfo(tilesTextureRegions.size() * GetDefaultVerticesCount() * sizeof(Vector2f)),
 			.allocationCreateInfo = storageBuffer.createVmaAllocationCreateInfo(false, false)
 		};
 		storageBuffer.create(bufferCreateInfo);
 		storageBuffer.setBinding(2u);
 
-		std::vector<zt::Vector2f> uvs;
+		std::vector<Vector2f> uvs;
 		for (const TextureRegion& textureRegion : tilesTextureRegions)
 		{
-			zt::Vector2f UV = textureRegion.offset;
+			Vector2f UV = textureRegion.offset;
 			uvs.push_back(UV);
 
 			UV.x += textureRegion.size.x;
@@ -85,7 +85,7 @@ namespace zt::gl
 		storageBuffer.fillWithStdContainer(uvs);
 	}
 
-	void TileMap::setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const zt::Vector2f& textureSize)
+	void TileMap::setTilesTextureRegions(const std::vector<TextureRegion>& newTilesTextureRegions, const Vector2f& textureSize)
 	{
 		tilesTextureRegions.clear();
 		tilesTextureRegions.reserve(newTilesTextureRegions.size());

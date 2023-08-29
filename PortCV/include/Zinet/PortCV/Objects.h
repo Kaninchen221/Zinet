@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLFlipbook.h"
-#include "Zinet/Window/ZtMath.h"
+#include "Zinet/Math/ZtMath.h"
 #include "Zinet/GraphicLayer/ZtGLTransform.h"
 #include "Zinet/GraphicLayer/ZtGLSprite.h"
 
