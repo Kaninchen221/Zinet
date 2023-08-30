@@ -4,14 +4,10 @@
 namespace zt::wd
 {
 
-	Keyboard::Keyboard()
+	Keyboard::Keyboard(Window& newWindow)
+		: events{ KeyboardEvent{} },
+		window{ &newWindow }
 	{
-		events = std::vector<KeyboardEvent>(1, KeyboardEvent());
-	}
-
-	void Keyboard::setWindow(Window* newWindow)
-	{
-		window = newWindow;
 	}
 
 	const Window* Keyboard::getWindow() const

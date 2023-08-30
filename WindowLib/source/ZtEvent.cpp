@@ -6,7 +6,6 @@ namespace zt::wd
 	void Event::setWindow(Window* newWindow)
 	{
 		window = newWindow;
-		keyboard.setWindow(window);
 		mouse.setWindow(window);
 	}
 

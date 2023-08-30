@@ -17,7 +17,8 @@ namespace zt::wd
 
 	public:
 
-		Keyboard();
+		Keyboard() = delete;
+		Keyboard(Window& newWindow);
 		Keyboard(const Keyboard& other) = default;
 		Keyboard(Keyboard&& other) = default;
 
@@ -25,8 +26,6 @@ namespace zt::wd
 		Keyboard& operator = (Keyboard&& other) = default;
 
 		~Keyboard() noexcept = default;
-
-		void setWindow(Window* newWindow);
 
 		const Window* getWindow() const;
 
@@ -40,11 +39,11 @@ namespace zt::wd
 
 		size_t getMaximumRememberedEvents() const;
 
-		static void KeyCallback(GLFWwindow* internalWindow, int key, int scanCode, int action, int mods);
-
 		void bindCallbacks();
 
 	protected:
+
+		static void KeyCallback(GLFWwindow* internalWindow, int key, int scanCode, int action, int mods);
 
 		Window* window = nullptr;
 		std::vector<KeyboardEvent> events;

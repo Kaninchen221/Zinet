@@ -24,7 +24,7 @@ namespace zt::wd
 
 	public:
 
-		Window() = default;
+		Window() : event{ *this } {}
 		Window(const Window& other) = default;
 		Window(Window&& other) = default;
 

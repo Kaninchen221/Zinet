@@ -13,7 +13,12 @@ namespace zt::wd::tests
 	{
 	protected:
 
-		Keyboard keyboard;
+		KeyboardTests() {}
+
+		Window window;
+		Keyboard keyboard{ window };
+
+		static_assert(!std::is_default_constructible_v<Keyboard>);
 
 		void SetUp() override
 		{
@@ -26,53 +31,24 @@ namespace zt::wd::tests
 		}
 	};
 
-	TEST_F(KeyboardTests, SetWindow)
-	{
-		Window expectedWindow{};
-		expectedWindow.create();
-		keyboard.setWindow(&expectedWindow);
-		const Window* actualWindow = keyboard.getWindow();
-
-		ASSERT_EQ(actualWindow, &expectedWindow);
-	}
-
 	TEST_F(KeyboardTests, GetWindow)
 	{
-		const Window* window = keyboard.getWindow();
-
-		ASSERT_EQ(window, nullptr);
+		const Window* windowPointer = keyboard.getWindow();
+		EXPECT_EQ(windowPointer, &window);
 	}
 
-	TEST(Keyboard, IsPressed)
+	TEST_F(KeyboardTests, IsPressed)
 	{
-		GLFW::Init();
-
-		Window window;
 		window.create();
-		Event* event = window.getEvent();
-		Keyboard* keyboard = event->getKeyboard();
-		ASSERT_NE(keyboard, nullptr);
-
-		bool isPressed = keyboard->isPressed(KeyboardKey::F4);
+		bool isPressed = keyboard.isPressed(KeyboardKey::F4);
 		ASSERT_FALSE(isPressed);
-
-		GLFW::Deinit();
 	}
 
-	TEST(Keyboard, IsReleased)
+	TEST_F(KeyboardTests, IsReleased)
 	{
-		GLFW::Init();
-
-		Window window;
 		window.create();
-		Event* event = window.getEvent();
-		Keyboard* keyboard = event->getKeyboard();
-		ASSERT_NE(keyboard, nullptr);
-
-		bool isReleased = keyboard->isReleased(KeyboardKey::F2);
+		bool isReleased = keyboard.isReleased(KeyboardKey::F2);
 		ASSERT_TRUE(isReleased);
-
-		GLFW::Deinit();
 	}
 
 	TEST_F(KeyboardTests, SetMaximumRememberedEvents)

@@ -12,6 +12,8 @@ namespace zt::wd
 
 	public:
 
+		Event(Window& newWindow) : window{ &newWindow }, keyboard{ newWindow } {}
+
 		void setWindow(Window* newWindow);
 
 		const Window* getWindow() const;

@@ -14,29 +14,33 @@ namespace zt::wd::tests
 	{
 	protected:
 
-		Event event{};
+		GLFW glfw;
+		Window window;
+		Event event{ window };
 
+		void SetUp() override
+		{
+			GLFW::Init();
+		}
+
+		void TearDown() override
+		{
+			GLFW::Deinit();
+		}
 	};
 
 	TEST_F(EventTests, SetWindow)
 	{
-		glfwInit();
-
-		Window expectedWindow;
-		expectedWindow.create();
-		event.setWindow(&expectedWindow);
-		const Window* actualWindow = event.getWindow();
-
-		ASSERT_EQ(&expectedWindow, actualWindow);
-
-		glfwTerminate();
+ 		window.create();
+ 		const Window* actualWindow = event.getWindow();
+ 
+ 		EXPECT_EQ(&window, actualWindow);
 	}
 
 	TEST_F(EventTests, GetWindow)
 	{
-		const Window* window = event.getWindow();
-
-		ASSERT_EQ(window, nullptr);
+		const Window* actualWindow = event.getWindow();
+		EXPECT_EQ(actualWindow, &window);
 	}
 
 	TEST_F(EventTests, PollEvents)
