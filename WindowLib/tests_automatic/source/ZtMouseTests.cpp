@@ -18,7 +18,8 @@ namespace zt::wd::tests
 	{
 	protected:
 
-		Mouse mouse;
+		Window window;
+		Mouse mouse{ window };
 
 		void SetUp() override
 		{
@@ -31,21 +32,10 @@ namespace zt::wd::tests
 		}
 	};
 
-	TEST_F(MouseTests, SetWindow)
-	{
-		Window expectedWindow;
-		expectedWindow.create();
-		mouse.setWindow(&expectedWindow);
-		const Window* actualWindow = mouse.getWindow();
-
-		ASSERT_EQ(&expectedWindow, actualWindow);
-	}
-
 	TEST_F(MouseTests, GetWindow)
 	{
 		const Window* actualWindow = mouse.getWindow();
-
-		ASSERT_EQ(actualWindow, nullptr);
+		ASSERT_EQ(actualWindow, &window);
 	}
 
 	TEST_F(MouseTests, GetButtonsEvents)
@@ -68,7 +58,6 @@ namespace zt::wd::tests
 
 	TEST_F(MouseTests, ButtonCallback)
 	{
-		Window window;
 		window.create();
 		MouseButtonEvent expectedButtonEvent{};
 		Mouse::ButtonCallback(window.getInternal(), static_cast<int>(expectedButtonEvent.button), static_cast<int>(expectedButtonEvent.type), 0);

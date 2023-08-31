@@ -13,8 +13,6 @@ namespace zt::wd::tests
 	{
 	protected:
 
-		KeyboardTests() {}
-
 		Window window;
 		Keyboard keyboard{ window };
 

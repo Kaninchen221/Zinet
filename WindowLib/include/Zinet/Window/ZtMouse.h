@@ -14,7 +14,8 @@ namespace zt::wd
 
 	public:
 
-		Mouse();
+		Mouse() = delete;
+		Mouse(Window& newWindow);
 		Mouse(const Mouse& other) = default;
 		Mouse(Mouse&& other) = default;
 
@@ -22,8 +23,6 @@ namespace zt::wd
 		Mouse& operator = (Mouse&& other) = default;
 
 		~Mouse() noexcept = default;
-
-		void setWindow(Window* newWindow);
 
 		const Window* getWindow() const;
 
@@ -48,8 +47,8 @@ namespace zt::wd
 	protected:
 
 		Window* window = nullptr;
-		std::vector<MouseButtonEvent> buttonsEvents;
-		std::vector<MousePositionEvent> positionEvents;
+		std::vector<MouseButtonEvent> buttonsEvents{MouseButtonEvent{}};
+		std::vector<MousePositionEvent> positionEvents{MousePositionEvent{}};
 
 	};
 

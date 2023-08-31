@@ -8,7 +8,6 @@
 
 namespace zt::wd
 {
-
 	class Window;
 
 	class Keyboard

@@ -14,9 +14,10 @@ namespace zt::wd::tests
 	{
 	protected:
 
-		GLFW glfw;
 		Window window;
 		Event event{ window };
+
+		static_assert(!std::is_default_constructible_v<Event>);
 
 		void SetUp() override
 		{
@@ -28,14 +29,6 @@ namespace zt::wd::tests
 			GLFW::Deinit();
 		}
 	};
-
-	TEST_F(EventTests, SetWindow)
-	{
- 		window.create();
- 		const Window* actualWindow = event.getWindow();
- 
- 		EXPECT_EQ(&window, actualWindow);
-	}
 
 	TEST_F(EventTests, GetWindow)
 	{

@@ -2,13 +2,6 @@
 
 namespace zt::wd
 {
-
-	void Event::setWindow(Window* newWindow)
-	{
-		window = newWindow;
-		mouse.setWindow(window);
-	}
-
 	const Window* Event::getWindow() const
 	{
 		return window;

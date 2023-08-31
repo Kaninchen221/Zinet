@@ -12,9 +12,15 @@ namespace zt::wd
 
 	public:
 
-		Event(Window& newWindow) : window{ &newWindow }, keyboard{ newWindow } {}
+		Event() = delete;
+		Event(Window& newWindow) : window{ &newWindow }, keyboard{ newWindow }, mouse{ newWindow } {}
+		Event(const Event& other) = default;
+		Event(Event&& other) = default;
 
-		void setWindow(Window* newWindow);
+		Event& operator = (const Event& other) = default;
+		Event& operator = (Event&& other) = default;
+
+		~Event() noexcept = default;
 
 		const Window* getWindow() const;
 

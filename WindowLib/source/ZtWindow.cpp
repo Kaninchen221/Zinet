@@ -37,9 +37,6 @@ namespace zt::wd
         glfwSetWindowSizeLimits(internalWindow, 1, 1, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
 		bindFramebufferSizeCallback();
-
-        event.setWindow(this);
-        event.bindCallbacks();
     }
 
     GLFWwindow* Window::getInternal()

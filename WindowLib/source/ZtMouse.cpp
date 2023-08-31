@@ -6,15 +6,10 @@
 
 namespace zt::wd
 {
-	Mouse::Mouse()
+	Mouse::Mouse(Window& newWindow)
+		: window{ &newWindow }
 	{
-		buttonsEvents = std::vector<MouseButtonEvent>(1, MouseButtonEvent());
-		positionEvents = std::vector<MousePositionEvent>(1, MousePositionEvent());
-	}
 
-	void Mouse::setWindow(Window* newWindow)
-	{
-		window = newWindow;
 	}
 
 	const Window* Mouse::getWindow() const
