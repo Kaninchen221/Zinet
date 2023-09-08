@@ -36,15 +36,15 @@ namespace zt::wd
 	{
 		void* windowUserPointer = glfwGetWindowUserPointer(glfwWindow);
 		Window* window = static_cast<Window*>(windowUserPointer);
-		Event* event = window->getEvent();
-		Mouse* mouse = event->getMouse();
+		Event& event = window->getEvent();
+		Mouse& mouse = event.getMouse();
 
-		mouse->buttonsEvents.pop_back();
+		mouse.buttonsEvents.pop_back();
 
 		MouseButtonEvent buttonEvent;
 		buttonEvent.type = static_cast<MouseButtonEventType>(action);
 		buttonEvent.button = static_cast<MouseButton>(button);
-		mouse->buttonsEvents.insert(mouse->buttonsEvents.begin(), buttonEvent);
+		mouse.buttonsEvents.insert(mouse.buttonsEvents.begin(), buttonEvent);
 	}
 
 	void Mouse::bindCallbacks()
@@ -56,14 +56,14 @@ namespace zt::wd
 	void Mouse::PositionCallback(GLFWwindow* glfwWindow, double positionX, double positionY)
 	{
 		Window* windowUserPointer = static_cast<Window*>(glfwGetWindowUserPointer(glfwWindow));
-		Event* event = windowUserPointer->getEvent();
-		Mouse* mouse = event->getMouse();
+		Event& event = windowUserPointer->getEvent();
+		Mouse& mouse = event.getMouse();
 
-		mouse->positionEvents.pop_back();
+		mouse.positionEvents.pop_back();
 
 		MousePositionEvent positionEvent{};
 		positionEvent.position = Vector2d(positionX, positionY);
-		mouse->positionEvents.insert(mouse->positionEvents.begin(), positionEvent);
+		mouse.positionEvents.insert(mouse.positionEvents.begin(), positionEvent);
 	}
 
 	const std::vector<MousePositionEvent>& Mouse::getPositionEvents() const

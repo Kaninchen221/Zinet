@@ -47,7 +47,8 @@ namespace zt::wd
 
 		static void FramebufferSizeCallback(GLFWwindow* internalWindow, int width, int height);
 
-		Event* getEvent();
+		const Event& getEvent() const { return event; }
+		Event& getEvent() { return event; }
 
 		Vector2ui getSize() const;
 

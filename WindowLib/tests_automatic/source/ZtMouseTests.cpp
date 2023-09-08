@@ -80,14 +80,14 @@ namespace zt::wd::tests
 		Vector2d expectedPosition{ 34.0, 2.0 };
 		Mouse::PositionCallback(window.getInternal(), expectedPosition.x, expectedPosition.y);
 
-		Event* event = window.getEvent();
-		Mouse* mouse = event->getMouse();
-		const std::vector<MousePositionEvent>& positions = mouse->getPositionEvents();
+		Event& event = window.getEvent();
+		Mouse& mouse = event.getMouse();
+		const std::vector<MousePositionEvent>& positions = mouse.getPositionEvents();
 		MousePositionEvent positionEvent = positions[0];
 		Vector2d actualPosition = positionEvent.position;
 		ASSERT_EQ(expectedPosition, actualPosition);
 
-		mouse->setMaxRememberedPositionEvents(2u);
+		mouse.setMaxRememberedPositionEvents(2u);
 		Vector2d expectedSecondPosition{ 67.0, 27.0 };
 		Mouse::PositionCallback(window.getInternal(), expectedSecondPosition.x, expectedSecondPosition.y);
 		Vector2d actualSecondPosition = positions[0].position;

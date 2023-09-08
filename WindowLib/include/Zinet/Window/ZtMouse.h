@@ -32,17 +32,17 @@ namespace zt::wd
 
 		size_t getMaxRememberedButtonsEvents() const;
 
-		static void ButtonCallback(GLFWwindow* internalWindow, int button, int action, int mods);
-
 		void bindCallbacks();
-
-		static void PositionCallback(GLFWwindow* internalWindow, double positionX, double positionY);
 
 		const std::vector<MousePositionEvent>& getPositionEvents() const;
 
 		void setMaxRememberedPositionEvents(size_t size);
 
 		size_t getMaxRememberedPositionEvents() const;
+
+		static void ButtonCallback(GLFWwindow* internalWindow, int button, int action, int mods);
+
+		static void PositionCallback(GLFWwindow* internalWindow, double positionX, double positionY);
 
 	protected:
 

@@ -12,16 +12,6 @@ namespace zt::wd
 		glfwPollEvents();
 	}
 
-	Keyboard* Event::getKeyboard()
-	{
-		return &keyboard;
-	}
-
-	Mouse* Event::getMouse()
-	{
-		return &mouse;
-	}
-
 	void Event::bindCallbacks()
 	{
 		keyboard.bindCallbacks();

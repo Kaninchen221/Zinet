@@ -26,9 +26,11 @@ namespace zt::wd
 
 		void pollEvents();
 
-		Keyboard* getKeyboard();
+		Keyboard& getKeyboard() { return keyboard; }
+		const Keyboard& getKeyboard() const { return keyboard; }
 
-		Mouse* getMouse();
+		Mouse& getMouse() { return mouse; }
+		const Mouse& getMouse() const { return mouse; }
 
 		void bindCallbacks();
 

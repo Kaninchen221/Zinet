@@ -45,15 +45,15 @@ namespace zt::wd
 	{
 		void* windowUserPointer = glfwGetWindowUserPointer(internalWindow);
 		Window* window = static_cast<Window*>(windowUserPointer);
-		Event* event = window->getEvent();
-		Keyboard* keyboard = event->getKeyboard();
+		Event& event = window->getEvent();
+		Keyboard& keyboard = event.getKeyboard();
 
-		keyboard->events.pop_back();
+		keyboard.events.pop_back();
 
 		KeyboardEvent keyboardEvent;
 		keyboardEvent.type = static_cast<KeyboardEventType>(action);
 		keyboardEvent.key = static_cast<KeyboardKey>(key);
-		keyboard->events.insert(keyboard->events.begin(), keyboardEvent);
+		keyboard.events.insert(keyboard.events.begin(), keyboardEvent);
 	}
 
 	void Keyboard::setMaximumRememberedEvents(size_t value)

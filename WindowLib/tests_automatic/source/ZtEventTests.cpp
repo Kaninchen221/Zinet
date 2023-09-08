@@ -3,6 +3,8 @@
 #include "Zinet/Window/ZtEvent.h"
 #include "Zinet/Window/ZtWindow.h"
 
+#include "Zinet/Core/ZtTypeTraits.h"
+
 #include <GLFW/glfw3.h>
 
 #include <gtest/gtest.h>
@@ -43,16 +45,18 @@ namespace zt::wd::tests
 
 	TEST_F(EventTests, GetKeyboard)
 	{
-		Keyboard* keyboard = event.getKeyboard();
+		auto testGetters = core::TestGetters<Keyboard, Event>(&Event::getKeyboard, &Event::getKeyboard, event);
+		EXPECT_TRUE(testGetters);
 
-		ASSERT_NE(keyboard, nullptr);
+		[[maybe_unused]] Keyboard& keyboard = event.getKeyboard();
 	}
 
 	TEST_F(EventTests, GetMouse)
 	{
-		Mouse* mouse = event.getMouse();
+		auto testGetters = core::TestGetters<Mouse, Event>(&Event::getMouse, &Event::getMouse, event);
+		EXPECT_TRUE(testGetters);
 
-		ASSERT_NE(mouse, nullptr);
+		[[maybe_unused]] Mouse& mouse = event.getMouse();
 	}
 
 }

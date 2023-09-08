@@ -86,11 +86,6 @@ namespace zt::wd
 		}
     }
 
-    Event* Window::getEvent()
-    {
-        return &event;
-    }
-
     Vector2ui Window::getSize() const
 	{
         int width = 0;

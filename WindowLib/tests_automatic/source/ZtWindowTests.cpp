@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Zinet/Window/ZtWindow.h"
-#include "Zinet/Math/ZtVecTypes.h"
 #include "Zinet/Window/ZtGLFW.h"
+
+#include "Zinet/Math/ZtVecTypes.h"
+
+#include "Zinet/Core/ZtTypeTraits.h"
 
 #include <gtest/gtest.h>
 
@@ -68,7 +71,10 @@ namespace zt::wd::tests
 	
 	TEST_F(WindowTests, GetEventTest)
 	{
-		[[maybe_unused]] Event* event = window.getEvent();
+		auto testGetters = core::TestGetters<Event, Window>(&Window::getEvent, &Window::getEvent, window);
+		EXPECT_TRUE(testGetters);
+
+		[[maybe_unused]] Event& event = window.getEvent();
 	}
 	
 	TEST_F(WindowTests, BindCallbacksTest)
