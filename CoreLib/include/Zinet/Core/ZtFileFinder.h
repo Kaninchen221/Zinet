@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <vector>
 
-#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtCoreConfig.h"
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::core

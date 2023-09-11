@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtCoreConfig.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks-inl.h>

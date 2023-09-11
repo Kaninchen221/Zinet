@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtCoreConfig.h"
 #include "Zinet/Core/ZtTime.h"
 
 namespace zt::core

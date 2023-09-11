@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtCoreConfig.h"
 #include "Zinet/Core/ZtIdentifier.h"
 #include "Zinet/Core/ZtLogger.h"
 

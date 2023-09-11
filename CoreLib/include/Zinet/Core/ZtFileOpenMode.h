@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtCore.h"
+#include "Zinet/Core/ZtCoreConfig.h"
 
 namespace zt::core
 {
