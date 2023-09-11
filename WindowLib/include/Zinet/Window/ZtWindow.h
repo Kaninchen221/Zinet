@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/Window/ZtWindowConfig.h"
 #include "Zinet/Window/ZtEvent.h"
 #include "Zinet/Window/ZtGLFW.h"
 
@@ -9,7 +10,7 @@
 
 namespace zt::wd
 {
-	class Window
+	class ZINET_WINDOW_LAYER_API Window
 	{
 	public:
 

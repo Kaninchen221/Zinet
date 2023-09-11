@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/Window/ZtWindowConfig.h"
 #include "Zinet/Window/ZtKeyboard.h"
 #include "Zinet/Window/ZtMouse.h"
 
@@ -7,7 +8,7 @@ namespace zt::wd
 {
 	class Window;
 
-	class Event
+	class ZINET_WINDOW_LAYER_API Event
 	{
 
 	public:

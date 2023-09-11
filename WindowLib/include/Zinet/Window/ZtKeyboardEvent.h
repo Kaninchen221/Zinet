@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Zinet/Window/ZtWindowConfig.h"
 #include "Zinet/Window/ZtKeyboardEventType.h"
 #include "Zinet/Window/ZtKeyboardKey.h"
 
 namespace zt::wd
 {
 
-	struct KeyboardEvent
+	struct ZINET_WINDOW_LAYER_API KeyboardEvent
 	{
 		KeyboardEventType type;
 		KeyboardKey key;

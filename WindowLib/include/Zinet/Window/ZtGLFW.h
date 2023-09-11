@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Zinet/Window/ZtWindowConfig.h"
+
 #include "Zinet/Core/ZtLogger.h"
 
 namespace zt::wd
 {
-	class GLFW
+	class ZINET_WINDOW_LAYER_API GLFW
 	{
 
 	protected:

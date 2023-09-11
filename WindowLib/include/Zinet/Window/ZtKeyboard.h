@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/Window/ZtWindowConfig.h"
 #include "Zinet/Window/ZtKeyboardEvent.h"
 
 #include "Zinet/Core/ZtLogger.h"
@@ -10,7 +11,7 @@ namespace zt::wd
 {
 	class Window;
 
-	class Keyboard
+	class ZINET_WINDOW_LAYER_API Keyboard
 	{
 		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Keyboard");
 
