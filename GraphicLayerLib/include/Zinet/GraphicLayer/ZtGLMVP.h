@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ZtGraphicLayer.h"
+#include "ZtGraphicLayerConfig.h"
 
 #include <glm/glm.hpp>
 #include <glm/trigonometric.hpp>

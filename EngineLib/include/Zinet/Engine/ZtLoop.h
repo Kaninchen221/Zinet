@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngine.h"
+#include "Zinet/Engine/ZtEngineConfig.h"
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 

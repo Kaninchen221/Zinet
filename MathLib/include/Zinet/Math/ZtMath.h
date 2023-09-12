@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/Math/ZtMathConfig.h"
 #include "Zinet/Math/ZtVecTypes.h"
 
 #include "Zinet/Core/ZtLogger.h"
@@ -9,7 +10,7 @@
 
 namespace zt 
 {
-	class Math
+	class ZINET_MATH_LAYER_API Math
 	{
 	public:
 

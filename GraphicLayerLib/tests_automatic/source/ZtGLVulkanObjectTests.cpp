@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
-#include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
 #include "Zinet/GraphicLayer/ZtGLInstance.h"
 
 #include <gtest/gtest.h>

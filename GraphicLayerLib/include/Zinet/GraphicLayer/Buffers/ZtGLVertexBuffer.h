@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayer.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
 
 namespace zt::gl
