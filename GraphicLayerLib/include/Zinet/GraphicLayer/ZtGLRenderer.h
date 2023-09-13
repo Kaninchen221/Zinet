@@ -49,6 +49,10 @@ namespace zt::gl
 		template<class VertexType>
 		void draw(const DrawableBase& drawableObject, RenderStates& renderStates);
 
+		/// You need to update manually uniform and storage buffers before calling this function
+		template<class VertexType>
+		void draw(DrawInfo& drawInfo, RenderStates& renderStates);
+
 		void postDraw();
 
 		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
@@ -66,7 +70,7 @@ namespace zt::gl
 		template<typename VertexType>
 		void createRendererPipeline(const RenderStates& renderStates, const DrawInfo& drawInfo);
 
-		void updateMVPUniformBuffer(RenderStates& renderStates, DrawInfo& drawInfo);
+		void updateMVPUniformBuffer(const RenderStates& renderStates, DrawInfo& drawInfo);
 
 		RendererContext rendererContext;
 
@@ -98,10 +102,17 @@ namespace zt::gl
 	void Renderer::draw(const DrawableBase& drawableObject, RenderStates& renderStates)
 	{
 		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(drawableObject.createDrawInfo(rendererContext)));
-		createRendererPipeline<VertexType>(renderStates, drawInfo);
 
 		drawableObject.updateUniformBuffers(drawInfo.uniformBuffers);
 		drawableObject.updateStorageBuffers(drawInfo.storageBuffers);
+
+		draw<VertexType>(drawInfo, renderStates);
+	}
+
+	template<class VertexType>
+	void Renderer::draw(DrawInfo& drawInfo, RenderStates& renderStates)
+	{
+		createRendererPipeline<VertexType>(renderStates, drawInfo);
 
 		updateMVPUniformBuffer(renderStates, drawInfo);
 
@@ -117,10 +128,10 @@ namespace zt::gl
 			CommandBuffer::BindDescriptorSetsInfo bindDescriptorSetsInfo
 			{
 				.bindPoint = vk::PipelineBindPoint::eGraphics,
-				.pipelineLayout = rendererPipeline.getPipelineLayout(),
-				.firstSet = 0,
-				.descriptorSets = rendererPipeline.getDescriptorSets().value(),
-				.dynamicOffsets = {}
+					.pipelineLayout = rendererPipeline.getPipelineLayout(),
+					.firstSet = 0,
+					.descriptorSets = rendererPipeline.getDescriptorSets().value(),
+					.dynamicOffsets = {}
 			};
 
 			drawCommandBuffer.bindDescriptorSets(bindDescriptorSetsInfo);

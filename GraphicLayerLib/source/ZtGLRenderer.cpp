@@ -139,7 +139,7 @@ namespace zt::gl
 			Logger->error("present return non success vk::Result");
 	}
 
-	void Renderer::updateMVPUniformBuffer(RenderStates& renderStates, DrawInfo& drawInfo)
+	void Renderer::updateMVPUniformBuffer(const RenderStates& renderStates, DrawInfo& drawInfo)
 	{
 		if (drawInfo.uniformBuffers.size() == 0)
 			return;
