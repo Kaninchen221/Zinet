@@ -15,7 +15,7 @@ namespace zt::gl
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
 
-		return std::move(drawInfo);
+		return drawInfo;
 	}
 
 	void Sprite::setTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)

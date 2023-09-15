@@ -17,7 +17,7 @@ namespace zt::gl
 		createStorageBuffers(drawInfo.storageBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;
 
-		return std::move(drawInfo);
+		return drawInfo;
 	}
 
 	void Flipbook::createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const

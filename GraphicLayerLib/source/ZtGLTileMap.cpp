@@ -17,7 +17,7 @@ namespace zt::gl
 		drawInfo.MVPBufferIndex = 0u;
 		drawInfo.instanceCount = tilesCount.x * tilesCount.y;
 
-		return std::move(drawInfo);
+		return drawInfo;
 	}
 
 	void TileMap::setDefaultShaderTextureRegion(const TextureRegion& newTextureRegion, const Vector2f& textureSize)
