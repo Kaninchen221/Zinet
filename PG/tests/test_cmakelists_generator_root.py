@@ -30,9 +30,17 @@ class TestCmakelistsGeneratorRoot:
         self.prepare_arguments()
         arguments = self.generatorRoot.prepare_arguments()
         cmakelists = self.generatorRoot.generate_cmakelists(arguments)
-        expectedCmakelistsPath = Path(".").absolute() / "tests/test_files/expected_root.txt"
-        expectedCmakelists = open(expectedCmakelistsPath).read()
-        assert cmakelists == expectedCmakelists
+        expectedCMakeListsPath = Path(".").absolute() / "tests/test_files/expected_root.txt"
+        expectedCMakeLists = open(expectedCMakeListsPath).read()
+
+        position = 0
+        for (actual, expected) in zip(cmakelists, expectedCMakeLists):
+            if (actual != expected):
+                previousActual = cmakelists[position - 1]
+                previousExpected = expectedCMakeLists[position - 1]
+                print(f"Not equal at: {position} {previousActual} {previousExpected}")
+                assert False
+            position += 1
 
     def prepare_arguments(self):
         self.generatorRoot.cmakeMinimumVersion = "1.0.0"

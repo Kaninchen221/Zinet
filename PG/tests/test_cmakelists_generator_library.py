@@ -12,7 +12,7 @@ class TestCMakeListsGeneratorLibrary():
     def test_properties(self):
         assert self.generatorLibrary.libraryType == "STATIC"
         assert self.generatorLibrary.shouldAddTests == "TRUE"
-        assert self.generatorLibrary.testsSubfoldersPrefix == "test_"
+        assert self.generatorLibrary.testsSubfoldersPrefix == "tests_"
         expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsLibraryTemplate.txt"
         assert self.generatorLibrary.templatePath == expectedTemplatePath
         assert self.generatorLibrary.templatePath.exists()
@@ -21,7 +21,7 @@ class TestCMakeListsGeneratorLibrary():
         testFilesPath = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
         self.generatorLibrary.fileLocation = testFilesPath
 
-        expectedTestsSubfoldersArgument = "add_subdirectory(test_system)\n\tadd_subdirectory(test_unit)\n\t"
+        expectedTestsSubfoldersArgument = "add_subdirectory(tests_system)\n\tadd_subdirectory(tests_unit)\n\t"
 
         arguments = self.generatorLibrary.prepare_arguments()
         assert type(arguments) is SafeDict

@@ -21,10 +21,10 @@ add_compile_definitions({argument_global_compile_definitions})
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-# Vulkan SDK
-find_package(Vulkan REQUIRED)
-
 enable_testing()
+
+# Vulkan SDK
+find_package(Vulkan REQUIRED FATAL_ERROR)
 
 # Add subdirectories
 {argument_subdirectories}

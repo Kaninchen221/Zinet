@@ -9,6 +9,8 @@ message(STATUS "*** CMakeList source dir : ${CMAKE_SOURCE_DIR} ***")
 message(STATUS "*** C++ compiler path: ${CMAKE_CXX_COMPILER} ***")
 message(STATUS "*** C compiler path: ${CMAKE_C_COMPILER} ***")
 
+set(CMAKE_CXX_STANDARD 23)
+
 # Global compile options
 add_compile_options(/W4 /WX)
 
@@ -18,6 +20,8 @@ add_compile_definitions(opt1 opt2 opt3)
 # Conan
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+
+enable_testing()
 
 # Vulkan SDK
 find_package(Vulkan REQUIRED FATAL_ERROR)

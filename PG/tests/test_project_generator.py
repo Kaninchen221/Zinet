@@ -2,6 +2,7 @@ from pg.project_generator import ProjectGenerator
 from pathlib import Path
 import numpy
 import pytest_mock
+import argparse
 
 class TestProjectGenerator:
     def test_properties(self):
@@ -23,7 +24,12 @@ class TestProjectGenerator:
 
     def test_generate_project(self, mocker):
         projectRootPath = Path(__file__).parent / 'test_files/fake_project'
-        self.projectGenerator.generate_project(projectRootPath)
+        
+        parser = argparse.ArgumentParser(description='PG')
+        parser.add_argument('--AddressSanitizer', type=str, help='true or false', default='false')
+        cmdArgs, unknownCmdArgs = parser.parse_known_args()
+        
+        self.projectGenerator.generate_project(projectRootPath, cmdArgs)
         assert self.projectGenerator.get_collected_recipes().size == 6
         assert self.projectGenerator.get_generators().size == 6
         

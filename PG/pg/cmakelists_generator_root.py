@@ -20,7 +20,7 @@ class CMakelistsGeneratorRoot(CMakeListsGenerator):
             argument_subdirectories = subdirectories
             )
         
-        if self.cmdArgs.AddressSanitizer == "true":
+        if hasattr(self.cmdArgs, 'AddressSanitizer') and self.cmdArgs.AddressSanitizer == "true":
             arguments["argument_global_compile_options"] += " " + self.globalCompileOptionsForAddressSanitizer
 
         return arguments
