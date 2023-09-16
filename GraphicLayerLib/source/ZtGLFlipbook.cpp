@@ -67,23 +67,22 @@ namespace zt::gl
 			return false;
 
 		const Frame& currentFrame = frames[currentFrameIndex];
+		totalElapsedTime += elapsedTime;
 		if (totalElapsedTime >= currentFrame.time)
 		{
-			totalElapsedTime = core::Time{};
+			totalElapsedTime -= currentFrame.time;
 			size_t nextFrameIndex = ++currentFrameIndex;
 			if (nextFrameIndex >= frames.size())
 				nextFrameIndex = 0u;
 
 			currentFrameIndex = nextFrameIndex;
-
-			return true;
 		}
 		else
 		{
-			totalElapsedTime = totalElapsedTime + elapsedTime;
+			totalElapsedTime += elapsedTime;
 		}
 
-		return false;
+		return true;
 	}
 
 	std::vector<RenderStates::Descriptor> Flipbook::createRenderStatesDescriptors() const

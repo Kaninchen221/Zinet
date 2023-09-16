@@ -103,34 +103,34 @@ namespace zt::gl::tests
 		expectedFrames.push_back(frame);
 		flipbook.setFrames(expectedFrames);
 
-		zt::core::Time currentTime = zt::core::Time::FromSeconds(0.f);
+		zt::core::Time elapsedTime = zt::core::Time::FromSeconds(0.f);
 		size_t currentFrameIndex = flipbook.getCurrentFrameIndex();
 		EXPECT_EQ(currentFrameIndex, 0u);
 
 		// Frame 0
-		bool updated = flipbook.update(currentTime);
+		bool updated = flipbook.update(elapsedTime);
 		ASSERT_FALSE(updated);
 		currentFrameIndex = flipbook.getCurrentFrameIndex();
 		EXPECT_EQ(currentFrameIndex, 0u);
 
 		// Frame 0
 		flipbook.play();
-		currentTime = zt::core::Time::FromSeconds(0.001f);
-		updated = flipbook.update(currentTime);
-		ASSERT_FALSE(updated);
+		elapsedTime = zt::core::Time::FromSeconds(0.001f);
+		updated = flipbook.update(elapsedTime);
+		ASSERT_TRUE(updated);
 		currentFrameIndex = flipbook.getCurrentFrameIndex();
 		EXPECT_EQ(currentFrameIndex, 0u);
 
 		// Frame 1
-		currentTime = zt::core::Time::FromSeconds(1.001f);
-		updated = flipbook.update(currentTime);
+		elapsedTime = zt::core::Time::FromSeconds(1.001f);
+		updated = flipbook.update(elapsedTime);
 		ASSERT_TRUE(updated);
 		currentFrameIndex = flipbook.getCurrentFrameIndex();
 		EXPECT_EQ(currentFrameIndex, 1u);
 
 		// Frame 0
-		currentTime = zt::core::Time::FromSeconds(2.01f);
-		updated = flipbook.update(currentTime);
+		elapsedTime = zt::core::Time::FromSeconds(2.01f);
+		updated = flipbook.update(elapsedTime);
 		ASSERT_TRUE(updated);
 		currentFrameIndex = flipbook.getCurrentFrameIndex();
 		EXPECT_EQ(currentFrameIndex, 0u);

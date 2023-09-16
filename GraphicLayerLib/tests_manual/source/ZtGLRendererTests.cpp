@@ -290,7 +290,7 @@ namespace zt::gl::tests
 		for (size_t index = 0u; index < 4u; ++index)
 		{
 			Flipbook::Frame frame;
-			frame.time = zt::core::Time::FromSeconds(0.5f);
+			frame.time = zt::core::Time::FromSeconds(index + 1.0f);
 			frame.shaderTextureRegion = textureRegion.toShaderTextureRegion(texture.getSize());
 			frames.push_back(frame);
 			textureRegion.offset.x += 512.f;
@@ -315,7 +315,7 @@ namespace zt::gl::tests
 		zt::core::Clock clock;
 		clock.start();
 		flipbook.play();
-		flipbook.update(clock.getElapsedTime());
+		flipbook.update(clock.restart());
 		while (!rendererContext.getWindow().shouldBeClosed())
 		{
 			imgui.update();
@@ -341,7 +341,7 @@ namespace zt::gl::tests
 			renderer.preDraw();
 
 			{ // Draw flipbook
-				flipbook.update(clock.getElapsedTime());
+				flipbook.update(clock.restart());
 				auto modelMatrix = flipbook.getTransform().toMatrix();
 				auto viewMatrix = camera.viewMatrix();
 				auto projectionMatrix = camera.projectionMatrix();
