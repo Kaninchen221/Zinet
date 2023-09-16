@@ -45,8 +45,10 @@ namespace zt::core
 		auto operator <=> (const Time& other) const = default;
 
 		friend Time operator - (const Time& first, const Time& second);
+		Time& operator -= (const Time& other);
 
 		friend Time operator + (const Time& first, const Time& second);
+		Time& operator += (const Time& other);
 
 	private:
 
@@ -58,8 +60,20 @@ namespace zt::core
 		return Time{ first.timeAsNanoseconds - second.timeAsNanoseconds };
 	}
 
+	inline Time& Time::operator-=(const Time& other)
+	{
+		timeAsNanoseconds -= other.timeAsNanoseconds;
+		return *this;
+	}
+
 	inline Time operator + (const Time& first, const Time& second)
 	{
 		return Time{ first.timeAsNanoseconds + second.timeAsNanoseconds };
+	}
+
+	inline Time& Time::operator+=(const Time& other)
+	{
+		timeAsNanoseconds += other.timeAsNanoseconds;
+		return *this;
 	}
 }

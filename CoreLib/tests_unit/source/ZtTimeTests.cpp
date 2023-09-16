@@ -155,7 +155,18 @@ namespace zt::core::tests
 
         Time actual = other - time;
         Time expected = Time::FromSeconds(1.f);
-        ASSERT_EQ(actual, expected);
+        EXPECT_EQ(actual, expected);
+	}
+
+	TEST_F(TimeTests, SubtractAssignOperator)
+	{
+		time = Time::FromSeconds(1.f);
+
+        Time actual = Time::FromSeconds(2.f);
+        actual -= time;
+
+		Time expected = Time::FromSeconds(1.f);
+        EXPECT_EQ(actual, expected);
 	}
 
 	TEST_F(TimeTests, AddOperator)
@@ -165,6 +176,17 @@ namespace zt::core::tests
 
 		Time actual = other + time;
 		Time expected = Time::FromSeconds(3.f);
-		ASSERT_EQ(actual, expected);
+        EXPECT_EQ(actual, expected);
+	}
+
+	TEST_F(TimeTests, AddAssignOperator)
+	{
+		time = Time::FromSeconds(1.f);
+
+		Time actual = Time::FromSeconds(2.f);
+		actual += time;
+
+		Time expected = Time::FromSeconds(3.f);
+        EXPECT_EQ(actual, expected);
 	}
 }

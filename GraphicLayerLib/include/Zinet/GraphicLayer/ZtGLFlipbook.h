@@ -59,7 +59,7 @@ namespace zt::gl
 
 		size_t getCurrentFrameIndex() const { return currentFrameIndex; }
 
-		bool update(const zt::core::Time& currentTime);
+		bool update(const zt::core::Time& elapsedTime);
 
 		Flipbook::State getCurrentState() const { return currentState; }
 
@@ -75,7 +75,7 @@ namespace zt::gl
 		std::vector<Frame> frames;
 		size_t currentFrameIndex = 0u;
 		Flipbook::State currentState = Flipbook::State::Pause;
-		zt::core::Time lastTimeUpdated{ 0.f };
+		zt::core::Time totalElapsedTime;
 
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 		void createStorageBuffers(std::vector<StorageBuffer>& storageBuffers, RendererContext& rendererContext) const;

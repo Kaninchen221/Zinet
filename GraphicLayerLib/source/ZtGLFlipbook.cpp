@@ -58,7 +58,7 @@ namespace zt::gl
 		currentState = State::Pause;
 	}
 
-	bool Flipbook::update(const zt::core::Time& currentTime)
+	bool Flipbook::update(const zt::core::Time& elapsedTime)
 	{
 		if (currentState == State::Pause)
 			return false;
@@ -67,10 +67,9 @@ namespace zt::gl
 			return false;
 
 		const Frame& currentFrame = frames[currentFrameIndex];
-		zt::core::Time timeElapsed = currentTime - lastTimeUpdated;
-		if (timeElapsed >= currentFrame.time)
+		if (totalElapsedTime >= currentFrame.time)
 		{
-			lastTimeUpdated = currentTime;
+			totalElapsedTime = core::Time{};
 			size_t nextFrameIndex = ++currentFrameIndex;
 			if (nextFrameIndex >= frames.size())
 				nextFrameIndex = 0u;
@@ -78,6 +77,10 @@ namespace zt::gl
 			currentFrameIndex = nextFrameIndex;
 
 			return true;
+		}
+		else
+		{
+			totalElapsedTime = totalElapsedTime + elapsedTime;
 		}
 
 		return false;
