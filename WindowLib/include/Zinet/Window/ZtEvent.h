@@ -25,7 +25,7 @@ namespace zt::wd
 
 		const Window* getWindow() const;
 
-		void pollEvents();
+		void pollEvents() { glfwPollEvents(); }
 
 		Keyboard& getKeyboard() { return keyboard; }
 		const Keyboard& getKeyboard() const { return keyboard; }

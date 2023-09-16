@@ -23,10 +23,4 @@ namespace zt::core
 	static inline bool Ensure(bool Value) { return true; }
 #endif
 
-	inline const std::string CurrentFunctionName()
-	{
-		std::source_location sourceLocation = std::source_location::current();
-		return sourceLocation.function_name();
-	}
-
 }

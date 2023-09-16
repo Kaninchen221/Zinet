@@ -44,7 +44,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("RendererContext");
+		inline static core::ConsoleLogger Logger = core::ConsoleLogger::Create("RendererContext");
 
 	public:
 
@@ -130,6 +130,7 @@ namespace zt::gl
 
 		void updateSwapChainSupportDetails();
 
+		wd::GLFW glfw;
 		Context context;
 		Instance instance;
 		DebugUtilsMessenger debugUtilsMessenger;

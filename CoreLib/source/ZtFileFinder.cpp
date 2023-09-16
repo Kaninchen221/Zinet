@@ -30,7 +30,7 @@ namespace zt::core
 		}
 		catch (const std::exception& exception)
 		{
-			Logger->error("{} throw exception: {}", CurrentFunctionName(), exception.what());
+			Logger->error("{} throw exception: {}", std::source_location::current().function_name(), exception.what());
 		}
 
 		return files;
@@ -59,7 +59,7 @@ namespace zt::core
 		}
 		catch (const std::exception& exception)
 		{
-			Logger->error("{} throw exception: {}", CurrentFunctionName(), exception.what());
+			Logger->error("{} throw exception: {}", std::source_location::current().function_name(), exception.what());
 		}
 
 		return files;

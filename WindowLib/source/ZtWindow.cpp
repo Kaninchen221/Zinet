@@ -9,7 +9,7 @@ namespace zt::wd
 
     Window::~Window() noexcept
     {
-        Logger->info(zt::core::CurrentFunctionName());
+		Logger->info(std::source_location::current().function_name());
 
         if (internalWindow != nullptr)
         {
@@ -18,8 +18,8 @@ namespace zt::wd
     }
 
     void Window::create()
-    {
-        Logger->info(zt::core::CurrentFunctionName());
+	{
+		Logger->info(std::source_location::current().function_name());
 
         internalWindow = glfwCreateWindow(800, 600, "Zinet", NULL, NULL);
         if (internalWindow == nullptr)

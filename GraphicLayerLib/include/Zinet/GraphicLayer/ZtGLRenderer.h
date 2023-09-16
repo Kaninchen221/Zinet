@@ -23,7 +23,7 @@ namespace zt::gl
 
 	protected:
 
-		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("Renderer");
+		inline static core::ConsoleLogger Logger = core::ConsoleLogger::Create("Renderer");
 
 	public:
 

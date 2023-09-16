@@ -3,10 +3,11 @@
 #include "Zinet/Engine/ZtEngineConfig.h"
 
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
-namespace zt::gl
+namespace zt::engine
 {
 
 	class ZINET_ENGINE_LAYER_API Loop
@@ -27,12 +28,24 @@ namespace zt::gl
 
 		~Loop() noexcept = default;
 
-		Renderer& getRenderer() { return renderer; }
-		const Renderer& getRenderer() const { return renderer; }
+		gl::Renderer& getRenderer() { return renderer; }
+		const gl::Renderer& getRenderer() const { return renderer; }
+
+		gl::Imgui& getImgui() { return imgui; }
+		const gl::Imgui& getImgui() const { return imgui; }
+
+		void initialize();
+
+		void deinitialize();
+
+		void tick();
 
 	protected:
 
-		Renderer renderer;
+		void windowEvents();
+
+		gl::Renderer renderer;
+		gl::Imgui imgui;
 
 	};
 

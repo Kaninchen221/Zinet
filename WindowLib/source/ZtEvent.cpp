@@ -7,11 +7,6 @@ namespace zt::wd
 		return window;
 	}
 
-	void Event::pollEvents()
-	{
-		glfwPollEvents();
-	}
-
 	void Event::bindCallbacks()
 	{
 		keyboard.bindCallbacks();
