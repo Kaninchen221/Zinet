@@ -7,6 +7,11 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+namespace zt::core
+{
+	class Time;
+}
+
 namespace zt::engine
 {
 
@@ -38,7 +43,9 @@ namespace zt::engine
 
 		void deinitialize();
 
-		void tick();
+		void tick(const core::Time& elapsedTime);
+
+		bool shouldTick() const;
 
 	protected:
 

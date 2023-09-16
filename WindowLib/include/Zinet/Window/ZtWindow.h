@@ -42,7 +42,7 @@ namespace zt::wd
 
 		void bindCallbacks();
 
-		bool isOpen();
+		bool isOpen() const;
 
 		bool shouldBeClosed() const;
 

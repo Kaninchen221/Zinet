@@ -48,4 +48,14 @@ namespace zt::engine::tests
 		loop.tick(elapsedTime);
 		loop.deinitialize();
 	}
+
+	TEST_F(LoopTests, shouldTick)
+	{
+		bool shouldTick = loop.shouldTick();
+		EXPECT_FALSE(shouldTick);
+
+		loop.initialize();
+		shouldTick = loop.shouldTick();
+		EXPECT_TRUE(shouldTick);
+	}
 }

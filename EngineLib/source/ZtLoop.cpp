@@ -23,7 +23,7 @@ namespace zt::engine
 		rendererContext.getDevice()->waitIdle();
 	}
 
-	void Loop::tick()
+	void Loop::tick(const core::Time& elapsedTime)
 	{
 		windowEvents();
 
@@ -50,6 +50,12 @@ namespace zt::engine
 		event.pollEvents();
 
 		imgui.update();
+	}
+
+	bool Loop::shouldTick() const
+	{
+		bool isWindowOpen = renderer.getRendererContext().getWindow().isOpen();
+		return isWindowOpen;
 	}
 
 }

@@ -25,7 +25,6 @@ namespace zt::wd
         if (internalWindow == nullptr)
         {
             Logger->error("Can't create window");
-            glfwTerminate();
             return;
         }
 
@@ -56,16 +55,25 @@ namespace zt::wd
 
     void Window::bindFramebufferSizeCallback()
     {
+        if (!internalWindow)
+            return;
+
         glfwSetFramebufferSizeCallback(internalWindow, &Window::FramebufferSizeCallback);
     }
 
-    bool Window::isOpen()
+    bool Window::isOpen() const
     {
+        if (!internalWindow)
+            return false;
+
         return !glfwWindowShouldClose(internalWindow);
     }
 
     bool Window::shouldBeClosed() const
-    {
+	{
+		if (!internalWindow)
+			return false;
+
         return glfwWindowShouldClose(internalWindow);
     }
 
