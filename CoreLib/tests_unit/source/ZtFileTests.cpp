@@ -13,7 +13,7 @@ namespace zt::core::tests
 
 		File file;
 
-		FileFinder::Path testFolderPath = FileFinder().currentProjectRootPath() / "file_test_folder";
+		FileFinder::Path testFolderPath = FileFinder::CurrentProjectRootPath() / "file_test_folder";
 		FileFinder::Path pathToReadOnlyFile = testFolderPath / "read_only_file.txt";
 	};
 

@@ -9,37 +9,27 @@
 namespace zt::core
 {
 
-	class ZINET_CORE_API FileFinder
+	namespace FileFinder
 	{
-	protected:
-
-		inline static ConsoleLogger Logger = ConsoleLogger::Create("Fil Finder");
-
-	public:
-
 		using Path = std::filesystem::path;
 		using FileInfo = std::filesystem::directory_entry;
 		using FolderInfo = std::vector<FileInfo>;
 		using Extension = std::filesystem::path;
 
-		void printDebugInfo() const;
+		Path ZINET_CORE_API CurrentPath();
 
-		Path currentPath() const;
+		inline Path CurrentProjectRootPath()
+		{
+			using MacroType = std::decay_t<decltype(ZINET_CURRENT_PROJECT_ROOT_PATH)>;
+			using ValidType = const char*;
+			static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
+			return ZINET_CURRENT_PROJECT_ROOT_PATH;
+		}
 
-		inline Path currentProjectRootPath() const;
+		FolderInfo ZINET_CORE_API FindFiles(Path pathToFolder);
 
-		FolderInfo findFiles(Path pathToFolder) const;
-
-		FolderInfo findFiles(Path pathToFolder, Extension neededExtension) const;
+		FolderInfo ZINET_CORE_API FindFiles(Path pathToFolder, Extension neededExtension);
 
 	};
-
-	inline FileFinder::Path FileFinder::currentProjectRootPath() const
-	{
-		using MacroType = std::decay_t<decltype(ZINET_CURRENT_PROJECT_ROOT_PATH)>;
-		using ValidType = const char*;
-		static_assert(std::is_same_v<ValidType, MacroType>, "Macro must have valid type");
-		return ZINET_CURRENT_PROJECT_ROOT_PATH;
-	}
 
 }

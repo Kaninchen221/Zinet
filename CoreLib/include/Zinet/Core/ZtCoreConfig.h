@@ -1,29 +1,29 @@
 #pragma once
 
-#pragma warning(disable:4100)
+#pragma warning(disable:4100) // Ignore warning: Method param is not referenced
+#pragma warning(disable:4251) // Ignore warning: STD doesn't have dllexport/dllimport
 
 #ifndef ZINET_STATIC
 
-	#ifdef ZINET_WINDOWS /// MSVC
-		
+	#ifdef ZINET_WINDOWS
 		#define ZINET_API_EXPORT __declspec(dllexport)
 		#define ZINET_API_IMPORT __declspec(dllimport)
-
 	#else 
-
 		#error Not supported OS platform
+	#endif // ZINET_WINDOWS
 
-	#endif
+	#ifdef ZINET_LIB
+		#define ZINET_CORE_API ZINET_API_EXPORT
+	#else
+		#define ZINET_CORE_API ZINET_API_IMPORT
+	#endif // ZINET_LIB
+
 
 #else
 
-	#define ZINET_API_EXPORT
-	#define ZINET_API_IMPORT
+	#define ZINET_CORE_API
 
 #endif
-
-// Temporary for future compatibility
-#define ZINET_CORE_API
 
 // Turn On/Off Debug UI
 #define ZINET_DEBUG_UI

@@ -5,6 +5,7 @@ core.targetName = "ZinetCore"
 core.targetPrettyName = "Zinet Core"
 core.compileDefinitions = """
     ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}"
+    ZINET_LIB
     """
 core.includeDirectories = """
     ${CONAN_INCLUDE_DIRS_SPDLOG}
