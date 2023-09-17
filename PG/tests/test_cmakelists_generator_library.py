@@ -19,6 +19,7 @@ class TestCMakeListsGeneratorLibrary():
 
     def test_prepare_arguments(self):
         testFilesPath = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
+        assert testFilesPath.exists()
         self.generatorLibrary.fileLocation = testFilesPath
 
         expectedTestsSubfoldersArgument = "add_subdirectory(tests_system)\n\tadd_subdirectory(tests_unit)\n\t"
@@ -30,9 +31,8 @@ class TestCMakeListsGeneratorLibrary():
         assert arguments['argument_tests_subfolders'] == expectedTestsSubfoldersArgument
 
     def test_generate_cmake(self):
-        
-        # Fake file path
         fileLocation = Path(".").absolute() / "tests/test_files/expected_library_cmakelists.txt"
+        assert fileLocation.exists()
         self.generatorLibrary.fileLocation = fileLocation
         arguments = self.generatorLibrary.prepare_arguments()
 
