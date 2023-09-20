@@ -28,7 +28,8 @@ namespace zt::wd
     }
 
     void GLFW::Deinit()
-    {
+	{
+		Logger->info("Terminate GLFW");
         glfwTerminate();
     }
 

@@ -6,10 +6,6 @@
 
 #include "Zinet/Core/ZtDebug.h"
 
-#include <imgui.h>
-#include <imgui_impl_vulkan.h>
-#include <imgui_impl_glfw.h>
-
 namespace zt::gl
 {
 	void Imgui::preinit(RendererContext& rendererContext)

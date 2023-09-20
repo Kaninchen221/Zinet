@@ -49,6 +49,8 @@ namespace zt::gl
 #define VMA_ASSERT(expr)
 #endif
 
+#define VMA_CALL_PRE ZINET_GRAPHIC_LAYER_API
+
 #define VMA_VULKAN_VERSION 1002000 // Vulkan 1.2
 #define VMA_IMPLEMENTATION
 #include <vk_mem_alloc.h>

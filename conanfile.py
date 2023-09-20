@@ -19,7 +19,11 @@ class ZinetConan(ConanFile):
         "vulkan-memory-allocator/3.0.1@"
         ]
    generators = "cmake"
-   default_options = {"gtest:shared": True}
+   default_options = {
+        "gtest:shared": True,
+        "glfw:shared": True,
+        "imgui:shared": True
+   }
 
    def imports(self):
        self.copy(pattern="*.dll", dst="bin", keep_path=False)

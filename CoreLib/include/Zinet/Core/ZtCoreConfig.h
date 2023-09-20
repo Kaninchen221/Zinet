@@ -2,6 +2,7 @@
 
 #pragma warning(disable:4100) // Ignore warning: Method param is not referenced
 #pragma warning(disable:4251) // Ignore warning: STD doesn't have dllexport/dllimport
+#pragma warning(disable:4275) // Ignore warning: Vulkan RAII doesn't have dllexport/dllimport
 
 #ifndef ZINET_STATIC
 

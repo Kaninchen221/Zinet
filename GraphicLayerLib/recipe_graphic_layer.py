@@ -5,6 +5,7 @@ graphicLayer.targetName = "ZinetGraphicLayer"
 graphicLayer.targetPrettyName = "Zinet Graphic Layer"
 graphicLayer.compileDefinitions = """
     ZINET_CURRENT_PROJECT_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}"
+    ZINET_LIB
     """
 graphicLayer.includeDirectories = """
     ${CONAN_INCLUDE_DIRS_SHADERC}

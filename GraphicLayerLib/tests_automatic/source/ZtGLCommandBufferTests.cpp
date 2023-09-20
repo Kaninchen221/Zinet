@@ -79,8 +79,6 @@ namespace zt::gl::tests
 
 		void SetUp() override
 		{
-			wd::GLFW::Init();
-
 			rendererContext.initialize();
 
 			commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
@@ -89,7 +87,6 @@ namespace zt::gl::tests
 
 		void TearDown() override
 		{
-			wd::GLFW::Deinit();
 		}
 	};
 

@@ -10,8 +10,27 @@
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vulkan_raii.hpp>
 
-// Needed for future compatibility
-#define ZINET_GRAPHIC_LAYER_API ZINET_CORE_API
+#ifndef ZINET_STATIC
+
+#ifdef ZINET_WINDOWS
+#define ZINET_API_EXPORT __declspec(dllexport)
+#define ZINET_API_IMPORT __declspec(dllimport)
+#else 
+#error Not supported OS platform
+#endif // ZINET_WINDOWS
+
+#ifdef ZINET_LIB
+#define ZINET_GRAPHIC_LAYER_API ZINET_API_EXPORT
+#else
+#define ZINET_GRAPHIC_LAYER_API ZINET_API_IMPORT
+#endif // ZINET_LIB
+
+
+#else
+
+#define ZINET_GRAPHIC_LAYER_API
+
+#endif
 
 // GLM
 #define GLM_FORCE_RADIANS
@@ -21,3 +40,17 @@
 #define STB_IMAGE_STATIC
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
+// IMGUI
+//#undef IMGUI_IMPL_API
+//#undef IMGUI_API
+//#define IMGUI_IMPL_API ZINET_GRAPHIC_LAYER_API
+//#define IMGUI_API ZINET_GRAPHIC_LAYER_API
+
+#ifdef IMGUI_STATIC_DEFINE
+#error IMGUI must be shared
+#endif
+
+#include <imgui.h>
+#include <imgui_impl_vulkan.h>
+#include <imgui_impl_glfw.h>

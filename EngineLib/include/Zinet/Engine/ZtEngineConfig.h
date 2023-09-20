@@ -2,5 +2,24 @@
 
 #include "Zinet/Core/ZtCoreConfig.h"
 
-// For future compatibility
-#define ZINET_ENGINE_LAYER_API ZINET_CORE_API
+#ifndef ZINET_STATIC
+
+#ifdef ZINET_WINDOWS
+#define ZINET_API_EXPORT __declspec(dllexport)
+#define ZINET_API_IMPORT __declspec(dllimport)
+#else 
+#error Not supported OS platform
+#endif // ZINET_WINDOWS
+
+#ifdef ZINET_LIB
+#define ZINET_ENGINE_LAYER_API ZINET_API_EXPORT
+#else
+#define ZINET_ENGINE_LAYER_API ZINET_API_IMPORT
+#endif // ZINET_LIB
+
+
+#else
+
+#define ZINET_ENGINE_LAYER_API
+
+#endif
