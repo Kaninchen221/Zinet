@@ -6,7 +6,6 @@ class ZinetConan(ConanFile):
         "gtest/1.10.0@",
         "spdlog/1.9.2@",
         "plf_colony/7.06@",
-        "imgui/1.86@",
         "glfw/3.3.6@",
         "stb/20200203@",
         "pybind11/2.9.1@",
@@ -21,8 +20,7 @@ class ZinetConan(ConanFile):
    generators = "cmake"
    default_options = {
         "gtest:shared": True,
-        "glfw:shared": True,
-        "imgui:shared": True
+        "glfw:shared": True
    }
 
    def imports(self):

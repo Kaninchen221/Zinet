@@ -14,13 +14,12 @@ graphicLayer.includeDirectories = """
     ${CONAN_INCLUDE_DIRS_STB}
     ${CONAN_INCLUDE_DIRS_VULKAN-MEMORY-ALLOCATOR}
     ${Vulkan_INCLUDE_DIRS}
-    ${CONAN_INCLUDE_DIRS_IMGUI}
-    ${CONAN_SRC_DIRS_IMGUI}
     """
 graphicLayer.linkLibraries = """
     ZinetCore
     ZinetWindow
     ZinetMath
+    ImGui
     ${CONAN_LIBS_SHADERC}
     ${CONAN_LIBS_GLFW}
     ${CONAN_LIBS_GLM}
@@ -30,6 +29,5 @@ graphicLayer.linkLibraries = """
     ${Vulkan_LIBRARIES}
     ${CONAN_LIBS_SPIRV-TOOLS}
     ${CONAN_LIBS_SPIRV-HEADERS}
-    ${CONAN_LIBS_IMGUI}
     """
 projectGenerator.add_generator(graphicLayer)

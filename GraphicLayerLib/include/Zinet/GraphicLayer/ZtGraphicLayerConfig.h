@@ -50,7 +50,3 @@
 #ifdef IMGUI_STATIC_DEFINE
 #error IMGUI must be shared
 #endif
-
-#include <imgui.h>
-#include <imgui_impl_vulkan.h>
-#include <imgui_impl_glfw.h>
