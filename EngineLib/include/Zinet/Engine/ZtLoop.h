@@ -6,6 +6,7 @@
 #include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
 
 #include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtTime.h"
 
 namespace zt::core
 {
@@ -43,9 +44,17 @@ namespace zt::engine
 
 		void deinitialize();
 
+		void step(const core::Time& elapsedTime);
+
 		void tick(const core::Time& elapsedTime);
 
 		bool shouldTick() const;
+
+		void start();
+
+		const core::Time& getLastTickElapsedTime() const { return lastTickElapsedTime; }
+
+		void setRequestTickEnd(bool value) { requestTickEnd = value; }
 
 	protected:
 
@@ -53,7 +62,8 @@ namespace zt::engine
 
 		gl::Renderer renderer;
 		gl::Imgui imgui;
-
+		core::Time lastTickElapsedTime;
+		bool requestTickEnd = false;
 	};
 
 }

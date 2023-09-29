@@ -7,6 +7,8 @@
 
 #include <gtest/gtest.h>
 
+#include <future>
+
 namespace zt::engine::tests
 {
 
@@ -49,6 +51,15 @@ namespace zt::engine::tests
 		loop.deinitialize();
 	}
 
+	TEST_F(LoopTests, step)
+	{
+		const core::Time elapsedTime;
+
+		loop.initialize();
+		loop.step(elapsedTime);
+		loop.deinitialize();
+	}
+
 	TEST_F(LoopTests, shouldTick)
 	{
 		bool shouldTick = loop.shouldTick();
@@ -57,5 +68,43 @@ namespace zt::engine::tests
 		loop.initialize();
 		shouldTick = loop.shouldTick();
 		EXPECT_TRUE(shouldTick);
+	}
+
+	TEST_F(LoopTests, requestTickEnd)
+	{
+		loop.initialize();
+		bool shouldTick = loop.shouldTick();
+		EXPECT_TRUE(shouldTick);
+
+		loop.setRequestTickEnd(true);
+		shouldTick = loop.shouldTick();
+		EXPECT_FALSE(shouldTick);
+	}
+
+	TEST_F(LoopTests, getLastTickElapsedTime)
+	{
+		typedef const core::Time& (Loop::* ExpectedFunction)() const;
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Loop::getLastTickElapsedTime));
+
+		[[maybe_unused]] const core::Time& elapsedTime = loop.getLastTickElapsedTime();
+	}
+
+	TEST_F(LoopTests, start)
+	{
+		loop.initialize();
+		auto asyncResult = std::async(std::launch::async, [&]() 
+		{ 
+			while (true)
+			{
+				if (loop.getLastTickElapsedTime() != core::Time{})
+				{
+					loop.setRequestTickEnd(true);
+					break;
+				}
+			}
+		}
+		);
+		loop.start();
+		loop.deinitialize();
 	}
 }

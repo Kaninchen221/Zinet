@@ -1,8 +1,11 @@
 #pragma once
 
+#include "Zinet/Core/ZtClock.h"
+
 #include "Zinet/Engine/ZtLoop.h"
 
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+
 #include "imgui.h"
 
 namespace zt::engine
@@ -21,6 +24,11 @@ namespace zt::engine
 		auto& rendererContext = renderer.getRendererContext();
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
+	}
+
+	void Loop::step(const core::Time& elapsedTime)
+	{
+		tick(elapsedTime);
 	}
 
 	void Loop::tick(const core::Time& elapsedTime)
@@ -55,7 +63,19 @@ namespace zt::engine
 	bool Loop::shouldTick() const
 	{
 		bool isWindowOpen = renderer.getRendererContext().getWindow().isOpen();
-		return isWindowOpen;
+		return isWindowOpen && !requestTickEnd;
+	}
+
+	void Loop::start()
+	{
+		core::Clock clock;
+		clock.start();
+		while (shouldTick())
+		{
+			const auto timeElapsed = clock.restart();
+			lastTickElapsedTime = timeElapsed;
+			step(timeElapsed);
+		}
 	}
 
 }
