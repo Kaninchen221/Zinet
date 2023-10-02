@@ -16,7 +16,7 @@ namespace zt::core
 namespace zt::engine
 {
 
-	class ZINET_ENGINE_LAYER_API Loop
+	class ZINET_ENGINE_API Loop
 	{
 
 	protected:

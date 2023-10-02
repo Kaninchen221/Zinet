@@ -10,7 +10,7 @@ namespace zt::engine
 {
 	class RendererContext;
 
-	class ZINET_ENGINE_LAYER_API TileMap : public gl::TileMap
+	class ZINET_ENGINE_API TileMap : public gl::TileMap
 	{
 
 	public:

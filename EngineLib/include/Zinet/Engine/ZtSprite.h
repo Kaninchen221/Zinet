@@ -10,7 +10,7 @@ namespace zt::engine
 {
 	class RendererContext;
 
-	class ZINET_ENGINE_LAYER_API Sprite : public gl::Sprite
+	class ZINET_ENGINE_API Sprite : public gl::Sprite
 	{
 
 	public:

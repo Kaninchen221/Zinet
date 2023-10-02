@@ -8,7 +8,7 @@ namespace zt::engine
 {
 	class RendererContext;
 
-	class ZINET_ENGINE_LAYER_API Flipbook : public gl::Flipbook
+	class ZINET_ENGINE_API Flipbook : public gl::Flipbook
 	{
 
 	public:
