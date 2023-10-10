@@ -20,7 +20,7 @@ namespace zt::engine::ecs::tests
 		static_assert(std::is_constructible_v<Entity, Types::EntityID>);
 		static_assert(std::is_copy_constructible_v<Entity>);
 		static_assert(std::is_move_constructible_v<Entity>);
-
+		static_assert(std::is_destructible_v<Entity>);
 	};
 
 	TEST_F(EntitySimpleTests, InvalidID)
