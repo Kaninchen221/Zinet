@@ -3,17 +3,25 @@
 #include "Zinet/Engine/ZtEngineConfig.h"
 #include "Zinet/Engine/ECS/ZtComponent.h"
 
+#include "Zinet/Core/ZtDebug.h"
+#include "Zinet/Core/ZtUniqueID.h"
+
 #include <vector>
+#include <memory>
 
 namespace zt::engine::ecs
 {
+	// I know this class performance is shit but I wanted more nice interface than better performance
 	template<class ComponentType>
 	class System
 	{
 	public:
 
 		using ComponentT = ComponentType;
-		using ComponentHandleT = ComponentT*;
+		using ComponentWeakHandleT = std::weak_ptr<ComponentT>;
+		using ComponentHandleT = std::shared_ptr<ComponentT>;
+
+		static_assert(std::is_base_of_v<Component, ComponentT>);
 
 		System() = default;
 		System(const System& other) = default;
@@ -24,21 +32,31 @@ namespace zt::engine::ecs
 
 		~System() = default;
 
-		std::vector<ComponentT>& getComponents() { return components; }
-		const std::vector<ComponentT>& getComponents() const { return components; }
+		std::vector<ComponentHandleT>& getComponents() { return components; }
+		const std::vector<ComponentHandleT>& getComponents() const { return components; }
 
-		void addComponent(ComponentT& component);
+		ComponentHandleT addComponent();
+
+		bool removeComponent(const core::UniqueID& id) { return core::Ensure(false); /*Not implemented*/ }
+
+		virtual void update(core::Time elapsedTime) {}
 
 	protected:
 
-		std::vector<ComponentT> components;
+		std::vector<ComponentHandleT> components;
+		size_t nextIDNumber = 0u;
 
 	};
 
 	template<class ComponentType>
-	void System<ComponentType>::addComponent(ComponentT& component)
+	System<ComponentType>::ComponentHandleT System<ComponentType>::addComponent()
 	{
-		components.push_back(component);
+		core::UniqueID id{ nextIDNumber };
+		ComponentT* rawComponent = new ComponentT( std::move(id) );
+		std::shared_ptr<ComponentT> newComponent(rawComponent);
+		auto& componentHandle = components.emplace_back(newComponent);
+		++nextIDNumber;
+		return componentHandle;
 	}
 
 }

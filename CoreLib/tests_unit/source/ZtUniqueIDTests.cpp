@@ -58,6 +58,12 @@ namespace zt::core::tests
 		EXPECT_EQ(uniqueID.getNumber(), UniqueID::InvalidID);
 	}
 
+	TEST_F(UniqueIDSimpleTests, CompareWithNumber)
+	{
+		EXPECT_FALSE(uniqueID == 5u);
+		EXPECT_TRUE(uniqueID == UniqueID::InvalidID);
+	}
+
 	class UniqueIDTests : public ::testing::Test
 	{
 	protected:

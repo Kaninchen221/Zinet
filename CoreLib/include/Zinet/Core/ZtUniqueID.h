@@ -25,6 +25,8 @@ namespace zt::core
 		
 		~UniqueID() = default;
 	
+		bool operator == (size_t otherNumber) const { return number == otherNumber; }
+
 		size_t getNumber() const { return number; }
 
 	protected:
