@@ -33,7 +33,9 @@ namespace zt::engine::ecs::tests
 
 		static_assert(std::is_default_constructible_v<TestSystem>);
 		static_assert(std::is_copy_constructible_v<TestSystem>);
+		static_assert(std::is_copy_assignable_v<TestSystem>);
 		static_assert(std::is_move_constructible_v<TestSystem>);
+		static_assert(std::is_move_assignable_v<TestSystem>);
 		static_assert(std::is_destructible_v<TestSystem>);
 		static_assert(std::is_same_v<TestComponent, TestSystem::ComponentT>);
 		static_assert(std::is_same_v<std::weak_ptr<TestComponent>, TestSystem::ComponentWeakHandleT>);

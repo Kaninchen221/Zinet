@@ -11,7 +11,7 @@
 
 namespace zt::engine::ecs
 {
-	// I know this class performance is shit but I wanted more nice interface than better performance
+	// I know this class performance is shit but I wanted more nice interface than better performance for now
 	template<class ComponentType>
 	class System
 	{

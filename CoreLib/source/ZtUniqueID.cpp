@@ -11,7 +11,7 @@ namespace zt::core
 	UniqueID& UniqueID::operator=(UniqueID&& other)
 	{
 		number = other.number;
-		other.number = InvalidID;
+		other.number = InvalidIDNumber;
 		
 		return *this;
 	}

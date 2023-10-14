@@ -17,26 +17,21 @@ namespace zt::engine::ecs::tests
 		Entity entity;
 
 		static_assert(std::is_default_constructible_v<Entity>);
-		static_assert(std::is_constructible_v<Entity, Types::EntityID>);
-		static_assert(std::is_copy_constructible_v<Entity>);
+		static_assert(std::is_constructible_v<Entity, core::UniqueID>);
+		static_assert(!std::is_copy_constructible_v<Entity>);
+		static_assert(!std::is_copy_assignable_v<Entity>);
 		static_assert(std::is_move_constructible_v<Entity>);
+		static_assert(std::is_move_assignable_v<Entity>);
 		static_assert(std::is_destructible_v<Entity>);
 	};
 
-	TEST_F(EntitySimpleTests, InvalidID)
-	{
-		Types::EntityID invalidID = Entity::InvalidID;
-		EXPECT_EQ(invalidID, std::numeric_limits<Types::EntityID>::max());
-	}
-
 	TEST_F(EntitySimpleTests, getID)
 	{
-		Types::EntityID id = entity.getID();
-		EXPECT_EQ(id, Entity::InvalidID);
+		typedef const core::UniqueID& (Entity::* ExpectedFunction)() const;
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Entity::getID));
 
-		Types::EntityID expectedID = 6u;
-		Entity otherEntity{ expectedID };
-		id = otherEntity.getID();
-		EXPECT_EQ(id, expectedID);
+		const core::UniqueID& id = entity.getID();
+		EXPECT_EQ(id, core::UniqueID::InvalidIDNumber);
+
 	}
 }

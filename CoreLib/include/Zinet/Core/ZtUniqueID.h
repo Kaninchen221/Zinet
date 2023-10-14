@@ -13,7 +13,7 @@ namespace zt::core
 	{
 	public:
 
-		const inline static constexpr size_t InvalidID = std::numeric_limits<size_t>::max();
+		const inline static constexpr size_t InvalidIDNumber = std::numeric_limits<size_t>::max();
 
 		UniqueID() = default;
 		UniqueID(size_t newNumber) : number{ newNumber } {}
@@ -31,7 +31,7 @@ namespace zt::core
 
 	protected:
 
-		size_t number = InvalidID;
+		size_t number = InvalidIDNumber;
 
 	};
 

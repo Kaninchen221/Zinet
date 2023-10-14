@@ -13,8 +13,6 @@ namespace zt::engine::ecs::tests
 	{
 	protected:
 
-		static_assert(std::is_same_v<ecs::Types::EntityID, size_t>);
-
 	};
 
 	TEST_F(ECSTypesTests, pass)
