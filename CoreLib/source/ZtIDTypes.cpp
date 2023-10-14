@@ -1,4 +1,4 @@
-#include "Zinet/Core/ZtUniqueID.h"
+#include "Zinet/Core/ZtIDTypes.h"
 
 namespace zt::core
 {
