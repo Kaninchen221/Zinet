@@ -14,7 +14,7 @@ namespace zt::engine::ecs
 	public:
 
 		Entity() = default;
-		Entity(core::UniqueID&& uniqueID) : id{ std::move(uniqueID) } {}
+		Entity(core::UniqueID&& newUniqueID) : uniqueID{ std::move(newUniqueID) } {}
 		Entity(const Entity& other) = default;
 		Entity(Entity&& other) = default;
 
@@ -23,11 +23,11 @@ namespace zt::engine::ecs
 
 		~Entity() noexcept = default;
 
-		const core::UniqueID& getID() const { return id; }
+		const core::UniqueID& getUniqueID() const { return uniqueID; }
 
 	protected:
 
-		core::UniqueID id;
+		core::UniqueID uniqueID;
 
 	};
 

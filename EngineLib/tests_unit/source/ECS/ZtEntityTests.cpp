@@ -25,13 +25,13 @@ namespace zt::engine::ecs::tests
 		static_assert(std::is_destructible_v<Entity>);
 	};
 
-	TEST_F(EntitySimpleTests, getID)
+	TEST_F(EntitySimpleTests, getUniqueID)
 	{
 		typedef const core::UniqueID& (Entity::* ExpectedFunction)() const;
-		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Entity::getID));
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Entity::getUniqueID));
 
-		const core::UniqueID& id = entity.getID();
-		EXPECT_EQ(id, core::UniqueID::InvalidIDNumber);
+		const core::UniqueID& uniqueID = entity.getUniqueID();
+		EXPECT_EQ(uniqueID, core::UniqueID::InvalidIDNumber);
 
 	}
 }

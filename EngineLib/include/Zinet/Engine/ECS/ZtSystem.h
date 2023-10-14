@@ -2,6 +2,7 @@
 
 #include "Zinet/Engine/ZtEngineConfig.h"
 #include "Zinet/Engine/ECS/ZtComponent.h"
+#include "Zinet/Engine/ECS/ZtEntity.h"
 
 #include "Zinet/Core/ZtDebug.h"
 #include "Zinet/Core/ZtIDTypes.h"
@@ -35,7 +36,7 @@ namespace zt::engine::ecs
 		std::vector<ComponentHandleT>& getComponents() { return components; }
 		const std::vector<ComponentHandleT>& getComponents() const { return components; }
 
-		ComponentHandleT addComponent();
+		ComponentHandleT addComponent(const Entity& entity);
 
 		bool removeComponent(const core::UniqueID& id) { return core::Ensure(false); /*Not implemented*/ }
 
@@ -49,10 +50,10 @@ namespace zt::engine::ecs
 	};
 
 	template<class ComponentType>
-	System<ComponentType>::ComponentHandleT System<ComponentType>::addComponent()
+	System<ComponentType>::ComponentHandleT System<ComponentType>::addComponent(const Entity& entity)
 	{
 		core::UniqueID id{ nextIDNumber };
-		ComponentT* rawComponent = new ComponentT( std::move(id) );
+		ComponentT* rawComponent = new ComponentT( std::move(id), entity.getUniqueID().createID() );
 		std::shared_ptr<ComponentT> newComponent(rawComponent);
 		auto& componentHandle = components.emplace_back(newComponent);
 		++nextIDNumber;

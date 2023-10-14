@@ -12,7 +12,7 @@ namespace zt::engine::ecs::tests
 	{
 	public:
 
-		TestComponent(core::UniqueID&& uniqueID) : Component(std::move(uniqueID)) {}
+		TestComponent(core::UniqueID&& uniqueID, core::ID entityID) : Component(std::move(uniqueID), entityID) {}
 
 		inline static const int startValue = 10;
 		int value = startValue;
@@ -50,16 +50,21 @@ namespace zt::engine::ecs::tests
 
 	TEST_F(SystemSimpleTests, AddComponent)
 	{
-		TestSystem::ComponentHandleT component = system.addComponent();
+		const size_t entityUniqueIDNumber = 8u;
+		core::UniqueID entityUniqueID{ entityUniqueIDNumber };
+		const Entity entity{ std::move(entityUniqueID) };
+		TestSystem::ComponentHandleT component = system.addComponent(entity);
 		EXPECT_TRUE(component);
 
-		component = system.addComponent();
+		component = system.addComponent(entity);
 		EXPECT_TRUE(component);
 
 		const auto& components = system.getComponents();
 		ASSERT_EQ(components.size(), 2u);
-		EXPECT_TRUE(components[0]->getID() == 0u);
-		EXPECT_TRUE(components[1]->getID() == 1u);
+		EXPECT_TRUE(components[0]->getUniqueID() == 0u);
+		EXPECT_TRUE(components[0]->getOwnerEntityID() == entityUniqueIDNumber);
+		EXPECT_TRUE(components[1]->getUniqueID() == 1u);
+		EXPECT_TRUE(components[1]->getOwnerEntityID() == entityUniqueIDNumber);
 	}
 
 	TEST_F(SystemSimpleTests, RemoveComponent)
@@ -72,17 +77,5 @@ namespace zt::engine::ecs::tests
 	{
 		core::Time elapsedTime;
 		system.update(elapsedTime);
-	}
-
-	class SystemTests : public ::testing::Test
-	{
-	protected:
-
-		System<TestComponent> system;
-	};
-
-	TEST_F(SystemTests, Pass)
-	{
-
 	}
 }

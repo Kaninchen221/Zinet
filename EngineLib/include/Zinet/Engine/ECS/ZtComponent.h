@@ -12,7 +12,7 @@ namespace zt::engine::ecs
 	{
 	public:
 		Component() = default;
-		Component(core::UniqueID&& uniqueID);
+		Component(core::UniqueID&& newUniqueID, core::ID entityID);
 		Component(const Component& other) = default;
 		Component(Component&& other) = default;
 		
@@ -23,11 +23,14 @@ namespace zt::engine::ecs
 	
 		virtual void update(core::Time elapsedTime) {}
 
-		const core::UniqueID& getID() const { return id; }
+		const core::UniqueID& getUniqueID() const { return uniqueID; }
+
+		core::ID getOwnerEntityID() const { return ownerEntityID; }
 
 	protected:
 
-		core::UniqueID id;
+		core::UniqueID uniqueID;
+		core::ID ownerEntityID;
 
 	};
 
