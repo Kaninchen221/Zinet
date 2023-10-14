@@ -4,7 +4,7 @@
 
 #include "Zinet/Engine/ECS/ZtECSTypes.h"
 
-#include "Zinet/Core/ZtUniqueID.h"
+#include "Zinet/Core/ZtIDTypes.h"
 
 namespace zt::engine::ecs
 {

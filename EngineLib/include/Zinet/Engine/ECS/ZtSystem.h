@@ -4,7 +4,7 @@
 #include "Zinet/Engine/ECS/ZtComponent.h"
 
 #include "Zinet/Core/ZtDebug.h"
-#include "Zinet/Core/ZtUniqueID.h"
+#include "Zinet/Core/ZtIDTypes.h"
 
 #include <vector>
 #include <memory>

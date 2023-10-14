@@ -3,7 +3,7 @@
 #include "Zinet/Engine/ZtEngineConfig.h"
 
 #include "Zinet/Core/ZtTime.h"
-#include "Zinet/Core/ZtUniqueID.h"
+#include "Zinet/Core/ZtIDTypes.h"
 
 namespace zt::engine::ecs
 {
