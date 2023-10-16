@@ -3,10 +3,11 @@
 #include "Zinet/Engine/ZtEngineConfig.h"
 
 #include "Zinet/Engine/ECS/ZtComponent.h"
-#include "Zinet/Engine/ECS/ZtComponentStrongRef.h"
 
 namespace zt::engine::ecs
 {
+	template<std::derived_from<Component> ComponentType>
+	class ComponentStrongRef;
 
 	template<std::derived_from<Component> ComponentType>
 	class ComponentWeakRef

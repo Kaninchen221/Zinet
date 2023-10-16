@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Zinet/Engine/ECS/ZtComponentWeakRef.h"
+#include "Zinet/Engine/ECS/ZtComponentStrongRef.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
@@ -26,6 +27,13 @@ namespace zt::engine::ecs::tests
 		static_assert(std::is_move_constructible_v<ComponentWeakRefT>);
 		static_assert(std::is_move_assignable_v<ComponentWeakRefT>);
 		static_assert(std::is_destructible_v<ComponentWeakRefT>);
+
+		void createComponentStrongRef()
+		{
+			core::UniqueID componentID{ 2u };
+			core::ID entityID{ 3u };
+			componentStrongRef.create(std::move(componentID), entityID);
+		}
 	};
 
 	TEST_F(ComponentWeakRefSimpleTests, IsValid)
@@ -33,7 +41,7 @@ namespace zt::engine::ecs::tests
 		bool isValid = componentWeakRef.isValid();
 		ASSERT_FALSE(isValid);
 
-		componentStrongRef.create();
+		createComponentStrongRef();
 		componentWeakRef = ComponentWeakRefT{ &componentStrongRef };
 		isValid = componentWeakRef.isValid();
 		ASSERT_TRUE(isValid);
@@ -44,8 +52,8 @@ namespace zt::engine::ecs::tests
 		Component* componentPtr = componentWeakRef.operator->();
 		EXPECT_FALSE(componentPtr);
 
+		createComponentStrongRef();
 		componentWeakRef = ComponentWeakRefT{ &componentStrongRef };
-		componentStrongRef.create();
 		componentPtr = componentWeakRef.operator->();
 		EXPECT_TRUE(componentPtr);
 	}
@@ -55,8 +63,8 @@ namespace zt::engine::ecs::tests
 		Component* componentPtr = componentWeakRef.get();
 		EXPECT_FALSE(componentPtr);
 
+		createComponentStrongRef();
 		componentWeakRef = ComponentWeakRefT{ &componentStrongRef };
-		componentStrongRef.create();
 		componentPtr = componentWeakRef.get();
 		EXPECT_TRUE(componentPtr);
 	}

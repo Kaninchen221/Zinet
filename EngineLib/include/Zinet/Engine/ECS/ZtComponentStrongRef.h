@@ -3,6 +3,7 @@
 #include "Zinet/Engine/ZtEngineConfig.h"
 
 #include "Zinet/Engine/ECS/ZtComponent.h"
+#include "Zinet/Engine/ECS/ZtComponentWeakRef.h"
 
 #include <optional>
 #include <type_traits>
@@ -12,9 +13,12 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	class ComponentStrongRef
 	{
-		using ComponentT = ComponentType;
 
 	public:
+
+		using ComponentT = ComponentType;
+		using ComponentWeakRefT = ComponentWeakRef<ComponentT>;
+
 		ComponentStrongRef() = default;
 		ComponentStrongRef(const ComponentStrongRef& other) = default;
 		ComponentStrongRef(ComponentStrongRef&& other) = default;
@@ -24,7 +28,7 @@ namespace zt::engine::ecs
 		
 		~ComponentStrongRef() = default;
 	
-		void create() { component = std::make_optional<ComponentT>(); }
+		void create(core::UniqueID&& newUniqueID, core::ID entityID);
 
 		bool isValid() const { return component.has_value(); }
 
@@ -36,11 +40,25 @@ namespace zt::engine::ecs
 		const ComponentT* operator -> () const { return get(); }
 		ComponentT* operator -> () { return get(); }
 
+		ComponentWeakRefT createWeakRef();
+
 	protected:
 
 		std::optional<ComponentT> component;
 
 	};
+
+	template<std::derived_from<Component> ComponentType>
+	ComponentWeakRef<ComponentType> ComponentStrongRef<ComponentType>::createWeakRef()
+	{
+		return ComponentWeakRefT{ this };
+	}
+
+	template<std::derived_from<Component> ComponentType>
+	void ComponentStrongRef<ComponentType>::create(core::UniqueID&& newUniqueID, core::ID entityID)
+	{
+		component = std::make_optional<ComponentT>(std::move(newUniqueID), entityID);
+	}
 
 	template<std::derived_from<Component> ComponentType>
 	typename const ComponentStrongRef<ComponentType>::ComponentT* ComponentStrongRef<ComponentType>::get() const

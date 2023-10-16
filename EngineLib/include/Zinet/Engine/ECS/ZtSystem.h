@@ -3,6 +3,8 @@
 #include "Zinet/Engine/ZtEngineConfig.h"
 #include "Zinet/Engine/ECS/ZtComponent.h"
 #include "Zinet/Engine/ECS/ZtEntity.h"
+#include "Zinet/Engine/ECS/ZtComponentWeakRef.h"
+#include "Zinet/Engine/ECS/ZtComponentStrongRef.h"
 
 #include "Zinet/Core/ZtDebug.h"
 #include "Zinet/Core/ZtIDTypes.h"
@@ -19,8 +21,8 @@ namespace zt::engine::ecs
 	public:
 
 		using ComponentT = ComponentType;
-		using ComponentWeakHandleT = std::weak_ptr<ComponentT>;
-		using ComponentHandleT = std::shared_ptr<ComponentT>;
+		using ComponentWeakRefT = ComponentWeakRef<ComponentT>;
+		using ComponentStrongRefT = ComponentStrongRef<ComponentT>;
 
 		static_assert(std::is_base_of_v<Component, ComponentT>);
 
@@ -33,10 +35,10 @@ namespace zt::engine::ecs
 
 		~System() = default;
 
-		std::vector<ComponentHandleT>& getComponents() { return components; }
-		const std::vector<ComponentHandleT>& getComponents() const { return components; }
+		std::vector<ComponentStrongRefT>& getComponents() { return components; }
+		const std::vector<ComponentStrongRefT>& getComponents() const { return components; }
 
-		ComponentHandleT addComponent(const Entity& entity);
+		ComponentWeakRefT addComponent(const Entity& entity);
 
 		bool removeComponent(const core::UniqueID& id) { return core::Ensure(false); /*Not implemented*/ }
 
@@ -44,20 +46,26 @@ namespace zt::engine::ecs
 
 	protected:
 
-		std::vector<ComponentHandleT> components;
+		std::vector<ComponentStrongRefT> components;
 		size_t nextIDNumber = 0u;
 
 	};
 
 	template<class ComponentType>
-	System<ComponentType>::ComponentHandleT System<ComponentType>::addComponent(const Entity& entity)
+	System<ComponentType>::ComponentWeakRefT System<ComponentType>::addComponent(const Entity& entity)
 	{
-		core::UniqueID id{ nextIDNumber };
-		ComponentT* rawComponent = new ComponentT( std::move(id), entity.getUniqueID().createID() );
-		std::shared_ptr<ComponentT> newComponent(rawComponent);
-		auto& componentHandle = components.emplace_back(newComponent);
+// 		core::UniqueID id{ nextIDNumber };
+// 		ComponentT* rawComponent = new ComponentT( std::move(id), entity.getUniqueID().createID() );
+// 		std::shared_ptr<ComponentT> newComponent(rawComponent);
+// 		auto& componentHandle = components.emplace_back(newComponent);
+// 		return componentHandle;
+		
+		ComponentStrongRefT& strongRef = components.emplace_back();
+		core::UniqueID uniqueID{ nextIDNumber };
 		++nextIDNumber;
-		return componentHandle;
+		strongRef.create(std::move(uniqueID), entity.getUniqueID().createID());
+
+		return ComponentWeakRefT{ &strongRef };
 	}
 
 }

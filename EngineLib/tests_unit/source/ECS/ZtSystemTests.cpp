@@ -38,13 +38,13 @@ namespace zt::engine::ecs::tests
 		static_assert(std::is_move_assignable_v<TestSystem>);
 		static_assert(std::is_destructible_v<TestSystem>);
 		static_assert(std::is_same_v<TestComponent, TestSystem::ComponentT>);
-		static_assert(std::is_same_v<std::weak_ptr<TestComponent>, TestSystem::ComponentWeakHandleT>);
-		static_assert(std::is_same_v<std::shared_ptr<TestComponent>, TestSystem::ComponentHandleT>);
+		static_assert(std::is_same_v<ComponentWeakRef<TestComponent>, TestSystem::ComponentWeakRefT>);
+		static_assert(std::is_same_v<ComponentStrongRef<TestComponent>, TestSystem::ComponentStrongRefT>);
 	};
 
 	TEST_F(SystemSimpleTests, GetComponents)
 	{
-		bool result = core::TestGetters<std::vector<TestSystem::ComponentHandleT>, TestSystem>(&TestSystem::getComponents, &TestSystem::getComponents, system);
+		bool result = core::TestGetters<std::vector<TestSystem::ComponentStrongRefT>, TestSystem>(&TestSystem::getComponents, &TestSystem::getComponents, system);
 		ASSERT_TRUE(result); 
 	}
 
@@ -53,11 +53,11 @@ namespace zt::engine::ecs::tests
 		const size_t entityUniqueIDNumber = 8u;
 		core::UniqueID entityUniqueID{ entityUniqueIDNumber };
 		const Entity entity{ std::move(entityUniqueID) };
-		TestSystem::ComponentHandleT component = system.addComponent(entity);
-		EXPECT_TRUE(component);
+		TestSystem::ComponentWeakRefT component = system.addComponent(entity);
+		EXPECT_TRUE(component.isValid());
 
 		component = system.addComponent(entity);
-		EXPECT_TRUE(component);
+		EXPECT_TRUE(component.isValid());
 
 		const auto& components = system.getComponents();
 		ASSERT_EQ(components.size(), 2u);

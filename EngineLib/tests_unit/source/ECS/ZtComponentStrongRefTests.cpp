@@ -22,11 +22,18 @@ namespace zt::engine::ecs::tests
 		static_assert(std::is_move_constructible_v<ComponentStrongRefT>);
 		static_assert(std::is_move_assignable_v<ComponentStrongRefT>);
 		static_assert(std::is_destructible_v<ComponentStrongRefT>);
+
+		void createComponentStrongRef()
+		{
+			core::UniqueID componentID{ 2u };
+			core::ID entityID{ 3u };
+			componentStrongRef.create(std::move(componentID), entityID);
+		}
 	};
 
 	TEST_F(ComponentStrongRefSimpleTests, Create)
 	{
-		componentStrongRef.create();
+		createComponentStrongRef();
 	}
 
 	TEST_F(ComponentStrongRefSimpleTests, IsValid)
@@ -34,14 +41,14 @@ namespace zt::engine::ecs::tests
 		bool isValid = componentStrongRef.isValid();
 		EXPECT_FALSE(isValid);
 
-		componentStrongRef.create();
+		createComponentStrongRef();
 		isValid = componentStrongRef.isValid();
 		EXPECT_TRUE(isValid);
 	}
 
 	TEST_F(ComponentStrongRefSimpleTests, Destroy)
 	{
-		componentStrongRef.create();
+		createComponentStrongRef();
 		bool isValid = componentStrongRef.isValid();
 		ASSERT_TRUE(isValid);
 
@@ -55,7 +62,7 @@ namespace zt::engine::ecs::tests
 		Component* component = componentStrongRef.operator->();
 		EXPECT_FALSE(component);
 
-		componentStrongRef.create();
+		createComponentStrongRef();
 		component = componentStrongRef.operator->();
 		EXPECT_TRUE(component);
 	}
@@ -65,21 +72,13 @@ namespace zt::engine::ecs::tests
 		Component* component = componentStrongRef.get();
 		EXPECT_FALSE(component);
 
-		componentStrongRef.create();
+		createComponentStrongRef();
 		component = componentStrongRef.get();
 		EXPECT_TRUE(component);
 	}
 
-	class ComponentStrongRefTests : public ::testing::Test
+	TEST_F(ComponentStrongRefSimpleTests, CreateWeakRef)
 	{
-	protected:
-
-		//ComponentStrongRef componentStrongRef;
-
-	};
-
-	TEST_F(ComponentStrongRefTests, Pass)
-	{
-
+		ComponentWeakRef<Component> weakRef = componentStrongRef.createWeakRef();
 	}
 }
