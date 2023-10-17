@@ -28,7 +28,7 @@ namespace zt::engine::ecs
 		
 		~ComponentStrongRef() = default;
 	
-		void create(core::UniqueID&& newUniqueID, core::ID entityID);
+		void create(core::UniqueID&& newUniqueID, core::ID newOwnerID);
 
 		bool isValid() const { return component.has_value(); }
 
@@ -42,9 +42,15 @@ namespace zt::engine::ecs
 
 		ComponentWeakRefT createWeakRef();
 
+		const core::ID getOwnerID() const { return ownerID; }
+		core::ID getOwnerID() { return ownerID; }
+
+		void invalidateOwnerID() { ownerID = core::ID{}; }
+
 	protected:
 
 		std::optional<ComponentT> component;
+		core::ID ownerID;
 
 	};
 
@@ -58,6 +64,7 @@ namespace zt::engine::ecs
 	void ComponentStrongRef<ComponentType>::create(core::UniqueID&& newUniqueID, core::ID entityID)
 	{
 		component = std::make_optional<ComponentT>(std::move(newUniqueID), entityID);
+		ownerID = entityID;
 	}
 
 	template<std::derived_from<Component> ComponentType>

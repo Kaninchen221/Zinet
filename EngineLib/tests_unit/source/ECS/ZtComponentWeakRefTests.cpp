@@ -20,6 +20,7 @@ namespace zt::engine::ecs::tests
 		Component component;
 		ComponentStrongRefT componentStrongRef;
 		ComponentWeakRefT componentWeakRef{ nullptr };
+		const core::ID entityID{ 3u };
 
 		static_assert(!std::is_default_constructible_v<ComponentWeakRefT>);
 		static_assert(std::is_copy_constructible_v<ComponentWeakRefT>);
@@ -31,7 +32,6 @@ namespace zt::engine::ecs::tests
 		void createComponentStrongRef()
 		{
 			core::UniqueID componentID{ 2u };
-			core::ID entityID{ 3u };
 			componentStrongRef.create(std::move(componentID), entityID);
 		}
 	};
@@ -45,6 +45,10 @@ namespace zt::engine::ecs::tests
 		componentWeakRef = ComponentWeakRefT{ &componentStrongRef };
 		isValid = componentWeakRef.isValid();
 		ASSERT_TRUE(isValid);
+
+		componentStrongRef.invalidateEntityOwnerID();
+		isValid = componentWeakRef.isValid();
+		ASSERT_FALSE(isValid);
 	}
 
 	TEST_F(ComponentWeakRefSimpleTests, ArrowOperator)
@@ -67,5 +71,18 @@ namespace zt::engine::ecs::tests
 		componentWeakRef = ComponentWeakRefT{ &componentStrongRef };
 		componentPtr = componentWeakRef.get();
 		EXPECT_TRUE(componentPtr);
+	}
+
+	TEST_F(ComponentWeakRefSimpleTests, GetOwnerEntityID)
+	{
+		typedef core::ID(Component::* ExpectedFunction)() const;
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Component::getOwnerID));
+
+		core::ID ownerEntityID = componentStrongRef.getOwnerID();
+		EXPECT_EQ(ownerEntityID, core::ID::InvalidIDNumber);
+
+		createComponentStrongRef();
+		ownerEntityID = componentStrongRef.getOwnerID();
+		EXPECT_EQ(ownerEntityID, entityID);
 	}
 }

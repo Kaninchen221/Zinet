@@ -62,9 +62,9 @@ namespace zt::engine::ecs::tests
 		const auto& components = system.getComponents();
 		ASSERT_EQ(components.size(), 2u);
 		EXPECT_TRUE(components[0]->getUniqueID() == 0u);
-		EXPECT_TRUE(components[0]->getOwnerEntityID() == entityUniqueIDNumber);
+		EXPECT_TRUE(components[0]->getOwnerID() == entityUniqueIDNumber);
 		EXPECT_TRUE(components[1]->getUniqueID() == 1u);
-		EXPECT_TRUE(components[1]->getOwnerEntityID() == entityUniqueIDNumber);
+		EXPECT_TRUE(components[1]->getOwnerID() == entityUniqueIDNumber);
 	}
 
 	TEST_F(SystemSimpleTests, RemoveComponent)

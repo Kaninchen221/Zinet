@@ -25,7 +25,7 @@ namespace zt::engine::ecs
 
 		const core::UniqueID& getUniqueID() const { return uniqueID; }
 
-		core::ID getOwnerEntityID() const { return ownerEntityID; }
+		core::ID getOwnerID() const { return ownerEntityID; }
 
 	protected:
 

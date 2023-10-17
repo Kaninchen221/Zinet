@@ -53,9 +53,9 @@ namespace zt::engine::ecs::tests
 	TEST_F(ComponentSimpleTests, GetOwnerEntityID)
 	{
 		typedef core::ID (Component::* ExpectedFunction)() const;
-		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Component::getOwnerEntityID));
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&Component::getOwnerID));
 
-		core::ID ownerEntityID = component.getOwnerEntityID();
+		core::ID ownerEntityID = component.getOwnerID();
 		EXPECT_EQ(ownerEntityID, expectedEntityID);
 	}
 

@@ -18,7 +18,7 @@ namespace zt::engine::ecs
 		using ComponentStrongRefT = ComponentStrongRef<ComponentT>;
 
 		ComponentWeakRef() = delete;
-		ComponentWeakRef(ComponentStrongRefT* newComponentStrongRef) : componentStrongRef{ newComponentStrongRef } {}
+		ComponentWeakRef(ComponentStrongRefT* newComponentStrongRef);
 		ComponentWeakRef(const ComponentWeakRef& other) = default;
 		ComponentWeakRef(ComponentWeakRef&& other) = default;
 
@@ -35,11 +35,25 @@ namespace zt::engine::ecs
 		const ComponentT* operator -> () const { return get(); }
 		ComponentT* operator -> () { return get(); }
 
+		const core::ID getOwnerID() const { return ownerID; }
+		core::ID getOwnerID() { return ownerID; }
+
 	protected:
 
 		ComponentStrongRefT* componentStrongRef = nullptr;
+		core::ID ownerID;
 
 	};
+
+	template<std::derived_from<Component> ComponentType>
+	ComponentWeakRef<ComponentType>::ComponentWeakRef(ComponentStrongRefT* newComponentStrongRef)
+		: componentStrongRef{ newComponentStrongRef }
+	{
+		if (componentStrongRef)
+		{
+			ownerID = componentStrongRef->getOwnerID();
+		}
+	}
 
 	template<std::derived_from<Component> ComponentType>
 	typename const ComponentWeakRef<ComponentType>::ComponentT* ComponentWeakRef<ComponentType>::get() const
@@ -63,9 +77,15 @@ namespace zt::engine::ecs
 	bool ComponentWeakRef<ComponentType>::isValid() const
 	{
 		if (componentStrongRef)
-			return componentStrongRef->isValid();
+		{
+			bool isStrongRefValid = componentStrongRef->isValid();
+			bool isEntityOwnerIDValid = (ownerID == componentStrongRef->getOwnerID());
+			return isStrongRefValid && isEntityOwnerIDValid;
+		}
 		else
+		{
 			return false;
+		}
 	}
 
 }
