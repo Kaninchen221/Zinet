@@ -46,7 +46,7 @@ namespace zt::engine::ecs::tests
 		isValid = componentWeakRef.isValid();
 		ASSERT_TRUE(isValid);
 
-		componentStrongRef.invalidateEntityOwnerID();
+		componentStrongRef.invalidateOwnerID();
 		isValid = componentWeakRef.isValid();
 		ASSERT_FALSE(isValid);
 	}

@@ -98,7 +98,7 @@ namespace zt::engine::ecs::tests
 	TEST_F(ComponentStrongRefSimpleTests, InvalidateEntityOwnerID)
 	{
 		createComponentStrongRef();
-		componentStrongRef.invalidateEntityOwnerID();
+		componentStrongRef.invalidateOwnerID();
 		EXPECT_EQ(componentStrongRef.getOwnerID(), core::ID::InvalidIDNumber);
 	}
 }
