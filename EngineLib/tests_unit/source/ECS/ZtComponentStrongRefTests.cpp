@@ -55,6 +55,9 @@ namespace zt::engine::ecs::tests
 		componentStrongRef.destroy();
 		isValid = componentStrongRef.isValid();
 		ASSERT_FALSE(isValid);
+
+		core::ID ownerID = componentStrongRef.getOwnerID();
+		EXPECT_EQ(ownerID, core::ID::InvalidIDNumber);
 	}
 
 	TEST_F(ComponentStrongRefSimpleTests, ArrowOperator)

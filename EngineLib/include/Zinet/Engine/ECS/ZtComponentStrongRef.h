@@ -32,7 +32,7 @@ namespace zt::engine::ecs
 
 		bool isValid() const { return component.has_value(); }
 
-		void destroy() { component.reset(); }
+		void destroy();
 
 		const ComponentT* get() const;
 		ComponentT* get();
@@ -53,6 +53,13 @@ namespace zt::engine::ecs
 		core::ID ownerID;
 
 	};
+
+	template<std::derived_from<Component> ComponentType>
+	void ComponentStrongRef<ComponentType>::destroy()
+	{
+		component.reset();
+		invalidateOwnerID();
+	}
 
 	template<std::derived_from<Component> ComponentType>
 	ComponentWeakRef<ComponentType> ComponentStrongRef<ComponentType>::createWeakRef()
