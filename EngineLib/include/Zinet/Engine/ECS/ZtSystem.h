@@ -14,8 +14,7 @@
 
 namespace zt::engine::ecs
 {
-	// I know this class performance is shit but I wanted more nice interface than better performance for now
-	template<class ComponentType>
+	template<std::derived_from<Component> ComponentType>
 	class System
 	{
 	public:
@@ -40,7 +39,7 @@ namespace zt::engine::ecs
 
 		ComponentWeakRefT addComponent(const Entity& entity);
 
-		bool removeComponent(const core::UniqueID& id) { return core::Ensure(false); /*Not implemented*/ }
+		bool destroyComponent(const core::ID& ownerID);
 
 		virtual void update(core::Time elapsedTime) {}
 
@@ -51,21 +50,30 @@ namespace zt::engine::ecs
 
 	};
 
-	template<class ComponentType>
+	template<std::derived_from<Component> ComponentType>
 	System<ComponentType>::ComponentWeakRefT System<ComponentType>::addComponent(const Entity& entity)
 	{
-// 		core::UniqueID id{ nextIDNumber };
-// 		ComponentT* rawComponent = new ComponentT( std::move(id), entity.getUniqueID().createID() );
-// 		std::shared_ptr<ComponentT> newComponent(rawComponent);
-// 		auto& componentHandle = components.emplace_back(newComponent);
-// 		return componentHandle;
-		
 		ComponentStrongRefT& strongRef = components.emplace_back();
 		core::UniqueID uniqueID{ nextIDNumber };
 		++nextIDNumber;
 		strongRef.create(std::move(uniqueID), entity.getUniqueID().createID());
 
 		return ComponentWeakRefT{ &strongRef };
+	}
+
+	template<std::derived_from<Component> ComponentType>
+	bool System<ComponentType>::destroyComponent(const core::ID& ownerID)
+	{
+		for (auto& componentStrongRef : components)
+		{
+			if (componentStrongRef.getOwnerID() == ownerID)
+			{
+				componentStrongRef.destroy();
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

@@ -67,10 +67,25 @@ namespace zt::engine::ecs::tests
 		EXPECT_TRUE(components[1]->getOwnerID() == entityUniqueIDNumber);
 	}
 
-	TEST_F(SystemSimpleTests, RemoveComponent)
+	TEST_F(SystemSimpleTests, DestroyComponent)
 	{
-		core::UniqueID id{ 5u };
-		EXPECT_DEBUG_DEATH(system.removeComponent(id), "");
+		core::ID invalidID{ 5324234u };
+		bool result = system.destroyComponent(invalidID);
+		EXPECT_FALSE(result);
+
+		const size_t entityUniqueIDNumber = 8u;
+		core::UniqueID entityUniqueID{ entityUniqueIDNumber };
+		const Entity entity{ std::move(entityUniqueID) };
+
+		auto component = system.addComponent(entity);
+		EXPECT_TRUE(component.isValid());
+
+		result = system.destroyComponent(component.getOwnerID());
+		EXPECT_TRUE(result);
+
+		const auto& components = system.getComponents();
+		ASSERT_EQ(components.size(), 1u);
+		ASSERT_FALSE(components.front().isValid());
 	}
 
 	TEST_F(SystemSimpleTests, Update)
