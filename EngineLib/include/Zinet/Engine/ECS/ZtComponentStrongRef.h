@@ -55,23 +55,17 @@ namespace zt::engine::ecs
 	};
 
 	template<std::derived_from<Component> ComponentType>
-	void ComponentStrongRef<ComponentType>::destroy()
-	{
-		component.reset();
-		invalidateOwnerID();
-	}
-
-	template<std::derived_from<Component> ComponentType>
-	ComponentWeakRef<ComponentType> ComponentStrongRef<ComponentType>::createWeakRef()
-	{
-		return ComponentWeakRefT{ this };
-	}
-
-	template<std::derived_from<Component> ComponentType>
 	void ComponentStrongRef<ComponentType>::create(core::UniqueID&& newUniqueID, core::ID entityID)
 	{
 		component = std::make_optional<ComponentT>(std::move(newUniqueID), entityID);
 		ownerID = entityID;
+	}
+
+	template<std::derived_from<Component> ComponentType>
+	void ComponentStrongRef<ComponentType>::destroy()
+	{
+		component.reset();
+		invalidateOwnerID();
 	}
 
 	template<std::derived_from<Component> ComponentType>
@@ -90,6 +84,12 @@ namespace zt::engine::ecs
 			return &component.value();
 		else
 			return nullptr;
+	}
+
+	template<std::derived_from<Component> ComponentType>
+	ComponentWeakRef<ComponentType> ComponentStrongRef<ComponentType>::createWeakRef()
+	{
+		return ComponentWeakRefT{ this };
 	}
 }
 
