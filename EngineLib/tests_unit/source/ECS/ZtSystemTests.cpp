@@ -14,8 +14,17 @@ namespace zt::engine::ecs::tests
 
 		TestComponent(core::UniqueID&& uniqueID, core::ID entityID) : Component(std::move(uniqueID), entityID) {}
 
+		void update(core::Time elapsedTime) override { ++updateCalledCounter; }
+
+		size_t getUpdateCalledCounter() const { return updateCalledCounter; }
+
 		inline static const int startValue = 10;
 		int value = startValue;
+
+	private:
+
+		size_t updateCalledCounter = 0u;
+
 	};
 
 	class TestSystem : public System<TestComponent>
@@ -110,7 +119,17 @@ namespace zt::engine::ecs::tests
 
 	TEST_F(SystemSimpleTests, Update)
 	{
-		core::Time elapsedTime;
-		system.update(elapsedTime);
+		const size_t entityUniqueIDNumber = 8u;
+		core::UniqueID entityUniqueID{ entityUniqueIDNumber };
+		const Entity entity{ std::move(entityUniqueID) };
+
+		auto component = system.addComponent(entity);
+		ASSERT_TRUE(component.isValid());
+
+		system.update({});
+		EXPECT_EQ(component->getUpdateCalledCounter(), 1u);
+
+		system.update({});
+		EXPECT_EQ(component->getUpdateCalledCounter(), 2u);
 	}
 }

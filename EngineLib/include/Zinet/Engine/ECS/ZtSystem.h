@@ -41,7 +41,7 @@ namespace zt::engine::ecs
 
 		bool destroyComponent(const core::ID& ownerID);
 
-		virtual void update(core::Time elapsedTime) {}
+		virtual void update(core::Time elapsedTime);
 
 	protected:
 
@@ -79,9 +79,21 @@ namespace zt::engine::ecs
 	}
 
 	template<std::derived_from<Component> ComponentType>
+	void System<ComponentType>::update(core::Time elapsedTime)
+	{
+		for (auto& component : components)
+		{
+			if (component.isValid())
+			{
+				component->update(elapsedTime);
+			}
+		}
+	}
+
+	template<std::derived_from<Component> ComponentType>
 	System<ComponentType>::ComponentWeakRefT System<ComponentType>::tryRecreateComponent(const Entity& entity)
 	{
-		for (size_t uniqueIDNumber = 0u; auto & componentStrongRef : components)
+		for (size_t uniqueIDNumber = 0u; auto& componentStrongRef : components)
 		{
 			if (!componentStrongRef.isValid())
 			{
