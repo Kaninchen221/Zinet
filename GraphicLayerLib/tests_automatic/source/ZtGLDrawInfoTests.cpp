@@ -13,6 +13,12 @@ namespace zt::gl::tests
 		RenderStates renderStates;
 
 		static_assert(std::is_default_constructible_v<RenderStates>);
+		static_assert(std::is_copy_constructible_v<RenderStates>);
+		static_assert(std::is_copy_assignable_v<RenderStates>);
+		static_assert(std::is_move_constructible_v<RenderStates>);
+		static_assert(std::is_move_assignable_v<RenderStates>);
+		static_assert(std::is_destructible_v<RenderStates>);
+
 		static_assert(std::is_same_v<decltype(renderStates.shaders), std::span<Shader>>);
 		static_assert(std::is_same_v<decltype(renderStates.descriptors), std::span<RenderStates::Descriptor>>);
 		static_assert(std::is_same_v<decltype(renderStates.images), std::span<RenderStates::Image>>);
@@ -24,6 +30,13 @@ namespace zt::gl::tests
 	protected:
 
 		DrawInfo drawInfo;
+
+		static_assert(std::is_default_constructible_v<DrawInfo>);
+		static_assert(!std::is_copy_constructible_v<DrawInfo>);
+		static_assert(!std::is_copy_assignable_v<DrawInfo>);
+		static_assert(std::is_move_constructible_v<DrawInfo>);
+		static_assert(std::is_move_assignable_v<DrawInfo>);
+		static_assert(std::is_destructible_v<DrawInfo>);
 
 		static_assert(std::is_same_v<decltype(drawInfo.vertexBuffer), VertexBuffer>);
 		static_assert(std::is_same_v<decltype(drawInfo.indexBuffer), IndexBuffer>);

@@ -49,10 +49,6 @@ namespace zt::gl
 		template<class VertexType>
 		void draw(const DrawableBase& drawableObject, RenderStates& renderStates);
 
-		/// You need to update manually uniform and storage buffers before calling this function
-		template<class VertexType>
-		void draw(DrawInfo& drawInfo, RenderStates& renderStates);
-
 		void postDraw();
 
 		typedef void (*SubmitCommandsWaitIdleFunction)(CommandBuffer& commandBuffer);
@@ -69,6 +65,10 @@ namespace zt::gl
 
 		template<typename VertexType>
 		void createRendererPipeline(const RenderStates& renderStates, const DrawInfo& drawInfo);
+
+		/// You need to update manually uniform and storage buffers before calling this function
+		template<class VertexType>
+		void draw_internal(DrawInfo& drawInfo, RenderStates& renderStates);
 
 		void updateMVPUniformBuffer(const RenderStates& renderStates, DrawInfo& drawInfo);
 
@@ -106,11 +106,11 @@ namespace zt::gl
 		drawableObject.updateUniformBuffers(drawInfo.uniformBuffers);
 		drawableObject.updateStorageBuffers(drawInfo.storageBuffers);
 
-		draw<VertexType>(drawInfo, renderStates);
+		draw_internal<VertexType>(drawInfo, renderStates);
 	}
 
 	template<class VertexType>
-	void Renderer::draw(DrawInfo& drawInfo, RenderStates& renderStates)
+	void Renderer::draw_internal(DrawInfo& drawInfo, RenderStates& renderStates)
 	{
 		createRendererPipeline<VertexType>(renderStates, drawInfo);
 
