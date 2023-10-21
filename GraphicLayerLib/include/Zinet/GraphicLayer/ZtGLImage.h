@@ -26,6 +26,7 @@ namespace zt::gl
 			const Vma& vma;
 			VkImageCreateInfo vkImageCreateInfo;
 			VmaAllocationCreateInfo allocationCreateInfo;
+			vk::ImageAspectFlags imageAspectFlags = vk::ImageAspectFlagBits::eColor;
 		};
 
 	protected:
@@ -67,6 +68,7 @@ namespace zt::gl
 		VmaAllocation allocation{};
 		std::uint32_t width{};
 		std::uint32_t height{};
+		vk::ImageAspectFlags imageAspectFlags;
 		std::uint32_t mipmapLevels = 0u;
 		std::vector<vk::ImageLayout> imageLayouts{};
 		std::vector<vk::PipelineStageFlags> pipelineStageFlags{};

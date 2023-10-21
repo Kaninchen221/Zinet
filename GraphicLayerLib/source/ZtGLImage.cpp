@@ -59,6 +59,8 @@ namespace zt::gl
 				imageLayouts.push_back(vk::ImageLayout::eUndefined);
 				pipelineStageFlags.push_back(vk::PipelineStageFlagBits::eTopOfPipe);
 			}
+
+			imageAspectFlags = imageCreateInfo.imageAspectFlags;
 		}
 		else
 		{
@@ -87,7 +89,7 @@ namespace zt::gl
 
 			CommandBuffer::CreateImageMemoryBarrierInfo createImageMemoryBarrierInfo
 			{
-				*this, currentImageLayout, newLayout, 1u, mipmapLevel
+				*this, currentImageLayout, newLayout, imageAspectFlags, 1u, mipmapLevel
 			};
 			vk::ImageMemoryBarrier barrier = commandBuffer.createImageMemoryBarrier(createImageMemoryBarrierInfo);
 

@@ -20,7 +20,7 @@
 #include "Zinet/GraphicLayer/ZtGLShaderModule.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
 #include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
-#include "Zinet/GraphicLayer/ZtGLDepthBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDepthStencilBuffer.h"
 
 #include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 #include "Zinet/GraphicLayer/ZtGLSemaphore.h"
@@ -91,10 +91,10 @@ namespace zt::gl
 
 		const vk::Extent2D& getSwapExtent() const { return swapExtent; }
 
-		const DepthBuffer& getDepthBuffer() const { return depthBuffer; }
-		DepthBuffer& getDepthBuffer() { return depthBuffer; }
+		const DepthStencilBuffer& getDepthStencilBuffer() const { return depthStencilBuffer; }
+		DepthStencilBuffer& getDepthStencilBuffer() { return depthStencilBuffer; }
 
-		vk::Format getDepthBufferFormat() { return depthBufferFormat; }
+		vk::Format getDepthStencilBufferFormat() { return depthStencilBufferFormat; }
 
 		const RenderPass& getRenderPass() const { return renderPass; }
 		RenderPass& getRenderPass() { return renderPass; }
@@ -107,6 +107,9 @@ namespace zt::gl
 
 		const CommandPool& getCommandPool() const { return commandPool; }
 		CommandPool& getCommandPool() { return commandPool; }
+
+		const CommandBuffer& getCommandBuffer() const { return commandBuffer; }
+		CommandBuffer& getCommandBuffer() { return commandBuffer; }
 
 		void informAboutWindowResize(const Vector2ui& size);
 
@@ -124,7 +127,7 @@ namespace zt::gl
 		void createVma();
 		void createQueue();
 		void createSwapChain();
-		void createDepthBuffer();
+		void createDepthStencilBuffer();
 		void createRenderPass();
 		void createRenderTargets();
 
@@ -145,11 +148,12 @@ namespace zt::gl
 		SwapChain swapChain;
 		vk::Extent2D swapExtent;
 		vk::Format swapFormat{};
-		DepthBuffer depthBuffer;
-		vk::Format depthBufferFormat{};
+		DepthStencilBuffer depthStencilBuffer;
+		vk::Format depthStencilBufferFormat{};
 		RenderPass renderPass;
 		std::vector<RenderTargetDisplay> renderTargets;
 		CommandPool commandPool;
+		CommandBuffer commandBuffer;
 	};
 
 }

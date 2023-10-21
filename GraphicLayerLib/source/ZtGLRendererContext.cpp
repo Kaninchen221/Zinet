@@ -44,15 +44,17 @@ namespace zt::gl
 		createVma();
 		createQueue();
 
+		commandPool.create(device, queueFamilyIndex);
+
+		commandBuffer.allocateCommandBuffer(device, commandPool);
+
 		updateSwapChainSupportDetails();
 
 		createSwapChain();
 
-		createDepthBuffer();
+		createDepthStencilBuffer();
 		createRenderPass();
 		createRenderTargets();
-		
-		commandPool.create(device, queueFamilyIndex);
 	}
 
 	void RendererContext::createInstance()
@@ -132,27 +134,28 @@ namespace zt::gl
 			Logger->error("Failed to create SwapChain");
 	}
 
-	void RendererContext::createDepthBuffer()
+	void RendererContext::createDepthStencilBuffer()
 	{
-		bool foundFormat = depthBuffer.findDepthFormat(physicalDevice, depthBufferFormat);
+		bool foundFormat = depthStencilBuffer.findDepthFormat(physicalDevice, depthStencilBufferFormat);
 		if (!foundFormat)
 		{
 			Logger->critical("findDepthFormat return false - can't create depth buffer");
 			return;
 		}
 
-		depthBuffer.create(*this, depthBufferFormat);
+		depthStencilBuffer.create(*this, depthStencilBufferFormat);
 
-		if (!depthBuffer.isValid())
-			Logger->error("Failed to create DepthBuffer");
+		if (!depthStencilBuffer.isValid())
+			Logger->error("Failed to create DepthStencilBuffer");
 	}
 
 	void RendererContext::createRenderPass()
 	{
 		renderPass.createColorAttachmentDescription(swapChainSupportDetails.pickFormat().format);
 		renderPass.createColorAttachmentReference();
-		renderPass.createDepthAttachmentDescription(depthBufferFormat);
+		renderPass.createDepthAttachmentDescription(depthStencilBufferFormat);
 		renderPass.createDepthAttachmentReference();
+		//renderPass.createStencilAttachmentDescription(stencilBufferFormat);
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
 
@@ -180,7 +183,7 @@ namespace zt::gl
 				.height = swapExtent.height,
 				.format = swapFormat,
 				.swapChainImage = swapChainImage,
-				.depthBufferImageView = depthBuffer.getImageView().getVk()
+				.depthStencilBufferImageView = depthStencilBuffer.getImageView().getVk()
 			};
 			renderTarget.create(renderTargetCreateInfo);
 		}
@@ -197,14 +200,14 @@ namespace zt::gl
 
 	void RendererContext::informAboutWindowResize(const Vector2ui& size)
 	{
-		depthBuffer.clear();
+		depthStencilBuffer.clear();
 		renderTargets.clear();
 		swapChain.clear();
 
 		updateSwapChainSupportDetails();
 
 		createSwapChain();
-		createDepthBuffer();
+		createDepthStencilBuffer();
 		createRenderTargets();
 	}
 
@@ -217,8 +220,8 @@ namespace zt::gl
 
 	void RendererContext::submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function)
 	{
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(device, commandPool);
+		if (!commandBuffer.isValid())
+			commandBuffer.allocateCommandBuffer(device, commandPool);
 
 		queue.submitWaitIdle(commandBuffer, function);
 	}

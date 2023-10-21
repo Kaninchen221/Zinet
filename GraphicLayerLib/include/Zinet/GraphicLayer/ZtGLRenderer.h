@@ -128,10 +128,10 @@ namespace zt::gl
 			CommandBuffer::BindDescriptorSetsInfo bindDescriptorSetsInfo
 			{
 				.bindPoint = vk::PipelineBindPoint::eGraphics,
-					.pipelineLayout = rendererPipeline.getPipelineLayout(),
-					.firstSet = 0,
-					.descriptorSets = rendererPipeline.getDescriptorSets().value(),
-					.dynamicOffsets = {}
+				.pipelineLayout = rendererPipeline.getPipelineLayout(),
+				.firstSet = 0,
+				.descriptorSets = rendererPipeline.getDescriptorSets().value(),
+				.dynamicOffsets = {}
 			};
 
 			drawCommandBuffer.bindDescriptorSets(bindDescriptorSetsInfo);
@@ -157,10 +157,4 @@ namespace zt::gl
 
 		newRendererPipeline.updateDescriptorSets(rendererContext.getDevice());
 	}
-
-// 	inline void Renderer::WindowResizeCallback(void* userPointer, const Vector2ui& size)
-// 	{
-// 		Renderer* renderer = static_cast<Renderer*>(userPointer);
-// 		renderer->windowResizeCallback_Internal(size);
-// 	}
 }

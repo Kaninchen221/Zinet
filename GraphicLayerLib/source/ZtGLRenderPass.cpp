@@ -11,8 +11,8 @@ namespace zt::gl
 		colorAttachmentDescription.samples = vk::SampleCountFlagBits::e1;
 		colorAttachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
 		colorAttachmentDescription.storeOp = vk::AttachmentStoreOp::eStore;
-		colorAttachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
-		colorAttachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
+		colorAttachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eLoad;
+		colorAttachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eStore;
 		colorAttachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
 		colorAttachmentDescription.finalLayout = vk::ImageLayout::ePresentSrcKHR;
 
@@ -77,17 +77,17 @@ namespace zt::gl
 
 	void RenderPass::createDepthAttachmentDescription(vk::Format format)
 	{
-		vk::AttachmentDescription depthAttachmentDescription{};
-		depthAttachmentDescription.format = format;
-		depthAttachmentDescription.samples = vk::SampleCountFlagBits::e1;
-		depthAttachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
-		depthAttachmentDescription.storeOp = vk::AttachmentStoreOp::eDontCare;
-		depthAttachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eDontCare;
-		depthAttachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eDontCare;
-		depthAttachmentDescription.initialLayout = vk::ImageLayout::eUndefined;
-		depthAttachmentDescription.finalLayout = vk::ImageLayout::eDepthStencilAttachmentOptimal;
+		vk::AttachmentDescription attachmentDescription{};
+		attachmentDescription.format = format;
+		attachmentDescription.samples = vk::SampleCountFlagBits::e1;
+		attachmentDescription.loadOp = vk::AttachmentLoadOp::eClear;
+		attachmentDescription.storeOp = vk::AttachmentStoreOp::eStore;
+		attachmentDescription.stencilLoadOp = vk::AttachmentLoadOp::eClear;
+		attachmentDescription.stencilStoreOp = vk::AttachmentStoreOp::eStore;
+		attachmentDescription.initialLayout = vk::ImageLayout::eDepthStencilAttachmentOptimal;
+		attachmentDescription.finalLayout = vk::ImageLayout::eDepthStencilAttachmentOptimal;
 
-		attachmentDescriptions.push_back(depthAttachmentDescription);
+		attachmentDescriptions.push_back(attachmentDescription);
 		depthAttachmentDescriptionIndex = attachmentDescriptions.size() - 1;
 	}
 

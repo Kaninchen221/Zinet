@@ -42,7 +42,7 @@ void PortCV::setup()
 
 void PortCV::loop()
 {
-	camera.setPosition({ 0.0f, 0.0f, -30.0f });
+	camera.setPosition(Vector3f{ 0.f, 0.f, -5.f });
 	camera.setFar(1000.f);
 
 	RendererContext& rendererContext = renderer.getRendererContext();
@@ -106,22 +106,21 @@ void PortCV::loop()
 		renderer.preDraw();
 
 		{ // Draw
-			{ // Campfire
-				auto modelMatrix = campfire.flipbook.getTransform().toMatrix();
-				auto viewMatrix = camera.viewMatrix();
-				auto projectionMatrix = camera.projectionMatrix();
-				campfireRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
-
-				campfire.flipbook.update(gameClock.getElapsedTime());
-				renderer.draw<Vertex>(campfire.flipbook, campfireRenderStates);
-			}
-
 			{ // Character
 				auto modelMatrix = character.sprite.getTransform().toMatrix();
 				auto viewMatrix = camera.viewMatrix();
 				auto projectionMatrix = camera.projectionMatrix();
 				characterRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
 				renderer.draw<Vertex>(character.sprite, characterRenderStates);
+			}
+			{ // Campfire
+				auto modelMatrix = campfire.flipbook.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				campfireRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
+
+				campfire.flipbook.update(gameClock.restart());
+				renderer.draw<Vertex>(campfire.flipbook, campfireRenderStates);
 			}
 		}
 
@@ -200,6 +199,10 @@ void PortCV::setupCharacter()
 	renderer.getRendererContext().getQueue().submitWaitIdle(commandBuffer);
 
 	character.create();
+
+	auto transform = character.sprite.getTransform();
+	transform.setTranslation(Vector3f{ 0.f, -0.5f, 0.0f });
+	character.sprite.setTransform(transform);
 }
 
 void PortCV::imguiCamera()

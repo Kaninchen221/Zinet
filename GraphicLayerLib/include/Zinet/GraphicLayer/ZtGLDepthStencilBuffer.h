@@ -11,23 +11,23 @@ namespace zt::gl
 	class PhysicalDevice;
 	class RendererContext;
 
-	class ZINET_GRAPHIC_LAYER_API DepthBuffer
+	class ZINET_GRAPHIC_LAYER_API DepthStencilBuffer
 	{
 
 	protected:
 
-		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("DepthBuffer");
+		inline static zt::core::ConsoleLogger Logger = zt::core::ConsoleLogger::Create("DepthStencilBuffer");
 
 	public:
 
-		DepthBuffer() = default;
-		DepthBuffer(const DepthBuffer& other) = default;
-		DepthBuffer(DepthBuffer&& other) = default;
+		DepthStencilBuffer() = default;
+		DepthStencilBuffer(const DepthStencilBuffer& other) = default;
+		DepthStencilBuffer(DepthStencilBuffer&& other) = default;
 
-		DepthBuffer& operator = (const DepthBuffer& other) = default;
-		DepthBuffer& operator = (DepthBuffer&& other) = default;
+		DepthStencilBuffer& operator = (const DepthStencilBuffer& other) = default;
+		DepthStencilBuffer& operator = (DepthStencilBuffer&& other) = default;
 
-		~DepthBuffer() noexcept = default;
+		~DepthStencilBuffer() noexcept = default;
 
 		const Image& getImage() const { return image; }
 
@@ -35,7 +35,7 @@ namespace zt::gl
 
 		bool findDepthFormat(const PhysicalDevice& physicalDevice, vk::Format& supportedFormat) const;
 
-		void create(const RendererContext& rendererContext, vk::Format format);
+		void create(RendererContext& rendererContext, vk::Format format);
 
 		void clear();
 

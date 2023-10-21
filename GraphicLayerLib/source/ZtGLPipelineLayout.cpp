@@ -126,15 +126,27 @@ namespace zt::gl
 
 	const vk::PipelineDepthStencilStateCreateInfo& PipelineLayout::createDepthStencilStateCreateInfo()
 	{
+		vk::StencilOpState stencilOpStateFront{};
+		stencilOpStateFront.failOp = vk::StencilOp::eReplace;
+		stencilOpStateFront.passOp = vk::StencilOp::eReplace;
+		stencilOpStateFront.depthFailOp = vk::StencilOp::eReplace;
+		stencilOpStateFront.compareOp = vk::CompareOp::eEqual;
+		//stencilOpStateFront.compareOp = vk::CompareOp::eAlways;
+		stencilOpStateFront.compareMask = std::numeric_limits<uint32_t>::max();
+		stencilOpStateFront.writeMask = std::numeric_limits<uint32_t>::max();
+		stencilOpStateFront.reference = 1u;
+
+		vk::StencilOpState stencilOpStateBack{};
+
 		depthStencilStateCreateInfo.depthTestEnable = VK_TRUE;
-		depthStencilStateCreateInfo.depthWriteEnable = VK_TRUE;
+		depthStencilStateCreateInfo.depthWriteEnable = VK_FALSE;
 		depthStencilStateCreateInfo.depthCompareOp = vk::CompareOp::eLess;
 		depthStencilStateCreateInfo.depthBoundsTestEnable = VK_FALSE;
 		depthStencilStateCreateInfo.minDepthBounds = 0.f;
 		depthStencilStateCreateInfo.maxDepthBounds = 1.f;
 		depthStencilStateCreateInfo.stencilTestEnable = VK_FALSE;
-		depthStencilStateCreateInfo.front = vk::StencilOpState{};
-		depthStencilStateCreateInfo.back = vk::StencilOpState{};
+		depthStencilStateCreateInfo.front = stencilOpStateFront;
+		depthStencilStateCreateInfo.back = stencilOpStateBack;
 
 		return depthStencilStateCreateInfo;
 	}

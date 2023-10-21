@@ -127,7 +127,7 @@ namespace zt::gl::tests
 
 		renderPass.createColorAttachmentDescription(vk::Format::eR8G8Unorm);
 		renderPass.createColorAttachmentReference();
-		renderPass.createDepthAttachmentDescription(rendererContext.getDepthBufferFormat());
+		renderPass.createDepthAttachmentDescription(rendererContext.getDepthStencilBufferFormat());
 		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();

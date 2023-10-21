@@ -100,7 +100,7 @@ namespace zt::gl
 			std::uint32_t height;
 			vk::Format format;
 			vk::Image swapChainImage;
-			vk::ImageView depthBufferImageView;
+			vk::ImageView depthStencilBufferImageView;
 		};
 
 		void create(const CreateInfo& createInfo);

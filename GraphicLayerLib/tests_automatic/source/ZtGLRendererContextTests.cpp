@@ -62,8 +62,8 @@ namespace zt::gl::tests
 		const vk::Extent2D& swapExtent = rendererContext.getSwapExtent();
 		ASSERT_NE(swapExtent, vk::Extent2D{});
 
-		const DepthBuffer& depthBuffer = rendererContext.getDepthBuffer();
-		ASSERT_TRUE(depthBuffer.isValid());
+		const DepthStencilBuffer& depthStencilBuffer = rendererContext.getDepthStencilBuffer();
+		ASSERT_TRUE(depthStencilBuffer.isValid());
 
 		const RenderPass& renderPass = rendererContext.getRenderPass();
 		ASSERT_TRUE(renderPass.isValid());
@@ -76,6 +76,9 @@ namespace zt::gl::tests
 
 		const CommandPool& commandPool = rendererContext.getCommandPool();
 		ASSERT_TRUE(commandPool.isValid());
+
+		const CommandBuffer& commandBuffer = rendererContext.getCommandBuffer();
+		ASSERT_TRUE(commandBuffer.isValid());
 
 		wd::GLFW::Deinit();
 	}
@@ -181,13 +184,18 @@ namespace zt::gl::tests
 		[[maybe_unused]] const CommandPool& commandPool = rendererContext.getCommandPool();
 	}
 
-	TEST_F(RendererContextSimpleTests, GetDepthBuffer)
+	TEST_F(RendererContextSimpleTests, GetCommandBuffer)
 	{
-		[[maybe_unused]] const DepthBuffer& depthBuffer = rendererContext.getDepthBuffer();
+		[[maybe_unused]] const CommandBuffer& commandBuffer = rendererContext.getCommandBuffer();
 	}
 
-	TEST_F(RendererContextSimpleTests, GetDepthBufferFormat)
+	TEST_F(RendererContextSimpleTests, GetDepthStencilBuffer)
 	{
-		[[maybe_unused]] const vk::Format& depthBufferFormat = rendererContext.getDepthBufferFormat();
+		[[maybe_unused]] const DepthStencilBuffer& depthStencilBuffer = rendererContext.getDepthStencilBuffer();
+	}
+
+	TEST_F(RendererContextSimpleTests, GetDepthStencilBufferFormat)
+	{
+		[[maybe_unused]] const vk::Format& depthStencilBufferFormat = rendererContext.getDepthStencilBufferFormat();
 	}
 }

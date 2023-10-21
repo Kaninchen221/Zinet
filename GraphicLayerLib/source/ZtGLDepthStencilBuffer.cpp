@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLDepthBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLDepthStencilBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
@@ -9,9 +9,9 @@
 
 namespace zt::gl
 {
-	bool DepthBuffer::findDepthFormat(const PhysicalDevice& physicalDevice, vk::Format& supportedFormat) const
+	bool DepthStencilBuffer::findDepthFormat(const PhysicalDevice& physicalDevice, vk::Format& supportedFormat) const
 	{
-		std::vector<vk::Format> candidates = { vk::Format::eD32Sfloat, vk::Format::eD32SfloatS8Uint, vk::Format::eD24UnormS8Uint };
+		std::vector<vk::Format> candidates = { vk::Format::eD32SfloatS8Uint, vk::Format::eD24UnormS8Uint };
 		vk::ImageTiling imageTiling = vk::ImageTiling::eOptimal;
 		vk::FormatFeatureFlags formatFeatureFlags = vk::FormatFeatureFlagBits::eDepthStencilAttachment;
 
@@ -22,12 +22,11 @@ namespace zt::gl
 			.formatFeatureFlags = formatFeatureFlags
 		};
 
-		bool supportAnyFormat = physicalDevice.findSupportedFormat(input, supportedFormat);
-
-		return supportAnyFormat;
+		bool foundFormat = physicalDevice.findSupportedFormat(input, supportedFormat);
+		return foundFormat;
 	}
 
-	void DepthBuffer::create(const RendererContext& rendererContext, vk::Format format)
+	void DepthStencilBuffer::create(RendererContext& rendererContext, vk::Format format)
 	{
 		vk::Extent2D extent = rendererContext.getSwapExtent();
 		std::uint32_t mipmapLevels = 1u;
@@ -40,22 +39,29 @@ namespace zt::gl
 			.device = rendererContext.getDevice(),
 			.vma = rendererContext.getVma(),
 			.vkImageCreateInfo = vkImageCreateInfo,
-			.allocationCreateInfo = image.createAllocationCreateInfo()
+			.allocationCreateInfo = image.createAllocationCreateInfo(),
+			.imageAspectFlags = vk::ImageAspectFlagBits::eDepth | vk::ImageAspectFlagBits::eStencil
 		};
 		image.create(imageCreateInfo);
+
+		CommandBuffer& commandBuffer = rendererContext.getCommandBuffer();
+		commandBuffer.begin();
+		image.changeLayout(commandBuffer, vk::ImageLayout::eDepthStencilAttachmentOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		commandBuffer.end();
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), mipmapLevels, format);
 		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
 		imageView.create(rendererContext.getDevice(), imageViewCreateInfo);
 	}
 
-	void DepthBuffer::clear()
+	void DepthStencilBuffer::clear()
 	{
 		imageView.clear();
 		image.clear();
 	}
 
-	bool DepthBuffer::isValid() const
+	bool DepthStencilBuffer::isValid() const
 	{
 		return image.isValid() && imageView.isValid();
 	}

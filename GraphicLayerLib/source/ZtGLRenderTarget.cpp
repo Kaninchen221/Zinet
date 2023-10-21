@@ -61,10 +61,12 @@ namespace zt::gl
 	{
 		std::vector<vk::ImageView> attachments;
 
-		if (createInfo.depthBufferImageView)
-			attachments = { swapChainImageView.getVk(), createInfo.depthBufferImageView };
-		else
-			attachments = { swapChainImageView.getVk() };
+		attachments.push_back(swapChainImageView.getVk());
+
+		if (createInfo.depthStencilBufferImageView)
+		{
+			attachments.push_back(createInfo.depthStencilBufferImageView);
+		}
 
 		vk::Extent2D extent{ createInfo.width, createInfo.height };
 		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(swapChainImageView, createInfo.renderPass, extent);

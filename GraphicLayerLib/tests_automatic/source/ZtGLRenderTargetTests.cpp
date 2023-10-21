@@ -176,7 +176,7 @@ namespace zt::gl::tests
 			.height = 400u,
 			.format = vk::Format::eB8G8R8A8Srgb,
 			.swapChainImage = rendererContext.getSwapChain().getImages()[0],
-			.depthBufferImageView = rendererContext.getDepthBuffer().getImageView().getVk()
+			.depthStencilBufferImageView = rendererContext.getDepthStencilBuffer().getImageView().getVk()
 		};
 
 		renderTargetDisplay.create(renderTargetCreateInfo);

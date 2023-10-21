@@ -86,7 +86,7 @@ namespace zt::gl
 		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED; 
 		barrier.image = *createImageMemoryBarrierInfo.image.getInternal();
-		barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
+		barrier.subresourceRange.aspectMask = createImageMemoryBarrierInfo.imageAspectFlags;
 		barrier.subresourceRange.baseMipLevel = createImageMemoryBarrierInfo.mipmapLevel;
 		barrier.subresourceRange.levelCount = createImageMemoryBarrierInfo.mipmapLevels;
 		barrier.subresourceRange.baseArrayLayer = 0;

@@ -40,6 +40,7 @@ namespace zt::gl
 			Image& image;
 			vk::ImageLayout oldLayout;
 			vk::ImageLayout newLayout;
+			vk::ImageAspectFlags imageAspectFlags = vk::ImageAspectFlagBits::eColor;
 			std::uint32_t mipmapLevels = 1u;
 			std::uint32_t mipmapLevel = 0u;
 		};

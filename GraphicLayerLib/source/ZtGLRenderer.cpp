@@ -72,10 +72,10 @@ namespace zt::gl
 		renderArea.extent = rendererContext.getSwapExtent();
 
 		vk::ClearValue clearColor = vk::ClearColorValue{ std::array<float, 4>{ 0.5f, 0.5f, 0.5f, 0.f } };
-		vk::ClearValue depthBufferClearColor;
-		depthBufferClearColor.color = vk::ClearColorValue{ 1.f, 1.f, 1.f, 1.f };
-		depthBufferClearColor.depthStencil = vk::ClearDepthStencilValue{ 1.0f, 0u };
-		std::array<vk::ClearValue, 2u> clearColors{clearColor, depthBufferClearColor};
+		vk::ClearValue depthStencilBufferClearColor;
+		depthStencilBufferClearColor.color = vk::ClearColorValue{ 1.f, 1.f, 1.f, 1.f };
+		depthStencilBufferClearColor.depthStencil = vk::ClearDepthStencilValue{ 1.0f, 0u };
+		std::array<vk::ClearValue, 2u> clearColors{clearColor, depthStencilBufferClearColor};
 
 		CommandBuffer::BeginRenderPassInfo beginRenderPassInfo
 		{

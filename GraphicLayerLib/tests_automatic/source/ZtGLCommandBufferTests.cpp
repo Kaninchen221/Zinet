@@ -201,7 +201,7 @@ namespace zt::gl::tests
 		RenderPass renderPass;
 		renderPass.createColorAttachmentDescription(surfaceFormat.format);
 		renderPass.createColorAttachmentReference();
-		renderPass.createDepthAttachmentDescription(rendererContext.getDepthBufferFormat());
+		renderPass.createDepthAttachmentDescription(rendererContext.getDepthStencilBufferFormat());
 		renderPass.createDepthAttachmentReference();
 		renderPass.createSubpassDescription();
 		renderPass.createSubpassDependency();
@@ -212,7 +212,7 @@ namespace zt::gl::tests
 		Framebuffer framebuffer;
 		vk::FramebufferCreateInfo framebufferCreateInfo = framebuffer.createCreateInfo(imageView, renderPass, rendererContext.getSwapExtent());
 		
-		std::array<vk::ImageView, 2u> framebufferAttachments = { imageView.getVk(), rendererContext.getDepthBuffer().getImageView().getVk() };
+		std::array<vk::ImageView, 2u> framebufferAttachments = { imageView.getVk(), rendererContext.getDepthStencilBuffer().getImageView().getVk() };
 		framebufferCreateInfo.pAttachments = framebufferAttachments.data();
 		framebufferCreateInfo.attachmentCount = static_cast<std::uint32_t>(framebufferAttachments.size());
 		
@@ -220,7 +220,7 @@ namespace zt::gl::tests
 
 		vk::Rect2D renderArea;
 		vk::ClearValue colorClearValue;
-		vk::ClearValue depthBufferClearValue;
+		vk::ClearValue depthStencilBufferClearValue;
 
 		commandBuffer.begin();
 
