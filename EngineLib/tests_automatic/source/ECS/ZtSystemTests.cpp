@@ -30,19 +30,18 @@ namespace zt::engine::ecs::tests
 	class TestSystem : public System<TestComponent>
 	{
 	public:
-		void update(core::Time elapsedTime) override {}
+		void update(core::Time elapsedTime) override { System<TestComponent>::update(elapsedTime); }
 	};
 
 	class SystemSimpleTests : public ::testing::Test
 	{
 	protected:
 
-		using TestSystem = System<TestComponent>;
 		TestSystem system;
 
 		static_assert(std::is_default_constructible_v<TestSystem>);
-		static_assert(std::is_copy_constructible_v<TestSystem>);
-		static_assert(std::is_copy_assignable_v<TestSystem>);
+		static_assert(!std::is_copy_constructible_v<TestSystem>);
+		static_assert(!std::is_copy_assignable_v<TestSystem>);
 		static_assert(std::is_move_constructible_v<TestSystem>);
 		static_assert(std::is_move_assignable_v<TestSystem>);
 		static_assert(std::is_destructible_v<TestSystem>);

@@ -44,6 +44,10 @@ namespace zt::engine::ecs::tests
 		createComponentStrongRef();
 		isValid = componentStrongRef.isValid();
 		EXPECT_TRUE(isValid);
+
+		componentStrongRef.invalidateOwnerID();
+		isValid = componentStrongRef.isValid();
+		EXPECT_FALSE(isValid);
 	}
 
 	TEST_F(ComponentStrongRefSimpleTests, Destroy)
