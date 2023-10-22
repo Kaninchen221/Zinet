@@ -111,7 +111,7 @@ void PortCV::loop()
 				auto viewMatrix = camera.viewMatrix();
 				auto projectionMatrix = camera.projectionMatrix();
 				characterRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
-				renderer.draw<Vertex>(character.sprite, characterRenderStates);
+				renderer.draw<Vertex>(character.sprite.createDrawInfo(rendererContext), characterRenderStates);
 			}
 			{ // Campfire
 				auto modelMatrix = campfire.flipbook.getTransform().toMatrix();
@@ -120,7 +120,9 @@ void PortCV::loop()
 				campfireRenderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
 
 				campfire.flipbook.update(gameClock.restart());
-				renderer.draw<Vertex>(campfire.flipbook, campfireRenderStates);
+				auto drawInfo = campfire.flipbook.createDrawInfo(rendererContext);
+				campfire.flipbook.updateStorageBuffers(drawInfo.storageBuffers);
+				renderer.draw<Vertex>(std::move(drawInfo), campfireRenderStates);
 			}
 		}
 
