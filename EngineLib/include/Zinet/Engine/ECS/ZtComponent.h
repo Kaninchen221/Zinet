@@ -13,15 +13,19 @@ namespace zt::engine::ecs
 	public:
 		Component() = default;
 		Component(core::UniqueID&& newUniqueID, core::ID entityID);
-		Component(const Component& other) = default;
+		Component(const Component& other) = delete;
 		Component(Component&& other) = default;
 		
-		Component& operator = (const Component& other) = default;
+		Component& operator = (const Component& other) = delete;
 		Component& operator = (Component&& other) = default;
 		
-		virtual ~Component() = default;
-	
+		virtual ~Component() noexcept = default;
+
+		virtual void preUpdate(core::Time elapsedTime) {}
+
 		virtual void update(core::Time elapsedTime) {}
+
+		virtual void postUpdate(core::Time elapsedTime) {}
 
 		const core::UniqueID& getUniqueID() const { return uniqueID; }
 

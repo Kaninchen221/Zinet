@@ -14,23 +14,38 @@ namespace zt::engine::ecs::tests
 
 		TestComponent(core::UniqueID&& uniqueID, core::ID entityID) : Component(std::move(uniqueID), entityID) {}
 
+		void preUpdate(core::Time elapsedTime) override { ++preUpdateCalledCounter; }
 		void update(core::Time elapsedTime) override { ++updateCalledCounter; }
+		void postUpdate(core::Time elapsedTime) override { ++postUpdateCalledCounter; }
 
+		size_t getPreUpdateCalledCounter() const { return preUpdateCalledCounter; }
 		size_t getUpdateCalledCounter() const { return updateCalledCounter; }
+		size_t getPostUpdateCalledCounter() const { return postUpdateCalledCounter; }
 
 		inline static const int startValue = 10;
 		int value = startValue;
 
 	private:
 
+		size_t preUpdateCalledCounter = 0u;
 		size_t updateCalledCounter = 0u;
+		size_t postUpdateCalledCounter = 0u;
 
 	};
 
 	class TestSystem : public System<TestComponent>
 	{
 	public:
-		void update(core::Time elapsedTime) override { System<TestComponent>::update(elapsedTime); }
+
+		using BaseT = System<TestComponent>;
+
+		bool initialize() override { return BaseT::initialize(); }
+
+		void preUpdate(core::Time elapsedTime) override { BaseT::preUpdate(elapsedTime); }
+
+		void update(core::Time elapsedTime) override { BaseT::update(elapsedTime); }
+
+		void postUpdate(core::Time elapsedTime) override { BaseT::postUpdate(elapsedTime); }
 	};
 
 	class SystemSimpleTests : public ::testing::Test
@@ -116,6 +131,28 @@ namespace zt::engine::ecs::tests
 		ASSERT_FALSE(components.front().isValid());
 	}
 
+	TEST_F(SystemSimpleTests, Initialize)
+	{
+		bool result = system.initialize();
+		EXPECT_TRUE(result);
+	}
+
+	TEST_F(SystemSimpleTests, PreUpdate)
+	{
+		const size_t entityUniqueIDNumber = 8u;
+		core::UniqueID entityUniqueID{ entityUniqueIDNumber };
+		const Entity entity{ std::move(entityUniqueID) };
+
+		auto component = system.addComponent(entity);
+		ASSERT_TRUE(component.isValid());
+
+		system.preUpdate({});
+		EXPECT_EQ(component->getPreUpdateCalledCounter(), 1u);
+
+		system.preUpdate({});
+		EXPECT_EQ(component->getPreUpdateCalledCounter(), 2u);
+	}
+
 	TEST_F(SystemSimpleTests, Update)
 	{
 		const size_t entityUniqueIDNumber = 8u;
@@ -130,5 +167,21 @@ namespace zt::engine::ecs::tests
 
 		system.update({});
 		EXPECT_EQ(component->getUpdateCalledCounter(), 2u);
+	}
+
+	TEST_F(SystemSimpleTests, PostUpdate)
+	{
+		const size_t entityUniqueIDNumber = 8u;
+		core::UniqueID entityUniqueID{ entityUniqueIDNumber };
+		const Entity entity{ std::move(entityUniqueID) };
+
+		auto component = system.addComponent(entity);
+		ASSERT_TRUE(component.isValid());
+
+		system.postUpdate({});
+		EXPECT_EQ(component->getPostUpdateCalledCounter(), 1u);
+
+		system.postUpdate({});
+		EXPECT_EQ(component->getPostUpdateCalledCounter(), 2u);
 	}
 }

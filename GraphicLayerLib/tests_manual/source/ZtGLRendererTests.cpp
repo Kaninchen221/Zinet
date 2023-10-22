@@ -156,7 +156,7 @@ namespace zt::gl::tests
 				auto viewMatrix = camera.viewMatrix();
 				auto projectionMatrix = camera.projectionMatrix();
 				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
-				renderer.draw<Vertex>(sprite, renderStates);
+				renderer.draw<Vertex>(sprite.createDrawInfo(rendererContext), renderStates);
 				counter++;
 			}
 
@@ -245,7 +245,7 @@ namespace zt::gl::tests
 				auto viewMatrix = camera.viewMatrix();
 				auto projectionMatrix = camera.projectionMatrix();
 				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
-				renderer.draw<Vertex>(tileMap, renderStates);
+				renderer.draw<Vertex>(tileMap.createDrawInfo(rendererContext), renderStates);
 			}
 
 			glfwPollEvents();
@@ -346,7 +346,9 @@ namespace zt::gl::tests
 				auto viewMatrix = camera.viewMatrix();
 				auto projectionMatrix = camera.projectionMatrix();
 				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
-				renderer.draw<Vertex>(flipbook, renderStates);
+				auto drawInfo = flipbook.createDrawInfo(rendererContext);
+				flipbook.updateStorageBuffers(drawInfo.storageBuffers);
+				renderer.draw<Vertex>(std::move(drawInfo), renderStates);
 			}
 
 			glfwPollEvents();

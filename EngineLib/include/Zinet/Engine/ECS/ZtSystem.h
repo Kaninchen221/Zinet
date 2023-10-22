@@ -26,13 +26,13 @@ namespace zt::engine::ecs
 		static_assert(std::is_base_of_v<Component, ComponentT>);
 
 		System() = default;
-		System(const System& other) = default;
+		System(const System& other) = delete;
 		System(System&& other) = default;
 
-		System& operator = (const System& other) = default;
+		System& operator = (const System& other) = delete;
 		System& operator = (System&& other) = default;
 
-		~System() = default;
+		~System() noexcept = default;
 
 		std::vector<ComponentStrongRefT>& getComponents() { return components; }
 		const std::vector<ComponentStrongRefT>& getComponents() const { return components; }
@@ -41,7 +41,13 @@ namespace zt::engine::ecs
 
 		bool destroyComponent(const core::ID& ownerID);
 
+		virtual bool initialize() { return true; }
+
+		virtual void preUpdate(core::Time elapsedTime);
+
 		virtual void update(core::Time elapsedTime);
+
+		virtual void postUpdate(core::Time elapsedTime);
 
 	protected:
 
@@ -79,6 +85,18 @@ namespace zt::engine::ecs
 	}
 
 	template<std::derived_from<Component> ComponentType>
+	void System<ComponentType>::preUpdate(core::Time elapsedTime)
+	{
+		for (auto& component : components)
+		{
+			if (component.isValid())
+			{
+				component->preUpdate(elapsedTime);
+			}
+		}
+	}
+
+	template<std::derived_from<Component> ComponentType>
 	void System<ComponentType>::update(core::Time elapsedTime)
 	{
 		for (auto& component : components)
@@ -86,6 +104,18 @@ namespace zt::engine::ecs
 			if (component.isValid())
 			{
 				component->update(elapsedTime);
+			}
+		}
+	}
+
+	template<std::derived_from<Component> ComponentType>
+	void System<ComponentType>::postUpdate(core::Time elapsedTime)
+	{
+		for (auto& component : components)
+		{
+			if (component.isValid())
+			{
+				component->postUpdate(elapsedTime);
 			}
 		}
 	}

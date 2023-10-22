@@ -22,6 +22,14 @@ namespace zt::gl::tests
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
 		Renderer renderer;
+
+		static_assert(std::is_default_constructible_v<Renderer>);
+		static_assert(!std::is_copy_constructible_v<Renderer>);
+		static_assert(!std::is_copy_assignable_v<Renderer>);
+		static_assert(std::is_move_constructible_v<Renderer>);
+		static_assert(std::is_move_assignable_v<Renderer>);
+		static_assert(std::is_destructible_v<Renderer>);
+
 		std::vector<Shader> shaders;
 		std::vector<RenderStates::Descriptor> descriptors;
 		VertexBuffer vertexBuffer;

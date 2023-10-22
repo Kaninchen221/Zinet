@@ -25,7 +25,7 @@ namespace zt::engine::ecs
 		ComponentWeakRef& operator = (const ComponentWeakRef& other) = default;
 		ComponentWeakRef& operator = (ComponentWeakRef&& other) = default;
 
-		~ComponentWeakRef() = default;
+		~ComponentWeakRef() noexcept = default;
 
 		bool isValid() const;
 

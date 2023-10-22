@@ -17,20 +17,21 @@ namespace zt::engine::ecs
 	public:
 
 		using ComponentT = ComponentType;
+		using ComponentStrongRefT = ComponentStrongRef<ComponentT>;
 		using ComponentWeakRefT = ComponentWeakRef<ComponentT>;
 
 		ComponentStrongRef() = default;
-		ComponentStrongRef(const ComponentStrongRef& other) = default;
-		ComponentStrongRef(ComponentStrongRef&& other) = default;
+		ComponentStrongRef(const ComponentStrongRefT& other) = delete;
+		ComponentStrongRef(ComponentStrongRefT&& other) = default;
 		
-		ComponentStrongRef& operator = (const ComponentStrongRef& other) = default;
-		ComponentStrongRef& operator = (ComponentStrongRef&& other) = default;
+		ComponentStrongRefT& operator = (const ComponentStrongRefT& other) = delete;
+		ComponentStrongRefT& operator = (ComponentStrongRefT&& other) = default;
 		
-		~ComponentStrongRef() = default;
+		~ComponentStrongRef() noexcept = default;
 	
 		void create(core::UniqueID&& newUniqueID, core::ID newOwnerID);
 
-		bool isValid() const { return component.has_value(); }
+		bool isValid() const { return component.has_value() && ownerID != core::ID::InvalidIDNumber; }
 
 		void destroy();
 

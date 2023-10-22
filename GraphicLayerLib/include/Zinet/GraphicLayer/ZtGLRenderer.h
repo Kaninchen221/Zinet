@@ -47,7 +47,7 @@ namespace zt::gl
 		void preDraw();
 
 		template<class VertexType>
-		void draw(const DrawableBase& drawableObject, RenderStates& renderStates);
+		void draw(DrawInfo&& newDrawInfo, RenderStates& renderStates);
 
 		void postDraw();
 
@@ -68,7 +68,7 @@ namespace zt::gl
 
 		/// You need to update manually uniform and storage buffers before calling this function
 		template<class VertexType>
-		void draw_internal(DrawInfo& drawInfo, RenderStates& renderStates);
+		void draw_internal(DrawInfo& drawable, RenderStates& renderStates);
 
 		void updateMVPUniformBuffer(const RenderStates& renderStates, DrawInfo& drawInfo);
 
@@ -99,12 +99,9 @@ namespace zt::gl
 	};
 
 	template<class VertexType>
-	void Renderer::draw(const DrawableBase& drawableObject, RenderStates& renderStates)
+	void Renderer::draw(DrawInfo&& newDrawInfo, RenderStates& renderStates)
 	{
-		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(drawableObject.createDrawInfo(rendererContext)));
-
-		drawableObject.updateUniformBuffers(drawInfo.uniformBuffers);
-		drawableObject.updateStorageBuffers(drawInfo.storageBuffers);
+		DrawInfo& drawInfo = drawInfos.emplace_back(std::move(newDrawInfo));
 
 		draw_internal<VertexType>(drawInfo, renderStates);
 	}
