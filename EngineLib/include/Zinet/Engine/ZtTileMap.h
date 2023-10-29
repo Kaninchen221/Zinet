@@ -24,6 +24,8 @@ namespace zt::engine
 
 		~TileMap() noexcept = default;
 
+		void placeholder();
+
 	protected:
 
 	};

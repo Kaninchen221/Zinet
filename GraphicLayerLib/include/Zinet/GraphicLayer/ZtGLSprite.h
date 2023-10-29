@@ -49,5 +49,4 @@ namespace zt::gl
 		Transform transform;
 		TextureRegion textureRegion;
 	};
-
 }

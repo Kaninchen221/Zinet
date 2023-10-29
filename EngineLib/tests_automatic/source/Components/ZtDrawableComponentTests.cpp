@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zinet/Engine/ZtSprite.h"
 #include "Zinet/Engine/Components/ZtDrawableComponent.h"
 
 #include "Zinet/Core/ZtTypeTraits.h"
@@ -39,5 +40,19 @@ namespace zt::engine::tests
 		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::getRenderStates));
 
 		[[maybe_unused]] auto renderStates = drawableComponent.getRenderStates();
+	}
+
+	TEST_F(DrawableComponentSimpleTests, Create)
+	{
+		drawableComponent.create<Sprite>();
+
+		const gl::DrawableBase* validDrawable = drawableComponent.getDrawable();
+		ASSERT_NE(validDrawable, nullptr);
+	}
+
+	TEST_F(DrawableComponentSimpleTests, GetDrawable)
+	{
+		const gl::DrawableBase* invalidDrawable = drawableComponent.getDrawable();
+		ASSERT_EQ(invalidDrawable, nullptr);
 	}
 }

@@ -1,8 +1,11 @@
 #include "Zinet/Engine/ZtTileMap.h"
 
-namespace zt::gl
+namespace zt::engine
 {
 
+	void TileMap::placeholder()
+	{
 
+	}
 
 }

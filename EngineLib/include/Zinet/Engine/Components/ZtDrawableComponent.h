@@ -30,9 +30,23 @@ namespace zt::engine
 
 		gl::RenderStates getRenderStates() const;
 
-		// Use perhaps variant?
+		template<std::derived_from<gl::DrawableBase> DrawableType>
+		void create();
+
+		const gl::DrawableBase* getDrawable() const { return drawable.get(); };
+		gl::DrawableBase* getDrawable() { return drawable.get(); };
+
+	protected:
+
+		std::unique_ptr<gl::DrawableBase> drawable;
 
 	};
+
+	template<std::derived_from<gl::DrawableBase> DrawableType>
+	inline void engine::DrawableComponent::create()
+	{
+		drawable = std::make_unique<DrawableType>();
+	}
 
 }
 

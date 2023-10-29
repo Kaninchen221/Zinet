@@ -24,8 +24,9 @@ namespace zt::engine
 
 		~Sprite() noexcept = default;
 
+		void placeholder();
+
 	protected:
 
 	};
-
 }
