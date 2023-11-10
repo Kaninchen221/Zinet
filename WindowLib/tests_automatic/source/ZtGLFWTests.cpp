@@ -15,9 +15,23 @@ namespace zt::wd
 
 	};
 
+	TEST_F(GLFWTests, IsInitialized)
+	{
+		bool isInitialized = glfw.isInitialized();
+		ASSERT_FALSE(isInitialized);
+
+		GLFW glfw2;
+		glfw2.Init();
+		isInitialized = glfw2.isInitialized();
+		ASSERT_TRUE(isInitialized);
+
+		isInitialized = glfw.isInitialized();
+		ASSERT_TRUE(isInitialized);
+	}
+
 	TEST_F(GLFWTests, InitGLFWTest)
 	{
-		bool result = GLFW::Init();
+		const bool result = GLFW::Init();
 
 		ASSERT_TRUE(result);
 

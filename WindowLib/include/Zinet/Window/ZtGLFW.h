@@ -30,5 +30,9 @@ namespace zt::wd
 		static void HideWindow();
 		static void UnhideWindow();
 
+	private:
+
+		inline static bool Initialized = false;
+
 	};
 }

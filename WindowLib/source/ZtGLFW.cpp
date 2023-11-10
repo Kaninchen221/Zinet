@@ -6,6 +6,9 @@ namespace zt::wd
 {
     bool GLFW::Init(bool hideWindow)
     {
+        if (Initialized)
+            return true;
+
         if (glfwInit())
         {
             Logger->info("Succesfull initialize GLFW");
@@ -18,6 +21,7 @@ namespace zt::wd
                 HideWindow();
             }
 
+            Initialized = true;
             return true;
         }
         else
@@ -29,8 +33,12 @@ namespace zt::wd
 
     void GLFW::Deinit()
 	{
+        if (!Initialized)
+            return;
+
 		Logger->info("Terminate GLFW");
         glfwTerminate();
+        Initialized = false;
     }
 
     void GLFW::HideWindow()
