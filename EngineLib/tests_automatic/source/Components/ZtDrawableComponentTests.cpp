@@ -5,6 +5,8 @@
 
 #include "Zinet/Core/ZtTypeTraits.h"
 
+#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+
 #include <gtest/gtest.h>
 
 namespace zt::engine::tests
@@ -31,7 +33,8 @@ namespace zt::engine::tests
 		typedef gl::DrawInfo (DrawableComponent::* ExpectedFunction)() const;
 		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::getDrawInfo));
 
-		[[maybe_unused]] auto drawInfo = drawableComponent.getDrawInfo();
+		gl::RendererContext rendererContext;
+		[[maybe_unused]] auto drawInfo = drawableComponent.getDrawInfo(rendererContext);
 	}
 
 	TEST_F(DrawableComponentSimpleTests, GetRenderStates)
@@ -54,5 +57,11 @@ namespace zt::engine::tests
 	{
 		const gl::DrawableBase* invalidDrawable = drawableComponent.getDrawable();
 		ASSERT_EQ(invalidDrawable, nullptr);
+	}
+
+	TEST_F(DrawableComponentSimpleTests, IsDataValid)
+	{
+		const bool isDataValid = drawableComponent.isDataValid();
+		EXPECT_FALSE(isDataValid);
 	}
 }

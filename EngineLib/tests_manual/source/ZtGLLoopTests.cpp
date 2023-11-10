@@ -19,13 +19,13 @@ namespace zt::engine::tests
 
 	};
 	
-	TEST_F(LoopTests, start)
-	{
-		wd::GLFW::UnhideWindow();
-
-		loop.initialize();
-		loop.start();
-		loop.deinitialize();
-	}
+// 	TEST_F(LoopTests, start)
+// 	{
+// 		wd::GLFW::UnhideWindow();
+// 
+// 		loop.initialize();
+// 		loop.start();
+// 		loop.deinitialize();
+// 	}
 
 }

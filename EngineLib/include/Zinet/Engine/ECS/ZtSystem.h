@@ -34,8 +34,8 @@ namespace zt::engine::ecs
 
 		~System() noexcept = default;
 
-		std::vector<ComponentStrongRefT>& getComponents() { return components; }
-		const std::vector<ComponentStrongRefT>& getComponents() const { return components; }
+		std::vector<ComponentStrongRefT>& getComponents() { return componentsStrongRefs; }
+		const std::vector<ComponentStrongRefT>& getComponents() const { return componentsStrongRefs; }
 
 		ComponentWeakRefT addComponent(const Entity& entity);
 
@@ -51,7 +51,7 @@ namespace zt::engine::ecs
 
 	protected:
 
-		std::vector<ComponentStrongRefT> components;
+		std::vector<ComponentStrongRefT> componentsStrongRefs;
 		size_t nextIDNumber = 0u;
 
 		ComponentWeakRefT tryRecreateComponent(const Entity& entity);
@@ -72,7 +72,7 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	bool System<ComponentType>::destroyComponent(const core::ID& ownerID)
 	{
-		for (auto& componentStrongRef : components)
+		for (auto& componentStrongRef : componentsStrongRefs)
 		{
 			if (componentStrongRef.getOwnerID() == ownerID)
 			{
@@ -87,7 +87,7 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	void System<ComponentType>::preUpdate(core::Time elapsedTime)
 	{
-		for (auto& component : components)
+		for (auto& component : componentsStrongRefs)
 		{
 			if (component.isValid())
 			{
@@ -99,7 +99,7 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	void System<ComponentType>::update(core::Time elapsedTime)
 	{
-		for (auto& component : components)
+		for (auto& component : componentsStrongRefs)
 		{
 			if (component.isValid())
 			{
@@ -111,7 +111,7 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	void System<ComponentType>::postUpdate(core::Time elapsedTime)
 	{
-		for (auto& component : components)
+		for (auto& component : componentsStrongRefs)
 		{
 			if (component.isValid())
 			{
@@ -123,7 +123,7 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	System<ComponentType>::ComponentWeakRefT System<ComponentType>::tryRecreateComponent(const Entity& entity)
 	{
-		for (size_t uniqueIDNumber = 0u; auto& componentStrongRef : components)
+		for (size_t uniqueIDNumber = 0u; auto& componentStrongRef : componentsStrongRefs)
 		{
 			if (!componentStrongRef.isValid())
 			{
@@ -141,7 +141,7 @@ namespace zt::engine::ecs
 	template<std::derived_from<Component> ComponentType>
 	typename System<ComponentType>::ComponentStrongRefT& System<ComponentType>::createNewComponent(const Entity& entity)
 	{
-		ComponentStrongRefT& strongRef = components.emplace_back();
+		ComponentStrongRefT& strongRef = componentsStrongRefs.emplace_back();
 		core::UniqueID uniqueID{ nextIDNumber };
 		++nextIDNumber;
 		strongRef.create(std::move(uniqueID), entity.getUniqueID().createID());

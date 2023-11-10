@@ -8,6 +8,7 @@
 namespace zt::gl
 {
 	class DrawableBase;
+	class RendererContext;
 }
 
 namespace zt::engine
@@ -26,7 +27,7 @@ namespace zt::engine
 
 		~DrawableComponent() noexcept = default;
 
-		gl::DrawInfo getDrawInfo() const;
+		gl::DrawInfo getDrawInfo(gl::RendererContext& rendererContext) const;
 
 		gl::RenderStates getRenderStates() const;
 
@@ -35,6 +36,8 @@ namespace zt::engine
 
 		const gl::DrawableBase* getDrawable() const { return drawable.get(); };
 		gl::DrawableBase* getDrawable() { return drawable.get(); };
+
+		bool isDataValid() const override { return false; }
 
 	protected:
 

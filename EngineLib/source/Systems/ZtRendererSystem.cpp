@@ -30,12 +30,12 @@ namespace zt::engine
 	{
 		BaseT::update(timeElapsed);
 
-		for (const auto& component : components)
+		for (const auto& componentStrongRef : componentsStrongRefs)
 		{
-			if (component.isValid())
+			if (componentStrongRef.isValid() && componentStrongRef->isDataValid())
 			{
-				auto renderStates = component->getRenderStates();
-				renderer.draw<gl::Vertex>(component->getDrawInfo(), renderStates);
+				auto renderStates = componentStrongRef->getRenderStates();
+				renderer.draw<gl::Vertex>(componentStrongRef->getDrawInfo(renderer.getRendererContext()), renderStates);
 			}
 		}
 	}
