@@ -11,22 +11,22 @@ namespace zt::wd
 	{
 	protected:
 
-		GLFW glfw;
-
 	};
 
 	TEST_F(GLFWTests, IsInitialized)
 	{
-		bool isInitialized = glfw.isInitialized();
+		bool isInitialized = GLFW::IsInitialized();
 		ASSERT_FALSE(isInitialized);
 
 		GLFW glfw2;
 		glfw2.Init();
-		isInitialized = glfw2.isInitialized();
+		isInitialized = GLFW::IsInitialized();
 		ASSERT_TRUE(isInitialized);
 
-		isInitialized = glfw.isInitialized();
+		isInitialized = GLFW::IsInitialized();
 		ASSERT_TRUE(isInitialized);
+
+		GLFW::Deinit();
 	}
 
 	TEST_F(GLFWTests, InitGLFWTest)
