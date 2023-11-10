@@ -30,7 +30,7 @@ namespace zt::engine::tests
 
 	TEST_F(DrawableComponentSimpleTests, GetDrawInfo)
 	{
-		typedef gl::DrawInfo (DrawableComponent::* ExpectedFunction)() const;
+		typedef gl::DrawInfo (DrawableComponent::* ExpectedFunction)(gl::RendererContext&) const;
 		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::getDrawInfo));
 
 		gl::RendererContext rendererContext;
