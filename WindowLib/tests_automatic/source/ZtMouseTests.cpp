@@ -28,7 +28,7 @@ namespace zt::wd::tests
 
 		void TearDown() override
 		{
-			glfwTerminate();
+			GLFW::Deinit();
 		}
 	};
 
