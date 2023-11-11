@@ -10,7 +10,7 @@ namespace zt::gl
 
 		DrawInfo drawInfo;
 		drawInfo.indices = std::vector<std::uint16_t>{ defaultIndices.begin(), defaultIndices.end() };
-		createVertexBuffer(drawInfo.vertexBuffer, textureRegion, rendererContext);
+		createVertexBuffer(drawInfo.vertexBuffer, {}, rendererContext);
 		createIndexBuffer(drawInfo.indexBuffer, drawInfo.indices, rendererContext);
 		createUniformBuffers(drawInfo.uniformBuffers, rendererContext);
 		drawInfo.MVPBufferIndex = 0u;

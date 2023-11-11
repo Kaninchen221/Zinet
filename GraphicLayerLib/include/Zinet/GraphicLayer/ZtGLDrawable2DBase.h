@@ -28,13 +28,20 @@ namespace zt::gl
 
 		Vector2ui getAbsoluteSize() const override { return { 1u, 1u }; }
 
+		const Vector4f& getColor() const { return color; }
+		void setColor(const Vector4f& newColor) { color = newColor; }
+
 		static constexpr std::array<std::uint16_t, 6u> GetDefaultIndices() { return { 0u, 1u, 2u, 2u, 3u,0u }; }
 
 		static constexpr size_t GetDefaultVerticesCount() { return 4u; }
 
-		void createIndexBuffer(IndexBuffer& indexBuffer, const std::span<std::uint16_t>& indices, RendererContext& rendererContext) const;
+		virtual void createIndexBuffer(IndexBuffer& indexBuffer, const std::span<std::uint16_t>& indices, RendererContext& rendererContext) const;
 
-		void createVertexBuffer(VertexBuffer& vertexBuffer, const TextureRegion& textureRegion, RendererContext& rendererContext) const;
+		virtual void createVertexBuffer(VertexBuffer& vertexBuffer, const TextureRegion& textureRegion, RendererContext& rendererContext) const;
+
+	protected:
+
+		Vector4f color{};
 
 	};
 }

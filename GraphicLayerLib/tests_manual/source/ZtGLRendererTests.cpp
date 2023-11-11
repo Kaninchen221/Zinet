@@ -12,6 +12,7 @@
 #include "Zinet/GraphicLayer/ZtGLTileMap.h"
 #include "Zinet/GraphicLayer/ZtGLUtilities.h"
 #include "Zinet/GraphicLayer/ZtGLFlipbook.h"
+#include "Zinet/GraphicLayer/ZtGLShape2D.h"
 
 #include "Zinet/Core/ZtClock.h"
 #include "Zinet/Core/ZtTypeTraits.h"
@@ -43,7 +44,7 @@ namespace zt::gl::tests
 
 		Renderer renderer;
 
-		void createShaders();
+		void createShaders(std::string vertexShaderFileName = "shader.vert", std::string fragmentShaderFileName = "shader.frag");
 		void createFlipbookShaders();
 		void createInstanceRenderingShaders();
 		void createSTBImage();
@@ -63,12 +64,102 @@ namespace zt::gl::tests
 		void imguiSprite(Sprite& sprite, size_t index);
 		void imguiTileMap(TileMap& tileMap, size_t index);
 		void imguiFlipbook(Flipbook& flipbook, size_t index);
-		void imguiRecompileShaders(auto callable);
+		void imguiRecompileShaders(auto callable, auto... args);
 
+		const bool skipShape2D = false;
 		const bool skipSprites = false;
 		const bool skipInstancedRendering = false;
 		const bool skipFlipbook = false;
 	};
+
+	TEST_F(RendererTests, Shape2D)
+	{
+		if (skipShape2D)
+			return;
+
+		wd::GLFW::UnhideWindow();
+
+		camera.setPosition({ 0.0f, 0.0f, -4.0f });
+
+		renderer.initialize();
+
+		RendererContext& rendererContext = renderer.getRendererContext();
+		imgui.preinit(rendererContext);
+		imgui.init(rendererContext);
+
+		createShaders("shape2D.vert", "shape2D.frag");
+
+		Shape2D firstShape2D;
+		firstShape2D.setColor(Vector4f{ 1.f, 0.f, 0.f, 0.5f });
+		auto firstShapeTransform = firstShape2D.getTransform();
+		firstShapeTransform.setTranslation({ -0.5f, 0.5f, 0.f });
+		firstShape2D.setTransform(firstShapeTransform);
+
+		Shape2D secondShape2D;
+		secondShape2D.setColor(Vector4f{ 0.f, 1.f, 0.f, 0.5f });
+
+		// RenderStates
+		std::vector<RenderStates::Descriptor> descriptors = firstShape2D.createRenderStatesDescriptors();
+
+		RenderStates renderStates
+		{
+			.shaders = shaders,
+			.descriptors = descriptors
+		};
+
+		while (!rendererContext.getWindow().shouldBeClosed())
+		{
+			imgui.update();
+
+			// Imgui
+			ImGui::NewFrame();
+
+			ImGui::ShowDemoWindow();
+			if (!ImGui::Begin("Main"))
+				ImGui::End();
+
+			imguiRecompileShaders(std::bind(&RendererTests::createShaders, this, "shape2D.vert", "shape2D.frag"));
+
+			imguiCamera();
+
+			imguiDrawable2DBase(firstShape2D, 0);
+			imguiDrawable2DBase(secondShape2D, 1);
+
+			ImGui::End();
+
+			ImGui::EndFrame();
+			// End Imgui
+
+			ImGui::Render();
+
+			renderer.preDraw();
+
+			{ // firstShape2D
+				auto modelMatrix = firstShape2D.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
+				renderer.draw<Vertex>(firstShape2D.createDrawInfo(rendererContext), renderStates);
+			}
+
+			{ // secondShape2D
+				auto modelMatrix = secondShape2D.getTransform().toMatrix();
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				renderStates.mvp = MVP{ modelMatrix, viewMatrix, projectionMatrix };
+				renderer.draw<Vertex>(secondShape2D.createDrawInfo(rendererContext), renderStates);
+			}
+
+			glfwPollEvents();
+
+			imgui.draw(renderer.getDrawCommandBuffer());
+
+			renderer.postDraw();
+		}
+
+		rendererContext.getQueue()->waitIdle();
+		rendererContext.getDevice()->waitIdle();
+	}
 	
 	TEST_F(RendererTests, Sprites)
 	{
@@ -129,7 +220,7 @@ namespace zt::gl::tests
 			if(!ImGui::Begin("Main"))
 				ImGui::End();
 
-			imguiRecompileShaders(std::bind(&RendererTests::createShaders, this));
+			imguiRecompileShaders(std::bind(&RendererTests::createShaders, this, "shader.vert", "shader.frag"));
 
 			size_t index = 1u;
 			for (Sprite& sprite : sprites)
@@ -170,7 +261,6 @@ namespace zt::gl::tests
 		rendererContext.getQueue()->waitIdle();
 		rendererContext.getDevice()->waitIdle();
 	}
-	
 
 	TEST_F(RendererTests, InstancedRenderingAkaDrawTilemap)
 	{
@@ -226,7 +316,7 @@ namespace zt::gl::tests
 			if (!ImGui::Begin("Main"))
 				ImGui::End();
 
-			imguiRecompileShaders(std::bind(&RendererTests::createInstanceRenderingShaders, this));
+			imguiRecompileShaders(std::bind(&RendererTests::createShaders, this, "shader.vert", "shader.frag"));
 
 			imguiTileMap(tileMap, 0u);
 
@@ -371,18 +461,18 @@ namespace zt::gl::tests
 		}
 	}
 
-	void RendererTests::createShaders()
+	void RendererTests::createShaders(std::string vertexShaderFileName, std::string fragmentShaderFileName)
 	{
 		shaders.clear();
 
 		shaders.emplace_back();
 		shaders[0].setType(ShaderType::Vertex);
-		shaders[0].loadFromFile((ContentPath / "shader.vert").string());
+		shaders[0].loadFromFile((ContentPath / vertexShaderFileName).string());
 		shaders[0].compile();
 
 		shaders.emplace_back();
 		shaders[1].setType(ShaderType::Fragment);
-		shaders[1].loadFromFile((ContentPath / "shader.frag").string());
+		shaders[1].loadFromFile((ContentPath / fragmentShaderFileName).string());
 		shaders[1].compile();
 	}
 
@@ -543,11 +633,11 @@ namespace zt::gl::tests
 		sampler.create(rendererContext.getDevice(), samplerCreateInfo);
 	}
 
-	void RendererTests::imguiRecompileShaders(auto callable)
+	void RendererTests::imguiRecompileShaders(auto callable, auto... args)
 	{
 		if (ImGui::Button("Recompile shaders"))
 		{
-			std::invoke(callable);
+			std::invoke(callable, args...);
 		}
 	}
 

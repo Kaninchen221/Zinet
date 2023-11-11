@@ -34,16 +34,15 @@ namespace zt::gl
 
 		DrawInfo createDrawInfo(RendererContext& rendererContext) const override;
 
+		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override;
+		
 		const Transform& getTransform() const override { return transform; }
 		void setTransform(const Transform& newTransform) override { transform = newTransform; }
-
-		std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const override;
 
 	protected:
 
 		void createUniformBuffers(std::vector<UniformBuffer>& uniformBuffers, RendererContext& rendererContext) const;
 
 		Transform transform;
-		TextureRegion textureRegion;
 	};
 }

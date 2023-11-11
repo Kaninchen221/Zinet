@@ -59,6 +59,21 @@ namespace zt::gl::tests
 		EXPECT_EQ(absoluteSize, expected);
 	}
 
+	TEST_F(Drawable2DBaseSimpleTests, GetColor)
+	{
+		const Vector4f& color = testObject.getColor();
+		ASSERT_EQ(color, Vector4f{});
+	}
+
+	TEST_F(Drawable2DBaseSimpleTests, SetColor)
+	{
+		const Vector4f expectedColor = Vector4f{ 3.44f, 1.f, 0.f, 45.f };
+		testObject.setColor(expectedColor);
+
+		const Vector4f& color = testObject.getColor();
+		ASSERT_EQ(color, expectedColor);
+	}
+
 	class Drawable2DBaseTests : public ::testing::Test
 	{
 	protected:
