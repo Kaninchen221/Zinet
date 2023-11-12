@@ -57,8 +57,8 @@ namespace zt::gl
 			}
 		};
 
-		std::span<Shader> shaders;
-		std::span<Descriptor> descriptors;
+		std::vector<Shader> shaders;
+		std::vector<Descriptor> descriptors;
 		std::span<Image> images;
 		MVP mvp;
 	};

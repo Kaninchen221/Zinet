@@ -14,8 +14,11 @@ namespace zt::gl
 		this->VulkanObject<vk::raii::Buffer>::operator=(std::move(other));
 		vmaAllocator = std::move(other.vmaAllocator);
 		allocation = std::move(other.allocation);
+		size = std::move(other.size);
+		
 		other.vmaAllocator = nullptr;
 		other.allocation = nullptr;
+		other.size = 0u;
 
 		return *this;
 	}

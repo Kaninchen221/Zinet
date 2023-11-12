@@ -80,13 +80,13 @@ namespace zt::gl
 
 		template<class VertexType>
 		void createPipeline(const CreateInfo& createInfo);
-		void createShadersModules(const std::span<Shader>& shaders, Device& device);
+		void createShadersModules(const std::vector<Shader>& shaders, Device& device);
 		void createShadersStages();
-		void createDescriptorSetLayouts(const std::span<RenderStates::Descriptor>& descriptors, Device& device);
+		void createDescriptorSetLayouts(const std::vector<RenderStates::Descriptor>& descriptors, Device& device);
 		void createPipelineLayout(Device& device, const vk::Extent2D& swapExtent);
 
 		void createDescriptors(const CreateInfo& createInfo);
-		void createDescriptorPool(const std::span<RenderStates::Descriptor>& descriptors, Device& device);
+		void createDescriptorPool(const std::vector<RenderStates::Descriptor>& descriptors, Device& device);
 		void createDescriptorSets(Device& device);
 		void createWriteDescriptorSets(const RenderStates& renderStates, const DrawInfo& drawInfo);
 		void createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images);

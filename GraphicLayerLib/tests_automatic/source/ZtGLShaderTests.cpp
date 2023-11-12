@@ -11,8 +11,6 @@ namespace zt::gl::tests
 	{
 	protected:
 
-		Shader shader;
-
 		const char* cStringVertexShaderSource =
 			"#version 330 core \n"
 			"layout(location = 0) in vec3 aPos; \n"
@@ -30,6 +28,15 @@ namespace zt::gl::tests
 			"{ \n"
 			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); \n"
 			"} \n\0";
+
+		Shader shader;
+
+		static_assert(std::is_default_constructible_v<Shader>);
+		static_assert(std::is_copy_constructible_v<Shader>);
+		static_assert(std::is_copy_assignable_v<Shader>);
+		static_assert(std::is_move_constructible_v<Shader>);
+		static_assert(std::is_move_assignable_v<Shader>);
+		static_assert(std::is_destructible_v<Shader>);
 	};
 
 	TEST_F(ShaderTests, GetSourceTest)

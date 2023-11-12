@@ -1,5 +1,7 @@
 #include "Zinet/Engine/Systems/ZtRendererSystem.h"
 
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
+
 namespace zt::engine
 {
 
@@ -23,6 +25,8 @@ namespace zt::engine
 	{
 		BaseT::preUpdate(timeElapsed);
 
+		savedRenderStates.clear();
+
 		renderer.preDraw();
 	}
 
@@ -30,12 +34,21 @@ namespace zt::engine
 	{
 		BaseT::update(timeElapsed);
 
-		for (const auto& componentStrongRef : componentsStrongRefs)
+		for (auto& componentStrongRef : componentsStrongRefs)
 		{
 			if (componentStrongRef.isValid() && componentStrongRef->isDataValid())
 			{
-				auto renderStates = componentStrongRef->getRenderStates();
-				renderer.draw<gl::Vertex>(componentStrongRef->getDrawInfo(renderer.getRendererContext()), renderStates);
+				auto& renderStates = savedRenderStates.emplace_back(componentStrongRef->createRenderStates());
+
+				gl::DrawableBase* drawable = componentStrongRef->getDrawable();
+				gl::Transform transform = drawable->getTransform();
+				Matrix4f modelMatrix = transform.toMatrix();
+
+				auto viewMatrix = camera.viewMatrix();
+				auto projectionMatrix = camera.projectionMatrix();
+				renderStates.mvp = gl::MVP{ modelMatrix, viewMatrix, projectionMatrix };
+
+				renderer.draw<gl::Vertex>(drawable->createDrawInfo(renderer.getRendererContext()), renderStates);
 			}
 		}
 	}

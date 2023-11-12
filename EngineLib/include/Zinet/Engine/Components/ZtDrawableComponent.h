@@ -27,9 +27,9 @@ namespace zt::engine
 
 		~DrawableComponent() noexcept = default;
 
-		gl::DrawInfo getDrawInfo(gl::RendererContext& rendererContext) const;
+		gl::DrawInfo createDrawInfo(gl::RendererContext& rendererContext);
 
-		gl::RenderStates getRenderStates() const;
+		gl::RenderStates createRenderStates();
 
 		template<std::derived_from<gl::DrawableBase> DrawableType>
 		void create();
@@ -37,11 +37,15 @@ namespace zt::engine
 		const gl::DrawableBase* getDrawable() const { return drawable.get(); };
 		gl::DrawableBase* getDrawable() { return drawable.get(); };
 
-		bool isDataValid() const override { return false; }
+		bool isDataValid() const override { return true; }
+
+		const std::vector<gl::Shader>& getShaders() const { return shaders; };
+		void setShaders(const std::vector<gl::Shader>& newShaders) { shaders = newShaders; }
 
 	protected:
 
 		std::unique_ptr<gl::DrawableBase> drawable;
+		std::vector<gl::Shader> shaders;
 
 	};
 

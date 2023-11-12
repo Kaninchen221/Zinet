@@ -21,7 +21,7 @@ namespace zt::gl
 	public:
 
 		Shader() = default;
-		Shader(const Shader& other) = delete;
+		Shader(const Shader& other) = default;
 		Shader(Shader&& other) = default;
 
 		Shader& operator = (const Shader& other) = default;

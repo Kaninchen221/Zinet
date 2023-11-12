@@ -19,8 +19,8 @@ namespace zt::gl::tests
 		static_assert(std::is_move_assignable_v<RenderStates>);
 		static_assert(std::is_destructible_v<RenderStates>);
 
-		static_assert(std::is_same_v<decltype(renderStates.shaders), std::span<Shader>>);
-		static_assert(std::is_same_v<decltype(renderStates.descriptors), std::span<RenderStates::Descriptor>>);
+		static_assert(std::is_same_v<decltype(renderStates.shaders), std::vector<Shader>>);
+		static_assert(std::is_same_v<decltype(renderStates.descriptors), std::vector<RenderStates::Descriptor>>);
 		static_assert(std::is_same_v<decltype(renderStates.images), std::span<RenderStates::Image>>);
 		static_assert(std::is_same_v<decltype(renderStates.mvp), MVP>);
 	};

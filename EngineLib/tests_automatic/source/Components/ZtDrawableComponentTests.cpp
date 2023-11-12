@@ -45,6 +45,7 @@ namespace zt::engine::tests
 		[[maybe_unused]] auto renderStates = drawableComponent.getRenderStates();
 	}
 
+	// Naive implementation
 	TEST_F(DrawableComponentSimpleTests, Create)
 	{
 		drawableComponent.create<Sprite>();
@@ -63,5 +64,21 @@ namespace zt::engine::tests
 	{
 		const bool isDataValid = drawableComponent.isDataValid();
 		EXPECT_FALSE(isDataValid);
+	}
+
+	TEST_F(DrawableComponentSimpleTests, GetShaders)
+	{
+		const std::vector<gl::Shader>& shaders = drawableComponent.getShaders();
+		ASSERT_TRUE(shaders.empty());
+	}
+
+	// Naive implementation
+	TEST_F(DrawableComponentSimpleTests, SetShaders)
+	{
+		const std::vector<gl::Shader>& expectedShaders = { gl::Shader{}, gl::Shader{} };
+		drawableComponent.setShaders(expectedShaders);
+
+		const std::vector<gl::Shader>& shaders = drawableComponent.getShaders();
+		ASSERT_EQ(expectedShaders, shaders);
 	}
 }

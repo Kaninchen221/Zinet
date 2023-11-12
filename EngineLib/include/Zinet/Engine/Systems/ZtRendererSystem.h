@@ -38,9 +38,13 @@ namespace zt::engine
 		void update(core::Time timeElapsed) override;
 		void postUpdate(core::Time timeElapsed) override;
 
+		void setCamera(const gl::Camera& newCamera) { camera = newCamera; }
+
 	protected:
 
 		gl::Renderer renderer;
+		gl::Camera camera;
+		std::vector<gl::RenderStates> savedRenderStates;
 
 	};
 

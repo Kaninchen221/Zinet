@@ -70,7 +70,7 @@ namespace zt::gl
 			device->updateDescriptorSets(writeDescriptorSets, {} /* descriptorCopies */);
 	}
 
-	void RendererPipeline::createShadersModules(const std::span<Shader>& shaders, Device& device)
+	void RendererPipeline::createShadersModules(const std::vector<Shader>& shaders, Device& device)
 	{
 		shadersModules.clear();
 		shadersModules.reserve(shaders.size());
@@ -92,7 +92,7 @@ namespace zt::gl
 		}
 	}
 
-	void RendererPipeline::createDescriptorSetLayouts(const std::span<RenderStates::Descriptor>& descriptors, Device& device)
+	void RendererPipeline::createDescriptorSetLayouts(const std::vector<RenderStates::Descriptor>& descriptors, Device& device)
 	{
 		if (descriptors.empty())
 			return;
@@ -135,7 +135,7 @@ namespace zt::gl
 		createWriteDescriptorSets(createInfo.renderStates, createInfo.drawInfo);
 	}
 
-	void RendererPipeline::createDescriptorPool(const std::span<RenderStates::Descriptor>& descriptors, Device& device)
+	void RendererPipeline::createDescriptorPool(const std::vector<RenderStates::Descriptor>& descriptors, Device& device)
 	{
 		if (descriptors.empty())
 			return;
