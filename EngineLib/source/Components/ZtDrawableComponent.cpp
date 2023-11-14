@@ -6,7 +6,7 @@
 namespace zt::engine
 {
 	 
-	gl::DrawInfo DrawableComponent::createDrawInfo(gl::RendererContext& rendererContext)
+	gl::DrawInfo DrawableComponent::createDrawInfo(gl::RendererContext& rendererContext) const
 	{
 		if (drawable)
 		{
@@ -16,7 +16,7 @@ namespace zt::engine
 		return {};
 	}
 
-	gl::RenderStates DrawableComponent::createRenderStates()
+	gl::RenderStates DrawableComponent::createRenderStates() const
 	{
 		if (drawable)
 		{

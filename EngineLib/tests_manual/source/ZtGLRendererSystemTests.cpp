@@ -46,6 +46,7 @@ namespace zt::engine::tests
 		rendererSystem.initialize();
 
 		prepareTwoDrawableObjectsTest();
+		auto weakRef = rendererSystem.getComponents()[1].createWeakRef();
 
 		core::Clock clock;
 		float direction = 1.f;
@@ -58,7 +59,6 @@ namespace zt::engine::tests
 
 			event.pollEvents();
 
-			auto weakRef = rendererSystem.getComponents()[1].createWeakRef();
 			if (weakRef.isValid())
 			{
 				auto* component = weakRef.get();
@@ -66,10 +66,10 @@ namespace zt::engine::tests
 				auto transform = drawable->getTransform();
 				auto translation = transform.getTranslation();
 
-				if (translation.z >= 1.f || translation.z <= -1)
+				if (translation.z >= 1.f || translation.z <= -1.f)
 					direction *= -1.f;
 
-				translation.z += 0.01f * direction;
+				translation.z += 0.001f * direction;
 				transform.setTranslation(translation);
 				drawable->setTransform(transform);
 			}

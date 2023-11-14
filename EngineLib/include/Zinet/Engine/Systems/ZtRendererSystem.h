@@ -4,9 +4,12 @@
 #include "Zinet/Engine/Components/ZtDrawableComponent.h"
 #include "Zinet/Engine/ECS/ZtSystem.h"
 
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
 #include "Zinet/GraphicLayer/ZtGLRenderer.h"
 
 #include "Zinet/Core/ZtLogger.h"
+
+#include <vector>
 
 namespace zt::engine
 {
@@ -15,6 +18,12 @@ namespace zt::engine
 	private:
 
 		inline static auto Logger = core::ConsoleLogger::Create("RendererSystem");
+
+		struct ComponentDrawInfo
+		{
+			gl::DrawInfo drawInfo;
+			gl::RenderStates renderStates;
+		};
 
 	public:
 
@@ -35,6 +44,7 @@ namespace zt::engine
 		bool initialize() override;
 
 		void preUpdate(core::Time timeElapsed) override;
+
 		void update(core::Time timeElapsed) override;
 		void postUpdate(core::Time timeElapsed) override;
 
@@ -42,10 +52,11 @@ namespace zt::engine
 
 	protected:
 
+		void createDrawInputs();
+
 		gl::Renderer renderer;
 		gl::Camera camera;
-		std::vector<gl::RenderStates> savedRenderStates;
-
+		std::vector<ComponentDrawInfo> componentsDrawInputs;
 	};
 
 }

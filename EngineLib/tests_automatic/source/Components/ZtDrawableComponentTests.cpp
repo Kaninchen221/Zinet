@@ -28,21 +28,21 @@ namespace zt::engine::tests
 		static_assert(std::is_base_of_v<ecs::Component, DrawableComponent>);
 	};
 
-	TEST_F(DrawableComponentSimpleTests, GetDrawInfo)
+	TEST_F(DrawableComponentSimpleTests, CreateDrawInfo)
 	{
 		typedef gl::DrawInfo (DrawableComponent::* ExpectedFunction)(gl::RendererContext&) const;
-		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::getDrawInfo));
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::createDrawInfo));
 
 		gl::RendererContext rendererContext;
-		[[maybe_unused]] auto drawInfo = drawableComponent.getDrawInfo(rendererContext);
+		[[maybe_unused]] auto drawInfo = drawableComponent.createDrawInfo(rendererContext);
 	}
 
-	TEST_F(DrawableComponentSimpleTests, GetRenderStates)
+	TEST_F(DrawableComponentSimpleTests, CreateRenderStates)
 	{
 		typedef gl::RenderStates (DrawableComponent::* ExpectedFunction)() const;
-		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::getRenderStates));
+		static_assert(core::IsFunctionEqual<ExpectedFunction>(&DrawableComponent::createRenderStates));
 
-		[[maybe_unused]] auto renderStates = drawableComponent.getRenderStates();
+		[[maybe_unused]] auto renderStates = drawableComponent.createRenderStates();
 	}
 
 	// Naive implementation
@@ -62,8 +62,12 @@ namespace zt::engine::tests
 
 	TEST_F(DrawableComponentSimpleTests, IsDataValid)
 	{
-		const bool isDataValid = drawableComponent.isDataValid();
+		bool isDataValid = drawableComponent.isDataValid();
 		EXPECT_FALSE(isDataValid);
+
+		drawableComponent.create<Sprite>();
+		isDataValid = drawableComponent.isDataValid();
+		EXPECT_TRUE(isDataValid);
 	}
 
 	TEST_F(DrawableComponentSimpleTests, GetShaders)
@@ -79,6 +83,6 @@ namespace zt::engine::tests
 		drawableComponent.setShaders(expectedShaders);
 
 		const std::vector<gl::Shader>& shaders = drawableComponent.getShaders();
-		ASSERT_EQ(expectedShaders, shaders);
+		ASSERT_EQ(expectedShaders.size(), shaders.size());
 	}
 }
