@@ -108,8 +108,8 @@ namespace zt::gl
 		const CommandPool& getCommandPool() const { return commandPool; }
 		CommandPool& getCommandPool() { return commandPool; }
 
-		const CommandBuffer& getCommandBuffer() const { return commandBuffer; }
-		CommandBuffer& getCommandBuffer() { return commandBuffer; }
+		const CommandBuffer& getTransferCommandBuffer() const { return transferCommandBuffer; }
+		CommandBuffer& getTransferCommandBuffer() { return transferCommandBuffer; }
 
 		void informAboutWindowResize(const Vector2ui& size);
 
@@ -153,7 +153,7 @@ namespace zt::gl
 		RenderPass renderPass;
 		std::vector<RenderTargetDisplay> renderTargets;
 		CommandPool commandPool;
-		CommandBuffer commandBuffer;
+		CommandBuffer transferCommandBuffer;
 	};
 
 }

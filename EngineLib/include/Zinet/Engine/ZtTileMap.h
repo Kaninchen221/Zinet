@@ -6,12 +6,23 @@
 
 #include "Zinet/Core/ZtLogger.h"
 
+#include "Zinet/Math/ZtVecTypes.h"
+
 namespace zt::engine
 {
 	class RendererContext;
 
 	class ZINET_ENGINE_API TileMap : public gl::TileMap
 	{
+
+	public:
+
+		struct SetTilesInput
+		{
+			std::vector<size_t> tilesIndices;
+			Vector2ui tilesetSize;
+			Vector2ui tileSize;
+		};
 
 	public:
 
@@ -24,7 +35,7 @@ namespace zt::engine
 
 		~TileMap() noexcept = default;
 
-		void placeholder();
+		void setTiles(const SetTilesInput& input);
 
 	protected:
 

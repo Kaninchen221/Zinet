@@ -77,7 +77,7 @@ namespace zt::gl::tests
 		const CommandPool& commandPool = rendererContext.getCommandPool();
 		ASSERT_TRUE(commandPool.isValid());
 
-		const CommandBuffer& commandBuffer = rendererContext.getCommandBuffer();
+		const CommandBuffer& commandBuffer = rendererContext.getTransferCommandBuffer();
 		ASSERT_TRUE(commandBuffer.isValid());
 
 		wd::GLFW::Deinit();
@@ -186,7 +186,7 @@ namespace zt::gl::tests
 
 	TEST_F(RendererContextSimpleTests, GetCommandBuffer)
 	{
-		[[maybe_unused]] const CommandBuffer& commandBuffer = rendererContext.getCommandBuffer();
+		[[maybe_unused]] const CommandBuffer& commandBuffer = rendererContext.getTransferCommandBuffer();
 	}
 
 	TEST_F(RendererContextSimpleTests, GetDepthStencilBuffer)

@@ -46,7 +46,7 @@ namespace zt::gl
 
 		commandPool.create(device, queueFamilyIndex);
 
-		commandBuffer.allocateCommandBuffer(device, commandPool);
+		transferCommandBuffer.allocateCommandBuffer(device, commandPool);
 
 		updateSwapChainSupportDetails();
 
@@ -220,10 +220,10 @@ namespace zt::gl
 
 	void RendererContext::submitCommandsWaitIdle(SubmitCommandsWaitIdleFunction function)
 	{
-		if (!commandBuffer.isValid())
-			commandBuffer.allocateCommandBuffer(device, commandPool);
+		if (!transferCommandBuffer.isValid())
+			transferCommandBuffer.allocateCommandBuffer(device, commandPool);
 
-		queue.submitWaitIdle(commandBuffer, function);
+		queue.submitWaitIdle(transferCommandBuffer, function);
 	}
 
 }

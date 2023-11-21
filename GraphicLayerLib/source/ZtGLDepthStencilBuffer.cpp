@@ -44,11 +44,11 @@ namespace zt::gl
 		};
 		image.create(imageCreateInfo);
 
-		CommandBuffer& commandBuffer = rendererContext.getCommandBuffer();
-		commandBuffer.begin();
-		image.changeLayout(commandBuffer, vk::ImageLayout::eDepthStencilAttachmentOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-		commandBuffer.end();
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+		CommandBuffer& transferCommandBuffer = rendererContext.getTransferCommandBuffer();
+		transferCommandBuffer.begin();
+		image.changeLayout(transferCommandBuffer, vk::ImageLayout::eDepthStencilAttachmentOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		transferCommandBuffer.end();
+		rendererContext.getQueue().submitWaitIdle(transferCommandBuffer);
 
 		vk::ImageViewCreateInfo imageViewCreateInfo = imageView.createCreateInfo(*image.getInternal(), mipmapLevels, format);
 		imageViewCreateInfo.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
