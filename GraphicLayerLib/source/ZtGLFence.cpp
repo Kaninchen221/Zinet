@@ -19,7 +19,7 @@ namespace zt::gl
 		return createInfo;
 	}
 
-	void Fence::create(Device& device, const vk::FenceCreateInfo& createInfo)
+	void Fence::create(const Device& device, const vk::FenceCreateInfo& createInfo)
 	{
 		vk::raii::Fence tempFence{ device.getInternal(), createInfo };
 		internal.swap(tempFence);

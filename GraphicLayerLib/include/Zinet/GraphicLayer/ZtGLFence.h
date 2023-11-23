@@ -31,7 +31,7 @@ namespace zt::gl
 
 		vk::FenceCreateInfo createUnsignaledFenceCreateInfo();
 
-		void create(Device& device, const vk::FenceCreateInfo& createInfo);
+		void create(const Device& device, const vk::FenceCreateInfo& createInfo);
 
 		vk::Result getStatus() const;
 	};
