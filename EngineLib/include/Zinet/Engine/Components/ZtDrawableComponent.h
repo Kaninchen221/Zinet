@@ -37,7 +37,7 @@ namespace zt::engine
 		const gl::DrawableBase* getDrawable() const { return drawable.get(); };
 		gl::DrawableBase* getDrawable() { return drawable.get(); };
 
-		bool isDataValid() const override { return drawable.operator bool(); }
+		bool isReadyToUse() const override { return drawable.operator bool(); }
 
 		const std::vector<gl::Shader>& getShaders() const { return shaders; };
 		void setShaders(const std::vector<gl::Shader>& newShaders) { shaders = newShaders; }

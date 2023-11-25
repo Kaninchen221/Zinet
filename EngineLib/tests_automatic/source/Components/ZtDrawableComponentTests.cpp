@@ -60,14 +60,14 @@ namespace zt::engine::tests
 		ASSERT_EQ(invalidDrawable, nullptr);
 	}
 
-	TEST_F(DrawableComponentSimpleTests, IsDataValid)
+	TEST_F(DrawableComponentSimpleTests, IsReadyToUse)
 	{
-		bool isDataValid = drawableComponent.isDataValid();
-		EXPECT_FALSE(isDataValid);
+		bool isReadyToUse = drawableComponent.isReadyToUse();
+		EXPECT_FALSE(isReadyToUse);
 
 		drawableComponent.create<Sprite>();
-		isDataValid = drawableComponent.isDataValid();
-		EXPECT_TRUE(isDataValid);
+		isReadyToUse = drawableComponent.isReadyToUse();
+		EXPECT_TRUE(isReadyToUse);
 	}
 
 	TEST_F(DrawableComponentSimpleTests, GetShaders)
