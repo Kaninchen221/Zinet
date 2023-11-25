@@ -55,7 +55,7 @@ namespace zt::engine
 		componentsDrawInputs.clear();
 		for (auto& componentStrongRef : componentsStrongRefs)
 		{
-			if (componentStrongRef.isValid() && componentStrongRef->isDataValid())
+			if (componentStrongRef.isValid() && componentStrongRef->isReadyToUse())
 			{
 				gl::DrawableBase* drawable = componentStrongRef->getDrawable();
 				ComponentDrawInfo componentDrawInfo
