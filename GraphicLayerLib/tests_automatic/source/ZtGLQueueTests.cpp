@@ -19,6 +19,7 @@
 #include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
 #include "Zinet/GraphicLayer/ZtGLVma.h"
+#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.h"
 
 #include "Zinet/Window/ZtGLFW.h"
 
@@ -133,6 +134,20 @@ namespace zt::gl::tests
 
 		typedef void(Queue::* SubmitWithFence)(const vk::SubmitInfo&, Fence& fence) const;
 		[[maybe_unused]] SubmitWithFence submitWithFence = &Queue::submitWithFence;
+	}
+
+	TEST(Queue, SubmitSignalCommandBuffer)
+	{
+		RendererContext rendererContext;
+		rendererContext.initialize();
+
+		SignalCommandBuffer signalCommandBuffer;
+		signalCommandBuffer.create(rendererContext);
+		signalCommandBuffer.begin();
+		signalCommandBuffer.end();
+
+		rendererContext.getQueue().submit(signalCommandBuffer);
+		rendererContext.getQueue()->waitIdle();
 	}
 
 	TEST(Queue, CreatePresentInfo)

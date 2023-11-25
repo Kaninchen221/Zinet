@@ -7,6 +7,7 @@
 #include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
 #include "Zinet/GraphicLayer/ZtGLSurface.h"
 #include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.h"
 
 #include <utility>
 
@@ -56,6 +57,15 @@ namespace zt::gl
 		submitInfo.pCommandBuffers = &*commandBuffer.getInternal();
 
 		submit(submitInfo);
+	}
+
+	void Queue::submit(SignalCommandBuffer& signalCommandBuffer) const
+	{
+		vk::SubmitInfo submitInfo{};
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &*signalCommandBuffer.getInternal();
+
+		submitWithFence(submitInfo, signalCommandBuffer.getFence());
 	}
 
     vk::PresentInfoKHR Queue::createPresentInfo(

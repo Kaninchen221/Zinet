@@ -17,6 +17,7 @@ namespace zt::gl
 	class PhysicalDevice;
 	class Surface;
 	class Buffer;
+	class SignalCommandBuffer;
 
 	class ZINET_GRAPHIC_LAYER_API Queue : public VulkanObject<vk::raii::Queue>
 	{
@@ -49,6 +50,8 @@ namespace zt::gl
 		void submit(const vk::SubmitInfo& submitInfo) const;
 
 		void submit(CommandBuffer& commandBuffer) const;
+
+		void submit(SignalCommandBuffer& signalCommandBuffer) const;
 
 		static vk::PresentInfoKHR createPresentInfo(
 			std::span<Semaphore*> waitSemaphores,

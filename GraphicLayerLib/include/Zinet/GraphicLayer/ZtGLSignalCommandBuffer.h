@@ -9,7 +9,7 @@ namespace zt::gl
 {;
 	class RendererContext;
 
-	class ZINET_GRAPHIC_LAYER_API SignalCommandBuffer
+	class ZINET_GRAPHIC_LAYER_API SignalCommandBuffer : public CommandBuffer
 	{
 
 	public:
@@ -23,15 +23,15 @@ namespace zt::gl
 
 		~SignalCommandBuffer() noexcept = default;
 
-		const CommandBuffer& getCommandBuffer() const { return commandBuffer; }
-
 		const Fence& getFence() const { return fence; }
+		Fence& getFence() { return fence; }
 
 		void create(const RendererContext& rendererContext);
 
+		bool isReady() const;
+
 	protected:
 
-		CommandBuffer commandBuffer;
 		Fence fence;
 
 	};

@@ -15,6 +15,7 @@ namespace zt::gl::tests
 
 		SignalCommandBuffer signalCommandBuffer;
 
+		static_assert(std::is_base_of_v<CommandBuffer, SignalCommandBuffer>);
 		static_assert(std::is_default_constructible_v<SignalCommandBuffer>);
 		static_assert(!std::is_copy_constructible_v<SignalCommandBuffer>);
 		static_assert(!std::is_copy_assignable_v<SignalCommandBuffer>);
@@ -22,12 +23,6 @@ namespace zt::gl::tests
 		static_assert(std::is_move_assignable_v<SignalCommandBuffer>);
 		static_assert(std::is_destructible_v<SignalCommandBuffer>);
 	};
-
-	TEST_F(SignalCommandBufferSimpleTests, GetCommandBuffer)
-	{
-		const CommandBuffer& commandBuffer = signalCommandBuffer.getCommandBuffer();
-		ASSERT_FALSE(commandBuffer.isValid());
-	}
 
 	TEST_F(SignalCommandBufferSimpleTests, GetFence)
 	{
@@ -55,11 +50,31 @@ namespace zt::gl::tests
 	TEST_F(SignalCommandBufferTests, Create)
 	{
 		signalCommandBuffer.create(rendererContext);
-
-		const CommandBuffer& commandBuffer = signalCommandBuffer.getCommandBuffer();
-		EXPECT_TRUE(commandBuffer.isValid());
+		EXPECT_TRUE(signalCommandBuffer.isValid());
 
 		const Fence& fence = signalCommandBuffer.getFence();
 		EXPECT_TRUE(fence.isValid());
+	}
+
+	TEST_F(SignalCommandBufferTests, IsReady)
+	{
+		signalCommandBuffer.create(rendererContext);
+		const bool isReady = signalCommandBuffer.isReady();
+		EXPECT_FALSE(isReady);
+	}
+
+	TEST_F(SignalCommandBufferTests, IsReadyFiniteCommandBuffer)
+	{
+		signalCommandBuffer.create(rendererContext);
+		const bool isReady = signalCommandBuffer.isReady();
+		ASSERT_FALSE(isReady);
+
+		signalCommandBuffer.begin();
+		signalCommandBuffer.end();
+		rendererContext.getQueue().submit(signalCommandBuffer);
+		rendererContext.getDevice().waitForFence(signalCommandBuffer.getFence());
+
+		const bool isReadyAfterSubmit = signalCommandBuffer.isReady();
+		ASSERT_TRUE(isReadyAfterSubmit);
 	}
 }
