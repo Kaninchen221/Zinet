@@ -31,7 +31,7 @@ namespace zt::engine::ecs
 
 		core::ID getOwnerID() const { return ownerEntityID; }
 
-		virtual bool isDataValid() const { return true; }
+		virtual bool isReadyToUse() const { return true; }
 
 	protected:
 

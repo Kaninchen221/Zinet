@@ -15,7 +15,7 @@ namespace zt::engine::ecs::tests
 	public:
 		void update(core::Time elapsedTime) override {}
 
-		bool isDataValid() const override { return Component::isDataValid(); }
+		bool isReadyToUse() const override { return Component::isReadyToUse(); }
 	};
 
 	class ComponentSimpleTests : public ::testing::Test
@@ -61,10 +61,10 @@ namespace zt::engine::ecs::tests
 		EXPECT_EQ(ownerEntityID, expectedEntityID);
 	}
 
-	TEST_F(ComponentSimpleTests, IsDataValid)
+	TEST_F(ComponentSimpleTests, IsReadyToUse)
 	{
-		const bool isDataValid = component.isDataValid();
-		EXPECT_TRUE(isDataValid);
+		const bool isReadyToUse = component.isReadyToUse();
+		EXPECT_TRUE(isReadyToUse);
 	}
 
 	class ComponentTests : public ::testing::Test
