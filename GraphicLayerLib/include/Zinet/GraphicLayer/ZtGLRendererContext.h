@@ -29,6 +29,7 @@
 #include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
 #include "Zinet/GraphicLayer/ZtGLRenderTarget.h"
 #include "Zinet/GraphicLayer/ZtGLCamera.h"
+#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -108,8 +109,8 @@ namespace zt::gl
 		const CommandPool& getCommandPool() const { return commandPool; }
 		CommandPool& getCommandPool() { return commandPool; }
 
-		const CommandBuffer& getTransferCommandBuffer() const { return transferCommandBuffer; }
-		CommandBuffer& getTransferCommandBuffer() { return transferCommandBuffer; }
+		const SignalCommandBuffer& getTransferCommandBuffer() const { return transferCommandBuffer; }
+		SignalCommandBuffer& getTransferCommandBuffer() { return transferCommandBuffer; }
 
 		void informAboutWindowResize(const Vector2ui& size);
 
@@ -153,7 +154,7 @@ namespace zt::gl
 		RenderPass renderPass;
 		std::vector<RenderTargetDisplay> renderTargets;
 		CommandPool commandPool;
-		CommandBuffer transferCommandBuffer;
+		SignalCommandBuffer transferCommandBuffer;
 	};
 
 }

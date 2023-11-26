@@ -77,8 +77,8 @@ namespace zt::gl::tests
 		const CommandPool& commandPool = rendererContext.getCommandPool();
 		ASSERT_TRUE(commandPool.isValid());
 
-		const CommandBuffer& commandBuffer = rendererContext.getTransferCommandBuffer();
-		ASSERT_TRUE(commandBuffer.isValid());
+		const SignalCommandBuffer& signalCommandBuffer = rendererContext.getTransferCommandBuffer();
+		ASSERT_TRUE(signalCommandBuffer.isValid());
 
 		wd::GLFW::Deinit();
 	}

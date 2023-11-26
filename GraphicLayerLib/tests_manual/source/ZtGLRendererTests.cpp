@@ -600,29 +600,28 @@ namespace zt::gl::tests
 	void RendererTests::createTexture()
 	{
 		RendererContext& rendererContext = renderer.getRendererContext();
+		auto& transferCommandBuffer = rendererContext.getTransferCommandBuffer();
 
-		CommandBuffer commandBuffer;
-		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
-		commandBuffer.begin();
+		transferCommandBuffer.begin();
 		bool textureUseMipmaps = false;
-		texture.create({ rendererContext, commandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		texture.create({ rendererContext, transferCommandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
 
-		texture.loadFromSTBImage(commandBuffer, stbImage);
+		texture.loadFromSTBImage(transferCommandBuffer, stbImage);
 
-		texture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+		texture.getImage().changeLayout(transferCommandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
 
 		// Create mipmap texture
-		mipmapTexture.create({ rendererContext, commandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		mipmapTexture.create({ rendererContext, transferCommandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
 		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
 		{
-			texture, commandBuffer, rendererContext
+			texture, transferCommandBuffer, rendererContext
 		};
 		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
 
-		mipmapTexture.getImage().changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
-		commandBuffer.end();
+		mipmapTexture.getImage().changeLayout(transferCommandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
+		transferCommandBuffer.end();
 
-		rendererContext.getQueue().submitWaitIdle(commandBuffer);
+		rendererContext.getQueue().submitWaitIdle(transferCommandBuffer);
 	}
 
 	void RendererTests::createSampler()
