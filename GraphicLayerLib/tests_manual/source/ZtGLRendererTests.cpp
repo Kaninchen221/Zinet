@@ -604,21 +604,19 @@ namespace zt::gl::tests
 
 		transferCommandBuffer.begin();
 		bool textureUseMipmaps = false;
-		texture.create({ rendererContext, transferCommandBuffer, textureUseMipmaps, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		texture.create({ rendererContext, transferCommandBuffer, stbImage.getSize(), textureUseMipmaps, vk::Format::eR8G8B8A8Srgb });
 
 		texture.loadFromSTBImage(transferCommandBuffer, stbImage);
 
-		texture.getImage().changeLayout(transferCommandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
-
 		// Create mipmap texture
-		mipmapTexture.create({ rendererContext, transferCommandBuffer, true, vk::Format::eR8G8B8A8Srgb, stbImage.getSize() });
+		mipmapTexture.create({ rendererContext, transferCommandBuffer, stbImage.getSize(), true, vk::Format::eR8G8B8A8Srgb });
 		Texture::GenerateMipmapTextureInfo generateMipmapTextureInfo
 		{
 			texture, transferCommandBuffer, rendererContext
 		};
 		mipmapTexture.generateMipmapTexture(generateMipmapTextureInfo);
+		mipmapTexture.prepareForDraw(transferCommandBuffer);
 
-		mipmapTexture.getImage().changeLayout(transferCommandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
 		transferCommandBuffer.end();
 
 		rendererContext.getQueue().submitWaitIdle(transferCommandBuffer);

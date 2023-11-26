@@ -68,7 +68,7 @@ namespace zt::gl::tests
 			commandBuffer.begin();
 			Texture::CreateInfo createInfo
 			{
-				rendererContext, commandBuffer, false, vk::Format::eR8G8B8A8Srgb, { 640u, 640u }
+				rendererContext, commandBuffer, { 640u, 640u }, false, vk::Format::eR8G8B8A8Srgb
 			};
 			texture.create(createInfo);
 			commandBuffer.end();

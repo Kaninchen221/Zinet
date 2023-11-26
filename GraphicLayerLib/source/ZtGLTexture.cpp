@@ -60,6 +60,8 @@ namespace zt::gl
 
 	void Texture::generateMipmapTexture(const GenerateMipmapTextureInfo& info)
 	{
+		info.texture.getImage().changeLayout(info.commandBuffer, vk::ImageLayout::eTransferSrcOptimal, vk::PipelineStageFlagBits::eTransfer);
+
 		if (!info.rendererContext.getPhysicalDevice().isFormatSupportingGeneratingMipmaps(vk::Format::eR8G8B8A8Srgb))
 		{
 			zt::core::Ensure(false);
@@ -104,6 +106,11 @@ namespace zt::gl
 			vk::Filter filter = vk::Filter::eNearest;
 			info.commandBuffer->blitImage(sourceImage.getVk(), sourceImageLayout, destinyImage.getVk(), destinyImageLayout, imageBlit, filter);
 		}
+	}
+
+	void Texture::prepareForDraw(CommandBuffer& commandBuffer)
+	{
+		image.changeLayout(commandBuffer, vk::ImageLayout::eShaderReadOnlyOptimal, vk::PipelineStageFlagBits::eFragmentShader);
 	}
 
 }

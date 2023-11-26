@@ -62,17 +62,16 @@ namespace zt::gl::tests
 
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
-		Renderer renderer;
+		RendererContext rendererContext;
 		Texture texture;
+		CommandBuffer commandBuffer;
 
 		void SetUp() override
 		{
 			wd::GLFW::Init(true);
 
-			renderer.initialize();
-			RendererContext& rendererContext = renderer.getRendererContext();
+			rendererContext.initialize();
 
-			CommandBuffer commandBuffer;
 			commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 			commandBuffer.begin();
 
@@ -81,7 +80,7 @@ namespace zt::gl::tests
 			Vector2ui size = { 640u, 640u };
 			Texture::CreateInfo createInfo
 			{
-				rendererContext, commandBuffer, mipmaps, format, size
+				rendererContext, commandBuffer, size, mipmaps, format
 			};
 			texture.create(createInfo);
 			commandBuffer.end();
@@ -120,13 +119,8 @@ namespace zt::gl::tests
 			return;
 		}
 
-		CommandBuffer commandBuffer;
-		RendererContext& rendererContext = renderer.getRendererContext();
-		commandBuffer.allocateCommandBuffer(rendererContext.getDevice(), rendererContext.getCommandPool());
 		commandBuffer.begin();
-
 		texture.loadFromSTBImage(commandBuffer, stbImage);
-
 		commandBuffer.end();
 
 		rendererContext.getQueue().submitWaitIdle(commandBuffer);
@@ -144,5 +138,13 @@ namespace zt::gl::tests
 
 		const ImageView& imageView = texture.getImageView();
 		ASSERT_FALSE(imageView.isValid());
+	}
+
+	TEST_F(TextureTests, PrepareForDraw)
+	{
+		commandBuffer.begin();
+		texture.prepareForDraw(commandBuffer);
+		commandBuffer.end();
+		rendererContext.getQueue().submitWaitIdle(commandBuffer);
 	}
 }

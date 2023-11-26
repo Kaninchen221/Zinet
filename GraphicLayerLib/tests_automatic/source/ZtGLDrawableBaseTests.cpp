@@ -93,7 +93,7 @@ namespace zt::gl::tests
 		Vector2ui size = { 640u, 640u };
 		Texture::CreateInfo createInfo
 		{
-			rendererContext, commandBuffer, mipmaps, format, size
+			rendererContext, commandBuffer, size, mipmaps, format
 		};
 		texture.create(createInfo);
 

@@ -24,9 +24,9 @@ namespace zt::gl
 		{
 			const RendererContext& rendererContext;
 			CommandBuffer& commandBuffer;
+			Vector2ui size;
 			bool mipmaps = false;
 			vk::Format format = vk::Format::eR8G8B8A8Srgb;
-			Vector2ui size;
 		};
 
 		struct ZINET_GRAPHIC_LAYER_API GenerateMipmapTextureInfo
@@ -69,6 +69,8 @@ namespace zt::gl
 		void clear();
 
 		void generateMipmapTexture(const GenerateMipmapTextureInfo& info);
+
+		void prepareForDraw(CommandBuffer& commandBuffer);
 
 	protected:
 
