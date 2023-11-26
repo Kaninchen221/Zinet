@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 
 #include "Zinet/Engine/Systems/ZtRendererSystem.h"
+#include "Zinet/Engine/ZtTileMap.h"
 #include "Zinet/Engine/ECS/ZtEntity.h"
 
 #include "Zinet/Window/ZtGLFW.h"
@@ -14,6 +15,7 @@
 #include "Zinet/GraphicLayer/ZtGLShape2D.h"
 
 #include <filesystem>
+#include <type_traits>
 
 namespace zt::engine::tests
 {
@@ -37,48 +39,32 @@ namespace zt::engine::tests
 		}
 
 		void prepareTwoDrawableObjectsTest();
-		void createShaders();
+		void twoDrawableObjectsTick();
+		float direction = 1.f;
+		void createShaders(std::string vertexShaderFileName = "shape2D.vert", std::string fragmentShaderFileName = "shape2D.frag");
+
+		void prepareTileMap();
+
+		void loop(auto callablePrepare, auto callableTick);
+
+		bool skipTwoDrawableObjectsTest = true;
+		bool skipTileMapTest = false;
 	};
 
 	TEST_F(RendererSystemTests, TwoDrawableObjects)
 	{
-		wd::GLFW::UnhideWindow();
-		rendererSystem.initialize();
+		if (skipTwoDrawableObjectsTest)
+			FAIL() << "";
 
-		prepareTwoDrawableObjectsTest();
-		auto weakRef = rendererSystem.getComponents()[1].createWeakRef();
+		loop(&RendererSystemTests::prepareTwoDrawableObjectsTest, &RendererSystemTests::twoDrawableObjectsTick);
+	}
 
-		core::Clock clock;
-		float direction = 1.f;
-		while (rendererSystem.getRenderer().getRendererContext().getWindow().isOpen())
-		{
-			auto& renderer = rendererSystem.getRenderer();
-			auto& rendererContext = renderer.getRendererContext();
-			auto& window = rendererContext.getWindow();
-			auto& event = window.getEvent();
+	TEST_F(RendererSystemTests, TileMapTest)
+	{
+		if (skipTileMapTest)
+			FAIL() << "";
 
-			event.pollEvents();
-
-			if (weakRef.isValid())
-			{
-				auto* component = weakRef.get();
-				auto* drawable = component->getDrawable();
-				auto transform = drawable->getTransform();
-				auto translation = transform.getTranslation();
-
-				if (translation.z >= 1.f || translation.z <= -1.f)
-					direction *= -1.f;
-
-				translation.z += 0.001f * direction;
-				transform.setTranslation(translation);
-				drawable->setTransform(transform);
-			}
-
-			auto timeElapsed = clock.restart();
-			rendererSystem.preUpdate(timeElapsed);
-			rendererSystem.update(timeElapsed);
-			rendererSystem.postUpdate(timeElapsed);
-		}
+		loop(&RendererSystemTests::prepareTileMap, [](auto* thisPointer) {});
 	}
 
 	void RendererSystemTests::prepareTwoDrawableObjectsTest()
@@ -117,19 +103,90 @@ namespace zt::engine::tests
 		createComponent({ 0.0f, 0.0f, 0.f }, { 0.0f, 1.0f, 0.0f, 0.5f });
 	}
 
-	void RendererSystemTests::createShaders()
+	void RendererSystemTests::createShaders(std::string vertexShaderFileName, std::string fragmentShaderFileName)
 	{
 		shaders.clear();
 
 		shaders.emplace_back();
 		shaders[0].setType(gl::ShaderType::Vertex);
-		shaders[0].loadFromFile((ContentPath / "shape2D.vert").string());
+		shaders[0].loadFromFile((ContentPath / vertexShaderFileName).string());
 		shaders[0].compile();
 
 		shaders.emplace_back();
 		shaders[1].setType(gl::ShaderType::Fragment);
-		shaders[1].loadFromFile((ContentPath / "shape2D.frag").string());
+		shaders[1].loadFromFile((ContentPath / fragmentShaderFileName).string());
 		shaders[1].compile();
+	}
+
+	void RendererSystemTests::prepareTileMap()
+	{
+		rendererSystem.setCamera(camera);
+
+		createShaders("tileMap.vert", "tileMap.frag");
+
+		auto weakRef = rendererSystem.addComponent(entity);
+		if (weakRef.isValid())
+		{
+			weakRef->create<TileMap>();
+			DrawableComponent* component = weakRef.get();
+			component->setShaders(shaders);
+			gl::DrawableBase* drawable = component->getDrawable();
+			if (drawable)
+			{
+				TileMap* tileMap = dynamic_cast<TileMap*>(drawable);
+				tileMap->setTilesCount(Vector2ui{ 1u, 1u });
+				tileMap->setTilesTextureRegions({ gl::TextureRegion{} }, Vector2f{ 1.f, 1.f });
+			}
+		}
+		else
+		{
+			Logger->error("Failed create tile map");
+		}
+	}
+
+	void RendererSystemTests::twoDrawableObjectsTick()
+	{
+		auto weakRef = rendererSystem.getComponents()[1].createWeakRef();
+		if (weakRef.isValid())
+		{
+			auto* component = weakRef.get();
+			auto* drawable = component->getDrawable();
+			auto transform = drawable->getTransform();
+			auto translation = transform.getTranslation();
+
+			if (translation.z >= 1.f || translation.z <= -1.f)
+				direction *= -1.f;
+
+			translation.z += 0.001f * direction;
+			transform.setTranslation(translation);
+			drawable->setTransform(transform);
+		}
+	}
+
+	void RendererSystemTests::loop(auto callablePrepare, auto callableTick)
+	{
+		wd::GLFW::UnhideWindow();
+		rendererSystem.initialize();
+
+		std::invoke(callablePrepare, this);
+
+		core::Clock clock;
+		while (rendererSystem.getRenderer().getRendererContext().getWindow().isOpen())
+		{
+			auto& renderer = rendererSystem.getRenderer();
+			auto& rendererContext = renderer.getRendererContext();
+			auto& window = rendererContext.getWindow();
+			auto& event = window.getEvent();
+
+			event.pollEvents();
+
+			std::invoke(callableTick, this);
+
+			const auto timeElapsed = clock.restart();
+			rendererSystem.preUpdate(timeElapsed);
+			rendererSystem.update(timeElapsed);
+			rendererSystem.postUpdate(timeElapsed);
+		}
 	}
 
 }

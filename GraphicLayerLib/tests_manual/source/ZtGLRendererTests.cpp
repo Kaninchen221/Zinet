@@ -75,7 +75,7 @@ namespace zt::gl::tests
 	TEST_F(RendererTests, Shape2D)
 	{
 		if (skipShape2D)
-			return;
+			FAIL() << "";
 
 		wd::GLFW::UnhideWindow();
 
@@ -164,7 +164,7 @@ namespace zt::gl::tests
 	TEST_F(RendererTests, Sprites)
 	{
 		if (skipSprites)
-			return;
+			FAIL() << "";
 
 		wd::GLFW::UnhideWindow();
 
@@ -265,7 +265,7 @@ namespace zt::gl::tests
 	TEST_F(RendererTests, InstancedRenderingAkaDrawTilemap)
 	{
 		if (skipInstancedRendering)
-			return;
+			FAIL() << "";
 
 		wd::GLFW::UnhideWindow();
 
@@ -352,7 +352,7 @@ namespace zt::gl::tests
 	TEST_F(RendererTests, DrawFlipbook)
 	{
 		if (skipFlipbook)
-			return;
+			FAIL() << "";
 
 		wd::GLFW::UnhideWindow();
 
