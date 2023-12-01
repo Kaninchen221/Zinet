@@ -89,7 +89,7 @@ namespace zt::gl
 		void createDescriptorPool(const std::vector<RenderStates::Descriptor>& descriptors, Device& device);
 		void createDescriptorSets(Device& device);
 		void createWriteDescriptorSets(const RenderStates& renderStates, const DrawInfo& drawInfo);
-		void createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images);
+		void createImageWriteDescriptorSets(const std::vector<RenderStates::Image>& images);
 
 		template<class BufferType>
 		void createBufferWriteDescriptorSets(const std::span<const BufferType> buffers, vk::DescriptorType descriptorType);

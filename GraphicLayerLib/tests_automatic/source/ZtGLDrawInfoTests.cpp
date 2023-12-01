@@ -21,7 +21,7 @@ namespace zt::gl::tests
 
 		static_assert(std::is_same_v<decltype(renderStates.shaders), std::vector<Shader>>);
 		static_assert(std::is_same_v<decltype(renderStates.descriptors), std::vector<RenderStates::Descriptor>>);
-		static_assert(std::is_same_v<decltype(renderStates.images), std::span<RenderStates::Image>>);
+		static_assert(std::is_same_v<decltype(renderStates.images), std::vector<RenderStates::Image>>);
 		static_assert(std::is_same_v<decltype(renderStates.mvp), MVP>);
 	};
 

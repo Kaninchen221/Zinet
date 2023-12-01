@@ -190,7 +190,7 @@ namespace zt::gl
 		createImageWriteDescriptorSets(renderStates.images);
 	}
 
-	void RendererPipeline::createImageWriteDescriptorSets(const std::span<RenderStates::Image>& images)
+	void RendererPipeline::createImageWriteDescriptorSets(const std::vector<RenderStates::Image>& images)
 	{
 		descriptorImageInfos.clear();
 		for (std::size_t index = 0u; index < images.size(); ++index)

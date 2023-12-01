@@ -23,7 +23,8 @@ namespace zt::engine
 			gl::RenderStates renderStates =
 			{
 				.shaders = shaders,
-				.descriptors = drawable->createRenderStatesDescriptors()
+				.descriptors = drawable->createRenderStatesDescriptors(),
+				.images = drawable->createRenderStatesImages()
 			};
 
 			return renderStates;
