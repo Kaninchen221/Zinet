@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Engine/ZtAssetsManager.h"
+#include "Zinet/Engine/Assets/ZtAssetsManager.h"
 
 #include <gtest/gtest.h>
 
@@ -39,7 +39,7 @@ namespace zt::engine::tests
 	TEST_F(AssetsManagerSimpleTests, GetAsset_InvalidResult)
 	{
 		const std::string contentPath = "Content/Textures/Texture_1.meta";
-		const AssetsManager::AssetReference invalidResult = assetsManager.getAsset(contentPath);
+		const AssetReference invalidResult = assetsManager.getAsset(contentPath);
 		ASSERT_FALSE(invalidResult.success);
 	}
 
@@ -49,7 +49,7 @@ namespace zt::engine::tests
 		Asset asset;
 		assetsManager.addAsset(contentPath, asset);
 
-		const AssetsManager::AssetReference validResult = assetsManager.getAsset(contentPath);
+		const AssetReference validResult = assetsManager.getAsset(contentPath);
 		ASSERT_TRUE(validResult.success);
 		EXPECT_FALSE(validResult->isValid());
 	}

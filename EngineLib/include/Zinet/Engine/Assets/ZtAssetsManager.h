@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Zinet/Engine/ZtEngineConfig.h"
-#include "Zinet/Engine/ZtAsset.h"
+#include "Zinet/Engine/Assets/ZtAsset.h"
+#include "Zinet/Engine/Assets/ZtAssetReference.h"
 
 #include "Zinet/Core/ZtLogger.h"
 
@@ -18,25 +19,6 @@ namespace zt::engine
 	public:
 
 		using Assets = std::map<std::string, Asset>;
-
-		struct AssetReference
-		{
-			friend AssetsManager;
-
-			AssetReference(bool newSuccess, AssetsManager::Assets::iterator newIterator);
-
-			const bool success = false;
-
-			Asset* operator -> () { return &iterator->second; }
-			const Asset* operator -> () const { return &iterator->second; }
-
-		private:
-
-			AssetsManager::Assets::iterator iterator;
-
-		};
-
-	public:
 
 		AssetsManager() = default;
 		AssetsManager(const AssetsManager& other) = default;
