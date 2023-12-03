@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Engine/ZtAsset.h"
+#include "Zinet/Engine/Assets/ZtAsset.h"
 
 #include <gtest/gtest.h>
 
