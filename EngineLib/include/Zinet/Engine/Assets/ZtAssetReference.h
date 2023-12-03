@@ -20,7 +20,7 @@ namespace zt::engine
 
 		~AssetReference() noexcept = default;
 		
-		const bool success = false;
+		const bool isValid = false;
 
 		Asset* operator -> () { return asset; }
 		const Asset* operator -> () const { return asset; }

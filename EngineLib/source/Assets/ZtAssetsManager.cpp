@@ -3,7 +3,7 @@
 namespace zt::engine
 {
 	AssetReference::AssetReference(bool newSuccess, Asset* newAsset)
-		: success(newSuccess), asset(newAsset)
+		: isValid(newSuccess), asset(newAsset)
 	{}
 
 	void AssetsManager::addAsset(const std::string& contentPath, const Asset& asset)
