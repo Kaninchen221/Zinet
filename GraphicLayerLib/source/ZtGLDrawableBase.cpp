@@ -4,9 +4,9 @@
 namespace zt::gl
 {
 	std::vector<RenderStates::Image> DrawableBase::createRenderStatesImages(
-		std::span<std::reference_wrapper<const Texture>> textures,
-		std::span<std::reference_wrapper<const Sampler>> samplers,
-		std::span<size_t> bindings) const
+		const std::vector<std::reference_wrapper<const Texture>>& textures,
+		const std::vector<std::reference_wrapper<const Sampler>>& samplers,
+		const std::vector<size_t>& bindings) const
 	{
 		if (textures.size() != samplers.size() || textures.size() != bindings.size())
 		{

@@ -50,12 +50,16 @@ namespace zt::engine
 		const std::vector<AssetReference>& getSamplers() const { return samplersAssets; }
 		void setSamplers(const std::vector<AssetReference>& newSamplersAssets) { samplersAssets = newSamplersAssets; }
 
+		const std::vector<size_t>& getTexturesSamplersBindings() const { return texturesSamplersBindings; }
+		void setTexturesSamplersBindings(const std::vector<size_t>& newBindigns) { texturesSamplersBindings = newBindigns; }
+
 	protected:
 
 		std::unique_ptr<gl::DrawableBase> drawable;
 		std::vector<gl::Shader> shaders;
 		std::vector<AssetReference> texturesAssets;
 		std::vector<AssetReference> samplersAssets;
+		std::vector<size_t> texturesSamplersBindings;
 
 	};
 

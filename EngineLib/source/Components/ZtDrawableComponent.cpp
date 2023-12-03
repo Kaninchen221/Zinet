@@ -2,6 +2,7 @@
 
 #include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
 #include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLTexture.h"
 
 namespace zt::engine
 {
@@ -18,13 +19,31 @@ namespace zt::engine
 
 	gl::RenderStates DrawableComponent::createRenderStates() const
 	{
+		auto assetsToVectorOfConstReferences = []<class T>(auto assets)
+		{
+			std::vector<std::reference_wrapper<const T>> references;
+			for (const auto& asset : assets)
+			{
+				if (asset->is<T>())
+				{
+					const T& texture = asset->get<T>();
+					references.push_back(texture);
+				}
+			}
+
+			return references;
+		};
+
+		const std::vector<std::reference_wrapper<const gl::Texture>> textures = assetsToVectorOfConstReferences.operator()<gl::Texture>(texturesAssets);
+		const std::vector<std::reference_wrapper<const gl::Sampler>> samplers = assetsToVectorOfConstReferences.operator()<gl::Sampler>(samplersAssets);
+
 		if (drawable)
 		{
 			gl::RenderStates renderStates =
 			{
 				.shaders = shaders,
-				.descriptors = drawable->createRenderStatesDescriptors()
-				//.images = drawable->createRenderStatesImages()
+				.descriptors = drawable->createRenderStatesDescriptors(),
+				.images = drawable->createRenderStatesImages(textures, samplers, texturesSamplersBindings)
 			};
 
 			return renderStates;

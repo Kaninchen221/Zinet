@@ -85,6 +85,33 @@ namespace zt::engine::tests
 		ASSERT_EQ(expectedShaders.size(), shaders.size());
 	}
 
+	TEST_F(DrawableComponentSimpleTests, SetGetTextures)
+	{
+		const std::vector<AssetReference> expectedTextures{ AssetReference{} };
+		drawableComponent.setTextures(expectedTextures);
+
+		const std::vector<AssetReference>& actualTextures = drawableComponent.getTextures();
+		ASSERT_EQ(actualTextures, expectedTextures);
+	}
+
+	TEST_F(DrawableComponentSimpleTests, SetGetSamplers)
+	{
+		const std::vector<AssetReference> expectedSamplers{ AssetReference{} };
+		drawableComponent.setSamplers(expectedSamplers);
+
+		const std::vector<AssetReference>& actualSamplers = drawableComponent.getSamplers();
+		ASSERT_EQ(actualSamplers, expectedSamplers);
+	}
+
+	TEST_F(DrawableComponentSimpleTests, SetGetTexturesSamplersBindings)
+	{
+		std::vector<size_t> expectedBindings{ 0u, 323u };
+		drawableComponent.setTexturesSamplersBindings(expectedBindings);
+
+		const std::vector<size_t>& actualBindings = drawableComponent.getTexturesSamplersBindings();
+		ASSERT_EQ(actualBindings, expectedBindings);
+	}
+
 	class DrawableComponentTests : public ::testing::Test
 	{
 	protected:
@@ -92,21 +119,8 @@ namespace zt::engine::tests
 		DrawableComponent drawableComponent;
 	};
 
-	TEST_F(DrawableComponentTests, SetGetTextures)
+	TEST_F(DrawableComponentTests, CreateRenderStates)
 	{
-		std::vector<AssetReference> expectedTextures{ AssetReference{} };
-		drawableComponent.setTextures(expectedTextures);
-
-		const std::vector<AssetReference>& actualTextures = drawableComponent.getTextures();
-		ASSERT_EQ(actualTextures, actualTextures);
-	}
-
-	TEST_F(DrawableComponentTests, SetGetSamplers)
-	{
-		std::vector<AssetReference> expectedSamplers{ AssetReference{} };
-		drawableComponent.setTextures(expectedSamplers);
-
-		const std::vector<AssetReference>& actualSamplers = drawableComponent.getSamplers();
-		ASSERT_EQ(actualSamplers, actualSamplers);
+		[[maybe_unused]] auto renderStates = drawableComponent.createRenderStates();
 	}
 }

@@ -43,9 +43,9 @@ namespace zt::gl
 		virtual std::vector<RenderStates::Descriptor> createRenderStatesDescriptors() const { return {}; }
 
 		std::vector<RenderStates::Image> createRenderStatesImages(
-			std::span<std::reference_wrapper<const Texture>> textures,
-			std::span<std::reference_wrapper<const Sampler>> samplers,
-			std::span<size_t> bindings) const;
+			const std::vector<std::reference_wrapper<const Texture>>& textures,
+			const std::vector<std::reference_wrapper<const Sampler>>& samplers,
+			const std::vector<size_t>& bindings) const;
 
 		virtual void updateUniformBuffers(std::span<UniformBuffer> uniformBuffers) const {}
 		virtual void updateStorageBuffers(std::span<StorageBuffer> storageBuffers) const {}
