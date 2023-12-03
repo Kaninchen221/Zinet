@@ -33,7 +33,8 @@ namespace zt::engine::tests
 	{
 		const std::string contentPath = "Content/Textures/Texture_1.meta";
 		Asset asset;
-		assetsManager.addAsset(contentPath, asset);
+		const AssetReference addResult = assetsManager.addAsset(contentPath, asset);
+		ASSERT_TRUE(addResult.isValid());
 	}
 
 	TEST_F(AssetsManagerSimpleTests, GetAsset_InvalidResult)

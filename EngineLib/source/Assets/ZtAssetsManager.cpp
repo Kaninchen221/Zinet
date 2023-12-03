@@ -2,9 +2,13 @@
 
 namespace zt::engine
 {
-	void AssetsManager::addAsset(const std::string& contentPath, const Asset& asset)
+	AssetReference AssetsManager::addAsset(const std::string& contentPath, const Asset& asset)
 	{
-		assets.insert({ contentPath, asset });
+		auto insertResult = assets.insert({ contentPath, asset });
+		if (insertResult.second)
+			return AssetReference{ &insertResult.first->second };
+		else
+			return AssetReference{ nullptr };
 	}
 
 	AssetReference AssetsManager::getAsset(const std::string& contentPath)
@@ -13,7 +17,7 @@ namespace zt::engine
 		const bool found = it != assets.end();
 
 		if (found)
-			return AssetReference{ &(it->second) };
+			return AssetReference{ &it->second };
 		else
 			return AssetReference{ nullptr };
 	}

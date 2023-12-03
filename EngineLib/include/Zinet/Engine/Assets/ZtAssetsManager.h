@@ -29,7 +29,7 @@ namespace zt::engine
 
 		~AssetsManager() noexcept = default;
 
-		void addAsset(const std::string& contentPath, const Asset& asset);
+		AssetReference addAsset(const std::string& contentPath, const Asset& asset);
 
 		AssetReference getAsset(const std::string& contentPath);
 
