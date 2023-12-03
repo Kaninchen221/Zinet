@@ -11,7 +11,6 @@
 
 namespace zt::engine::tests
 {
-
 	class DrawableComponentSimpleTests : public ::testing::Test
 	{
 	protected:
@@ -84,5 +83,30 @@ namespace zt::engine::tests
 
 		const std::vector<gl::Shader>& shaders = drawableComponent.getShaders();
 		ASSERT_EQ(expectedShaders.size(), shaders.size());
+	}
+
+	class DrawableComponentTests : public ::testing::Test
+	{
+	protected:
+
+		DrawableComponent drawableComponent;
+	};
+
+	TEST_F(DrawableComponentTests, SetGetTextures)
+	{
+		std::vector<AssetReference> expectedTextures{ AssetReference{} };
+		drawableComponent.setTextures(expectedTextures);
+
+		const std::vector<AssetReference>& actualTextures = drawableComponent.getTextures();
+		ASSERT_EQ(actualTextures, actualTextures);
+	}
+
+	TEST_F(DrawableComponentTests, SetGetSamplers)
+	{
+		std::vector<AssetReference> expectedSamplers{ AssetReference{} };
+		drawableComponent.setTextures(expectedSamplers);
+
+		const std::vector<AssetReference>& actualSamplers = drawableComponent.getSamplers();
+		ASSERT_EQ(actualSamplers, actualSamplers);
 	}
 }

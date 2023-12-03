@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+
 #include "Zinet/Engine/ZtEngineConfig.h"
 #include "Zinet/Engine/ECS/ZtComponent.h"
-
-#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+#include "Zinet/Engine/Assets/ZtTextureAsset.h"
+#include "Zinet/Engine/Assets/ZtAssetReference.h"
 
 namespace zt::gl
 {
@@ -42,10 +44,18 @@ namespace zt::engine
 		const std::vector<gl::Shader>& getShaders() const { return shaders; };
 		void setShaders(const std::vector<gl::Shader>& newShaders) { shaders = newShaders; }
 
+		const std::vector<AssetReference>& getTextures() const { return texturesAssets; }
+		void setTextures(const std::vector<AssetReference>& newTexturesAssets) { texturesAssets = newTexturesAssets; }
+
+		const std::vector<AssetReference>& getSamplers() const { return samplersAssets; }
+		void setSamplers(const std::vector<AssetReference>& newSamplersAssets) { samplersAssets = newSamplersAssets; }
+
 	protected:
 
 		std::unique_ptr<gl::DrawableBase> drawable;
 		std::vector<gl::Shader> shaders;
+		std::vector<AssetReference> texturesAssets;
+		std::vector<AssetReference> samplersAssets;
 
 	};
 

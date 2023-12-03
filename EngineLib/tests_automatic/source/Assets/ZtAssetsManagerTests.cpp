@@ -40,7 +40,7 @@ namespace zt::engine::tests
 	{
 		const std::string contentPath = "Content/Textures/Texture_1.meta";
 		const AssetReference invalidResult = assetsManager.getAsset(contentPath);
-		ASSERT_FALSE(invalidResult.isValid);
+		ASSERT_FALSE(invalidResult.isValid());
 	}
 
 	TEST_F(AssetsManagerSimpleTests, GetAsset_ValidResult)
@@ -50,7 +50,7 @@ namespace zt::engine::tests
 		assetsManager.addAsset(contentPath, asset);
 
 		const AssetReference validResult = assetsManager.getAsset(contentPath);
-		ASSERT_TRUE(validResult.isValid);
+		ASSERT_TRUE(validResult.isValid());
 		EXPECT_FALSE(validResult->isValid());
 	}
 
