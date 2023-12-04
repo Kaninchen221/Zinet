@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 
 #include "Zinet/Engine/Systems/ZtRendererSystem.h"
+#include "Zinet/Engine/Assets/ZtAssetsManager.h"
 #include "Zinet/Engine/ZtTileMap.h"
 #include "Zinet/Engine/ECS/ZtEntity.h"
 
@@ -28,6 +29,7 @@ namespace zt::engine::tests
 		const inline static std::filesystem::path ContentPath = ZINET_CURRENT_PROJECT_ROOT_PATH "/test_files";
 
 		RendererSystem rendererSystem;
+		AssetsManager assetsManager;
 		engine::ecs::Entity entity{ core::UniqueID{ 3u } };
 		gl::Camera camera;
 		std::vector<gl::Shader> shaders;
@@ -69,6 +71,11 @@ namespace zt::engine::tests
 
 	void RendererSystemTests::prepareTwoDrawableObjectsTest()
 	{
+		// Assets
+		const std::string textureContentPath = "/Content/TileMapTexture.meta";
+		TextureAsset textureAsset;
+		assetsManager.addAsset(textureContentPath, textureAsset);
+
 		rendererSystem.setCamera(camera);
 
 		createShaders();
