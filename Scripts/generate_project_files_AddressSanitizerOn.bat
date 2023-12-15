@@ -1,4 +1,4 @@
 @echo off
 
-cd PG
+cd PGenerator
 python -m pg --AddressSanitizer true

@@ -23,7 +23,8 @@ __pycache__
 
 # PG
 pg.egg-info
-PG/dist/
+PGenerator/pg.egg-info/
+PGenerator/dist/
 
 # Visual Studio Code
 .vscode
