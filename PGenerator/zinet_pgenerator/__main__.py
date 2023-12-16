@@ -3,7 +3,7 @@ import argparse
 import sys
 sys.path.append(".")
 
-from pg.project_generator import ProjectGenerator
+from zinet_pgenerator.project_generator import ProjectGenerator
 
 if __name__ == '__main__':
 

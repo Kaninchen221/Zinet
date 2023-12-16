@@ -1,5 +1,5 @@
-from pg.safe_dict import SafeDict
-from pg.cmakelists_generator import CMakeListsGenerator
+from zinet_pgenerator.safe_dict import SafeDict
+from zinet_pgenerator.cmakelists_generator import CMakeListsGenerator
 from pathlib import Path
 import numpy
 

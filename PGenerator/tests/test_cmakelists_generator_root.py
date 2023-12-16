@@ -1,7 +1,7 @@
-from pg import cmakelists_generator_root as cgr
-from pg.cmakelists_generator_root import CMakelistsGeneratorRoot
-from pg.cmakelists_generator import CMakeListsGenerator
-from pg.safe_dict import SafeDict
+from zinet_pgenerator import cmakelists_generator_root as cgr
+from zinet_pgenerator.cmakelists_generator_root import CMakelistsGeneratorRoot
+from zinet_pgenerator.cmakelists_generator import CMakeListsGenerator
+from zinet_pgenerator.safe_dict import SafeDict
 from pathlib import Path
 
 class TestCmakelistsGeneratorRoot:
@@ -9,7 +9,7 @@ class TestCmakelistsGeneratorRoot:
         assert issubclass(CMakelistsGeneratorRoot, CMakeListsGenerator)
 
     def test_properties(self):
-        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsRootTemplate.txt"
+        expectedTemplatePath = Path(".").absolute() / "zinet_pgenerator/templates/CMakeListsRootTemplate.txt"
         assert self.generatorRoot.templatePath == expectedTemplatePath
         assert self.generatorRoot.templatePath.exists()
 

@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='pg',
+    name='zinet_pgenerator',
     version='1.0.0',
     install_requires = [
         "pytest == 7.2.0",

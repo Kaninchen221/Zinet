@@ -1,6 +1,6 @@
-from pg.cmakelists_generator_target import CMakeListsGeneratorTarget
-from pg.cmakelists_generator import CMakeListsGenerator
-from pg.safe_dict import SafeDict
+from zinet_pgenerator.cmakelists_generator_target import CMakeListsGeneratorTarget
+from zinet_pgenerator.cmakelists_generator import CMakeListsGenerator
+from zinet_pgenerator.safe_dict import SafeDict
 from pathlib import Path
 import pytest
 

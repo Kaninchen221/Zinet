@@ -1,4 +1,4 @@
-from pg.cmakelists_generator import CMakeListsGenerator
+from zinet_pgenerator.cmakelists_generator import CMakeListsGenerator
 from pathlib import Path
 from array import array
 import numpy

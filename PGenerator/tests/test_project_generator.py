@@ -1,4 +1,4 @@
-from pg.project_generator import ProjectGenerator
+from zinet_pgenerator.project_generator import ProjectGenerator
 from pathlib import Path
 import numpy
 import pytest_mock

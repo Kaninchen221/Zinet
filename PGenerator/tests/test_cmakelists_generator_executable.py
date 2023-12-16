@@ -1,6 +1,6 @@
-from pg.cmakelists_generator_target import CMakeListsGeneratorTarget
-from pg.cmakelists_generator_executable import CMakeListsGeneratorExecutable
-from pg.safe_dict import SafeDict
+from zinet_pgenerator.cmakelists_generator_target import CMakeListsGeneratorTarget
+from zinet_pgenerator.cmakelists_generator_executable import CMakeListsGeneratorExecutable
+from zinet_pgenerator.safe_dict import SafeDict
 from pathlib import Path
 import pytest
 
@@ -10,12 +10,12 @@ class TestCMakeListsGeneratorExecutable():
         assert issubclass(CMakeListsGeneratorExecutable, CMakeListsGeneratorTarget)
 
     def test_properties(self):
-        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsExecutableTemplate.txt"
+        expectedTemplatePath = Path(".").absolute() / "zinet_pgenerator/templates/CMakeListsExecutableTemplate.txt"
         assert self.generatorExecutable.templatePath == expectedTemplatePath
         assert self.generatorExecutable.templatePath.exists()
 
     def test_generate_cmake(self):
-        templatePath = Path(".").absolute() / "pg/templates/CMakeListsExecutableTemplate.txt"
+        templatePath = Path(".").absolute() / "zinet_pgenerator/templates/CMakeListsExecutableTemplate.txt"
         
         # Fake file path
         fileLocation = Path(".").absolute() / "tests/test_files/expected_executable_cmakelists.txt"

@@ -21,9 +21,9 @@ _deps
 # Python
 __pycache__
 
-# PG
-pg.egg-info
-PGenerator/pg.egg-info/
+# Python
+*/pgenerator.egg-info
+*/pg.egg-info
 PGenerator/dist/
 
 # Visual Studio Code

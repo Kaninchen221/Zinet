@@ -1,4 +1,4 @@
-from pg import safe_dict as sd
+from zinet_pgenerator import safe_dict as sd
 
 class TestSafeDict:
     def test_inheritance(self):

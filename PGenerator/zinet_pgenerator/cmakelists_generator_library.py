@@ -1,5 +1,5 @@
-from pg.safe_dict import SafeDict
-from pg.cmakelists_generator_target import CMakeListsGeneratorTarget
+from zinet_pgenerator.safe_dict import SafeDict
+from zinet_pgenerator.cmakelists_generator_target import CMakeListsGeneratorTarget
 from pathlib import Path
 import numpy
 
@@ -7,7 +7,7 @@ class CMakeListsGeneratorLibrary(CMakeListsGeneratorTarget):
 
     def __init__(self) -> None:
         super().__init__()
-        self.templatePath = Path(".").absolute() / "pg/templates/CMakeListsLibraryTemplate.txt"
+        self.templatePath = Path(".").absolute() / "zinet_pgenerator/templates/CMakeListsLibraryTemplate.txt"
 
     def prepare_arguments(self):
         testsSubfolders = ""

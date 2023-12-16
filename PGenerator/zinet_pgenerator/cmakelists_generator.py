@@ -1,4 +1,4 @@
-from pg.safe_dict import SafeDict
+from zinet_pgenerator.safe_dict import SafeDict
 from pathlib import Path
 import os 
 

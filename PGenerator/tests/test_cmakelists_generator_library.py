@@ -1,6 +1,6 @@
-from pg.cmakelists_generator_target import CMakeListsGeneratorTarget
-from pg.cmakelists_generator_library import CMakeListsGeneratorLibrary
-from pg.safe_dict import SafeDict
+from zinet_pgenerator.cmakelists_generator_target import CMakeListsGeneratorTarget
+from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_pgenerator.safe_dict import SafeDict
 from pathlib import Path
 import pytest
 
@@ -13,7 +13,7 @@ class TestCMakeListsGeneratorLibrary():
         assert self.generatorLibrary.libraryType == "STATIC"
         assert self.generatorLibrary.shouldAddTests == "TRUE"
         assert self.generatorLibrary.testsSubfoldersPrefix == "tests_"
-        expectedTemplatePath = Path(".").absolute() / "pg/templates/CMakeListsLibraryTemplate.txt"
+        expectedTemplatePath = Path(".").absolute() / "zinet_pgenerator/templates/CMakeListsLibraryTemplate.txt"
         assert self.generatorLibrary.templatePath == expectedTemplatePath
         assert self.generatorLibrary.templatePath.exists()
 
