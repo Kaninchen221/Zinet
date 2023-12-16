@@ -1,4 +1,4 @@
-from pg.cmakelists_generator_test import CMakeListsGeneratorTest
+from zinet_pgenerator.cmakelists_generator_test import CMakeListsGeneratorTest
 
 test = CMakeListsGeneratorTest()
 test.targetName = "ZinetGraphicLayerManualTests"

@@ -1,4 +1,4 @@
-from pg.cmakelists_generator_executable import CMakeListsGeneratorExecutable
+from zinet_pgenerator.cmakelists_generator_executable import CMakeListsGeneratorExecutable
 
 entryPoint = CMakeListsGeneratorExecutable()
 entryPoint.targetName = "ZinetEntryPoint"

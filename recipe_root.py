@@ -1,4 +1,4 @@
-from pg.cmakelists_generator_root import CMakelistsGeneratorRoot
+from zinet_pgenerator.cmakelists_generator_root import CMakelistsGeneratorRoot
 
 root = CMakelistsGeneratorRoot()
 root.cmakeMinimumVersion = "3.20"
@@ -11,6 +11,6 @@ root.globalCompileOptionsForAddressSanitizer = "/fsanitize=address /RTCu /experi
 root.globalCompileDefinitions = "ZINET_WINDOWS _DISABLE_VECTOR_ANNOTATION _DISABLE_STRING_ANNOTATION"
 projectGenerator.add_generator(root)
 
-from pg.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 CMakeListsGeneratorLibrary.libraryType = "SHARED"

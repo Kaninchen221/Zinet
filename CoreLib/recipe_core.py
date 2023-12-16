@@ -1,4 +1,4 @@
-from pg.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 core = CMakeListsGeneratorLibrary()
 core.targetName = "ZinetCore"
