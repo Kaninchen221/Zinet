@@ -15,3 +15,6 @@ README is in TODO state
   + Run conan_install.bat
   + Run build.py (optional --BuildType Debug\Release)
   + The solution file will be in the build folder
+
+## FAQ
+  + If you have some problem with "conan install" step then try "conan remove --locks"
