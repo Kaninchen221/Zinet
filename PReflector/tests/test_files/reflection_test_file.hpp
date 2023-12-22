@@ -11,6 +11,7 @@
 #define ZT_REFLECT_CLASS(...)
 #define ZT_REFLECT_METHOD(...)
 #define ZT_REFLECT_MEMBER(...)
+#define ZT_REFLECT_STRUCT(...)
 
 ZT_REFLECT_NAMESPACE()
 namespace zt::engine
