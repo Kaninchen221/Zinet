@@ -13,11 +13,11 @@
 #define ZT_REFLECT_MEMBER(...)
 #define ZT_REFLECT_STRUCT(...)
 
-ZT_REFLECT_NAMESPACE()
+ZT_REFLECT_NAMESPACE(Placeholder1)
 namespace zt::engine
 {
 	// We expect that every reflected class has default, copy, move constructors, destructor and copy, move assign operators
-	ZT_REFLECT_CLASS()
+	ZT_REFLECT_CLASS(Placeholder1, Placeholder2)
 	class ZINET_ENGINE_API TextureAsset : public Asset
 	{
 		inline static auto Logger = core::ConsoleLogger::Create("TextureAsset");
@@ -28,6 +28,7 @@ namespace zt::engine
         ZT_REFLECT_STRUCT()
         struct CreateInputInfo
         {
+		    ZT_REFLECT_MEMBER(ReadOnly)
             int count;
         };
 

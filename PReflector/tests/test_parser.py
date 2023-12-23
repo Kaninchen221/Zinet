@@ -8,5 +8,6 @@ class TestParser:
         path = str(Path(".").absolute() / "test_files/reflection_test_file.hpp")
         parser = Parser()
         parser_result = parser.parse(path)
+        print("Parser result:")
         print_parser_result(parser_result)
         assert parser_result.children
