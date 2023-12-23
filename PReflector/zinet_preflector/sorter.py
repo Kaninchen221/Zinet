@@ -15,7 +15,7 @@ class Sorter:
     def _sort_internal(self, parser_result):
         for child in parser_result.children:
             if child.cursor.kind == CursorKind.MACRO_INSTANTIATION:
-                print(f"Found reflect macro: {child.cursor.displayname} at line: {child.cursor.location.line}")
+                #print(f"Found reflect macro: {child.cursor.displayname} at line: {child.cursor.location.line}")
                 self.reflection_parse_results.append(child)
             else:
                 # We are expecting that every reflection macro is targeting code that is in the next line
