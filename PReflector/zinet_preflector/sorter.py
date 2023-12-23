@@ -23,6 +23,10 @@ class Sorter:
                 for reflection_parse_result in self.reflection_parse_results:
                     if child_line == reflection_parse_result.cursor.location.line + 1:
                         child.reflection_cursor = reflection_parse_result.cursor
+                        try:
+                            child.reflection_kind = ReflectionKind(child.reflection_cursor.displayname).name
+                        except KeyError:
+                            pass
 
             self._sort_internal(child)
 
