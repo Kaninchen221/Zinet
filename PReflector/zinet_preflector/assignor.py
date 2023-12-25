@@ -5,7 +5,7 @@ from clang.cindex import CursorKind
 from zinet_preflector.parser_result import *
 
 
-class Sorter:
+class Assignor:
     def __init__(self):
         self.reflection_parse_results = []
 

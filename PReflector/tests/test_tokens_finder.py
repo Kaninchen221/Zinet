@@ -1,6 +1,6 @@
 from pathlib import Path
 from zinet_preflector.parser import *
-from zinet_preflector.sorter import *
+from zinet_preflector.assignor import *
 from zinet_preflector.tokens_finder import *
 
 
@@ -11,8 +11,8 @@ class TestTokensFinder:
         parser = Parser()
         parser_result = parser.parse(path)
 
-        sorter = Sorter()
-        sorter.sort(parser_result)
+        assignor = Assignor()
+        assignor.sort(parser_result)
 
         tokens_finder = TokensFinder()
         tokens_finder.find_tokens(parser_result)
