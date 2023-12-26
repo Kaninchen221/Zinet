@@ -64,5 +64,10 @@ namespace zt::engine
 
 		ZT_REFLECT_MEMBER(ReadWrite)
 		Texture backupTexture;
+
+	public:
+
+	    /*GENERATED_CODE_START*//*GENERATED_CODE_END*/
+
 	};
 }
