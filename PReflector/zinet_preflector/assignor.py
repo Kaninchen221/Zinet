@@ -24,7 +24,7 @@ class Assignor:
                     if child_line == reflection_parse_result.cursor.location.line + 1:
                         child.reflection_cursor = reflection_parse_result.cursor
                         try:
-                            child.reflection_kind = ReflectionKind(child.reflection_cursor.displayname).name
+                            child.reflection_kind = ReflectionKind(child.reflection_cursor.displayname)
                         except KeyError:
                             pass
 

@@ -62,5 +62,7 @@ namespace zt::engine
 		ZT_REFLECT_MEMBER(ReadOnly)
 		Texture texture;
 
+		ZT_REFLECT_MEMBER(ReadWrite)
+		Texture backupTexture;
 	};
 }

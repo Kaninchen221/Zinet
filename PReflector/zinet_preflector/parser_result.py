@@ -18,6 +18,26 @@ class ParserResult:
         self.children = []
         self.tokens = []
 
+    def get_class_name(self):
+        return self.cursor.displayname
+
+    def get_member_name(self):
+        return self.cursor.spelling
+
+    def get_member_type(self):
+        member_name = self.get_member_name()
+        return f"decltype({member_name})"
+
+    def get_member_getter_name(self):
+        member_name = self.get_member_name()
+        getter_name = member_name[0].upper() + member_name[1:]
+        return f"get{getter_name}"
+
+    def get_member_setter_name(self):
+        member_name = self.get_member_name()
+        setter_name = member_name[0].upper() + member_name[1:]
+        return f"set{setter_name}"
+
 
 def print_parser_result(parser_result):
     _print_parser_result_internal(parser_result, "")
