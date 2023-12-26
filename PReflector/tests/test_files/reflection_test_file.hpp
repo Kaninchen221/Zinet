@@ -32,8 +32,6 @@ namespace zt::engine
             int count;
         };
 
-		ZT_GENERATED_BODY()
-
 		/* It will be generated in the ZT_GENERATED_BODY()
 		TextureAsset() = default;
 		TextureAsset(const TextureAsset& other) = default;
