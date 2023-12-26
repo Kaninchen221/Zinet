@@ -65,7 +65,7 @@ namespace zt::engine
 
 	public:
 
-	    /*GENERATED_CODE_START*//*GENERATED_CODE_END*/
+/*GENERATED_CODE_START*//*GENERATED_CODE_END*/
 
 	};
 }
