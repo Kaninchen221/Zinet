@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from zinet_preflector.code_generators.code_generator_class_info import CodeGeneratorClassInfo
 from zinet_preflector.code_generators.code_generator_constructors import CodeGeneratorConstructors
 from zinet_preflector.code_generators.code_generator_getter_setter import CodeGeneratorGetterSetter
 from zinet_preflector.code_generators.code_generator_operators import CodeGeneratorOperators
@@ -29,6 +30,7 @@ class TestCodeGenerator:
         code_generator.instructions.append(CodeGeneratorConstructors())
         code_generator.instructions.append(CodeGeneratorOperators())
         code_generator.instructions.append(CodeGeneratorGetterSetter())
+        code_generator.instructions.append(CodeGeneratorClassInfo())
 
         generated_code = code_generator.generate_code(parser_result)
 
@@ -36,5 +38,5 @@ class TestCodeGenerator:
         print(generated_code)
         print_generated_code(generated_code)
 
-        expected_generated_code = ['\nTextureAsset() = default;\nTextureAsset(const TextureAsset& other) = default;\nTextureAsset(TextureAsset&& other) = default;\n\n~TextureAsset() noexcept = default;', '\nTextureAsset& operator = (const TextureAsset& other) = default;\nTextureAsset& operator = (TextureAsset&& other) = default;', '\nconst decltype(texture)& getTexture() const { return texture; }', '\nconst decltype(backupTexture)& getBackupTexture() const { return backupTexture; }\nvoid setBackupTexture(const decltype(backupTexture)& newValue) { backupTexture = newValue; }']
+        expected_generated_code = ['\nTextureAsset() = default;\nTextureAsset(const TextureAsset& other) = default;\nTextureAsset(TextureAsset&& other) = default;\n\n~TextureAsset() noexcept = default;', '\nTextureAsset& operator = (const TextureAsset& other) = default;\nTextureAsset& operator = (TextureAsset&& other) = default;', '\nconst decltype(texture)& getTexture() const { return texture; }', '\nconst decltype(backupTexture)& getBackupTexture() const { return backupTexture; }\nvoid setBackupTexture(const decltype(backupTexture)& newValue) { backupTexture = newValue; }', '\nclass ClassInfo \n{\npublic:\n    static std::string_view GetClassName() const { return "TextureAsset"; }\n};']
         assert generated_code == expected_generated_code
