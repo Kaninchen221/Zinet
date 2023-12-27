@@ -13,7 +13,7 @@ from zinet_preflector.code_generator import *
 class TestCodeInjector:
 
     def test_inject_code(self):
-        path = str(Path(".").absolute() / "test_files/reflection_test_file.hpp")
+        path = str(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp")
         parser = Parser()
         parser_result = parser.parse(path)
 
@@ -41,7 +41,8 @@ class TestCodeInjector:
         code_injector.inject_code(path, generated_code)
 
         file = open(path, 'r')
-        expected_file_path = str(Path(".").absolute() / "test_files/reflection_test_file_expected.hpp")
+        expected_file_path = str(Path(".").absolute() /
+                                 "test_files/include/zinet/lib_name/reflection_test_file_expected.hpp")
         expected_file = open(expected_file_path, 'r')
         file_content = file.read()
         expected_file_content = expected_file.read()

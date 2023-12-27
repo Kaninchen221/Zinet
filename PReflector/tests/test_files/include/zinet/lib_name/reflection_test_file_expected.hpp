@@ -1,17 +1,9 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "zinet/lib_name/macros.hpp"
 #include "Zinet/Engine/Assets/ZtAsset.h"
 
 #include "Zinet/Core/ZtLogger.h"
-
-#define ZINET_ENGINE_API
-#define ZT_GENERATED_BODY(...)
-#define ZT_REFLECT_NAMESPACE(...)
-#define ZT_REFLECT_CLASS(...)
-#define ZT_REFLECT_METHOD(...)
-#define ZT_REFLECT_MEMBER(...)
-#define ZT_REFLECT_STRUCT(...)
 
 ZT_REFLECT_NAMESPACE(Placeholder1)
 namespace zt::engine
@@ -65,7 +57,18 @@ namespace zt::engine
 
 	public:
 
-/*GENERATED_CODE_START*//*GENERATED_CODE_END*/
+/*GENERATED_CODE_START*/
+TextureAsset() = default;
+TextureAsset(const TextureAsset& other) = default;
+TextureAsset(TextureAsset&& other) = default;
+
+~TextureAsset() noexcept = default;
+TextureAsset& operator = (const TextureAsset& other) = default;
+TextureAsset& operator = (TextureAsset&& other) = default;
+const decltype(texture)& getTexture() const { return texture; }
+const decltype(backupTexture)& getBackupTexture() const { return backupTexture; }
+void setBackupTexture(const decltype(backupTexture)& newValue) { backupTexture = newValue; }
+/*GENERATED_CODE_END*/
 
 	};
 }

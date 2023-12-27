@@ -13,7 +13,7 @@ from zinet_preflector.code_generator import *
 class TestCodeGenerator:
 
     def test_generate_code(self):
-        path = str(Path(".").absolute() / "test_files/reflection_test_file.hpp")
+        path = str(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp")
         parser = Parser()
         parser_result = parser.parse(path)
 
