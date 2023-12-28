@@ -14,8 +14,6 @@ class Parser:
         args = self.get_args(raw_path)
         cindex_parser_result = parser.parse(raw_path, args, unsaved_files=None, options=options)
 
-        print("")  # For pytest
-
         # Handling parse error
         # if parse_result.diagnostics:
         # print("Diagnostics in parse_result is not empty")

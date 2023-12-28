@@ -42,7 +42,7 @@ class TestCodeInjector:
 
         file = open(path, 'r')
         expected_file_path = str(Path(".").absolute() /
-                                 "test_files/include/zinet/lib_name/reflection_test_file_expected.hpp")
+                                 "test_files/include/zinet/lib_name/reflection_test_file_expected.h")
         expected_file = open(expected_file_path, 'r')
         file_content = file.read()
         expected_file_content = expected_file.read()

@@ -63,11 +63,20 @@ TextureAsset(const TextureAsset& other) = default;
 TextureAsset(TextureAsset&& other) = default;
 
 ~TextureAsset() noexcept = default;
+
 TextureAsset& operator = (const TextureAsset& other) = default;
 TextureAsset& operator = (TextureAsset&& other) = default;
+
 const decltype(texture)& getTexture() const { return texture; }
+
 const decltype(backupTexture)& getBackupTexture() const { return backupTexture; }
 void setBackupTexture(const decltype(backupTexture)& newValue) { backupTexture = newValue; }
+
+class ClassInfo 
+{
+public:
+    static std::string_view GetClassName() const { return "TextureAsset"; }
+};
 /*GENERATED_CODE_END*/
 
 	};
