@@ -47,3 +47,31 @@ class TestCodeInjector:
         file_content = file.read()
         expected_file_content = expected_file.read()
         assert file_content == expected_file_content
+
+    def test_inject_code_file_without_injection_tokens(self):
+        path = str(Path(".").absolute()
+                   / "test_files/include/zinet/lib_name/reflection_test_file_without_injection_tokens.hpp")
+        parser = Parser()
+        parser_result = parser.parse(path)
+
+        assignor = Assignor()
+        assignor.sort(parser_result)
+
+        tokens_finder = TokensFinder()
+        tokens_finder.find_tokens(parser_result)
+
+        code_generator = CodeGenerator()
+        code_generator.instructions.append(CodeGeneratorConstructors())
+        code_generator.instructions.append(CodeGeneratorOperators())
+        code_generator.instructions.append(CodeGeneratorGetterSetter())
+
+        generated_code = code_generator.generate_code(parser_result)
+
+        code_injector = CodeInjector()
+        try:
+            code_injector.inject_code(path, generated_code)
+        except ValueError:
+            print("File hasn't injection tokens (Good)")
+        else:
+            # inject_code must return exception
+            assert False
