@@ -24,7 +24,7 @@ Asset(Asset&& other) = default;
 Asset& operator = (const Asset& other) = default;
 Asset& operator = (Asset&& other) = default;
 
-class ClassInfo
+class ClassInfo 
 {
 public:
     static std::string_view GetClassName() const { return "Asset"; }
