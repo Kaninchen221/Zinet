@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_executable import CMakeListsGeneratorExecutable
+from zinet_generator.cmakelists_generator_executable import CMakeListsGeneratorExecutable
 
 entryPoint = CMakeListsGeneratorExecutable()
 entryPoint.targetName = "ZinetEntryPoint"
@@ -11,4 +11,4 @@ entryPoint.includeDirectories = """
 entryPoint.linkLibraries = """
     ZinetGraphicLayer
     """
-projectGenerator.add_generator(entryPoint)
+project_generator.add_generator(entryPoint)

@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_generator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 lib = CMakeListsGeneratorLibrary()
 lib.targetName = "ImGui"
@@ -14,4 +14,4 @@ lib.linkLibraries = """
     ${CONAN_LIBS_GLFW}
     ${Vulkan_LIBRARIES}
     """
-projectGenerator.add_generator(lib)
+project_generator.add_generator(lib)

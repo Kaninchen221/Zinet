@@ -1,4 +1,5 @@
 @echo off
 
-cd PGenerator
-python -m pg --AddressSanitizer true
+cd Tools
+python -m zinet_generator --AddressSanitizer true
+cd ..

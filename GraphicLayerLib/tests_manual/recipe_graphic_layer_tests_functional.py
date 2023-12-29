@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_test import CMakeListsGeneratorTest
+from zinet_generator.cmakelists_generator_test import CMakeListsGeneratorTest
 
 test = CMakeListsGeneratorTest()
 test.targetName = "ZinetGraphicLayerManualTests"
@@ -14,4 +14,4 @@ test.linkLibraries =  """
     ZinetGraphicLayer
     ${CONAN_LIBS_GTEST}
     """
-projectGenerator.add_generator(test)
+project_generator.add_generator(test)

@@ -1,3 +1,3 @@
 @echo off
 
-Tools\build_install.bat
+Tools\install.bat

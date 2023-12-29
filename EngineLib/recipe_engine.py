@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_generator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 core = CMakeListsGeneratorLibrary()
 core.targetName = "ZinetEngine"
@@ -18,4 +18,4 @@ core.linkLibraries = """
     ${CONAN_LIBS_SPDLOG}
     ${CONAN_LIBS_FMT}
     """
-projectGenerator.add_generator(core)
+project_generator.add_generator(core)

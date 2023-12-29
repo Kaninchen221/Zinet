@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_generator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 graphicLayer = CMakeListsGeneratorLibrary()
 graphicLayer.targetName = "ZinetGraphicLayer"
@@ -30,4 +30,4 @@ graphicLayer.linkLibraries = """
     ${CONAN_LIBS_SPIRV-TOOLS}
     ${CONAN_LIBS_SPIRV-HEADERS}
     """
-projectGenerator.add_generator(graphicLayer)
+project_generator.add_generator(graphicLayer)
