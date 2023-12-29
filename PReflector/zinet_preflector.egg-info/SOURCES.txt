@@ -1,9 +1,0 @@
-zinet_preflector/__init__.py
-zinet_preflector/__main__.py
-zinet_preflector/placeholder.py
-zinet_preflector/setup.py
-zinet_preflector.egg-info/PKG-INFO
-zinet_preflector.egg-info/SOURCES.txt
-zinet_preflector.egg-info/dependency_links.txt
-zinet_preflector.egg-info/requires.txt
-zinet_preflector.egg-info/top_level.txt

@@ -20,11 +20,11 @@ _deps
 
 # Python
 __pycache__
+*/*.egg
 
-# Python
-*/pgenerator.egg-info
-*/pg.egg-info
-PGenerator/dist/
+# Tools
+Tools/zinet_generator/generator.egg-info
+Tools/zinet_reflector/reflector.egg-info
 
 # Visual Studio Code
 .vscode
