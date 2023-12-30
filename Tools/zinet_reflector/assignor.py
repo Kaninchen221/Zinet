@@ -24,6 +24,8 @@ class Assignor:
                             child.reflection_kind = ReflectionKind(child.reflection_cursor.displayname)
                         except KeyError:
                             pass
+                        except ValueError:
+                            pass
 
             self._sort_internal(child)
 

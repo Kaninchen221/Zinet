@@ -30,6 +30,7 @@ class Menu:
                 self.__menuItems = [
                         FunctionItem("Generate Project Files Address Sanitizer Off", self.run_script, ["generate_project_files_AddressSanitizerOff.bat"]),
                         FunctionItem("Generate Project Files Address Sanitizer On", self.run_script, ["generate_project_files_AddressSanitizerOn.bat"]),
+                        FunctionItem("Generate Reflection", self.run_script, ["generate_reflection.bat"]),
                         FunctionItem("Conan Install Debug", self.run_script, ["conan_install.py", "--BuildType Debug"]),
                         FunctionItem("Conan Install Release", self.run_script, ["conan_install.py", "--BuildType Release"]),
                         FunctionItem("Build Project Debug", self.run_script, ["build.py", "--BuildType Debug"]),

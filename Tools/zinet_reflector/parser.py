@@ -9,6 +9,7 @@ class Parser:
         self._ignored_cursor_kinds = [CursorKind.MACRO_DEFINITION, CursorKind.INCLUSION_DIRECTIVE]
 
     def parse(self, raw_path):
+        print(f"Parse file: {raw_path}")
         parser = clang.cindex.Index.create()
         options = self.get_options()
         args = self.get_args(raw_path)
@@ -31,6 +32,9 @@ class Parser:
 
     def _parse_internal(self, parent_parser_result):
         for child_cursor in parent_parser_result.cursor.get_children():
+            if not child_cursor.displayname:
+                continue
+
             if child_cursor.kind in self._ignored_cursor_kinds:
                 continue
 
