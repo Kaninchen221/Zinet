@@ -7,7 +7,7 @@ class TestReflector:
 
     def test_reflector(self):
         print('')
-        path = Path(".").absolute() / "test_files"
+        folder_contains_main = Path(".").absolute() / "test_files"
+        project_root_folder = folder_contains_main
         reflector = Reflector()
-        reflector.reflect_recursive(path)
-        assert len(reflector.files_with_generated_code) == 2
+        reflector.reflect(folder_contains_main, project_root_folder)

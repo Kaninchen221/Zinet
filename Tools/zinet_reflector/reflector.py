@@ -15,47 +15,44 @@ from zinet_reflector.code_generators.code_generator_operators import CodeGenerat
 
 class Reflector:
     def __init__(self):
-        self.extension_suffix = ".hpp"
-        self.found_files_paths = []
-        self.files_with_generated_code = []
+        self.main_name = "main.cpp"
+        self.found_file_path = ""
 
-    def reflect_recursive(self, path):
-        print(f"Generate reflection recursive for files under path: {path}")
-        self._find_files_for_reflection(path)
-        self._reflect_recursive_internal()
+    def reflect(self, folder_contains_main_file, project_root_folder):
+        print(f"Find {self.main_name} under path: {folder_contains_main_file}")
+        self._find_file_for_reflection(folder_contains_main_file)
+        print(f"Found at: {self.found_file_path}")
+        self._reflect_internal(project_root_folder)
 
-    def _find_files_for_reflection(self, path):
+    def _find_file_for_reflection(self, path):
         for root, dirs, files in os.walk(path):
             for file in files:
-                file_path = Path(root + '/' + file)
-                if file_path.suffix == self.extension_suffix:
-                    self.found_files_paths.append(file_path)
+                if file == self.main_name:
+                    self.found_file_path = root + '/' + file
 
-    def _reflect_recursive_internal(self):
-        print("Reflect files:")
-        for file_path in self.found_files_paths:
-            raw_file_path = str(file_path)
-            parser = Parser()
-            parse_result = parser.parse(raw_file_path)
+    def _reflect_internal(self, project_root_folder):
+        raw_file_path = str(self.found_file_path)
+        parser = Parser()
+        parse_result = parser.parse(raw_file_path, project_root_folder)
 
-            assignor = Assignor()
-            assignor.sort(parse_result)
+        assignor = Assignor()
+        #assignor.sort(parse_result)
 
-            tokens_finder = TokensFinder()
-            tokens_finder.find_tokens(parse_result)
+        #tokens_finder = TokensFinder()
+        #tokens_finder.find_tokens(parse_result)
 
-            code_generator = CodeGenerator()
-            code_generator.instructions.append(CodeGeneratorConstructors())
-            code_generator.instructions.append(CodeGeneratorOperators())
-            code_generator.instructions.append(CodeGeneratorGetterSetter())
-            code_generator.instructions.append(CodeGeneratorClassInfo())
+        #code_generator = CodeGenerator()
+        #code_generator.instructions.append(CodeGeneratorConstructors())
+        #code_generator.instructions.append(CodeGeneratorOperators())
+        #code_generator.instructions.append(CodeGeneratorGetterSetter())
+        #code_generator.instructions.append(CodeGeneratorClassInfo())
 
-            generated_code = code_generator.generate_code(parse_result)
+        #generated_code = code_generator.generate_code(parse_result)
 
-            code_injector = CodeInjector()
-            try:
-                code_injector.inject_code(file_path, generated_code)
-                self.files_with_generated_code.append(file_path)
-                print("Reflected file: ", file_path)
-            except ValueError:
-                print("Ignored file: ", file_path)
+        #code_injector = CodeInjector()
+        #try:
+            #code_injector.inject_code(file_path, generated_code)
+            #self.files_with_generated_code.append(file_path)
+            #print("Reflected file: ", file_path)
+        #except ValueError:
+            #print("Ignored file: ", file_path)

@@ -1,3 +1,5 @@
+import os
+
 import clang.cindex
 from zinet_reflector.parser_result import *
 from pathlib import Path
@@ -7,12 +9,14 @@ class Parser:
     def __init__(self):
         self.root_cursor = {}
         self._ignored_cursor_kinds = [CursorKind.MACRO_DEFINITION, CursorKind.INCLUSION_DIRECTIVE]
+        self._include_paths = []
+        self._include_folder_name = "include"
 
-    def parse(self, raw_path):
+    def parse(self, raw_path, project_root_folder):
         print(f"Parse file: {raw_path}")
         parser = clang.cindex.Index.create()
         options = self.get_options()
-        args = self.get_args(raw_path)
+        args = self._get_args(project_root_folder)
         cindex_parser_result = parser.parse(raw_path, args, unsaved_files=None, options=options)
 
         # Handling parse error
@@ -52,13 +56,20 @@ class Parser:
                 clang.cindex.TranslationUnit.PARSE_SKIP_FUNCTION_BODIES +
                 clang.cindex.TranslationUnit.PARSE_INCLUDE_BRIEF_COMMENTS_IN_CODE_COMPLETION)
 
-    @staticmethod
-    def get_args(path):
+    def _get_args(self, project_root_folder):
         args = []
-        path = Path(path)
-        for parent_path in path.parents:
-            if parent_path.name == "include":
-                include_path_arg = f"-I{parent_path}"
-                args.append(include_path_arg)
-                break
+
+        include_path_arg = self._get_include_path_arg(project_root_folder)
+        args.append(include_path_arg)
+
         return args
+
+    def _get_include_path_arg(self, project_root_folder):
+        for root, dir_names, files in os.walk(project_root_folder):
+            for dir_name in dir_names:
+                dir_absolute_path = root + '\\' + dir_name
+                if dir_absolute_path not in self._include_paths:
+                    if dir_name == self._include_folder_name:
+                        print(f"Found include dir: {dir_absolute_path}")
+                        self._include_paths.append(dir_absolute_path)
+        return f"-I{' '.join(self._include_paths)}"
