@@ -10,9 +10,13 @@ class CodeInjector:
         for file_path, code in generated_code.items():
             with (open(file_path, 'r+') as file):
                 file_content = file.read()
-                inject_code_start_index = (file_content.index(self.token_inject_code_start)
-                                           + len(self.token_inject_code_start))
-                inject_code_end_index = file_content.index(self.token_inject_code_end)
+                try:
+                    inject_code_start_index = (file_content.index(self.token_inject_code_start)
+                                               + len(self.token_inject_code_start))
+                    inject_code_end_index = file_content.index(self.token_inject_code_end)
+                except ValueError:
+                    print(f"Ignore {file_path} It hasn't injection tokens")
+                    continue
 
             with (open(file_path, 'w') as file):
                 print(f"Inject code into: {file_path}")

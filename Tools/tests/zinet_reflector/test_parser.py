@@ -6,9 +6,10 @@ class TestParser:
 
     def test_parser(self):
         print('')
-        path = str(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp")
+        project_root_folder = Path(".").absolute() / "test_files"
+        path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
         parser = Parser()
-        parser_result = parser.parse(path)
+        parse_result = parser.parse(path_to_main, project_root_folder)
         print("Parser result:")
-        print_parser_result(parser_result)
-        assert parser_result.children
+        print_parser_result(parse_result)
+        assert parse_result.children

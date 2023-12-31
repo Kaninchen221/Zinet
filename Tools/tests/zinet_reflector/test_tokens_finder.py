@@ -7,15 +7,16 @@ from zinet_reflector.tokens_finder import *
 class TestTokensFinder:
 
     def test_sorter(self):
-        path = str(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp")
+        project_root_folder = Path(".").absolute() / "test_files"
+        path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
         parser = Parser()
-        parser_result = parser.parse(path)
+        parse_result = parser.parse(path_to_main, project_root_folder)
 
         assignor = Assignor()
-        assignor.sort(parser_result)
+        assignor.assign(parse_result)
 
         tokens_finder = TokensFinder()
-        tokens_finder.find_tokens(parser_result)
+        tokens_finder.find_tokens(parse_result)
 
         print("Parse result after tokens finder find tokens:")
-        print_parser_result(parser_result)
+        print_parser_result(parse_result)

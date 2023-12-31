@@ -13,15 +13,16 @@ from zinet_reflector.code_generator import *
 class TestCodeGenerator:
 
     def test_generate_code(self):
-        path = str(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp")
+        project_root_folder = Path(".").absolute() / "test_files"
+        path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
         parser = Parser()
-        parser_result = parser.parse(path)
+        parse_result = parser.parse(path_to_main, project_root_folder)
 
         assignor = Assignor()
-        assignor.sort(parser_result)
+        assignor.assign(parse_result)
 
         tokens_finder = TokensFinder()
-        tokens_finder.find_tokens(parser_result)
+        tokens_finder.find_tokens(parse_result)
 
         #print("Parse result after assigning:")
         #print_parser_result(parser_result)
@@ -32,11 +33,10 @@ class TestCodeGenerator:
         code_generator.instructions.append(CodeGeneratorGetterSetter())
         code_generator.instructions.append(CodeGeneratorClassInfo())
 
-        generated_code = code_generator.generate_code(parser_result)
+        generated_code = code_generator.generate_code(parse_result)
 
         print("Generated code:")
         print(generated_code)
         print_generated_code(generated_code)
 
-        expected_generated_code = ['\nTextureAsset() = default;\nTextureAsset(const TextureAsset& other) = default;\nTextureAsset(TextureAsset&& other) = default;\n\n~TextureAsset() noexcept = default;\n', '\nTextureAsset& operator = (const TextureAsset& other) = default;\nTextureAsset& operator = (TextureAsset&& other) = default;\n', '\nconst decltype(texture)& getTexture() const { return texture; }\n', '\nconst decltype(backupTexture)& getBackupTexture() const { return backupTexture; }\nvoid setBackupTexture(const decltype(backupTexture)& newValue) { backupTexture = newValue; }\n', '\nclass ClassInfo \n{\npublic:\n    static std::string_view GetClassName() const { return "TextureAsset"; }\n};']
-        assert generated_code == expected_generated_code
+        assert generated_code

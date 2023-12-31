@@ -15,6 +15,15 @@ namespace zt::engine
 		int count;
 
 /*GENERATED_CODE_START*/
+Asset() = default;
+Asset(const Asset& other) = default;
+Asset(Asset&& other) = default;
+
+~Asset() noexcept = default;
+
+Asset& operator = (const Asset& other) = default;
+Asset& operator = (Asset&& other) = default;
+
 /*GENERATED_CODE_END*/
 
 	};

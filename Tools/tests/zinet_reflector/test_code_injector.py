@@ -13,15 +13,16 @@ from zinet_reflector.code_generator import *
 class TestCodeInjector:
 
     def test_inject_code(self):
-        path = str(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp")
+        project_root_folder = Path(".").absolute() / "test_files"
+        path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
         parser = Parser()
-        parser_result = parser.parse(path)
+        parse_result = parser.parse(path_to_main, project_root_folder)
 
         assignor = Assignor()
-        assignor.sort(parser_result)
+        assignor.assign(parse_result)
 
         tokens_finder = TokensFinder()
-        tokens_finder.find_tokens(parser_result)
+        tokens_finder.find_tokens(parse_result)
 
         #print("Parse result after assigning:")
         #print_parser_result(parser_result)
@@ -31,47 +32,19 @@ class TestCodeInjector:
         code_generator.instructions.append(CodeGeneratorOperators())
         code_generator.instructions.append(CodeGeneratorGetterSetter())
 
-        generated_code = code_generator.generate_code(parser_result)
+        generated_code = code_generator.generate_code(parse_result)
 
         #print("Generated code:")
         #print(generated_code)
         #print_generated_code(generated_code)
 
         code_injector = CodeInjector()
-        code_injector.inject_code(path, generated_code)
+        code_injector.inject_code(generated_code)
 
-        file = open(path, 'r')
+        file = open(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp", 'r')
         expected_file_path = str(Path(".").absolute() /
                                  "test_files/include/zinet/lib_name/reflection_test_file_expected.h")
         expected_file = open(expected_file_path, 'r')
         file_content = file.read()
         expected_file_content = expected_file.read()
         assert file_content == expected_file_content
-
-    def test_inject_code_file_without_injection_tokens(self):
-        path = str(Path(".").absolute()
-                   / "test_files/include/zinet/lib_name/reflection_test_file_without_injection_tokens.hpp")
-        parser = Parser()
-        parser_result = parser.parse(path)
-
-        assignor = Assignor()
-        assignor.sort(parser_result)
-
-        tokens_finder = TokensFinder()
-        tokens_finder.find_tokens(parser_result)
-
-        code_generator = CodeGenerator()
-        code_generator.instructions.append(CodeGeneratorConstructors())
-        code_generator.instructions.append(CodeGeneratorOperators())
-        code_generator.instructions.append(CodeGeneratorGetterSetter())
-
-        generated_code = code_generator.generate_code(parser_result)
-
-        code_injector = CodeInjector()
-        try:
-            code_injector.inject_code(path, generated_code)
-        except ValueError:
-            print("File hasn't injection tokens (Good)")
-        else:
-            # inject_code must return exception
-            assert False

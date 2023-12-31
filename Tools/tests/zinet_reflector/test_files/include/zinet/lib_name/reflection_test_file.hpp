@@ -58,6 +58,20 @@ namespace zt::engine
 	public:
 
 /*GENERATED_CODE_START*/
+TextureAsset() = default;
+TextureAsset(const TextureAsset& other) = default;
+TextureAsset(TextureAsset&& other) = default;
+
+~TextureAsset() noexcept = default;
+
+TextureAsset& operator = (const TextureAsset& other) = default;
+TextureAsset& operator = (TextureAsset&& other) = default;
+
+const decltype(texture)& getTexture() const { return texture; }
+
+const decltype(backupTexture)& getBackupTexture() const { return backupTexture; }
+void setBackupTexture(const decltype(backupTexture)& newValue) { backupTexture = newValue; }
+
 /*GENERATED_CODE_END*/
 
 	};
