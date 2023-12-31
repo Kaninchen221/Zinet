@@ -3,8 +3,8 @@ import os
 from zinet_reflector.assignor import Assignor
 from zinet_reflector.code_generator import CodeGenerator, print_generated_code
 from zinet_reflector.code_generators.code_generator_class_info import CodeGeneratorClassInfo
+from zinet_reflector.code_injector import CodeInjector
 from zinet_reflector.parser import Parser
-from zinet_reflector.parser_result import print_parser_result
 from zinet_reflector.tokens_finder import TokensFinder
 
 from zinet_reflector.code_generators.code_generator_constructors import CodeGeneratorConstructors
@@ -49,12 +49,7 @@ class Reflector:
         code_generator.instructions.append(CodeGeneratorClassInfo())
 
         generated_code = code_generator.generate_code(parse_result)
-        print_generated_code(generated_code)
+        #print_generated_code(generated_code)
 
-        #code_injector = CodeInjector()
-        #try:
-            #code_injector.inject_code(file_path, generated_code)
-            #self.files_with_generated_code.append(file_path)
-            #print("Reflected file: ", file_path)
-        #except ValueError:
-            #print("Ignored file: ", file_path)
+        code_injector = CodeInjector()
+        code_injector.inject_code(generated_code)
