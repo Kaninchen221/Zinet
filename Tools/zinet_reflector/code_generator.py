@@ -18,26 +18,28 @@ class CodeGenerator:
         self.instructions = []
 
     def generate_code(self, parser_result):
-        generated_code = []
+        generated_code = {}
         self._generate_code_internal(parser_result, generated_code)
-        self._generate_code_post(parser_result, generated_code)
         return generated_code
 
     def _generate_code_internal(self, parser_result, generated_code):
         for child_parser_result in parser_result.children:
             for instruction in self.instructions:
                 instruction_generated_code = instruction.generate_code(child_parser_result)
-                if instruction_generated_code:
-                    generated_code.append(instruction_generated_code)
-            self._generate_code_internal(child_parser_result, generated_code)
+                if not instruction_generated_code:
+                    continue
 
-    def _generate_code_post(self, parser_result, generated_code):
-        for instruction in self.instructions:
-            instruction_generated_code = instruction.generate_code_post()
-            if instruction_generated_code:
-                generated_code.append(instruction_generated_code)
+                key = parser_result.cursor.location.file.name
+                if key not in generated_code:
+                    generated_code[key] = []
+                generated_code[key].append(instruction_generated_code)
+
+            self._generate_code_internal(child_parser_result, generated_code)
 
 
 def print_generated_code(generated_code):
-    for code in generated_code:
-        print(code)
+    print("Generated code:")
+    for file_name, generated_code_strings in generated_code.items():
+        print(f"{file_name}:")
+        for generated_code_str in generated_code_strings:
+            print(f"{generated_code_str}")

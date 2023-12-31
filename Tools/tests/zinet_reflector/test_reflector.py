@@ -1,4 +1,3 @@
-from pathlib import Path
 from zinet_reflector.parser import *
 from zinet_reflector.reflector import Reflector
 

@@ -59,12 +59,13 @@ class Parser:
     def _get_args(self, project_root_folder):
         args = []
 
-        include_path_arg = self._get_include_path_arg(project_root_folder)
-        args.append(include_path_arg)
+        include_path_args = self._get_include_path_args(project_root_folder)
+        args = args + include_path_args
 
         return args
 
-    def _get_include_path_arg(self, project_root_folder):
+    def _get_include_path_args(self, project_root_folder):
+        result = []
         for root, dir_names, files in os.walk(project_root_folder):
             for dir_name in dir_names:
                 dir_absolute_path = root + '\\' + dir_name
@@ -72,4 +73,5 @@ class Parser:
                     if dir_name == self._include_folder_name:
                         print(f"Found include dir: {dir_absolute_path}")
                         self._include_paths.append(dir_absolute_path)
-        return f"-I{' '.join(self._include_paths)}"
+                        result.append(f"-I{dir_absolute_path}")
+        return result
