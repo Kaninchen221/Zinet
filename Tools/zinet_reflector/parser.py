@@ -59,8 +59,10 @@ class Parser:
     def _get_args(self, project_root_folder):
         args = []
 
-        include_path_args = self._get_include_path_args(project_root_folder)
-        args = args + include_path_args
+        #include_path_args = self._get_include_path_args(project_root_folder)
+        #args = args + include_path_args
+
+        args = args + "-nostdinc++"
 
         return args
 
@@ -71,7 +73,7 @@ class Parser:
                 dir_absolute_path = root + '\\' + dir_name
                 if dir_absolute_path not in self._include_paths:
                     if dir_name == self._include_folder_name:
-                        print(f"Found include dir: {dir_absolute_path}")
+                        # print(f"Found include dir: {dir_absolute_path}")
                         self._include_paths.append(dir_absolute_path)
                         result.append(f"-I{dir_absolute_path}")
         return result
