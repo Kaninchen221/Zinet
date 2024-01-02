@@ -25,11 +25,9 @@ class Reflector:
         self.main_name = "main.cpp"
         self.found_file_paths = []
 
-    def reflect(self, folder_contains_main_file, project_root_folder):
-        print(f"Find {self.main_name} under path: {folder_contains_main_file}")
-        self.found_file_paths = self._find_file_for_reflection(folder_contains_main_file)
-        print(f"Found at: {self.found_file_paths}")
-        self._reflect_files_internal([self.found_file_paths], project_root_folder)
+    def reflect(self, main_file_path, project_root_folder):
+        print(f"Main file path: {main_file_path}")
+        self._reflect_files_internal([main_file_path], project_root_folder)
 
     def _find_file_for_reflection(self, path):
         for root, dirs, files in os.walk(path):

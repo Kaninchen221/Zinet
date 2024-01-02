@@ -59,10 +59,11 @@ class Parser:
     def _get_args(self, project_root_folder):
         args = []
 
-        #include_path_args = self._get_include_path_args(project_root_folder)
-        #args = args + include_path_args
+        if project_root_folder:
+            include_path_args = self._get_include_path_args(project_root_folder)
+            args = args + include_path_args
 
-        args = args + "-nostdinc++"
+        args.append("-nostdinc++")
 
         return args
 
