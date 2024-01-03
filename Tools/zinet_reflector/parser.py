@@ -12,11 +12,11 @@ class Parser:
         self._include_paths = []
         self._include_folder_name = "include"
 
-    def parse(self, raw_path, project_root_folder):
+    def parse(self, raw_path):
         print(f"Parse file: {raw_path}")
         parser = clang.cindex.Index.create()
         options = self.get_options()
-        args = self._get_args(project_root_folder)
+        args = self._get_args()
         cindex_parser_result = parser.parse(raw_path, args, unsaved_files=None, options=options)
 
         # Handling parse error
@@ -56,12 +56,9 @@ class Parser:
                 clang.cindex.TranslationUnit.PARSE_SKIP_FUNCTION_BODIES +
                 clang.cindex.TranslationUnit.PARSE_INCLUDE_BRIEF_COMMENTS_IN_CODE_COMPLETION)
 
-    def _get_args(self, project_root_folder):
+    @staticmethod
+    def _get_args():
         args = []
-
-        if project_root_folder:
-            include_path_args = self._get_include_path_args(project_root_folder)
-            args = args + include_path_args
 
         args.append("-nostdinc++")
 

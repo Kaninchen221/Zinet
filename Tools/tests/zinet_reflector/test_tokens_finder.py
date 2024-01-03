@@ -7,10 +7,9 @@ from zinet_reflector.tokens_finder import *
 class TestTokensFinder:
 
     def test_sorter(self):
-        project_root_folder = Path(".").absolute() / "test_files"
         path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
         parser = Parser()
-        parse_result = parser.parse(path_to_main, project_root_folder)
+        parse_result = parser.parse(path_to_main)
 
         assignor = Assignor()
         assignor.assign(parse_result)

@@ -15,7 +15,7 @@ class CodeInjector:
                                                + len(self.token_inject_code_start))
                     inject_code_end_index = file_content.index(self.token_inject_code_end)
                 except ValueError:
-                    print(f"Ignore {file_path} It hasn't injection tokens")
+                    #print(f"Ignore {file_path} It hasn't injection tokens")
                     continue
 
             with (open(file_path, 'w') as file):

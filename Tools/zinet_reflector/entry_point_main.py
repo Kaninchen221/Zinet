@@ -7,21 +7,21 @@ class EntryPointMain:
         self._headers_postfix = '.hpp'
         self.main_file_path = ""
 
-    def create_main(self, project_root_folder_path, entry_point_main_folder_path, include_absolute_paths):
+    def create_main(self, project_root_folder_path, folder_for_temp_main, include_paths):
         print(f"Find include paths under folder: {project_root_folder_path}")
-        print(f"Create main.cpp in folder: {entry_point_main_folder_path}")
-        print(f"Include paths: {include_absolute_paths}")
+        print(f"Create main.cpp in folder: {folder_for_temp_main}")
+        print(f"Include paths: {include_paths}")
 
-        headers = self._find_headers(project_root_folder_path)
-        print(f"Found headers: {headers}")
+        headers = self._find_headers(include_paths)
+        print(f"Found headers count: {len(headers)}")
 
         headers_as_string = self._headers_to_string(headers)
-        print(f"Headers as string: \n{headers_as_string}")
+        #print(f"Headers as string: \n{headers_as_string}")
 
         main_file_content = self._create_main_file_string(headers_as_string)
-        print(f"Generated main file content: \n{main_file_content}")
+        #print(f"Generated main file content: \n{main_file_content}")
 
-        self._create_main_file(main_file_content, entry_point_main_folder_path)
+        self._create_main_file(main_file_content, folder_for_temp_main)
 
     def _find_headers(self, folder_path):
         found_file_paths = []
@@ -42,7 +42,7 @@ class EntryPointMain:
     def _create_main_file_string(cls, headers_as_string):
         return f"{headers_as_string} \nint main() {{ return 0; }}"
 
-    def _create_main_file(self, main_file_content, entry_point_main_folder_path):
-        self.main_file_path = entry_point_main_folder_path / "main.temp.cpp"
+    def _create_main_file(self, main_file_content, folder_for_temp_main):
+        self.main_file_path = folder_for_temp_main / "main.temp.cpp"
         with (open(self.main_file_path, 'w') as file):
             file.write(main_file_content)

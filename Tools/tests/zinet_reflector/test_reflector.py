@@ -6,7 +6,9 @@ class TestReflector:
 
     def test_reflector(self):
         print('')
-        folder_contains_main = Path(".").absolute() / "test_files"
-        project_root_folder = folder_contains_main
+        project_root_folder_path = Path(".").absolute() / "test_files"
+        folder_for_temp_main = Path(".").absolute() / "test_files/main"
+        Reflector.libclang_dll_path = Path(".").absolute().parent.parent / "libclang.dll"
         reflector = Reflector()
-        reflector.reflect(folder_contains_main, project_root_folder)
+        #reflector.load_lib_clang_dll()
+        reflector.reflect(project_root_folder_path, folder_for_temp_main)

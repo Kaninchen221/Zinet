@@ -14,9 +14,9 @@ class TestCodeGenerator:
 
     def test_generate_code(self):
         project_root_folder = Path(".").absolute() / "test_files"
-        path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
+        path = Path(".").absolute() / r"test_files\include\zinet\lib_name\reflection_test_file_with_macros.hpp"
         parser = Parser()
-        parse_result = parser.parse(path_to_main, project_root_folder)
+        parse_result = parser.parse(path)
 
         assignor = Assignor()
         assignor.assign(parse_result)
@@ -25,7 +25,7 @@ class TestCodeGenerator:
         tokens_finder.find_tokens(parse_result)
 
         #print("Parse result after assigning:")
-        #print_parser_result(parser_result)
+        print_parser_result(parse_result)
 
         code_generator = CodeGenerator()
         code_generator.instructions.append(CodeGeneratorConstructors())

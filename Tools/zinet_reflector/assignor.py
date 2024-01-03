@@ -6,9 +6,11 @@ from zinet_reflector.parser_result import *
 class Assignor:
     def __init__(self):
         self.reflection_parse_results = []
+        self._assigned_reflections = 0
 
     def assign(self, parser_result):
         self._assign_internal(parser_result)
+        print(f"Assigned reflections: {self._assigned_reflections}")
 
     def _assign_internal(self, parser_result):
         for child in parser_result.children:
@@ -28,5 +30,7 @@ class Assignor:
                             pass
                         except ValueError:
                             pass
+                        else:
+                            self._assigned_reflections += 1
 
             self._assign_internal(child)
