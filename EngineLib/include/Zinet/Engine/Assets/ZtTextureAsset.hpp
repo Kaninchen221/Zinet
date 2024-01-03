@@ -36,20 +36,24 @@ TextureAsset(TextureAsset&& other) = default;
 TextureAsset& operator = (const TextureAsset& other) = default;
 TextureAsset& operator = (TextureAsset&& other) = default;
 
-class zt::engine::ZINET_API_IMPORT() = default;
-class zt::engine::ZINET_API_IMPORT(const class zt::engine::ZINET_API_IMPORT& other) = default;
-class zt::engine::ZINET_API_IMPORT(class zt::engine::ZINET_API_IMPORT&& other) = default;
+Asset() = default;
+Asset(const Asset& other) = default;
+Asset(Asset&& other) = default;
 
-~class zt::engine::ZINET_API_IMPORT() noexcept = default;
+~Asset() noexcept = default;
 
-class zt::engine::ZINET_API_IMPORT& operator = (const class zt::engine::ZINET_API_IMPORT& other) = default;
-class zt::engine::ZINET_API_IMPORT& operator = (class zt::engine::ZINET_API_IMPORT&& other) = default;
+Asset& operator = (const Asset& other) = default;
+Asset& operator = (Asset&& other) = default;
 
-class ClassInfo 
-{
-public:
-    static std::string_view GetClassName() const { return "class zt::engine::ZINET_API_IMPORT"; }
-};
+class zt::engine::Asset() = default;
+class zt::engine::Asset(const class zt::engine::Asset& other) = default;
+class zt::engine::Asset(class zt::engine::Asset&& other) = default;
+
+~class zt::engine::Asset() noexcept = default;
+
+class zt::engine::Asset& operator = (const class zt::engine::Asset& other) = default;
+class zt::engine::Asset& operator = (class zt::engine::Asset&& other) = default;
+
 /*GENERATED_CODE_END*/
 	};
 }

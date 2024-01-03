@@ -29,11 +29,17 @@ class Reflector:
     def load_lib_clang_dll(self):
         self._load_libclang_dll_internal(Reflector.libclang_dll_path)
 
-    def reflect(self, project_root_folder_path, folder_for_temp_main):
+    def reflect(self, project_root_folder_path, folder_for_temp_main, exceptions_paths=None):
+        if exceptions_paths is None:
+            exceptions_paths = []
+
         print(f"Project root folder: {project_root_folder_path}")
 
         entry_point_main = EntryPointMain()
-        entry_point_main.create_main(project_root_folder_path, folder_for_temp_main, project_root_folder_path)
+        entry_point_main.create_main(project_root_folder_path,
+                                     folder_for_temp_main,
+                                     project_root_folder_path,
+                                     exceptions_paths)
 
         self._reflect_files_internal([entry_point_main.main_file_path])
 
