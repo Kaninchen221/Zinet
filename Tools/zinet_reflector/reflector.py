@@ -1,5 +1,6 @@
 import concurrent.futures
 import os
+import timeit
 from pathlib import Path
 
 import clang
@@ -74,13 +75,26 @@ class Reflector:
 
         raw_file_path = str(file_path)
         parser = Parser()
-        parse_result = parser.parse(raw_file_path)
 
+        parsing_start_time = timeit.default_timer()
+        parse_result = parser.parse(raw_file_path)
+        parsing_end_time = timeit.default_timer()
+        parser_elapsed_seconds = parsing_end_time - parsing_start_time
+        print(f"Parsing took {parser_elapsed_seconds} seconds")
+
+        assignor_start_time = timeit.default_timer()
         assignor = Assignor()
         assignor.assign(parse_result)
+        assignor_end_time = timeit.default_timer()
+        assignor_elapsed_seconds = assignor_end_time - assignor_start_time
+        print(f"Assignor took {assignor_elapsed_seconds} seconds")
 
+        find_tokens_start_time = timeit.default_timer()
         tokens_finder = TokensFinder()
         tokens_finder.find_tokens(parse_result)
+        find_tokens_end_time = timeit.default_timer()
+        find_tokens_elapsed_seconds = find_tokens_end_time - find_tokens_start_time
+        print(f"Findings tokens took {find_tokens_elapsed_seconds} seconds")
 
         #print_parser_result(parse_result)
 
@@ -90,11 +104,19 @@ class Reflector:
         code_generator.instructions.append(CodeGeneratorGetterSetter())
         code_generator.instructions.append(CodeGeneratorClassInfo())
 
+        generate_code_start_time = timeit.default_timer()
         generated_code = code_generator.generate_code(parse_result)
+        generate_code_end_time = timeit.default_timer()
+        generate_code_elapsed_seconds = generate_code_end_time - generate_code_start_time
+        print(f"Generate code took {generate_code_elapsed_seconds} seconds")
         # print_generated_code(generated_code)
 
+        inject_code_start_time = timeit.default_timer()
         code_injector = CodeInjector()
         code_injector.inject_code(generated_code)
+        inject_code_end_time = timeit.default_timer()
+        inject_code_elapsed_seconds = inject_code_end_time - inject_code_start_time
+        print(f"Inject code took {inject_code_elapsed_seconds} seconds")
         print(f"End reflection for file: {file_path}")
 
     @staticmethod

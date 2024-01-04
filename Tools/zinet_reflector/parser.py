@@ -2,7 +2,6 @@ import os
 
 import clang.cindex
 from zinet_reflector.parser_result import *
-from pathlib import Path
 
 
 class Parser:
@@ -17,6 +16,7 @@ class Parser:
         parser = clang.cindex.Index.create()
         options = self.get_options()
         args = self._get_args()
+
         cindex_parser_result = parser.parse(raw_path, args, unsaved_files=None, options=options)
 
         # Handling parse error
@@ -61,6 +61,12 @@ class Parser:
         args = []
 
         args.append("-nostdinc++")
+        # -march=native -flto -fomit-frame-pointer -O3 -DNDEBUG
+        #args.append("-march=native")
+        #args.append("-flto")
+        #args.append("-fomit-frame-pointer")
+        #args.append("-O3")
+        #args.append("-DNDEBUG")
 
         return args
 
