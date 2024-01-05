@@ -29,6 +29,9 @@ class CodeGenerator:
                 if not instruction_generated_code:
                     continue
 
+                if parser_result.cursor.location.file is None:
+                    continue
+
                 key = parser_result.cursor.location.file.name
                 if key not in generated_code:
                     generated_code[key] = []

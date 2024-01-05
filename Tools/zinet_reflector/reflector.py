@@ -4,6 +4,7 @@ import timeit
 from pathlib import Path
 
 import clang
+import winsound
 
 from zinet_reflector.assignor import Assignor
 from zinet_reflector.code_generator import CodeGenerator, print_generated_code
@@ -72,6 +73,7 @@ class Reflector:
     @staticmethod
     def _reflect_file(file_path):
         print(f"Start reflection for file: {file_path}")
+        reflection_start_time = timeit.default_timer()
 
         raw_file_path = str(file_path)
         parser = Parser()
@@ -116,7 +118,12 @@ class Reflector:
         code_injector.inject_code(generated_code)
         inject_code_end_time = timeit.default_timer()
         inject_code_elapsed_seconds = inject_code_end_time - inject_code_start_time
-        print(f"Inject code took {inject_code_elapsed_seconds} seconds")
+        print(f"Inject code took {format(inject_code_elapsed_seconds, '.18f')} seconds")
+
+        reflection_end_time = timeit.default_timer()
+        reflection_elapsed_seconds = reflection_end_time - reflection_start_time
+        print(f"Reflection took {reflection_elapsed_seconds} seconds")
+
         print(f"End reflection for file: {file_path}")
 
     @staticmethod

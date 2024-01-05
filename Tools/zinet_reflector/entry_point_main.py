@@ -12,9 +12,9 @@ class EntryPointMain:
         if exceptions_paths is None:
             exceptions_paths = []
 
-        print(f"Find include paths under folder: {project_root_folder_path}")
+        #print(f"Find include paths under folder: {project_root_folder_path}")
         print(f"Create main.cpp in folder: {folder_for_temp_main}")
-        print(f"Include paths: {include_paths}")
+        print(f"Find headers under path: {include_paths}")
 
         headers = self._find_headers(include_paths, exceptions_paths)
         print(f"Found headers count: {len(headers)}")

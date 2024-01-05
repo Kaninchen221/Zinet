@@ -24,6 +24,11 @@ namespace zt::engine
 
 		~TextureAsset() noexcept = default;
 		
+	protected:
+	
+		ZT_REFLECT_MEMBER(ReadOnly)
+		int count = 0;
+		
 	public:
 
 /*GENERATED_CODE_START*/
@@ -36,23 +41,7 @@ TextureAsset(TextureAsset&& other) = default;
 TextureAsset& operator = (const TextureAsset& other) = default;
 TextureAsset& operator = (TextureAsset&& other) = default;
 
-Asset() = default;
-Asset(const Asset& other) = default;
-Asset(Asset&& other) = default;
-
-~Asset() noexcept = default;
-
-Asset& operator = (const Asset& other) = default;
-Asset& operator = (Asset&& other) = default;
-
-class zt::engine::Asset() = default;
-class zt::engine::Asset(const class zt::engine::Asset& other) = default;
-class zt::engine::Asset(class zt::engine::Asset&& other) = default;
-
-~class zt::engine::Asset() noexcept = default;
-
-class zt::engine::Asset& operator = (const class zt::engine::Asset& other) = default;
-class zt::engine::Asset& operator = (class zt::engine::Asset&& other) = default;
+const decltype(count)& getCount() const { return count; }
 
 /*GENERATED_CODE_END*/
 	};
