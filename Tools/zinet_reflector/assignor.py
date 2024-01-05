@@ -13,7 +13,7 @@ class Assignor:
     def assign(self, parser_result):
         self._find_reflection_parse_results(parser_result)
         self._assign_internal(parser_result)
-        print(f"Reflection parse results count: {len(self._not_assigned_reflection_parse_results)}")
+        print(f"Not assigned reflection parse results count: {len(self._not_assigned_reflection_parse_results)}")
         print(f"Assigned reflections: {self._assigned_reflections}")
 
     def _find_reflection_parse_results(self, parser_result):
@@ -48,6 +48,7 @@ class Assignor:
                             child_parser_result.reflection_cursor.displayname)
                         self._assigned_reflections += 1
                         assigned = True
+                        self._not_assigned_reflection_parse_results.remove(_not_assigned_reflection_parse_result)
                         #print(f"{child_parser_result.reflection_cursor.displayname} -> {child_parser_result.cursor.displayname} in file {child_file.name}")
                         #print(
                             #f"{child_parser_result.reflection_cursor.displayname} -> {child_parser_result.cursor.displayname} kind {child_parser_result.cursor.kind}")
