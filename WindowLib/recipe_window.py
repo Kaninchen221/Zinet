@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_generator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 core = CMakeListsGeneratorLibrary()
 core.targetName = "ZinetWindow"
@@ -21,4 +21,4 @@ core.linkLibraries = """
     ${CONAN_LIBS_GLFW}
     ${CONAN_LIBS_GLM}
     """
-projectGenerator.add_generator(core)
+project_generator.add_generator(core)

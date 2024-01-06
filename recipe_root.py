@@ -1,4 +1,4 @@
-from zinet_pgenerator.cmakelists_generator_root import CMakelistsGeneratorRoot
+from zinet_generator.cmakelists_generator_root import CMakelistsGeneratorRoot
 
 root = CMakelistsGeneratorRoot()
 root.cmakeMinimumVersion = "3.20"
@@ -9,8 +9,8 @@ root.subdirectories = ["CoreLib", "GraphicLayerLib", "EntryPoint", "EngineLib", 
 root.globalCompileOptions = "/W4 /WX /external:W0 /external:anglebrackets /MP"
 root.globalCompileOptionsForAddressSanitizer = "/fsanitize=address /RTCu /experimental:module-"
 root.globalCompileDefinitions = "ZINET_WINDOWS _DISABLE_VECTOR_ANNOTATION _DISABLE_STRING_ANNOTATION"
-projectGenerator.add_generator(root)
+project_generator.add_generator(root)
 
-from zinet_pgenerator.cmakelists_generator_library import CMakeListsGeneratorLibrary
+from zinet_generator.cmakelists_generator_library import CMakeListsGeneratorLibrary
 
 CMakeListsGeneratorLibrary.libraryType = "SHARED"

@@ -9,7 +9,7 @@ if __name__ == '__main__':
     parser.add_argument('--AddressSanitizer', type=str, help='true or false', default='false')
     cmdArgs = parser.parse_args()
     
-    print("PG arguments:")
+    print("Arguments:")
     print(cmdArgs)
 
     projectGenerator = ProjectGenerator()

@@ -19,10 +19,12 @@ class CMakeListsGenerator:
     def get_templates_folder():
         path = (Path(".") / "templates").absolute()
         if not path.exists():
-            path = path.parent.parent.parent / "zinet_generator/templates"
-        if not path.exists():
-            raise Exception("Can't return valid templates folder")
-        return path
+            for parent_path in path.parents:
+                templates_path = parent_path / "zinet_generator/templates"
+                if templates_path.exists():
+                    return templates_path
+
+            raise Exception(f"Can't return valid templates folder \n{path}")
 
     fileLocation = Path(__file__)
     templatePath = Path()

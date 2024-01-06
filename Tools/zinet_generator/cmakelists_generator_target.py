@@ -42,7 +42,7 @@ class CMakeListsGeneratorTarget(CMakeListsGenerator):
     targetName = "target_name"
     targetPrettyName = "target_pretty_name"
     files = ""
-    headersExtension = "h"
+    headersExtension = "hpp"
     headersSubfolder = "include"
     sourcesExtension = "cpp"
     sourcesSubfolder = "source"
