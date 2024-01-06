@@ -1,4 +1,4 @@
-#include "Zinet/Engine/ZtSprite.h"
+#include "Zinet/Engine/ZtSprite.hpp"
 
 namespace zt::engine
 {

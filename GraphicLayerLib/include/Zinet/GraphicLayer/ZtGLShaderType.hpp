@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
 
-#include <shaderc/shaderc.hpp>
+#include <shaderc/shaderc.h>
 
 namespace zt::gl
 {

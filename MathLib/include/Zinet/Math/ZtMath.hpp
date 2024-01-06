@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Math/ZtMathConfig.h"
-#include "Zinet/Math/ZtVecTypes.h"
+#include "Zinet/Math/ZtMathConfig.hpp"
+#include "Zinet/Math/ZtVecTypes.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 #include <type_traits>
 #include <array>

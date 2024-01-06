@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindowConfig.h"
-#include "Zinet/Window/ZtEvent.h"
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindowConfig.hpp"
+#include "Zinet/Window/ZtEvent.hpp"
+#include "Zinet/Window/ZtGLFW.hpp"
 
-#include "Zinet/Math/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::wd
 {

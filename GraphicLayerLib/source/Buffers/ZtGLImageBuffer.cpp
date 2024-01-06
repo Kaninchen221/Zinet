@@ -1,7 +1,7 @@
-#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLSampler.h"
-#include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGLSampler.hpp"
+#include "Zinet/GraphicLayer/ZtGLImageView.hpp"
 
 namespace zt::gl
 {

@@ -1,6 +1,6 @@
-#include "Zinet/Engine/Assets/ZtAssetsFinder.h"
+#include "Zinet/Engine/Assets/ZtAssetsFinder.hpp"
 
-#include "Zinet/Core/ZtFileFinder.h"
+#include "Zinet/Core/ZtFileFinder.hpp"
 
 namespace zt::engine
 {

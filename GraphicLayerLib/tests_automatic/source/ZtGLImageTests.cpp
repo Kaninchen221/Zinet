@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLImage.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

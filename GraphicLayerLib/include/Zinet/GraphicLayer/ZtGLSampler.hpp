@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.hpp"
 
 namespace zt::gl
 {

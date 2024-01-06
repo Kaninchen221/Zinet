@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.hpp"
 
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtWindow.hpp"
 
 #include <cstdint>
 #include <algorithm>

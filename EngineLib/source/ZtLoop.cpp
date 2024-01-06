@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/Core/ZtClock.h"
+#include "Zinet/Core/ZtClock.hpp"
 
-#include "Zinet/Engine/ZtLoop.h"
+#include "Zinet/Engine/ZtLoop.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
 
 #include "imgui.h"
 

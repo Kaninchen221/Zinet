@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLTexture.h"
-#include "Zinet/GraphicLayer/ZtGLSampler.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLTexture.hpp"
+#include "Zinet/GraphicLayer/ZtGLSampler.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtCoreConfig.h"
+#include "Zinet/Core/ZtCoreConfig.hpp"
 
 #ifndef ZINET_STATIC
 
@@ -27,7 +27,6 @@
 
 #endif
 
-static_assert(false)
 #define ZT_GENERATED_BODY(...)
 #define ZT_REFLECT_NAMESPACE(...)
 #define ZT_REFLECT_CLASS(...)

@@ -1,4 +1,4 @@
-#include "Zinet/Math/ZtMath.h"
+#include "Zinet/Math/ZtMath.hpp"
 
 namespace zt
 {

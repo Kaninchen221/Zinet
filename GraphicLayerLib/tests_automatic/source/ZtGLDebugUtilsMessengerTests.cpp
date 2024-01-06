@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.h"
+#include "Zinet/GraphicLayer/ZtGLDebugUtilsMessenger.hpp"
 
 #include <gtest/gtest.h>
 

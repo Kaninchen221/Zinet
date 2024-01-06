@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.hpp"
 
 #include <gtest/gtest.h>
 

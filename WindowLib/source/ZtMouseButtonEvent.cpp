@@ -1,4 +1,4 @@
-#include "Zinet/Window/ZtMouseButtonEvent.h"
+#include "Zinet/Window/ZtMouseButtonEvent.hpp"
 
 namespace zt::wd
 {

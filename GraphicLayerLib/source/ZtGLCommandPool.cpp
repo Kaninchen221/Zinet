@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLCommandPool.h"
+#include "Zinet/GraphicLayer/ZtGLCommandPool.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
 
 namespace zt::gl
 {

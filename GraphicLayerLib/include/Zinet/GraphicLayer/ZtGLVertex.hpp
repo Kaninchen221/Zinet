@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>

@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLDrawable2DBase.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLTextureRegion.h"
+#include "Zinet/GraphicLayer/ZtGLDrawable2DBase.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLTextureRegion.hpp"
 
 namespace zt::gl
 {

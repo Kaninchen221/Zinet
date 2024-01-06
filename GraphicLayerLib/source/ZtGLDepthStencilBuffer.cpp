@@ -1,9 +1,9 @@
-#include "Zinet/GraphicLayer/ZtGLDepthStencilBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLUtilities.h"
+#include "Zinet/GraphicLayer/ZtGLDepthStencilBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLUtilities.hpp"
 
-#include "Zinet/Math/ZtMath.h"
+#include "Zinet/Math/ZtMath.hpp"
 
 #include <vulkan/vulkan_enums.hpp>
 

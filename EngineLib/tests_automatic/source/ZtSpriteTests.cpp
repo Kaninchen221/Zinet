@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Engine/ZtSprite.h"
+#include "Zinet/Engine/ZtSprite.hpp"
 
 #include <gtest/gtest.h>
 

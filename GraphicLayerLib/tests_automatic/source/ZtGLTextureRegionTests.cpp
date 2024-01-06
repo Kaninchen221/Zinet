@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLTextureRegion.h"
+#include "Zinet/GraphicLayer/ZtGLTextureRegion.hpp"
 
 #include <gtest/gtest.h>
 

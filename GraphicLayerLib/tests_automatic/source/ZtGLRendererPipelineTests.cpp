@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLRendererPipeline.hpp"
 
 #include <gtest/gtest.h>
 

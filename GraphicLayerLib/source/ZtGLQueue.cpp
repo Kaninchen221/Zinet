@@ -1,13 +1,13 @@
-#include "Zinet/GraphicLayer/ZtGLQueue.h"
-#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLFence.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLQueue.hpp"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.hpp"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLFence.hpp"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLSurface.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.hpp"
 
 #include <utility>
 

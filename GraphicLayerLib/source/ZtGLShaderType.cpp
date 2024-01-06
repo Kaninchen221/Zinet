@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLShaderType.h"
+#include "Zinet/GraphicLayer/ZtGLShaderType.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::gl
 {

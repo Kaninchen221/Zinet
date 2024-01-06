@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Zinet/Engine/ZtEngineConfig.hpp"
-#include "Zinet/Engine/Assets/ZtAsset.h"
+#include "Zinet/Engine/Assets/ZtAsset.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 ZT_REFLECT_NAMESPACE()
 namespace zt::engine
@@ -14,15 +14,6 @@ namespace zt::engine
 		inline static auto Logger = core::ConsoleLogger::Create("TextureAsset");
 
 	public:
-
-		TextureAsset() = default;
-		TextureAsset(const TextureAsset& other) = default;
-		TextureAsset(TextureAsset&& other) = default;
-
-		TextureAsset& operator = (const TextureAsset& other) = default;
-		TextureAsset& operator = (TextureAsset&& other) = default;
-
-		~TextureAsset() noexcept = default;
 		
 	protected:
 	

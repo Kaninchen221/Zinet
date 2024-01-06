@@ -1,8 +1,8 @@
-#include "Zinet/Window/ZtMouse.h"
-#include "Zinet/Window/ZtWindow.h"
-#include "Zinet/Window/ZtMouseButtonEventType.h"
-#include "Zinet/Window/ZtMouseButton.h"
-#include "Zinet/Window/ZtMouseButtonEvent.h"
+#include "Zinet/Window/ZtMouse.hpp"
+#include "Zinet/Window/ZtWindow.hpp"
+#include "Zinet/Window/ZtMouseButtonEventType.hpp"
+#include "Zinet/Window/ZtMouseButton.hpp"
+#include "Zinet/Window/ZtMouseButtonEvent.hpp"
 
 namespace zt::wd
 {

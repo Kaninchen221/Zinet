@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtCoreConfig.h"
+#include "Zinet/Core/ZtCoreConfig.hpp"
 
 #ifndef ZINET_STATIC
 

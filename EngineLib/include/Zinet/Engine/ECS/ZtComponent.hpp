@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
-#include "Zinet/Core/ZtTime.h"
-#include "Zinet/Core/ZtIDTypes.h"
+#include "Zinet/Core/ZtTime.hpp"
+#include "Zinet/Core/ZtIDTypes.hpp"
 
 namespace zt::engine::ecs
 {

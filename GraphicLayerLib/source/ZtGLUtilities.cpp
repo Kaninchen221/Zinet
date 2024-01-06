@@ -1,9 +1,9 @@
-#include "Zinet/GraphicLayer/ZtGLUtilities.h"
+#include "Zinet/GraphicLayer/ZtGLUtilities.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLImage.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.hpp"
 
 #include <algorithm>
 

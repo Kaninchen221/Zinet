@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindowConfig.h"
+#include "Zinet/Window/ZtWindowConfig.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::wd
 {

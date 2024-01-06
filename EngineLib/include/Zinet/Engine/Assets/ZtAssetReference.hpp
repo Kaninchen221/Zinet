@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
 namespace zt::engine
 {

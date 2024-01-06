@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/Engine/ZtSprite.h"
-#include "Zinet/Engine/Components/ZtDrawableComponent.h"
+#include "Zinet/Engine/ZtSprite.hpp"
+#include "Zinet/Engine/Components/ZtDrawableComponent.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
 
 #include <gtest/gtest.h>
 

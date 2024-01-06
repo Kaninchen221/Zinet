@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Window/ZtKeyboardKey.h"
+#include "Zinet/Window/ZtKeyboardKey.hpp"
 
 #include <gtest/gtest.h>
 

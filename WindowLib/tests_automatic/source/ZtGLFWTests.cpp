@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

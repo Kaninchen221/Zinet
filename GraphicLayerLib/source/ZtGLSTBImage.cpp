@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLSTBImage.h"
+#include "Zinet/GraphicLayer/ZtGLSTBImage.hpp"
 
 namespace zt::gl
 {

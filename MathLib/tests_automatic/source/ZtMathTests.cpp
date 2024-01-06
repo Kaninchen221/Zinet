@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Math/ZtMath.h"
+#include "Zinet/Math/ZtMath.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

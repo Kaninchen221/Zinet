@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

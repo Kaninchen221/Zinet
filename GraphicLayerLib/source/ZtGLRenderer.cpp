@@ -1,10 +1,10 @@
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLMVP.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.hpp"
+#include "Zinet/GraphicLayer/ZtGLMVP.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtGLFW.hpp"
+#include "Zinet/Window/ZtWindow.hpp"
 
 #include <map>
 

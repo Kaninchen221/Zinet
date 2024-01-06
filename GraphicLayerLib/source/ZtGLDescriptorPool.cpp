@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorPool.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.hpp"
 
 namespace zt::gl
 {

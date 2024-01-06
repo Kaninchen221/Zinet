@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLContext.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLInstance.hpp"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
 
 #include <gtest/gtest.h>
 

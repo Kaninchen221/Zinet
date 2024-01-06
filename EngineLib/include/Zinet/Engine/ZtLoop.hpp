@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
-#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
+#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
-#include "Zinet/Core/ZtTime.h"
+#include "Zinet/Core/ZtLogger.hpp"
+#include "Zinet/Core/ZtTime.hpp"
 
 namespace zt::core
 {

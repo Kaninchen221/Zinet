@@ -1,5 +1,5 @@
-#include "Zinet/Window/ZtKeyboard.h"
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtKeyboard.hpp"
+#include "Zinet/Window/ZtWindow.hpp"
 
 namespace zt::wd
 {

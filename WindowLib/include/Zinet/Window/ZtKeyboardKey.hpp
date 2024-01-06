@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindowConfig.h"
+#include "Zinet/Window/ZtWindowConfig.hpp"
 
 #include <GLFW/glfw3.h>
 

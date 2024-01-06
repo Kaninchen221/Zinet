@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Zinet/Core/ZtClock.h"
-#include "Zinet/Core/ZtTime.h"
+#include "Zinet/Core/ZtClock.hpp"
+#include "Zinet/Core/ZtTime.hpp"
 
 #include <gtest/gtest.h>
 

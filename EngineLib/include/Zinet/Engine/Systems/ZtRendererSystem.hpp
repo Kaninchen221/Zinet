@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
-#include "Zinet/Engine/Components/ZtDrawableComponent.h"
-#include "Zinet/Engine/ECS/ZtSystem.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
+#include "Zinet/Engine/Components/ZtDrawableComponent.hpp"
+#include "Zinet/Engine/ECS/ZtSystem.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 #include <vector>
 

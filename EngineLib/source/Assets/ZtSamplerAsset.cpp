@@ -1,4 +1,4 @@
-#include "Zinet/Engine/Assets/ZtSamplerAsset.h"
+#include "Zinet/Engine/Assets/ZtSamplerAsset.hpp"
 
 namespace zt::engine
 {

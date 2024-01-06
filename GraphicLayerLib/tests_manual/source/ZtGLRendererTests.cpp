@@ -1,24 +1,24 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
-#include "Zinet/GraphicLayer/ZtGLVertex.h"
-#include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLSTBImage.h"
-#include "Zinet/GraphicLayer/ZtGLMVP.h"
-#include "Zinet/GraphicLayer/ZtGLTexture.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
-#include "Zinet/GraphicLayer/ZtGLSprite.h"
-#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
-#include "Zinet/GraphicLayer/ZtGLTileMap.h"
-#include "Zinet/GraphicLayer/ZtGLUtilities.h"
-#include "Zinet/GraphicLayer/ZtGLFlipbook.h"
-#include "Zinet/GraphicLayer/ZtGLShape2D.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
+#include "Zinet/GraphicLayer/ZtGLVertex.hpp"
+#include "Zinet/GraphicLayer/ZtGLImage.hpp"
+#include "Zinet/GraphicLayer/ZtGLSTBImage.hpp"
+#include "Zinet/GraphicLayer/ZtGLMVP.hpp"
+#include "Zinet/GraphicLayer/ZtGLTexture.hpp"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.hpp"
+#include "Zinet/GraphicLayer/ZtGLSprite.hpp"
+#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.hpp"
+#include "Zinet/GraphicLayer/ZtGLTileMap.hpp"
+#include "Zinet/GraphicLayer/ZtGLUtilities.hpp"
+#include "Zinet/GraphicLayer/ZtGLFlipbook.hpp"
+#include "Zinet/GraphicLayer/ZtGLShape2D.hpp"
 
-#include "Zinet/Core/ZtClock.h"
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtClock.hpp"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
-#include "Zinet/Math/ZtMath.h"
+#include "Zinet/Window/ZtGLFW.hpp"
+#include "Zinet/Math/ZtMath.hpp"
 
 #include <gtest/gtest.h>
 

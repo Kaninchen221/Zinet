@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindowConfig.h"
-#include "Zinet/Window/ZtMousePositionEvent.h"
-#include "Zinet/Window/ZtMouseButtonEvent.h"
+#include "Zinet/Window/ZtWindowConfig.hpp"
+#include "Zinet/Window/ZtMousePositionEvent.hpp"
+#include "Zinet/Window/ZtMouseButtonEvent.hpp"
 
 #include <vector>
 

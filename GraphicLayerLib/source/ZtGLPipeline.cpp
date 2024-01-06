@@ -1,7 +1,7 @@
-#include "Zinet/GraphicLayer/ZtGLPipeline.h"
+#include "Zinet/GraphicLayer/ZtGLPipeline.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLPipelineLayout.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLPipelineLayout.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
 
 namespace zt::gl
 {

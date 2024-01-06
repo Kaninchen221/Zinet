@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLTileMap.h"
+#include "Zinet/GraphicLayer/ZtGLTileMap.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
-#include "Zinet/Math/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.hpp"
 
 namespace zt::engine
 {

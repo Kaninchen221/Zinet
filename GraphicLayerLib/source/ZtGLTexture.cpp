@@ -1,10 +1,10 @@
-#include "Zinet/GraphicLayer/ZtGLTexture.h"
+#include "Zinet/GraphicLayer/ZtGLTexture.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLUtilities.h"
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLUtilities.hpp"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.hpp"
 
-#include "Zinet/Math/ZtMath.h"
+#include "Zinet/Math/ZtMath.hpp"
 
 namespace zt::gl
 {

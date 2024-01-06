@@ -1,5 +1,5 @@
-#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLSignalCommandBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
 
 namespace zt::gl
 {

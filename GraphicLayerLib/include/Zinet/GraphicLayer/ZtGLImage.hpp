@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.hpp"
 
-#include "Zinet/Math/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 #include <vk_mem_alloc.h>
 

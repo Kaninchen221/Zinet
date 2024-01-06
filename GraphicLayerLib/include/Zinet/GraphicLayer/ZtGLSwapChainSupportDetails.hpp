@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
 
 namespace zt::wd
 {

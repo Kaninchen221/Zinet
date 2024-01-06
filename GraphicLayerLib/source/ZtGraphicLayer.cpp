@@ -1,3 +1,3 @@
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLVmaAllocLogger.h"
+#include "Zinet/GraphicLayer/ZtGLVmaAllocLogger.hpp"

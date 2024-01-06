@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Zinet/Core/ZtCoreConfig.h"
+#include "Zinet/Core/ZtCoreConfig.hpp"
 
 #include <limits>
 

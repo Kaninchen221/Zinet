@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Window/ZtEvent.h"
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtEvent.hpp"
+#include "Zinet/Window/ZtWindow.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <GLFW/glfw3.h>
 

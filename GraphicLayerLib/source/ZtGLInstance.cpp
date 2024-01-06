@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLInstance.hpp"
 
 namespace zt::gl
 {

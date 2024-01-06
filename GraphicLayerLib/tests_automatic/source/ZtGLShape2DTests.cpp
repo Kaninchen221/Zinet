@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLShape2D.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
-#include "Zinet/GraphicLayer/ZtGLTexture.h"
-#include "Zinet/GraphicLayer/ZtGLSampler.h"
-#include "Zinet/GraphicLayer/ZtGLShader.h"
+#include "Zinet/GraphicLayer/ZtGLShape2D.hpp"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
+#include "Zinet/GraphicLayer/ZtGLTexture.hpp"
+#include "Zinet/GraphicLayer/ZtGLSampler.hpp"
+#include "Zinet/GraphicLayer/ZtGLShader.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

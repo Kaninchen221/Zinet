@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Window/ZtMousePositionEvent.h"
+#include "Zinet/Window/ZtMousePositionEvent.hpp"
 
 #include <gtest/gtest.h>
 

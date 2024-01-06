@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtTime.h"
+#include "Zinet/Core/ZtTime.hpp"
 
 #include <gtest/gtest.h>
 

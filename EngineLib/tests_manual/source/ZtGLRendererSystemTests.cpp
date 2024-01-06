@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Zinet/Core/ZtLogger.h"
-#include "Zinet/Core/ZtClock.h"
+#include "Zinet/Core/ZtLogger.hpp"
+#include "Zinet/Core/ZtClock.hpp"
 
 #include <gtest/gtest.h>
 
-#include "Zinet/Engine/Systems/ZtRendererSystem.h"
-#include "Zinet/Engine/Assets/ZtAssetsManager.h"
-#include "Zinet/Engine/ZtTileMap.h"
-#include "Zinet/Engine/ECS/ZtEntity.h"
+#include "Zinet/Engine/Systems/ZtRendererSystem.hpp"
+#include "Zinet/Engine/Assets/ZtAssetsManager.hpp"
+#include "Zinet/Engine/ZtTileMap.hpp"
+#include "Zinet/Engine/ECS/ZtEntity.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLCamera.h"
-#include "Zinet/GraphicLayer/ZtGLShape2D.h"
+#include "Zinet/GraphicLayer/ZtGLCamera.hpp"
+#include "Zinet/GraphicLayer/ZtGLShape2D.hpp"
 
 #include <filesystem>
 #include <type_traits>

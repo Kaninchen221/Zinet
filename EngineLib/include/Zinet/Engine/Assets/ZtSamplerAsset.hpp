@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
-#include "Zinet/Engine/Assets/ZtAsset.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
+#include "Zinet/Engine/Assets/ZtAsset.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::engine
 {

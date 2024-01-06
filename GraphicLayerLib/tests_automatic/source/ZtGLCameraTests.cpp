@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLCamera.h"
+#include "Zinet/GraphicLayer/ZtGLCamera.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

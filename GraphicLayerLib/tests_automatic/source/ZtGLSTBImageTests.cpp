@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLSTBImage.h"
+#include "Zinet/GraphicLayer/ZtGLSTBImage.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

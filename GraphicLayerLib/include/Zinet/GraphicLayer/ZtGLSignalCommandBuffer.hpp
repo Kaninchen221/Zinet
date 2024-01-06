@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLFence.h"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLFence.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::gl
 {;

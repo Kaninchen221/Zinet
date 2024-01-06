@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/ZtGLShader.h"
-#include "Zinet/GraphicLayer/ZtGLShaderType.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLStorageBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLSampler.h"
-#include "Zinet/GraphicLayer/ZtGLImageView.h"
-#include "Zinet/GraphicLayer/ZtGLMVP.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/ZtGLShader.hpp"
+#include "Zinet/GraphicLayer/ZtGLShaderType.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLIndexBuffer.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLUniformBuffer.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLImageBuffer.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStorageBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLSampler.hpp"
+#include "Zinet/GraphicLayer/ZtGLImageView.hpp"
+#include "Zinet/GraphicLayer/ZtGLMVP.hpp"
 
-#include "Zinet/Math/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.hpp"
 
 #include <span>
 #include <vector>

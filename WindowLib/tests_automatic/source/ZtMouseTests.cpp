@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindow.h"
-#include "Zinet/Window/ZtMouse.h"
-#include "Zinet/Window/ZtMouseButtonEvent.h"
-#include "Zinet/Window/ZtMousePositionEvent.h"
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindow.hpp"
+#include "Zinet/Window/ZtMouse.hpp"
+#include "Zinet/Window/ZtMouseButtonEvent.hpp"
+#include "Zinet/Window/ZtMousePositionEvent.hpp"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

@@ -1,10 +1,10 @@
-#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
+#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.hpp"
 
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtWindow.hpp"
 
-#include "Zinet/Core/ZtDebug.h"
+#include "Zinet/Core/ZtDebug.hpp"
 
 #include <imgui.h>
 #include <imgui_impl_glfw.h>

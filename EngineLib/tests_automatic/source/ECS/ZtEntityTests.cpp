@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Engine/ECS/ZtEntity.h"
+#include "Zinet/Engine/ECS/ZtEntity.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 #include "gtest/internal/gtest-filepath.h"

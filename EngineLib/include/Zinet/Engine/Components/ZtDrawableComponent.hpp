@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.hpp"
 
-#include "Zinet/Engine/ZtEngineConfig.h"
-#include "Zinet/Engine/ECS/ZtComponent.h"
-#include "Zinet/Engine/Assets/ZtTextureAsset.h"
-#include "Zinet/Engine/Assets/ZtAssetReference.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
+#include "Zinet/Engine/ECS/ZtComponent.hpp"
+#include "Zinet/Engine/Assets/ZtTextureAsset.hpp"
+#include "Zinet/Engine/Assets/ZtAssetReference.hpp"
 
 namespace zt::gl
 {

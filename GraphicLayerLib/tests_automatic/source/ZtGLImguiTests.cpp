@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/Imgui/ZtGLImgui.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

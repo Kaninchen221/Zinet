@@ -5,7 +5,7 @@
 #include <concepts>
 #include <type_traits>
 
-#include "Zinet/Core/ZtDebug.h"
+#include "Zinet/Core/ZtDebug.hpp"
 #include <map>
 
 #ifdef ZINET_COLLECT_ALLOCATION_DEBUG_DATA

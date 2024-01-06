@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Window/ZtMouseButton.h"
+#include "Zinet/Window/ZtMouseButton.hpp"
 
 #include <gtest/gtest.h>
 

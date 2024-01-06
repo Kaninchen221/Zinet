@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLDescriptorPool.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSetLayout.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLSurface.hpp"
+#include "Zinet/GraphicLayer/ZtGLInstance.hpp"
+#include "Zinet/GraphicLayer/ZtGLDescriptorPool.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

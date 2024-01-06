@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
 
 namespace zt::gl
 {

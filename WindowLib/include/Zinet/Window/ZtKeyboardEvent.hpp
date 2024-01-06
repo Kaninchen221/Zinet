@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindowConfig.h"
-#include "Zinet/Window/ZtKeyboardEventType.h"
-#include "Zinet/Window/ZtKeyboardKey.h"
+#include "Zinet/Window/ZtWindowConfig.hpp"
+#include "Zinet/Window/ZtKeyboardEventType.hpp"
+#include "Zinet/Window/ZtKeyboardKey.hpp"
 
 namespace zt::wd
 {

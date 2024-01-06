@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLShader.h"
+#include "Zinet/GraphicLayer/ZtGLShader.hpp"
 
-#include "Zinet/Core/ZtFile.h"
+#include "Zinet/Core/ZtFile.hpp"
 
 #include <shaderc/shaderc.hpp>
 

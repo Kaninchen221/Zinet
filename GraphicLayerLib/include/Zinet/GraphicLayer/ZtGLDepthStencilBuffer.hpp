@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/ZtGLImage.h"
-#include "Zinet/GraphicLayer/ZtGLImageView.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/ZtGLImage.hpp"
+#include "Zinet/GraphicLayer/ZtGLImageView.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::gl
 {

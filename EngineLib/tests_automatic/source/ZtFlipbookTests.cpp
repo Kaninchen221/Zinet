@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Engine/ZtFlipbook.h"
+#include "Zinet/Engine/ZtFlipbook.hpp"
 
 #include <gtest/gtest.h>
 

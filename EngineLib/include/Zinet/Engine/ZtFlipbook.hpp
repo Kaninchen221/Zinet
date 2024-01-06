@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
-#include "Zinet/GraphicLayer/ZtGlFlipbook.h"
+#include "Zinet/GraphicLayer/ZtGlFlipbook.hpp"
 
 namespace zt::engine
 {

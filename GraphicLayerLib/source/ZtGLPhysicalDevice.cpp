@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLSurface.hpp"
+#include "Zinet/GraphicLayer/ZtGLInstance.hpp"
 
 namespace zt::gl
 {

@@ -2,12 +2,12 @@
 
 #include <gtest/gtest.h>
 
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.h"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLStagingBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLVertexBuffer.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 namespace zt::gl::tests
 {

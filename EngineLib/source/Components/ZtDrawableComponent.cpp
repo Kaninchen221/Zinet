@@ -1,8 +1,8 @@
-#include "Zinet/Engine/Components/ZtDrawableComponent.h"
+#include "Zinet/Engine/Components/ZtDrawableComponent.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLTexture.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLTexture.hpp"
 
 namespace zt::engine
 {

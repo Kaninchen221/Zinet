@@ -1,8 +1,8 @@
-#include "Zinet/GraphicLayer/ZtGLFramebuffer.h"
+#include "Zinet/GraphicLayer/ZtGLFramebuffer.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLImageView.h"
-#include "Zinet/GraphicLayer/ZtGLRenderPass.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLImageView.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderPass.hpp"
 
 namespace zt::gl
 {

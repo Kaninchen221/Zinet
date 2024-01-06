@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Engine/ZtLoop.h"
+#include "Zinet/Engine/ZtLoop.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
-#include "Zinet/Core/ZtTime.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
+#include "Zinet/Core/ZtTime.hpp"
 
 #include <gtest/gtest.h>
 

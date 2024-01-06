@@ -1,10 +1,10 @@
 #pragma once 
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
-#include "Zinet/Engine/ECS/ZtECSTypes.h"
+#include "Zinet/Engine/ECS/ZtECSTypes.hpp"
 
-#include "Zinet/Core/ZtIDTypes.h"
+#include "Zinet/Core/ZtIDTypes.hpp"
 
 namespace zt::engine::ecs
 {

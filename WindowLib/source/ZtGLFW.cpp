@@ -1,4 +1,4 @@
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <GLFW/glfw3.h>
 

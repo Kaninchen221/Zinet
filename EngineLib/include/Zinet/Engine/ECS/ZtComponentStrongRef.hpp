@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
 
-#include "Zinet/Engine/ECS/ZtComponent.h"
-#include "Zinet/Engine/ECS/ZtComponentWeakRef.h"
+#include "Zinet/Engine/ECS/ZtComponent.hpp"
+#include "Zinet/Engine/ECS/ZtComponentWeakRef.hpp"
 
 #include <optional>
 #include <type_traits>

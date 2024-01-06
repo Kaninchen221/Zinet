@@ -1,12 +1,12 @@
-#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
-#include "Zinet/GraphicLayer/ZtGLFence.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.hpp"
+#include "Zinet/GraphicLayer/ZtGLSurface.hpp"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.hpp"
+#include "Zinet/GraphicLayer/ZtGLFence.hpp"
 
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtWindow.hpp"
 
 namespace zt::gl
 {

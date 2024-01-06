@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::gl
 {

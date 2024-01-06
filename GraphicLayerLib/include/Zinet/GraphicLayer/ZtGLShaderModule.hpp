@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/ZtGLShaderType.h"
-#include "Zinet/GraphicLayer/ZtGLVulkanObject.h"
-#include "Zinet/GraphicLayer/ZtGLShader.h"
-#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/ZtGLShaderType.hpp"
+#include "Zinet/GraphicLayer/ZtGLVulkanObject.hpp"
+#include "Zinet/GraphicLayer/ZtGLShader.hpp"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 namespace zt::gl
 {

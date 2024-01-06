@@ -36,4 +36,4 @@
 	#define ZINET_DEBUG
 #endif
 
-#include "Zinet/Core/ZtDebug.h"
+#include "Zinet/Core/ZtDebug.hpp"

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindowConfig.h"
-#include "Zinet/Window/ZtKeyboard.h"
-#include "Zinet/Window/ZtMouse.h"
+#include "Zinet/Window/ZtWindowConfig.hpp"
+#include "Zinet/Window/ZtKeyboard.hpp"
+#include "Zinet/Window/ZtMouse.hpp"
 
 namespace zt::wd
 {

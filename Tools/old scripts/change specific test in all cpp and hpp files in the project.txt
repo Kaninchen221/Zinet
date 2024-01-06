@@ -1,0 +1,28 @@
+path = Path("C:/Users/Kaninchen/Desktop/Zinet")
+for root, dirs, files in os.walk(path):
+    for file_name in files:
+        if not file_name.endswith(".hpp") and not file_name.endswith(".cpp"):
+            continue
+
+        if file_name == "main.temp.cpp":
+            continue
+
+        file_path = Path(root + "/" + file_name)
+        ignore = False
+        for parent in file_path.parents:
+            ignored = ["ImGuiLib", "Tools", "build"]
+            if parent.name in ignored:
+                ignore = True
+                break
+
+        if ignore:
+            continue
+
+        #print(file_path)
+        with (open(file_path, 'r') as file):
+            file_content = file.read()
+            file_content = file_content.replace(".hppas_value()", ".has_value()")
+            #print(file_content)
+
+        with (open(file_path, 'w') as file):
+            file.write(file_content)

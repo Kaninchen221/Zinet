@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/Buffers/ZtGLBuffer.hpp"
 
 namespace zt::gl
 {

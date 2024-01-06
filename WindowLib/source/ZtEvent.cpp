@@ -1,4 +1,4 @@
-#include "Zinet/Window/ZtEvent.h"
+#include "Zinet/Window/ZtEvent.hpp"
 
 namespace zt::wd
 {

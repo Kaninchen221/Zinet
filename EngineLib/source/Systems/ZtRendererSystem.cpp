@@ -1,6 +1,6 @@
-#include "Zinet/Engine/Systems/ZtRendererSystem.h"
+#include "Zinet/Engine/Systems/ZtRendererSystem.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.hpp"
 
 #include <algorithm>
 

@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLVertex.h"
+#include "Zinet/GraphicLayer/ZtGLVertex.hpp"
 
 #include <glm/vector_relational.hpp>
 

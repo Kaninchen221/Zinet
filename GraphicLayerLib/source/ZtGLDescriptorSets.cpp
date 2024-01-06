@@ -1,5 +1,5 @@
-#include "Zinet/GraphicLayer/ZtGLDescriptorSets.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDescriptorSets.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
 
 namespace zt::gl
 {

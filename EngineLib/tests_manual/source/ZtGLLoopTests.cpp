@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 #include <gtest/gtest.h>
 
-#include "Zinet/Engine/ZtLoop.h"
+#include "Zinet/Engine/ZtLoop.hpp"
 
 namespace zt::engine::tests
 {

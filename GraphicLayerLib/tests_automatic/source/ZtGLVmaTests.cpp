@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLVma.h"
-#include "Zinet/GraphicLayer/ZtGLRenderer.h"
+#include "Zinet/GraphicLayer/ZtGLVma.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderer.hpp"
 
 #include <gtest/gtest.h>
 

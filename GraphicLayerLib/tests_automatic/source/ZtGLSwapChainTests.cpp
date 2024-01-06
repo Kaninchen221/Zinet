@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChain.h"
-#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.h"
-#include "Zinet/GraphicLayer/ZtGLSurface.h"
-#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
-#include "Zinet/GraphicLayer/ZtGLFence.h"
-#include "Zinet/GraphicLayer/ZtGLInstance.h"
-#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.h"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
+#include "Zinet/GraphicLayer/ZtGLSwapChain.hpp"
+#include "Zinet/GraphicLayer/ZtGLSwapChainSupportDetails.hpp"
+#include "Zinet/GraphicLayer/ZtGLSurface.hpp"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.hpp"
+#include "Zinet/GraphicLayer/ZtGLFence.hpp"
+#include "Zinet/GraphicLayer/ZtGLInstance.hpp"
+#include "Zinet/GraphicLayer/ZtGLPhysicalDevice.hpp"
 
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtGLFW.hpp"
 
 #include <gtest/gtest.h>
 

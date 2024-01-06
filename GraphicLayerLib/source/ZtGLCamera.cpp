@@ -1,4 +1,4 @@
-#include "Zinet/GraphicLayer/ZtGLCamera.h"
+#include "Zinet/GraphicLayer/ZtGLCamera.hpp"
 
 namespace zt::gl
 {

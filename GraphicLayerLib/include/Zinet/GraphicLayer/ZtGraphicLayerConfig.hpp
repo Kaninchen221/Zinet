@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Zinet/Core/ZtCoreConfig.h"
+#include "Zinet/Core/ZtCoreConfig.hpp"
 
 // GLFW
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 // Vulkan
-#include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan.h>
 #include <vulkan/vulkan_raii.hpp>
 
 #ifndef ZINET_STATIC

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.h"
-#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
-#include "Zinet/GraphicLayer/ZtGLTransform.h"
+#include "Zinet/GraphicLayer/ZtGraphicLayerConfig.hpp"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.hpp"
+#include "Zinet/GraphicLayer/ZtGLTransform.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtLogger.hpp"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <span>
 #include <ranges>

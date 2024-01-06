@@ -1,6 +1,6 @@
-#include "Zinet/Window/ZtWindow.h"
+#include "Zinet/Window/ZtWindow.hpp"
 
-#include "Zinet/Core/ZtDebug.h"
+#include "Zinet/Core/ZtDebug.hpp"
 
 #include <type_traits>
 

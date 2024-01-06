@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLDrawInfo.h"
-#include "Zinet/GraphicLayer/ZtGLSemaphore.h"
-#include "Zinet/GraphicLayer/ZtGLFence.h"
-#include "Zinet/GraphicLayer/ZtGLCommandBuffer.h"
-#include "Zinet/GraphicLayer/ZtGLRendererPipeline.h"
-#include "Zinet/GraphicLayer/ZtGLRenderTarget.h"
-#include "Zinet/GraphicLayer/ZtGLCamera.h"
-#include "Zinet/GraphicLayer/ZtGLDrawableBase.h"
+#include "Zinet/GraphicLayer/ZtGLDrawInfo.hpp"
+#include "Zinet/GraphicLayer/ZtGLSemaphore.hpp"
+#include "Zinet/GraphicLayer/ZtGLFence.hpp"
+#include "Zinet/GraphicLayer/ZtGLCommandBuffer.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererPipeline.hpp"
+#include "Zinet/GraphicLayer/ZtGLRenderTarget.hpp"
+#include "Zinet/GraphicLayer/ZtGLCamera.hpp"
+#include "Zinet/GraphicLayer/ZtGLDrawableBase.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 #include <plf_colony.h>
 #include <memory>

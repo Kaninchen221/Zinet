@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Zinet/Window/ZtWindow.h"
-#include "Zinet/Window/ZtGLFW.h"
+#include "Zinet/Window/ZtWindow.hpp"
+#include "Zinet/Window/ZtGLFW.hpp"
 
-#include "Zinet/Math/ZtVecTypes.h"
+#include "Zinet/Math/ZtVecTypes.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

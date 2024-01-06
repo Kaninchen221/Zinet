@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Zinet/Engine/ECS/ZtComponentWeakRef.h"
-#include "Zinet/Engine/ECS/ZtComponentStrongRef.h"
+#include "Zinet/Engine/ECS/ZtComponentWeakRef.hpp"
+#include "Zinet/Engine/ECS/ZtComponentStrongRef.hpp"
 
-#include "Zinet/Core/ZtTypeTraits.h"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <gtest/gtest.h>
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Zinet/Core/ZtCoreConfig.h"
-#include "Zinet/Core/ZtFileFinder.h"
-#include "Zinet/Core/ZtFileOpenMode.h"
+#include "Zinet/Core/ZtCoreConfig.hpp"
+#include "Zinet/Core/ZtFileFinder.hpp"
+#include "Zinet/Core/ZtFileOpenMode.hpp"
 
 #include <fstream>
 

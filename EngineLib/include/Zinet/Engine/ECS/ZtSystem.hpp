@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
-#include "Zinet/Engine/ECS/ZtComponent.h"
-#include "Zinet/Engine/ECS/ZtEntity.h"
-#include "Zinet/Engine/ECS/ZtComponentWeakRef.h"
-#include "Zinet/Engine/ECS/ZtComponentStrongRef.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
+#include "Zinet/Engine/ECS/ZtComponent.hpp"
+#include "Zinet/Engine/ECS/ZtEntity.hpp"
+#include "Zinet/Engine/ECS/ZtComponentWeakRef.hpp"
+#include "Zinet/Engine/ECS/ZtComponentStrongRef.hpp"
 
-#include "Zinet/Core/ZtDebug.h"
-#include "Zinet/Core/ZtIDTypes.h"
+#include "Zinet/Core/ZtDebug.hpp"
+#include "Zinet/Core/ZtIDTypes.hpp"
 
 #include <vector>
 #include <memory>

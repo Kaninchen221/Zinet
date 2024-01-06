@@ -1,4 +1,4 @@
-#include "Zinet/Engine/ECS/ZtComponent.h"
+#include "Zinet/Engine/ECS/ZtComponent.hpp"
 
 namespace zt::engine::ecs
 {

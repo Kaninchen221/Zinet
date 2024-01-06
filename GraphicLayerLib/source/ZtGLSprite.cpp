@@ -1,6 +1,6 @@
-#include "Zinet/GraphicLayer/ZtGLSprite.h"
-#include "Zinet/GraphicLayer/ZtGLRendererContext.h"
-#include "Zinet/GraphicLayer/ZtGLTexture.h"
+#include "Zinet/GraphicLayer/ZtGLSprite.hpp"
+#include "Zinet/GraphicLayer/ZtGLRendererContext.hpp"
+#include "Zinet/GraphicLayer/ZtGLTexture.hpp"
 
 namespace zt::gl
 {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Zinet/Engine/ZtEngineConfig.h"
-#include "Zinet/Engine/Assets/ZtAsset.h"
-#include "Zinet/Engine/Assets/ZtAssetReference.h"
+#include "Zinet/Engine/ZtEngineConfig.hpp"
+#include "Zinet/Engine/Assets/ZtAsset.hpp"
+#include "Zinet/Engine/Assets/ZtAssetReference.hpp"
 
-#include "Zinet/Core/ZtLogger.h"
+#include "Zinet/Core/ZtLogger.hpp"
 
 #include <any>
 #include <functional>

@@ -1,7 +1,7 @@
-#include "Zinet/GraphicLayer/ZtGLShaderModule.h"
+#include "Zinet/GraphicLayer/ZtGLShaderModule.hpp"
 
-#include "Zinet/GraphicLayer/ZtGLShader.h"
-#include "Zinet/GraphicLayer/ZtGLDevice.h"
+#include "Zinet/GraphicLayer/ZtGLShader.hpp"
+#include "Zinet/GraphicLayer/ZtGLDevice.hpp"
 
 namespace zt::gl
 {
