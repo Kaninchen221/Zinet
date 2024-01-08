@@ -40,7 +40,7 @@ class Menu:
                         FunctionItem("Run Automatic Tests", self.run_script, ["run_automatic_tests.py"]),
                         FunctionItem("Run All Tests", self.run_script, ["run_all_tests.py"]),
                         FunctionItem("Clear Build Folder", self.run_script, ["build_clear.bat"]),
-                        FunctionItem("First Time", self.run_script, ["first_time.bat"])
+                        FunctionItem("First Time", self.run_script, ["first_time.py"])
                 ]
 
                 for item in self.__menuItems:
