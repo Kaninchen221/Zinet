@@ -24,7 +24,7 @@ conan_basic_setup()
 enable_testing()
 
 # Vulkan SDK
-find_package(Vulkan REQUIRED FATAL_ERROR)
+find_package(Vulkan REQUIRED)
 
 # Add subdirectories
 {argument_subdirectories}
