@@ -22,20 +22,18 @@ from zinet_reflector.code_generators.code_generator_operators import CodeGenerat
 
 class Reflector:
 
-    libclang_dll_path = Path(".").absolute().parent / "libclang.dll"
-
     def __init__(self):
         self.main_name = "main.cpp"
         self.found_file_paths = []
-
-    def load_lib_clang_dll(self):
-        self._load_libclang_dll_internal(Reflector.libclang_dll_path)
 
     def reflect(self, project_root_folder_path, folder_for_temp_main, exceptions_paths=None):
         if exceptions_paths is None:
             exceptions_paths = []
 
         print(f"Project root folder: {project_root_folder_path}")
+
+        libclang_dll = project_root_folder_path / "Tools/libclang.dll"
+        self._load_libclang_dll_internal(libclang_dll)
 
         entry_point_main = EntryPointMain()
         entry_point_main.create_main(project_root_folder_path,
