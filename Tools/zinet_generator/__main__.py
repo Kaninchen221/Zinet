@@ -1,7 +1,9 @@
 from pathlib import Path
 import argparse
-from zinet_generator.project_generator import ProjectGenerator
 
+from zinet_generator.cmakelists_generator import CMakeListsGenerator
+from zinet_generator.project_generator import ProjectGenerator
+from zinet_utilities.paths import find_zinet_root_path
 
 if __name__ == '__main__':
 
@@ -13,6 +15,6 @@ if __name__ == '__main__':
     print(cmdArgs)
 
     projectGenerator = ProjectGenerator()
-    projectPath = Path(".").absolute().parent
+    projectPath = find_zinet_root_path()
     print(f"Project absolute path: {projectPath}")
     projectGenerator.generate_project(projectPath, cmdArgs)

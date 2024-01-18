@@ -1,5 +1,7 @@
+import zinet_utilities.paths
 from zinet_generator.safe_dict import SafeDict
 from pathlib import Path
+from zinet_utilities import paths
 
 
 class CMakeListsGenerator:
@@ -17,14 +19,10 @@ class CMakeListsGenerator:
 
     @staticmethod
     def get_templates_folder():
-        path = (Path(".") / "templates").absolute()
+        path = (paths.find_zinet_root_path() / "Tools/zinet_generator/templates").absolute()
         if not path.exists():
-            for parent_path in path.parents:
-                templates_path = parent_path / "zinet_generator/templates"
-                if templates_path.exists():
-                    return templates_path
-
             raise Exception(f"Can't return valid templates folder \n{path}")
+        return path
 
     fileLocation = Path(__file__)
     templatePath = Path()

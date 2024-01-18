@@ -1,21 +1,11 @@
-from pathlib import Path
-
-
 from zinet_reflector.reflector import Reflector
-
-
-def find_zinet_folder():
-    root_path = Path('.').absolute()
-    for parent in root_path.parents:
-        if parent.name.startswith("Zinet") or parent.name == "Zinet":
-            return parent
-    return None
+from zinet_utilities.paths import find_zinet_root_path
 
 
 if __name__ == '__main__':
     try:
         reflector = Reflector()
-        project_root_folder_path = find_zinet_folder()
+        project_root_folder_path = find_zinet_root_path()
         if project_root_folder_path is None:
             raise Exception("Can't find zinet root folder path")
 
