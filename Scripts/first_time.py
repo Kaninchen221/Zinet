@@ -2,6 +2,8 @@ import subprocess
 import site
 from pathlib import Path
 
+from zinet_utilities.paths import find_zinet_root_path
+
 
 def run_tools_install(project_path):
     install_bat_path = project_path / "Tools/install.bat"
@@ -26,10 +28,11 @@ def create_pth_file(project_path):
 
 
 def main():
-    project_path = Path('.').absolute()
-    assert project_path.name == "Zinet"
-    run_tools_install(project_path)
-    create_pth_file(project_path)
+    zinet_root_path = find_zinet_root_path()
+    print(f"Zinet root path: {zinet_root_path}")
+
+    run_tools_install(zinet_root_path)
+    create_pth_file(zinet_root_path)
 
 
 main()
