@@ -2,13 +2,13 @@ from pathlib import Path
 
 from zinet_reflector.parser import *
 from zinet_reflector.assignor import *
+from zinet_utilities.paths import find_tools_folder
 
 
 class TestAssignor:
 
     def test_assignor(self):
-        project_root_folder = Path(".").absolute() / "test_files"
-        path = Path(".").absolute() / r"test_files\include\zinet\lib_name\reflection_test_file.hpp"
+        path = find_tools_folder() / r"tests/zinet_reflector/test_files\include\zinet\lib_name\reflection_test_file.hpp"
         parser = Parser()
         parser_results = parser.parse(path)
 

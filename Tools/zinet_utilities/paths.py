@@ -30,6 +30,10 @@ def find_zinet_bin_path():
     return find_zinet_build_path() / "bin"
 
 
+def find_tools_folder():
+    return find_zinet_root_path() / "Tools"
+
+
 def find_scripts_folder():
     return find_zinet_root_path() / "Scripts"
 

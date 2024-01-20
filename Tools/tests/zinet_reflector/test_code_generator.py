@@ -8,13 +8,14 @@ from zinet_reflector.parser import *
 from zinet_reflector.assignor import *
 from zinet_reflector.tokens_finder import *
 from zinet_reflector.code_generator import *
+from zinet_utilities.paths import find_tools_folder
 
 
 class TestCodeGenerator:
 
     def test_generate_code(self):
-        project_root_folder = Path(".").absolute() / "test_files"
-        path = Path(".").absolute() / r"test_files\include\zinet\lib_name\reflection_test_file_with_macros.hpp"
+        path = find_tools_folder() / (r"tests/zinet_reflector/test_files\include\zinet\lib_name"
+                                      r"\reflection_test_file_with_macros.hpp")
         parser = Parser()
         parse_result = parser.parse(path)
 

@@ -8,13 +8,13 @@ from zinet_reflector.parser import *
 from zinet_reflector.assignor import *
 from zinet_reflector.tokens_finder import *
 from zinet_reflector.code_generator import *
+from zinet_utilities.paths import find_tools_folder
 
 
 class TestCodeInjector:
 
     def test_inject_code(self):
-        project_root_folder = Path(".").absolute() / "test_files"
-        path_to_main = Path(".").absolute() / r"test_files\include\zinet\lib_name\main.cpp"
+        path_to_main = find_tools_folder() / r"tests\zinet_reflector\test_files\include\zinet\lib_name\main.cpp"
         parser = Parser()
         parse_result = parser.parse(path_to_main)
 
@@ -41,9 +41,11 @@ class TestCodeInjector:
         code_injector = CodeInjector()
         code_injector.inject_code(generated_code)
 
-        file = open(Path(".").absolute() / "test_files/include/zinet/lib_name/reflection_test_file.hpp", 'r')
-        expected_file_path = str(Path(".").absolute() /
-                                 "test_files/include/zinet/lib_name/reflection_test_file_expected.h")
+        file = open(find_tools_folder() /
+                    r"tests/zinet_reflector/test_files/include/zinet/lib_name/reflection_test_file.hpp", 'r')
+        expected_file_path = str(find_tools_folder() /
+                                 r"tests/zinet_reflector/test_files/include/zinet/lib_name"
+                                 r"/reflection_test_file_expected.h")
         expected_file = open(expected_file_path, 'r')
         file_content = file.read()
         expected_file_content = expected_file.read()

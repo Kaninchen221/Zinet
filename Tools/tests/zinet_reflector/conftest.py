@@ -4,6 +4,9 @@ from pathlib import Path
 import clang.cindex
 import os
 
+from zinet_reflector.reflector import Reflector
+from zinet_utilities.paths import find_tools_folder
+
 
 def pytest_configure(config):
     """
@@ -11,8 +14,7 @@ def pytest_configure(config):
     This hook is called for every plugin and initial conftest
     file after command line options have been parsed.
     """
-    library_path = str(Path(".").absolute().parent.parent / "libclang.dll")
-    clang.cindex.Config.set_library_file(library_path)
+    Reflector.load_libclang_dll()
 
 
 def pytest_sessionstart(session):

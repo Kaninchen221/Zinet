@@ -18,6 +18,7 @@ from zinet_reflector.tokens_finder import TokensFinder
 from zinet_reflector.code_generators.code_generator_constructors import CodeGeneratorConstructors
 from zinet_reflector.code_generators.code_generator_getter_setter import CodeGeneratorGetterSetter
 from zinet_reflector.code_generators.code_generator_operators import CodeGeneratorOperators
+from zinet_utilities.paths import find_tools_folder
 
 
 class Reflector:
@@ -32,9 +33,6 @@ class Reflector:
 
         print(f"Project root folder: {project_root_folder_path}")
 
-        libclang_dll = project_root_folder_path / "Tools/libclang.dll"
-        self._load_libclang_dll_internal(libclang_dll)
-
         entry_point_main = EntryPointMain()
         entry_point_main.create_main(project_root_folder_path,
                                      folder_for_temp_main,
@@ -42,6 +40,14 @@ class Reflector:
                                      exceptions_paths)
 
         self._reflect_files_internal([entry_point_main.main_file_path])
+
+    @staticmethod
+    def load_libclang_dll():
+        library_path = find_tools_folder() / "libclang.dll"
+        library_raw_path = str(library_path)
+        print(f"Set libclang.dll path: {library_raw_path}")
+        assert library_path.is_file()
+        clang.cindex.Config.set_library_file(library_raw_path)
 
     def _find_file_for_reflection(self, path):
         for root, dirs, files in os.walk(path):
@@ -123,10 +129,3 @@ class Reflector:
         print(f"Reflection took {reflection_elapsed_seconds} seconds")
 
         print(f"End reflection for file: {file_path}")
-
-    @staticmethod
-    def _load_libclang_dll_internal(library_path):
-        library_raw_path = str(library_path)
-        print(f"Set libclang.dll path: {library_raw_path}")
-        assert library_path.is_file()
-        clang.cindex.Config.set_library_file(library_raw_path)
