@@ -1,13 +1,19 @@
 from pathlib import Path
 
 
+def is_zinet_root_path(path):
+    if not (path / "recipe_root.py").exists():
+        return False
+    return True
+
+
 def find_zinet_root_path():
     root_path = Path('.').absolute()
-    if root_path.name.startswith("Zinet") or root_path.name == "Zinet":
+    if is_zinet_root_path(root_path):
         return root_path
 
     for parent in root_path.parents:
-        if parent.name.startswith("Zinet") or parent.name == "Zinet":
+        if is_zinet_root_path(parent):
             return parent
     return None
 

@@ -23,12 +23,10 @@ class TestUtilities:
         expected = paths.find_zinet_root_path() / "build"
         assert actual == expected
 
-
     def test_find_zinet_bin_path(self):
         actual = paths.find_zinet_bin_path()
-        expected = paths.test_find_zinet_build_path() / "bin"
+        expected = paths.find_zinet_build_path() / "bin"
         assert actual == expected
-
 
     def test_find_scripts_folder(self):
         actual = paths.find_scripts_folder()
