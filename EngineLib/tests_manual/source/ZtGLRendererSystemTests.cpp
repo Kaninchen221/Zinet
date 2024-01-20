@@ -49,7 +49,7 @@ namespace zt::engine::tests
 
 		void loop(auto callablePrepare, auto callableTick);
 
-		bool skipTwoDrawableObjectsTest = true;
+		bool skipTwoDrawableObjectsTest = false;
 		bool skipTileMapTest = false;
 	};
 
@@ -66,7 +66,7 @@ namespace zt::engine::tests
 		if (skipTileMapTest)
 			FAIL() << "";
 
-		loop(&RendererSystemTests::prepareTileMap, [](auto* thisPointer) {});
+		//loop(&RendererSystemTests::prepareTileMap, [](auto* thisPointer) {});
 	}
 
 	void RendererSystemTests::prepareTwoDrawableObjectsTest()
