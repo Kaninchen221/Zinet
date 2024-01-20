@@ -4,7 +4,9 @@ from zinet_utilities.paths import find_zinet_root_path
 
 if __name__ == '__main__':
     try:
+        print("Zinet Reflector")
         reflector = Reflector()
+        Reflector.load_libclang_dll()
         project_root_folder_path = find_zinet_root_path()
         if project_root_folder_path is None:
             raise Exception("Can't find zinet root folder path")
