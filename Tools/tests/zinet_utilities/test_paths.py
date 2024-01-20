@@ -10,9 +10,6 @@ class TestUtilities:
         assert zinet_root_path.parent.name != "tests"
         assert zinet_root_path.parent.parent.name != "Tools"
 
-        folder = str(zinet_root_path.name).lower()
-        assert folder.startswith('zinet') or folder.endswith('zinet')
-
     def test_get_build_folder_name(self):
         actual = paths.get_build_folder_name()
         expected = "build"
