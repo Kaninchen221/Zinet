@@ -2,11 +2,13 @@ from zinet_generator.cmakelists_generator import CMakeListsGenerator
 from zinet_generator.safe_dict import SafeDict
 from pathlib import Path
 
+from zinet_utilities.paths import find_tools_folder
+
 
 class TestCmakelistsGenerator:
     def test_generate_cmake_implementation(self):
-        template_path = Path(".").absolute() / "test_files/template_simple.txt"
-        arguments = SafeDict(arg1 = "1", arg2 = "2", arg3 = "3")
+        template_path = find_tools_folder() / r"tests/zinet_generator/test_files/template_simple.txt"
+        arguments = SafeDict(arg1="1", arg2="2", arg3="3")
         cmakelists = self.cmakelistsGenerator.generate_cmake_implementation(template_path, arguments)
         assert isinstance(cmakelists, str)
         assert cmakelists == "1 3 2"

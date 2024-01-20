@@ -3,6 +3,8 @@ from zinet_generator.cmakelists_generator import CMakeListsGenerator
 from zinet_generator.safe_dict import SafeDict
 from pathlib import Path
 
+from zinet_utilities.paths import find_tools_folder
+
 
 class TestCmakelistsGeneratorRoot:
     def test_inheritance(self):
@@ -30,7 +32,7 @@ class TestCmakelistsGeneratorRoot:
         self.prepare_arguments()
         arguments = self.generator_root.prepare_arguments()
         cmakelists = self.generator_root.generate_cmakelists(arguments)
-        expected_cmake_lists_path = Path(".").absolute() / "test_files/expected_root.txt"
+        expected_cmake_lists_path = find_tools_folder() / r"tests\zinet_generator\test_files\expected_root.txt"
         expected_cmake_lists = open(expected_cmake_lists_path).read()
 
         assert cmakelists == expected_cmake_lists

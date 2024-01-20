@@ -3,6 +3,8 @@ from zinet_generator.cmakelists_generator import CMakeListsGenerator
 from zinet_generator.safe_dict import SafeDict
 from pathlib import Path
 
+from zinet_utilities.paths import find_tools_folder
+
 
 class TestCmakelistsGeneratorTarget:
     def test_inheritance(self):
@@ -11,7 +13,7 @@ class TestCmakelistsGeneratorTarget:
     def test_properties(self):
         assert self.generatorTarget.targetName == "target_name"
         assert self.generatorTarget.targetPrettyName == "target_pretty_name"
-        assert self.generatorTarget.headersExtension == "h"
+        assert self.generatorTarget.headersExtension == "hpp"
         assert self.generatorTarget.headersSubfolder == "include"
         assert self.generatorTarget.sourcesExtension == "cpp"
         assert self.generatorTarget.sourcesSubfolder == "source"
@@ -28,13 +30,13 @@ class TestCmakelistsGeneratorTarget:
         self.generatorTarget.linkLibraries = "linkLibraries"
         self.generatorTarget.compileDefinitions = "compileDefinitions"
 
-        test_files_path = Path(".").absolute() / "test_files"
+        test_files_path = find_tools_folder() / r"tests\zinet_generator\test_files"
         paths = [test_files_path / self.generatorTarget.headersSubfolder]
         extensions = [self.generatorTarget.headersExtension]
         headers_subfolder = self.generatorTarget.headersSubfolder
         sources_subfolder = self.generatorTarget.sourcesSubfolder
-        expected_files_argument = ("\"" + str(test_files_path / headers_subfolder / "header1.h\"") + "\n\t\""
-                                   + str(test_files_path / headers_subfolder / "header2.h") + "\"\n\t\n\t")
+        expected_files_argument = ("\"" + str(test_files_path / headers_subfolder / "header1.hpp\"") + "\n\t\""
+                                   + str(test_files_path / headers_subfolder / "header2.hpp") + "\"\n\t\n\t")
         expected_files_argument += ("\"" + str(test_files_path / sources_subfolder / "source1.cpp\"") + "\n\t\""
                                     + str(test_files_path / sources_subfolder / "source2.cpp") + "\"\n\t\n\t")
 

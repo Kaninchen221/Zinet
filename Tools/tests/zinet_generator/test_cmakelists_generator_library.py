@@ -4,6 +4,8 @@ from zinet_generator.cmakelists_generator_library import CMakeListsGeneratorLibr
 from zinet_generator.safe_dict import SafeDict
 from pathlib import Path
 
+from zinet_utilities.paths import find_tools_folder
+
 
 class TestCMakeListsGeneratorLibrary():
     
@@ -19,7 +21,7 @@ class TestCMakeListsGeneratorLibrary():
         assert self.generator_library.templatePath.exists()
 
     def test_prepare_arguments(self):
-        test_files_path = Path(".").absolute() / "test_files/expected_library_cmakelists.txt"
+        test_files_path = find_tools_folder() / r"tests\zinet_generator\test_files\expected_library_cmakelists.txt"
         assert test_files_path.exists()
         self.generator_library.fileLocation = test_files_path
 
@@ -32,13 +34,14 @@ class TestCMakeListsGeneratorLibrary():
         assert arguments['argument_tests_subfolders'] == expected_tests_subfolders_argument
 
     def test_generate_cmake(self):
-        file_location = Path(".").absolute() / "test_files/expected_library_cmakelists.txt"
+        file_location = find_tools_folder() / r"tests\zinet_generator\test_files\expected_library_cmakelists.txt"
         assert file_location.exists()
         self.generator_library.fileLocation = file_location
         arguments = self.generator_library.prepare_arguments()
 
         cmakelists = self.generator_library.generate_cmakelists(arguments)
-        expected_cmake_lists = open(Path(".").absolute() / "test_files/expected_library_cmakelists.txt").read()
+        expected_cmake_lists = open(find_tools_folder() / r"tests\zinet_generator\test_files"
+                                                          r"\expected_library_cmakelists.txt").read()
         expected_cmake_lists = expected_cmake_lists.format_map(SafeDict(argument_absolute_path=Path(".").absolute()))
         expected_cmake_lists = expected_cmake_lists.replace("\\\\", "/")
         expected_cmake_lists = expected_cmake_lists.replace("\\", "/")

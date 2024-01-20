@@ -1,11 +1,11 @@
 message(STATUS "*** Create target_pretty_name Lib ***")
 
 add_library(target_name STATIC
-	"{argument_absolute_path}/test_files/include/header1.h"
-	"{argument_absolute_path}/test_files/include/header2.h"
+	"{argument_absolute_path}/Tools/tests/zinet_generator/test_files/include/header1.hpp"
+	"{argument_absolute_path}/Tools/tests/zinet_generator/test_files/include/header2.hpp"
 	
-	"{argument_absolute_path}/test_files/source/source1.cpp"
-	"{argument_absolute_path}/test_files/source/source2.cpp"
+	"{argument_absolute_path}/Tools/tests/zinet_generator/test_files/source/source1.cpp"
+	"{argument_absolute_path}/Tools/tests/zinet_generator/test_files/source/source2.cpp"
 	
 	
 )
