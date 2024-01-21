@@ -7,7 +7,7 @@ import clang
 import winsound
 
 from zinet_reflector.assignor import Assignor
-from zinet_reflector.code_generator import CodeGenerator, print_generated_code
+from zinet_reflector.code_generator import CodeGenerator, print_generated_code, CodeGeneratorInstructionBase
 from zinet_reflector.code_generators.code_generator_class_info import CodeGeneratorClassInfo
 from zinet_reflector.code_injector import CodeInjector
 from zinet_reflector.entry_point_main import EntryPointMain
@@ -70,9 +70,8 @@ class Reflector:
         return found_file_paths
 
     def _reflect_files_internal(self, files_paths):
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            for file_path in files_paths:
-                self._reflect_file(file_path)
+        for file_path in files_paths:
+            self._reflect_file(file_path)
 
     @staticmethod
     def _reflect_file(file_path):
@@ -105,10 +104,9 @@ class Reflector:
         #print_parser_result(parse_result)
 
         code_generator = CodeGenerator()
-        code_generator.instructions.append(CodeGeneratorConstructors())
-        code_generator.instructions.append(CodeGeneratorOperators())
-        code_generator.instructions.append(CodeGeneratorGetterSetter())
-        code_generator.instructions.append(CodeGeneratorClassInfo())
+        subclasses = CodeGeneratorInstructionBase.__subclasses__()
+        for subclass in subclasses:
+            code_generator.instructions.append(subclass())
 
         generate_code_start_time = timeit.default_timer()
         generated_code = code_generator.generate_code(parse_result)
