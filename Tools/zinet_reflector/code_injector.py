@@ -21,7 +21,7 @@ class CodeInjector:
             with (open(file_path, 'w') as file):
                 print(f"Inject code into: {file_path}")
 
-                generated_code_as_string = ''.join(code)
+                generated_code_as_string = '\n'.join(code)
                 file_content = (file_content[:inject_code_start_index]
                                 + generated_code_as_string
                                 + "\n"

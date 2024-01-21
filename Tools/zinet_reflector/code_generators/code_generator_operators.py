@@ -13,5 +13,4 @@ class CodeGeneratorOperators(CodeGeneratorInstructionBase):
             class_name = parser_result.get_class_name()
             return f"""
 {class_name}& operator = (const {class_name}& other) = default;
-{class_name}& operator = ({class_name}&& other) = default;
-"""
+{class_name}& operator = ({class_name}&& other) = default;"""

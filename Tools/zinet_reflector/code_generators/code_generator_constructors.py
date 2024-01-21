@@ -16,5 +16,4 @@ class CodeGeneratorConstructors(CodeGeneratorInstructionBase):
 {class_name}(const {class_name}& other) = default;
 {class_name}({class_name}&& other) = default;
 
-~{class_name}() noexcept = default;
-"""
+~{class_name}() noexcept = default;"""
