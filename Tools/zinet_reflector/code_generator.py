@@ -3,13 +3,12 @@ from zinet_reflector.parser_result import *
 
 class CodeGeneratorInstructionBase:
     def __init__(self):
-        self.reflection_kind = ReflectionKind.Namespace
-        self.token = ""
+        pass
 
     def generate_code(self, parser_result):
         return None
 
-    def generate_code_post(self):
+    def generate_code_post(self, file_path):
         return None
 
 
@@ -20,6 +19,7 @@ class CodeGenerator:
     def generate_code(self, parser_result):
         generated_code = {}
         self._generate_code_internal(parser_result, generated_code)
+        self._generate_code_post(generated_code)
         return generated_code
 
     def _generate_code_internal(self, parser_result, generated_code):
@@ -38,6 +38,13 @@ class CodeGenerator:
                 generated_code[key].append(instruction_generated_code)
 
             self._generate_code_internal(child_parser_result, generated_code)
+
+    def _generate_code_post(self, generated_code):
+        for file_path, code in generated_code.items():
+            for instruction in self.instructions:
+                generated_code_post = instruction.generate_code_post(file_path)
+                if generated_code_post:
+                    code.append(generated_code_post)
 
 
 def print_generated_code(generated_code):

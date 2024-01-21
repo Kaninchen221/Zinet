@@ -4,7 +4,7 @@
 
 #include "Zinet/Engine/ZtEngineConfig.hpp"
 #include "Zinet/Engine/ECS/ZtComponent.hpp"
-#include "Zinet/Engine/Assets/ZtTextureAsset.hpp"
+#include "Zinet/Engine/Assets/ZtAssetTexture.hpp"
 #include "Zinet/Engine/Assets/ZtAssetReference.hpp"
 
 namespace zt::gl
