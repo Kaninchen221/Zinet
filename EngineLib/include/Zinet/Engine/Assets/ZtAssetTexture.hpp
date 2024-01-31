@@ -4,7 +4,12 @@
 #include "Zinet/Engine/Assets/ZtAsset.hpp"
 
 #include "Zinet/Core/ZtLogger.hpp"
+#include "Zinet/Core/Reflection/ZtClassInfo.hpp"
+
 #include <tuple>
+
+
+class Texture {};
 
 ZT_REFLECT_NAMESPACE()
 namespace zt::engine
@@ -17,17 +22,14 @@ namespace zt::engine
 	public:
 		
 	protected:
-	
-		ZT_REFLECT_MEMBER(ReadOnly)
-		int count = 0;
 
 	public:
 
 /*GENERATED_CODE_START*/
-class ClassInfo 
+class AssetTextureClassInfo : public zt::core::reflection::ClassInfo
 {
 public:
-    static std::string_view GetClassName() { return "AssetTexture"; }
+    std::string_view getClassName() const override { return "AssetTexture"; }
 };
 
 AssetTexture() = default;
@@ -39,9 +41,7 @@ AssetTexture(AssetTexture&& other) = default;
 AssetTexture& operator = (const AssetTexture& other) = default;
 AssetTexture& operator = (AssetTexture&& other) = default;
 
-const decltype(count)& getCount() const { return count; }
-
-auto getAllMembers() { return std::make_tuple(count); };
+auto getCopyOfAllMembers() { return std::make_tuple(); };
 /*GENERATED_CODE_END*/
 	};
 }
