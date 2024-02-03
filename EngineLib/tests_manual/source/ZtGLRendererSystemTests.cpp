@@ -73,8 +73,8 @@ namespace zt::engine::tests
 	{
 		// Assets
 		const std::string textureContentPath = "/Content/TileMapTexture.meta";
-		TextureAsset textureAsset;
-		assetsManager.addAsset(textureContentPath, textureAsset);
+		AssetTexture assetTexture;
+		assetsManager.addAsset(textureContentPath, assetTexture);
 
 		rendererSystem.setCamera(camera);
 
