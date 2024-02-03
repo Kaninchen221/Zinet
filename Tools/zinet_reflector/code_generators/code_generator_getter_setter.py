@@ -22,17 +22,17 @@ class CodeGeneratorGetterSetter(CodeGeneratorInstructionBase):
 
             if self.token in parser_result.tokens:
                 member_name = parser_result.get_member_name()
-                member_type = parser_result.get_member_type()
+                member_type_name = parser_result.get_member_type_name()
                 getter_name = parser_result.get_member_getter_name()
                 setter_name = parser_result.get_member_setter_name()
 
                 return f"""
-const {member_type}& {getter_name}() const {{ return {member_name}; }}
-void {setter_name}(const {member_type}& newValue) {{ {member_name} = newValue; }}"""
+const {member_type_name}& {getter_name}() const {{ return {member_name}; }}
+void {setter_name}(const {member_type_name}& newValue) {{ {member_name} = newValue; }}"""
 
             elif self.token_only_getter in parser_result.tokens:
                 member_name = parser_result.get_member_name()
-                member_type = parser_result.get_member_type()
+                member_type_name = parser_result.get_member_type_name()
                 getter_name = parser_result.get_member_getter_name()
                 return f"""
-const {member_type}& {getter_name}() const {{ return {member_name}; }}"""
+const {member_type_name}& {getter_name}() const {{ return {member_name}; }}"""

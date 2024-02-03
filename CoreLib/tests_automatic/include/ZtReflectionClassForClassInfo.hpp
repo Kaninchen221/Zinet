@@ -1,0 +1,65 @@
+#pragma once
+
+#include "Zinet/Core/ZtCoreConfig.hpp"
+
+#include "Zinet/Core/Reflection/ZtClassInfo.hpp"
+#include "Zinet/Core/Reflection/ZtClassPropertyInfo.hpp"
+
+#include <array>
+
+namespace zt::core::reflection::tests
+{
+	ZT_REFLECT_CLASS()
+	class TestReflectionClassForClassInfo
+	{
+	public:
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		int i1 = std::numeric_limits<int>::max();
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		bool b1 = false;
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		double d1 = 213123.12654323454;
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		int i2 = 123123123;
+
+	public:
+/*GENERATED_CODE_START*/
+		TestReflectionClassForClassInfo() = default;
+		TestReflectionClassForClassInfo(const TestReflectionClassForClassInfo& other) = default;
+		TestReflectionClassForClassInfo(TestReflectionClassForClassInfo&& other) = default;
+		
+		~TestReflectionClassForClassInfo() noexcept = default;
+		
+		TestReflectionClassForClassInfo& operator = (const TestReflectionClassForClassInfo& other) = default;
+		TestReflectionClassForClassInfo& operator = (TestReflectionClassForClassInfo&& other) = default;
+		
+		const int& getI1() const { return i1; }
+		
+		const bool& getB1() const { return b1; }
+		
+		const double& getD1() const { return d1; }
+		
+		const int& getI2() const { return i2; }
+		
+		class ClassInfo : public zt::core::reflection::ClassInfo
+		{
+		public:
+		    std::string_view getClassName() const override { return "TestReflectionClassForClassInfo"; }
+		
+			static auto GetClassPropertiesInfos() { return std::array{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
+			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
+			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, d1), "d1", "double"},
+			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}; };
+		
+		};
+		
+		auto getCopyOfAllMembers() { return std::make_tuple(i1, b1, d1, i2); };
+		
+/*GENERATED_CODE_END*/
+	};
+
+}

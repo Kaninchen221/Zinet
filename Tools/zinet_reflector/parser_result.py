@@ -21,12 +21,19 @@ class ParserResult:
     def get_class_name(self):
         return self.cursor.displayname
 
+    def get_member_class_type_name(self):
+        return self.cursor.lexical_parent.spelling
+
     def get_member_name(self):
         return self.cursor.spelling
 
     def get_member_type(self):
         member_name = self.get_member_name()
         return f"decltype({member_name})"
+
+    def get_member_type_name(self):
+        name = self.cursor.type.spelling
+        return name
 
     def get_member_getter_name(self):
         member_name = self.get_member_name()
@@ -37,6 +44,9 @@ class ParserResult:
         member_name = self.get_member_name()
         setter_name = member_name[0].upper() + member_name[1:]
         return f"set{setter_name}"
+
+    def get_cursor_file_path(self):
+        return self.cursor.location.file.name
 
 
 def print_parser_result(parser_result):

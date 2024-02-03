@@ -5,6 +5,7 @@
 
 #include "Zinet/Core/ZtLogger.hpp"
 #include "Zinet/Core/Reflection/ZtClassInfo.hpp"
+#include "Zinet/Core/Reflection/ZtClassPropertyInfo.hpp"
 
 #include <tuple>
 
@@ -21,27 +22,54 @@ namespace zt::engine
 
 	public:
 		
+		ZT_REFLECT_MEMBER(ReadOnly)
+		int i1;
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		long long int lli1;
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		int i2;
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		Texture texture;
+
 	protected:
 
 	public:
 
 /*GENERATED_CODE_START*/
-class AssetTextureClassInfo : public zt::core::reflection::ClassInfo
-{
-public:
-    std::string_view getClassName() const override { return "AssetTexture"; }
-};
-
-AssetTexture() = default;
-AssetTexture(const AssetTexture& other) = default;
-AssetTexture(AssetTexture&& other) = default;
-
-~AssetTexture() noexcept = default;
-
-AssetTexture& operator = (const AssetTexture& other) = default;
-AssetTexture& operator = (AssetTexture&& other) = default;
-
-auto getCopyOfAllMembers() { return std::make_tuple(); };
+		AssetTexture() = default;
+		AssetTexture(const AssetTexture& other) = default;
+		AssetTexture(AssetTexture&& other) = default;
+		
+		~AssetTexture() noexcept = default;
+		
+		AssetTexture& operator = (const AssetTexture& other) = default;
+		AssetTexture& operator = (AssetTexture&& other) = default;
+		
+		const int& getI1() const { return i1; }
+		
+		const long long& getLli1() const { return lli1; }
+		
+		const int& getI2() const { return i2; }
+		
+		const Texture& getTexture() const { return texture; }
+		
+		class ClassInfo : public zt::core::reflection::ClassInfo
+		{
+		public:
+		    std::string_view getClassName() const override { return "AssetTexture"; }
+		
+			static auto GetClassPropertiesInfos() { return std::array{zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, i1), "i1", "int"},
+			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, lli1), "lli1", "long long"},
+			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, i2), "i2", "int"},
+			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, texture), "texture", "Texture"}}; };
+		
+		};
+		
+		auto getCopyOfAllMembers() { return std::make_tuple(i1, lli1, i2, texture); };
+		
 /*GENERATED_CODE_END*/
 	};
 }

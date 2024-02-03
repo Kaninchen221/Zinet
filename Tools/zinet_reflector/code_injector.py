@@ -22,8 +22,13 @@ class CodeInjector:
                 print(f"Inject code into: {file_path}")
 
                 generated_code_as_string = '\n'.join(code)
+                generated_code_as_string = CodeInjector.inject_indentations(generated_code_as_string, '\t\t')
                 file_content = (file_content[:inject_code_start_index]
                                 + generated_code_as_string
                                 + "\n"
                                 + file_content[inject_code_end_index:])
                 file.write(file_content)
+
+    @staticmethod
+    def inject_indentations(string, indentation):
+        return string.replace('\n', '\n' + indentation)
