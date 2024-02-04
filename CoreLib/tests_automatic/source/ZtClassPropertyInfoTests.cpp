@@ -13,8 +13,8 @@ namespace zt::core::reflection::tests
 	{
 	protected:
 
-		using ClassPropertiesInfosT = ClassPropertiesInfos<1>;
-		using ArrayTypeParam = std::array<ClassPropertyInfo, 3>();
+		const std::size_t size = 3u;
+		using ClassPropertiesInfosT = ClassPropertiesInfos<3u>;
 
 		static_assert(std::is_default_constructible_v<ClassPropertiesInfosT>);
 		static_assert(std::is_copy_constructible_v<ClassPropertiesInfosT>);
@@ -46,6 +46,13 @@ namespace zt::core::reflection::tests
 		auto optClassPropertyInfo = classPropertiesInfos.findFirstWithPropertyName(expectedPropertyName);
 		ASSERT_TRUE(optClassPropertyInfo);
 		ASSERT_EQ(optClassPropertyInfo->getPropertyName(), expectedPropertyName);
+	}
+
+	TEST_F(ClassPropertiesInfosTests, ArrowOperator)
+	{
+		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
+		std::array<ClassPropertyInfo, 5u>* array = classPropertiesInfos.operator->();
+		ASSERT_NE(array, nullptr);
 	}
 
 	class ClassPropertyInfoTests : public ::testing::Test

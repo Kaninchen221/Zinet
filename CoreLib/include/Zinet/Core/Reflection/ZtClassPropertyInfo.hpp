@@ -22,6 +22,9 @@ namespace zt::core::reflection
 
 		std::optional<ClassPropertyInfo> findFirstWithPropertyName(const std::string_view propertyName);
 
+		std::array<ClassPropertyInfo, Count>* operator -> () { return &infos; }
+		std::array<ClassPropertyInfo, Count>* operator -> () const { return &infos; }
+
 	protected:
 		std::array<ClassPropertyInfo, Count> infos;
 
