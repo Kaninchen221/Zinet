@@ -21,6 +21,9 @@ namespace zt::core::reflection::tests
 		bool b1 = false;
 
 		ZT_REFLECT_MEMBER(ReadOnly)
+		long long int lli1 = std::numeric_limits<long long int>::max();
+
+		ZT_REFLECT_MEMBER(ReadOnly)
 		double d1 = 213123.12654323454;
 
 		ZT_REFLECT_MEMBER(ReadOnly)
@@ -41,6 +44,8 @@ namespace zt::core::reflection::tests
 		
 		const bool& getB1() const { return b1; }
 		
+		const long long& getLli1() const { return lli1; }
+		
 		const double& getD1() const { return d1; }
 		
 		const int& getI2() const { return i2; }
@@ -50,14 +55,15 @@ namespace zt::core::reflection::tests
 		public:
 		    std::string_view getClassName() const override { return "TestReflectionClassForClassInfo"; }
 		
-			static auto GetClassPropertiesInfos() { return std::array{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
-			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
-			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, d1), "d1", "double"},
-			                                                           zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}; };
+			static auto GetClassPropertiesInfos() { return ArrayToClassPropertiesInfos(std::array{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
+			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
+			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, lli1), "lli1", "long long"},
+			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, d1), "d1", "double"},
+			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}); };
 		
 		};
 		
-		auto getCopyOfAllMembers() { return std::make_tuple(i1, b1, d1, i2); };
+		auto getCopyOfAllMembers() { return std::make_tuple(i1, b1, lli1, d1, i2); };
 		
 /*GENERATED_CODE_END*/
 	};

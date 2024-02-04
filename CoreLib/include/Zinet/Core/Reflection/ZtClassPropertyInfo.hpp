@@ -1,11 +1,56 @@
 #pragma once
 
 #include "Zinet/Core/ZtCoreConfig.hpp"
+#include "Zinet/Core/ZtTypeTraits.hpp"
 
 #include <typeinfo>
+#include <optional>
+#include <ranges>
+#include <xutility>
 
 namespace zt::core::reflection
 {
+	class ClassPropertyInfo;
+
+	template<size_t Count = 0>
+	class ClassPropertiesInfos
+	{
+	public:
+
+		std::array<ClassPropertyInfo, Count>& get() { return infos; }
+		const std::array<ClassPropertyInfo, Count>& get() const { return infos; }
+
+		std::optional<ClassPropertyInfo> findFirstWithPropertyName(const std::string_view propertyName);
+
+	protected:
+		std::array<ClassPropertyInfo, Count> infos;
+
+	};
+
+	template<size_t Count>
+	std::optional<ClassPropertyInfo> ClassPropertiesInfos<Count>::findFirstWithPropertyName(const std::string_view propertyName)
+	{
+		for (const auto& info : infos)
+		{
+			if (info.getPropertyName() == propertyName)
+			{
+				return info;
+			}
+		}
+		return {};
+	}
+
+	template<size_t Count>
+	auto ArrayToClassPropertiesInfos(std::array<ClassPropertyInfo, Count> array)
+	{
+		ClassPropertiesInfos<Count> classPropertiesInfos;
+		for (size_t index = 0u; auto& element : array)
+		{
+			classPropertiesInfos.get()[index] = element;
+			++index;
+		}
+		return classPropertiesInfos;
+	}
 
 	class ZINET_CORE_API ClassPropertyInfo
 	{

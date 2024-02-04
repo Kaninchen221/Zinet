@@ -63,7 +63,8 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
         if not self.members:
             return None
 
-        generated_code_begin = "\n\tstatic auto GetClassPropertiesInfos() { return std::array{"
+        generated_code_begin = (f"\n\tstatic auto GetClassPropertiesInfos() {{ "
+                                f"return ArrayToClassPropertiesInfos(std::array{{")
         initializer_list = ""
         class_property_info = "zt::core::reflection::ClassPropertyInfo"
         separator = ',\n\t' + (' ' * (len(generated_code_begin) - 1))
@@ -79,5 +80,5 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
         if initializer_list.endswith(separator):
             initializer_list = initializer_list[:-len(separator)]
 
-        generated_code = generated_code_begin + f"{initializer_list}}}; }};"
+        generated_code = generated_code_begin + f"{initializer_list}}}); }};"
         return generated_code + "\n"

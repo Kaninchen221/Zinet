@@ -5,9 +5,49 @@
 #include "ZtReflectionClassForClassInfo.hpp"
 
 #include <gtest/gtest.h>
+#include <xutility>
 
 namespace zt::core::reflection::tests
 {
+	class ClassPropertiesInfosTests : public ::testing::Test
+	{
+	protected:
+
+		using ClassPropertiesInfosT = ClassPropertiesInfos<1>;
+		using ArrayTypeParam = std::array<ClassPropertyInfo, 3>();
+
+		static_assert(std::is_default_constructible_v<ClassPropertiesInfosT>);
+		static_assert(std::is_copy_constructible_v<ClassPropertiesInfosT>);
+		static_assert(std::is_copy_assignable_v<ClassPropertiesInfosT>);
+		static_assert(std::is_move_constructible_v<ClassPropertiesInfosT>);
+		static_assert(std::is_move_assignable_v<ClassPropertiesInfosT>);
+		static_assert(std::is_destructible_v<ClassPropertiesInfosT>);
+
+		void SetUp() override
+		{
+		}
+
+		void TearDown() override
+		{
+		}
+	};
+
+	TEST(ClassPropertiesInfosTest, FromArray)
+	{
+		const size_t Size = 3u;
+		std::array<ClassPropertyInfo, Size> arrayParam;
+		auto classPropertiesInfos = ArrayToClassPropertiesInfos(arrayParam);
+	}
+
+	TEST_F(ClassPropertiesInfosTests, FindFirstWithPropertyName)
+	{
+		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
+		const std::string_view expectedPropertyName = "i1";
+		auto optClassPropertyInfo = classPropertiesInfos.findFirstWithPropertyName(expectedPropertyName);
+		ASSERT_TRUE(optClassPropertyInfo);
+		ASSERT_EQ(optClassPropertyInfo->getPropertyName(), expectedPropertyName);
+	}
+
 	class ClassPropertyInfoTests : public ::testing::Test
 	{
 	protected:
@@ -77,9 +117,9 @@ namespace zt::core::reflection::tests
 
 	TEST(ClassPropertyInfoRealInstanceTest, GetClassPropertiesInfos)
 	{
-		const auto members = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
- 		const size_t expectedMembersCount = 4u;
- 		ASSERT_EQ(members.size(), expectedMembersCount);
+ 		const size_t expectedMembersCount = 5u;
+		const ClassPropertiesInfos<expectedMembersCount> classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
+ 		ASSERT_EQ(classPropertiesInfos.get().size(), expectedMembersCount);
 	}
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, GetCopyOfAllMembers)
@@ -87,14 +127,15 @@ namespace zt::core::reflection::tests
 		auto copyOfAllMembers = testClass.getCopyOfAllMembers();
 		EXPECT_EQ(testClass.i1, std::get<0>(copyOfAllMembers));
 		EXPECT_EQ(testClass.b1, std::get<1>(copyOfAllMembers));
-		EXPECT_EQ(testClass.d1, std::get<2>(copyOfAllMembers));
-		EXPECT_EQ(testClass.i2, std::get<3>(copyOfAllMembers));
+		EXPECT_EQ(testClass.lli1, std::get<2>(copyOfAllMembers));
+		EXPECT_EQ(testClass.d1, std::get<3>(copyOfAllMembers));
+		EXPECT_EQ(testClass.i2, std::get<4>(copyOfAllMembers));
 	}
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, Is)
 	{
 		const auto members = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
-		const auto& memberI1 = members.front();
+		const auto& memberI1 = members.get().front();
 		const bool isBool = memberI1.is<bool>();
 		ASSERT_FALSE(isBool);
 
@@ -104,25 +145,29 @@ namespace zt::core::reflection::tests
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, Cast)
 	{
-		auto members = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
-		auto& memberI1 = members.front();
-		const bool isI1Int = memberI1.is<int>();
+		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
+		auto& classPropertyInfoI1 = classPropertiesInfos.get().front();
+		const bool isI1Int = classPropertyInfoI1.is<int>();
 		ASSERT_TRUE(isI1Int);
 
 		/// Test memoryOffset is equal to 0
-		ASSERT_EQ(memberI1.getMemoryOffset(), 0u);
-		int& i1 = memberI1.cast<int>(&testClass);
+		ASSERT_EQ(classPropertyInfoI1.getMemoryOffset(), 0u);
+		int& i1 = classPropertyInfoI1.cast<int>(&testClass);
 		ASSERT_EQ(&i1, &testClass.i1);
 		ASSERT_EQ(i1, testClass.i1);
 
-		auto& memberI2 = members[3];
-		const bool isI2Int = memberI2.is<int>();
-		ASSERT_TRUE(isI2Int);
+		auto optClassPropertyInfo = classPropertiesInfos.findFirstWithPropertyName("i2");
+		if (optClassPropertyInfo)
+		{
+			auto& classPropertyInfoI2 = *optClassPropertyInfo;
+			const bool isI2Int = classPropertyInfoI2.is<int>();
+			ASSERT_TRUE(isI2Int);
 
-		/// Test memoryOffset is greater than 0
-		ASSERT_GT(memberI2.getMemoryOffset(), 0u);
-		int& i2 = memberI2.cast<int>(&testClass);
-		ASSERT_EQ(&i2, &testClass.i2);
-		ASSERT_EQ(i2, testClass.i2);
+			/// Test memoryOffset is greater than 0
+			ASSERT_GT(classPropertyInfoI2.getMemoryOffset(), 0u);
+			int& i2 = classPropertyInfoI2.cast<int>(&testClass);
+			ASSERT_EQ(&i2, &testClass.i2);
+			ASSERT_EQ(i2, testClass.i2);
+		}
 	}
 }

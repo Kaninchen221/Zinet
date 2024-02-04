@@ -5,7 +5,6 @@
 
 namespace zt::core
 {
-
 	template<typename FirstFunctionPointer, typename SecondFunctionPointer>
 	constexpr const bool IsFunctionEqual(const SecondFunctionPointer& secondFunctionPointer)
 	{
