@@ -9,6 +9,13 @@
 
 namespace zt::core::reflection::tests
 {
+	struct SomeStruct 
+	{ 
+		std::int32_t int32; 
+
+		auto operator <=>(const SomeStruct& other) const = default;
+	};
+
 	ZT_REFLECT_CLASS()
 	class TestReflectionClassForClassInfo
 	{
@@ -19,6 +26,11 @@ namespace zt::core::reflection::tests
 
 		ZT_REFLECT_MEMBER(ReadOnly)
 		bool b1 = false;
+
+		ZT_REFLECT_MEMBER(ReadOnly)
+		SomeStruct someStruct;
+
+		SomeStruct someStruct2;
 
 		ZT_REFLECT_MEMBER(ReadOnly)
 		long long int lli1 = std::numeric_limits<long long int>::max();
@@ -44,6 +56,8 @@ namespace zt::core::reflection::tests
 		
 		const bool& getB1() const { return b1; }
 		
+		const SomeStruct& getSomeStruct() const { return someStruct; }
+		
 		const long long& getLli1() const { return lli1; }
 		
 		const double& getD1() const { return d1; }
@@ -57,13 +71,14 @@ namespace zt::core::reflection::tests
 		
 			static auto GetClassPropertiesInfos() { return ArrayToClassPropertiesInfos(std::array{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
 			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
+			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, someStruct), "someStruct", "SomeStruct"},
 			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, lli1), "lli1", "long long"},
 			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, d1), "d1", "double"},
 			                                                                                       zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}); };
 		
 		};
 		
-		auto getCopyOfAllMembers() { return std::make_tuple(i1, b1, lli1, d1, i2); };
+		auto getCopyOfAllMembers() { return std::make_tuple(i1, b1, someStruct, lli1, d1, i2); };
 		
 /*GENERATED_CODE_END*/
 	};

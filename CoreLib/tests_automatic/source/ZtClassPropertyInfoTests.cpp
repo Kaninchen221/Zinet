@@ -51,7 +51,7 @@ namespace zt::core::reflection::tests
 	TEST_F(ClassPropertiesInfosTests, ArrowOperator)
 	{
 		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
-		std::array<ClassPropertyInfo, 5u>* array = classPropertiesInfos.operator->();
+		std::array<ClassPropertyInfo, 6u>* array = classPropertiesInfos.operator->();
 		ASSERT_NE(array, nullptr);
 	}
 
@@ -124,7 +124,7 @@ namespace zt::core::reflection::tests
 
 	TEST(ClassPropertyInfoRealInstanceTest, GetClassPropertiesInfos)
 	{
- 		const size_t expectedMembersCount = 5u;
+ 		const size_t expectedMembersCount = 6u;
 		const ClassPropertiesInfos<expectedMembersCount> classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
  		ASSERT_EQ(classPropertiesInfos.get().size(), expectedMembersCount);
 	}
@@ -134,9 +134,10 @@ namespace zt::core::reflection::tests
 		auto copyOfAllMembers = testClass.getCopyOfAllMembers();
 		EXPECT_EQ(testClass.i1, std::get<0>(copyOfAllMembers));
 		EXPECT_EQ(testClass.b1, std::get<1>(copyOfAllMembers));
-		EXPECT_EQ(testClass.lli1, std::get<2>(copyOfAllMembers));
-		EXPECT_EQ(testClass.d1, std::get<3>(copyOfAllMembers));
-		EXPECT_EQ(testClass.i2, std::get<4>(copyOfAllMembers));
+		EXPECT_EQ(testClass.someStruct, std::get<2>(copyOfAllMembers));
+		EXPECT_EQ(testClass.lli1, std::get<3>(copyOfAllMembers));
+		EXPECT_EQ(testClass.d1, std::get<4>(copyOfAllMembers));
+		EXPECT_EQ(testClass.i2, std::get<5>(copyOfAllMembers));
 	}
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, Is)
@@ -148,6 +149,12 @@ namespace zt::core::reflection::tests
 
 		const bool isInt = memberI1.is<int>();
 		ASSERT_TRUE(isInt);
+
+		const auto& memberSomeStruct = members.findFirstWithPropertyName("someStruct");
+		ASSERT_TRUE(memberSomeStruct);
+
+		const bool isSomeStruct = memberSomeStruct->is<SomeStruct>();
+		ASSERT_TRUE(isSomeStruct);
 	}
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, Cast)
@@ -164,17 +171,16 @@ namespace zt::core::reflection::tests
 		ASSERT_EQ(i1, testClass.i1);
 
 		auto optClassPropertyInfo = classPropertiesInfos.findFirstWithPropertyName("i2");
-		if (optClassPropertyInfo)
-		{
-			auto& classPropertyInfoI2 = *optClassPropertyInfo;
-			const bool isI2Int = classPropertyInfoI2.is<int>();
-			ASSERT_TRUE(isI2Int);
+		ASSERT_TRUE(optClassPropertyInfo);
 
-			/// Test memoryOffset is greater than 0
-			ASSERT_GT(classPropertyInfoI2.getMemoryOffset(), 0u);
-			int& i2 = classPropertyInfoI2.cast<int>(&testClass);
-			ASSERT_EQ(&i2, &testClass.i2);
-			ASSERT_EQ(i2, testClass.i2);
-		}
+		auto& classPropertyInfoI2 = *optClassPropertyInfo;
+		const bool isI2Int = classPropertyInfoI2.is<int>();
+		ASSERT_TRUE(isI2Int);
+		
+		/// Test memoryOffset is greater than 0
+		ASSERT_GT(classPropertyInfoI2.getMemoryOffset(), 0u);
+		int& i2 = classPropertyInfoI2.cast<int>(&testClass);
+		ASSERT_EQ(&i2, &testClass.i2);
+		ASSERT_EQ(i2, testClass.i2);
 	}
 }

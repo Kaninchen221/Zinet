@@ -7,6 +7,7 @@
 #include <optional>
 #include <ranges>
 #include <xutility>
+#include <string>
 
 namespace zt::core::reflection
 {
@@ -21,6 +22,7 @@ namespace zt::core::reflection
 		const std::array<ClassPropertyInfo, Count>& get() const { return infos; }
 
 		std::optional<ClassPropertyInfo> findFirstWithPropertyName(const std::string_view propertyName);
+		std::optional<ClassPropertyInfo> findFirstWithPropertyName(const std::string_view propertyName) const;
 
 		std::array<ClassPropertyInfo, Count>* operator -> () { return &infos; }
 		std::array<ClassPropertyInfo, Count>* operator -> () const { return &infos; }
@@ -32,6 +34,19 @@ namespace zt::core::reflection
 
 	template<size_t Count>
 	std::optional<ClassPropertyInfo> ClassPropertiesInfos<Count>::findFirstWithPropertyName(const std::string_view propertyName)
+	{
+		for (const auto& info : infos)
+		{
+			if (info.getPropertyName() == propertyName)
+			{
+				return info;
+			}
+		}
+		return {};
+	}
+
+	template<size_t Count>
+	std::optional<ClassPropertyInfo> ClassPropertiesInfos<Count>::findFirstWithPropertyName(const std::string_view propertyName) const
 	{
 		for (const auto& info : infos)
 		{
@@ -67,6 +82,9 @@ namespace zt::core::reflection
 		std::string_view getPropertyTypeName() const { return propertyTypeName; }
 
 		template<typename T>
+		bool is();
+
+		template<typename T>
 		bool is() const;
 
 		template<typename ReturnT, typename ClassT>
@@ -80,14 +98,33 @@ namespace zt::core::reflection
 	};
 
 	template<typename T>
+	bool ClassPropertyInfo::is()
+	{
+		const std::type_info& typeInfo = typeid(T);
+		const std::string_view typeName = typeInfo.name();
+		const std::array<std::string, 2u> prefixes = { "", "::" };
+		for (const auto& prefix : prefixes)
+		{
+			auto const endsWith = prefix + std::string(propertyTypeName);
+			if (typeName.ends_with(endsWith))
+				return true;
+		}
+		return false;
+	}
+
+	template<typename T>
 	bool ClassPropertyInfo::is() const
 	{
 		const std::type_info& typeInfo = typeid(T);
 		const std::string_view typeName = typeInfo.name();
-		if (typeName == propertyTypeName)
-			return true;
-		else
-			return false;
+		const std::array<std::string, 2u> prefixes = {"", "::"};
+		for (const auto& prefix : prefixes)
+		{
+			auto const endsWith = prefix + std::string(propertyTypeName);
+			if (typeName.ends_with(endsWith))
+				return true;
+		}
+		return false;
 	}
 
 	template<typename ReturnT, typename ClassT>
