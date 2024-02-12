@@ -28,6 +28,10 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
 
             result = ""
             rest = ""
+
+            if get_class_info_object := self.get_class_info_object():
+                rest += get_class_info_object
+
             if get_copy_of_all_members := self.get_copy_of_all_members(file_path):
                 rest += get_copy_of_all_members
 
@@ -44,6 +48,12 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
                           f'{rest}')
 
             return class_info
+
+    @staticmethod
+    def get_class_info_object():
+        result = ("std::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return "
+                  "std::make_unique<ClassInfo>(); }")
+        return result
 
     def get_copy_of_all_members(self, file_path):
         if not self.members:
@@ -63,8 +73,8 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
         if not self.members:
             return None
 
-        generated_code_begin = (f"\n\tstatic auto GetClassPropertiesInfos() {{ "
-                                f"return ArrayToClassPropertiesInfos(std::array{{")
+        generated_code_begin = (f"\n\tClassPropertiesInfos getClassPropertiesInfos() override {{ "
+                                f"return ClassPropertiesInfos(std::vector{{")
         initializer_list = ""
         class_property_info = "zt::core::reflection::ClassPropertyInfo"
         separator = ',\n\t' + (' ' * (len(generated_code_begin) - 1))

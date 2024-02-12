@@ -4,6 +4,8 @@
 
 #include <gtest/gtest.h>
 
+#include "ZtReflectionClassForClassInfo.hpp"
+
 namespace zt::core::reflection::tests
 {
 	class ClassInfoChildClass : public ClassInfo
@@ -11,7 +13,8 @@ namespace zt::core::reflection::tests
 	public:
 
 		std::string_view getClassName() const override { return "ClassInfoChildClass"; }
-
+		
+		ClassPropertiesInfos getClassPropertiesInfos() override { return ClassPropertiesInfos(); }
 	};
 
 	class ClassInfoSimpleTests : public ::testing::Test
@@ -40,5 +43,14 @@ namespace zt::core::reflection::tests
 	{
 		auto className = classInfo.getClassName();
 		EXPECT_EQ(className, "ClassInfo");
+	}
+
+	TEST(ClassInfoSimpleTest, getClassInfoObject)
+	{
+		TestReflectionClassForClassInfo testClass;
+		auto classInfo = testClass.getClassInfoObject();
+		ASSERT_TRUE(classInfo);
+
+		static_assert(std::is_same_v<decltype(classInfo), std::unique_ptr<ClassInfo>>);
 	}
 }

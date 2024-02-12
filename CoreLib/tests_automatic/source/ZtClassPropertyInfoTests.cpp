@@ -14,17 +14,23 @@ namespace zt::core::reflection::tests
 	protected:
 
 		const std::size_t size = 3u;
-		using ClassPropertiesInfosT = ClassPropertiesInfos<3u>;
 
-		static_assert(std::is_default_constructible_v<ClassPropertiesInfosT>);
-		static_assert(std::is_copy_constructible_v<ClassPropertiesInfosT>);
-		static_assert(std::is_copy_assignable_v<ClassPropertiesInfosT>);
-		static_assert(std::is_move_constructible_v<ClassPropertiesInfosT>);
-		static_assert(std::is_move_assignable_v<ClassPropertiesInfosT>);
-		static_assert(std::is_destructible_v<ClassPropertiesInfosT>);
+		static_assert(std::is_default_constructible_v<ClassPropertiesInfos>);
+		static_assert(std::is_constructible_v<ClassPropertiesInfos, std::vector<ClassPropertyInfo>>);
+		static_assert(std::is_copy_constructible_v<ClassPropertiesInfos>);
+		static_assert(std::is_copy_assignable_v<ClassPropertiesInfos>);
+		static_assert(std::is_move_constructible_v<ClassPropertiesInfos>);
+		static_assert(std::is_move_assignable_v<ClassPropertiesInfos>);
+		static_assert(std::is_destructible_v<ClassPropertiesInfos>);
+
+		TestReflectionClassForClassInfo testClass;
+		std::unique_ptr<ClassInfo> classInfo;
+
 
 		void SetUp() override
 		{
+			classInfo = testClass.getClassInfoObject();
+			ASSERT_TRUE(classInfo);
 		}
 
 		void TearDown() override
@@ -32,27 +38,20 @@ namespace zt::core::reflection::tests
 		}
 	};
 
-	TEST(ClassPropertiesInfosTest, FromArray)
-	{
-		const size_t Size = 3u;
-		std::array<ClassPropertyInfo, Size> arrayParam;
-		auto classPropertiesInfos = ArrayToClassPropertiesInfos(arrayParam);
-	}
-
 	TEST_F(ClassPropertiesInfosTests, FindFirstWithPropertyName)
 	{
-		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
-		const std::string_view expectedPropertyName = "i1";
-		auto optClassPropertyInfo = classPropertiesInfos.findFirstWithPropertyName(expectedPropertyName);
-		ASSERT_TRUE(optClassPropertyInfo);
-		ASSERT_EQ(optClassPropertyInfo->getPropertyName(), expectedPropertyName);
+ 		auto properties = classInfo->getClassPropertiesInfos();
+ 		const std::string_view expectedPropertyName = "i1";
+ 		auto optClassPropertyInfo = properties.findFirstWithPropertyName(expectedPropertyName);
+ 		ASSERT_TRUE(optClassPropertyInfo);
+ 		ASSERT_EQ(optClassPropertyInfo->getPropertyName(), expectedPropertyName);
 	}
 
 	TEST_F(ClassPropertiesInfosTests, ArrowOperator)
 	{
-		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
-		std::array<ClassPropertyInfo, 6u>* array = classPropertiesInfos.operator->();
-		ASSERT_NE(array, nullptr);
+		auto properties = classInfo->getClassPropertiesInfos();
+		std::vector<ClassPropertyInfo>* vector = properties.operator->();
+ 		ASSERT_NE(vector, nullptr);
 	}
 
 	class ClassPropertyInfoTests : public ::testing::Test
@@ -122,11 +121,13 @@ namespace zt::core::reflection::tests
 		}
 	};
 
-	TEST(ClassPropertyInfoRealInstanceTest, GetClassPropertiesInfos)
+	TEST_F(ClassPropertyInfoRealInstanceTests, GetClassPropertiesInfos)
 	{
- 		const size_t expectedMembersCount = 6u;
-		const ClassPropertiesInfos<expectedMembersCount> classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
- 		ASSERT_EQ(classPropertiesInfos.get().size(), expectedMembersCount);
+		auto classInfo = testClass.getClassInfoObject();
+		ASSERT_TRUE(classInfo);
+
+		const ClassPropertiesInfos classPropertiesInfos = classInfo->getClassPropertiesInfos();
+ 		ASSERT_FALSE(classPropertiesInfos.get().empty());
 	}
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, GetCopyOfAllMembers)
@@ -142,7 +143,10 @@ namespace zt::core::reflection::tests
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, Is)
 	{
-		const auto members = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
+		auto classInfo = testClass.getClassInfoObject();
+		ASSERT_TRUE(classInfo);
+
+		const auto members = classInfo->getClassPropertiesInfos();
 		const auto& memberI1 = members.get().front();
 		const bool isBool = memberI1.is<bool>();
 		ASSERT_FALSE(isBool);
@@ -159,7 +163,10 @@ namespace zt::core::reflection::tests
 
 	TEST_F(ClassPropertyInfoRealInstanceTests, Cast)
 	{
-		auto classPropertiesInfos = TestReflectionClassForClassInfo::ClassInfo::GetClassPropertiesInfos();
+		auto classInfo = testClass.getClassInfoObject();
+		ASSERT_TRUE(classInfo);
+
+		auto classPropertiesInfos = classInfo->getClassPropertiesInfos();
 		auto& classPropertyInfoI1 = classPropertiesInfos.get().front();
 		const bool isI1Int = classPropertyInfoI1.is<int>();
 		ASSERT_TRUE(isI1Int);

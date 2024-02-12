@@ -8,67 +8,32 @@
 #include <ranges>
 #include <xutility>
 #include <string>
+#include <vector>
 
 namespace zt::core::reflection
 {
 	class ClassPropertyInfo;
 
-	template<size_t Count = 0>
-	class ClassPropertiesInfos
+	class ZINET_CORE_API ClassPropertiesInfos
 	{
 	public:
+		
+		ClassPropertiesInfos();
+		ClassPropertiesInfos(const std::vector<ClassPropertyInfo>& properties);
 
-		std::array<ClassPropertyInfo, Count>& get() { return infos; }
-		const std::array<ClassPropertyInfo, Count>& get() const { return infos; }
+		auto& get() { return propertiesInfos; }
+		auto& get() const { return propertiesInfos; }
 
 		std::optional<ClassPropertyInfo> findFirstWithPropertyName(const std::string_view propertyName);
 		std::optional<ClassPropertyInfo> findFirstWithPropertyName(const std::string_view propertyName) const;
 
-		std::array<ClassPropertyInfo, Count>* operator -> () { return &infos; }
-		std::array<ClassPropertyInfo, Count>* operator -> () const { return &infos; }
+		auto* operator -> () { return &propertiesInfos; }
+		auto* operator -> () const { return &propertiesInfos; }
 
 	protected:
-		std::array<ClassPropertyInfo, Count> infos;
+		std::vector<ClassPropertyInfo> propertiesInfos;
 
 	};
-
-	template<size_t Count>
-	std::optional<ClassPropertyInfo> ClassPropertiesInfos<Count>::findFirstWithPropertyName(const std::string_view propertyName)
-	{
-		for (const auto& info : infos)
-		{
-			if (info.getPropertyName() == propertyName)
-			{
-				return info;
-			}
-		}
-		return {};
-	}
-
-	template<size_t Count>
-	std::optional<ClassPropertyInfo> ClassPropertiesInfos<Count>::findFirstWithPropertyName(const std::string_view propertyName) const
-	{
-		for (const auto& info : infos)
-		{
-			if (info.getPropertyName() == propertyName)
-			{
-				return info;
-			}
-		}
-		return {};
-	}
-
-	template<size_t Count>
-	auto ArrayToClassPropertiesInfos(std::array<ClassPropertyInfo, Count> array)
-	{
-		ClassPropertiesInfos<Count> classPropertiesInfos;
-		for (size_t index = 0u; auto& element : array)
-		{
-			classPropertiesInfos.get()[index] = element;
-			++index;
-		}
-		return classPropertiesInfos;
-	}
 
 	class ZINET_CORE_API ClassPropertyInfo
 	{

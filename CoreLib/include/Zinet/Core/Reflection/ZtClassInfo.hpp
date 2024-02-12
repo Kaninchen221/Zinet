@@ -1,4 +1,7 @@
+#pragma once
+
 #include "Zinet/Core/ZtCoreConfig.hpp"
+#include "Zinet/Core/Reflection/ZtClassPropertyInfo.hpp"
 
 namespace zt::core::reflection
 {
@@ -8,6 +11,8 @@ namespace zt::core::reflection
 	public:
 
 		virtual std::string_view getClassName() const;
+
+		virtual ClassPropertiesInfos getClassPropertiesInfos() { return {}; }
 
 	};
 
