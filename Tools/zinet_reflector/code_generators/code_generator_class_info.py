@@ -73,8 +73,8 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
         if not self.members:
             return None
 
-        generated_code_begin = (f"\n\tClassPropertiesInfos getClassPropertiesInfos() override {{ "
-                                f"return ClassPropertiesInfos(std::vector{{")
+        generated_code_begin = (f"\n\tzt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override {{ "
+                                f"return zt::core::reflection::ClassPropertiesInfos(std::vector{{")
         initializer_list = ""
         class_property_info = "zt::core::reflection::ClassPropertyInfo"
         separator = ',\n\t' + (' ' * (len(generated_code_begin) - 1))
