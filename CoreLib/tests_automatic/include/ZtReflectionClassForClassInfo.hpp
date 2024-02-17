@@ -69,7 +69,6 @@ namespace zt::core::reflection::tests
 		{
 		public:
 		    std::string_view getClassName() const override { return "TestReflectionClassForClassInfo"; }
-		
 			zt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override { return zt::core::reflection::ClassPropertiesInfos(std::vector{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
 			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
 			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, someStruct), "someStruct", "SomeStruct"},

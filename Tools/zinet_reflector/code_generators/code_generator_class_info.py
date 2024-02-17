@@ -23,35 +23,39 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
                 class_parser_result = parser_result
 
         if class_parser_result:
-            class_name = class_parser_result.get_class_name()
-            get_class_name_function = f'    std::string_view getClassName() const override {{ return "{class_name}"; }}'
+            inside = ""
+            outside = ""
 
-            result = ""
-            rest = ""
+            if get_class_name_function := self.get_class_name_function(class_parser_result):
+                inside += get_class_name_function
 
             if get_class_info_object := self.get_class_info_object():
-                rest += get_class_info_object
+                outside += get_class_info_object
 
             if get_copy_of_all_members := self.get_copy_of_all_members(file_path):
-                rest += get_copy_of_all_members
+                outside += get_copy_of_all_members
 
             if get_class_properties_infos := self.get_class_properties_infos(file_path):
-                result += get_class_properties_infos
+                inside += get_class_properties_infos
 
             class_info = (""
                           f'\nclass ClassInfo : public zt::core::reflection::ClassInfo'
                           '\n{'
                           '\npublic:'
-                          f'\n{get_class_name_function}'
-                          f'\n{result}'
-                          '\n};\n'
-                          f'{rest}')
+                          f'\n{inside}'
+                          '\n};'
+                          f'{outside}')
 
             return class_info
 
     @staticmethod
+    def get_class_name_function(class_parser_result):
+        class_name = class_parser_result.get_class_name()
+        return f'    std::string_view getClassName() const override {{ return "{class_name}"; }}'
+
+    @staticmethod
     def get_class_info_object():
-        result = ("std::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return "
+        result = ("\nstd::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return "
                   "std::make_unique<ClassInfo>(); }")
         return result
 

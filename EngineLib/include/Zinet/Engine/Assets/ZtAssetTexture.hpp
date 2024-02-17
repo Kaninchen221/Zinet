@@ -60,7 +60,6 @@ namespace zt::engine
 		{
 		public:
 		    std::string_view getClassName() const override { return "AssetTexture"; }
-		
 			zt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override { return zt::core::reflection::ClassPropertiesInfos(std::vector{zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, i1), "i1", "int"},
 			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, lli1), "lli1", "long long"},
 			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, i2), "i2", "int"},
