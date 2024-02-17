@@ -3,6 +3,9 @@ from zinet_reflector.parser_result import ReflectionKind
 
 
 class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
+
+    reflection_namespace = 'zt::core::reflection'
+
     def __init__(self):
         super().__init__()
         self.token = None
@@ -26,6 +29,9 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
             inside = ""
             outside = ""
 
+            if get_class_constructors := self.get_class_constructors():
+                inside += get_class_constructors
+
             if get_class_name_function := self.get_class_name_function(class_parser_result):
                 inside += get_class_name_function
 
@@ -39,7 +45,7 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
                 inside += get_class_properties_infos
 
             class_info = (""
-                          f'\nclass ClassInfo : public zt::core::reflection::ClassInfo'
+                          f'\nclass ClassInfo : public {self.reflection_namespace}::ClassInfo'
                           '\n{'
                           '\npublic:'
                           f'\n{inside}'
@@ -49,13 +55,16 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
             return class_info
 
     @staticmethod
-    def get_class_name_function(class_parser_result):
-        class_name = class_parser_result.get_class_name()
-        return f'    std::string_view getClassName() const override {{ return "{class_name}"; }}'
+    def get_class_constructors():
+        return f''
 
     @staticmethod
-    def get_class_info_object():
-        result = ("\nstd::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return "
+    def get_class_name_function(class_parser_result):
+        class_name = class_parser_result.get_class_name()
+        return f'\n\tstd::string_view getClassName() const override {{ return "{class_name}"; }}'
+
+    def get_class_info_object(self):
+        result = (f"\nstd::unique_ptr<{self.reflection_namespace}::ClassInfo> getClassInfoObject() const {{ return "
                   "std::make_unique<ClassInfo>(); }")
         return result
 
@@ -77,10 +86,11 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
         if not self.members:
             return None
 
-        generated_code_begin = (f"\n\tzt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override {{ "
-                                f"return zt::core::reflection::ClassPropertiesInfos(std::vector{{")
+        generated_code_begin = (f"\n\t{self.reflection_namespace}::ClassPropertiesInfos getClassPropertiesInfos() "
+                                f"override {{"
+                                f"return {self.reflection_namespace}::ClassPropertiesInfos(std::vector{{")
         initializer_list = ""
-        class_property_info = "zt::core::reflection::ClassPropertyInfo"
+        class_property_info = f"{self.reflection_namespace}::ClassPropertyInfo"
         separator = ',\n\t' + (' ' * (len(generated_code_begin) - 1))
         for member in self.members:
             if member.cursor.location.file.name != file_path:

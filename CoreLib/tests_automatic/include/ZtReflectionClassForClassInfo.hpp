@@ -3,6 +3,7 @@
 #include "Zinet/Core/ZtCoreConfig.hpp"
 
 #include "Zinet/Core/Reflection/ZtClassInfo.hpp"
+#include "Zinet/Core/Reflection/ZtClassInfos.hpp"
 #include "Zinet/Core/Reflection/ZtClassPropertyInfo.hpp"
 
 #include <array>
@@ -68,13 +69,14 @@ namespace zt::core::reflection::tests
 		class ClassInfo : public zt::core::reflection::ClassInfo
 		{
 		public:
-		    std::string_view getClassName() const override { return "TestReflectionClassForClassInfo"; }
-			zt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override { return zt::core::reflection::ClassPropertiesInfos(std::vector{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
-			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
-			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, someStruct), "someStruct", "SomeStruct"},
-			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, lli1), "lli1", "long long"},
-			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, d1), "d1", "double"},
-			                                                                                                                                               zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}); };
+		
+			std::string_view getClassName() const override { return "TestReflectionClassForClassInfo"; }
+			zt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override {return zt::core::reflection::ClassPropertiesInfos(std::vector{zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i1), "i1", "int"},
+			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, b1), "b1", "bool"},
+			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, someStruct), "someStruct", "SomeStruct"},
+			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, lli1), "lli1", "long long"},
+			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, d1), "d1", "double"},
+			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}); };
 		
 		};
 		std::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return std::make_unique<ClassInfo>(); }
