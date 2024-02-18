@@ -10,7 +10,7 @@
 namespace zt::core::reflection
 {
 
-	class ZINET_CORE_API ClassInfos
+	class ZINET_CORE_API ClassesInfos
 	{
 	public:
 
@@ -26,7 +26,7 @@ namespace zt::core::reflection
 	};
 
 	template<class ClassInfoChildClass>
-	void ClassInfos::addClassInfo()
+	void ClassesInfos::addClassInfo()
 	{
 		internalClassInfos.push_back(std::make_shared<ClassInfoChildClass>());
 		internalClassInfos.reserve(internalClassInfos.size() * 2u);

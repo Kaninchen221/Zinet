@@ -1,8 +1,8 @@
-#include "Zinet/Core/Reflection/ZtClassInfos.hpp"
+#include "Zinet/Core/Reflection/ZtClassesInfos.hpp"
 
 namespace zt::core::reflection
 {
-	std::shared_ptr<ClassInfo> ClassInfos::getByClassName(std::string_view className)
+	std::shared_ptr<ClassInfo> ClassesInfos::getByClassName(std::string_view className)
 	{
 		for (const auto& classInfo : internalClassInfos)
 		{

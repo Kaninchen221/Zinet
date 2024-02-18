@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Zinet/Core/Reflection/ZtClassInfos.hpp"
+#include "Zinet/Core/Reflection/ZtClassesInfos.hpp"
 
 #include <gtest/gtest.h>
 
@@ -10,14 +10,14 @@ namespace zt::core::reflection::tests
 	{
 	protected:
 
-		static_assert(std::is_default_constructible_v<ClassInfos>);
-		static_assert(std::is_copy_constructible_v<ClassInfos>);
-		static_assert(std::is_copy_assignable_v<ClassInfos>);
-		static_assert(std::is_move_constructible_v<ClassInfos>);
-		static_assert(std::is_move_assignable_v<ClassInfos>);
-		static_assert(std::is_destructible_v<ClassInfos>);
+		static_assert(std::is_default_constructible_v<ClassesInfos>);
+		static_assert(std::is_copy_constructible_v<ClassesInfos>);
+		static_assert(std::is_copy_assignable_v<ClassesInfos>);
+		static_assert(std::is_move_constructible_v<ClassesInfos>);
+		static_assert(std::is_move_assignable_v<ClassesInfos>);
+		static_assert(std::is_destructible_v<ClassesInfos>);
 
-		ClassInfos classInfos;
+		ClassesInfos classInfos;
 
 		void SetUp() override
 		{
