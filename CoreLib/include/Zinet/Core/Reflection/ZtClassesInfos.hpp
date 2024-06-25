@@ -6,18 +6,32 @@
 
 #include <tuple>
 #include <memory>
+#include <vector>
 
 namespace zt::core::reflection
 {
-
 	class ZINET_CORE_API ClassesInfos
 	{
 	public:
+
+		ClassesInfos() = default;
+		ClassesInfos(const ClassesInfos& other) = delete;
+		ClassesInfos(ClassesInfos&& other) = delete;
+
+		~ClassesInfos() noexcept = default;
+
+		ClassesInfos& operator = (const ClassesInfos& other) = delete;
+		ClassesInfos& operator = (ClassesInfos&& other) = delete;
+
+		static ClassesInfos& Get();
 
 		template<class ClassInfoChildClass>
 		void addClassInfo();
 
 		std::shared_ptr<ClassInfo> getByClassName(std::string_view className);
+
+		auto& get() { return internalClassInfos; }
+		const auto& get() const { return internalClassInfos; }
 
 	protected:
 

@@ -19,10 +19,10 @@ class Parser:
 
         cindex_parser_result = parser.parse(raw_path, args, unsaved_files=None, options=options)
 
-        # Handling parse error
-        # if parse_result.diagnostics:
-        # print("Diagnostics in parse_result is not empty")
-        # assert False
+        #Handling parse error
+        #if cindex_parser_result.diagnostics:
+            #print("Diagnostics in parse_result is not empty")
+            #assert False
 
         self.root_cursor = cindex_parser_result.cursor
         if not self.root_cursor.get_children():
@@ -32,6 +32,7 @@ class Parser:
         parser_result = ParserResult()
         parser_result.cursor = self.root_cursor
         self._parse_internal(parser_result)
+        #print_parser_result(parser_result)
         return parser_result
 
     def _parse_internal(self, parent_parser_result):
@@ -40,6 +41,7 @@ class Parser:
                 continue
 
             if child_cursor.kind in self._ignored_cursor_kinds:
+                #print(child_cursor.displayname)
                 continue
 
             new_parser_result = ParserResult()

@@ -15,4 +15,11 @@ namespace zt::core::reflection
 
 		return {};
 	}
+
+	ClassesInfos& ClassesInfos::Get()
+	{
+		static ClassesInfos classesInfos;
+		return classesInfos;
+	}
+
 }

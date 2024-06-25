@@ -35,6 +35,9 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
             if get_class_name_function := self.get_class_name_function(class_parser_result):
                 inside += get_class_name_function
 
+            if get_add_class_info := self.get_add_class_info():
+                outside += get_add_class_info
+
             if get_class_info_object := self.get_class_info_object():
                 outside += get_class_info_object
 
@@ -63,9 +66,18 @@ class CodeGeneratorClassInfo(CodeGeneratorInstructionBase):
         class_name = class_parser_result.get_class_name()
         return f'\n\tstd::string_view getClassName() const override {{ return "{class_name}"; }}'
 
+    @staticmethod
+    def get_add_class_info():
+        return (f"\nconst inline static auto AddClassInfoResult = []()"
+                f"\n{{"
+                f"\n\tauto& classesInfos = zt::core::reflection::ClassesInfos::Get();"
+                f"\n\tclassesInfos.addClassInfo<ClassInfo>();"
+                f"\n\treturn true;"
+                f"\n}}();")
+
     def get_class_info_object(self):
         result = (f"\nstd::unique_ptr<{self.reflection_namespace}::ClassInfo> getClassInfoObject() const {{ return "
-                  "std::make_unique<ClassInfo>(); }")
+                  r"std::make_unique<ClassInfo>(); }")
         return result
 
     def get_copy_of_all_members(self, file_path):

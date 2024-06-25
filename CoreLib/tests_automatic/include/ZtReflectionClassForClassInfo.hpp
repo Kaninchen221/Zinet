@@ -2,12 +2,7 @@
 
 #include "Zinet/Core/ZtCoreConfig.hpp"
 
-#include "Zinet/Core/Reflection/ZtClassInfo.hpp"
-#include "Zinet/Core/Reflection/ZtClassesInfos.hpp"
-#include "Zinet/Core/Reflection/ZtClassPropertyInfo.hpp"
-
-#include <array>
-#include <memory>
+#include "Zinet/Core/Reflection/ZtReflection.hpp"
 
 namespace zt::core::reflection::tests
 {
@@ -79,6 +74,12 @@ namespace zt::core::reflection::tests
 			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(TestReflectionClassForClassInfo, i2), "i2", "int"}}); };
 		
 		};
+		const inline static auto AddClassInfoResult = []()
+		{
+			auto& classesInfos = zt::core::reflection::ClassesInfos::Get();
+			classesInfos.addClassInfo<ClassInfo>();
+			return true;
+		}();
 		std::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return std::make_unique<ClassInfo>(); }
 		auto getCopyOfAllMembers() { return std::make_tuple(i1, b1, someStruct, lli1, d1, i2); };
 		

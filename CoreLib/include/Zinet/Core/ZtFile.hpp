@@ -9,6 +9,7 @@
 namespace zt::core
 {
 
+	ZT_REFLECT_CLASS()
 	class ZINET_CORE_API File
 	{
 
@@ -39,6 +40,35 @@ namespace zt::core
 
 		std::fstream fileStream;
 
+	public:
+/*GENERATED_CODE_START*/
+		File() = default;
+		File(const File& other) = default;
+		File(File&& other) = default;
+		
+		~File() noexcept = default;
+		
+		File& operator = (const File& other) = default;
+		File& operator = (File&& other) = default;
+		
+		class ClassInfo : public zt::core::reflection::ClassInfo
+		{
+		public:
+		
+			std::string_view getClassName() const override { return "File"; }
+			zt::core::reflection::ClassPropertiesInfos getClassPropertiesInfos() override {return zt::core::reflection::ClassPropertiesInfos(std::vector{}); };
+		
+		};
+		const inline static auto AddClassInfoResult = []()
+		{
+			auto& classesInfos = zt::core::reflection::ClassesInfos::Get();
+			classesInfos.addClassInfo<ClassInfo>();
+			return true;
+		}();
+		std::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return std::make_unique<ClassInfo>(); }
+		auto getCopyOfAllMembers() { return std::make_tuple(); };
+		
+/*GENERATED_CODE_END*/
 	};
 
 }

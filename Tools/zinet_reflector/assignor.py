@@ -19,6 +19,7 @@ class Assignor:
     def _find_reflection_parse_results(self, parser_result):
         for child_parser_result in parser_result.children:
             if child_parser_result.cursor.kind != CursorKind.MACRO_INSTANTIATION:
+                #print(child_parser_result.cursor.displayname)
                 continue
 
             if self._reflection_macro_must_contains not in child_parser_result.cursor.displayname:

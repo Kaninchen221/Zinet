@@ -6,6 +6,8 @@
 
 #include "Zinet/Engine/ZtLoop.hpp"
 
+#include "Zinet/Core/Reflection/ZtClassesInfos.hpp"
+
 namespace zt::engine::tests
 {
 

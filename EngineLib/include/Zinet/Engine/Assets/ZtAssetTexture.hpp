@@ -4,11 +4,8 @@
 #include "Zinet/Engine/Assets/ZtAsset.hpp"
 
 #include "Zinet/Core/ZtLogger.hpp"
-#include "Zinet/Core/Reflection/ZtClassInfo.hpp"
-#include "Zinet/Core/Reflection/ZtClassPropertyInfo.hpp"
 
-#include <tuple>
-
+#include "Zinet/Core/Reflection/ZtReflection.hpp"
 
 class Texture {};
 
@@ -67,6 +64,12 @@ namespace zt::engine
 			                                                                                                                                              zt::core::reflection::ClassPropertyInfo{offsetof(AssetTexture, texture), "texture", "Texture"}}); };
 		
 		};
+		const inline static auto AddClassInfoResult = []()
+		{
+			auto& classesInfos = zt::core::reflection::ClassesInfos::Get();
+			classesInfos.addClassInfo<ClassInfo>();
+			return true;
+		}();
 		std::unique_ptr<zt::core::reflection::ClassInfo> getClassInfoObject() const { return std::make_unique<ClassInfo>(); }
 		auto getCopyOfAllMembers() { return std::make_tuple(i1, lli1, i2, texture); };
 		
