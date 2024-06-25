@@ -1,4 +1,4 @@
-
+# Deprecated
 # Zinet
 
 README is in TODO state
