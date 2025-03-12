@@ -1,4 +1,7 @@
-# Deprecated
+
+# Deprecated but this repo contains functional vulkan renderer for 2D, Cpp code generator, cmake files generator 
+# Next iteration of this project (Github actions, Debian support, Conan 2): https://github.com/Kaninchen221/Zinet2 
+
 # Zinet
 
 README is in TODO state
